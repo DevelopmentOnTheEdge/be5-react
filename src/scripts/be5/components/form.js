@@ -54,6 +54,7 @@ const Form = React.createClass({
       if(this.refs[key].onFormDidMount)
         this.refs[key].onFormDidMount();
     }
+    this.setState({ allFieldsFilled: this._allFieldsFilled() });
   },
 
 //  componentDidMount() {
