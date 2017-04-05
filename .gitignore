@@ -1,2 +1,8 @@
 node_modules/
 dist/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr

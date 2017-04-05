@@ -292,6 +292,7 @@ const TableBox = React.createClass({
       language: language,
       searching: false,
       autoWidth: false,
+      aaSorting: [],
       ajax: {
         url: be5.net.url('document/moreRows'),
         data: {
@@ -393,7 +394,6 @@ const TableBox = React.createClass({
     if (groupingColumn !== null) {
       const resultGroupingColumn = columnIndexShift + groupingColumn;
       tableConfiguration.columnDefs.push({ visible: false, targets: resultGroupingColumn });
-      tableConfiguration.order = [[ groupingColumn, 'asc' ]];
       var drawGrouping = function(api) {
         const rows = api.rows({ page:'current' }).nodes();
         let last = null;
