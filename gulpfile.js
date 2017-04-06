@@ -5,6 +5,8 @@ var sass = require('gulp-sass');
 var paths = {
   scripts: ['src/*.js', 'src/scripts/**/*.js', 'src/**/*.jsx'],
   lib: 'src/lib/**/*',
+  images: 'src/images/**/*',
+  icons: 'src/icons/**/*',
   css: 'src/css/**/*.css',
   sass: 'src/scss/**/*.scss',
   html: 'src/*.html'
@@ -25,11 +27,11 @@ gulp.task('sass', function() {
 });
 
 gulp.task('images', function() {
-  return gulp.src(['src/css/images/**/*', 'src/images/**/*'], { base: 'src/' }).pipe(gulp.dest('dist'));
+  return gulp.src(paths.images, { base: 'src/' }).pipe(gulp.dest('dist'));
 });
 
 gulp.task('icons', function() {
-  return gulp.src('src/icons/**/*').pipe(gulp.dest('dist/icons'));
+  return gulp.src(paths.icons).pipe(gulp.dest('dist/icons'));
 });
 
 gulp.task('lib', function() {
@@ -51,5 +53,7 @@ gulp.task('watch', function() {
   gulp.watch(paths.lib, ['lib']);
   gulp.watch(paths.css, ['css']);
   gulp.watch(paths.sass, ['sass']);
+  gulp.watch(paths.images, ['images']);
+  gulp.watch(paths.icons, ['icons']);
   gulp.watch(paths.html, ['html']);
 });
