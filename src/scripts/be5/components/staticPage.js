@@ -1,7 +1,5 @@
 import React          from 'react';
 import be5            from 'be5/be5';
-import changeDocument from 'be5/core/changeDocument';
-import StaticPages    from 'be5/services/staticPages';
 
 const StaticPage = React.createClass({
   propTypes: {
@@ -19,12 +17,8 @@ const StaticPage = React.createClass({
 
 be5.ui.registerDocumentType('static', function(value) {
   return (
-    React.createElement(StaticPage, { value: value })
+    React.createElement(StaticPage, value)
   );
-});
-
-be5.registerAction('static', function(page) {
-  StaticPages.load(page, changeDocument);
 });
 
 export default StaticPage;

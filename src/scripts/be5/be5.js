@@ -595,7 +595,7 @@ be5.net.request("appInfo", {}, function(data) {
   be5.ui.setTitle();
 });
 
-be5.net.request("scriptList", {category : "scripts/actions"}, function(data) {
+be5.net.request("scriptList", {category : "scripts"}, function(data) {
   for(var i=0; i<data.length; i++)
     if(!be5.actions[data[i].name])
       be5.actions[data[i].name] = data[i].path;

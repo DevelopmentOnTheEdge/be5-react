@@ -1,6 +1,6 @@
 import React from 'react';
 import be5 from 'be5/be5';
-import registerDocumentType from 'be5/registerDocumentType';
+import registerDocumentType from 'be5/core/registerDocumentType';
 
 const PoolPage = React.createClass({
   displayName: 'Pool',

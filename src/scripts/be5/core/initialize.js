@@ -6,7 +6,6 @@ import jQueryUI     from 'jqueryui';
 import DataTables   from 'datatables';
 import bus          from 'be5/core/bus';
 import be5          from 'be5/be5';
-import StaticPage   from 'be5/components/staticPage';
 import Form         from 'be5/components/form';
 import Table        from 'be5/components/table';
 import TableForm    from 'be5/components/tableForm';
