@@ -562,13 +562,13 @@ const be5 = {
   
   hasAction(actionName) {
     var action = be5.actions[actionName];
-    return (typeof(action) === 'function') || (action === 'pending');
+    return (typeof(action) === 'function') || (typeof(action) === 'string');
   },
 
   getAction(actionName, callback) {
     var action = be5.actions[actionName];
-    if(action === 'pending') {
-      System.import('actions/'+actionName).then(function(action) {
+    if(typeof(action) === 'string') {
+      System.import(action).then(function(action) {
         if (action['default']) {
         action = action['default'];
         }
@@ -595,10 +595,10 @@ be5.net.request("appInfo", {}, function(data) {
   be5.ui.setTitle();
 });
 
-be5.net.request("scriptList", {category : "actions"}, function(data) {
+be5.net.request("scriptList", {category : "scripts/actions"}, function(data) {
   for(var i=0; i<data.length; i++)
-    if(!be5.actions[data[i]])
-      be5.actions[data[i]] = 'pending';
+    if(!be5.actions[data[i].name])
+      be5.actions[data[i].name] = data[i].path;
 });
 
 bus.listen('CallDefaultAction', () => {
