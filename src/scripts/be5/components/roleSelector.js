@@ -2,7 +2,7 @@ import React from 'react';
 import be5 from 'be5/be5';
 import bus from 'be5/core/bus';
 
-be5.load.css("css/roleSelector.css");
+be5.load.css("be5/css/roleSelector.css");
 
 const Role = React.createClass({
   displayName: 'Role',

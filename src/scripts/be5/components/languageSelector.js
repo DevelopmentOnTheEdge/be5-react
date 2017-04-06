@@ -1,7 +1,7 @@
 import React from 'react';
 import be5 from 'be5/be5';
  
-be5.load.css("css/languageSelector.css");
+be5.load.css("be5/css/languageSelector.css");
 
 var Language = React.createClass({displayName: "Language",
   onClick(e) {

@@ -8,7 +8,7 @@ import BootstrapModal from 'be5/components/bootstrapModal';
 import 'jqueryui';
 import 'bootstrap';
 
-be5.load.css('css/login.css');
+be5.load.css('be5/css/login.css');
   
 const Login = React.createClass({
   

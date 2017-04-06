@@ -8,7 +8,7 @@ import _              from 'underscore';
 import Tables         from 'be5/services/tables';
 import numberFormatter         from 'javascript-number-formatter';
 
-be5.load.css("css/table.css");
+be5.load.css("be5/css/table.css");
 
 const OperationBox = React.createClass({displayName: "OperationBox",
   onClick(name, e) {
@@ -483,7 +483,7 @@ const Table = React.createClass({
     return (
       <div>
         <span onClick={this._reload} className={reloadClass}>
-          <img src="images/reload.png" alt={be5.messages.reload} title={be5.messages.reload}/>
+          <img src="be5/images/reload.png" alt={be5.messages.reload} title={be5.messages.reload}/>
         </span>
         <h1>{value.title}</h1>
         <TableBox

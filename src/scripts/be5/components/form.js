@@ -8,7 +8,7 @@ import Forms                from 'be5/services/forms';
 import registerDocumentType from 'be5/core/registerDocumentType';
 import _                    from 'underscore';
 
-be5.load.css('css/form.css');
+be5.load.css('be5/css/form.css');
 
 const performOperationFrontendAction = ({ value: value }) => {
   switch (value.type)

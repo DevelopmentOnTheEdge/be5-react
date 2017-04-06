@@ -97,7 +97,7 @@ const be5 = {
       var link = document.createElement("link");
       link.type = "text/css";
       link.rel = "stylesheet";
-      link.href = (remote ? Settings.baseUrl + url : 'be5/' + url);
+      link.href = (remote ? Settings.baseUrl + '/' + url : url);
       document.getElementsByTagName("head")[0].appendChild(link);
     }
   },
