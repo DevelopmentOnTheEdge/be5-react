@@ -12,8 +12,8 @@ System.config({
   defaultJSExtensions: true,
   transpiler: 'none',
   paths: {
-    '*': 'scripts/*.js',
-    'lib:*': 'lib/*.js'
+    'lib-be5:*':'/be5/lib/*.js',
+    'be5:*':    '/be5/scripts/*.js'
   },
   meta: {
     'datetimepicker': {
@@ -64,11 +64,14 @@ System.config({
     'jqueryui': 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js',
     'react': 'https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.min.js',
     'react-dom': 'https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.min.js',
-    'react-classset': 'lib:react-classset/classSet',
+    'react-classset': 'lib-be5:react-classset/classSet',
     'classNames': 'https://cdnjs.cloudflare.com/ajax/libs/classnames/2.2.5/index.min.js',
-    'react-input-autosize': 'lib:react-input-autosize/react-input-autosize',
+    'react-input-autosize': 'lib-be5:react-input-autosize/react-input-autosize',
     'react-select': 'https://cdnjs.cloudflare.com/ajax/libs/react-select/1.0.0-beta14/react-select.js',
     'underscore': 'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js',
-    'javascript-number-formatter': 'lib:javascript-number-formatter/lib/format.min'
+    'javascript-number-formatter': 'lib-be5:javascript-number-formatter/lib/format.min',
+
+    'be5':          'be5:be5',
+    'main':         'be5:be5/main',
   }
 });

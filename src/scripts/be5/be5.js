@@ -80,12 +80,12 @@ var messages = {
   }
 };
 
-const remote = Settings.hasOwnProperty('baseUrl');
+//const remote = Settings.hasOwnProperty('baseUrl');
 
 const be5 = {
   def: {
-    URL_PREFIX : (remote ? Settings.baseUrl + '/' : '') + 'api/',
-    APPLICATION_PREFIX : (remote ? Settings.baseUrl + '/' : ''),
+    URL_PREFIX : '/api/',
+    APPLICATION_PREFIX : '/',
   },
   
   messages: messages.en,
@@ -97,7 +97,11 @@ const be5 = {
       var link = document.createElement("link");
       link.type = "text/css";
       link.rel = "stylesheet";
-      link.href = (remote ? Settings.baseUrl + '/' + url : url);
+      if(be5.isRemoteUrl(url)){
+        link.href = url;
+      }else{
+        link.href = '/' + url;
+      }
       document.getElementsByTagName("head")[0].appendChild(link);
     }
   },
@@ -383,7 +387,7 @@ const be5 = {
     },
     
     resourceUrl(resource) {
-      return be5.def.APPLICATION_PREFIX + resource;
+      return '/be5/' + resource;
     },
     
     paramString(params) {
@@ -563,6 +567,11 @@ const be5 = {
   hasAction(actionName) {
     var action = be5.actions[actionName];
     return (typeof(action) === 'function') || (typeof(action) === 'string');
+  },
+
+  isRemoteUrl(url) {
+    var prefix = 'http';
+    return url.substr(0, prefix.length) === prefix;
   },
 
   getAction(actionName, callback) {

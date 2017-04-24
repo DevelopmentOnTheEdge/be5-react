@@ -2,7 +2,7 @@ import React from 'react';
 import be5 from 'be5/be5';
 import Tab from 'be5/components/tab';
 
-be5.load.css("be5/css/tabPane.css");
+be5.load.css('be5/css/tabPane.css');
 
 export default React.createClass({
   propTypes: {

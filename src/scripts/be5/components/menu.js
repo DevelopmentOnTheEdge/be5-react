@@ -6,8 +6,8 @@ import MenuHeader from 'be5/components/menuHeader';
 import MenuFooter from 'be5/components/menuFooter';
 import MenuNode   from 'be5/components/menuNode';
 
-be5.load.css('css/menu.css');
-be5.load.css('css/menuFooter.css');
+be5.load.css('be5/css/menu.css');
+be5.load.css('be5/css/menuFooter.css');
 
 const SearchField = React.createClass({
   propTypes: {
