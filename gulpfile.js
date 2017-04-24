@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var babel = require('gulp-babel');
 var sass = require('gulp-sass');
+var gutil = require('gulp-util');
 
 var paths = {
   scripts: ['src/*.js', 'src/scripts/**/*.js', 'src/**/*.jsx'],
@@ -39,7 +40,7 @@ gulp.task('lib', function() {
 });
 
 gulp.task('scripts', function() {
-  return gulp.src(paths.scripts, { base: 'src/' }).pipe(babel(babelParams)).pipe(gulp.dest('dist'));
+  return gulp.src(paths.scripts, { base: 'src/' }).pipe(wrap(babel(babelParams))).pipe(gulp.dest('dist'));
 });
 
 gulp.task('html', function() {
@@ -49,6 +50,7 @@ gulp.task('html', function() {
 gulp.task('default', ['css', 'sass', 'images', 'icons', 'lib', 'scripts', 'html']);
 
 gulp.task('watch', function() {
+  watching = true;
   gulp.watch(paths.scripts, ['scripts']);
   gulp.watch(paths.lib, ['lib']);
   gulp.watch(paths.css, ['css']);
@@ -57,3 +59,22 @@ gulp.task('watch', function() {
   gulp.watch(paths.icons, ['icons']);
   gulp.watch(paths.html, ['html']);
 });
+
+var watching = false;
+
+//Wrap a stream in an error-handler (needed until Gulp 4).
+function wrap(stream) {
+  stream.on('error', function(error) {
+  gutil.log(gutil.colors.red(error.message));
+  gutil.log(error.stack);
+  if (watching) {
+   gutil.log(gutil.colors.yellow('[aborting]'));
+   stream.end();
+  } else {
+   gutil.log(gutil.colors.yellow('[exiting]'));
+   process.exit(1);
+  }
+  });
+  return stream;
+}
+
