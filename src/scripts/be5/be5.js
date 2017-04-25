@@ -431,7 +431,7 @@ const be5 = {
       if (typeof (failure) !== 'function') {
         failure = function(data) {
           result = data;
-          be5.log.error(data.value.message);
+          be5.log.error(data.value.code + "\n\n" + data.value.message);
         };
       }
       $.ajax({

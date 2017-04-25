@@ -23,7 +23,7 @@ export default React.createClass({
     
     if (this.state.type === 'error') {
       return React.DOM.div({}, 
-          React.DOM.h1({}, be5.messages.error), 
+          React.DOM.h1({}, be5.messages.error + " " + this.state.value.code),
           this.state.value.message);
     }
     be5.ui.setTitle(this.state.value.title);
