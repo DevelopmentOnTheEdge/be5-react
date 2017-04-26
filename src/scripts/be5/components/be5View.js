@@ -8,13 +8,11 @@ import Forms from 'be5/services/forms';
 import Form from 'be5/components/form';
 import Tables from 'be5/services/tables';
 import Table from 'be5/components/table';
-import StaticPages from 'be5/services/staticPages';
 import StaticPage from 'be5/components/staticPage';
 
 const services = {
   'table': Tables,
-  'form': Forms,
-  'staticPage': StaticPages
+  'form': Forms
 };
 const components = {
   'table': Table,
