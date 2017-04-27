@@ -5,5 +5,5 @@ npm install
 bower install
 gulp
 ```
-- Create symlink /be5-react/dist -> /webapp/be5
+- Create symlink /be5-react/dist -> [path to your application]/webapp/be5
 
