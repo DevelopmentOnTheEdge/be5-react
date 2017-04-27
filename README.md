@@ -1,4 +1,4 @@
-# Quick start
+# Install
 
 ```sh
 npm install
