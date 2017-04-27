@@ -18,6 +18,7 @@
     "datatables": "DataTables#~1.10.10",
     "datetimepicker": "~2.4.5",
     "react": "0.14",
-    "system.js": "~0.19.5"
+    "system.js": "~0.19.5",
+    "number-format.js": "^1.1.11"
   }
 }
