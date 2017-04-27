@@ -1,0 +1,23 @@
+{
+  "name": "be5-react",
+  "description": "",
+  "main": "index.html",
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "4.0",
+    "datatables": "DataTables#~1.10.10",
+    "datetimepicker": "~2.4.5",
+    "react": "0.14",
+    "system.js": "~0.19.5"
+  }
+}
