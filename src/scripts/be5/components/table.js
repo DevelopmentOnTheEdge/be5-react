@@ -478,7 +478,7 @@ const Table = React.createClass({
   
   render() {
     const value = this.props.value;
-    const reloadClass = "table-reload pull-right " + this.state.runReload;
+    const reloadClass = "table-reload float-xs-right " + this.state.runReload;
 
     return (
       <div>

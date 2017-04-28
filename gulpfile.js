@@ -9,7 +9,7 @@ var paths = {
   images: 'src/images/**/*',
   icons: 'src/icons/**/*',
   css: 'src/css/**/*.css',
-  sass: 'src/scss/**/*.scss',
+  sass: 'src/sass/**/*.scss',
   html: 'src/*.html'
 };
 
@@ -23,7 +23,7 @@ gulp.task('css', function() {
 
 gulp.task('sass', function() {
   return gulp.src(paths.sass)
-    .pipe(sass().on('error', sass.logError))
+    .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
     .pipe(gulp.dest('dist/css'));
 });
 

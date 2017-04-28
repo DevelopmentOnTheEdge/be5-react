@@ -2,14 +2,14 @@
 .menu ul {
     margin-top: 0px;
     margin-bottom: 0px;
-    padding-left: 16px;
+    padding-left: 1rem;
     list-style-type: none;
 }
 a.rootMenuItem {
-    font-size: 20px;
+    font-size: 1.1rem;
 }
 a.menuItemWithoutRef {
-    color: #101010;
+    color: #1f1a17;
     text-decoration: none;
     cursor: default;
 }
@@ -31,7 +31,7 @@ a.rootMenuItem.inactive + div + ul {
 .menu div.menuOperationBox {
     display: inline !important;
     margin-left: 8px;
-    font-size: 12px;
+    font-size: 0.8rem;
 }
 .menu a.menuOperation {
     color: #00BBBB;
