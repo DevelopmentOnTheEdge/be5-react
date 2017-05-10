@@ -138,8 +138,7 @@ var SplitPane = React.createClass({displayName: "SplitPane",
       flex: 1,
       position: 'relative',
       outline: 'none',
-      overflow: 'hidden',
-      userSelect: 'none'
+      overflow: 'hidden'
     };
 
     if (split === 'horizontal') {
