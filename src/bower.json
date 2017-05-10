@@ -20,6 +20,6 @@
     "react": "0.14",
     "system.js": "~0.19.5",
     "number-format.js": "^1.1.11",
-    "react-input-autosize": "^1.1.0"
+    "react-input-autosize": "1.1.0"
   }
 }
