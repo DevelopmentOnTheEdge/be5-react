@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - 6
+  - 7
+cache:
+  directories:
+    - node_modules
+before_script:
+  - cd src
+    && npm install -g bower
+    && bower install
+    && cd ../
+script:
+  - gulp
+notifications:
+  email: false

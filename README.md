@@ -1,8 +1,11 @@
-# Install
+# be5-react
+[![Build Status](https://travis-ci.org/DevelopmentOnTheEdge/be5-react.svg?branch=master)](https://travis-ci.org/DevelopmentOnTheEdge/be5-react)
 
+
+### Install
 ```sh
-src/bower install
 npm install
+src/bower install
 gulp
 ```
 - Create symlink /be5-react/dist -> [path to your application]/webapp/be5
