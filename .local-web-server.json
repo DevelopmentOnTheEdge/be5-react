@@ -1,0 +1,64 @@
+{
+  "port": 8100,
+  "forbid": "*.json",
+  "mocks": [
+    {
+      "route": "/api/languageSelector",
+      "response": {
+        "type": "application/json",
+        "body": {"languages":["RU"],"selected":"RU","messages":{"FIO":"ФИО"}}
+      }
+    },
+    {
+      "route": "/api/roleSelector",
+      "response": {
+        "type": "application/json",
+        "body": {"availableRoles":["Administrator"],"selectedRoles":["Administrator"]}
+      }
+    },
+    {
+      "route": "/api/menu",
+      "response": {
+        "type": "application/json",
+        "body": {"loggedIn":true,"root":[
+          {"title":"Main page","default":true,"action":{"name":"call","arg":"static/welcome.be"}},
+          {"id":{"entity":"testtable"},"title":"testtable","default":false,"children":[
+            {"title":"Test 1D","action":{"name":"call","arg":"table/testtable/Test 1D"},"default":false},
+            {"title":"Test 1D unknown","action":{"name":"call","arg":"table/testtable/Test 1D unknown"},"default":false}
+          ]},
+          {"title":"Logout","default":false,"action":{"name":"call","arg":"logout"}},
+          {"id":{"entity":"_system_"},"title":"System","default":false,"children":[{"title":"Pool","action":{"name":"call","arg":"pool"},"default":false}]},
+          {"title":"users","default":false,"action":{"name":"call","arg":"table/users/All records"}}]}
+      }
+    },
+    {
+      "route": "/api/scriptList",
+      "response": {
+        "type": "application/json",
+        "body": [{"name":"pool","path":"be5:be5/actions/pool"},{"name":"servlet","path":"be5:be5/actions/servlet"},{"name":"static","path":"be5:be5/actions/static"}]
+      }
+    },
+    {
+      "route": "/api/appInfo",
+      "response": {
+        "type": "application/json",
+        "body": {"title":"Личный кабинет Портал «Мой Дом»","url":"https://myhome.regioncloud.ru/lk/"}
+      }
+    },
+    {
+      "route": "/api/menu/defaultAction",
+      "response": {
+        "type": "application/json",
+        "body": {"name":"call","arg":"static/welcome.be"}
+      }
+    },
+    {
+      "route": "/api/static/welcome.be",
+      "response": {
+        "type": "application/json",
+        "body": {"type":"static","value":"<h1>Main page</h1><div class=\"main-content\"><p>Test static page</p><a href=\"#!form/testtable/Test1D/Insert\">#!form/testtable/Test1D/Insert</a></div>"}
+      }
+    }
+
+  ]
+}

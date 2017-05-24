@@ -17,9 +17,10 @@
     "bootstrap": "4.0.0-alpha.5",
     "datatables": "DataTables#~1.10.10",
     "datetimepicker": "~2.4.5",
-    "react": "0.14",
+    "react": "15.5.4",
     "system.js": "~0.19.5",
     "number-format.js": "^1.1.11",
-    "react-input-autosize": "1.1.0"
+    "react-input-autosize": "1.1.0",
+    "beanexplorer-react": "git+https://github.com/DevelopmentOnTheEdge/beanexplorer-react.git#^0.1.2"
   }
 }

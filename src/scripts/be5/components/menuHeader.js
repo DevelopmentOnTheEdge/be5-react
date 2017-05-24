@@ -13,7 +13,7 @@ export default React.createClass({
   render() {
     return (
       <div className="menuHeader">
-        <h1>{this.state.message}</h1>
+        <h2>{this.state.message}</h2>
       </div>
     );
   }

@@ -521,7 +521,6 @@ const be5 = {
 
   log: {
     error(message) {
-      alert(message);
       console.error(message);
 /*<div class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog">
