@@ -18,7 +18,7 @@ const MenuNode = React.createClass({
     } else {
       classes += 'menuItem';
     }
-    var hasAction = this.props.data.hasOwnProperty('action');
+    var hasAction = this.props.data.action != null;
     if (hasAction) {
       classes += ' menuItemWithRef';
       const action = Action.parse(this.props.data.action);
@@ -31,7 +31,7 @@ const MenuNode = React.createClass({
   },
   
   render() {
-    const hasChildren = this.props.data.hasOwnProperty('children');
+    const hasChildren = this.props.data.children != null;
     
     if (!hasChildren) {
       const key = 'menu node ' + this.props.data.title;
@@ -74,7 +74,7 @@ const MenuNode = React.createClass({
   },
   
   _getOperations() {
-    const hasOperations = this.props.data.hasOwnProperty('operations') && this.props.data.operations != null;
+    const hasOperations = this.props.data.operations != null;
     
     if (!hasOperations) {
       const key = 'operations ' + this.props.data.title
