@@ -74,7 +74,7 @@ const MenuNode = React.createClass({
   },
   
   _getOperations() {
-    const hasOperations = this.props.data.hasOwnProperty('operations');
+    const hasOperations = this.props.data.hasOwnProperty('operations') && this.props.data.operations != null;
     
     if (!hasOperations) {
       const key = 'operations ' + this.props.data.title

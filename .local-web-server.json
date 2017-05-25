@@ -20,15 +20,73 @@
       "route": "/api/menu",
       "response": {
         "type": "application/json",
-        "body": {"loggedIn":true,"root":[
-          {"title":"Main page","default":true,"action":{"name":"call","arg":"static/welcome.be"}},
-          {"id":{"entity":"testtable"},"title":"testtable","default":false,"children":[
-            {"title":"Test 1D","action":{"name":"call","arg":"table/testtable/Test 1D"},"default":false},
-            {"title":"Test 1D unknown","action":{"name":"call","arg":"table/testtable/Test 1D unknown"},"default":false}
-          ]},
-          {"title":"Logout","default":false,"action":{"name":"call","arg":"logout"}},
-          {"id":{"entity":"_system_"},"title":"System","default":false,"children":[{"title":"Pool","action":{"name":"call","arg":"pool"},"default":false}]},
-          {"title":"users","default":false,"action":{"name":"call","arg":"table/users/All records"}}]}
+        "body": {
+          "class": "class com.developmentontheedge.be5.components.Menu$MenuResponse",
+          "loggedIn": true,
+          "root": [
+            {
+              "action": null,
+              "children": [
+                {
+                  "action": {
+                    "arg": "table/testtable/Test 1D",
+                    "class": "class com.developmentontheedge.be5.model.Action",
+                    "name": "call"
+                  },
+                  "class": "class com.developmentontheedge.be5.components.Menu$QueryNode",
+                  "default": false,
+                  "id": null,
+                  "title": "Test 1D"
+                },
+                {
+                  "action": {
+                    "arg": "table/testtable/Test 1D unknown",
+                    "class": "class com.developmentontheedge.be5.model.Action",
+                    "name": "call"
+                  },
+                  "class": "class com.developmentontheedge.be5.components.Menu$QueryNode",
+                  "default": false,
+                  "id": null,
+                  "title": "Test 1D unknown"
+                }
+              ],
+              "class": "class com.developmentontheedge.be5.components.Menu$RootNode",
+              "default": false,
+              "id": {
+                "class": "class com.developmentontheedge.be5.components.Menu$Id",
+                "entity": "testtable",
+                "query": null
+              },
+              "operations": null,
+              "title": "testtable"
+            },
+            {
+              "action": null,
+              "children": [
+                {
+                  "action": {
+                    "arg": "login",
+                    "class": "class com.developmentontheedge.be5.model.Action",
+                    "name": "call"
+                  },
+                  "class": "class com.developmentontheedge.be5.components.Menu$QueryNode",
+                  "default": false,
+                  "id": null,
+                  "title": "Login"
+                }
+              ],
+              "class": "class com.developmentontheedge.be5.components.Menu$RootNode",
+              "default": false,
+              "id": {
+                "class": "class com.developmentontheedge.be5.components.Menu$Id",
+                "entity": "users",
+                "query": null
+              },
+              "operations": null,
+              "title": "users"
+            }
+          ]
+        }
       }
     },
     {
