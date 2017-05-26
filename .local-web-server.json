@@ -141,12 +141,19 @@
       "route": "/api/form",
       "response": {
         "type": "application/json",
-        "body": {"class":"class com.developmentontheedge.be5.api.impl.ResponseImpl$TypedResponse",
-          "type":"form",
-          "value":{
-            "values":{"class":"class com.developmentontheedge.be5.model.FormPresentation","dps":{"name":null,"value":null},"parameters":[],"selectedRows":"","title":"Добавить"},
-            "meta":{"/class":{"type":"Class","readOnly":true},"/dps":{"type":"DynamicPropertySetSupport"},"/dps/name":{"type":"String"},"/dps/value":{"type":"String"},"/parameters":{"type":"Map","readOnly":true},"/selectedRows":{"type":"String","readOnly":true},"/title":{"type":"String","readOnly":true}},
-            "order":["/class","/dps","/dps/name","/dps/value","/parameters","/selectedRows","/title"]
+        "body": {
+          "type": "form",
+          "value": {
+            "dps": {
+              "values": {"name": "","value": ""},
+              "meta": {
+                "/name": {"displayName": "name"},
+                "/value": {"displayName": "value"}
+              },
+              "order": ["/name","/value"]
+            },
+            "selectedRows": "0",
+            "title": "Insert"
           }
         }
       }

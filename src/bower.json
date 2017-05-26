@@ -21,6 +21,7 @@
     "system.js": "~0.19.5",
     "number-format.js": "^1.1.11",
     "react-input-autosize": "1.1.0",
-    "beanexplorer-react": "git+https://github.com/DevelopmentOnTheEdge/beanexplorer-react.git#^0.1.2"
+    "beanexplorer-react": "git+https://github.com/DevelopmentOnTheEdge/beanexplorer-react.git#^0.1.2",
+    "json-pointer-rfc6901": "json-pointer#^1.1.1"
   }
 }
