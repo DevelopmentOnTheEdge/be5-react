@@ -90,12 +90,12 @@ const Form = React.createClass({
   _getAllParameters() {
     var params = Object.assign({}, this.props.value.parameters);
     var formVals = this.state.dps.values;//this.getFormValues();
-    for (let formVal of formVals) {
-      delete params[formVal.name];
-    }
-    for (let paramName in params) {
-      formVals.push({ name: paramName, value: this.state.parameters[paramName] });
-    }
+//    for (let formVal of formVals) {
+//      delete params[formVal.name];
+//    }
+//    for (let paramName in params) {
+//      formVals.push({ name: paramName, value: this.state.parameters[paramName] });
+//    }
     return formVals;
   },
   
@@ -126,7 +126,7 @@ const Form = React.createClass({
       query: this.state.query,
       operation: this.state.operation,
       selectedRows: this.state.selectedRows,
-      values: JSON.stringify(this._getAllParameters())
+      values: this.state.dps.values
     };
     if (this.props.isEmbedded !== true) {
       be5.net.request('form/apply', data, performOperationFrontendAction);
