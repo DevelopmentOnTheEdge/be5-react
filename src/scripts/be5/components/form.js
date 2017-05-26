@@ -54,8 +54,7 @@ const Form = React.createClass({
       if(this.refs[key].onFormDidMount)
         this.refs[key].onFormDidMount();
     }
-    this.setState({ allFieldsFilled: false });
-    //this.setState({ allFieldsFilled: this._allFieldsFilled() });
+    this.setState({ allFieldsFilled: this._allFieldsFilled() });
   },
 
 //  componentDidMount() {
@@ -90,7 +89,7 @@ const Form = React.createClass({
   
   _getAllParameters() {
     var params = Object.assign({}, this.props.value.parameters);
-    var formVals = this.getFormValues();
+    var formVals = this.state.dps.values;//this.getFormValues();
     for (let formVal of formVals) {
       delete params[formVal.name];
     }
@@ -175,12 +174,12 @@ const Form = React.createClass({
   
   _onFieldChange(name, value) {
     JsonPointer.set(this.state.dps, "/values" + name, value);
-    //this.state.dps.values[name] = value;
-    // implicit state change => forceUpdate
+
     this.forceUpdate(() => {
       this.setState({ allFieldsFilled: this._allFieldsFilled() });
       
-      if (field.reloadOnChange || field.autoRefresh) {
+      if (this.state.dps.meta[name].hasOwnProperty('reloadOnChange') ||
+          this.state.dps.meta[name].hasOwnProperty('autoRefresh') ) {
         this._reloadOnChange(name);
       }
     });
@@ -221,8 +220,8 @@ const Form = React.createClass({
   
   _allFieldsFilled() {
     return this.state.dps.order.every(field =>
-      JsonPointer.get(this.state.dps, "/meta" + name).hasOwnProperty('canBeNull') &&
-      JsonPointer.get(this.state.dps, "/values" + name) !== ''
+      this.state.dps.meta[field].hasOwnProperty('canBeNull') ||
+      JsonPointer.get(this.state.dps, "/values" + field) !== ''
     );
   }
 });
