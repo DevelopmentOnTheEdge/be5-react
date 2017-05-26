@@ -5,6 +5,7 @@ import bus                  from 'be5/core/bus';
 import Forms                from 'be5/services/forms';
 import registerDocumentType from 'be5/core/registerDocumentType';
 import PropertySet          from './PropertySet';
+import JsonPointer          from 'json-pointer';
 import _                    from 'underscore';
 
 be5.load.css('be5/css/form.css');
@@ -165,7 +166,7 @@ const Form = React.createClass({
   },
   
   _getRawFormValues() {
-    return this.state.fields.map(field => ({ name: field.name, value: field.value, required: !field.canBeNull }))
+    return this.state.dps.map(field => ({ name: field.name, value: field.value, required: !field.canBeNull }))
   },
   
   _getRequredValues() {
@@ -173,9 +174,8 @@ const Form = React.createClass({
   },
   
   _onFieldChange(name, value) {
-    const field = this.state.fields.find(field => field.name === name);
-    field.value = value;
-    
+    JsonPointer.set(this.state.dps, "/values" + name, value);
+    //this.state.dps.values[name] = value;
     // implicit state change => forceUpdate
     this.forceUpdate(() => {
       this.setState({ allFieldsFilled: this._allFieldsFilled() });
@@ -220,7 +220,10 @@ const Form = React.createClass({
   },
   
   _allFieldsFilled() {
-    return this._getRequredValues().every(field => field.value !== '' );
+    return this.state.dps.order.every(field =>
+      JsonPointer.get(this.state.dps, "/meta" + name).hasOwnProperty('canBeNull') &&
+      JsonPointer.get(this.state.dps, "/values" + name) !== ''
+    );
   }
 });
 
