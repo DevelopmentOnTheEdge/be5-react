@@ -116,6 +116,40 @@
         "type": "application/json",
         "body": {"type":"static","value":"<h1>Main page</h1><div class=\"main-content\"><p>Test static page</p><a href=\"#!form/testtable/Test1D/Insert\">#!form/testtable/Test1D/Insert</a></div>"}
       }
+    },
+    {
+      "route": "/api/document",
+      "response": {
+        "type": "application/json",
+        "body": {"class":"class com.developmentontheedge.be5.api.impl.ResponseImpl$TypedResponse",
+          "type":"table",
+          "value":{
+            "category":"testtable",
+            "class":"class com.developmentontheedge.be5.model.TablePresentation",
+            "columns":["Name","Value"],
+            "hasAggregate":false,
+            "length":20,
+            "operations":[{"action":null,"class":"class com.developmentontheedge.be5.model.TableOperationPresentation","clientSide":false,"name":"Delete","requiresConfirmation":false,"title":"Удалить","visibleWhen":"anySelected"},{"action":null,"class":"class com.developmentontheedge.be5.model.TableOperationPresentation","clientSide":false,"name":"Edit","requiresConfirmation":false,"title":"Редактировать","visibleWhen":"anySelected"},{"action":null,"class":"class com.developmentontheedge.be5.model.TableOperationPresentation","clientSide":false,"name":"Insert","requiresConfirmation":false,"title":"Добавить","visibleWhen":"always"}],"page":"Test 1D","parameters":[],"rows":[{"cells":[{"class":"class com.developmentontheedge.be5.components.impl.model.TableModel$CellModel","content":"<a href=\"#!table/testtable/Test 1D unknown/ID=1\">test</a>","options":[{"link":{"class":"class java.util.TreeMap","empty":false}},{"quick":{"class":"class java.util.TreeMap","empty":false}}]},{"class":"class com.developmentontheedge.be5.components.impl.model.TableModel$CellModel","content":"1","options":[]}],"class":"class com.developmentontheedge.be5.components.impl.InitialRow","id":"1"},{"cells":[{"class":"class com.developmentontheedge.be5.components.impl.model.TableModel$CellModel","content":"<a href=\"#!table/testtable/Test 1D unknown/ID=2\">test</a>","options":[{"link":{"class":"class java.util.TreeMap","empty":false}},{"quick":{"class":"class java.util.TreeMap","empty":false}}]},{"class":"class com.developmentontheedge.be5.components.impl.model.TableModel$CellModel","content":"2","options":[]}],"class":"class com.developmentontheedge.be5.components.impl.InitialRow","id":"2"},{"cells":[{"class":"class com.developmentontheedge.be5.components.impl.model.TableModel$CellModel","content":"<a href=\"#!table/testtable/Test 1D unknown/ID=3\">test</a>","options":[{"link":{"class":"class java.util.TreeMap","empty":false}},{"quick":{"class":"class java.util.TreeMap","empty":false}}]},{"class":"class com.developmentontheedge.be5.components.impl.model.TableModel$CellModel","content":"test","options":[]}],"class":"class com.developmentontheedge.be5.components.impl.InitialRow","id":"3"}],
+            "selectable":true,
+            "title":"testtable: Test 1D",
+            "totalNumberOfRows":3
+          }
+        }
+      }
+    },
+    {
+      "route": "/api/form",
+      "response": {
+        "type": "application/json",
+        "body": {"class":"class com.developmentontheedge.be5.api.impl.ResponseImpl$TypedResponse",
+          "type":"form",
+          "value":{
+            "values":{"class":"class com.developmentontheedge.be5.model.FormPresentation","dps":{"name":null,"value":null},"parameters":[],"selectedRows":"","title":"Добавить"},
+            "meta":{"/class":{"type":"Class","readOnly":true},"/dps":{"type":"DynamicPropertySetSupport"},"/dps/name":{"type":"String"},"/dps/value":{"type":"String"},"/parameters":{"type":"Map","readOnly":true},"/selectedRows":{"type":"String","readOnly":true},"/title":{"type":"String","readOnly":true}},
+            "order":["/class","/dps","/dps/name","/dps/value","/parameters","/selectedRows","/title"]
+          }
+        }
+      }
     }
 
   ]
