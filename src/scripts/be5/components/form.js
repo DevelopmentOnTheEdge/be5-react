@@ -2,10 +2,10 @@ import React                from 'react';
 import be5                  from 'be5/be5';
 import changeDocument       from 'be5/core/changeDocument';
 import bus                  from 'be5/core/bus';
-import DateField            from 'be5/components/dateField';
-import Field                from 'be5/components/field';
 import Forms                from 'be5/services/forms';
 import registerDocumentType from 'be5/core/registerDocumentType';
+import PropertySet          from './PropertySet';
+import JsonPointer          from 'json-pointer';
 import _                    from 'underscore';
 
 be5.load.css('be5/css/form.css');
@@ -54,7 +54,8 @@ const Form = React.createClass({
       if(this.refs[key].onFormDidMount)
         this.refs[key].onFormDidMount();
     }
-    this.setState({ allFieldsFilled: this._allFieldsFilled() });
+    this.setState({ allFieldsFilled: false });
+    //this.setState({ allFieldsFilled: this._allFieldsFilled() });
   },
 
 //  componentDidMount() {
@@ -154,17 +155,18 @@ const Form = React.createClass({
         <div className="row">
           <div className="col-md-12 col-lg-8 offset-lg-2">
             <form className="formBox" onSubmit={this._applyOnSubmit}>
-              {this._createFields()}
+              <PropertySet fields={this.state.dps} onChange={this._onFieldChange}/>
               {this._createFormActions()}
             </form>
           </div>
         </div>
       </div>
     );
+    //<PropertySet fields={this.state.fields} onChange={this._onFieldChange}/>
   },
   
   _getRawFormValues() {
-    return this.state.fields.map(field => ({ name: field.name, value: field.value, required: !field.canBeNull }))
+    return this.state.dps.map(field => ({ name: field.name, value: field.value, required: !field.canBeNull }))
   },
   
   _getRequredValues() {
@@ -172,9 +174,8 @@ const Form = React.createClass({
   },
   
   _onFieldChange(name, value) {
-    const field = this.state.fields.find(field => field.name === name);
-    field.value = value;
-    
+    JsonPointer.set(this.state.dps, "/values" + name, value);
+    //this.state.dps.values[name] = value;
     // implicit state change => forceUpdate
     this.forceUpdate(() => {
       this.setState({ allFieldsFilled: this._allFieldsFilled() });
@@ -185,47 +186,6 @@ const Form = React.createClass({
     });
   },
 
-  _createGroup(curGroup, curGroupId, curGroupName) {
-    return (
-      <div className='formGroup' ref={curGroupId}>
-        <h3>{curGroupName}</h3>
-        {curGroup}
-      </div>
-    );
-  },
-  
-  _createFields() {
-    let curGroup = [];
-    let curGroupName = null, curGroupId = null;
-    let result = [];
-
-    const finishGroup = () => {
-      if(curGroup.length > 0) {
-        if(curGroupId) {
-          result.push(this._createGroup(curGroup, curGroupId, curGroupName));
-        } else {
-          Array.prototype.push.apply(result, curGroup);
-        }
-      }
-      curGroup = [];
-    };
-    //TODO не заполняется value у comboBox при открытии формы первой страницей - при обновлении страницы например
-    for(const json of this.state.fields) {
-      const newGroup = json.group;
-      const newGroupName = newGroup ? newGroup.name : null;
-      const newGroupId = newGroup ? newGroup.id : null;
-      if(newGroupId != curGroupId) {
-        finishGroup();
-        curGroupName = newGroupName;
-        curGroupId = newGroupId;
-      }
-      const field = (<Field value={json} ref={json.name} key={json.name} onChange={this._onFieldChange}/>);
-      curGroup.push(field);
-    }
-    finishGroup();
-    return result;
-  },
-  
   _createFormActions() {
     if (this.state.hideActions === true) {
       return null;
@@ -260,7 +220,10 @@ const Form = React.createClass({
   },
   
   _allFieldsFilled() {
-    return this._getRequredValues().every(field => field.value !== '' );
+    return this.state.dps.order.every(field =>
+      JsonPointer.get(this.state.dps, "/meta" + name).hasOwnProperty('canBeNull') &&
+      JsonPointer.get(this.state.dps, "/values" + name) !== ''
+    );
   }
 });
 
