@@ -17,7 +17,7 @@ export default React.createClass({
   
   render: function() {
     return (
-      <SplitPane split="vertical" defaultSize={300}>
+      <SplitPane split="vertical" defaultSize={280}>
         <SideBar ref="sideBar"/>
         <Document ref="document"/>
       </SplitPane>

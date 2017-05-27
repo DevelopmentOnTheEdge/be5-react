@@ -21,7 +21,7 @@ const PoolPage = React.createClass({
         <div className="operationList">
           <button type="button" className="btn btn-secondary" onClick={this._update}>update</button>
         </div>
-        <p dangerouslySetInnerHTML={{__html: value}} ></p>
+        <p dangerouslySetInnerHTML={{__html: value}} />
       </article>
     );
   },
