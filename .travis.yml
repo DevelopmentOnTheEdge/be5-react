@@ -12,5 +12,8 @@ before_script:
     && cd ../
 script:
   - gulp
+  - npm test
+after_success:
+  - npm run-script coveralls
 notifications:
   email: false
