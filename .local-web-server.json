@@ -1,6 +1,5 @@
 {
   "port": 8100,
-  "forbid": "*.json",
   "rewrite": [
     { "from": "/be5/*", "to": "/$1" }
   ],

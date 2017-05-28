@@ -4,7 +4,7 @@ import changeDocument       from 'be5/core/changeDocument';
 import bus                  from 'be5/core/bus';
 import Forms                from 'be5/services/forms';
 import registerDocumentType from 'be5/core/registerDocumentType';
-import PropertySet          from './PropertySet';
+import PropertySet          from 'beanexplorer-react';
 import JsonPointer          from 'json-pointer';
 import _                    from 'underscore';
 

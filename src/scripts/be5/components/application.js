@@ -1,5 +1,4 @@
 import React from 'react';
-import be5 from 'be5/be5';
 import bus from 'be5/core/bus';
 import SideBar from 'be5/components/sideBar';
 import Document from 'be5/components/document';

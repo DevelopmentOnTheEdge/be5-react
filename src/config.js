@@ -15,6 +15,7 @@ System.config({
     'lib-be5:*':'/be5/lib/*.js',
     'be5:*':    '/be5/scripts/*.js'
   },
+  packageConfigPaths: ['../../node_modules/*/package.json'],
   meta: {
     'datetimepicker': {
       format: 'global',
@@ -64,6 +65,7 @@ System.config({
     'tether': 'https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js',
     'jqueryui': 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js',
     'react': 'https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react.js',
+    'React': 'https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react.js',
     'react-dom': 'https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react-dom.js',
     'react-classset': 'lib-be5:react-classset/classSet',
     'classNames': 'https://cdnjs.cloudflare.com/ajax/libs/classnames/2.2.5/index.min.js',
@@ -72,6 +74,7 @@ System.config({
     'underscore': 'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js',
     'number-format.js': 'lib-be5:number-format.js/lib/format.min',
     'json-pointer': 'lib-be5:json-pointer-rfc6901/dist/json-pointer.node',
+    'beanexplorer-react': 'lib-be5:beanexplorer-react/build/beanexplorer-react.min',
 
     'be5':          'be5:be5',
     'main':         'be5:be5/main',
