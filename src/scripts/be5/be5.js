@@ -4,7 +4,7 @@ import _        from 'underscore';
 import Settings from 'be5/settings';
 import Const    from 'be5/constants';
 import bus      from 'be5/core/bus';
-import 'bootstrap';
+//import 'bootstrap';
 
 var messages = {
   en: {

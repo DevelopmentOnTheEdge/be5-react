@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import BootstrapButton from 'be5/components/bootstrapButton';
-import 'bootstrap';
+window.jQuery = window.$ = require('jquery');
+window.Tether = require('tether');
+require('bootstrap');
 
 export default React.createClass({
   displayName: 'BootstrapModal',

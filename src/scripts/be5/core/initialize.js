@@ -2,7 +2,6 @@
 // npm install -g jspm-bower-endpoint
 // jspm registry create bower jspm-bower-endpoint
 
-import jQueryUI     from 'jqueryui';
 import DataTables   from 'datatables';
 import bus          from 'be5/core/bus';
 import be5          from 'be5/be5';
@@ -13,10 +12,8 @@ import Document     from 'be5/components/document';
 import Login        from 'be5/components/login';
 import FormTable    from 'be5/components/formTable';
 import Be5Block     from 'be5/components/be5Block';
-import Be5Form      from 'be5/components/be5Form';
+//import Be5Form      from 'be5/components/be5Form';
 import Be5View      from 'be5/components/be5View';
-import 'datetimepicker';
-import numberFormatter from 'javascript-number-formatter';
 
 import ReactDOM from 'react-dom';
 import React from 'react';

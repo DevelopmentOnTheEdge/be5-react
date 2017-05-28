@@ -61,6 +61,7 @@ System.config({
     'datetimepicker': 'https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.4.5/jquery.datetimepicker.min.js',
     'fittext': 'https://cdnjs.cloudflare.com/ajax/libs/FitText.js/1.2.0/jquery.fittext.min.js',
     'jquery': 'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js',
+    'tether': 'https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js',
     'jqueryui': 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js',
     'react': 'https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react.js',
     'react-dom': 'https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react-dom.js',
@@ -69,7 +70,7 @@ System.config({
     'react-input-autosize': 'lib-be5:react-input-autosize/dist/react-input-autosize',
     'react-select': 'https://cdnjs.cloudflare.com/ajax/libs/react-select/1.0.0-beta14/react-select.js',
     'underscore': 'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js',
-    'javascript-number-formatter': 'lib-be5:number-format.js/lib/format.min',
+    'number-format.js': 'lib-be5:number-format.js/lib/format.min',
     'json-pointer': 'lib-be5:json-pointer-rfc6901/dist/json-pointer.node',
 
     'be5':          'be5:be5',

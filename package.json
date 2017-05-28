@@ -1,26 +1,60 @@
 {
-  "name": "be5-frontend",
+  "name": "be5-react",
   "version": "1.0.0",
   "description": "",
   "main": "gulpfile.js",
+  "scripts": {
+    "start": "ws -d dist",
+    "dev": "gulp watch",
+    "test": "jest",
+    "watch": "npm test -- --watch",
+    "coverage": "npm test -- --coverage",
+    "coveralls": "npm run-script coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+  },
   "dependencies": {},
   "devDependencies": {
-    "babel-preset-es2015": "^6.1.18",
-    "babel-preset-react": "^6.1.18",
+    "babel-jest": "^20.0.3",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "bootstrap": "^4.0.0-alpha.5",
+    "coveralls": "^2.13.1",
+    "datatables": "^1.10.13",
+    "enzyme": "^2.8.2",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.0",
     "gulp-sass": "^2.3.2",
     "gulp-util": "^3.0.8",
-    "local-web-server": "^1.2.7"
-  },
-  "scripts": {
-    "start": "ws -d dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "jest": "^20.0.4",
+    "jquery": "^3.2.1",
+    "jqueryui": "^1.11.1",
+    "json-pointer": "^0.6.0",
+    "local-web-server": "^1.2.7",
+    "number-format.js": "^1.1.11",
+    "react": "^15.5.4",
+    "react-addons-test-utils": "^15.5.1",
+    "react-dom": "^15.5.4",
+    "react-test-renderer": "^15.5.4",
+    "underscore": "^1.8.3"
   },
   "author": "",
   "license": "ISC",
   "repository": {
     "type": "git",
     "url": "https://github.com/DevelopmentOnTheEdge/be5-react.git"
+  },
+  "jest": {
+    "roots": [
+      "./test/",
+      "./src/scripts"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "bower_components",
+      "shared",
+      "./src/scripts"
+    ]
   }
 }

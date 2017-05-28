@@ -1,6 +1,5 @@
 import React from 'react';
-import 'bootstrap';
-  
+
 export default React.createClass({
   displayName: 'BootstrapButton',
   
