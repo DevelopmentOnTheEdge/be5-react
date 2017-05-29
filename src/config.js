@@ -41,21 +41,6 @@ System.config({
       }
     }
   },
-  /*
-  map: {
-    'bootstrap': 'lib:bootstrap/dist/js/bootstrap.min',
-    'datatables': 'lib:datatables/media/js/jquery.dataTables.min',
-    'datetimepicker': 'lib:datetimepicker/jquery.datetimepicker', // no minified version
-    'jquery': 'lib:jquery/dist/jquery.min',
-    'jqueryui': 'lib:jquery-ui/jquery-ui.min',
-    'react': 'lib:react/react.min',
-    'react-dom': 'lib:react/react-dom.min',
-    'react-classset': 'lib:react-classset/classSet',
-    //'twbs/bootstrap': 'lib:bootstrap/dist/js/bootstrap.min',
-    'underscore': 'lib:underscore/underscore-min',
-    'fittext': 'lib:jquery.fittext'
-  }
-  */
   map: {
     'bootstrap': 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js',
     'datatables': 'https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.10/js/jquery.dataTables.min.js',
@@ -65,7 +50,6 @@ System.config({
     'tether': 'https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js',
     'jqueryui': 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js',
     'react': 'https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react.js',
-    'React': 'https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react.js',
     'react-dom': 'https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react-dom.js',
     'react-classset': 'lib-be5:react-classset/classSet',
     'classNames': 'https://cdnjs.cloudflare.com/ajax/libs/classnames/2.2.5/index.min.js',
