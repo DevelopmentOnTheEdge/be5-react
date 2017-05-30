@@ -1,0 +1,234 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot 1`] = `
+<div
+  className="SplitPane vertical"
+  style={
+    Object {
+      "display": "flex",
+      "flex": 1,
+      "flexDirection": "row",
+      "height": "100%",
+      "left": 0,
+      "outline": "none",
+      "overflow": "hidden",
+      "position": "absolute",
+      "right": 0,
+    }
+  }
+>
+  <div
+    className="Pane vertical"
+    style={
+      Object {
+        "flex": "none",
+        "outline": "none",
+        "overflow": "auto",
+        "position": "relative",
+        "width": 280,
+      }
+    }
+  >
+    <div
+      className="side"
+    >
+      <div
+        className="menuContainer"
+      >
+        <div
+          className="menuHeader"
+        >
+          <h2>
+            Hello!
+          </h2>
+        </div>
+        <input
+          className="searchField form-control"
+          onChange={[Function]}
+          placeholder="Filter..."
+          type="text"
+          value=""
+        />
+        <div
+          className="menu"
+        >
+          <div
+            className="menuNode"
+          >
+            <span
+              className="rootMenuItem menuItemWithoutRef"
+            >
+              Loading...
+            </span>
+            <div />
+          </div>
+        </div>
+        <div
+          className="menuFooter"
+        >
+          <img
+            src="/be5/images/logo-be.png"
+          />
+        </div>
+      </div>
+      <hr />
+      <h3>
+        Settings
+      </h3>
+      <div
+        className="languageBox"
+      >
+        <div
+          className="languageList"
+        />
+      </div>
+      <div
+        className="roleBox"
+      />
+    </div>
+  </div>
+  <span
+    className="Resizer vertical"
+    onMouseDown={[Function]}
+  />
+  <div
+    className="Pane vertical"
+    style={
+      Object {
+        "flex": 1,
+        "outline": "none",
+        "overflow": "auto",
+        "position": "relative",
+      }
+    }
+  >
+    <div
+      className="content"
+    >
+      <h1
+        className="text-center"
+      >
+        Page is loading...
+      </h1>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`snapshot 2`] = `
+<div
+  className="SplitPane vertical"
+  style={
+    Object {
+      "display": "flex",
+      "flex": 1,
+      "flexDirection": "row",
+      "height": "100%",
+      "left": 0,
+      "outline": "none",
+      "overflow": "hidden",
+      "position": "absolute",
+      "right": 0,
+    }
+  }
+>
+  <div
+    className="Pane vertical"
+    style={
+      Object {
+        "flex": "none",
+        "outline": "none",
+        "overflow": "auto",
+        "position": "relative",
+        "width": 280,
+      }
+    }
+  >
+    <div
+      className="side"
+    >
+      <div
+        className="menuContainer"
+      >
+        <div
+          className="menuHeader"
+        >
+          <h2>
+            Hello!
+          </h2>
+        </div>
+        <input
+          className="searchField form-control"
+          onChange={[Function]}
+          placeholder="Filter..."
+          type="text"
+          value=""
+        />
+        <div
+          className="menu"
+        >
+          <div
+            className="menuNode"
+          >
+            <span
+              className="rootMenuItem menuItemWithoutRef"
+            >
+              Loading...
+            </span>
+            <div />
+          </div>
+        </div>
+        <div
+          className="menuFooter"
+        >
+          <img
+            src="/be5/images/logo-be.png"
+          />
+        </div>
+      </div>
+      <hr />
+      <h3>
+        Settings
+      </h3>
+      <div
+        className="languageBox"
+      >
+        <div
+          className="languageList"
+        />
+      </div>
+      <div
+        className="roleBox"
+      />
+    </div>
+  </div>
+  <span
+    className="Resizer vertical"
+    onMouseDown={[Function]}
+  />
+  <div
+    className="Pane vertical"
+    style={
+      Object {
+        "flex": 1,
+        "outline": "none",
+        "overflow": "auto",
+        "position": "relative",
+      }
+    }
+  >
+    <div
+      className="content"
+    >
+      <div
+        className="staticPage"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": undefined,
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;
