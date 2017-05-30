@@ -8,7 +8,7 @@ class StaticPage extends React.Component {
   render() {
     var content = this.props.value;
     be5.ui.convertLinks(content);
-    return React.DOM.div({ className: 'staticPage', dangerouslySetInnerHTML: { __html: content } });
+    return <div className='staticPage' dangerouslySetInnerHTML={ {__html: content} } />;
   }
 
 }
