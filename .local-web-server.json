@@ -26,6 +26,7 @@
           "class": "class com.developmentontheedge.be5.components.Menu$MenuResponse",
           "loggedIn": true,
           "root": [
+            {"title":"Main page","default":true,"action":{"name":"call","arg":"static/welcome.be"}},
             {
               "action": null,
               "children": [
@@ -102,7 +103,7 @@
       "route": "/api/appInfo",
       "response": {
         "type": "application/json",
-        "body": {"title":"Личный кабинет Портал «Мой Дом»","url":"https://myhome.regioncloud.ru/lk/"}
+        "body": {"title":"BeanExplorer 5 application","url":"http://127.0.0.1:8100/"}
       }
     },
     {
