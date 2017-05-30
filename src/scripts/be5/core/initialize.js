@@ -3,17 +3,17 @@
 // jspm registry create bower jspm-bower-endpoint
 
 import DataTables   from 'datatables';
-import bus          from 'be5/core/bus';
-import be5          from 'be5/be5';
-import Form         from 'be5/components/form';
-import Table        from 'be5/components/table';
-import TableForm    from 'be5/components/tableForm';
-import Document     from 'be5/components/document';
-import Login        from 'be5/components/login';
-import FormTable    from 'be5/components/formTable';
-import Be5Block     from 'be5/components/be5Block';
-//import Be5Form      from 'be5/components/be5Form';
-import Be5View      from 'be5/components/be5View';
+import bus          from '../core/bus';
+import be5          from '../be5';
+import Form         from '../components/form';
+import Table        from '../components/table';
+import TableForm    from '../components/tableForm';
+import Document     from '../components/document';
+import Login        from '../components/login';
+import FormTable    from '../components/formTable';
+import Be5Block     from '../components/be5Block';
+//import Be5Form      from '../components/be5Form';
+import Be5View      from '../components/be5View';
 
 import ReactDOM from 'react-dom';
 import React from 'react';

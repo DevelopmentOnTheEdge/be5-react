@@ -1,8 +1,8 @@
 import React from 'react';
 import bus from 'be5/core/bus';
-import SideBar from 'be5/components/sideBar';
-import Document from 'be5/components/document';
-import SplitPane from 'be5/components/splitPane';
+import SideBar from './sideBar';
+import Document from './document';
+import SplitPane from './splitPane';
   
 export default React.createClass({
   displayName: 'App',

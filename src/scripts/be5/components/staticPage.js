@@ -1,12 +1,12 @@
 import React          from 'react';
 import PropTypes from 'prop-types';
-import be5            from 'be5/be5';
-import changeDocument from 'be5/core/changeDocument';
+import be5            from '../be5';
+import changeDocument from '../core/changeDocument';
 
 class StaticPage extends React.Component {
 
   render() {
-    var content = this.props.value;
+    let content = this.props.value;
     be5.ui.convertLinks(content);
     return <div className='staticPage' dangerouslySetInnerHTML={ {__html: content} } />;
   }
