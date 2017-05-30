@@ -3,7 +3,10 @@ const systemLocate = System.locate;
 
 System.locate = function(load) {
   return Promise.resolve(systemLocate.call(this, load)).then(function(address) {
-    return address + '?build=' + buildNumber;
+    if(address.indexOf("https://unpkg.com") === -1)
+      return address + '?build=' + buildNumber;
+    else
+      return address;
   });
 };
 
@@ -51,6 +54,7 @@ System.config({
     'jqueryui': 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js',
     'react': 'https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react.js',
     'react-dom': 'https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react-dom.js',
+    'prop-types': 'https://unpkg.com/prop-types/prop-types.min.js',
     'react-classset': 'lib-be5:react-classset/classSet',
     'classNames': 'https://cdnjs.cloudflare.com/ajax/libs/classnames/2.2.5/index.min.js',
     'react-input-autosize': 'lib-be5:react-input-autosize/dist/react-input-autosize',
