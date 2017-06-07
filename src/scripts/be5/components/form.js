@@ -80,25 +80,25 @@ const Form = React.createClass({
   },
   
   refresh() {
-    this._reload(this._getAllParameters());
+    this._reload(this.state.bean.values);
   },
   
   _reloadOnChange(controlName) {
-    this._reload(this._getAllParameters().concat([{ name: '_reloadcontrol_', value: controlName }]));
+    this._reload(this.state.bean.values.concat([{ name: '_reloadcontrol_', value: controlName }]));
   },
   
-  _getAllParameters() {
-    var params = Object.assign({}, this.props.value.parameters);
-    var formVals = this.state.dps.values;//this.getFormValues();
+//  _getAllParameters() {
+//    var params = Object.assign({}, this.props.value.parameters);
+//    var formVals = this.state.dps.values;//this.getFormValues();
 //    for (let formVal of formVals) {
 //      delete params[formVal.name];
 //    }
 //    for (let paramName in params) {
 //      formVals.push({ name: paramName, value: this.state.parameters[paramName] });
 //    }
-    return formVals;
-  },
-  
+//     return formVals;
+//  },
+
   _reload(values) {
     Forms.load(
       {
@@ -126,7 +126,7 @@ const Form = React.createClass({
       query: this.state.query,
       operation: this.state.operation,
       selectedRows: this.state.selectedRows,
-      values: this.state.dps.values
+      values: JSON.stringify(this.state.bean.values)
     };
     if (this.props.isEmbedded !== true) {
       be5.net.request('form/apply', data, performOperationFrontendAction);
@@ -154,7 +154,7 @@ const Form = React.createClass({
         <div className="row">
           <div className="col-md-12 col-lg-8 offset-lg-2">
             <form className="formBox" onSubmit={this._applyOnSubmit}>
-              <PropertySet fields={this.state.dps} onChange={this._onFieldChange}/>
+              <PropertySet fields={this.state.bean} onChange={this._onFieldChange}/>
               {this._createFormActions()}
             </form>
           </div>
@@ -165,7 +165,7 @@ const Form = React.createClass({
   },
   
   _getRawFormValues() {
-    return this.state.dps.map(field => ({ name: field.name, value: field.value, required: !field.canBeNull }))
+    return this.state.bean.map(field => ({ name: field.name, value: field.value, required: !field.canBeNull }))
   },
   
   _getRequredValues() {
@@ -173,13 +173,13 @@ const Form = React.createClass({
   },
   
   _onFieldChange(name, value) {
-    JsonPointer.set(this.state.dps, "/values" + name, value);
+    JsonPointer.set(this.state.bean, "/values" + name, value);
 
     this.forceUpdate(() => {
       this.setState({ allFieldsFilled: this._allFieldsFilled() });
       
-      if (this.state.dps.meta[name].hasOwnProperty('reloadOnChange') ||
-          this.state.dps.meta[name].hasOwnProperty('autoRefresh') ) {
+      if (this.state.bean.meta[name].hasOwnProperty('reloadOnChange') ||
+          this.state.bean.meta[name].hasOwnProperty('autoRefresh') ) {
         this._reloadOnChange(name);
       }
     });
@@ -219,9 +219,9 @@ const Form = React.createClass({
   },
   
   _allFieldsFilled() {
-    return this.state.dps.order.every(field =>
-      this.state.dps.meta[field].hasOwnProperty('canBeNull') ||
-      JsonPointer.get(this.state.dps, "/values" + field) !== ''
+    return this.state.bean.order.every(field =>
+      this.state.bean.meta[field].hasOwnProperty('canBeNull') ||
+      JsonPointer.get(this.state.bean, "/values" + field) !== ''
     );
   }
 });

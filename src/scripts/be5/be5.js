@@ -394,11 +394,7 @@ const be5 = {
       if(typeof(params) !== 'object') {
         return '';
       }
-      var values = [];
-      for(var key in params) {
-        values.push({name: key, value: params[key]});
-      }
-      return JSON.stringify(values);
+      return JSON.stringify(params);
     },
     
     request(path, params, success, failure) {
