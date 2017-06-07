@@ -7,6 +7,7 @@ import bus          from '../core/bus';
 import be5          from '../be5';
 import Form         from '../components/form';
 import Table        from '../components/table';
+import Pool         from '../components/pool';
 import TableForm    from '../components/tableForm';
 import Document     from '../components/document';
 import Login        from '../components/login';

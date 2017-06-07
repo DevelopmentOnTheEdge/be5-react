@@ -40,7 +40,7 @@ const PoolPage = React.createClass({
 
 registerDocumentType('pool', PoolPage);
 
-be5.registerAction('static', function() {
+be5.registerAction('pool', function() {
   changeDocument({ type: 'pool', value: {}});
 });
 
