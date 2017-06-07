@@ -11,13 +11,13 @@ import _                    from 'underscore';
 be5.load.css('be5/css/form.css');
 
 const performOperationFrontendAction = ({ value: value }) => {
-  switch (value.type)
+  switch (value.status)
   {
   case 'RENDER_HTML':
     changeDocument({ type: 'htmlResult', value: { content: value.value } });
     return;
-  case 'REDIRECT':
-    be5.url.set(value.value);
+  case 'REDIRECTED':
+    be5.url.set(value.details);
     return;
   case 'REFRESH_ALL':
     be5.url.set("");

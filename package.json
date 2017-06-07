@@ -5,6 +5,7 @@
   "main": "gulpfile.js",
   "scripts": {
     "start": "ws -d dist",
+    "build": "gulp",
     "dev": "gulp watch",
     "test": "jest",
     "watch": "npm test -- --watch",
