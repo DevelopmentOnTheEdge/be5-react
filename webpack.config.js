@@ -10,36 +10,58 @@ const HOST = process.env.HOST || "127.0.0.1";
 const PORT = process.env.PORT || "8888";
 
 loaders.push({
-  test: /\.scss$/,
-  loaders: ['style-loader', 'css-loader?importLoaders=1', 'sass-loader'],
-  exclude: ['node_modules']
+    test: /\.scss$/,
+    loaders: ['style-loader', 'css-loader?importLoaders=1', 'sass-loader'],
+    exclude: ['node_modules']
 });
 
 module.exports = {
-  context: __dirname + "/src/scripts",
-  entry: [
-    './be5/main.js', // your app's entry point
-  ],
-  output: {
-    publicPath: '/',
-    path: path.join(__dirname, 'public'),
-    filename: 'bundle.js'
-  },
-  resolve: {
-    modules: [
-      path.resolve('/src/scripts'),
-      'node_modules'
+    entry: [
+        'react-hot-loader/patch',
+        './src/scripts/be5/main.js'
     ],
-    extensions: ['.js', '.jsx']
-  },
-  module: {
-    loaders
-  },
-  plugins: [
-    new webpack.NoEmitOnErrorsPlugin(),
-    new ExtractTextPlugin({
-      filename: 'style.css',
-      allChunks: true
-    })
-  ]
+    devtool: process.env.WEBPACK_DEVTOOL || 'eval-source-map',
+    output: {
+        publicPath: '/',
+        path: path.join(__dirname, 'public'),
+        filename: 'bundle.js'
+    },
+    resolve: {
+        extensions: ['.js', '.jsx']
+    },
+    module: {
+        loaders
+    },
+    devServer: {
+        contentBase: "./public",
+        // do not print bundle build stats
+        noInfo: true,
+        // enable HMR
+        hot: true,
+        // embed the webpack-dev-server runtime into the bundle
+        inline: true,
+        // serve index.html in place of 404 responses to allow HTML5 history
+        historyApiFallback: true,
+        port: PORT,
+        host: HOST,
+        proxy: {
+            "/api": "http://localhost:8100/api"
+        }
+    },
+    plugins: [
+        new webpack.NoEmitOnErrorsPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
+        new ExtractTextPlugin({
+            filename: 'style.css',
+            allChunks: true
+        }),
+        new DashboardPlugin(),
+        new HtmlWebpackPlugin({
+            template: './src/template.html',
+            files: {
+                css: ['style.css'],
+                js: [ "bundle.js"],
+            }
+        }),
+    ]
 };

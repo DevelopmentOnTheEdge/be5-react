@@ -8,7 +8,7 @@ import _              from 'underscore';
 import Tables         from '../services/tables';
 import numberFormatter         from 'number-format.js';
 
-be5.load.css('be5/css/table.css');
+//import '../../../css/table.css';
 
 const OperationBox = React.createClass({displayName: "OperationBox",
   onClick(name, e) {
