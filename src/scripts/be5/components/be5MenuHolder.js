@@ -1,6 +1,6 @@
 import _ from 'underscore';
-import be5 from 'be5/be5';
-import bus from 'be5/core/bus';
+import be5 from '../be5';
+import bus from '../core/bus';
 
 const listeners = [];
 

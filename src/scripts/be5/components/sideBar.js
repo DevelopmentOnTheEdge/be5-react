@@ -1,8 +1,8 @@
 import React            from 'react';
-import be5              from 'be5/be5';
-import LanguageSelector from 'be5/components/languageSelector';
-import RoleSelector     from 'be5/components/roleSelector';
-import Menu             from 'be5/components/menu/menu';
+import be5              from '../be5';
+import LanguageSelector from './languageSelector';
+import RoleSelector     from './roleSelector';
+import Menu             from './menu/menu';
 
 export default React.createClass({displayName: "SideBar",
   render() {

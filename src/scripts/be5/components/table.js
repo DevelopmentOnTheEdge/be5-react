@@ -1,11 +1,11 @@
 import React          from 'react';
 import ReactDOM       from 'react-dom';
-import be5            from 'be5/be5';
-import changeDocument from 'be5/core/changeDocument';
+import be5            from '../be5';
+import changeDocument from '../core/changeDocument';
 import $              from 'jquery';
-import Action         from 'be5/components/action';
+import Action         from './action';
 import _              from 'underscore';
-import Tables         from 'be5/services/tables';
+import Tables         from '../services/tables';
 import numberFormatter         from 'number-format.js';
 
 be5.load.css('be5/css/table.css');

@@ -1,6 +1,6 @@
 import React from 'react';
-import be5 from 'be5/be5';
-import bus from 'be5/core/bus';
+import be5 from '../be5';
+import bus from '../core/bus';
 
 be5.load.css('be5/css/document.css');
 

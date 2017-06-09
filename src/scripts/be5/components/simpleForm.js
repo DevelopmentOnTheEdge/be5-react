@@ -1,8 +1,8 @@
 import React          from 'react';
-import be5            from 'be5/be5';
-import changeDocument from 'be5/core/changeDocument';
-import Forms          from 'be5/services/forms';
-import Field          from 'be5/components/field';
+import be5            from '../be5';
+import changeDocument from '../core/changeDocument';
+import Forms          from './be5/services/forms';
+import Field          from './field';
 
 export default React.createClass({
   propTypes: {

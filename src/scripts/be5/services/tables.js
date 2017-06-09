@@ -1,7 +1,7 @@
-import be5           from 'be5/be5';
-import documentUtils from 'be5/core/documentUtils';
+import be5           from '../be5';
+import documentUtils from '../core/documentUtils';
 import _             from 'underscore';
-import Preconditions from 'be5/preconditions';
+import Preconditions from '../preconditions';
 
 const createDefaultOptions = function() {
   return {

@@ -1,4 +1,4 @@
-import be5 from 'be5/be5';
+import be5 from '../be5';
 
 export default {
   get: be5.net.requestJson,

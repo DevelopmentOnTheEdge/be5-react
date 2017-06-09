@@ -1,9 +1,9 @@
 import React    from 'react';
 import $        from 'jquery';
 import _        from 'underscore';
-import Settings from 'be5/settings';
-import Const    from 'be5/constants';
-import bus      from 'be5/core/bus';
+import Settings from './settings';
+import Const    from './constants';
+import bus      from './core/bus';
 //import 'bootstrap';
 
 var messages = {

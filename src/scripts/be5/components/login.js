@@ -1,10 +1,10 @@
 import React          from 'react';
 import ReactDOM       from 'react-dom';
-import be5            from 'be5/be5';
-import ext            from 'be5/core/ext';
-import bus            from 'be5/core/bus';
+import be5            from '../be5';
+import ext            from '../core/ext';
+import bus            from '../core/bus';
 import $              from 'jquery';
-import BootstrapModal from 'be5/components/bootstrapModal';
+import BootstrapModal from './bootstrapModal';
 
 be5.load.css('be5/css/login.css');
   

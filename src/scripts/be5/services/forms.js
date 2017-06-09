@@ -1,5 +1,5 @@
-import be5 from 'be5/be5';
-import Preconditions from 'be5/preconditions';
+import be5 from '../be5';
+import Preconditions from '../preconditions';
 
 export default {
   load(params, callback) {

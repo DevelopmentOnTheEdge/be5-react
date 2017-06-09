@@ -3,12 +3,12 @@
  */
 import React from 'react';
 import _ from 'underscore';
-import be5 from 'be5/be5';
-import Forms from 'be5/services/forms';
-import Form from 'be5/components/form';
-import Tables from 'be5/services/tables';
-import Table from 'be5/components/table';
-import StaticPage from 'be5/components/staticPage';
+import be5 from '../be5';
+import Forms from '../services/forms';
+import Form from './form';
+import Tables from '../services/tables';
+import Table from './table';
+import StaticPage from './staticPage';
 
 const services = {
   'table': Tables,

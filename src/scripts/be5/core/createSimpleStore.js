@@ -1,5 +1,5 @@
-import http from 'be5/core/http';
-import createStore from 'be5/core/createStore';
+import http from './http';
+import createStore from './createStore';
 
 export default (resource, initialState) => createStore({
   _state: initialState,

@@ -1,6 +1,6 @@
 import React from 'react';
-import be5 from 'be5/be5';
-import Tables from 'be5/services/tables';
+import be5 from '../be5';
+import Tables from '../services/tables';
 
 export default React.createClass({
   propTypes: {

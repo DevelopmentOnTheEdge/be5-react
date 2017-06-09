@@ -1,6 +1,6 @@
 import React from 'react';
-import be5 from 'be5/be5';
-import SimpleTable from 'be5/components/simpleTable';
+import be5 from '../be5';
+import SimpleTable from './simpleTable';
 
 export default React.createClass({
   propTypes: {

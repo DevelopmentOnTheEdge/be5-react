@@ -1,6 +1,6 @@
 import React from 'react';
-import be5 from 'be5/be5';
-import SimpleForm from 'be5/components/simpleForm';
+import be5 from '../be5';
+import SimpleForm from './simpleForm';
 
 export default React.createClass({
   propTypes: {

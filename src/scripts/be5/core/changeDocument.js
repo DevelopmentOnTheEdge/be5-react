@@ -1,3 +1,3 @@
-import bus from 'be5/core/bus';
+import bus from './bus';
 
 export default value => bus.fire('DocumentChange', value);

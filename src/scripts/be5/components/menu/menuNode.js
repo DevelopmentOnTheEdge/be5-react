@@ -1,6 +1,6 @@
-import React from 'react';
-import be5 from 'be5/be5';
-import Action from 'be5/components/action';
+import React  from 'react';
+import be5    from '../../be5';
+import Action from '../action';
 
 const MenuNode = React.createClass({
   displayName: 'MenuNode',

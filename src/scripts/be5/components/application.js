@@ -1,5 +1,5 @@
 import React from 'react';
-import bus from 'be5/core/bus';
+import bus from '../core/bus';
 import SideBar from './sideBar';
 import Document from './document';
 import SplitPane from './splitPane';
