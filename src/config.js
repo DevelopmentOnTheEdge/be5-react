@@ -62,7 +62,7 @@ System.config({
     'underscore': 'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js',
     'number-format.js': 'lib-be5:number-format.js/lib/format.min',
     'json-pointer': 'lib-be5:json-pointer-rfc6901/dist/json-pointer.node',
-    'beanexplorer-react': 'lib-be5:beanexplorer-react/build/beanexplorer-react.min',
+    'beanexplorer-react': 'lib-be5:beanexplorer-react/build/beanexplorer-react',
 
     'be5':          'be5:be5',
     'main':         'be5:be5/main',
