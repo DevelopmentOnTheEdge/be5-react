@@ -5,8 +5,9 @@
 ### Install
 ```sh
 npm install
-src/bower install
+(cd src && bower install)
 gulp
+
 ```
 - Create symlink /be5-react/dist -> [path to your application]/webapp/be5
 
