@@ -71,6 +71,9 @@
     "url": "https://github.com/DevelopmentOnTheEdge/be5-react.git"
   },
   "jest": {
+    "moduleNameMapper": {
+      "\\.(css|sass|png|jpg)$": "<rootDir>/test/fileTransformer.js"
+    },
     "roots": [
       "./test/",
       "./src/scripts"

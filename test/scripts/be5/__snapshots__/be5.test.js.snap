@@ -67,7 +67,7 @@ exports[`snapshot 1`] = `
           className="menuFooter"
         >
           <img
-            src="/be5/images/logo-be.png"
+            src={Object {}}
           />
         </div>
       </div>
@@ -182,7 +182,7 @@ exports[`snapshot 2`] = `
           className="menuFooter"
         >
           <img
-            src="/be5/images/logo-be.png"
+            src={Object {}}
           />
         </div>
       </div>
