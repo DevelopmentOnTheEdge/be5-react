@@ -8,7 +8,8 @@ import _              from 'underscore';
 import Tables         from '../services/tables';
 import numberFormatter         from 'number-format.js';
 
-//import '../../../css/table.css';
+import '../../../css/table.css';
+import reloadImg from '../../../images/reload.png';
 
 const OperationBox = React.createClass({displayName: "OperationBox",
   onClick(name, e) {
@@ -382,7 +383,8 @@ const TableBox = React.createClass({
     }
 
     var hideControls = function(){
-      if ( $(_this.refs.table).find('.paging_simple_numbers span .paginate_button').length > 1) {
+      if ( $(_this.refs.table).find('.paging_simple_numbers span .paginate_button')
+           && $(_this.refs.table).find('.paging_simple_numbers span .paginate_button').length > 1) {
         $(_this.refs.table).find('.dataTables_length').show();
         $(_this.refs.table).find('.paging_simple_numbers').show()
       } else {
@@ -483,7 +485,7 @@ const Table = React.createClass({
     return (
       <div>
         <span onClick={this._reload} className={reloadClass}>
-          <img src={be5.net.resourceUrl('images/reload.png')} alt={be5.messages.reload} title={be5.messages.reload}/>
+          <img src={reloadImg} alt={be5.messages.reload} title={be5.messages.reload}/>
         </span>
         <h1>{value.title}</h1>
         <TableBox

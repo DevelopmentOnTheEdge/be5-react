@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import be5 from '../be5';
 
-be5.load.css('be5/css/splitPane.css');
+import '../../../css/splitPane.css';
 
 var Pane = React.createClass({
   displayName: "SplitPane-Pane",

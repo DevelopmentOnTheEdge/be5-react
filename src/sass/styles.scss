@@ -7,7 +7,10 @@ $font-size-h4:               1.2rem;
 $font-size-h5:               1.1rem;
 $font-size-h6:               1rem;
 
-@import "../lib/bootstrap/scss/bootstrap";
+//$enable-flex: false !default;
+$bootstrap-sass-asset-helper: true;
+
+@import "~bootstrap/scss/bootstrap";
 
 
 .btn { 

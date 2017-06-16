@@ -6,7 +6,7 @@ import bus            from '../core/bus';
 import $              from 'jquery';
 import BootstrapModal from './bootstrapModal';
 
-be5.load.css('be5/css/login.css');
+import '../../../css/login.css';
   
 const Login = React.createClass({
   

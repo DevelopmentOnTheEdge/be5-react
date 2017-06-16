@@ -8,7 +8,7 @@ import PropertySet          from 'beanexplorer-react';
 import JsonPointer          from 'json-pointer';
 import _                    from 'underscore';
 
-be5.load.css('be5/css/form.css');
+import '../../../css/form.css';
 
 const performOperationFrontendAction = ({ value: value }) => {
   switch (value.status)

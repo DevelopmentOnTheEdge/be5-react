@@ -1,7 +1,7 @@
 import React from 'react';
-import be5   from '../../be5';
 
-be5.load.css('be5/css/menuFooter.css');
+import '../../../../css/menuFooter.css';
+import logoBe from '../../../../images/logo-be.png';
 
 export default React.createClass({
   displayName: 'MenuFooter',
@@ -9,7 +9,7 @@ export default React.createClass({
   render() {
     return (
       <div className="menuFooter">
-        <img src={be5.net.resourceUrl('images/logo-be.png')}/>
+        <img src={logoBe}/>
       </div>
     );
   }

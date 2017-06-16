@@ -2,7 +2,7 @@ import React from 'react';
 import be5 from '../be5';
 import bus from '../core/bus';
 
-be5.load.css('be5/css/document.css');
+import '../../../css/document.css';
 
 export default React.createClass({
   displayName: 'Document',
