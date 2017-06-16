@@ -147,7 +147,7 @@
         "body": {
           "type": "form",
           "value": {
-            "dps": {
+            "bean": {
               "values": {"name": "","value": ""},
               "meta": {
                 "/name": {"displayName": "name"},

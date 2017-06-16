@@ -382,7 +382,7 @@ const TableBox = React.createClass({
     }
 
     var hideControls = function(){
-      if ( $(_this.refs.table).find('.paging_simple_numbers span .paginate_button').size() > 1) {
+      if ( $(_this.refs.table).find('.paging_simple_numbers span .paginate_button').length > 1) {
         $(_this.refs.table).find('.dataTables_length').show();
         $(_this.refs.table).find('.paging_simple_numbers').show()
       } else {

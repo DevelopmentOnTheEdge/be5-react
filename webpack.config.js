@@ -45,7 +45,14 @@ module.exports = {
         port: PORT,
         host: HOST,
         proxy: {
-            "/api": "http://localhost:8100/api"
+            '/api/*' : {
+                target: 'http://localhost:8100/api/',
+                secure: false,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': ''
+                }
+            }
         }
     },
     plugins: [
