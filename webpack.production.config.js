@@ -5,6 +5,7 @@ var loaders = require('./webpack.loaders');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 loaders.push({
     test: /\.scss$/,
@@ -49,6 +50,7 @@ let config = {
             filename: 'style.css',
             allChunks: true
         }),
+        new OptimizeCssAssetsPlugin(),
         new HtmlWebpackPlugin({
             favicon: './src/images/favicon.ico',
             template: './src/template.html',
