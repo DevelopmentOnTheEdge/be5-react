@@ -7,7 +7,7 @@ $font-size-h4:               1.2rem;
 $font-size-h5:               1.1rem;
 $font-size-h6:               1rem;
 
-//$enable-flex: false !default;
+$enable-flex: false;
 $bootstrap-sass-asset-helper: true;
 
 @import "~bootstrap/scss/bootstrap";
@@ -20,6 +20,9 @@ $bootstrap-sass-asset-helper: true;
   @extend .form-control-sm;
 }
 
+.Pane{
+  padding: 10px;
+}
 
 table.dataTable tfoot th, table.dataTable thead th{
     font-size: 13px;

@@ -5,8 +5,9 @@
   "main": "gulpfile.js",
   "scripts": {
     "start": "ws -d dist",
-    "build": "gulp",
     "dev": "webpack-dev-server",
+    "build": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --display-modules",
+    "build-min": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.min --display-modules",
     "test": "jest",
     "watch": "npm test -- --watch",
     "coverage": "npm test -- --coverage",
