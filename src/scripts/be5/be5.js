@@ -4,7 +4,6 @@ import _        from 'underscore';
 import Settings from './settings';
 import Const    from './constants';
 import bus      from './core/bus';
-//import 'bootstrap';
 
 var messages = {
   en: {

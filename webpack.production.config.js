@@ -50,6 +50,7 @@ let config = {
             allChunks: true
         }),
         new HtmlWebpackPlugin({
+            favicon: './src/images/favicon.ico',
             template: './src/template.html',
             files: {
                 css: ['style.css'],
