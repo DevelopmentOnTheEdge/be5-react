@@ -16,15 +16,16 @@ loaders.push({
 });
 
 module.exports = {
-    entry: [
-        'react-hot-loader/patch',
-        './src/scripts/be5/main.js'
-    ],
+    entry: {
+        reactHotLoader: 'react-hot-loader/patch',
+        be5app: './src/scripts/be5/main.js'
+    },
     devtool: process.env.WEBPACK_DEVTOOL || 'eval-source-map',
     output: {
         publicPath: '/',
         path: path.join(__dirname, 'public'),
-        filename: 'bundle.js'
+        filename: '[name].js',
+        library:  '[name]'
     },
     resolve: {
         extensions: ['.js', '.jsx']

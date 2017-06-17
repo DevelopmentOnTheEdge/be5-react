@@ -14,23 +14,16 @@ loaders.push({
 });
 
 let libraryName = 'be5-react';
-let outputFile;
-
-if (env.min) {
-    outputFile = libraryName + '.min.js';
-}else{
-    outputFile = libraryName + '.js';
-}
 
 let config = {
-    entry: [
-        './src/scripts/be5/main.js',
-        './src/sass/styles.scss'
-    ],
+    entry: {
+        be5: './src/scripts/be5/main.js'
+    },
     output: {
         publicPath: './',
         path: path.join(__dirname, 'build'),
-        filename: outputFile
+        filename: '[name].js',
+        library:  '[name]'
     },
     resolve: {
         extensions: ['.js', '.jsx']
