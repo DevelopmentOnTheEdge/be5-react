@@ -16,7 +16,7 @@
   "dependencies": {
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "beanexplorer-react": "git+https://git@github.com/DevelopmentOnTheEdge/beanexplorer-react.git#v0.1.5"
+    "beanexplorer-react": "git+https://git@github.com/DevelopmentOnTheEdge/beanexplorer-react.git#v0.1.7"
   },
   "devDependencies": {
     "prop-types": "^15.5.10",
