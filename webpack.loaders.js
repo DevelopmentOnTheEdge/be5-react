@@ -30,18 +30,8 @@ module.exports = [
     loader: "url-loader?limit=10000&mimetype=image/svg+xml"
   },
   {
-    test: /\.gif/,
-    exclude: /(node_modules|bower_components)/,
-    loader: "url-loader?limit=10000&mimetype=image/gif"
-  },
-  {
-    test: /\.jpg/,
-    exclude: /(node_modules|bower_components)/,
-    loader: "url-loader?limit=10000&mimetype=image/jpg"
-  },
-  {
-    test: /\.png/,
-    exclude: /(node_modules|bower_components)/,
-    loader: "url-loader?limit=10000&mimetype=image/png"
+      test: /\.(jpg|jpeg|gif|png)$/,
+      exclude: /node_modules/,
+      loader:'url-loader?limit=1024&name=images/[name].[ext]'
   }
 ];
