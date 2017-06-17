@@ -1,21 +1,29 @@
 # be5-react
 [![Build Status](https://travis-ci.org/DevelopmentOnTheEdge/be5-react.svg?branch=master)](https://travis-ci.org/DevelopmentOnTheEdge/be5-react) [![Coverage Status](https://coveralls.io/repos/github/DevelopmentOnTheEdge/be5-react/badge.svg?branch=master)](https://coveralls.io/github/DevelopmentOnTheEdge/be5-react?branch=master)
 
+Now build with webpack 2.
 
 ### Install
+Copy the contents of the **build** directory into the webapp of your be5-application.
+
 ```sh
 npm install
-src/bower install
-gulp
+npm run build-min
 ```
-- Create symlink /be5-react/dist -> [path to your application]/webapp/be5
 
 ### Development
-A [local-web-server](https://github.com/lwsjs/local-web-server) is used for development.
+[local-web-server](https://github.com/lwsjs/local-web-server) is used for proxy api.
 
 ```sh
 $ npm start
-$ gulp
-$ gulp watch
-serving at http://localhost:8100
+$ npm run dev
+serving at http://localhost:8888
+```
+
+### Tests
+Test targets:
+```sh
+$ npm test
+$ npm run watch
+$ npm run coverage
 ```
