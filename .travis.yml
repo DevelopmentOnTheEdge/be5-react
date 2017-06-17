@@ -5,13 +5,8 @@ node_js:
 cache:
   directories:
     - node_modules
-before_script:
-  - cd src
-    && npm install -g bower
-    && bower install
-    && cd ../
 script:
-  - gulp
+  - npm run build-min
   - npm test
 after_success:
   - npm run-script coveralls
