@@ -10,7 +10,7 @@ import _                    from 'underscore';
 
 import '../../../css/form.css';
 
-const performOperationFrontendAction = ({ value: value }) => {
+const performOperationResult = ({ value: value }) => {
   switch (value.status)
   {
   case 'RENDER_HTML':
@@ -129,7 +129,13 @@ const Form = React.createClass({
       values: JSON.stringify(this.state.bean.values)
     };
     if (this.props.isEmbedded !== true) {
-      be5.net.request('form/apply', data, performOperationFrontendAction);
+      be5.net.request('form/apply', data, document => {
+        if (document.type === 'form') {
+          changeDocument(document);
+        } else {
+          performOperationResult(document);
+        }
+      });
     } else {
       be5.net.request('form/apply', data);
     }
@@ -276,7 +282,7 @@ be5.registerAction('form', function(entity, query, operation, operationParams) {
     if (document.type === 'form') {
       changeDocument(document);
     } else {
-      performOperationFrontendAction(document);
+      performOperationResult(document);
     }
   });
 });
