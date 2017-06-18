@@ -7,7 +7,7 @@
     "start": "ws -d build",
     "dev": "webpack-dev-server --progress --profile --colors",
     "build": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --display-modules",
-    "build-min": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.min --display-modules",
+    "build-min": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.min",
     "test": "jest",
     "watch": "npm test -- --watch",
     "coverage": "npm test -- --coverage",

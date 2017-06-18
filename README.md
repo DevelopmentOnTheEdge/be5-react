@@ -1,11 +1,9 @@
 # be5-react
 [![Build Status](https://travis-ci.org/DevelopmentOnTheEdge/be5-react.svg?branch=master)](https://travis-ci.org/DevelopmentOnTheEdge/be5-react) [![Coverage Status](https://coveralls.io/repos/github/DevelopmentOnTheEdge/be5-react/badge.svg?branch=master)](https://coveralls.io/github/DevelopmentOnTheEdge/be5-react?branch=master)
 
-Now build with webpack 2.
+Copy **build** directory into the **webapp** of your be5-application.
 
-### Install
-Copy the contents of the **build** directory into the webapp of your be5-application.
-
+### Build
 ```sh
 npm install
 npm run build-min

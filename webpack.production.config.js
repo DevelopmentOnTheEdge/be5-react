@@ -51,6 +51,10 @@ let config = {
                 css: ['style.css'],
                 js: ['bundle.js'],
             }
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: "common",
+            minChunks: 2,
         })
     ]
 };
