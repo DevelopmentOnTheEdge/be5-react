@@ -13,7 +13,10 @@ loaders.push({
     exclude: ['node_modules']
 });
 
-let libraryName = 'be5-react';
+let fileName = '[name].js';
+if (env.min) {
+    fileName = '[name].min.js';
+}
 
 let config = {
     entry: {
@@ -22,7 +25,7 @@ let config = {
     output: {
         publicPath: './',
         path: path.join(__dirname, 'build'),
-        filename: '[name].js',
+        filename: fileName,
         library:  '[name]'
     },
     resolve: {

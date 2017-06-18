@@ -1,6 +1,7 @@
 # be5-react
 [![Build Status](https://travis-ci.org/DevelopmentOnTheEdge/be5-react.svg?branch=master)](https://travis-ci.org/DevelopmentOnTheEdge/be5-react) [![Coverage Status](https://coveralls.io/repos/github/DevelopmentOnTheEdge/be5-react/badge.svg?branch=master)](https://coveralls.io/github/DevelopmentOnTheEdge/be5-react?branch=master)
 
+### Usage
 Copy **build** directory into the **webapp** of your be5-application.
 
 ### Build
