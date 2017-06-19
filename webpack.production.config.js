@@ -23,7 +23,7 @@ let config = {
         be5: './src/scripts/be5/main.js'
     },
     output: {
-        publicPath: './',
+        publicPath: '/',
         path: path.join(__dirname, 'build'),
         filename: fileName,
         library:  '[name]'
