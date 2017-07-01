@@ -114,6 +114,13 @@
       }
     },
     {
+      "route": "/api/pool",
+      "response": {
+        "type": "application/json",
+        "body": {"type":"static","value":"test"}
+      }
+    },
+    {
       "route": "/api/document",
       "response": {
         "type": "application/json",

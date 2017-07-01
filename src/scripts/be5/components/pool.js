@@ -1,7 +1,5 @@
 import React from 'react';
 import be5 from '../be5';
-import changeDocument from '../core/changeDocument';
-import registerDocumentType from '../core/registerDocumentType';
 
 const PoolPage = React.createClass({
   displayName: 'Pool',
@@ -36,12 +34,6 @@ const PoolPage = React.createClass({
     });
   },
 
-});
-
-registerDocumentType('pool', PoolPage);
-
-be5.registerAction('pool', function() {
-  changeDocument({ type: 'pool', value: {}});
 });
 
 export default PoolPage;

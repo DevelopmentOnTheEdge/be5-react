@@ -1,16 +1,6 @@
-// import DataTables   from 'datatables';
-// import bus          from '../core/bus';
 import be5          from '../be5';
-// import Form         from '../components/form';
-// import Table        from '../components/table';
-// import Pool         from '../components/pool';
-// import TableForm    from '../components/tableForm';
-// import Document     from '../components/document';
-// import Login        from '../components/login';
-// import FormTable    from '../components/formTable';
-// import Be5Block     from '../components/be5Block';
-//import Be5Form      from '../components/be5Form';
-//import Be5View      from '../components/be5View';
+import Pool         from '../actions/pool';
+import Static         from '../actions/static';
 
 import ReactDOM from 'react-dom';
 import React from 'react';
