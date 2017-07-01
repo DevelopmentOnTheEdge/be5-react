@@ -2,6 +2,7 @@ import be5           from '../be5';
 import documentUtils from '../core/documentUtils';
 import _             from 'underscore';
 import Preconditions from '../preconditions';
+import Table         from '../components/table';
 
 const createDefaultOptions = function() {
   return {
@@ -28,7 +29,7 @@ export default {
       documentState.value = _.extend({}, documentState.value, options);
       documentState = documentUtils.createDocument(documentState);
       
-      callback(documentState);
+      callback({ component: Table, value: documentState.value });
     });
   }
 };

@@ -520,12 +520,12 @@ const Table = React.createClass({
 
 });
 
-be5.ui.registerDocumentType('table', function(value) {
-  return React.createElement(Table, { value: value });
-});
-
-be5.registerAction('table', function(entity, query, params) {
-  Tables.load({ entity: entity, query: query || 'All records', params: params, options: { embedded: false } }, changeDocument);
-});
+// be5.ui.registerDocumentType('table', function(value) {
+//   return React.createElement(Table, { value: value });
+// });
+//
+// be5.registerAction('table', function(entity, query, params) {
+//   Tables.load({ entity: entity, query: query || 'All records', params: params, options: { embedded: false } }, changeDocument);
+// });
 
 export default Table;
