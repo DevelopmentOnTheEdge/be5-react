@@ -28,7 +28,3 @@ export default function(entity, query, operation, operationParams) {
   });
 
 };
-
-//const defaultProps = { showCancel: true };
-// be5.ui.registerDocumentType('form', value => ( <Form value={_.extend({}, defaultProps, value)} key="form"/> ));
-// registerDocumentType('htmlResult', HtmlResult);
