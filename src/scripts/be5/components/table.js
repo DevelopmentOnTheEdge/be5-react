@@ -7,6 +7,7 @@ import Action         from './action';
 import _              from 'underscore';
 import Tables         from '../services/tables';
 import numberFormatter         from 'number-format.js';
+import DataTables     from 'datatables';
 
 import '../../../css/table.css';
 import reloadImg from '../../../images/reload.png';

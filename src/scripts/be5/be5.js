@@ -4,6 +4,7 @@ import _        from 'underscore';
 import Settings from './settings';
 import Const    from './constants';
 import bus      from './core/bus';
+window.jQuery = window.$ = require('jquery');
 
 var messages = {
   en: {
