@@ -352,11 +352,11 @@ const be5 = {
         return;
       }
       var urlParts = url.split('/');
-      if (!be5.hasAction(urlParts[0])) {
-        be5.log.error(be5.messages.errorUnknownAction.replace(
-            '$action', urlParts[0]));
-        return;
-      }
+      // if (!be5.hasAction(urlParts[0])) {
+      //   be5.log.error(be5.messages.errorUnknownAction.replace(
+      //       '$action', urlParts[0]));
+      //   return;
+      // }
       var positional = [];
       var hashParams = {};
       var hasHashParam = false;
@@ -372,8 +372,9 @@ const be5 = {
           positional.push(decodeURIComponent(urlPart).replace(/\+/g, ' '));
         }
       }
-      if (hasHashParam)
-        positional.push(hashParams);
+
+      if (hasHashParam)positional.push(hashParams);
+
       be5.getAction(urlParts[0], function(action) {
         action.apply(be5, positional);
       });
@@ -569,17 +570,25 @@ const be5 = {
   },
 
   getAction(actionName, callback) {
-    var action = be5.actions[actionName];
-    if(typeof(action) === 'string') {
-      System.import(action).then(function(action) {
-        if (action['default']) {
-        action = action['default'];
-        }
-        be5.actions[actionName]=action;
-        callback(action);
-      });
-    } else
-      return callback(action);
+    import('./actions/' + actionName).then(function(action) {
+      callback(action.default);
+    }).catch(function(err) {
+      console.log('Failed to load action', err);
+    });
+
+    // var action = be5.actions[actionName];
+    // if (typeof(action) === 'string') {
+    //   System.import(action).then(function (action) {
+    //     if (action['default']) {
+    //       action = action['default'];
+    //     }
+    //     be5.actions[actionName] = action;
+    //     callback(action);
+    //   });
+    // }
+    // else {
+    //   return callback(action);
+    // }
   },
   
   registerAction(actionName, fn) {
@@ -598,11 +607,11 @@ be5.net.request("appInfo", {}, function(data) {
   be5.ui.setTitle();
 });
 
-be5.net.request("scriptList", {category : "scripts"}, function(data) {
-  for(var i=0; i<data.length; i++)
-    if(!be5.actions[data[i].name])
-      be5.actions[data[i].name] = data[i].path;
-});
+// be5.net.request("scriptList", {category : "scripts"}, function(data) {
+//   for(var i=0; i<data.length; i++)
+//     if(!be5.actions[data[i].name])
+//       be5.actions[data[i].name] = data[i].path;
+// });
 
 bus.listen('CallDefaultAction', () => {
   be5.net.request('menu/defaultAction', {}, data => {

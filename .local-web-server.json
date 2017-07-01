@@ -93,13 +93,6 @@
       }
     },
     {
-      "route": "/api/scriptList",
-      "response": {
-        "type": "application/json",
-        "body": [{"name":"pool","path":"be5:be5/actions/pool"},{"name":"servlet","path":"be5:be5/actions/servlet"},{"name":"static","path":"be5:be5/actions/static"}]
-      }
-    },
-    {
       "route": "/api/appInfo",
       "response": {
         "type": "application/json",

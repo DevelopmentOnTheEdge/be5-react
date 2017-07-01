@@ -2,7 +2,13 @@ module.exports = [
   {
     test: /\.jsx?$/,
     exclude: /(node_modules|bower_components|public\/)/,
-    loader: "babel-loader"
+    use: [{
+      loader: 'babel-loader',
+      options: {
+        presets: [['es2015', {modules: false}]],
+        plugins: ['syntax-dynamic-import']
+      }
+    }]
   },
   {
     test: /\.css$/,
