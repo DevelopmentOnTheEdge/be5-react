@@ -8,7 +8,7 @@ export default React.createClass({
   displayName: 'Document',
   
   getInitialState() {
-    return { component: 'loading', value: "" };
+    return { component: 'loading', value: "Page is loading..." };
   },
   
   render() {
@@ -31,7 +31,9 @@ export default React.createClass({
     const DocumentContent = this.state.component;
     if(DocumentContent !== null) {
       return (
-        <DocumentContent value={this.state.value}/>
+        <div className="documentContent">
+          <DocumentContent value={this.state.value}/>
+        </div>
       )
     }
     return null;

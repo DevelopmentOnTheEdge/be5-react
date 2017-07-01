@@ -218,13 +218,13 @@ exports[`snapshot 2`] = `
     }
   >
     <div
-      className="content"
+      className="documentContent"
     >
       <div
         className="staticPage"
         dangerouslySetInnerHTML={
           Object {
-            "__html": undefined,
+            "__html": "test",
           }
         }
       />

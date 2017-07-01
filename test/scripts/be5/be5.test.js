@@ -16,6 +16,7 @@ import App            from '../../../src/scripts/be5/components/application';
 import SplitPane            from '../../../src/scripts/be5/components/splitPane';
 import SideBar            from '../../../src/scripts/be5/components/sideBar';
 import Document            from '../../../src/scripts/be5/components/document';
+import StaticPage            from '../../../src/scripts/be5/components/staticPage';
 
 
 test('test initialize', () => {
@@ -42,7 +43,7 @@ test('snapshot', () => {
         <App />
     );
     expect(component.toJSON()).toMatchSnapshot();
-    changeDocument({ type: 'static', value: "test" });
+    changeDocument({ component: StaticPage, value: "test" });
     expect(component.toJSON()).toMatchSnapshot();
 
 });
