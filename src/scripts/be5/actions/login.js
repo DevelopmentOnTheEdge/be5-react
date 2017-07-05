@@ -1,6 +1,7 @@
 import React          from 'react';
 import ReactDOM       from 'react-dom';
 import be5            from '../be5';
+import bus            from '../core/bus';
 import Login         from '../components/login';
 
 export default function(type = 'dialog', param1 = undefined, param2 = undefined) {
