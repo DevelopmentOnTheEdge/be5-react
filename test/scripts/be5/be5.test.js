@@ -17,6 +17,7 @@ import SplitPane            from '../../../src/scripts/be5/components/splitPane'
 import SideBar            from '../../../src/scripts/be5/components/sideBar';
 import Document            from '../../../src/scripts/be5/components/document';
 import StaticPage            from '../../../src/scripts/be5/components/staticPage';
+import ActionFrom            from '../../../src/scripts/be5/actions/form';
 
 
 test('test initialize', () => {

@@ -10,7 +10,7 @@ import _                    from 'underscore';
 
 import '../../../css/form.css';
 
-const performOperationResult = ({ value: value }) => {
+export const performOperationResult = ({ value: value }) => {
   switch (value.status)
   {
   case 'RENDER_HTML':
@@ -131,9 +131,9 @@ const Form = React.createClass({
     if (this.props.isEmbedded !== true) {
       be5.net.request('form/apply', data, document => {
         if (document.type === 'form') {
-          changeDocument(document);
+          changeDocument({ component: Form, value: document.value });
         } else {
-          performOperationResult(document);
+          performOperationResult({ component: HtmlResult, value: document.value });
         }
       });
     } else {

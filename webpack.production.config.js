@@ -14,8 +14,10 @@ loaders.push({
 });
 
 let fileName = '[name].js';
+let outPath = 'build';
 if (env.min) {
     fileName = '[name].min.js';
+    outPath = 'build/min';
 }
 
 let config = {
@@ -24,7 +26,7 @@ let config = {
     },
     output: {
         publicPath: '/',
-        path: path.join(__dirname, 'build'),
+        path: path.join(__dirname, outPath),
         filename: fileName,
         library:  '[name]'
     },
@@ -36,11 +38,6 @@ let config = {
     },
     plugins: [
         new WebpackCleanupPlugin(),
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('production')
-            }
-        }),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new ExtractTextPlugin({
             filename: 'style.css',
@@ -64,6 +61,11 @@ let config = {
 
 if (env.min) {
     config.plugins.push(new webpack.optimize.UglifyJsPlugin());
+    config.plugins.push(new webpack.DefinePlugin({
+        'process.env': {
+            'NODE_ENV': JSON.stringify('production')
+        }
+    }));
 }
 
 module.exports = config;

@@ -144,7 +144,7 @@ const QuickColumns = React.createClass({
       return (
         <span key={idx}>
             <input id={"quick" + idx} type="checkbox" checked={cell.visible} onChange={() => this.quickHandleChange(idx)} />
-            <label htmlFor={"quick" + idx} class="rowIndex">{title} </label>
+            <label htmlFor={"quick" + idx} className="rowIndex">{title} </label>
         </span>
       );
     }.bind(this));
