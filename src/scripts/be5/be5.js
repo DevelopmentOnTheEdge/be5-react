@@ -4,6 +4,7 @@ import _        from 'underscore';
 import Settings from './settings';
 import Const    from './constants';
 import bus      from './core/bus';
+import changeDocument from './core/changeDocument';
 window.jQuery = window.$ = require('jquery');
 
 var messages = {
@@ -184,101 +185,101 @@ const be5 = {
       }).join(' - ');
     },
     
-    convertLinks(container) {
-      $(container).find('style').remove();
-      $(container).find('a').each(function() {
-        var parseParameters = function(paramStr) {
-          var params = {};
-          var components = paramStr.split(/[\&\;]/);
-          for(var i=0; i<components.length; i++) {
-            var component = components[i];
-            var equalsPos = component.indexOf('=');
-            if(equalsPos < 0)
-              continue;
-            var key = component.substring(0, equalsPos);
-            var value = component.substring(equalsPos+1);
-            params[decodeURIComponent(key.replace(/\+/g, ' '))] = decodeURIComponent(value.replace(/\+/g, ' ')); 
-          }
-          return params;
-        };
-        var filterParameters = function(params) {
-          delete params._t_;
-          delete params._qn_;
-          delete params._on_;
-          delete params._enc_;
-          delete params._use_crumbs_;
-          delete params._ts_;
-          return params;
-        };
-        
-        var href = this.getAttribute('href');
-        var target = this.getAttribute('target');
-        if(/^(mailto:|https?:|\/\/|\#\!)/.test(href))
-          return;
-        var questionPos = href.indexOf('?');
-        var servlet;
-        var parameters;
-        if(questionPos >= 0) {
-          servlet = href.substring(0, questionPos);
-          parameters = parseParameters(href.substring(questionPos+1));
-        } else {
-          servlet = href;
-          parameters = {};
-        }
-        if(be5.hasAction(servlet)) {
-          this.setAttribute('href', '#!'+be5.url.create(servlet, undefined, parameters));
-          return;
-        }
-        if(/^\w+\.be$/.test(servlet)) {
-          this.setAttribute('href', '#!'+be5.url.create('static', [servlet]));
-          return;
-        }
-        var redir = /^(\w+)\.redir$/.exec(servlet);
-        if(redir) {
-          var query = parameters._qn_ || Const.DEFAULT_VIEW;
-          this.setAttribute('href', '#!'+be5.url.create('table', [redir[1], query], filterParameters(parameters)));
-          return;
-        }
-        if (servlet === 'registration') {
-          var entity = 'users';
-          var query = 'Registration';
-          var operation = 'Registration';
-          this.setAttribute('href', '#!'+be5.url.create('tableParameters', [entity, query, operation], filterParameters(parameters)));
-          return;
-        }
-        if(servlet === 'q') {
-          var entity = parameters._t_;
-          var query = parameters._qn_ || Const.DEFAULT_VIEW;
-          if(entity !== undefined) {
-            this.setAttribute('href', '#!'+be5.url.create('table', [entity, query], filterParameters(parameters)));
-            return;
-          }
-        }
-        if(servlet === 'o') {
-          var entity = parameters._t_;
-          var query = parameters._qn_ || Const.DEFAULT_VIEW;
-          var operation = parameters._on_;
-          if(entity !== undefined && operation !== undefined) {
-            this.setAttribute('href', '#!'+be5.url.create('form', [entity, query, operation], filterParameters(parameters)));
-            return;
-          }
-        }
-        if(servlet === 'splitter') {
-          var entity = parameters._t_;
-          var query = parameters._qn_ || Const.DEFAULT_VIEW;
-          var operation = parameters._on_;
-          if(entity !== undefined && operation !== undefined) {
-            this.setAttribute('href', '#!'+be5.url.create('tableParameters', [entity, query, operation], filterParameters(parameters)));
-            return;
-          }
-        }
-        if(target !== '') {
-          this.setAttribute('href', be5.def.URL_PREFIX+'legacyServlet/'+href);
-        } else {
-          this.setAttribute('href', '#!'+be5.url.create('unknown', [servlet], parameters));
-        }
-      });
-    }
+//    convertLinks(container) {
+//      $(container).find('style').remove();
+//      $(container).find('a').each(function() {
+//        var parseParameters = function(paramStr) {
+//          var params = {};
+//          var components = paramStr.split(/[\&\;]/);
+//          for(var i=0; i<components.length; i++) {
+//            var component = components[i];
+//            var equalsPos = component.indexOf('=');
+//            if(equalsPos < 0)
+//              continue;
+//            var key = component.substring(0, equalsPos);
+//            var value = component.substring(equalsPos+1);
+//            params[decodeURIComponent(key.replace(/\+/g, ' '))] = decodeURIComponent(value.replace(/\+/g, ' '));
+//          }
+//          return params;
+//        };
+//        var filterParameters = function(params) {
+//          delete params._t_;
+//          delete params._qn_;
+//          delete params._on_;
+//          delete params._enc_;
+//          delete params._use_crumbs_;
+//          delete params._ts_;
+//          return params;
+//        };
+//
+//        var href = this.getAttribute('href');
+//        var target = this.getAttribute('target');
+//        if(/^(mailto:|https?:|\/\/|\#\!)/.test(href))
+//          return;
+//        var questionPos = href.indexOf('?');
+//        var servlet;
+//        var parameters;
+//        if(questionPos >= 0) {
+//          servlet = href.substring(0, questionPos);
+//          parameters = parseParameters(href.substring(questionPos+1));
+//        } else {
+//          servlet = href;
+//          parameters = {};
+//        }
+//        if(be5.hasAction(servlet)) {
+//          this.setAttribute('href', '#!'+be5.url.create(servlet, undefined, parameters));
+//          return;
+//        }
+//        if(/^\w+\.be$/.test(servlet)) {
+//          this.setAttribute('href', '#!'+be5.url.create('static', [servlet]));
+//          return;
+//        }
+//        var redir = /^(\w+)\.redir$/.exec(servlet);
+//        if(redir) {
+//          var query = parameters._qn_ || Const.DEFAULT_VIEW;
+//          this.setAttribute('href', '#!'+be5.url.create('table', [redir[1], query], filterParameters(parameters)));
+//          return;
+//        }
+//        if (servlet === 'registration') {
+//          var entity = 'users';
+//          var query = 'Registration';
+//          var operation = 'Registration';
+//          this.setAttribute('href', '#!'+be5.url.create('tableParameters', [entity, query, operation], filterParameters(parameters)));
+//          return;
+//        }
+//        if(servlet === 'q') {
+//          var entity = parameters._t_;
+//          var query = parameters._qn_ || Const.DEFAULT_VIEW;
+//          if(entity !== undefined) {
+//            this.setAttribute('href', '#!'+be5.url.create('table', [entity, query], filterParameters(parameters)));
+//            return;
+//          }
+//        }
+//        if(servlet === 'o') {
+//          var entity = parameters._t_;
+//          var query = parameters._qn_ || Const.DEFAULT_VIEW;
+//          var operation = parameters._on_;
+//          if(entity !== undefined && operation !== undefined) {
+//            this.setAttribute('href', '#!'+be5.url.create('form', [entity, query, operation], filterParameters(parameters)));
+//            return;
+//          }
+//        }
+//        if(servlet === 'splitter') {
+//          var entity = parameters._t_;
+//          var query = parameters._qn_ || Const.DEFAULT_VIEW;
+//          var operation = parameters._on_;
+//          if(entity !== undefined && operation !== undefined) {
+//            this.setAttribute('href', '#!'+be5.url.create('tableParameters', [entity, query, operation], filterParameters(parameters)));
+//            return;
+//          }
+//        }
+//        if(target !== '') {
+//          this.setAttribute('href', be5.def.URL_PREFIX+'legacyServlet/'+href);
+//        } else {
+//          this.setAttribute('href', '#!'+be5.url.create('unknown', [servlet], parameters));
+//        }
+//      });
+//    }
   },
 
   url: {
@@ -543,22 +544,22 @@ const be5 = {
     selectedRows: []
   },
 
-  actions: {
-    logout(preserveUrl) {
-      be5.net.request('logout', {}, function(data) {
-        document.cookie = 'be_auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-//        if(!preserveUrl) {
-//          be5.url.set('');
-//        }
-        bus.fire('LoggedOut');
-        bus.fire('CallDefaultAction');
-      });
-    },
-    
-    unknown(action, params) {
-      be5.log.error(be5.messages.errorUnknownAction.replace('$action', action));
-    }
-  },
+//  actions: {
+//    logout(preserveUrl) {
+//      be5.net.request('logout', {}, function(data) {
+//        document.cookie = 'be_auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+////        if(!preserveUrl) {
+////          be5.url.set('');
+////        }
+//        bus.fire('LoggedOut');
+//        bus.fire('CallDefaultAction');
+//      });
+//    },
+//
+//    unknown(action, params) {
+//      be5.log.error(be5.messages.errorUnknownAction.replace('$action', action));
+//    }
+//  },
   
   hasAction(actionName) {
     var action = be5.actions[actionName];
@@ -574,6 +575,7 @@ const be5 = {
     import('./actions/' + actionName).then(function(action) {
       callback(action.default);
     }).catch(function(err) {
+      changeDocument(be5.messages.errorUnknownAction.replace('$action', actionName))
       console.log('Failed to load action', err);
     });
 

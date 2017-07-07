@@ -1,6 +1,6 @@
 webpackJsonp_name_([1],{
 
-/***/ 227:
+/***/ 229:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44,18 +44,18 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(createMandatoryArgumentError, 'createMandatoryArgumentError', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/preconditions.js');
+  __REACT_HOT_LOADER__.register(createMandatoryArgumentError, 'createMandatoryArgumentError', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/preconditions.js');
 
-  __REACT_HOT_LOADER__.register(createArgumentEqualityError, 'createArgumentEqualityError', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/preconditions.js');
+  __REACT_HOT_LOADER__.register(createArgumentEqualityError, 'createArgumentEqualityError', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/preconditions.js');
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/preconditions.js');
+  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/preconditions.js');
 }();
 
 ;
 
 /***/ }),
 
-/***/ 228:
+/***/ 230:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69,7 +69,7 @@ var _be = __webpack_require__(9);
 
 var _be2 = _interopRequireDefault(_be);
 
-var _preconditions = __webpack_require__(227);
+var _preconditions = __webpack_require__(229);
 
 var _preconditions2 = _interopRequireDefault(_preconditions);
 
@@ -99,14 +99,14 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/services/forms.js');
+  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/services/forms.js');
 }();
 
 ;
 
 /***/ }),
 
-/***/ 230:
+/***/ 232:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -125,7 +125,7 @@ var _be = __webpack_require__(9);
 
 var _be2 = _interopRequireDefault(_be);
 
-var _changeDocument = __webpack_require__(60);
+var _changeDocument = __webpack_require__(38);
 
 var _changeDocument2 = _interopRequireDefault(_changeDocument);
 
@@ -133,27 +133,27 @@ var _bus = __webpack_require__(24);
 
 var _bus2 = _interopRequireDefault(_bus);
 
-var _forms = __webpack_require__(228);
+var _forms = __webpack_require__(230);
 
 var _forms2 = _interopRequireDefault(_forms);
 
-var _registerDocumentType = __webpack_require__(231);
+var _registerDocumentType = __webpack_require__(233);
 
 var _registerDocumentType2 = _interopRequireDefault(_registerDocumentType);
 
-var _beanexplorerReact = __webpack_require__(232);
+var _beanexplorerReact = __webpack_require__(234);
 
 var _beanexplorerReact2 = _interopRequireDefault(_beanexplorerReact);
 
-var _jsonPointer = __webpack_require__(233);
+var _jsonPointer = __webpack_require__(235);
 
 var _jsonPointer2 = _interopRequireDefault(_jsonPointer);
 
-var _underscore = __webpack_require__(59);
+var _underscore = __webpack_require__(61);
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
-__webpack_require__(235);
+__webpack_require__(237);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -401,7 +401,7 @@ var HtmlResult = _react2.default.createClass({
       history.back();
     };
     var content = $('<div/>').html(this.props.content);
-    _be2.default.ui.convertLinks(content);
+    //be5.ui.convertLinks(content);
 
     return _react2.default.createElement(
       'div',
@@ -429,20 +429,20 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(performOperationResult, 'performOperationResult', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/components/form.js');
+  __REACT_HOT_LOADER__.register(performOperationResult, 'performOperationResult', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/form.js');
 
-  __REACT_HOT_LOADER__.register(Form, 'Form', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/components/form.js');
+  __REACT_HOT_LOADER__.register(Form, 'Form', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/form.js');
 
-  __REACT_HOT_LOADER__.register(HtmlResult, 'HtmlResult', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/components/form.js');
+  __REACT_HOT_LOADER__.register(HtmlResult, 'HtmlResult', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/form.js');
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/components/form.js');
+  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/form.js');
 }();
 
 ;
 
 /***/ }),
 
-/***/ 231:
+/***/ 233:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -474,27 +474,27 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/core/registerDocumentType.js');
+  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/registerDocumentType.js');
 }();
 
 ;
 
 /***/ }),
 
-/***/ 232:
+/***/ 234:
 /***/ (function(module, exports, __webpack_require__) {
 
 !function(e,t){ true?module.exports=t(__webpack_require__(7)):"function"==typeof define&&define.amd?define("beanexplorer-react",["react"],t):"object"==typeof exports?exports["beanexplorer-react"]=t(require("react")):e["beanexplorer-react"]=t(e.react)}(this,function(e){return function(e){function t(n){if(r[n])return r[n].exports;var o=r[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,t),o.l=!0,o.exports}var r={};return t.m=e,t.c=r,t.i=function(e){return e},t.d=function(e,r,n){t.o(e,r)||Object.defineProperty(e,r,{configurable:!1,enumerable:!0,get:n})},t.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(r,"a",r),r},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=3)}([function(t,r){t.exports=e},function(e,t,r){"use strict";function n(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function o(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function a(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(t,"__esModule",{value:!0});var l=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),u=r(0),c=function(e){return e&&e.__esModule?e:{default:e}}(u),i=function(e){function t(e){n(this,t);var r=o(this,(t.__proto__||Object.getPrototypeOf(t)).call(this,e));return r.handleChange=r.handleChange.bind(r),r}return a(t,e),l(t,[{key:"handleChange",value:function(e){this.props.onChange(this.props.path,this._getValueFromEvent(e))}},{key:"_getValueFromEvent",value:function(e){if(!e)return"";if(!e.target)return e.value;var t=e.target;return"checkbox"===t.type?t.checked:t.value}},{key:"render",value:function(){var e=this,t=this.props.meta,r=this.props.value,n=this.props.name+"Field",o=this.handleChange,a={checkBox:{normal:function(){return c.default.createElement("input",{type:"checkbox",id:n,key:n,value:r,checked:r,onChange:o,className:e.props.controlClassName||"form-check-input"})},readOnly:function(){return c.default.createElement("input",{type:"checkbox",id:n,key:n,value:r,checked:r,disabled:"true",className:e.props.controlClassName||"form-check-input"})}},comboBox:{normal:function(){var a=t.options.map(function(e){return c.default.DOM.option({key:e.value,value:e.value},e.text)});return c.default.DOM.select({id:n,ref:"editableComboBox",key:n,defaultValue:r,onChange:o,className:e.props.controlClassName||"form-control"},a)},readOnly:function(){var n=t.options.filter(function(e){return e.value===r}),o=n.length?n[0].text:r;return e.createStatic(o)}},textArea:{normal:function(){return c.default.createElement("textarea",{placeholder:t.placeholder,id:n,rows:t.rows||3,cols:t.columns,value:r,onChange:o,className:e.props.controlClassName||"form-control"})},readOnly:function(){return e.createStatic(r)}},textInput:{normal:function(){return c.default.createElement("input",{type:"text",placeholder:t.placeholder,id:n,key:n,value:r,onChange:o,className:e.props.controlClassName||"form-control"})},readOnly:function(){return e.createStatic(r)}},passwordInput:{normal:function(){return c.default.createElement("input",{type:"password",placeholder:t.placeholder,id:n,key:n,value:r,onChange:o,className:e.props.controlClassName||"form-control"})},readOnly:function(){return e.createStatic("******")}}},l=a[t.type]||a.textInput,u=l[t.readOnly?"readOnly":"normal"](),i=c.default.createElement("label",{htmlFor:n,className:this.props.labelClassName},t.displayName||n),s=t.message?c.default.createElement("span",{className:this.props.messageClassName||"form-control-feedback"},t.message):void 0,p=void 0;return p="error"===t.status?"has-danger":t.status?"has-"+t.status:"","checkBox"===t.type?c.default.createElement("div",{className:(this.props.classNameFormCheck||"form-check property")+" "+p},c.default.createElement("label",{className:"form-check-label"},u," "+t.displayName||n)):c.default.createElement("div",{className:(this.props.classNameFormFroup||"form-group property")+" "+p},i,c.default.createElement("div",{className:"controls"},u,s))}},{key:"createStatic",value:function(e){return c.default.createElement("p",{className:"form-control-static",dangerouslySetInnerHTML:{__html:e}})}}]),t}(u.Component),s=i;t.default=s;!function(){"undefined"!=typeof __REACT_HOT_LOADER__&&(__REACT_HOT_LOADER__.register(i,"Property","/home/uuinnk/workspace/github/beanexplorer-react/src/components/Property.js"),__REACT_HOT_LOADER__.register(s,"default","/home/uuinnk/workspace/github/beanexplorer-react/src/components/Property.js"))}()},function(e,t,r){"use strict";function n(e,t,r){if(3===arguments.length)return n.set(e,t,r);if(2===arguments.length)return n.get(e,t);var o=n.bind(n,e);for(var a in n)n.hasOwnProperty(a)&&(o[a]=n[a].bind(o,e));return o}var o=r(4);e.exports=n,n.get=function(e,t){for(var r=Array.isArray(t)?t:n.parse(t),o=0;o<r.length;++o){var a=r[o];if(!("object"==typeof e&&a in e))throw new Error("Invalid reference token: "+a);e=e[a]}return e},n.set=function(e,t,r){for(var o=Array.isArray(t)?t:n.parse(t),a=o[0],l=0;l<o.length-1;++l){var u=o[l];"-"===u&&Array.isArray(e)&&(u=e.length),a=o[l+1],u in e||(a.match(/^(\d+|-)$/)?e[u]=[]:e[u]={}),e=e[u]}return"-"===a&&Array.isArray(e)&&(a=e.length),e[a]=r,this},n.remove=function(e,t){var r=Array.isArray(t)?t:n.parse(t),o=r[r.length-1];if(void 0===o)throw new Error('Invalid JSON pointer for remove: "'+t+'"');var a=n.get(e,r.slice(0,-1));if(Array.isArray(a)){var l=+o;if(""===o&&isNaN(l))throw new Error('Invalid array index: "'+o+'"');Array.prototype.splice.call(a,l,1)}else delete a[o]},n.dict=function(e,t){var r={};return n.walk(e,function(e,t){r[t]=e},t),r},n.walk=function(e,t,r){var a=[];r=r||function(e){var t=Object.prototype.toString.call(e);return"[object Object]"===t||"[object Array]"===t},function e(l){o(l,function(o,l){a.push(String(l)),r(o)?e(o):t(o,n.compile(a)),a.pop()})}(e)},n.has=function(e,t){try{n.get(e,t)}catch(e){return!1}return!0},n.escape=function(e){return e.toString().replace(/~/g,"~0").replace(/\//g,"~1")},n.unescape=function(e){return e.replace(/~1/g,"/").replace(/~0/g,"~")},n.parse=function(e){if(""===e)return[];if("/"!==e.charAt(0))throw new Error("Invalid JSON pointer: "+e);return e.substring(1).split(/\//).map(n.unescape)},n.compile=function(e){return 0===e.length?"":"/"+e.map(n.escape).join("/")}},function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function a(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function l(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(t,"__esModule",{value:!0});var u=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),c=r(0),i=n(c),s=r(1),p=n(s),f=r(2),d=n(f),h=function(e){function t(){return o(this,t),a(this,(t.__proto__||Object.getPrototypeOf(t)).apply(this,arguments))}return l(t,e),u(t,[{key:"render",value:function(){var e=this,t=[],r=null,n=null,o=[],a=function(){t.length>0&&(n?o.push(e._createGroup(t,n,r)):Array.prototype.push.apply(o,t)),t=[]},l=!0,u=!1,c=void 0;try{for(var s,f=this.props.fields.order[Symbol.iterator]();!(l=(s=f.next()).done);l=!0){var h=s.value,y=h.substring(h.lastIndexOf("/")+1),m=this.props.fields.meta[h],b=d.default.get(this.props.fields,"/values"+h),v=m.groupId||null,g=m.groupName||null;v!==n&&(a(),r=g,n=v);var _=i.default.createElement(p.default,{meta:m,name:y,value:b,path:h,key:y,ref:y,onChange:this.props.onChange});t.push(_)}}catch(e){u=!0,c=e}finally{try{!l&&f.return&&f.return()}finally{if(u)throw c}}return a(),i.default.createElement("div",{className:"property-set"},o)}},{key:"_createGroup",value:function(e,t,r){return i.default.createElement("div",{className:"property-group",key:t,ref:t},i.default.createElement("h3",null,r),e)}}]),t}(c.Component),y=h;t.default=y;!function(){"undefined"!=typeof __REACT_HOT_LOADER__&&(__REACT_HOT_LOADER__.register(h,"PropertySet","/home/uuinnk/workspace/github/beanexplorer-react/src/components/PropertySet.js"),__REACT_HOT_LOADER__.register(y,"default","/home/uuinnk/workspace/github/beanexplorer-react/src/components/PropertySet.js"))}()},function(e,t){var r=Object.prototype.hasOwnProperty,n=Object.prototype.toString;e.exports=function(e,t,o){if("[object Function]"!==n.call(t))throw new TypeError("iterator must be a function");var a=e.length;if(a===+a)for(var l=0;l<a;l++)t.call(o,e[l],l,e);else for(var u in e)r.call(e,u)&&t.call(o,e[u],u,e)}}])});
 
 /***/ }),
 
-/***/ 233:
+/***/ 235:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var each = __webpack_require__(234);
+var each = __webpack_require__(236);
 module.exports = api;
 
 
@@ -718,7 +718,7 @@ api.compile = function compile (refTokens) {
 
 /***/ }),
 
-/***/ 234:
+/***/ 236:
 /***/ (function(module, exports) {
 
 
@@ -747,13 +747,13 @@ module.exports = function forEach (obj, fn, ctx) {
 
 /***/ }),
 
-/***/ 235:
+/***/ 237:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(236);
+var content = __webpack_require__(238);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(20)(content, {});
@@ -774,7 +774,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 236:
+/***/ 238:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(19)();
@@ -789,7 +789,7 @@ exports.push([module.i, "@CHARSET \"UTF-8\";\r\n.formBox .formActions {\r\n    t
 
 /***/ }),
 
-/***/ 92:
+/***/ 93:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -807,15 +807,15 @@ var _be = __webpack_require__(9);
 
 var _be2 = _interopRequireDefault(_be);
 
-var _changeDocument = __webpack_require__(60);
+var _changeDocument = __webpack_require__(38);
 
 var _changeDocument2 = _interopRequireDefault(_changeDocument);
 
-var _forms = __webpack_require__(228);
+var _forms = __webpack_require__(230);
 
 var _forms2 = _interopRequireDefault(_forms);
 
-var _form = __webpack_require__(230);
+var _form = __webpack_require__(232);
 
 var _form2 = _interopRequireDefault(_form);
 
@@ -852,7 +852,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/actions/form.js');
+  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/actions/form.js');
 }();
 
 ;

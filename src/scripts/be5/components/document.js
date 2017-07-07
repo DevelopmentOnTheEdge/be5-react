@@ -8,7 +8,7 @@ export default React.createClass({
   displayName: 'Document',
   
   getInitialState() {
-    return { component: 'loading', value: "Page is loading..." };
+    return { component: 'text', value: "Page is loading..." };
   },
   
   render() {
@@ -16,9 +16,18 @@ export default React.createClass({
     //   return React.DOM.div({className: "content"});
     // }
     //
-    if (this.state.component === 'loading') {
-      return React.DOM.div({className: 'content'},
-          React.DOM.h1({className: 'text-center'}, this.state.value));
+    if(this.state.component == undefined)
+    {
+      return <div className="document-content">
+               <h1>{this.state}</h1>
+             </div>
+    }
+
+    if (this.state.component === 'text')
+    {
+      return <div className="document-content">
+               <h1>{this.state.value}</h1>
+             </div>
     }
     //
     // if (this.state.type === 'error') {
@@ -31,7 +40,7 @@ export default React.createClass({
     const DocumentContent = this.state.component;
     if(DocumentContent !== null) {
       return (
-        <div className="documentContent">
+        <div className="document-content">
           <DocumentContent value={this.state.value}/>
         </div>
       )

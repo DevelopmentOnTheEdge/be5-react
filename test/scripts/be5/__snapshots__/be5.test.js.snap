@@ -103,11 +103,9 @@ exports[`snapshot 1`] = `
     }
   >
     <div
-      className="content"
+      className="document-content"
     >
-      <h1
-        className="text-center"
-      >
+      <h1>
         Page is loading...
       </h1>
     </div>
@@ -218,7 +216,7 @@ exports[`snapshot 2`] = `
     }
   >
     <div
-      className="documentContent"
+      className="document-content"
     >
       <div
         className="staticPage"

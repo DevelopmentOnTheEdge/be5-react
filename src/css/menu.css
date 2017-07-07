@@ -17,8 +17,9 @@ a.menuItemWithRef {
     color: #00BBBB;
     text-decoration: none;
 }
-a.menuItemWithRef:hover {
-    color: #AACCCC;
+a.menuItemWithRef:hover,
+a.menuItemWithRef:focus{
+    color: #007171;
     text-decoration: underline;
 }
 a.rootMenuItem.active + div + ul {

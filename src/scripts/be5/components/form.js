@@ -243,7 +243,7 @@ const HtmlResult = React.createClass({
   render() {
     const back = () => { history.back(); };
     const content = $('<div/>').html(this.props.content);
-    be5.ui.convertLinks(content);
+    //be5.ui.convertLinks(content);
     
     return (
       <div>

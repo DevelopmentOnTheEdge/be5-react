@@ -349,7 +349,7 @@ const TableBox = React.createClass({
           render: (data, type, row) => {
             if (type === 'display') {
               const container = $('<div/>').html(formatCell(data));
-              be5.ui.convertLinks(container);
+              //be5.ui.convertLinks(container);
               return container.html();
             }
             return data;

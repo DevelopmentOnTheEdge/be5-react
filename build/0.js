@@ -1,6 +1,6 @@
 webpackJsonp_name_([0],{
 
-/***/ 227:
+/***/ 229:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44,18 +44,18 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(createMandatoryArgumentError, 'createMandatoryArgumentError', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/preconditions.js');
+  __REACT_HOT_LOADER__.register(createMandatoryArgumentError, 'createMandatoryArgumentError', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/preconditions.js');
 
-  __REACT_HOT_LOADER__.register(createArgumentEqualityError, 'createArgumentEqualityError', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/preconditions.js');
+  __REACT_HOT_LOADER__.register(createArgumentEqualityError, 'createArgumentEqualityError', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/preconditions.js');
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/preconditions.js');
+  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/preconditions.js');
 }();
 
 ;
 
 /***/ }),
 
-/***/ 229:
+/***/ 231:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69,19 +69,19 @@ var _be = __webpack_require__(9);
 
 var _be2 = _interopRequireDefault(_be);
 
-var _documentUtils = __webpack_require__(245);
+var _documentUtils = __webpack_require__(247);
 
 var _documentUtils2 = _interopRequireDefault(_documentUtils);
 
-var _underscore = __webpack_require__(59);
+var _underscore = __webpack_require__(61);
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
-var _preconditions = __webpack_require__(227);
+var _preconditions = __webpack_require__(229);
 
 var _preconditions2 = _interopRequireDefault(_preconditions);
 
-var _table = __webpack_require__(246);
+var _table = __webpack_require__(248);
 
 var _table2 = _interopRequireDefault(_table);
 
@@ -124,16 +124,16 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(createDefaultOptions, 'createDefaultOptions', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/services/tables.js');
+  __REACT_HOT_LOADER__.register(createDefaultOptions, 'createDefaultOptions', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/services/tables.js');
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/services/tables.js');
+  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/services/tables.js');
 }();
 
 ;
 
 /***/ }),
 
-/***/ 245:
+/***/ 247:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -143,7 +143,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _underscore = __webpack_require__(59);
+var _underscore = __webpack_require__(61);
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
@@ -217,26 +217,26 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(createIllegalArgumentError, 'createIllegalArgumentError', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/core/documentUtils.js');
+  __REACT_HOT_LOADER__.register(createIllegalArgumentError, 'createIllegalArgumentError', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/documentUtils.js');
 
-  __REACT_HOT_LOADER__.register(getColumnName, 'getColumnName', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/core/documentUtils.js');
+  __REACT_HOT_LOADER__.register(getColumnName, 'getColumnName', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/documentUtils.js');
 
-  __REACT_HOT_LOADER__.register(_toRows, 'toRows', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/core/documentUtils.js');
+  __REACT_HOT_LOADER__.register(_toRows, 'toRows', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/documentUtils.js');
 
-  __REACT_HOT_LOADER__.register(getSortableColumns, 'getSortableColumns', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/core/documentUtils.js');
+  __REACT_HOT_LOADER__.register(getSortableColumns, 'getSortableColumns', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/documentUtils.js');
 
-  __REACT_HOT_LOADER__.register(_toRow, 'toRow', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/core/documentUtils.js');
+  __REACT_HOT_LOADER__.register(_toRow, 'toRow', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/documentUtils.js');
 
-  __REACT_HOT_LOADER__.register(createDocument, 'createDocument', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/core/documentUtils.js');
+  __REACT_HOT_LOADER__.register(createDocument, 'createDocument', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/documentUtils.js');
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/core/documentUtils.js');
+  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/documentUtils.js');
 }();
 
 ;
 
 /***/ }),
 
-/***/ 246:
+/***/ 248:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -252,7 +252,7 @@ var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(61);
+var _reactDom = __webpack_require__(62);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -260,37 +260,37 @@ var _be = __webpack_require__(9);
 
 var _be2 = _interopRequireDefault(_be);
 
-var _changeDocument = __webpack_require__(60);
+var _changeDocument = __webpack_require__(38);
 
 var _changeDocument2 = _interopRequireDefault(_changeDocument);
 
-var _jquery = __webpack_require__(58);
+var _jquery = __webpack_require__(60);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _action = __webpack_require__(95);
+var _action = __webpack_require__(97);
 
 var _action2 = _interopRequireDefault(_action);
 
-var _underscore = __webpack_require__(59);
+var _underscore = __webpack_require__(61);
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
-var _tables = __webpack_require__(229);
+var _tables = __webpack_require__(231);
 
 var _tables2 = _interopRequireDefault(_tables);
 
-var _numberFormat = __webpack_require__(247);
+var _numberFormat = __webpack_require__(249);
 
 var _numberFormat2 = _interopRequireDefault(_numberFormat);
 
-var _datatables = __webpack_require__(248);
+var _datatables = __webpack_require__(250);
 
 var _datatables2 = _interopRequireDefault(_datatables);
 
-__webpack_require__(249);
+__webpack_require__(251);
 
-var _reload2 = __webpack_require__(251);
+var _reload2 = __webpack_require__(253);
 
 var _reload3 = _interopRequireDefault(_reload2);
 
@@ -627,7 +627,7 @@ var TableBox = _react2.default.createClass({
         render: function render(data, type, row) {
           if (type === 'display') {
             var container = (0, _jquery2.default)('<div/>').html(formatCell(data));
-            _be2.default.ui.convertLinks(container);
+            //be5.ui.convertLinks(container);
             return container.html();
           }
           return data;
@@ -813,24 +813,24 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(OperationBox, 'OperationBox', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/components/table.js');
+  __REACT_HOT_LOADER__.register(OperationBox, 'OperationBox', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/table.js');
 
-  __REACT_HOT_LOADER__.register(QuickColumns, 'QuickColumns', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/components/table.js');
+  __REACT_HOT_LOADER__.register(QuickColumns, 'QuickColumns', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/table.js');
 
-  __REACT_HOT_LOADER__.register(formatCell, 'formatCell', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/components/table.js');
+  __REACT_HOT_LOADER__.register(formatCell, 'formatCell', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/table.js');
 
-  __REACT_HOT_LOADER__.register(TableBox, 'TableBox', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/components/table.js');
+  __REACT_HOT_LOADER__.register(TableBox, 'TableBox', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/table.js');
 
-  __REACT_HOT_LOADER__.register(Table, 'Table', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/components/table.js');
+  __REACT_HOT_LOADER__.register(Table, 'Table', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/table.js');
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/components/table.js');
+  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/table.js');
 }();
 
 ;
 
 /***/ }),
 
-/***/ 247:
+/***/ 249:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! javascript-number-formatter - v1.1.11 - http://mottie.github.com/javascript-number-formatter/ * © ecava */
@@ -841,7 +841,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 248:
+/***/ 250:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1.10.13
@@ -875,7 +875,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 
 	if ( true ) {
 		// AMD
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(58)], __WEBPACK_AMD_DEFINE_RESULT__ = function ( $ ) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(60)], __WEBPACK_AMD_DEFINE_RESULT__ = function ( $ ) {
 			return factory( $, window, document );
 		}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -16156,13 +16156,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 
 /***/ }),
 
-/***/ 249:
+/***/ 251:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(250);
+var content = __webpack_require__(252);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(20)(content, {});
@@ -16183,7 +16183,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 250:
+/***/ 252:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(19)();
@@ -16198,14 +16198,14 @@ exports.push([module.i, "@CHARSET \"UTF-8\";\r\n.rowCheckbox {\r\n    margin: 0 
 
 /***/ }),
 
-/***/ 251:
+/***/ 253:
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAATdEVYdFRpdGxlAE9wdGljYWwgRHJpdmU+Z7oMAAAC+ElEQVQ4jZWS329TZRjHP+ft6dJ2djNxHcgyunb+KIyNwfRG0mZgNgfeAJNBUBO8NEswITPEGHIy1I1lcTEzhn/Aq5mIFwp2yGSMzAsCyMIAp7hWOXjD+LGW03bnPe/rxSyZ7spv8tw9z+f75Ps8htaasvr7+81Apfm6oY1dGrpAV4BhY5AV2vjME4ZjKHUSjBxKHTt69MNpszw8ODj4TCBUMdbasnnH5pYt1NREEEIgpbs2l8u1/TAxvjebyeT27z8YXrh3j7MT4wFgmwkwPPzx8z6/L713zxuxeKyRUqmI4+RRSiGEIBQKsa/7ALZ9J1xfv56qcBg0rwCYAArxxVsH346tqV3L4uJDrv58lfn52+TyeZ6qrGTjxk0kXkwQiUT4r8yhTwd2xmPxjnXPruP+/QXOpE9zx7YnQQwIrUOFUnHwwtRk4vbvv9HVuZNAIAiAUmoZYCh9+NUdHRSLRWZvXMe27XMlx+2yLEueGP7kXE/3gUQ81rjKWUq5DNAY64PBEK5b4uatWwiMjyzLkgCuK8OPHj3kwYOFVQDXdSlnUCeEgVIKx3mMlFx/0uR575765usvtdaJ5WtrtC7XPxlIzysUS8VqIUyqq5/mcc5uBs4DHD92/DKwYZX9yhCl532fyWQONcYbadrQRCabtXq+6pka2zfmrXiwwJIsngB2a60mPJf3hoaGcgCmWpKnr1y5fKghGqW5uYX5zHy7d809+8HM+wM+7d2U2teKxkol21/e1NTEj5MT78zOzl4CTgKYQvhPzc39cn7q4lR7Kpliz+5utrRu3X5x+sL2u3f/4oVolOS2JNFoA/l8HtP0I6UXKG9naK3p6+urEaa+1NnxWkPb1jaCwRB+vx8hfCilcN0lCgWH9Hia6Z+mb5ii4qWRkZHCEwDAkSO9zyl8n9dGartSqSSRSC1V4Socx2Hu1zmuzczwx5/Zb02j4s3R0dHFf22wUr2HezsNLXuVMuo1ug7Ia80Zhf6ubk1d2rIstbJ/FeD/6m8m/lj+PIxQ9QAAAABJRU5ErkJggg=="
 
 /***/ }),
 
-/***/ 94:
+/***/ 96:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16219,11 +16219,11 @@ var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _changeDocument = __webpack_require__(60);
+var _changeDocument = __webpack_require__(38);
 
 var _changeDocument2 = _interopRequireDefault(_changeDocument);
 
-var _tables = __webpack_require__(229);
+var _tables = __webpack_require__(231);
 
 var _tables2 = _interopRequireDefault(_tables);
 
@@ -16243,7 +16243,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/actions/table.js');
+  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/actions/table.js');
 }();
 
 ;
