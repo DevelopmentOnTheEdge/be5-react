@@ -1,847 +1,21 @@
 webpackJsonp_name_([0],{
 
-/***/ 229:
+/***/ "./node_modules/css-loader/index.js?importLoaders=1!./src/css/table.css":
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")();
+// imports
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var createMandatoryArgumentError = function createMandatoryArgumentError(message) {
-  return {
-    name: 'MandatoryArgumentError',
-    message: message
-  };
-};
+// module
+exports.push([module.i, "@CHARSET \"UTF-8\";\r\n.rowCheckbox {\r\n    margin: 0 !important;\r\n}\r\n.rowIndex {\r\n    display: inline;\r\n    font-size: 100%;\r\n}\r\n.ta-left {\r\n    text-align: left;\r\n}\r\n.ta-right {\r\n    text-align: right;\r\n}\r\n.ta-center {\r\n    text-align: center;\r\n}\r\n.td-strong{\r\n    font-weight: bold;\r\n}\r\n#quickColumns span {\r\n    padding: 0 8px 0 0;\r\n    display: inline-block;\r\n}\r\n#quickColumns input {\r\n  top: 2px;\r\n  position: relative;\r\n  margin-right: 3px;\r\n}\r\n\r\ntable.dataTable {\r\n  width: auto;\r\n  margin: 0;\r\n}\r\n\r\n.table-reload {\r\n  opacity: 0.7;\r\n  padding: 4px 4px;\r\n  cursor: pointer;\r\n}\r\n\r\n.table-reload:hover {\r\n  opacity: 1;\r\n}\r\n\r\n.table-reload.active{\r\n  opacity: 0.2;\r\n}", ""]);
 
-var createArgumentEqualityError = function createArgumentEqualityError(message) {
-  return {
-    name: 'ArgumentEqualityError',
-    message: message
-  };
-};
+// exports
 
-var _default = {
-  passed: function passed(argument, message) {
-    if (!argument) {
-      throw createMandatoryArgumentError(message || 'argument is missing');
-    }
-    return argument;
-  },
-  eq: function eq(arg1, arg2, message) {
-    if (arg1 !== arg2) {
-      throw createArgumentEqualityError(message || arg1 + ' should be equal to ' + arg2);
-    }
-  }
-};
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(createMandatoryArgumentError, 'createMandatoryArgumentError', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/preconditions.js');
-
-  __REACT_HOT_LOADER__.register(createArgumentEqualityError, 'createArgumentEqualityError', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/preconditions.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/preconditions.js');
-}();
-
-;
 
 /***/ }),
 
-/***/ 231:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _be = __webpack_require__(9);
-
-var _be2 = _interopRequireDefault(_be);
-
-var _documentUtils = __webpack_require__(247);
-
-var _documentUtils2 = _interopRequireDefault(_documentUtils);
-
-var _underscore = __webpack_require__(61);
-
-var _underscore2 = _interopRequireDefault(_underscore);
-
-var _preconditions = __webpack_require__(229);
-
-var _preconditions2 = _interopRequireDefault(_preconditions);
-
-var _table = __webpack_require__(248);
-
-var _table2 = _interopRequireDefault(_table);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var createDefaultOptions = function createDefaultOptions() {
-  return {
-    embedded: true
-  };
-};
-
-var _default = {
-  load: function load(params, callback) {
-    _preconditions2.default.passed(params.entity);
-    _preconditions2.default.passed(params.query);
-
-    var options = _underscore2.default.extend(createDefaultOptions(), params.options);
-    var requestParams = { entity: params.entity, query: params.query, values: _be2.default.net.paramString(params.params) };
-
-    _be2.default.net.request('document', requestParams, function (documentState) {
-      documentState.time = Date.now();
-      if (documentState.type === 'table') {
-        documentState.value.type = 'table';
-        documentState.value.requestParams = requestParams;
-      } else {
-        documentState.value.embedded = true;
-      }
-      documentState.value = _underscore2.default.extend({}, documentState.value, options);
-      documentState = _documentUtils2.default.createDocument(documentState);
-
-      callback({ component: _table2.default, value: documentState.value });
-    });
-  }
-};
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(createDefaultOptions, 'createDefaultOptions', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/services/tables.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/services/tables.js');
-}();
-
-;
-
-/***/ }),
-
-/***/ 247:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _underscore = __webpack_require__(61);
-
-var _underscore2 = _interopRequireDefault(_underscore);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var createIllegalArgumentError = function createIllegalArgumentError() {
-  return {
-    name: 'IllegalArgumentError',
-    message: ''
-  };
-};
-
-var getColumnName = function getColumnName(column) {
-  return typeof column === 'string' ? column : column.name;
-};
-
-var _toRows = function _toRows(table) {
-  if (table.type && table.type === 'table') {
-    table = table.value;
-  }
-
-  return table.rows.map(function (row) {
-    var resultRow = { id: row.id };
-    for (var i = 0; i < row.cells.length; i++) {
-      resultRow[getColumnName(table.columns[i])] = row.cells[i];
-    }
-    return resultRow;
-  });
-};
-
-var getSortableColumns = function getSortableColumns(table) {
-  if (table.type && table.type === 'table') {
-    table = table.value;
-  }
-
-  return table.columns.filter(function (column) {
-    return !(column.options && column.options.nosort);
-  });
-};
-
-var _toRow = function _toRow(table) {
-  var rows = _toRows(table);
-  if (rows.length !== 1) {
-    throw createIllegalArgumentError();
-  }
-  return rows[0];
-};
-
-var createDocument = function createDocument(resource) {
-  return _underscore2.default.extend({
-    toRow: function toRow() {
-      return _toRow(this);
-    },
-    toRows: function toRows() {
-      return _toRows(this);
-    }
-  }, resource);
-};
-
-var _default = {
-  toRows: _toRows,
-  toRow: _toRow,
-  createDocument: createDocument,
-  getSortableColumns: getSortableColumns
-};
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(createIllegalArgumentError, 'createIllegalArgumentError', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/documentUtils.js');
-
-  __REACT_HOT_LOADER__.register(getColumnName, 'getColumnName', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/documentUtils.js');
-
-  __REACT_HOT_LOADER__.register(_toRows, 'toRows', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/documentUtils.js');
-
-  __REACT_HOT_LOADER__.register(getSortableColumns, 'getSortableColumns', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/documentUtils.js');
-
-  __REACT_HOT_LOADER__.register(_toRow, 'toRow', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/documentUtils.js');
-
-  __REACT_HOT_LOADER__.register(createDocument, 'createDocument', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/documentUtils.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/documentUtils.js');
-}();
-
-;
-
-/***/ }),
-
-/***/ 248:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(62);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _be = __webpack_require__(9);
-
-var _be2 = _interopRequireDefault(_be);
-
-var _changeDocument = __webpack_require__(38);
-
-var _changeDocument2 = _interopRequireDefault(_changeDocument);
-
-var _jquery = __webpack_require__(60);
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-var _action = __webpack_require__(97);
-
-var _action2 = _interopRequireDefault(_action);
-
-var _underscore = __webpack_require__(61);
-
-var _underscore2 = _interopRequireDefault(_underscore);
-
-var _tables = __webpack_require__(231);
-
-var _tables2 = _interopRequireDefault(_tables);
-
-var _numberFormat = __webpack_require__(249);
-
-var _numberFormat2 = _interopRequireDefault(_numberFormat);
-
-var _datatables = __webpack_require__(250);
-
-var _datatables2 = _interopRequireDefault(_datatables);
-
-__webpack_require__(251);
-
-var _reload2 = __webpack_require__(253);
-
-var _reload3 = _interopRequireDefault(_reload2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var OperationBox = _react2.default.createClass({ displayName: "OperationBox",
-  onClick: function onClick(name, e) {
-    if (!(0, _jquery2.default)(_reactDom2.default.findDOMNode(this.refs[name])).hasClass('disabled')) {
-      var operation = this.props.operations.find(function (operation) {
-        return operation.name === name;
-      });
-      if (!operation.requiresConfirmation || confirm(operation.title + "?")) {
-        this.props.onOperationClick(name);
-      }
-    }
-    e.preventDefault();
-  },
-  refreshEnablement: function refreshEnablement() {
-    var _this2 = this;
-
-    this.props.operations.forEach(function (operation) {
-      var visible = false;
-      switch (operation.visibleWhen) {
-        case 'always':
-          visible = true;
-          break;
-        case 'oneSelected':
-          visible = _be2.default.tableState.selectedRows.length == 1;
-          break;
-        case 'anySelected':
-          visible = _be2.default.tableState.selectedRows.length != 0;
-          break;
-        case 'hasRecords':
-          visible = _this2.props.hasRows;
-          break;
-      }
-      if (visible) {
-        (0, _jquery2.default)(_reactDom2.default.findDOMNode(_this2.refs[operation.name])).addClass('enabled');
-        (0, _jquery2.default)(_reactDom2.default.findDOMNode(_this2.refs[operation.name])).removeClass('disabled');
-      } else {
-        (0, _jquery2.default)(_reactDom2.default.findDOMNode(_this2.refs[operation.name])).addClass('disabled');
-        (0, _jquery2.default)(_reactDom2.default.findDOMNode(_this2.refs[operation.name])).removeClass('enabled');
-      }
-    });
-  },
-  render: function render() {
-    var _this3 = this;
-
-    var splitWithSpaces = function splitWithSpaces(elements) {
-      var out = [];
-      (0, _underscore2.default)(elements).each(function (e) {
-        if (out.length !== 0) {
-          out.push(' ');
-        }
-        out.push(e);
-      });
-      return out;
-    };
-    var operations = this.props.operations.map(function (operation) {
-      if (operation.isClientSide) {
-        var action = _action2.default.parse(operation.action);
-        var attrs = {
-          key: operation.name,
-          ref: operation.name,
-          href: action.href,
-          target: action.target,
-          className: 'btn btn-secondary'
-        };
-        return _react2.default.createElement('a', attrs, operation.title);
-      }
-      return _react2.default.createElement('a', { key: operation.name, ref: operation.name, href: '', onClick: _this3.onClick.bind(_this3, operation.name), className: 'btn btn-secondary' }, operation.title);
-    });
-
-    if (this.props.operations.length == 0) {
-      return _react2.default.createElement('div', null);
-    }
-    return _react2.default.createElement('div', { className: 'operationList' }, splitWithSpaces(operations));
-  }
-});
-
-var QuickColumns = _react2.default.createClass({
-  displayName: 'QuickColumns',
-
-
-  getInitialState: function getInitialState() {
-    return this.createStateFromProps(this.props);
-  },
-
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    this.setState(this.createStateFromProps(nextProps));
-  },
-  createStateFromProps: function createStateFromProps(props) {
-    return { quickColumns: props.firstRow.map(function (col, idx) {
-        if (col.options.quick) return { columnId: idx, visible: col.options.quick.visible == 'true' };else return null;
-      }).filter(function (col) {
-        return col !== null;
-      })
-    };
-  },
-  setTable: function setTable(_table) {
-    this.setState({ table: _table });
-  },
-  quickHandleChange: function quickHandleChange(idx) {
-    this.state.quickColumns[idx].visible = !this.state.quickColumns[idx].visible;
-    this.forceUpdate();
-  },
-  render: function render() {
-    var _this4 = this;
-
-    if (this.state.quickColumns.length == 0) {
-      return _react2.default.createElement('div', null);
-    }
-    if (this.state.table) {
-      var dataTable = (0, _jquery2.default)(this.state.table).find('table').dataTable();
-      var columnsCount = dataTable.fnSettings().aoColumns.length;
-      this.state.quickColumns.forEach(function (col) {
-        var columnId = col.columnId + (_this4.props.selectable ? 1 : 0);
-        if (columnId < columnsCount) {
-          var dtColumn = dataTable.api().column(columnId);
-          if (dtColumn.visible) dtColumn.visible(col.visible);
-        }
-      });
-    }
-
-    var checks = this.state.quickColumns.map(function (cell, idx) {
-      var _this5 = this;
-
-      var column = this.props.columns[cell.columnId];
-      var title = column.replace(/<br\s*[\/]?>/gi, " ");
-      return _react2.default.createElement(
-        'span',
-        { key: idx },
-        _react2.default.createElement('input', { id: "quick" + idx, type: 'checkbox', checked: cell.visible, onChange: function onChange() {
-            return _this5.quickHandleChange(idx);
-          } }),
-        _react2.default.createElement(
-          'label',
-          { htmlFor: "quick" + idx, className: 'rowIndex' },
-          title,
-          ' '
-        )
-      );
-    }.bind(this));
-
-    return _react2.default.createElement(
-      'div',
-      { id: 'quickColumns' },
-      _react2.default.createElement(
-        'span',
-        null,
-        '\u0414\u0440\u0443\u0433\u0438\u0435 \u043A\u043E\u043B\u043E\u043D\u043A\u0438:'
-      ),
-      checks
-    );
-  }
-});
-
-var formatCell = function formatCell(data, options) {
-  if (!Array.isArray(data)) {
-    if (data === '') {
-      if (options && options.blankNulls && options.blankNulls.value) return options.blankNulls.value;
-    }
-  } else {
-    data = data.map(function (row) {
-      return row.join(', ');
-    }).join('<br/>');
-  }
-
-  if (options) {
-    if (options.format) {
-      var el = (0, _jquery2.default)('<div></div>');
-      el.html(data);
-      if ((0, _jquery2.default)('a', el).length == 1) {
-        data = (0, _jquery2.default)('a', el).text((0, _numberFormat2.default)(options.format.mask, (0, _jquery2.default)('a', el).text()));
-      } else {
-        data = (0, _numberFormat2.default)(options.format.mask, data);
-      }
-    }
-    if (options.css || options === 'th') {
-      var wrap = (0, _jquery2.default)('<div>');
-      if (options.css && options.css.class) wrap.addClass(options.css.class);
-      if (options === 'th') wrap.addClass("ta-center td-strong");
-      data = wrap.html(data);
-    }
-  }
-  if (data instanceof jQuery) {
-    data = (0, _jquery2.default)('<div>').append((0, _jquery2.default)(data).clone()).html();
-  }
-  return data;
-};
-
-var TableBox = _react2.default.createClass({
-
-  displayName: 'TableBox',
-
-  componentDidMount: function componentDidMount() {
-    if (this.refs.table) this.applyTableStyle(_reactDom2.default.findDOMNode(this.refs.table));
-
-    this._refreshEnablementIfNeeded();
-    this._loadCountIfNeeded();
-  },
-  shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
-    return JSON.stringify(nextProps) !== JSON.stringify(this.props) || JSON.stringify(nextState) !== JSON.stringify(this.state);
-  },
-  componentDidUpdate: function componentDidUpdate() {
-    if (this.refs.table) this.applyTableStyle(_reactDom2.default.findDOMNode(this.refs.table));
-
-    this._loadCountIfNeeded();
-  },
-  onOperationClick: function onOperationClick(name) {
-    _be2.default.url.set(_be2.default.url.create('form', [this.props.category, this.props.page, name], this.props.parameters));
-  },
-  onSelectionChange: function onSelectionChange() {
-    this._refreshEnablementIfNeeded();
-
-    if (this.props.hasOwnProperty('callbacks') && this.props.callbacks !== undefined && this.props.callbacks.hasOwnProperty('onSelectionChange')) {
-      this.props.callbacks.onSelectionChange(_be2.default.tableState.selectedRows);
-    }
-  },
-  applyTableStyle: function applyTableStyle(node) {
-    var _this6 = this;
-
-    // see http://datatables.net/examples/index
-    (0, _jquery2.default)(node).empty();
-    if (this.props.columns.length == 0) return;
-
-    var _this = this;
-    _be2.default.tableState.selectedRows = [];
-
-    var thead = (0, _jquery2.default)('<thead>');
-    var theadrow = (0, _jquery2.default)('<tr>').appendTo(thead);
-    var tbody = (0, _jquery2.default)('<tbody>');
-    var tfoot = (0, _jquery2.default)('<tfoot>');
-    var tfootrow = (0, _jquery2.default)('<tr>').appendTo(tfoot);
-    var hasCheckBoxes = this.props.selectable;
-    var editable = this.props.operations.filter(function (op) {
-      return op.name === 'Edit';
-    }).length === 1;
-    var columnIndexShift = 0;
-
-    if (hasCheckBoxes) {
-      theadrow.append((0, _jquery2.default)("<th>").text("#"));
-      tfootrow.append((0, _jquery2.default)("<th>").text("#"));
-      columnIndexShift = 1;
-    }
-
-    this.props.columns.forEach(function (column, idx) {
-      var title = (typeof column === 'undefined' ? 'undefined' : _typeof(column)) === 'object' ? column.title : column;
-      theadrow.append((0, _jquery2.default)("<th>").html(formatCell(title, 'th')));
-      tfootrow.append((0, _jquery2.default)("<th>").html(formatCell(title, 'th')));
-    });
-    this.props.rows.forEach(function (row, rowId, rows) {
-      var tr = (0, _jquery2.default)('<tr>');
-      row.cells.forEach(function (cell, idx) {
-        tr.append((0, _jquery2.default)('<td>').html(formatCell(cell.content, cell.options)));
-      });
-      if (hasCheckBoxes) {
-        tr.prepend((0, _jquery2.default)('<td>').text(row.id));
-      }
-      tbody.append(tr);
-    });
-
-    var tableDiv = (0, _jquery2.default)('<table class="display compact" cellspacing="0"/>').append(thead).append(tbody).append(this.props.rows.length > 10 ? tfoot : '').appendTo(node);
-
-    var lengths = [10, 20, 50, 100, 500, 1000];
-    var pageLength = this.props.length;
-
-    if (lengths.indexOf(pageLength) == -1) {
-      lengths.push(pageLength);
-      lengths.sort(function (a, b) {
-        return a - b;
-      });
-    }
-
-    var language = null;
-    if (_be2.default.locale.value != 'en') {
-      language = _be2.default.messages.dataTables;
-    }
-
-    var tableConfiguration = {
-      processing: true,
-      serverSide: true,
-      language: language,
-      searching: false,
-      autoWidth: false,
-      aaSorting: [],
-      ajax: {
-        url: _be2.default.net.url('document/moreRows'),
-        data: {
-          entity: this.props.category,
-          query: this.props.page,
-          values: _be2.default.net.paramString(this.props.parameters),
-          selectable: this.props.selectable,
-          totalNumberOfRows: this.props.totalNumberOfRows
-        },
-        dataSrc: function dataSrc(d) {
-          if (d.type === "error") {
-            _be2.default.log.error(d.value.code + "\n" + d.value.message);
-          } else {
-            for (var i = 0; i < d.data.length; i++) {
-              for (var j = 0; j < d.data[0].length - columnIndexShift; j++) {
-                d.data[i][j + columnIndexShift] = formatCell(d.data[i][j + columnIndexShift].content, d.data[i][j + columnIndexShift].options);
-              }
-            }
-          }
-          return d.data;
-        }
-      },
-      lengthMenu: lengths,
-      pageLength: pageLength,
-      // This both tells
-      // that the first bunch of data is already loaded (so no request is required), and
-      // which is the total length of the result.
-      // See https://datatables.net/reference/option/deferLoading
-      deferLoading: this.props.totalNumberOfRows,
-      columnDefs: [{
-        render: function render(data, type, row, meta) {
-          if (!hasCheckBoxes) {
-            return row[0]; // default behavior
-          }
-          var val = row[0];
-          var id = "row-" + val + "-checkbox";
-          var display = meta.row + 1;
-          if (editable) {
-            display = '<a href="#!' + _be2.default.url.create('form', [_this6.props.category, _this6.props.page, 'Edit'], { selectedRows: val }) + '">' + display + '</a>';
-          }
-          // Pure HTML! Have no idea how to convert some react.js to string.
-          return '\
-                <input id="{id}" type="checkbox" class="rowCheckbox"></input>\
-                <label for="{id}" class="rowIndex"><span class="checkBox" ></span>{val}</label>'.replace('{id}', id).replace('{id}', id).replace('{val}', display);
-        },
-        targets: 0
-      }, {
-        render: function render(data, type, row) {
-          if (type === 'display') {
-            var container = (0, _jquery2.default)('<div/>').html(formatCell(data));
-            //be5.ui.convertLinks(container);
-            return container.html();
-          }
-          return data;
-        },
-        targets: "_all"
-      }],
-      createdRow: function createdRow(row, data, index) {
-        // see http://datatables.net/examples/advanced_init/row_callback.html
-        (0, _jquery2.default)('input', row).change(function () {
-          var rowId = data[0];
-          var checked = this.checked;
-          if (checked && _jquery2.default.inArray(rowId, _be2.default.tableState.selectedRows) == -1) {
-            _be2.default.tableState.selectedRows.push(rowId);
-          } else if (!checked && _jquery2.default.inArray(rowId, _be2.default.tableState.selectedRows) != -1) {
-            _be2.default.tableState.selectedRows.splice(_jquery2.default.inArray(rowId, _be2.default.tableState.selectedRows), 1);
-          }
-          _this.onSelectionChange();
-        });
-      }
-    };
-    var groupingColumn = null;
-    var nColumns = this.props.rows[0].cells.length;
-    for (var i = 0; i < nColumns; i++) {
-      var column = this.props.rows[0].cells[i];
-      if ((typeof column === 'undefined' ? 'undefined' : _typeof(column)) === 'object') {
-        if ('options' in column) {
-          if ('grouping' in column.options) {
-            groupingColumn = i;
-          }
-        }
-      }
-    }
-
-    var hideControls = function hideControls() {
-      if ((0, _jquery2.default)(_this.refs.table).find('.paging_simple_numbers span .paginate_button') && (0, _jquery2.default)(_this.refs.table).find('.paging_simple_numbers span .paginate_button').length > 1) {
-        (0, _jquery2.default)(_this.refs.table).find('.dataTables_length').show();
-        (0, _jquery2.default)(_this.refs.table).find('.paging_simple_numbers').show();
-      } else {
-        (0, _jquery2.default)(_this.refs.table).find('.dataTables_length').hide();
-        (0, _jquery2.default)(_this.refs.table).find('.paging_simple_numbers').hide();
-      }
-    };
-
-    if (groupingColumn !== null) {
-      var resultGroupingColumn = columnIndexShift + groupingColumn;
-      tableConfiguration.columnDefs.push({ visible: false, targets: resultGroupingColumn });
-      var drawGrouping = function drawGrouping(api) {
-        var rows = api.rows({ page: 'current' }).nodes();
-        var last = null;
-
-        api.column(resultGroupingColumn, { page: 'current' }).data().each(function (group, i) {
-          if (last !== group) {
-            (0, _jquery2.default)(rows).eq(i).before('<tr class="table-group"><td colspan="' + nColumns + '">' + group + '</td></tr>');
-            last = group;
-          }
-        });
-      };
-    }
-
-    tableConfiguration.drawCallback = function (settings) {
-      if (groupingColumn !== null) drawGrouping(this.api());
-      hideControls();
-    };
-
-    tableDiv.dataTable(tableConfiguration);
-
-    this.refs.quickColumns.setTable(this.refs.table);
-
-    this.onSelectionChange();
-  },
-  render: function render() {
-    if (this.props.columns.length == 0) {
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(OperationBox, { ref: 'operations', operations: this.props.operations, onOperationClick: this.onOperationClick, hasRows: this.props.rows.length != 0 }),
-        _be2.default.messages.emptyTable
-      );
-    }
-
-    return _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(OperationBox, { ref: 'operations', operations: this.props.operations, onOperationClick: this.onOperationClick, hasRows: this.props.rows.length != 0 }),
-      _react2.default.createElement(QuickColumns, { ref: 'quickColumns', columns: this.props.columns, firstRow: this.props.rows[0].cells, table: this.refs.table, selectable: this.props.selectable }),
-      _react2.default.createElement(
-        'div',
-        { className: 'scroll' },
-        _react2.default.createElement('div', { ref: 'table' })
-      )
-    );
-  },
-  _loadCountIfNeeded: function _loadCountIfNeeded() {
-    var _this7 = this;
-
-    if (this.props.embedded) {
-      // FIXME actually this should work even if the component is embedded
-      return;
-    }
-
-    if (this.props.value.type === 'table' && !this.props.totalNumberOfRows && this.props.totalNumberOfRows != 0) {
-      _be2.default.net.request('document/count', this.props.value.requestParams, function (res) {
-        var documentState = {
-          time: Date.now(),
-          type: 'table',
-          value: _underscore2.default.extend({}, _this7.props.value, { totalNumberOfRows: res.value })
-        };
-
-        (0, _changeDocument2.default)(documentState);
-      });
-    }
-  },
-  _refreshEnablementIfNeeded: function _refreshEnablementIfNeeded() {
-    if (this.refs !== undefined && this.refs.operations !== undefined) {
-      this.refs.operations.refreshEnablement();
-    }
-  }
-});
-
-var Table = _react2.default.createClass({
-  propTypes: {
-    value: _react2.default.PropTypes.object.isRequired
-  },
-
-  getInitialState: function getInitialState() {
-    return { runReload: "" };
-  },
-
-
-  displayName: 'Table',
-
-  render: function render() {
-    var value = this.props.value;
-    var reloadClass = "table-reload float-xs-right " + this.state.runReload;
-
-    return _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(
-        'span',
-        { onClick: this._reload, className: reloadClass },
-        _react2.default.createElement('img', { src: _reload3.default, alt: _be2.default.messages.reload, title: _be2.default.messages.reload })
-      ),
-      _react2.default.createElement(
-        'h1',
-        null,
-        value.title
-      ),
-      _react2.default.createElement(TableBox, {
-        ref: 'tableBox',
-        category: value.category,
-        page: value.page,
-        operations: value.operations,
-        selectable: value.selectable,
-        columns: value.columns,
-        rows: value.rows,
-        length: value.length,
-        parameters: value.parameters,
-        totalNumberOfRows: value.totalNumberOfRows,
-        hasAggregate: value.hasAggregate,
-        callbacks: value.callbacks,
-        embedded: value.embedded,
-        value: value
-      })
-    );
-  },
-  componentWillUpdate: function componentWillUpdate() {
-    if (this.state.runReload != "") this.setState({ runReload: "" });
-  },
-  _reload: function _reload() {
-    var value = this.props.value;
-    this.setState({ runReload: "active" });
-    _tables2.default.load({ entity: value.category, query: value.page || 'All records', params: value.parameters, options: { embedded: false } }, _changeDocument2.default);
-  }
-});
-
-var _default = Table;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(OperationBox, 'OperationBox', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/table.js');
-
-  __REACT_HOT_LOADER__.register(QuickColumns, 'QuickColumns', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/table.js');
-
-  __REACT_HOT_LOADER__.register(formatCell, 'formatCell', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/table.js');
-
-  __REACT_HOT_LOADER__.register(TableBox, 'TableBox', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/table.js');
-
-  __REACT_HOT_LOADER__.register(Table, 'Table', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/table.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/table.js');
-}();
-
-;
-
-/***/ }),
-
-/***/ 249:
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! javascript-number-formatter - v1.1.11 - http://mottie.github.com/javascript-number-formatter/ * © ecava */
-!function(a,b){ true?!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (b),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):"object"==typeof module?module.exports=b():a.format=b()}(this,function(){return function(a,b){"use strict";if(!a||isNaN(+b))return b;var c,d,e,f,g,h,i,j,k,l,m=a.length,n=a.search(/[0-9\-\+#]/),o=n>0?a.substring(0,n):"",p=a.split("").reverse().join(""),q=p.search(/[0-9\-\+#]/),r=m-q,s=a.substring(r,r+1),t=r+("."===s||","===s?1:0),u=q>0?a.substring(t,m):"";if(a=a.substring(n,t),b="-"===a.charAt(0)?-b:+b,c=b<0?b=-b:0,d=a.match(/[^\d\-\+#]/g),e=d&&d[d.length-1]||".",f=d&&d[1]&&d[0]||",",a=a.split(e),b=b.toFixed(a[1]&&a[1].length),b=+b+"",h=a[1]&&a[1].lastIndexOf("0"),j=b.split("."),(!j[1]||j[1]&&j[1].length<=h)&&(b=(+b).toFixed(h+1)),k=a[0].split(f),a[0]=k.join(""),g=a[0]&&a[0].indexOf("0"),g>-1)for(;j[0].length<a[0].length-g;)j[0]="0"+j[0];else 0===+j[0]&&(j[0]="");if(b=b.split("."),b[0]=j[0],i=k[1]&&k[k.length-1].length){for(l=b[0],p="",r=l.length%i,m=l.length,t=0;t<m;t++)p+=l.charAt(t),!((t-r+1)%i)&&t<m-i&&(p+=f);b[0]=p}return b[1]=a[1]&&b[1]?e+b[1]:"",d=b.join(""),"0"!==d&&""!==d||(c=!1),o+((c?"-":"")+d)+u}});
-
-/***/ }),
-
-/***/ 250:
+/***/ "./node_modules/datatables/media/js/jquery.dataTables.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1.10.13
@@ -875,7 +49,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 
 	if ( true ) {
 		// AMD
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(60)], __WEBPACK_AMD_DEFINE_RESULT__ = function ( $ ) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__("./node_modules/jquery/dist/jquery.js")], __WEBPACK_AMD_DEFINE_RESULT__ = function ( $ ) {
 			return factory( $, window, document );
 		}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -16156,16 +15330,27 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables 1
 
 /***/ }),
 
-/***/ 251:
+/***/ "./node_modules/number-format.js/lib/format.min.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! javascript-number-formatter - v1.1.11 - http://mottie.github.com/javascript-number-formatter/ * © ecava */
+!function(a,b){ true?!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (b),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):"object"==typeof module?module.exports=b():a.format=b()}(this,function(){return function(a,b){"use strict";if(!a||isNaN(+b))return b;var c,d,e,f,g,h,i,j,k,l,m=a.length,n=a.search(/[0-9\-\+#]/),o=n>0?a.substring(0,n):"",p=a.split("").reverse().join(""),q=p.search(/[0-9\-\+#]/),r=m-q,s=a.substring(r,r+1),t=r+("."===s||","===s?1:0),u=q>0?a.substring(t,m):"";if(a=a.substring(n,t),b="-"===a.charAt(0)?-b:+b,c=b<0?b=-b:0,d=a.match(/[^\d\-\+#]/g),e=d&&d[d.length-1]||".",f=d&&d[1]&&d[0]||",",a=a.split(e),b=b.toFixed(a[1]&&a[1].length),b=+b+"",h=a[1]&&a[1].lastIndexOf("0"),j=b.split("."),(!j[1]||j[1]&&j[1].length<=h)&&(b=(+b).toFixed(h+1)),k=a[0].split(f),a[0]=k.join(""),g=a[0]&&a[0].indexOf("0"),g>-1)for(;j[0].length<a[0].length-g;)j[0]="0"+j[0];else 0===+j[0]&&(j[0]="");if(b=b.split("."),b[0]=j[0],i=k[1]&&k[k.length-1].length){for(l=b[0],p="",r=l.length%i,m=l.length,t=0;t<m;t++)p+=l.charAt(t),!((t-r+1)%i)&&t<m-i&&(p+=f);b[0]=p}return b[1]=a[1]&&b[1]?e+b[1]:"",d=b.join(""),"0"!==d&&""!==d||(c=!1),o+((c?"-":"")+d)+u}});
+
+/***/ }),
+
+/***/ "./src/css/table.css":
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(252);
+var content = __webpack_require__("./node_modules/css-loader/index.js?importLoaders=1!./src/css/table.css");
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(20)(content, {});
+var update = __webpack_require__("./node_modules/style-loader/addStyles.js")(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -16183,29 +15368,14 @@ if(false) {
 
 /***/ }),
 
-/***/ 252:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(19)();
-// imports
-
-
-// module
-exports.push([module.i, "@CHARSET \"UTF-8\";\r\n.rowCheckbox {\r\n    margin: 0 !important;\r\n}\r\n.rowIndex {\r\n    display: inline;\r\n    font-size: 100%;\r\n}\r\n.ta-left {\r\n    text-align: left;\r\n}\r\n.ta-right {\r\n    text-align: right;\r\n}\r\n.ta-center {\r\n    text-align: center;\r\n}\r\n.td-strong{\r\n    font-weight: bold;\r\n}\r\n#quickColumns span {\r\n    padding: 0 8px 0 0;\r\n    display: inline-block;\r\n}\r\n#quickColumns input {\r\n  top: 2px;\r\n  position: relative;\r\n  margin-right: 3px;\r\n}\r\n\r\ntable.dataTable {\r\n  width: auto;\r\n  margin: 0;\r\n}\r\n\r\n.table-reload {\r\n  opacity: 0.7;\r\n  padding: 4px 4px;\r\n  cursor: pointer;\r\n}\r\n\r\n.table-reload:hover {\r\n  opacity: 1;\r\n}\r\n\r\n.table-reload.active{\r\n  opacity: 0.2;\r\n}", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 253:
+/***/ "./src/images/reload.png":
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAATdEVYdFRpdGxlAE9wdGljYWwgRHJpdmU+Z7oMAAAC+ElEQVQ4jZWS329TZRjHP+ft6dJ2djNxHcgyunb+KIyNwfRG0mZgNgfeAJNBUBO8NEswITPEGHIy1I1lcTEzhn/Aq5mIFwp2yGSMzAsCyMIAp7hWOXjD+LGW03bnPe/rxSyZ7spv8tw9z+f75Ps8htaasvr7+81Apfm6oY1dGrpAV4BhY5AV2vjME4ZjKHUSjBxKHTt69MNpszw8ODj4TCBUMdbasnnH5pYt1NREEEIgpbs2l8u1/TAxvjebyeT27z8YXrh3j7MT4wFgmwkwPPzx8z6/L713zxuxeKyRUqmI4+RRSiGEIBQKsa/7ALZ9J1xfv56qcBg0rwCYAArxxVsH346tqV3L4uJDrv58lfn52+TyeZ6qrGTjxk0kXkwQiUT4r8yhTwd2xmPxjnXPruP+/QXOpE9zx7YnQQwIrUOFUnHwwtRk4vbvv9HVuZNAIAiAUmoZYCh9+NUdHRSLRWZvXMe27XMlx+2yLEueGP7kXE/3gUQ81rjKWUq5DNAY64PBEK5b4uatWwiMjyzLkgCuK8OPHj3kwYOFVQDXdSlnUCeEgVIKx3mMlFx/0uR575765usvtdaJ5WtrtC7XPxlIzysUS8VqIUyqq5/mcc5uBs4DHD92/DKwYZX9yhCl532fyWQONcYbadrQRCabtXq+6pka2zfmrXiwwJIsngB2a60mPJf3hoaGcgCmWpKnr1y5fKghGqW5uYX5zHy7d809+8HM+wM+7d2U2teKxkol21/e1NTEj5MT78zOzl4CTgKYQvhPzc39cn7q4lR7Kpliz+5utrRu3X5x+sL2u3f/4oVolOS2JNFoA/l8HtP0I6UXKG9naK3p6+urEaa+1NnxWkPb1jaCwRB+vx8hfCilcN0lCgWH9Hia6Z+mb5ii4qWRkZHCEwDAkSO9zyl8n9dGartSqSSRSC1V4Socx2Hu1zmuzczwx5/Zb02j4s3R0dHFf22wUr2HezsNLXuVMuo1ug7Ia80Zhf6ubk1d2rIstbJ/FeD/6m8m/lj+PIxQ9QAAAABJRU5ErkJggg=="
 
 /***/ }),
 
-/***/ 96:
+/***/ "./src/scripts/be5/actions/table.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16215,15 +15385,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(7);
+var _react = __webpack_require__("./node_modules/react/react.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _changeDocument = __webpack_require__(38);
+var _changeDocument = __webpack_require__("./src/scripts/be5/core/changeDocument.js");
 
 var _changeDocument2 = _interopRequireDefault(_changeDocument);
 
-var _tables = __webpack_require__(231);
+var _tables = __webpack_require__("./src/scripts/be5/services/tables.js");
 
 var _tables2 = _interopRequireDefault(_tables);
 
@@ -16243,7 +15413,837 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/actions/table.js');
+  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/java/dote/github/be5-react/src/scripts/be5/actions/table.js');
+}();
+
+;
+
+/***/ }),
+
+/***/ "./src/scripts/be5/components/table.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _react = __webpack_require__("./node_modules/react/react.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__("./node_modules/react-dom/index.js");
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _be = __webpack_require__("./src/scripts/be5/be5.js");
+
+var _be2 = _interopRequireDefault(_be);
+
+var _changeDocument = __webpack_require__("./src/scripts/be5/core/changeDocument.js");
+
+var _changeDocument2 = _interopRequireDefault(_changeDocument);
+
+var _jquery = __webpack_require__("./node_modules/jquery/dist/jquery.js");
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _action = __webpack_require__("./src/scripts/be5/components/action.js");
+
+var _action2 = _interopRequireDefault(_action);
+
+var _underscore = __webpack_require__("./node_modules/underscore/underscore.js");
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
+var _tables = __webpack_require__("./src/scripts/be5/services/tables.js");
+
+var _tables2 = _interopRequireDefault(_tables);
+
+var _numberFormat = __webpack_require__("./node_modules/number-format.js/lib/format.min.js");
+
+var _numberFormat2 = _interopRequireDefault(_numberFormat);
+
+var _datatables = __webpack_require__("./node_modules/datatables/media/js/jquery.dataTables.js");
+
+var _datatables2 = _interopRequireDefault(_datatables);
+
+__webpack_require__("./src/css/table.css");
+
+var _reload2 = __webpack_require__("./src/images/reload.png");
+
+var _reload3 = _interopRequireDefault(_reload2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var OperationBox = _react2.default.createClass({ displayName: "OperationBox",
+  onClick: function onClick(name, e) {
+    if (!(0, _jquery2.default)(_reactDom2.default.findDOMNode(this.refs[name])).hasClass('disabled')) {
+      var operation = this.props.operations.find(function (operation) {
+        return operation.name === name;
+      });
+      if (!operation.requiresConfirmation || confirm(operation.title + "?")) {
+        this.props.onOperationClick(name);
+      }
+    }
+    e.preventDefault();
+  },
+  refreshEnablement: function refreshEnablement() {
+    var _this2 = this;
+
+    this.props.operations.forEach(function (operation) {
+      var visible = false;
+      switch (operation.visibleWhen) {
+        case 'always':
+          visible = true;
+          break;
+        case 'oneSelected':
+          visible = _be2.default.tableState.selectedRows.length == 1;
+          break;
+        case 'anySelected':
+          visible = _be2.default.tableState.selectedRows.length != 0;
+          break;
+        case 'hasRecords':
+          visible = _this2.props.hasRows;
+          break;
+      }
+      if (visible) {
+        (0, _jquery2.default)(_reactDom2.default.findDOMNode(_this2.refs[operation.name])).addClass('enabled');
+        (0, _jquery2.default)(_reactDom2.default.findDOMNode(_this2.refs[operation.name])).removeClass('disabled');
+      } else {
+        (0, _jquery2.default)(_reactDom2.default.findDOMNode(_this2.refs[operation.name])).addClass('disabled');
+        (0, _jquery2.default)(_reactDom2.default.findDOMNode(_this2.refs[operation.name])).removeClass('enabled');
+      }
+    });
+  },
+  render: function render() {
+    var _this3 = this;
+
+    var splitWithSpaces = function splitWithSpaces(elements) {
+      var out = [];
+      (0, _underscore2.default)(elements).each(function (e) {
+        if (out.length !== 0) {
+          out.push(' ');
+        }
+        out.push(e);
+      });
+      return out;
+    };
+    var operations = this.props.operations.map(function (operation) {
+      if (operation.isClientSide) {
+        var action = _action2.default.parse(operation.action);
+        var attrs = {
+          key: operation.name,
+          ref: operation.name,
+          href: action.href,
+          target: action.target,
+          className: 'btn btn-secondary'
+        };
+        return _react2.default.createElement('a', attrs, operation.title);
+      }
+      return _react2.default.createElement('a', { key: operation.name, ref: operation.name, href: '', onClick: _this3.onClick.bind(_this3, operation.name), className: 'btn btn-secondary' }, operation.title);
+    });
+
+    if (this.props.operations.length == 0) {
+      return _react2.default.createElement('div', null);
+    }
+    return _react2.default.createElement('div', { className: 'operationList' }, splitWithSpaces(operations));
+  }
+});
+
+var QuickColumns = _react2.default.createClass({
+  displayName: 'QuickColumns',
+
+
+  getInitialState: function getInitialState() {
+    return this.createStateFromProps(this.props);
+  },
+
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    this.setState(this.createStateFromProps(nextProps));
+  },
+  createStateFromProps: function createStateFromProps(props) {
+    return { quickColumns: props.firstRow.map(function (col, idx) {
+        if (col.options.quick) return { columnId: idx, visible: col.options.quick.visible == 'true' };else return null;
+      }).filter(function (col) {
+        return col !== null;
+      })
+    };
+  },
+  setTable: function setTable(_table) {
+    this.setState({ table: _table });
+  },
+  quickHandleChange: function quickHandleChange(idx) {
+    this.state.quickColumns[idx].visible = !this.state.quickColumns[idx].visible;
+    this.forceUpdate();
+  },
+  render: function render() {
+    var _this4 = this;
+
+    if (this.state.quickColumns.length == 0) {
+      return _react2.default.createElement('div', null);
+    }
+    if (this.state.table) {
+      var dataTable = (0, _jquery2.default)(this.state.table).find('table').dataTable();
+      var columnsCount = dataTable.fnSettings().aoColumns.length;
+      this.state.quickColumns.forEach(function (col) {
+        var columnId = col.columnId + (_this4.props.selectable ? 1 : 0);
+        if (columnId < columnsCount) {
+          var dtColumn = dataTable.api().column(columnId);
+          if (dtColumn.visible) dtColumn.visible(col.visible);
+        }
+      });
+    }
+
+    var checks = this.state.quickColumns.map(function (cell, idx) {
+      var _this5 = this;
+
+      var column = this.props.columns[cell.columnId];
+      var title = column.replace(/<br\s*[\/]?>/gi, " ");
+      return _react2.default.createElement(
+        'span',
+        { key: idx },
+        _react2.default.createElement('input', { id: "quick" + idx, type: 'checkbox', checked: cell.visible, onChange: function onChange() {
+            return _this5.quickHandleChange(idx);
+          } }),
+        _react2.default.createElement(
+          'label',
+          { htmlFor: "quick" + idx, className: 'rowIndex' },
+          title,
+          ' '
+        )
+      );
+    }.bind(this));
+
+    return _react2.default.createElement(
+      'div',
+      { id: 'quickColumns' },
+      _react2.default.createElement(
+        'span',
+        null,
+        '\u0414\u0440\u0443\u0433\u0438\u0435 \u043A\u043E\u043B\u043E\u043D\u043A\u0438:'
+      ),
+      checks
+    );
+  }
+});
+
+var formatCell = function formatCell(data, options) {
+  if (!Array.isArray(data)) {
+    if (data === '') {
+      if (options && options.blankNulls && options.blankNulls.value) return options.blankNulls.value;
+    }
+  } else {
+    data = data.map(function (row) {
+      return row.join(', ');
+    }).join('<br/>');
+  }
+
+  if (options) {
+    if (options.format) {
+      var el = (0, _jquery2.default)('<div></div>');
+      el.html(data);
+      if ((0, _jquery2.default)('a', el).length == 1) {
+        data = (0, _jquery2.default)('a', el).text((0, _numberFormat2.default)(options.format.mask, (0, _jquery2.default)('a', el).text()));
+      } else {
+        data = (0, _numberFormat2.default)(options.format.mask, data);
+      }
+    }
+    if (options.css || options === 'th') {
+      var wrap = (0, _jquery2.default)('<div>');
+      if (options.css && options.css.class) wrap.addClass(options.css.class);
+      if (options === 'th') wrap.addClass("ta-center td-strong");
+      data = wrap.html(data);
+    }
+  }
+  if (data instanceof jQuery) {
+    data = (0, _jquery2.default)('<div>').append((0, _jquery2.default)(data).clone()).html();
+  }
+  return data;
+};
+
+var TableBox = _react2.default.createClass({
+
+  displayName: 'TableBox',
+
+  componentDidMount: function componentDidMount() {
+    if (this.refs.table) this.applyTableStyle(_reactDom2.default.findDOMNode(this.refs.table));
+
+    this._refreshEnablementIfNeeded();
+    this._loadCountIfNeeded();
+  },
+  shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
+    return JSON.stringify(nextProps) !== JSON.stringify(this.props) || JSON.stringify(nextState) !== JSON.stringify(this.state);
+  },
+  componentDidUpdate: function componentDidUpdate() {
+    if (this.refs.table) this.applyTableStyle(_reactDom2.default.findDOMNode(this.refs.table));
+
+    this._loadCountIfNeeded();
+  },
+  onOperationClick: function onOperationClick(name) {
+    _be2.default.url.set(_be2.default.url.create('form', [this.props.category, this.props.page, name], this.props.parameters));
+  },
+  onSelectionChange: function onSelectionChange() {
+    this._refreshEnablementIfNeeded();
+
+    if (this.props.hasOwnProperty('callbacks') && this.props.callbacks !== undefined && this.props.callbacks.hasOwnProperty('onSelectionChange')) {
+      this.props.callbacks.onSelectionChange(_be2.default.tableState.selectedRows);
+    }
+  },
+  applyTableStyle: function applyTableStyle(node) {
+    var _this6 = this;
+
+    // see http://datatables.net/examples/index
+    (0, _jquery2.default)(node).empty();
+    if (this.props.columns.length == 0) return;
+
+    var _this = this;
+    _be2.default.tableState.selectedRows = [];
+
+    var thead = (0, _jquery2.default)('<thead>');
+    var theadrow = (0, _jquery2.default)('<tr>').appendTo(thead);
+    var tbody = (0, _jquery2.default)('<tbody>');
+    var tfoot = (0, _jquery2.default)('<tfoot>');
+    var tfootrow = (0, _jquery2.default)('<tr>').appendTo(tfoot);
+    var hasCheckBoxes = this.props.selectable;
+    var editable = this.props.operations.filter(function (op) {
+      return op.name === 'Edit';
+    }).length === 1;
+    var columnIndexShift = 0;
+
+    if (hasCheckBoxes) {
+      theadrow.append((0, _jquery2.default)("<th>").text("#"));
+      tfootrow.append((0, _jquery2.default)("<th>").text("#"));
+      columnIndexShift = 1;
+    }
+
+    this.props.columns.forEach(function (column, idx) {
+      var title = (typeof column === 'undefined' ? 'undefined' : _typeof(column)) === 'object' ? column.title : column;
+      theadrow.append((0, _jquery2.default)("<th>").html(formatCell(title, 'th')));
+      tfootrow.append((0, _jquery2.default)("<th>").html(formatCell(title, 'th')));
+    });
+    this.props.rows.forEach(function (row, rowId, rows) {
+      var tr = (0, _jquery2.default)('<tr>');
+      row.cells.forEach(function (cell, idx) {
+        tr.append((0, _jquery2.default)('<td>').html(formatCell(cell.content, cell.options)));
+      });
+      if (hasCheckBoxes) {
+        tr.prepend((0, _jquery2.default)('<td>').text(row.id));
+      }
+      tbody.append(tr);
+    });
+
+    var tableDiv = (0, _jquery2.default)('<table class="display compact" cellspacing="0"/>').append(thead).append(tbody).append(this.props.rows.length > 10 ? tfoot : '').appendTo(node);
+
+    var lengths = [10, 20, 50, 100, 500, 1000];
+    var pageLength = this.props.length;
+
+    if (lengths.indexOf(pageLength) == -1) {
+      lengths.push(pageLength);
+      lengths.sort(function (a, b) {
+        return a - b;
+      });
+    }
+
+    var language = null;
+    if (_be2.default.locale.value != 'en') {
+      language = _be2.default.messages.dataTables;
+    }
+
+    var tableConfiguration = {
+      processing: true,
+      serverSide: true,
+      language: language,
+      searching: false,
+      autoWidth: false,
+      aaSorting: [],
+      ajax: {
+        url: _be2.default.net.url('document/moreRows'),
+        data: {
+          entity: this.props.category,
+          query: this.props.page,
+          values: _be2.default.net.paramString(this.props.parameters),
+          selectable: this.props.selectable,
+          totalNumberOfRows: this.props.totalNumberOfRows
+        },
+        dataSrc: function dataSrc(d) {
+          if (d.type === "error") {
+            _be2.default.log.error(d.value.code + "\n" + d.value.message);
+          } else {
+            for (var i = 0; i < d.data.length; i++) {
+              for (var j = 0; j < d.data[0].length - columnIndexShift; j++) {
+                d.data[i][j + columnIndexShift] = formatCell(d.data[i][j + columnIndexShift].content, d.data[i][j + columnIndexShift].options);
+              }
+            }
+          }
+          return d.data;
+        }
+      },
+      lengthMenu: lengths,
+      pageLength: pageLength,
+      // This both tells
+      // that the first bunch of data is already loaded (so no request is required), and
+      // which is the total length of the result.
+      // See https://datatables.net/reference/option/deferLoading
+      deferLoading: this.props.totalNumberOfRows,
+      columnDefs: [{
+        render: function render(data, type, row, meta) {
+          if (!hasCheckBoxes) {
+            return row[0]; // default behavior
+          }
+          var val = row[0];
+          var id = "row-" + val + "-checkbox";
+          var display = meta.row + 1;
+          if (editable) {
+            display = '<a href="#!' + _be2.default.url.create('form', [_this6.props.category, _this6.props.page, 'Edit'], { selectedRows: val }) + '">' + display + '</a>';
+          }
+          // Pure HTML! Have no idea how to convert some react.js to string.
+          return '\
+                <input id="{id}" type="checkbox" class="rowCheckbox"></input>\
+                <label for="{id}" class="rowIndex"><span class="checkBox" ></span>{val}</label>'.replace('{id}', id).replace('{id}', id).replace('{val}', display);
+        },
+        targets: 0
+      }, {
+        render: function render(data, type, row) {
+          if (type === 'display') {
+            var container = (0, _jquery2.default)('<div/>').html(formatCell(data));
+            //be5.ui.convertLinks(container);
+            return container.html();
+          }
+          return data;
+        },
+        targets: "_all"
+      }],
+      createdRow: function createdRow(row, data, index) {
+        // see http://datatables.net/examples/advanced_init/row_callback.html
+        (0, _jquery2.default)('input', row).change(function () {
+          var rowId = data[0];
+          var checked = this.checked;
+          if (checked && _jquery2.default.inArray(rowId, _be2.default.tableState.selectedRows) == -1) {
+            _be2.default.tableState.selectedRows.push(rowId);
+          } else if (!checked && _jquery2.default.inArray(rowId, _be2.default.tableState.selectedRows) != -1) {
+            _be2.default.tableState.selectedRows.splice(_jquery2.default.inArray(rowId, _be2.default.tableState.selectedRows), 1);
+          }
+          _this.onSelectionChange();
+        });
+      }
+    };
+    var groupingColumn = null;
+    var nColumns = this.props.rows[0].cells.length;
+    for (var i = 0; i < nColumns; i++) {
+      var column = this.props.rows[0].cells[i];
+      if ((typeof column === 'undefined' ? 'undefined' : _typeof(column)) === 'object') {
+        if ('options' in column) {
+          if ('grouping' in column.options) {
+            groupingColumn = i;
+          }
+        }
+      }
+    }
+
+    var hideControls = function hideControls() {
+      if ((0, _jquery2.default)(_this.refs.table).find('.paging_simple_numbers span .paginate_button') && (0, _jquery2.default)(_this.refs.table).find('.paging_simple_numbers span .paginate_button').length > 1) {
+        (0, _jquery2.default)(_this.refs.table).find('.dataTables_length').show();
+        (0, _jquery2.default)(_this.refs.table).find('.paging_simple_numbers').show();
+      } else {
+        (0, _jquery2.default)(_this.refs.table).find('.dataTables_length').hide();
+        (0, _jquery2.default)(_this.refs.table).find('.paging_simple_numbers').hide();
+      }
+    };
+
+    if (groupingColumn !== null) {
+      var resultGroupingColumn = columnIndexShift + groupingColumn;
+      tableConfiguration.columnDefs.push({ visible: false, targets: resultGroupingColumn });
+      var drawGrouping = function drawGrouping(api) {
+        var rows = api.rows({ page: 'current' }).nodes();
+        var last = null;
+
+        api.column(resultGroupingColumn, { page: 'current' }).data().each(function (group, i) {
+          if (last !== group) {
+            (0, _jquery2.default)(rows).eq(i).before('<tr class="table-group"><td colspan="' + nColumns + '">' + group + '</td></tr>');
+            last = group;
+          }
+        });
+      };
+    }
+
+    tableConfiguration.drawCallback = function (settings) {
+      if (groupingColumn !== null) drawGrouping(this.api());
+      hideControls();
+    };
+
+    tableDiv.dataTable(tableConfiguration);
+
+    this.refs.quickColumns.setTable(this.refs.table);
+
+    this.onSelectionChange();
+  },
+  render: function render() {
+    if (this.props.columns.length == 0) {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(OperationBox, { ref: 'operations', operations: this.props.operations, onOperationClick: this.onOperationClick, hasRows: this.props.rows.length != 0 }),
+        _be2.default.messages.emptyTable
+      );
+    }
+
+    return _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(OperationBox, { ref: 'operations', operations: this.props.operations, onOperationClick: this.onOperationClick, hasRows: this.props.rows.length != 0 }),
+      _react2.default.createElement(QuickColumns, { ref: 'quickColumns', columns: this.props.columns, firstRow: this.props.rows[0].cells, table: this.refs.table, selectable: this.props.selectable }),
+      _react2.default.createElement(
+        'div',
+        { className: 'scroll' },
+        _react2.default.createElement('div', { ref: 'table' })
+      )
+    );
+  },
+  _loadCountIfNeeded: function _loadCountIfNeeded() {
+    var _this7 = this;
+
+    if (this.props.embedded) {
+      // FIXME actually this should work even if the component is embedded
+      return;
+    }
+
+    if (this.props.value.type === 'table' && !this.props.totalNumberOfRows && this.props.totalNumberOfRows != 0) {
+      _be2.default.net.request('document/count', this.props.value.requestParams, function (res) {
+        var documentState = {
+          time: Date.now(),
+          type: 'table',
+          value: _underscore2.default.extend({}, _this7.props.value, { totalNumberOfRows: res.value })
+        };
+
+        (0, _changeDocument2.default)(documentState);
+      });
+    }
+  },
+  _refreshEnablementIfNeeded: function _refreshEnablementIfNeeded() {
+    if (this.refs !== undefined && this.refs.operations !== undefined) {
+      this.refs.operations.refreshEnablement();
+    }
+  }
+});
+
+var Table = _react2.default.createClass({
+  propTypes: {
+    value: _react2.default.PropTypes.object.isRequired
+  },
+
+  getInitialState: function getInitialState() {
+    return { runReload: "" };
+  },
+
+
+  displayName: 'Table',
+
+  render: function render() {
+    var value = this.props.value;
+    var reloadClass = "table-reload float-xs-right " + this.state.runReload;
+
+    return _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(
+        'span',
+        { onClick: this._reload, className: reloadClass },
+        _react2.default.createElement('img', { src: _reload3.default, alt: _be2.default.messages.reload, title: _be2.default.messages.reload })
+      ),
+      _react2.default.createElement(
+        'h1',
+        null,
+        value.title
+      ),
+      _react2.default.createElement(TableBox, {
+        ref: 'tableBox',
+        category: value.category,
+        page: value.page,
+        operations: value.operations,
+        selectable: value.selectable,
+        columns: value.columns,
+        rows: value.rows,
+        length: value.length,
+        parameters: value.parameters,
+        totalNumberOfRows: value.totalNumberOfRows,
+        hasAggregate: value.hasAggregate,
+        callbacks: value.callbacks,
+        embedded: value.embedded,
+        value: value
+      })
+    );
+  },
+  componentWillUpdate: function componentWillUpdate() {
+    if (this.state.runReload != "") this.setState({ runReload: "" });
+  },
+  _reload: function _reload() {
+    var value = this.props.value;
+    this.setState({ runReload: "active" });
+    _tables2.default.load({ entity: value.category, query: value.page || 'All records', params: value.parameters, options: { embedded: false } }, _changeDocument2.default);
+  }
+});
+
+var _default = Table;
+exports.default = _default;
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(OperationBox, 'OperationBox', 'C:/java/dote/github/be5-react/src/scripts/be5/components/table.js');
+
+  __REACT_HOT_LOADER__.register(QuickColumns, 'QuickColumns', 'C:/java/dote/github/be5-react/src/scripts/be5/components/table.js');
+
+  __REACT_HOT_LOADER__.register(formatCell, 'formatCell', 'C:/java/dote/github/be5-react/src/scripts/be5/components/table.js');
+
+  __REACT_HOT_LOADER__.register(TableBox, 'TableBox', 'C:/java/dote/github/be5-react/src/scripts/be5/components/table.js');
+
+  __REACT_HOT_LOADER__.register(Table, 'Table', 'C:/java/dote/github/be5-react/src/scripts/be5/components/table.js');
+
+  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/java/dote/github/be5-react/src/scripts/be5/components/table.js');
+}();
+
+;
+
+/***/ }),
+
+/***/ "./src/scripts/be5/core/documentUtils.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _underscore = __webpack_require__("./node_modules/underscore/underscore.js");
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createIllegalArgumentError = function createIllegalArgumentError() {
+  return {
+    name: 'IllegalArgumentError',
+    message: ''
+  };
+};
+
+var getColumnName = function getColumnName(column) {
+  return typeof column === 'string' ? column : column.name;
+};
+
+var _toRows = function _toRows(table) {
+  if (table.type && table.type === 'table') {
+    table = table.value;
+  }
+
+  return table.rows.map(function (row) {
+    var resultRow = { id: row.id };
+    for (var i = 0; i < row.cells.length; i++) {
+      resultRow[getColumnName(table.columns[i])] = row.cells[i];
+    }
+    return resultRow;
+  });
+};
+
+var getSortableColumns = function getSortableColumns(table) {
+  if (table.type && table.type === 'table') {
+    table = table.value;
+  }
+
+  return table.columns.filter(function (column) {
+    return !(column.options && column.options.nosort);
+  });
+};
+
+var _toRow = function _toRow(table) {
+  var rows = _toRows(table);
+  if (rows.length !== 1) {
+    throw createIllegalArgumentError();
+  }
+  return rows[0];
+};
+
+var createDocument = function createDocument(resource) {
+  return _underscore2.default.extend({
+    toRow: function toRow() {
+      return _toRow(this);
+    },
+    toRows: function toRows() {
+      return _toRows(this);
+    }
+  }, resource);
+};
+
+var _default = {
+  toRows: _toRows,
+  toRow: _toRow,
+  createDocument: createDocument,
+  getSortableColumns: getSortableColumns
+};
+exports.default = _default;
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(createIllegalArgumentError, 'createIllegalArgumentError', 'C:/java/dote/github/be5-react/src/scripts/be5/core/documentUtils.js');
+
+  __REACT_HOT_LOADER__.register(getColumnName, 'getColumnName', 'C:/java/dote/github/be5-react/src/scripts/be5/core/documentUtils.js');
+
+  __REACT_HOT_LOADER__.register(_toRows, 'toRows', 'C:/java/dote/github/be5-react/src/scripts/be5/core/documentUtils.js');
+
+  __REACT_HOT_LOADER__.register(getSortableColumns, 'getSortableColumns', 'C:/java/dote/github/be5-react/src/scripts/be5/core/documentUtils.js');
+
+  __REACT_HOT_LOADER__.register(_toRow, 'toRow', 'C:/java/dote/github/be5-react/src/scripts/be5/core/documentUtils.js');
+
+  __REACT_HOT_LOADER__.register(createDocument, 'createDocument', 'C:/java/dote/github/be5-react/src/scripts/be5/core/documentUtils.js');
+
+  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/java/dote/github/be5-react/src/scripts/be5/core/documentUtils.js');
+}();
+
+;
+
+/***/ }),
+
+/***/ "./src/scripts/be5/preconditions.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var createMandatoryArgumentError = function createMandatoryArgumentError(message) {
+  return {
+    name: 'MandatoryArgumentError',
+    message: message
+  };
+};
+
+var createArgumentEqualityError = function createArgumentEqualityError(message) {
+  return {
+    name: 'ArgumentEqualityError',
+    message: message
+  };
+};
+
+var _default = {
+  passed: function passed(argument, message) {
+    if (!argument) {
+      throw createMandatoryArgumentError(message || 'argument is missing');
+    }
+    return argument;
+  },
+  eq: function eq(arg1, arg2, message) {
+    if (arg1 !== arg2) {
+      throw createArgumentEqualityError(message || arg1 + ' should be equal to ' + arg2);
+    }
+  }
+};
+exports.default = _default;
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(createMandatoryArgumentError, 'createMandatoryArgumentError', 'C:/java/dote/github/be5-react/src/scripts/be5/preconditions.js');
+
+  __REACT_HOT_LOADER__.register(createArgumentEqualityError, 'createArgumentEqualityError', 'C:/java/dote/github/be5-react/src/scripts/be5/preconditions.js');
+
+  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/java/dote/github/be5-react/src/scripts/be5/preconditions.js');
+}();
+
+;
+
+/***/ }),
+
+/***/ "./src/scripts/be5/services/tables.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _be = __webpack_require__("./src/scripts/be5/be5.js");
+
+var _be2 = _interopRequireDefault(_be);
+
+var _documentUtils = __webpack_require__("./src/scripts/be5/core/documentUtils.js");
+
+var _documentUtils2 = _interopRequireDefault(_documentUtils);
+
+var _underscore = __webpack_require__("./node_modules/underscore/underscore.js");
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
+var _preconditions = __webpack_require__("./src/scripts/be5/preconditions.js");
+
+var _preconditions2 = _interopRequireDefault(_preconditions);
+
+var _table = __webpack_require__("./src/scripts/be5/components/table.js");
+
+var _table2 = _interopRequireDefault(_table);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createDefaultOptions = function createDefaultOptions() {
+  return {
+    embedded: true
+  };
+};
+
+var _default = {
+  load: function load(params, callback) {
+    _preconditions2.default.passed(params.entity);
+    _preconditions2.default.passed(params.query);
+
+    var options = _underscore2.default.extend(createDefaultOptions(), params.options);
+    var requestParams = { entity: params.entity, query: params.query, values: _be2.default.net.paramString(params.params) };
+
+    _be2.default.net.request('document', requestParams, function (documentState) {
+      documentState.time = Date.now();
+      if (documentState.type === 'table') {
+        documentState.value.type = 'table';
+        documentState.value.requestParams = requestParams;
+      } else {
+        documentState.value.embedded = true;
+      }
+      documentState.value = _underscore2.default.extend({}, documentState.value, options);
+      documentState = _documentUtils2.default.createDocument(documentState);
+
+      callback({ component: _table2.default, value: documentState.value });
+    });
+  }
+};
+exports.default = _default;
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(createDefaultOptions, 'createDefaultOptions', 'C:/java/dote/github/be5-react/src/scripts/be5/services/tables.js');
+
+  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/java/dote/github/be5-react/src/scripts/be5/services/tables.js');
 }();
 
 ;
