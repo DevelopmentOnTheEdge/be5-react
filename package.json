@@ -1,7 +1,7 @@
 {
   "name": "be5-react",
   "version": "1.0.0",
-  "main": "src/scripts/be5/main.js",
+  "main": "build/min/be5.min.js",
   "scripts": {
     "start": "ws -d build",
     "dev": "webpack-dev-server --progress --profile --colors",
