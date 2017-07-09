@@ -1,7 +1,4 @@
 node_modules/
-dist/
-public/
-src/lib/
 coverage/
 
 ### IntelliJ IDEA ###

@@ -15,10 +15,10 @@ loaders.push({
 });
 
 let fileName = '[name].js';
-let outPath = 'build';
+let outPath = 'dist/uncompressed';
 if (env.min) {
     fileName = '[name].min.js';
-    outPath = 'build/min';
+    outPath = 'dist/compressed';
 }
 
 let config = {
@@ -38,7 +38,6 @@ let config = {
         loaders
     },
     plugins: [
-        new WebpackCleanupPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new ExtractTextPlugin({
             filename: 'style.css',
@@ -53,10 +52,6 @@ let config = {
                 css: ['style.css'],
                 js: ['bundle.js'],
             }
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: "common",
-            minChunks: 2,
         })
     ]
 };
