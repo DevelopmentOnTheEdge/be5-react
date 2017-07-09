@@ -18,7 +18,8 @@ loaders.push({
 module.exports = {
     entry: {
         reactHotLoader: 'react-hot-loader/patch',
-        be5app: './src/scripts/be5/main.js'
+        be5app: './src/scripts/be5/main.js',
+        be5library: './src/scripts/be5/library.js'
     },
     devtool: process.env.WEBPACK_DEVTOOL || 'eval-source-map',
     output: {
@@ -65,6 +66,7 @@ module.exports = {
         }),
         new DashboardPlugin(),
         new HtmlWebpackPlugin({
+            chunks: ['be5'],
             template: './src/template.html',
             files: {
                 css: ['style.css'],

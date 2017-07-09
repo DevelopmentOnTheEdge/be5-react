@@ -23,7 +23,8 @@ if (env.min) {
 
 let config = {
     entry: {
-        be5: './src/scripts/be5/main.js'
+        be5: './src/scripts/be5/main.js',
+        be5library: './src/scripts/be5/library.js'
     },
     output: {
         publicPath: '/',
@@ -38,6 +39,7 @@ let config = {
         loaders
     },
     plugins: [
+        new WebpackCleanupPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new ExtractTextPlugin({
             filename: 'style.css',
@@ -46,6 +48,7 @@ let config = {
         //new BundleAnalyzerPlugin(),
         new OptimizeCssAssetsPlugin(),
         new HtmlWebpackPlugin({
+            chunks: ['be5'],
             favicon: './src/images/favicon.ico',
             template: './src/template.html',
             files: {

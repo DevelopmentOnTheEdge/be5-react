@@ -1,9 +1,9 @@
 {
   "name": "be5-react",
-  "version": "0.1.3",
-  "main": "dist/compressed/be5.min.js",
+  "version": "0.1.4",
+  "main": "dist/compressed/be5library.min.js",
   "scripts": {
-    "start": "ws -d build",
+    "start": "ws -d dist/compressed",
     "dev": "webpack-dev-server --progress --profile --colors",
     "build": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --display-modules",
     "build-min": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.min",
