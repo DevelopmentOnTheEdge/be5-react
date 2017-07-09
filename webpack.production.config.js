@@ -6,6 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 loaders.push({
     test: /\.scss$/,
@@ -43,6 +44,7 @@ let config = {
             filename: 'style.css',
             allChunks: true
         }),
+        //new BundleAnalyzerPlugin(),
         new OptimizeCssAssetsPlugin(),
         new HtmlWebpackPlugin({
             favicon: './src/images/favicon.ico',
