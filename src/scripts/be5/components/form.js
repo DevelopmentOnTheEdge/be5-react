@@ -10,32 +10,50 @@ import _                    from 'underscore';
 
 import '../../../css/form.css';
 
-export const performOperationResult = ({ value: value }) => {
-  switch (value.status)
+export const performOperationResult = (data) => {
+  switch (data.type)
   {
-  case 'RENDER_HTML':
-    changeDocument({ type: 'htmlResult', value: { content: value.value } });
-    return;
-  case 'REDIRECTED':
-    be5.url.set(value.details);
-    return;
-  case 'REFRESH_ALL':
-    be5.url.set("");
-    bus.fire('LoggedIn');
-    return;
-  case 'GO_BACK':
-    if (window.history.length >= 2) {
-      window.history.back();
+    case 'form':
+      changeDocument({ component: Form, value: data.value });
       return;
-    }
-    // TODO redirect to the query instead of showing this message:
-    changeDocument({ type: 'htmlResult', value: { content: 'The action was successful' } });
-    return;
-  case 'DEFAULT_ACTION':
-  default:
-    changeDocument({ type: 'htmlResult', value: { content: 'The action was successful' } });
-    return;
+    case 'operationResult':
+      const operationResult = data.value;
+      switch (operationResult.status)
+      {
+        case 'redirect':
+          console.log(operationResult);
+          //be5.net.request
+          be5.url.set(operationResult.details);
+          return;
+        case 'finished':
+          changeDocument({ component: HtmlResult, value: { content: operationResult.message | 'The action was successful' } });
+          return;
+      }
   }
+
+//  case 'RENDER_HTML':
+//    changeDocument({ component: HtmlResult, value: { content: value.value } });
+//    return;
+//  case 'REDIRECTED':
+//    be5.url.set(value.details);
+//    return;
+//  case 'REFRESH_ALL':
+//    be5.url.set("");
+//    bus.fire('LoggedIn');
+//    return;
+//  case 'GO_BACK':
+//    if (window.history.length >= 2) {
+//      window.history.back();
+//      return;
+//    }
+//    // TODO redirect to the query instead of showing this message:
+//    changeDocument({ component: HtmlResult, value: { content: 'The action was successful' } });
+//    return;
+//  case 'DEFAULT_ACTION':
+//  default:
+//    changeDocument({ component: HtmlResult, value: { content: 'The action was successful' } });
+//    return;
+
 };
 
 const Form = React.createClass({
@@ -129,13 +147,7 @@ const Form = React.createClass({
       values: JSON.stringify(this.state.bean.values)
     };
     if (this.props.isEmbedded !== true) {
-      be5.net.request('form/apply', data, document => {
-        if (document.type === 'form') {
-          changeDocument({ component: Form, value: document.value });
-        } else {
-          performOperationResult({ component: HtmlResult, value: document.value });
-        }
-      });
+      be5.net.request('form/apply', data, performOperationResult);
     } else {
       be5.net.request('form/apply', data);
     }
@@ -232,22 +244,20 @@ const Form = React.createClass({
   }
 });
 
-const HtmlResult = React.createClass({
+export const HtmlResult = React.createClass({
   
   displayName: 'HtmlResult',
   
   propTypes: {
-    content: React.PropTypes.string.isRequired
+    value: React.PropTypes.string.isRequired
   },
   
   render() {
     const back = () => { history.back(); };
-    const content = $('<div/>').html(this.props.content);
-    //be5.ui.convertLinks(content);
     
     return (
       <div>
-        <div className="content" dangerouslySetInnerHTML={{__html: content.html()}}/>
+        <div dangerouslySetInnerHTML={{__html: this.props.value}}/>
         <div className="linkBack">
           <button className="btn btn-secondary btn-sm" onClick={back}>
             {be5.messages.back}

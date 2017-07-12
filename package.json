@@ -5,7 +5,7 @@
   "scripts": {
     "start": "ws -d dist/compressed",
     "dev": "webpack-dev-server --progress --profile --colors",
-    "build": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --display-modules",
+    "build": "webpack --config webpack.production.config.js --progress --profile --colors --env.build",
     "build-min": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.min",
     "test": "jest",
     "watch": "npm test -- --watch",

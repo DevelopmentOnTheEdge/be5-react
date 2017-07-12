@@ -14,10 +14,10 @@ loaders.push({
     exclude: ['node_modules']
 });
 
-let fileName = '[name].js';
+let fileName = 'static/[name].js';
 let outPath = 'dist/uncompressed';
 if (env.min) {
-    fileName = '[name].min.js';
+    fileName = 'static/[name].min.js';
     outPath = 'dist/compressed';
 }
 
@@ -42,7 +42,7 @@ let config = {
         new WebpackCleanupPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new ExtractTextPlugin({
-            filename: 'style.css',
+            filename: 'static/style.css',
             allChunks: true
         }),
         //new BundleAnalyzerPlugin(),

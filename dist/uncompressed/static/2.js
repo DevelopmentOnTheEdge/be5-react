@@ -1,6 +1,6 @@
 webpackJsonp_name_([2],{
 
-/***/ 236:
+/***/ 237:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22,7 +22,7 @@ var _be = __webpack_require__(7);
 
 var _be2 = _interopRequireDefault(_be);
 
-var _ext = __webpack_require__(237);
+var _ext = __webpack_require__(238);
 
 var _ext2 = _interopRequireDefault(_ext);
 
@@ -34,11 +34,11 @@ var _jquery = __webpack_require__(31);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _bootstrapModal = __webpack_require__(238);
+var _bootstrapModal = __webpack_require__(239);
 
 var _bootstrapModal2 = _interopRequireDefault(_bootstrapModal);
 
-__webpack_require__(242);
+__webpack_require__(243);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -193,16 +193,16 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Login, 'Login', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/components/login.js');
+  __REACT_HOT_LOADER__.register(Login, 'Login', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/login.js');
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/components/login.js');
+  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/login.js');
 }();
 
 ;
 
 /***/ }),
 
-/***/ 237:
+/***/ 238:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -254,20 +254,20 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(extend, "extend", "C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/core/ext.js");
+  __REACT_HOT_LOADER__.register(extend, "extend", "/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/ext.js");
 
-  __REACT_HOT_LOADER__.register(getExtensions, "getExtensions", "C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/core/ext.js");
+  __REACT_HOT_LOADER__.register(getExtensions, "getExtensions", "/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/ext.js");
 
-  __REACT_HOT_LOADER__.register(extensions, "extensions", "C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/core/ext.js");
+  __REACT_HOT_LOADER__.register(extensions, "extensions", "/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/ext.js");
 
-  __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/core/ext.js");
+  __REACT_HOT_LOADER__.register(_default, "default", "/home/uuinnk/workspace/github/be5-react/src/scripts/be5/core/ext.js");
 }();
 
 ;
 
 /***/ }),
 
-/***/ 238:
+/***/ 239:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -289,15 +289,15 @@ var _jquery = __webpack_require__(31);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _bootstrapButton = __webpack_require__(239);
+var _bootstrapButton = __webpack_require__(240);
 
 var _bootstrapButton2 = _interopRequireDefault(_bootstrapButton);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 window.jQuery = window.$ = __webpack_require__(31);
-window.Tether = __webpack_require__(240);
-__webpack_require__(241);
+window.Tether = __webpack_require__(241);
+__webpack_require__(242);
 
 var _default = _react2.default.createClass({
   displayName: 'BootstrapModal',
@@ -407,14 +407,14 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/components/bootstrapModal.js');
+  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/bootstrapModal.js');
 }();
 
 ;
 
 /***/ }),
 
-/***/ 239:
+/***/ 240:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -456,14 +456,14 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/components/bootstrapButton.js');
+  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/bootstrapButton.js');
 }();
 
 ;
 
 /***/ }),
 
-/***/ 240:
+/***/ 241:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4.0 */
@@ -2285,7 +2285,7 @@ return Tether;
 
 /***/ }),
 
-/***/ 241:
+/***/ 242:
 /***/ (function(module, exports) {
 
 /*!
@@ -5722,13 +5722,13 @@ var Popover = function ($) {
 
 /***/ }),
 
-/***/ 242:
+/***/ 243:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(243);
+var content = __webpack_require__(244);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(18)(content, {});
@@ -5749,7 +5749,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 243:
+/***/ 244:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(17)();
@@ -5764,7 +5764,7 @@ exports.push([module.i, ".login-form {\r\n  padding: 8px 16px 8px 16px;\r\n}\r\n
 
 /***/ }),
 
-/***/ 64:
+/***/ 65:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5790,7 +5790,7 @@ var _bus = __webpack_require__(15);
 
 var _bus2 = _interopRequireDefault(_bus);
 
-var _login = __webpack_require__(236);
+var _login = __webpack_require__(237);
 
 var _login2 = _interopRequireDefault(_login);
 
@@ -5860,7 +5860,7 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/Innokentiy/workspace/dote/be5-react/src/scripts/be5/actions/login.js');
+  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/actions/login.js');
 }();
 
 ;

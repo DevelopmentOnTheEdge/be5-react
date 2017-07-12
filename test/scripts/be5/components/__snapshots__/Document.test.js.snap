@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component 1`] = `
+<div
+  className="document-content"
+>
+  <h1>
+    Page is loading...
+  </h1>
+</div>
+`;
+
+exports[`component 2`] = `
+<div
+  className="document-content"
+>
+  <div>
+    <div
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "Page <b>text<b>.",
+        }
+      }
+    />
+    <div
+      className="linkBack"
+    >
+      <button
+        className="btn btn-secondary btn-sm"
+        onClick={[Function]}
+      >
+        Back
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`simple text 1`] = `
+<div
+  className="document-content"
+>
+  <h1>
+    Simple text.
+  </h1>
+</div>
+`;
+
+exports[`snapshot 1`] = `
+<div
+  className="document-content"
+>
+  <h1>
+    Page loaded.
+  </h1>
+</div>
+`;

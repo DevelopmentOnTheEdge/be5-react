@@ -19,12 +19,6 @@ export default function(entity, query, operation, operationParams) {
     values: be5.net.paramString(operationParams),
     selectedRows: selectedRows
   };
-  Forms.load(params, document => {
-    if (document.type === 'form') {
-      changeDocument({ component: Form, value: document.value });
-    } else {
-      performOperationResult({ component: HtmlResult, value: document.value });
-    }
-  });
+  Forms.load(params, performOperationResult);
 
 };

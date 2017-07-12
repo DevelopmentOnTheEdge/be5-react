@@ -66,7 +66,7 @@ module.exports = {
         }),
         new DashboardPlugin(),
         new HtmlWebpackPlugin({
-            chunks: ['be5'],
+            chunks: ['be5app'],
             template: './src/template.html',
             files: {
                 css: ['style.css'],

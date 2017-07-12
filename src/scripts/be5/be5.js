@@ -561,10 +561,10 @@ const be5 = {
 //    }
 //  },
   
-  hasAction(actionName) {
-    var action = be5.actions[actionName];
-    return (typeof(action) === 'function') || (typeof(action) === 'string');
-  },
+//  hasAction(actionName) {
+//    var action = be5.actions[actionName];
+//    return (typeof(action) === 'function') || (typeof(action) === 'string');
+//  },
 
   isRemoteUrl(url) {
     var prefix = 'http';
