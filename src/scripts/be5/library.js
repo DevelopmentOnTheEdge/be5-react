@@ -1,23 +1,25 @@
-import be5 from './be5';
-import bus      from './core/bus';
-import changeDocument from './core/changeDocument';
-import initialize     from './core/initialize';
-import App            from './components/application';
-export { initialize, App, be5, bus, changeDocument };
+//export {default as be5 } from './be5';
+//export {default as bus      } from './core/bus';
+//export {default as changeDocument } from './core/changeDocument';
+//export {default as initialize     } from './core/initialize';
+//export {default as App            } from './components/application';
+//
+//export {default as SideBar } from './components/sideBar';
+//export {default as Document } from './components/document';
+//export {default as SplitPane } from './components/splitPane';
+//export {default as StaticPage } from './components/staticPage';
+//
+//export {default as Form } from './actions/form';
+//export {default as Table } from './actions/table';
+//export {default as Login } from './actions/login';
 
-import SideBar from './components/sideBar';
-import Document from './components/document';
-import SplitPane from './components/splitPane';
+//export {
+//  initialize, App, be5, bus, changeDocument,
+//  SideBar, Document, SplitPane, StaticPage,
+//  Form, Table, Login
+//};
 
-export { SideBar, Document, SplitPane };
-//todo files to reg actions
-//export Form            from './actions/form';
-//export Table            from './actions/table';
-//export Login            from './actions/login';
-
-
-import Form from './actions/form';
-import Table from './actions/table';
-import Login from './actions/login';
-
-export { Form, Table, Login };
+//export default {
+//  initialize
+//
+//};

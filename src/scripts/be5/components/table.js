@@ -10,7 +10,7 @@ import numberFormatter         from 'number-format.js';
 import DataTables     from 'datatables';
 
 import '../../../css/table.css';
-import reloadImg from '../../../images/reload.png';
+//import reloadImg from '../../../images/reload.png';
 
 const OperationBox = React.createClass({displayName: "OperationBox",
   onClick(name, e) {
@@ -482,11 +482,11 @@ const Table = React.createClass({
   render() {
     const value = this.props.value;
     const reloadClass = "table-reload float-xs-right " + this.state.runReload;
-
+//<img src={reloadImg} alt={be5.messages.reload} title={be5.messages.reload}/>
     return (
       <div>
         <span onClick={this._reload} className={reloadClass}>
-          <img src={reloadImg} alt={be5.messages.reload} title={be5.messages.reload}/>
+          reload
         </span>
         <h1>{value.title}</h1>
         <TableBox

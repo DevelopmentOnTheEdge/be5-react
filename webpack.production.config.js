@@ -23,8 +23,7 @@ if (env.min) {
 
 let config = {
     entry: {
-        be5: './src/scripts/be5/main.js',
-        be5library: './src/scripts/be5/library.js'
+        be5: './src/scripts/be5/main.js'
     },
     output: {
         publicPath: '/',

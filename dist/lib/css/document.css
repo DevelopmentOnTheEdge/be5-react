@@ -1,0 +1,37 @@
+@CHARSET "UTF-8";
+body div.scroll {
+    width: 100%;
+    overflow: auto;
+}
+.operationList {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 24px;
+}
+.operationBtn {
+    display: inline-block;
+    padding: 8px;
+    margin: 4px;
+    background-color: #DDDDDD;
+    cursor: pointer;
+    border-radius: 4px;
+    color: black;
+    text-decoration: none;
+}
+.operationBtn:hover {
+    background-color: #AACCCC;
+}
+.operationBtn:active {
+    background-color: #40CCCC;
+}
+.operationBtn.disabled {
+    color: gray;
+    cursor: default;
+}
+.operationBtn.disabled:hover {
+    background-color: #DDDDDD;
+}
+.operationBtn.disabled:active {
+    background-color: #DDDDDD;
+}

@@ -51,21 +51,21 @@ var TableForm = React.createClass({
   }
 });
 
-be5.registerAction('tableForm', function(entity, query, params) {
-  if(query === undefined)
-    query = 'All records';
-  if(params === undefined)
-    params = {};
-  var fullParams = { category: entity, page: query };
-  $.extend(fullParams, params);
-  be5.net.request('document', fullParams, function(value) {
-      value.type = 'tableForm';
-      changeDocument(value);
-  });            
-});
-
-be5.ui.registerDocumentType('tableForm', function(value) {
-  return ( React.createElement(TableForm, {ref: "tableForm", value: value}) );
-});
+//be5.registerAction('tableForm', function(entity, query, params) {
+//  if(query === undefined)
+//    query = 'All records';
+//  if(params === undefined)
+//    params = {};
+//  var fullParams = { category: entity, page: query };
+//  $.extend(fullParams, params);
+//  be5.net.request('document', fullParams, function(value) {
+//      value.type = 'tableForm';
+//      changeDocument(value);
+//  });
+//});
+//
+//be5.ui.registerDocumentType('tableForm', function(value) {
+//  return ( React.createElement(TableForm, {ref: "tableForm", value: value}) );
+//});
 
 export default TableForm;

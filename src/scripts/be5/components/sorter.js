@@ -1,5 +1,5 @@
 import React from 'react';
-import cx from 'react-classset';
+import cx from 'classnames';
 
 export default React.createClass({
   displayName: 'Sorter',

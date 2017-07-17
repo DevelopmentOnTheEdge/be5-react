@@ -1,6 +1,6 @@
 import React from 'react';
 import Be5MenuHolder from './be5MenuHolder';
-import Const from './be5/constants';
+import Const from '../constants';
 import Action from './action';
 
 export default React.createClass({

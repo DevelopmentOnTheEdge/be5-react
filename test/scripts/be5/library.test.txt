@@ -1,0 +1,52 @@
+var $ = require('jquery');
+window.jQuery = $;
+global.jQuery = $;
+
+window.$ = $;
+global.$ = $;
+
+import React from 'react';
+import renderer from 'react-test-renderer';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
+import {shallow, mount, render} from 'enzyme';
+
+import {
+  App,
+  StaticPage,
+  SideBar,
+  Document,
+  SplitPane,
+  bus,
+  initialize,
+  changeDocument
+} from '../../../src/scripts/be5/library';
+
+test('test initialize', () => {
+    initialize('app', App);
+    //bus.fire('LoggedOut');
+});
+
+test('test mount', () => {
+    mount(<App />);
+});
+
+test('test app', () => {
+    const renderer = new ReactShallowRenderer();
+    renderer.render(<App />);
+
+    const result = renderer.getRenderOutput();
+    expect(result.props.children).toEqual([
+        <SideBar ref="sideBar"/>,
+        <Document ref="document"/>
+    ]);
+});
+
+test('snapshot', () => {
+    const component = renderer.create(
+        <App />
+    );
+    expect(component.toJSON()).toMatchSnapshot();
+    changeDocument({ component: StaticPage, value: "test" });
+    expect(component.toJSON()).toMatchSnapshot();
+});
+
