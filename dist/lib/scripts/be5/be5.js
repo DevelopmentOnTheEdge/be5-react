@@ -478,9 +478,7 @@ var be5 = {
     return url.substr(0, prefix.length) === prefix;
   },
   getAction: function getAction(actionName, callback) {
-    Promise.resolve().then(function () {
-      return require('' + ('./actions/' + actionName));
-    }).then(function (action) {
+    import('./actions/' + actionName).then(function (action) {
       callback(action.default);
     }).catch(function (err) {
       (0, _changeDocument2.default)(be5.messages.errorUnknownAction.replace('$action', actionName));
