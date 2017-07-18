@@ -20,15 +20,18 @@ export const performOperationResult = (data) => {
       const operationResult = data.value;
       switch (operationResult.status)
       {
-        case 'redirect':
-          console.log(operationResult);
-          //be5.net.request
+        case 'REDIRECTED':
           be5.url.set(operationResult.details);
           return;
-        case 'finished':
+        case 'FINISHED':
           changeDocument({ component: HtmlResult, value: { content: operationResult.message | 'The action was successful' } });
           return;
+        default:
+          changeDocument(be5.messages.errorUnknownAction.replace('$action', 'operationResult.status = ' + operationResult.status))
       }
+      return;
+    default:
+      changeDocument(be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + data.type))
   }
 
 //  case 'RENDER_HTML':

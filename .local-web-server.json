@@ -160,6 +160,20 @@
           }
         }
       }
+    },
+    {
+      "route": "/api/form/apply",
+      "response": {
+        "type": "application/json",
+        "body": {
+          "type":"operationResult",
+          "value":{
+            "details":"table/testtable/Test 1D",
+            "message":null,
+            "status":"REDIRECTED"
+          }
+        }
+      }
     }
 
   ]
