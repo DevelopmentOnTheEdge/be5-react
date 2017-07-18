@@ -20,10 +20,10 @@ export const performOperationResult = (data) => {
       const operationResult = data.value;
       switch (operationResult.status)
       {
-        case 'REDIRECTED':
+        case 'redirect':
           be5.url.set(operationResult.details);
           return;
-        case 'FINISHED':
+        case 'finished':
           changeDocument({ component: HtmlResult, value: { content: operationResult.message | 'The action was successful' } });
           return;
         default:

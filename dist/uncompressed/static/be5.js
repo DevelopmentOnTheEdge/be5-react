@@ -35391,10 +35391,10 @@ var performOperationResult = exports.performOperationResult = function performOp
     case 'operationResult':
       var operationResult = data.value;
       switch (operationResult.status) {
-        case 'REDIRECTED':
+        case 'redirect':
           _be2.default.url.set(operationResult.details);
           return;
-        case 'FINISHED':
+        case 'finished':
           (0, _changeDocument2.default)({ component: HtmlResult, value: { content: operationResult.message | 'The action was successful' } });
           return;
         default:
