@@ -65,7 +65,11 @@ exports[`snapshot 1`] = `
         </div>
         <div
           className="menuFooter"
-        />
+        >
+          <img
+            src={Object {}}
+          />
+        </div>
       </div>
       <hr />
       <h3>
@@ -174,7 +178,11 @@ exports[`snapshot 2`] = `
         </div>
         <div
           className="menuFooter"
-        />
+        >
+          <img
+            src={Object {}}
+          />
+        </div>
       </div>
       <hr />
       <h3>
