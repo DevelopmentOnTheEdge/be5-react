@@ -15,7 +15,7 @@ Object.defineProperty(exports, 'action', {
 
 var _application = require('./application.js');
 
-Object.defineProperty(exports, 'application', {
+Object.defineProperty(exports, 'Application', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_application).default;
@@ -24,7 +24,7 @@ Object.defineProperty(exports, 'application', {
 
 var _be5Block = require('./be5Block.js');
 
-Object.defineProperty(exports, 'be5Block', {
+Object.defineProperty(exports, 'Be5Block', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_be5Block).default;
@@ -33,7 +33,7 @@ Object.defineProperty(exports, 'be5Block', {
 
 var _be5Menu = require('./be5Menu.js');
 
-Object.defineProperty(exports, 'be5Menu', {
+Object.defineProperty(exports, 'Be5Menu', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_be5Menu).default;
@@ -42,7 +42,7 @@ Object.defineProperty(exports, 'be5Menu', {
 
 var _be5MenuHolder = require('./be5MenuHolder.js');
 
-Object.defineProperty(exports, 'be5MenuHolder', {
+Object.defineProperty(exports, 'Be5MenuHolder', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_be5MenuHolder).default;
@@ -51,7 +51,7 @@ Object.defineProperty(exports, 'be5MenuHolder', {
 
 var _be5MenuItem = require('./be5MenuItem.js');
 
-Object.defineProperty(exports, 'be5MenuItem', {
+Object.defineProperty(exports, 'Be5MenuItem', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_be5MenuItem).default;
@@ -60,7 +60,7 @@ Object.defineProperty(exports, 'be5MenuItem', {
 
 var _be5View = require('./be5View.js');
 
-Object.defineProperty(exports, 'be5View', {
+Object.defineProperty(exports, 'Be5View', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_be5View).default;
@@ -69,7 +69,7 @@ Object.defineProperty(exports, 'be5View', {
 
 var _bootstrapButton = require('./bootstrapButton.js');
 
-Object.defineProperty(exports, 'bootstrapButton', {
+Object.defineProperty(exports, 'BootstrapButton', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_bootstrapButton).default;
@@ -78,7 +78,7 @@ Object.defineProperty(exports, 'bootstrapButton', {
 
 var _bootstrapModal = require('./bootstrapModal.js');
 
-Object.defineProperty(exports, 'bootstrapModal', {
+Object.defineProperty(exports, 'BootstrapModal', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_bootstrapModal).default;
@@ -87,7 +87,7 @@ Object.defineProperty(exports, 'bootstrapModal', {
 
 var _customServlet = require('./customServlet.js');
 
-Object.defineProperty(exports, 'customServlet', {
+Object.defineProperty(exports, 'CustomServlet', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_customServlet).default;
@@ -96,7 +96,7 @@ Object.defineProperty(exports, 'customServlet', {
 
 var _document = require('./document.js');
 
-Object.defineProperty(exports, 'document', {
+Object.defineProperty(exports, 'Document', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_document).default;
@@ -105,7 +105,7 @@ Object.defineProperty(exports, 'document', {
 
 var _form = require('./form.js');
 
-Object.defineProperty(exports, 'form', {
+Object.defineProperty(exports, 'Form', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_form).default;
@@ -114,7 +114,7 @@ Object.defineProperty(exports, 'form', {
 
 var _formTable = require('./formTable.js');
 
-Object.defineProperty(exports, 'formTable', {
+Object.defineProperty(exports, 'FormTable', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_formTable).default;
@@ -123,7 +123,7 @@ Object.defineProperty(exports, 'formTable', {
 
 var _languageSelector = require('./languageSelector.js');
 
-Object.defineProperty(exports, 'languageSelector', {
+Object.defineProperty(exports, 'LanguageSelector', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_languageSelector).default;
@@ -132,7 +132,7 @@ Object.defineProperty(exports, 'languageSelector', {
 
 var _login = require('./login.js');
 
-Object.defineProperty(exports, 'login', {
+Object.defineProperty(exports, 'Login', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_login).default;
@@ -141,7 +141,7 @@ Object.defineProperty(exports, 'login', {
 
 var _menu = require('./menu');
 
-Object.defineProperty(exports, 'menu', {
+Object.defineProperty(exports, 'Menu', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_menu).default;
@@ -150,7 +150,7 @@ Object.defineProperty(exports, 'menu', {
 
 var _pool = require('./pool.js');
 
-Object.defineProperty(exports, 'pool', {
+Object.defineProperty(exports, 'Pool', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_pool).default;
@@ -159,7 +159,7 @@ Object.defineProperty(exports, 'pool', {
 
 var _roleSelector = require('./roleSelector.js');
 
-Object.defineProperty(exports, 'roleSelector', {
+Object.defineProperty(exports, 'RoleSelector', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_roleSelector).default;
@@ -168,7 +168,7 @@ Object.defineProperty(exports, 'roleSelector', {
 
 var _sideBar = require('./sideBar.js');
 
-Object.defineProperty(exports, 'sideBar', {
+Object.defineProperty(exports, 'SideBar', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_sideBar).default;
@@ -177,7 +177,7 @@ Object.defineProperty(exports, 'sideBar', {
 
 var _simpleTable = require('./simpleTable.js');
 
-Object.defineProperty(exports, 'simpleTable', {
+Object.defineProperty(exports, 'SimpleTable', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_simpleTable).default;
@@ -186,7 +186,7 @@ Object.defineProperty(exports, 'simpleTable', {
 
 var _sorter = require('./sorter.js');
 
-Object.defineProperty(exports, 'sorter', {
+Object.defineProperty(exports, 'Sorter', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_sorter).default;
@@ -195,7 +195,7 @@ Object.defineProperty(exports, 'sorter', {
 
 var _splitPane = require('./splitPane.js');
 
-Object.defineProperty(exports, 'splitPane', {
+Object.defineProperty(exports, 'SplitPane', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_splitPane).default;
@@ -204,7 +204,7 @@ Object.defineProperty(exports, 'splitPane', {
 
 var _staticPage = require('./staticPage.js');
 
-Object.defineProperty(exports, 'staticPage', {
+Object.defineProperty(exports, 'StaticPage', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_staticPage).default;
@@ -213,7 +213,7 @@ Object.defineProperty(exports, 'staticPage', {
 
 var _table = require('./table.js');
 
-Object.defineProperty(exports, 'table', {
+Object.defineProperty(exports, 'Table', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_table).default;
@@ -222,7 +222,7 @@ Object.defineProperty(exports, 'table', {
 
 var _tableForm = require('./tableForm.js');
 
-Object.defineProperty(exports, 'tableForm', {
+Object.defineProperty(exports, 'TableForm', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_tableForm).default;
@@ -231,7 +231,7 @@ Object.defineProperty(exports, 'tableForm', {
 
 var _treeMenu = require('./treeMenu.js');
 
-Object.defineProperty(exports, 'treeMenu', {
+Object.defineProperty(exports, 'TreeMenu', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_treeMenu).default;

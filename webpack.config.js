@@ -18,8 +18,7 @@ loaders.push({
 module.exports = {
     entry: {
         reactHotLoader: 'react-hot-loader/patch',
-        be5app: './src/scripts/be5/main.js',
-        be5library: './src/scripts/be5/library.js'
+        be5app: './src/scripts/be5/main.js'
     },
     devtool: process.env.WEBPACK_DEVTOOL || 'eval-source-map',
     output: {

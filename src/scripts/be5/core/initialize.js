@@ -1,7 +1,4 @@
 import be5          from '../be5';
-import Pool         from '../actions/pool';
-import Static         from '../actions/static';
-import Logout         from '../actions/logout';
 
 import ReactDOM from 'react-dom';
 import React from 'react';

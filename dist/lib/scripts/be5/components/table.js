@@ -48,9 +48,11 @@ var _datatables2 = _interopRequireDefault(_datatables);
 
 require('../../../css/table.css');
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _reload2 = require('../../../images/reload.png');
 
-//import reloadImg from '../../../images/reload.png';
+var _reload3 = _interopRequireDefault(_reload2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var OperationBox = _react2.default.createClass({ displayName: "OperationBox",
   onClick: function onClick(name, e) {
@@ -518,14 +520,14 @@ var Table = _react2.default.createClass({
   render: function render() {
     var value = this.props.value;
     var reloadClass = "table-reload float-xs-right " + this.state.runReload;
-    //<img src={reloadImg} alt={be5.messages.reload} title={be5.messages.reload}/>
+
     return _react2.default.createElement(
       'div',
       null,
       _react2.default.createElement(
         'span',
         { onClick: this._reload, className: reloadClass },
-        'reload'
+        _react2.default.createElement('img', { src: _reload3.default, alt: _be2.default.messages.reload, title: _be2.default.messages.reload })
       ),
       _react2.default.createElement(
         'h1',

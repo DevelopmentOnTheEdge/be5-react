@@ -3,7 +3,7 @@
   "version": "0.1.5",
   "main": "dist/lib/scripts/be5/index.js",
   "scripts": {
-    "start": "ws -d dist/compressed",
+    "start": "ws -d dist/uncompressed",
     "dev": "webpack-dev-server --progress --profile --colors",
     "build": "webpack --config webpack.production.config.js --progress --profile --colors --env.build",
     "build-min": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.min",

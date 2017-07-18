@@ -7,6 +7,10 @@ import bus      from './core/bus';
 import changeDocument from './core/changeDocument';
 window.jQuery = window.$ = require('jquery');
 
+import poolAction         from './actions/pool';
+import staticAction         from './actions/static';
+import logoutAction         from './actions/logout';
+
 var messages = {
   en: {
     errorCannotConnect : 'Cannot connect to server',

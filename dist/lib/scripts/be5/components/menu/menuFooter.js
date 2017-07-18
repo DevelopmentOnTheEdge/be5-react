@@ -10,15 +10,21 @@ var _react2 = _interopRequireDefault(_react);
 
 require('../../../../css/menuFooter.css');
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _logoBe = require('../../../../images/logo-be.png');
 
-//import logoBe from '../../../../images/logo-be.png';
+var _logoBe2 = _interopRequireDefault(_logoBe);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _default = _react2.default.createClass({
   displayName: 'MenuFooter',
-  //<img src={logoBe}/>
+
   render: function render() {
-    return _react2.default.createElement('div', { className: 'menuFooter' });
+    return _react2.default.createElement(
+      'div',
+      { className: 'menuFooter' },
+      _react2.default.createElement('img', { src: _logoBe2.default })
+    );
   }
 });
 

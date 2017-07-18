@@ -34,6 +34,18 @@ var _changeDocument = require('./core/changeDocument');
 
 var _changeDocument2 = _interopRequireDefault(_changeDocument);
 
+var _pool = require('./actions/pool');
+
+var _pool2 = _interopRequireDefault(_pool);
+
+var _static = require('./actions/static');
+
+var _static2 = _interopRequireDefault(_static);
+
+var _logout = require('./actions/logout');
+
+var _logout2 = _interopRequireDefault(_logout);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 window.jQuery = window.$ = require('jquery');

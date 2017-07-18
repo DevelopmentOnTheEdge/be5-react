@@ -8,18 +8,6 @@ var _be = require('../be5');
 
 var _be2 = _interopRequireDefault(_be);
 
-var _pool = require('../actions/pool');
-
-var _pool2 = _interopRequireDefault(_pool);
-
-var _static = require('../actions/static');
-
-var _static2 = _interopRequireDefault(_static);
-
-var _logout = require('../actions/logout');
-
-var _logout2 = _interopRequireDefault(_logout);
-
 var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
