@@ -19,6 +19,9 @@ let outPath = 'dist/uncompressed';
 if (env.min) {
     fileName = 'static/[name].min.js';
     outPath = 'dist/compressed';
+}else if (env.lib) {
+    fileName = 'static/[name].js';
+    outPath = 'dist/lib';
 }
 
 let config = {
@@ -29,7 +32,8 @@ let config = {
         publicPath: '/',
         path: path.join(__dirname, outPath),
         filename: fileName,
-        library:  '[name]'
+        library:  '[name]',
+        libraryTarget: 'umd'
     },
     resolve: {
         extensions: ['.js', '.jsx']
@@ -65,6 +69,16 @@ if (env.min) {
             'NODE_ENV': JSON.stringify('production')
         }
     }));
+}
+
+if (env.lib) {
+  config.entry.be5 = './src/scripts/be5/index.js';
+  config.externals = [
+    'react',
+    'react-dom',
+    'underscore',
+    'classnames'
+  ];
 }
 
 module.exports = config;

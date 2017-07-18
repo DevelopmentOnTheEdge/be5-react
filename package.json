@@ -1,7 +1,7 @@
 {
   "name": "be5-react",
   "version": "0.1.5",
-  "main": "dist/lib/scripts/be5/index.js",
+  "main": "dist/lib/static/be5.js",
   "scripts": {
     "start": "ws -d dist/uncompressed",
     "dev": "webpack-dev-server --progress --profile --colors",
@@ -12,9 +12,8 @@
     "coverage": "npm test -- --coverage",
     "coveralls": "npm run-script coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "create-index": "create-index ./src/scripts/be5/ -r",
-    "libOld": "babel src -d dist/lib --presets es2015 --plugins syntax-dynamic-import",
-    "lib": "webpack --config webpack.lib.config.js --progress --profile --colors --env.build",
-    "lib-min": "webpack --config webpack.lib.config.js --progress --profile --colors --env.build --env.min"
+    "libOld": "babel src -d dist/libOld --presets es2015 --plugins syntax-dynamic-import",
+    "lib": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.lib"
   },
   "dependencies": {
     "react": "^15.5.4",
