@@ -33,6 +33,7 @@ let config = {
         path: path.join(__dirname, outPath),
         filename: fileName,
         library:  '[name]',
+        chunkFilename : 'static/be5-[name]-[id].js',
         libraryTarget: 'umd'
     },
     resolve: {
