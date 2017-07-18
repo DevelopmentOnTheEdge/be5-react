@@ -116,13 +116,13 @@ const Login = React.createClass({
   }
 });
 
-be5.net.errorHandlers['ACCESS_DENIED_TO_QUERY'] = function() {
-  be5.net.request('login/state', {}, ({ value: { loggedIn: loggedIn } }) => {
-    if (!loggedIn) {
-      //be5.url.set('');
-      //be5.url.set('login/dialog/' + encodeURIComponent(document.location.hash));
-    }
-  });
-};
+//be5.net.errorHandlers['ACCESS_DENIED_TO_QUERY'] = function() {
+//  be5.net.request('login/state', {}, ({ value: { loggedIn: loggedIn } }) => {
+//    if (!loggedIn) {
+//      //be5.url.set('');
+//      //be5.url.set('login/dialog/' + encodeURIComponent(document.location.hash));
+//    }
+//  });
+//};
   
 export default Login;

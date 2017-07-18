@@ -7,9 +7,12 @@ import bus      from './core/bus';
 import changeDocument from './core/changeDocument';
 window.jQuery = window.$ = require('jquery');
 
-import poolAction         from './actions/pool';
-import staticAction         from './actions/static';
-import logoutAction         from './actions/logout';
+import formAction from './actions/form.js';
+import loginAction from './actions/login.js';
+import logoutAction from './actions/logout.js';
+import poolAction from './actions/pool.js';
+import staticAction from './actions/static.js';
+import tableAction from './actions/table.js';
 
 var messages = {
   en: {
@@ -480,32 +483,35 @@ const be5 = {
     return url.substr(0, prefix.length) === prefix;
   },
 
-  getAction(actionName, callback) {
-    import('./actions/' + actionName).then(function(action) {
-      callback(action.default);
-    }).catch(function(err) {
-      changeDocument(be5.messages.errorUnknownAction.replace('$action', actionName))
-      console.log('Failed to load action', err);
-    });
+  actions: {
+    login: loginAction,
+    logout: loginAction,
+    form: formAction,
+    table: tableAction,
+    pool: poolAction,
+    static: staticAction
+  },
 
-    // var action = be5.actions[actionName];
-    // if (typeof(action) === 'string') {
-    //   System.import(action).then(function (action) {
-    //     if (action['default']) {
-    //       action = action['default'];
-    //     }
-    //     be5.actions[actionName] = action;
-    //     callback(action);
-    //   });
-    // }
-    // else {
-    //   return callback(action);
-    // }
+  getAction(actionName, callback) {
+    var action = be5.actions[actionName];
+    if(action === undefined){
+      changeDocument(be5.messages.errorUnknownAction.replace('$action', actionName));
+      console.error(be5.messages.errorUnknownAction.replace('$action', actionName));
+    }else{
+      callback(action);
+    }
   },
   
-  // registerAction(actionName, fn) {
-  //   be5.actions[actionName] = fn;
-  // }
+  registerAction(actionName, fn) {
+    be5.actions[actionName] = fn;
+  }
+  //not work in prod build use as lib
+  //    import('./actions/' + actionName).then(function(action) {
+  //      callback(action.default);
+  //    }).catch(function(err) {
+  //      changeDocument(be5.messages.errorUnknownAction.replace('$action', actionName))
+  //      console.log('Failed to load action', err);
+  //    });
 };
 
 var hashChange = function() {

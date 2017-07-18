@@ -167,16 +167,14 @@ var Login = _react2.default.createClass({
   }
 });
 
-_be2.default.net.errorHandlers['ACCESS_DENIED_TO_QUERY'] = function () {
-  _be2.default.net.request('login/state', {}, function (_ref) {
-    var loggedIn = _ref.value.loggedIn;
-
-    if (!loggedIn) {
-      //be5.url.set('');
-      //be5.url.set('login/dialog/' + encodeURIComponent(document.location.hash));
-    }
-  });
-};
+//be5.net.errorHandlers['ACCESS_DENIED_TO_QUERY'] = function() {
+//  be5.net.request('login/state', {}, ({ value: { loggedIn: loggedIn } }) => {
+//    if (!loggedIn) {
+//      //be5.url.set('');
+//      //be5.url.set('login/dialog/' + encodeURIComponent(document.location.hash));
+//    }
+//  });
+//};
 
 var _default = Login;
 exports.default = _default;

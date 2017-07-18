@@ -34,17 +34,29 @@ var _changeDocument = require('./core/changeDocument');
 
 var _changeDocument2 = _interopRequireDefault(_changeDocument);
 
-var _pool = require('./actions/pool');
+var _form = require('./actions/form.js');
+
+var _form2 = _interopRequireDefault(_form);
+
+var _login = require('./actions/login.js');
+
+var _login2 = _interopRequireDefault(_login);
+
+var _logout = require('./actions/logout.js');
+
+var _logout2 = _interopRequireDefault(_logout);
+
+var _pool = require('./actions/pool.js');
 
 var _pool2 = _interopRequireDefault(_pool);
 
-var _static = require('./actions/static');
+var _static = require('./actions/static.js');
 
 var _static2 = _interopRequireDefault(_static);
 
-var _logout = require('./actions/logout');
+var _table = require('./actions/table.js');
 
-var _logout2 = _interopRequireDefault(_logout);
+var _table2 = _interopRequireDefault(_table);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -489,31 +501,37 @@ var be5 = {
     var prefix = 'http';
     return url.substr(0, prefix.length) === prefix;
   },
-  getAction: function getAction(actionName, callback) {
-    import('./actions/' + actionName).then(function (action) {
-      callback(action.default);
-    }).catch(function (err) {
-      (0, _changeDocument2.default)(be5.messages.errorUnknownAction.replace('$action', actionName));
-      console.log('Failed to load action', err);
-    });
 
-    // var action = be5.actions[actionName];
-    // if (typeof(action) === 'string') {
-    //   System.import(action).then(function (action) {
-    //     if (action['default']) {
-    //       action = action['default'];
-    //     }
-    //     be5.actions[actionName] = action;
-    //     callback(action);
-    //   });
-    // }
-    // else {
-    //   return callback(action);
-    // }
+
+  actions: {
+    login: _login2.default,
+    logout: _login2.default,
+    form: _form2.default,
+    table: _table2.default,
+    pool: _pool2.default,
+    static: _static2.default
+  },
+
+  getAction: function getAction(actionName, callback) {
+    var action = be5.actions[actionName];
+    if (action === undefined) {
+      (0, _changeDocument2.default)(be5.messages.errorUnknownAction.replace('$action', actionName));
+      console.error(be5.messages.errorUnknownAction.replace('$action', actionName));
+    } else {
+      callback(action);
+    }
   },
   registerAction: function registerAction(actionName, fn) {
     be5.actions[actionName] = fn;
   }
+  //not work in prod build use as lib
+  //    import('./actions/' + actionName).then(function(action) {
+  //      callback(action.default);
+  //    }).catch(function(err) {
+  //      changeDocument(be5.messages.errorUnknownAction.replace('$action', actionName))
+  //      console.log('Failed to load action', err);
+  //    });
+
 };
 
 var hashChange = function hashChange() {
@@ -527,15 +545,15 @@ be5.net.request("appInfo", {}, function (data) {
   be5.ui.setTitle();
 });
 
-be5.net.request('languageSelector', {}, function (data) {
-  be5.locale.set(data.selected, data.messages);
-  be5.url.process(document.location.hash);
-});
-
 _bus2.default.listen('CallDefaultAction', function () {
   be5.net.request('menu/defaultAction', {}, function (data) {
     be5.url.set(data.arg);
   });
+});
+
+be5.net.request('languageSelector', {}, function (data) {
+  be5.locale.set(data.selected, data.messages);
+  be5.url.process(document.location.hash);
 });
 
 var _default = be5;
