@@ -485,7 +485,7 @@ const be5 = {
 
   actions: {
     login: loginAction,
-    logout: loginAction,
+    logout: logoutAction,
     form: formAction,
     table: tableAction,
     pool: poolAction,
