@@ -188,102 +188,7 @@ const be5 = {
         return typeof(c) === 'string';
       }).join(' - ');
     },
-    
-//    convertLinks(container) {
-//      $(container).find('style').remove();
-//      $(container).find('a').each(function() {
-//        var parseParameters = function(paramStr) {
-//          var params = {};
-//          var components = paramStr.split(/[\&\;]/);
-//          for(var i=0; i<components.length; i++) {
-//            var component = components[i];
-//            var equalsPos = component.indexOf('=');
-//            if(equalsPos < 0)
-//              continue;
-//            var key = component.substring(0, equalsPos);
-//            var value = component.substring(equalsPos+1);
-//            params[decodeURIComponent(key.replace(/\+/g, ' '))] = decodeURIComponent(value.replace(/\+/g, ' '));
-//          }
-//          return params;
-//        };
-//        var filterParameters = function(params) {
-//          delete params._t_;
-//          delete params._qn_;
-//          delete params._on_;
-//          delete params._enc_;
-//          delete params._use_crumbs_;
-//          delete params._ts_;
-//          return params;
-//        };
-//
-//        var href = this.getAttribute('href');
-//        var target = this.getAttribute('target');
-//        if(/^(mailto:|https?:|\/\/|\#\!)/.test(href))
-//          return;
-//        var questionPos = href.indexOf('?');
-//        var servlet;
-//        var parameters;
-//        if(questionPos >= 0) {
-//          servlet = href.substring(0, questionPos);
-//          parameters = parseParameters(href.substring(questionPos+1));
-//        } else {
-//          servlet = href;
-//          parameters = {};
-//        }
-//        if(be5.hasAction(servlet)) {
-//          this.setAttribute('href', '#!'+be5.url.create(servlet, undefined, parameters));
-//          return;
-//        }
-//        if(/^\w+\.be$/.test(servlet)) {
-//          this.setAttribute('href', '#!'+be5.url.create('static', [servlet]));
-//          return;
-//        }
-//        var redir = /^(\w+)\.redir$/.exec(servlet);
-//        if(redir) {
-//          var query = parameters._qn_ || Const.DEFAULT_VIEW;
-//          this.setAttribute('href', '#!'+be5.url.create('table', [redir[1], query], filterParameters(parameters)));
-//          return;
-//        }
-//        if (servlet === 'registration') {
-//          var entity = 'users';
-//          var query = 'Registration';
-//          var operation = 'Registration';
-//          this.setAttribute('href', '#!'+be5.url.create('tableParameters', [entity, query, operation], filterParameters(parameters)));
-//          return;
-//        }
-//        if(servlet === 'q') {
-//          var entity = parameters._t_;
-//          var query = parameters._qn_ || Const.DEFAULT_VIEW;
-//          if(entity !== undefined) {
-//            this.setAttribute('href', '#!'+be5.url.create('table', [entity, query], filterParameters(parameters)));
-//            return;
-//          }
-//        }
-//        if(servlet === 'o') {
-//          var entity = parameters._t_;
-//          var query = parameters._qn_ || Const.DEFAULT_VIEW;
-//          var operation = parameters._on_;
-//          if(entity !== undefined && operation !== undefined) {
-//            this.setAttribute('href', '#!'+be5.url.create('form', [entity, query, operation], filterParameters(parameters)));
-//            return;
-//          }
-//        }
-//        if(servlet === 'splitter') {
-//          var entity = parameters._t_;
-//          var query = parameters._qn_ || Const.DEFAULT_VIEW;
-//          var operation = parameters._on_;
-//          if(entity !== undefined && operation !== undefined) {
-//            this.setAttribute('href', '#!'+be5.url.create('tableParameters', [entity, query, operation], filterParameters(parameters)));
-//            return;
-//          }
-//        }
-//        if(target !== '') {
-//          this.setAttribute('href', be5.def.URL_PREFIX+'legacyServlet/'+href);
-//        } else {
-//          this.setAttribute('href', '#!'+be5.url.create('unknown', [servlet], parameters));
-//        }
-//      });
-//    }
+
   },
 
   url: {
@@ -598,9 +503,9 @@ const be5 = {
     // }
   },
   
-  registerAction(actionName, fn) {
-    be5.actions[actionName] = fn;
-  }
+  // registerAction(actionName, fn) {
+  //   be5.actions[actionName] = fn;
+  // }
 };
 
 var hashChange = function() {
@@ -614,16 +519,15 @@ be5.net.request("appInfo", {}, function(data) {
   be5.ui.setTitle();
 });
 
-// be5.net.request("scriptList", {category : "scripts"}, function(data) {
-//   for(var i=0; i<data.length; i++)
-//     if(!be5.actions[data[i].name])
-//       be5.actions[data[i].name] = data[i].path;
-// });
-
 bus.listen('CallDefaultAction', () => {
   be5.net.request('menu/defaultAction', {}, data => {
     be5.url.set(data.arg)
   });
+});
+
+be5.net.request('languageSelector', {}, function(data) {
+  be5.locale.set(data.selected, data.messages);
+  be5.url.process(document.location.hash);
 });
 
 export default be5;

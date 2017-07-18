@@ -1,9 +1,7 @@
 import React          from 'react';
 import be5            from '../be5';
-import changeDocument from '../core/changeDocument';
 import Forms          from '../services/forms';
-import Form, {performOperationResult}           from '../components/form';
-import {HtmlResult}     from '../components/form';
+import {performOperationResult}           from '../components/form';
 
 export default function(entity, query, operation, operationParams) {
 

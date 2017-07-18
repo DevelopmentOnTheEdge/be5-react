@@ -12,17 +12,11 @@ var _be = require('../be5');
 
 var _be2 = _interopRequireDefault(_be);
 
-var _changeDocument = require('../core/changeDocument');
-
-var _changeDocument2 = _interopRequireDefault(_changeDocument);
-
 var _forms = require('../services/forms');
 
 var _forms2 = _interopRequireDefault(_forms);
 
 var _form = require('../components/form');
-
-var _form2 = _interopRequireDefault(_form);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

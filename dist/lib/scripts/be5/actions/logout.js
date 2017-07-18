@@ -19,7 +19,7 @@ var _bus2 = _interopRequireDefault(_bus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _default = function _default() {
-  _be2.default.net.request('logout', {}, function (data) {
+  _be2.default.net.request('logout', {}, function () {
     document.cookie = 'be_auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 
     _bus2.default.fire('LoggedOut');

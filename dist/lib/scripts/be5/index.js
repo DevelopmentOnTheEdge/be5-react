@@ -4,15 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actions = require('./actions');
-
-Object.defineProperty(exports, 'actions', {
-  enumerable: true,
-  get: function get() {
-    return _interopRequireDefault(_actions).default;
-  }
-});
-
 var _be = require('./be5.js');
 
 Object.defineProperty(exports, 'be5', {
@@ -31,30 +22,12 @@ Object.defineProperty(exports, 'constants', {
   }
 });
 
-var _core = require('./core');
-
-Object.defineProperty(exports, 'core', {
-  enumerable: true,
-  get: function get() {
-    return _interopRequireDefault(_core).default;
-  }
-});
-
 var _preconditions = require('./preconditions.js');
 
 Object.defineProperty(exports, 'preconditions', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_preconditions).default;
-  }
-});
-
-var _services = require('./services');
-
-Object.defineProperty(exports, 'services', {
-  enumerable: true,
-  get: function get() {
-    return _interopRequireDefault(_services).default;
   }
 });
 
@@ -127,15 +100,6 @@ Object.defineProperty(exports, 'http', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_http).default;
-  }
-});
-
-var _initialize = require('./core/initialize.js');
-
-Object.defineProperty(exports, 'initialize', {
-  enumerable: true,
-  get: function get() {
-    return _interopRequireDefault(_initialize).default;
   }
 });
 
@@ -292,15 +256,6 @@ Object.defineProperty(exports, 'Login', {
   }
 });
 
-var _menu = require('./components/menu');
-
-Object.defineProperty(exports, 'Menu', {
-  enumerable: true,
-  get: function get() {
-    return _interopRequireDefault(_menu).default;
-  }
-});
-
 var _pool = require('./components/pool.js');
 
 Object.defineProperty(exports, 'Pool', {
@@ -391,12 +346,12 @@ Object.defineProperty(exports, 'TreeMenu', {
   }
 });
 
-var _menu2 = require('./components/menu/menu.js');
+var _menu = require('./components/menu/menu.js');
 
 Object.defineProperty(exports, 'menu', {
   enumerable: true,
   get: function get() {
-    return _interopRequireDefault(_menu2).default;
+    return _interopRequireDefault(_menu).default;
   }
 });
 

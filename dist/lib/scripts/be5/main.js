@@ -1,8 +1,12 @@
 'use strict';
 
-var _initialize = require('./core/initialize');
+var _reactDom = require('react-dom');
 
-var _initialize2 = _interopRequireDefault(_initialize);
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
 
 var _application = require('./components/application');
 
@@ -12,7 +16,7 @@ require('../../sass/styles.scss');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-(0, _initialize2.default)('app', _application2.default);
+_reactDom2.default.render(_react2.default.createElement(_application2.default, null), document.getElementById('app'));
 ;
 
 var _temp = function () {

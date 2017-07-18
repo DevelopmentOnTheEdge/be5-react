@@ -527,11 +527,10 @@ be5.net.request("appInfo", {}, function (data) {
   be5.ui.setTitle();
 });
 
-// be5.net.request("scriptList", {category : "scripts"}, function(data) {
-//   for(var i=0; i<data.length; i++)
-//     if(!be5.actions[data[i].name])
-//       be5.actions[data[i].name] = data[i].path;
-// });
+be5.net.request('languageSelector', {}, function (data) {
+  be5.locale.set(data.selected, data.messages);
+  be5.url.process(document.location.hash);
+});
 
 _bus2.default.listen('CallDefaultAction', function () {
   be5.net.request('menu/defaultAction', {}, function (data) {

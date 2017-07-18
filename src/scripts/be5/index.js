@@ -1,12 +1,8 @@
 // @create-index
 
-export { default as actions } from './actions';
 export { default as be5 } from './be5.js';
 export { default as constants } from './constants.js';
-export { default as core } from './core';
-//export { default as main } from './main.js';
 export { default as preconditions } from './preconditions.js';
-export { default as services } from './services';
 export { default as settings } from './settings.js';
 
 // core
@@ -17,7 +13,6 @@ export { default as createStore } from './core/createStore.js';
 export { default as documentUtils } from './core/documentUtils.js';
 export { default as ext } from './core/ext.js';
 export { default as http } from './core/http.js';
-export { default as initialize } from './core/initialize.js';
 export { default as loadDocument } from './core/loadDocument.js';
 export { default as registerDocumentType } from './core/registerDocumentType.js';
 
@@ -37,7 +32,6 @@ export { default as Form } from './components/form.js';
 export { default as FormTable } from './components/formTable.js';
 export { default as LanguageSelector } from './components/languageSelector.js';
 export { default as Login } from './components/login.js';
-export { default as Menu } from './components/menu';
 export { default as Pool } from './components/pool.js';
 export { default as RoleSelector } from './components/roleSelector.js';
 export { default as SideBar } from './components/sideBar.js';

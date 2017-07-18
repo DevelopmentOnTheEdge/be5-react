@@ -19,7 +19,7 @@ const menu = {
 
 const getMenu = function() {
   return menu;
-}
+};
 
 const addListener = function(listener) {
   listeners.push(listener);
