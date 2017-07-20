@@ -72,5 +72,6 @@ module.exports = {
                 js: [ "bundle.js"],
             }
         }),
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|ru/)
     ]
 };
