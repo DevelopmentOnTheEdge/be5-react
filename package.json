@@ -16,7 +16,6 @@
     "lib": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.lib"
   },
   "dependencies": {
-    "beanexplorer-react": "git+https://git@github.com/DevelopmentOnTheEdge/beanexplorer-react.git#v0.1.8",
     "bootstrap": "4.0.0-alpha.5",
     "bundle-loader": "^0.5.5",
     "classnames": "^2.2.5",
@@ -29,6 +28,7 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
+    "beanexplorer-react": "git+https://git@github.com/DevelopmentOnTheEdge/beanexplorer-react.git#v0.1.8",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
     "babel-jest": "^20.0.3",
