@@ -78,7 +78,8 @@ if (env.lib) {
     'react',
     'react-dom',
     'underscore',
-    'classnames'
+    'classnames',
+    'beanexplorer-react'
   ];
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "be5-react",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "main": "dist/lib/static/be5.js",
   "scripts": {
     "start": "ws -d dist/uncompressed",
