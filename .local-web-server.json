@@ -148,12 +148,68 @@
           "type": "form",
           "value": {
             "bean": {
-              "values": {"name": "","value": ""},
-              "meta": {
-                "/name": {"displayName": "name"},
-                "/value": {"displayName": "value"}
+              "values": {
+                "date": "2017-07-20",
+                "number": "123abc",
+                "agree": true,
+                "select": "vanilla",
+                "multiSelect": "",
+                "description": "",
+                "login": "",
+                "pass": "password"
               },
-              "order": ["/name","/value"]
+              "meta": {
+                "/date": {
+                  "displayName": "Date",
+                  "type": "Date"
+                },
+                "/number": {
+                  "displayName": "Number",
+                  "type": "Long",
+                  "message": "number is required here",
+                  "status": "error"
+                },
+                "/agree": {
+                  "displayName": "Agree",
+                  "type": "Boolean",
+                  "status": "success"
+                },
+                "/select": {
+                  "displayName": "Select",
+                  "tagList": [["Vanilla","vanilla"],["Chocolate","chocolate"],["Strawberry","strawberry"],["Cookies and Cream","cookiescream"],["Caramel","caramel"],["Peppermint","peppermint"]]
+                },
+                "/multiSelect": {
+                  "displayName": "Multi Select",
+                  "multipleSelectionList": true,
+                  "tagList": [["Vanilla","vanilla"],["Chocolate","chocolate"],["Strawberry","strawberry"],["Cookies and Cream","cookiescream"],["Caramel","caramel"],["Peppermint","peppermint"]]
+                },
+                "/description": {
+                  "displayName": "Name",
+                  "type": "textArea",
+                  "placeholder": "field for text"
+                },
+                "/login": {
+                  "displayName": "Name",
+                  "groupId": 5,
+                  "groupName": "Security"
+                },
+                "/pass": {
+                  "displayName": "Password",
+                  "type": "passwordInput",
+                  "groupId": 5,
+                  "status": "success"
+                }
+              },
+              "order": [
+                "/date",
+                "/number",
+                "/agree",
+                "/select",
+                "/multiSelect",
+                "/description",
+                "/login",
+                "/pass"
+              ]
             },
             "selectedRows": "0",
             "title": "Insert"
@@ -170,7 +226,7 @@
           "value":{
             "details":"table/testtable/Test 1D",
             "message":null,
-            "status":"REDIRECTED"
+            "status":"redirect"
           }
         }
       }

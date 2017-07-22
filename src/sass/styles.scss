@@ -14,15 +14,19 @@ $bootstrap-sass-asset-helper: true;
 
 
 .btn { 
-  @extend .btn-sm; 
+  @extend .btn-sm;
+  line-height: 1.60;
 }
 .form-control{
   @extend .form-control-sm;
+  line-height: 1.60;
 }
 
+
 .Pane{
-  padding: 10px;
+  padding: 15px;
 }
+
 
 table.dataTable tfoot th, table.dataTable thead th{
     font-size: 13px;
@@ -36,4 +40,20 @@ table.dataTable.compact tbody th:first-child,
 table.dataTable.compact tbody td:first-child {
     padding: 4px;
     border-left: 1px solid #efefef;
+}
+
+
+.Select-placeholder, .Select--single > .Select-control .Select-value{
+  line-height: 32px;
+}
+.Select-control, .Select-input{
+  height: 32px;
+  font-size: 14px;
+}
+.Select-clear {
+  font-size: 14px;
+}
+.Select-option {
+  font-size: 14px;
+  padding: 4px 10px;
 }
