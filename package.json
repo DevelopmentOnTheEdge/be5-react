@@ -28,7 +28,7 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "beanexplorer-react": "git+https://git@github.com/DevelopmentOnTheEdge/beanexplorer-react.git#v0.1.8",
+    "beanexplorer-react": "git+https://git@github.com/DevelopmentOnTheEdge/beanexplorer-react.git#v0.1.9",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
     "babel-jest": "^20.0.3",
