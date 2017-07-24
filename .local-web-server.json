@@ -176,12 +176,12 @@
                 },
                 "/select": {
                   "displayName": "Select",
-                  "tagList": [["Vanilla","vanilla"],["Chocolate","chocolate"],["Strawberry","strawberry"],["Cookies and Cream","cookiescream"],["Caramel","caramel"],["Peppermint","peppermint"]]
+                  "tagList": [["vanilla","Vanilla"],["chocolate","Chocolate"],["strawberry","Strawberry"],["cookiescream","Cookies and Cream"],["caramel","Caramel"],["peppermint","Peppermint"]]
                 },
                 "/multiSelect": {
                   "displayName": "Multi Select",
                   "multipleSelectionList": true,
-                  "tagList": [["Vanilla","vanilla"],["Chocolate","chocolate"],["Strawberry","strawberry"],["Cookies and Cream","cookiescream"],["Caramel","caramel"],["Peppermint","peppermint"]]
+                  "tagList": [["vanilla","Vanilla"],["chocolate","Chocolate"],["strawberry","Strawberry"],["cookiescream","Cookies and Cream"],["caramel","Caramel"],["peppermint","Peppermint"]]
                 },
                 "/description": {
                   "displayName": "Name",
