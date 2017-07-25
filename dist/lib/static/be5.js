@@ -11861,7 +11861,7 @@ var performOperationResult = exports.performOperationResult = function performOp
           _be2.default.url.set(operationResult.details);
           return;
         case 'finished':
-          (0, _changeDocument2.default)({ component: HtmlResult, value: { content: operationResult.message | 'The action was successful' } });
+          if (operationResult.message !== null) (0, _changeDocument2.default)({ component: HtmlResult, value: { content: operationResult.message | 'The action was successful' } });
           return;
         default:
           (0, _changeDocument2.default)(_be2.default.messages.errorUnknownAction.replace('$action', 'operationResult.status = ' + operationResult.status));
@@ -12004,27 +12004,32 @@ var Form = _react2.default.createClass({
   render: function render() {
     return _react2.default.createElement(
       'div',
-      null,
-      _react2.default.createElement(
-        'h1',
-        null,
-        this.state.title
-      ),
+      { className: 'row' },
       _react2.default.createElement(
         'div',
-        { className: 'row' },
+        { className: 'formBox container ' + (this.state.cssClass || 'formBoxDefault') },
+        _react2.default.createElement(
+          'h1',
+          null,
+          this.state.title
+        ),
         _react2.default.createElement(
           'div',
-          { className: 'col-md-12 col-lg-8 offset-lg-2' },
+          { className: 'row' },
           _react2.default.createElement(
-            'form',
-            { className: 'formBox', onSubmit: this._applyOnSubmit },
-            _react2.default.createElement(_beanexplorerReact2.default, { fields: this.state.bean, onChange: this._onFieldChange }),
-            this._createFormActions()
+            'div',
+            { className: 'col-md-12' },
+            _react2.default.createElement(
+              'form',
+              { className: '', onSubmit: this._applyOnSubmit },
+              _react2.default.createElement(_beanexplorerReact2.default, { fields: this.state.bean, onChange: this._onFieldChange }),
+              this._createFormActions()
+            )
           )
         )
       )
     );
+    //col-md-12 col-lg-8 offset-lg-2
     //<PropertySet fields={this.state.fields} onChange={this._onFieldChange}/>
   },
   _getRawFormValues: function _getRawFormValues() {
@@ -16181,7 +16186,7 @@ exports = module.exports = __webpack_require__(5)();
 
 
 // module
-exports.push([module.i, "@CHARSET \"UTF-8\";\r\n.formBox .formActions {\r\n    text-align: center;\r\n}\r\n.formBox .formActions button.formAction {\r\n    display: inline;\r\n    padding: 8px;\r\n    margin: 4px;\r\n    background-color: #DDDDDD;\r\n    cursor: pointer;\r\n    border: none;\r\n    border-radius: 4px;\r\n}\r\n.formBox .formActions button.formAction:hover {\r\n    background-color: #AACCCC;\r\n}\r\n.formBox .formActions button.formAction:active {\r\n    background-color: #40CCCC;\r\n}\r\n.formBox {\r\n    width: 100%;\r\n    padding: 1em;\r\n    border-radius: 0.25rem;\r\n    border: 1px solid rgba(0, 0, 0, 0.125);\r\n    margin-top: 0.5em;\r\n}\r\n\r\n.formBox fieldset {\r\n    margin: 0 1em 1em;\r\n}\r\n.formBox fieldset:first-child {\r\n    margin-top: 1em;\r\n}\r\n\r\n.formBox .formField {\r\n    width: 100%;\r\n    clear: both;\r\n    overflow: auto;\r\n    background-color: #F8F8F8;\r\n    margin: 4px;\r\n    padding: 4px;\r\n    border-radius: 4px;\r\n    position: relative;\r\n}\r\n.formBox .formField:nth-child(odd):not(:hover) {\r\n    background-color: #E0E0F8;\r\n}\r\n.formBox .formField:nth-child(even):not(:hover) {\r\n    background-color: #E0F8E0;\r\n}\r\n.formBox .formField:hover {\r\n    background-color: #D0D0D0;\r\n}\r\n.formBox .formField .formLabel {\r\n    width: 25%;\r\n    word-break: break-all;\r\n    float: left;\r\n}\r\n.formBox .formField input, .formBox .formField select, .formBox .formField textarea {\r\n    width: 70%;\r\n}\r\n\r\n.linkBack {\r\n    margin-top: 1em;\r\n}\r\n\r\n.formBox label {\r\n    margin-bottom: 2px;\r\n}\r\n\r\n.formBox [type=\"checkbox\"],\r\n.formBox [type=\"radio\"]{\r\n    float: left;\r\n    top: 3px;\r\n    position: relative;\r\n    margin-right: 5px;\r\n}\r\n\r\n.formBox .formGroup {\r\n    border-top: 1px solid rgba(0, 0, 0, 0.125);\r\n    padding: 1.4em 0em 1.1em;\r\n    position: relative;\r\n    /* margin-bottom: 1.6em; */\r\n}\r\n\r\n.formBox .formGroup:first-child{\r\n    border: none;\r\n}\r\n\r\n.formBox .formGroup h3 {\r\n    top: -0.8em;\r\n    position: absolute;\r\n    background-color: white;\r\n    padding: 3pt;\r\n    font-size: 1.3em;\r\n    margin: 0px 1em 0;\r\n}\r\n\r\n.form-group .form-control-static {\r\n    min-height: 0;\r\n    border-radius: 4px;\r\n    font-weight: bold;\r\n    padding: 0;\r\n    margin-bottom: 0;\r\n}", ""]);
+exports.push([module.i, "@CHARSET \"UTF-8\";\r\n\r\n@media (min-width: 1200px){\r\n    .formBox.container.formBoxDefault{\r\n        width: 970px;\r\n    }\r\n}\r\n.formBox{\r\n    margin-top: 30px;\r\n}\r\n\r\n.formBox h1{\r\n    margin-bottom: 30px;\r\n}\r\n\r\n.formBoxBorder {\r\n    padding: 1em;\r\n    border-radius: 0.25rem;\r\n    border: 1px solid rgba(0, 0, 0, 0.125);\r\n}\r\n\r\n/*.formBox .formActions {\r\n    text-align: center;\r\n}\r\n.formBox .formActions button.formAction {\r\n    display: inline;\r\n    padding: 8px;\r\n    margin: 4px;\r\n    background-color: #DDDDDD;\r\n    cursor: pointer;\r\n    border: none;\r\n    border-radius: 4px;\r\n}\r\n.formBox .formActions button.formAction:hover {\r\n    background-color: #AACCCC;\r\n}\r\n.formBox .formActions button.formAction:active {\r\n    background-color: #40CCCC;\r\n}\r\n.formBox {\r\n    width: 100%;\r\n    padding: 1em;\r\n    border-radius: 0.25rem;\r\n    border: 1px solid rgba(0, 0, 0, 0.125);\r\n    margin-top: 0.5em;\r\n}\r\n\r\n.formBox fieldset {\r\n    margin: 0 1em 1em;\r\n}\r\n.formBox fieldset:first-child {\r\n    margin-top: 1em;\r\n}\r\n\r\n.formBox .formField {\r\n    width: 100%;\r\n    clear: both;\r\n    overflow: auto;\r\n    background-color: #F8F8F8;\r\n    margin: 4px;\r\n    padding: 4px;\r\n    border-radius: 4px;\r\n    position: relative;\r\n}\r\n.formBox .formField:nth-child(odd):not(:hover) {\r\n    background-color: #E0E0F8;\r\n}\r\n.formBox .formField:nth-child(even):not(:hover) {\r\n    background-color: #E0F8E0;\r\n}\r\n.formBox .formField:hover {\r\n    background-color: #D0D0D0;\r\n}\r\n.formBox .formField .formLabel {\r\n    width: 25%;\r\n    word-break: break-all;\r\n    float: left;\r\n}\r\n.formBox .formField input, .formBox .formField select, .formBox .formField textarea {\r\n    width: 70%;\r\n}\r\n\r\n.linkBack {\r\n    margin-top: 1em;\r\n}\r\n\r\n.formBox label {\r\n    margin-bottom: 2px;\r\n}\r\n\r\n.formBox [type=\"checkbox\"],\r\n.formBox [type=\"radio\"]{\r\n    float: left;\r\n    top: 3px;\r\n    position: relative;\r\n    margin-right: 5px;\r\n}\r\n\r\n.formBox .formGroup {\r\n    border-top: 1px solid rgba(0, 0, 0, 0.125);\r\n    padding: 1.4em 0em 1.1em;\r\n    position: relative;\r\n}\r\n\r\n.formBox .formGroup:first-child{\r\n    border: none;\r\n}\r\n\r\n.formBox .formGroup h3 {\r\n    top: -0.8em;\r\n    position: absolute;\r\n    background-color: white;\r\n    padding: 3pt;\r\n    font-size: 1.3em;\r\n    margin: 0px 1em 0;\r\n}\r\n\r\n.form-group .form-control-static {\r\n    min-height: 0;\r\n    border-radius: 4px;\r\n    font-weight: bold;\r\n    padding: 0;\r\n    margin-bottom: 0;\r\n}\r\n*/", ""]);
 
 // exports
 
