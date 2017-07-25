@@ -13,6 +13,7 @@ import logoutAction from './actions/logout.js';
 import poolAction from './actions/pool.js';
 import staticAction from './actions/static.js';
 import tableAction from './actions/table.js';
+import formWizardTest from './actions/formWizardTest.js';
 
 var messages = {
   en: {
@@ -489,7 +490,8 @@ const be5 = {
     form: formAction,
     table: tableAction,
     pool: poolAction,
-    static: staticAction
+    static: staticAction,
+    formWizardTest: formWizardTest
   },
 
   getAction(actionName, callback) {
