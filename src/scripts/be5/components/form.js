@@ -24,7 +24,8 @@ export const performOperationResult = (data) => {
           be5.url.set(operationResult.details);
           return;
         case 'finished':
-          changeDocument({ component: HtmlResult, value: { content: operationResult.message | 'The action was successful' } });
+          if(operationResult.message !== null)
+            changeDocument({ component: HtmlResult, value: { content: operationResult.message | 'The action was successful' } });
           return;
         default:
           changeDocument(be5.messages.errorUnknownAction.replace('$action', 'operationResult.status = ' + operationResult.status))
@@ -170,18 +171,21 @@ const Form = React.createClass({
   
   render() {
     return (
-      <div>
-        <h1>{this.state.title}</h1>
-        <div className="row">
-          <div className="col-md-12 col-lg-8 offset-lg-2">
-            <form className="formBox" onSubmit={this._applyOnSubmit}>
-              <PropertySet fields={this.state.bean} onChange={this._onFieldChange}/>
-              {this._createFormActions()}
-            </form>
+      <div className="row">
+        <div className={'formBox container ' + (this.state.cssClass || 'formBoxDefault')}>
+          <h1>{this.state.title}</h1>
+          <div className="row">
+            <div className="col-md-12">
+              <form className="" onSubmit={this._applyOnSubmit}>
+                <PropertySet fields={this.state.bean} onChange={this._onFieldChange}/>
+                {this._createFormActions()}
+              </form>
+            </div>
           </div>
         </div>
       </div>
     );
+    //col-md-12 col-lg-8 offset-lg-2
     //<PropertySet fields={this.state.fields} onChange={this._onFieldChange}/>
   },
   
