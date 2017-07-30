@@ -158,7 +158,7 @@ const QuickColumns = React.createClass({
   }
 });
 
-const formatCell = (data, options) => {
+const formatCell = (data, options, isColumn) => {
   if (!Array.isArray(data)) {
     if (data === '') {
       if (options && options.blankNulls && options.blankNulls.value)
@@ -170,21 +170,19 @@ const formatCell = (data, options) => {
 
   if(options){
     if(options.format){
-      var el = $( '<div></div>' );
-      el.html(data);
-      if($('a', el).length == 1){
-        data = $('a', el).text(
-          numberFormatter(options.format.mask, $('a', el).text())
-        );
-      }else{
         data = numberFormatter(options.format.mask, data);
-      }
     }
     if(options.css || options === 'th'){
       const wrap = $('<div>');
       if(options.css && options.css.class) wrap.addClass(options.css.class);
       if(options === 'th')wrap.addClass("ta-center td-strong");
       data = wrap.html(data);
+    }
+    if(!isColumn && options.link) {
+      data = $('<a>',{
+        text: data,
+        href: "#!" + options.link.url
+      });
     }
   }
   if(data instanceof jQuery){
@@ -255,8 +253,8 @@ const TableBox = React.createClass({
 
     this.props.columns.forEach((column, idx) => {
       const title = typeof column === 'object' ? column.title : column;
-      theadrow.append($("<th>").html( formatCell(title, 'th') ));
-      tfootrow.append($("<th>").html( formatCell(title, 'th') ));
+      theadrow.append($("<th>").html( formatCell(title, 'th', true) ));
+      tfootrow.append($("<th>").html( formatCell(title, 'th', true) ));
     });
     this.props.rows.forEach((row, rowId, rows) => {
       const tr = $('<tr>');
