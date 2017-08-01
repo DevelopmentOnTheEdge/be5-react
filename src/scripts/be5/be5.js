@@ -10,7 +10,6 @@ window.jQuery = window.$ = require('jquery');
 import formAction from './actions/form.js';
 import loginAction from './actions/login.js';
 import logoutAction from './actions/logout.js';
-import poolAction from './actions/pool.js';
 import staticAction from './actions/static.js';
 import tableAction from './actions/table.js';
 import formWizardTest from './actions/formWizardTest.js';
@@ -98,6 +97,7 @@ const be5 = {
   },
   
   messages: messages.en,
+  documentName: 'MainDocument',
   
   appInfo: {},
   
@@ -205,7 +205,7 @@ const be5 = {
       if(document.location.hash !== url){
         document.location.hash = url;
       }else{
-        be5.url.process(url);
+        be5.url.process(be5.documentName, url);
       }
     },
     
@@ -254,7 +254,7 @@ const be5 = {
       return { positional: positional, named: _.object(named) };
     },
     
-    process(url) {
+    process(documentName, url) {
       if (url === '' || url === '#' || url === '#!') {
         bus.fire('CallDefaultAction');
       }
@@ -272,7 +272,7 @@ const be5 = {
       //       '$action', urlParts[0]));
       //   return;
       // }
-      var positional = [];
+      var positional = [documentName];
       var hashParams = {};
       var hasHashParam = false;
       for (var i = 1; i < urlParts.length; i++) {
@@ -290,9 +290,15 @@ const be5 = {
 
       if (hasHashParam)positional.push(hashParams);
 
-      be5.getAction(urlParts[0], function(action) {
+      const actionName = urlParts[0];
+      const action = be5.getAction(actionName);
+
+      if(action !== undefined){
         action.apply(be5, positional);
-      });
+      }else{
+        changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', actionName) });
+        console.error(be5.messages.errorUnknownAction.replace('$action', actionName));
+      }
     }
   },
 
@@ -327,7 +333,7 @@ const be5 = {
     
     transform(params) {
       const copy = {};
-      for (var key in params) {
+      for (let key in params) {
       if (typeof params[key] === 'object') {
         copy[key] = be5.net.paramString(params[key]);
       } else {
@@ -338,7 +344,7 @@ const be5 = {
     },
     
     requestUrl(url, type, params, success, failure) {
-      var result = null;
+      let result = null;
       if (typeof (failure) !== 'function') {
         failure = function(data) {
           result = data;
@@ -398,7 +404,7 @@ const be5 = {
           }
         },
         error(xhr, status, errorThrown) {
-          var data = {
+          let data = {
             type : 'error',
             value : {
               code : 'CLIENT_ERROR'
@@ -457,30 +463,8 @@ const be5 = {
     selectedRows: []
   },
 
-//  actions: {
-//    logout(preserveUrl) {
-//      be5.net.request('logout', {}, function(data) {
-//        document.cookie = 'be_auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-////        if(!preserveUrl) {
-////          be5.url.set('');
-////        }
-//        bus.fire('LoggedOut');
-//        bus.fire('CallDefaultAction');
-//      });
-//    },
-//
-//    unknown(action, params) {
-//      be5.log.error(be5.messages.errorUnknownAction.replace('$action', action));
-//    }
-//  },
-  
-//  hasAction(actionName) {
-//    var action = be5.actions[actionName];
-//    return (typeof(action) === 'function') || (typeof(action) === 'string');
-//  },
-
   isRemoteUrl(url) {
-    var prefix = 'http';
+    const prefix = 'http';
     return url.substr(0, prefix.length) === prefix;
   },
 
@@ -489,35 +473,21 @@ const be5 = {
     logout: logoutAction,
     form: formAction,
     table: tableAction,
-    pool: poolAction,
     static: staticAction,
     formWizardTest: formWizardTest
   },
 
-  getAction(actionName, callback) {
-    var action = be5.actions[actionName];
-    if(action !== undefined){
-      callback(action);
-    }else{
-      changeDocument({ component: 'text', value: be5.messages.errorUnknownAction.replace('$action', actionName) });
-      console.error(be5.messages.errorUnknownAction.replace('$action', actionName));
-    }
+  getAction(actionName) {
+    return be5.actions[actionName];
   },
   
   registerAction(actionName, fn) {
     be5.actions[actionName] = fn;
   }
-  //not work in prod build use as lib
-  //    import('./actions/' + actionName).then(function(action) {
-  //      callback(action.default);
-  //    }).catch(function(err) {
-  //      changeDocument(be5.messages.errorUnknownAction.replace('$action', actionName))
-  //      console.log('Failed to load action', err);
-  //    });
 };
 
-var hashChange = function() {
-  be5.url.process(document.location.hash);
+const hashChange = function() {
+  be5.url.process(be5.documentName, document.location.hash);
 };
 
 window.addEventListener("hashchange", hashChange, false);
@@ -535,7 +505,7 @@ bus.listen('CallDefaultAction', () => {
 
 be5.net.request('languageSelector', {}, function(data) {
   be5.locale.set(data.selected, data.messages);
-  be5.url.process(document.location.hash);
+  be5.url.process(be5.documentName, document.location.hash);
 });
 
 export default be5;

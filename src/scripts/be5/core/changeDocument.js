@@ -1,3 +1,3 @@
 import bus from './bus';
 
-export default value => bus.fire('DocumentChange', value);
+export default (documentName, value) => bus.fire(documentName, value);

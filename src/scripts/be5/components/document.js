@@ -14,11 +14,11 @@ class Document extends Component {
   }
 
   componentDidMount() {
-    bus.listen(this.props.listenEventName, data => this.setState(data));
+    bus.listen(this.props.documentName, data => this.setState(data));
   }
 
   componentWillUnmount(){
-    bus.notListen(this.props.listenEventName);
+    bus.notListen(this.props.documentName);
   }
 
   render() {
@@ -45,11 +45,11 @@ class Document extends Component {
 }
 
 Document.defaultProps = {
-  listenEventName: 'DocumentChange'
+  documentName: 'MainDocument'
 };
 
 Document.propTypes = {
-  listenEventName: PropTypes.string
-}
+  documentName: PropTypes.string
+};
 
 export default Document;

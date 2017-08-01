@@ -1,9 +1,8 @@
 import React          from 'react';
 import be5            from '../be5';
 import Forms          from '../services/forms';
-import {performOperationResult}           from '../components/form';
 
-export default function(entity, query, operation, operationParams) {
+export default function(documentName, entity, query, operation, operationParams) {
 
   const selectedRows = (operationParams === undefined || operationParams.selectedRows === undefined)
     ? be5.tableState.selectedRows.join() : operationParams.selectedRows;
@@ -17,6 +16,6 @@ export default function(entity, query, operation, operationParams) {
     values: be5.net.paramString(operationParams),
     selectedRows: selectedRows
   };
-  Forms.load(params, performOperationResult);
+  Forms.load(params, documentName);
 
 };

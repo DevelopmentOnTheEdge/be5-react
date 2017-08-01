@@ -324,7 +324,7 @@ class FormWizard extends React.Component {
               : <span></span>
           }
 
-        <Document listenEventName="FormWizardChange"/>
+        <Document documentName="FormWizard"/>
 
         <div style={this.props.showNavigation ? {} : this.hidden} className="footer-buttons">
           <button

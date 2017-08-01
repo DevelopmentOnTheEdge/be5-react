@@ -1,64 +1,11 @@
 import React                from 'react';
 import be5                  from '../be5';
-import changeDocument       from '../core/changeDocument';
-import bus                  from '../core/bus';
 import Forms                from '../services/forms';
-import registerDocumentType from '../core/registerDocumentType';
 import PropertySet          from 'beanexplorer-react';
 import JsonPointer          from 'json-pointer';
 import _                    from 'underscore';
 
 import '../../../css/form.css';
-
-export const performOperationResult = (data) => {
-  switch (data.type)
-  {
-    case 'form':
-      changeDocument({ component: Form, value: data.value });
-      return;
-    case 'operationResult':
-      const operationResult = data.value;
-      switch (operationResult.status)
-      {
-        case 'redirect':
-          be5.url.set(operationResult.details);
-          return;
-        case 'finished':
-          if(operationResult.message !== null)
-            changeDocument({ component: HtmlResult, value: operationResult.message });
-          return;
-        default:
-          changeDocument({ component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'operationResult.status = ' + operationResult.status) });
-      }
-      return;
-    default:
-      changeDocument({ component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + data.type) });
-  }
-
-//  case 'RENDER_HTML':
-//    changeDocument({ component: HtmlResult, value: { content: value.value } });
-//    return;
-//  case 'REDIRECTED':
-//    be5.url.set(value.details);
-//    return;
-//  case 'REFRESH_ALL':
-//    be5.url.set("");
-//    bus.fire('LoggedIn');
-//    return;
-//  case 'GO_BACK':
-//    if (window.history.length >= 2) {
-//      window.history.back();
-//      return;
-//    }
-//    // TODO redirect to the query instead of showing this message:
-//    changeDocument({ component: HtmlResult, value: { content: 'The action was successful' } });
-//    return;
-//  case 'DEFAULT_ACTION':
-//  default:
-//    changeDocument({ component: HtmlResult, value: { content: 'The action was successful' } });
-//    return;
-
-};
 
 const Form = React.createClass({
   propTypes: {

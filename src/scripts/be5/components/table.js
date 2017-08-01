@@ -1,7 +1,6 @@
 import React          from 'react';
 import ReactDOM       from 'react-dom';
 import be5            from '../be5';
-import changeDocument from '../core/changeDocument';
 import $              from 'jquery';
 import Action         from './action';
 import _              from 'underscore';
@@ -200,7 +199,7 @@ const TableBox = React.createClass({
       this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
     
     this._refreshEnablementIfNeeded();
-    this._loadCountIfNeeded();
+    //this._loadCountIfNeeded();
   },
   
   shouldComponentUpdate(nextProps, nextState) {
@@ -212,7 +211,7 @@ const TableBox = React.createClass({
     if(this.refs.table)
       this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
     
-    this._loadCountIfNeeded();
+    //this._loadCountIfNeeded();
   },
   
   onOperationClick(name) {
@@ -441,23 +440,23 @@ const TableBox = React.createClass({
     );
   },
   
-  _loadCountIfNeeded() {
-    if (this.props.embedded) { // FIXME actually this should work even if the component is embedded
-      return;
-    }
-    
-    if (this.props.value.type === 'table' && !this.props.totalNumberOfRows && this.props.totalNumberOfRows != 0) {
-      be5.net.request('document/count', this.props.value.requestParams, res => {
-        const documentState = {
-          time: Date.now(),
-          type: 'table',
-          value: _.extend({}, this.props.value, {totalNumberOfRows: res.value})
-        };
-        
-        changeDocument(documentState);
-      });
-    }
-  },
+  // _loadCountIfNeeded() {
+  //   if (this.props.embedded) { // FIXME actually this should work even if the component is embedded
+  //     return;
+  //   }
+  //
+  //   if (this.props.value.type === 'table' && !this.props.totalNumberOfRows && this.props.totalNumberOfRows != 0) {
+  //     be5.net.request('document/count', this.props.value.requestParams, res => {
+  //       const documentState = {
+  //         time: Date.now(),
+  //         type: 'table',
+  //         value: _.extend({}, this.props.value, {totalNumberOfRows: res.value})
+  //       };
+  //
+  //       changeDocument(documentState);
+  //     });
+  //   }
+  // },
   
   _refreshEnablementIfNeeded() {
     if (this.refs !== undefined && this.refs.operations !== undefined) {
@@ -483,9 +482,6 @@ const Table = React.createClass({
 
     return (
       <div>
-        <span onClick={this._reload} className={reloadClass}>
-          <img src={reloadImg} alt={be5.messages.reload} title={be5.messages.reload}/>
-        </span>
         <h1>{value.title}</h1>
         <TableBox
           ref="tableBox"
@@ -510,12 +506,15 @@ const Table = React.createClass({
   componentWillUpdate() {
     if(this.state.runReload != "")this.setState({ runReload: "" });
   },
-
-  _reload() {
-    const value = this.props.value;
-    this.setState({ runReload: "active" });
-    Tables.load({ entity: value.category, query: value.page || 'All records', params: value.parameters, options: { embedded: false } }, changeDocument);
-  }
+//todo move to document
+//<span onClick={this._reload} className={reloadClass}>
+//          <img src={reloadImg} alt={be5.messages.reload} title={be5.messages.reload}/>
+//        </span>
+//   _reload() {
+//     const value = this.props.value;
+//     this.setState({ runReload: "active" });
+//     Tables.load({ entity: value.category, query: value.page || 'All records', params: value.parameters, options: { embedded: false } }, changeDocument);
+//   }
 
 });
 
