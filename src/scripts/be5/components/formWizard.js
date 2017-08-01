@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import classNames from 'classnames';
 
 
 //based on https://github.com/newbreedofgeek/react-stepzilla
@@ -326,16 +326,14 @@ class FormWizard extends React.Component {
           {compToRender}
         <div style={this.props.showNavigation ? {} : this.hidden} className="footer-buttons">
           <button
-            style={this.state.showPreviousBtn ? {} : this.hidden}
-            className={props.backButtonCls}
+            className={classNames(props.backButtonCls, {disabled: !this.state.showPreviousBtn})}
             onClick={() => {this.previous()}}
             id="prev-button"
           >
             {this.props.backButtonText}
-          </button>
+          </button> { }
           <button
-            style={this.state.showNextBtn ? {} : this.hidden}
-            className={props.nextButtonCls}
+            className={classNames(props.nextButtonCls, {disabled: !this.state.showNextBtn})}
             onClick={() => {this.next()}}
             id="next-button"
           >
