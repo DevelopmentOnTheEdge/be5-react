@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import be5 from '../be5';
 import bus from '../core/bus';
 
@@ -13,24 +14,15 @@ class Document extends Component {
   }
 
   componentDidMount() {
-    bus.listen('DocumentChange', data => this.setState(data));
+    bus.listen(this.props.listenEventName, data => this.setState(data));
   }
 
   componentWillUnmount(){
-    bus.notListen('DocumentChange');
+    bus.notListen(this.props.listenEventName);
   }
 
   render() {
-    // if (!this.state.hasOwnProperty('type')) {
-    //   return React.DOM.div({className: "content"});
-    // }
-    //
-    if(this.state.component == undefined)
-    {
-      return <div className="document-content">
-               <h1>{this.state}</h1>
-             </div>
-    }
+    be5.ui.setTitle(this.state.value.title);
 
     if (this.state.component === 'text')
     {
@@ -38,13 +30,6 @@ class Document extends Component {
                <h1>{this.state.value}</h1>
              </div>
     }
-    //
-    // if (this.state.type === 'error') {
-    //   return React.DOM.div({},
-    //       React.DOM.h1({}, be5.messages.error + " " + this.state.value.code),
-    //       this.state.value.message);
-    // }
-    be5.ui.setTitle(this.state.value.title);
 
     const DocumentContent = this.state.component;
     if(DocumentContent !== null) {
@@ -57,6 +42,14 @@ class Document extends Component {
     return null;
   }
 
+}
+
+Document.defaultProps = {
+  listenEventName: 'DocumentChange'
+};
+
+Document.propTypes = {
+  listenEventName: PropTypes.string
 }
 
 export default Document;

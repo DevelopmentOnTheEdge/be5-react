@@ -10,6 +10,10 @@ class StaticPage extends React.Component {
 
 }
 
+Document.defaultProps = {
+  value: ''
+};
+
 StaticPage.propTypes = {
   value: PropTypes.string.isRequired
 };
