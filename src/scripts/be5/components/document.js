@@ -1,16 +1,25 @@
-import React from 'react';
+import React, {Component} from 'react';
 import be5 from '../be5';
 import bus from '../core/bus';
 
 import '../../../css/document.css';
 
-export default React.createClass({
-  displayName: 'Document',
-  
-  getInitialState() {
-    return { component: 'text', value: "Page is loading..." };
-  },
-  
+class Document extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = { component: 'text', value: "Page is loading..." };
+  }
+
+  componentDidMount() {
+    bus.listen('DocumentChange', data => this.setState(data));
+  }
+
+  componentWillUnmount(){
+    bus.notListen('DocumentChange');
+  }
+
   render() {
     // if (!this.state.hasOwnProperty('type')) {
     //   return React.DOM.div({className: "content"});
@@ -46,17 +55,8 @@ export default React.createClass({
       )
     }
     return null;
-    //if (this.state.type in be5.ui.documentTypes) {
-    //  return React.DOM.div({className: "content"}, be5.ui.createDocument(this.state.type, this.state.value));
-    // } else {
-    //   return (
-    //     React.DOM.div({className: "content"}, "Unknown content type \"" + this.state.type + "\".", JSON.stringify(this.state.value))
-    //   );
-    // }
-  },
-  
-  // this should occur only once
-  componentDidMount() {
-    bus.listen('DocumentChange', data => this.replaceState(data));
   }
-});
+
+}
+
+export default Document;

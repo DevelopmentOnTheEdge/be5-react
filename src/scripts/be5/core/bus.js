@@ -16,6 +16,10 @@ function listen(eventType, listener) {
   listeners(eventType).push(listener);
 };
 
+function notListen(eventType, listener) {
+  delete listeners(eventType).listener;
+};
+
 function fire(type, event = {}) {
   listeners(type).forEach(listener => listener(event));
 };

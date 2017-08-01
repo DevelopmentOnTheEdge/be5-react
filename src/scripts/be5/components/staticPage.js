@@ -1,7 +1,7 @@
 import React          from 'react';
 import PropTypes from 'prop-types';
 
-export default class StaticPage extends React.Component {
+class StaticPage extends React.Component {
 
   render() {
     let content = this.props.value;
@@ -13,3 +13,5 @@ export default class StaticPage extends React.Component {
 StaticPage.propTypes = {
   value: PropTypes.string.isRequired
 };
+
+export default StaticPage;

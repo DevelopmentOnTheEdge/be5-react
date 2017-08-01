@@ -36,16 +36,6 @@ exports[`component 2`] = `
 </div>
 `;
 
-exports[`simple text 1`] = `
-<div
-  className="document-content"
->
-  <h1>
-    Simple text.
-  </h1>
-</div>
-`;
-
 exports[`snapshot 1`] = `
 <div
   className="document-content"

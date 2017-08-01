@@ -14,16 +14,6 @@ test('snapshot', () => {
     expect(component.toJSON()).toMatchSnapshot();
 });
 
-test('simple text', () => {
-    const component = renderer.create(
-        <Document />
-    );
-
-    changeDocument( "Simple text." );
-
-    expect(component.toJSON()).toMatchSnapshot();
-});
-
 test('component', () => {
     const component = renderer.create(
         <Document />

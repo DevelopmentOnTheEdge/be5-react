@@ -28,11 +28,11 @@ export const performOperationResult = (data) => {
             changeDocument({ component: HtmlResult, value: { content: operationResult.message | 'The action was successful' } });
           return;
         default:
-          changeDocument(be5.messages.errorUnknownAction.replace('$action', 'operationResult.status = ' + operationResult.status))
+          changeDocument({ component: HtmlResult, value: be5.messages.errorUnknownAction.replace('$action', 'operationResult.status = ' + operationResult.status) });
       }
       return;
     default:
-      changeDocument(be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + data.type))
+      changeDocument({ component: HtmlResult, value: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + data.type) });
   }
 
 //  case 'RENDER_HTML':
