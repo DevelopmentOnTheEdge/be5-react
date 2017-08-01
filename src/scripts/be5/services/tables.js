@@ -20,13 +20,13 @@ export default {
     const requestParams = { entity: params.entity, query: params.query, values: be5.net.paramString(params.params) };
     
     be5.net.request('document', requestParams, data => {
-      data.time = Date.now();
-      if (data.type === 'table') {
-        data.value.type = 'table';
-        data.value.requestParams = requestParams;
-      } else {
-        data.value.embedded = true;
-      }
+      // data.time = Date.now();
+      // if (data.type === 'table') {
+      //   data.value.type = 'table';
+      //   data.value.requestParams = requestParams;
+      // } else {
+      //   data.value.embedded = true;
+      // }
       data.value = _.extend({}, data.value, options);
       data = documentUtils.createDocument(data);
 

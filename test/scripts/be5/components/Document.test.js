@@ -9,7 +9,7 @@ test('snapshot', () => {
         <Document />
     );
 
-    changeDocument( { component: 'text', value: "Page loaded." } );
+    changeDocument('MainDocument', { component: 'text', value: "Page loaded." } );
 
     expect(component.toJSON()).toMatchSnapshot();
 });
@@ -19,6 +19,6 @@ test('component', () => {
         <Document />
     );
     expect(component.toJSON()).toMatchSnapshot();
-    changeDocument({ component: HtmlResult, value: "Page <b>text<b>." });
+    changeDocument('MainDocument', { component: HtmlResult, value: "Page <b>text<b>." });
     expect(component.toJSON()).toMatchSnapshot();
 });

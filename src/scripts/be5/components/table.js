@@ -4,12 +4,11 @@ import be5            from '../be5';
 import $              from 'jquery';
 import Action         from './action';
 import _              from 'underscore';
-import Tables         from '../services/tables';
 import numberFormatter         from 'number-format.js';
 import DataTables     from 'datatables';
 
 import '../../../css/table.css';
-import reloadImg from '../../../images/reload.png';
+//import reloadImg from '../../../images/reload.png';
 
 const OperationBox = React.createClass({displayName: "OperationBox",
   onClick(name, e) {
@@ -482,6 +481,7 @@ const Table = React.createClass({
 
     return (
       <div>
+
         <h1>{value.title}</h1>
         <TableBox
           ref="tableBox"

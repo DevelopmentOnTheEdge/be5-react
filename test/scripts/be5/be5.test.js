@@ -38,7 +38,7 @@ test('snapshot', () => {
         <App />
     );
     expect(component.toJSON()).toMatchSnapshot();
-    changeDocument({ component: StaticPage, value: "test" });
+    changeDocument('MainDocument', { component: StaticPage, value: "test" });
     expect(component.toJSON()).toMatchSnapshot();
 
 });

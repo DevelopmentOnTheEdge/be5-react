@@ -26,20 +26,6 @@ const Form = React.createClass({
     this.setState({ allFieldsFilled: this._allFieldsFilled() });
   },
 
-//  componentDidMount() {
-//    for (var key in this.refs) {
-//      if(this.refs[key].onFormDidMount)
-//        this.refs[key].onFormDidMount();
-//
-//      if(this.refs[key].childNodes){
-//        for (var key2 in this.refs[key].childNodes) {
-//          if(this.refs[key].childNodes[key2].onFormDidMount)
-//            this.refs[key].childNodes[key2].onFormDidMount();
-//        }
-//      }
-//    }
-//  },
-  
   componentWillReceiveProps(nextProps) {
     this.setState(nextProps.value);
   },
@@ -48,92 +34,54 @@ const Form = React.createClass({
     return this._getRawFormValues().filter(field => field.value != null);
   },
   
-  refresh() {
-    this._reload(this.state.bean.values);
-  },
+  // refresh() {
+  //   this._reload(this.state.bean.values);
+  // },
   
   _reloadOnChange(controlName) {
     this._reload(this.state.bean.values.concat([{ name: '_reloadcontrol_', value: controlName }]));
   },
-  
-//  _getAllParameters() {
-//    var params = Object.assign({}, this.props.value.parameters);
-//    var formVals = this.state.dps.values;//this.getFormValues();
-//    for (let formVal of formVals) {
-//      delete params[formVal.name];
-//    }
-//    for (let paramName in params) {
-//      formVals.push({ name: paramName, value: this.state.parameters[paramName] });
-//    }
-//     return formVals;
-//  },
 
-  _reload(values) {
-    Forms.load(
-      {
-        entity: this.state.entity,
-        query: this.state.query,
-        operation: this.state.operation,
-        values: JSON.stringify(values),
-        selectedRows: this.state.selectedRows
-      },
-      data => {
-        this.setState(data.value, this.forceUpdate);
-      });
-  },
-
-  apply() {
-    if (this.props.value.customAction) {
-      const values = _.object(_.map(this._getRawFormValues(), m => [ m.name, m.value ]));
-      const structuredAction = be5.url.parse(this.props.value.customAction);
-      be5.url.set(be5.url.form(structuredAction.positional, _.extend({}, structuredAction.named, values)));
-      return;
-    }
-    
-    const data = {
+  getRequestParams(values){
+    return {
       entity: this.state.entity,
       query: this.state.query,
       operation: this.state.operation,
       selectedRows: this.state.selectedRows,
-      values: JSON.stringify(this.state.bean.values)
-    };
+      values: JSON.stringify(values)
+    }
+  },
+
+  _reload(values) {
+    Forms.load(this.getRequestParams(values), this.props.documentName);
+  },
+
+  apply() {
+    // if (this.props.value.customAction) {
+    //   const values = _.object(_.map(this._getRawFormValues(), m => [ m.name, m.value ]));
+    //   const structuredAction = be5.url.parse(this.props.value.customAction);
+    //   be5.url.set(be5.url.form(structuredAction.positional, _.extend({}, structuredAction.named, values)));
+    //   return;
+    // }
     if (this.props.isEmbedded !== true) {
-      be5.net.request('form/apply', data, performOperationResult);
+      be5.net.request('form/apply', this.getRequestParams(this.state.bean.values), data => {
+        Forms.performOperationResult(data, this.props.documentName)
+      });
     } else {
-      be5.net.request('form/apply', data);
+      be5.net.request('form/apply', this.getRequestParams(this.state.bean.values));
     }
   },
   
-  cancel() {
-    be5.url.set(be5.url.create('table', [this.state.entity, this.state.query], this.state.parameters));
-  },
-  
+  // cancel() {
+  //   be5.url.set(be5.url.create('table', [this.state.entity, this.state.query], this.state.parameters));
+  // },
+
   _applyOnSubmit(e) {
     // Hitting <enter> in any textbox in Chrome triggers the form submit,
     // even when there is no submit button.
     // That's why I explicitly define the cancellation.
     e.preventDefault();
     this.apply();
-  },
-  
-  render() {
-    return (
-      <div className="row">
-        <div className={'formBox container ' + (this.state.cssClass || 'formBoxDefault')}>
-          <h1>{this.state.title}</h1>
-          <div className="row">
-            <div className="col-md-12">
-              <form className="" onSubmit={this._applyOnSubmit}>
-                <PropertySet fields={this.state.bean} onChange={this._onFieldChange}/>
-                {this._createFormActions()}
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-    //col-md-12 col-lg-8 offset-lg-2
-    //<PropertySet fields={this.state.fields} onChange={this._onFieldChange}/>
   },
   
   _getRawFormValues() {
@@ -194,6 +142,20 @@ const Form = React.createClass({
     return this.state.bean.order.every(field =>
       this.state.bean.meta[field].hasOwnProperty('canBeNull') ||
       JsonPointer.get(this.state.bean, "/values" + field) !== ''
+    );
+  },
+
+  render() {
+    return (
+      <div className="row">
+        <div className={'formBox container ' + (this.state.cssClass || 'formBoxDefault')}>
+          <h1>{this.state.title}</h1>
+          <form className="" onSubmit={this._applyOnSubmit}>
+            <PropertySet fields={this.state.bean} onChange={this._onFieldChange}/>
+            {this._createFormActions()}
+          </form>
+        </div>
+      </div>
     );
   }
 });
