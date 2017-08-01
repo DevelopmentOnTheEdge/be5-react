@@ -1,11 +1,11 @@
 import be5            from '../be5';
 import Preconditions  from '../preconditions';
+import _              from 'underscore';
 import changeDocument from '../core/changeDocument';
 import Form,{HtmlResult}          from '../components/form';
 
 export default {
   load(params, documentName) {
-    console.log(JSON.stringify(params));
     Preconditions.passed(params.entity);
     Preconditions.passed(params.query);
     Preconditions.passed(params.operation);
@@ -25,17 +25,22 @@ export default {
   },
 
   performOperationResult(data, documentName){
+    //console.log("forms perform: " + documentName);
+    Preconditions.passed(documentName);
+
     switch (data.type)
     {
       case 'form':
-        changeDocument(documentName, { component: Form, value: data.value });
+        changeDocument(documentName, { component: Form, value:
+            _.extend({}, data.value, {documentName: documentName}) });
         return;
       case 'operationResult':
         const operationResult = data.value;
         switch (operationResult.status)
         {
           case 'redirect':
-            be5.url.set(operationResult.details);
+            be5.url.process(documentName, '#!' + operationResult.details);
+            //be5.url.set(operationResult.details);
             return;
           case 'finished':
             if(operationResult.message !== null)

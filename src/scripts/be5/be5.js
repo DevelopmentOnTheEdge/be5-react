@@ -255,6 +255,7 @@ const be5 = {
     },
     
     process(documentName, url) {
+      console.log(documentName, url);
       if (url === '' || url === '#' || url === '#!') {
         bus.fire('CallDefaultAction');
       }

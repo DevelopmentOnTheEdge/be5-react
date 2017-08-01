@@ -53,7 +53,7 @@ const Form = React.createClass({
   },
 
   _reload(values) {
-    Forms.load(this.getRequestParams(values), this.props.documentName);
+    Forms.load(this.getRequestParams(values), this.props.value.documentName);
   },
 
   apply() {
@@ -65,7 +65,7 @@ const Form = React.createClass({
     // }
     if (this.props.isEmbedded !== true) {
       be5.net.request('form/apply', this.getRequestParams(this.state.bean.values), data => {
-        Forms.performOperationResult(data, this.props.documentName)
+        Forms.performOperationResult(data, this.props.value.documentName)
       });
     } else {
       be5.net.request('form/apply', this.getRequestParams(this.state.bean.values));
