@@ -25,14 +25,14 @@ export const performOperationResult = (data) => {
           return;
         case 'finished':
           if(operationResult.message !== null)
-            changeDocument({ component: HtmlResult, value: { content: operationResult.message | 'The action was successful' } });
+            changeDocument({ component: HtmlResult, value: operationResult.message });
           return;
         default:
-          changeDocument({ component: HtmlResult, value: be5.messages.errorUnknownAction.replace('$action', 'operationResult.status = ' + operationResult.status) });
+          changeDocument({ component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'operationResult.status = ' + operationResult.status) });
       }
       return;
     default:
-      changeDocument({ component: HtmlResult, value: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + data.type) });
+      changeDocument({ component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + data.type) });
   }
 
 //  case 'RENDER_HTML':

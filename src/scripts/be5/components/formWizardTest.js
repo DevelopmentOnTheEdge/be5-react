@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import StaticPage from './staticPage';
 import FormWizard from './formWizard'
+import Forms          from '../services/forms';
 
 export default class FormWizardTest extends Component {
 
@@ -10,12 +11,21 @@ export default class FormWizardTest extends Component {
   }
 
   render() {
-    const steps =
-    [
-      {name: 'Организация', component: <StaticPage value="page 1" />},
-      {name: 'Документы', component: <StaticPage value="page 2" />},
-      {name: 'Категории граждан', component: <StaticPage value="page 3" />},
-      {name: 'Услуги', component: <StaticPage value="page 4" />}
+
+//    const params = {
+//      entity: entity,
+//      query: query || 'All records',
+//      operation: operation,
+//      values: be5.net.paramString(operationParams),
+//      selectedRows: selectedRows
+//    };
+//    Forms.load(params, performOperationResult)
+
+    const steps = [
+      //{name: 'Организация', component: <Form value={data.value}/>},
+      {name: 'Документы', component: 'static/welcome.be'},
+//      {name: 'Категории граждан', component: <StaticPage value="page 3" />},
+//      {name: 'Услуги', component: <StaticPage value="page 4" />}
     ]
 
     return (

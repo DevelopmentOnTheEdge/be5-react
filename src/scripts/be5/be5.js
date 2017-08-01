@@ -496,11 +496,11 @@ const be5 = {
 
   getAction(actionName, callback) {
     var action = be5.actions[actionName];
-    if(action === undefined){
-      changeDocument(be5.messages.errorUnknownAction.replace('$action', actionName));
-      console.error(be5.messages.errorUnknownAction.replace('$action', actionName));
-    }else{
+    if(action !== undefined){
       callback(action);
+    }else{
+      changeDocument({ component: 'text', value: be5.messages.errorUnknownAction.replace('$action', actionName) });
+      console.error(be5.messages.errorUnknownAction.replace('$action', actionName));
     }
   },
   

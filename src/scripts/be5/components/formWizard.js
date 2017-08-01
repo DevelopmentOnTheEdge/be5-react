@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
+import Document from './document';
 
 //based on https://github.com/newbreedofgeek/react-stepzilla
 class FormWizard extends React.Component {
@@ -303,15 +303,16 @@ class FormWizard extends React.Component {
       }
     };
 
-    const componentPointer = this.props.steps[this.state.compState].component;
+//    const componentPointer = this.props.steps[this.state.compState].component;
+//
+//    // can only update refs if its a regular React component (not a pure component), so lets check that
+//    if (componentPointer instanceof Component || // unit test deteceted that instanceof Component can be in either of these locations so test both (not sure why this is the case)
+//        (componentPointer.type && componentPointer.type.prototype instanceof Component)) {
+//          cloneExtensions.ref = 'activeComponent';
+//    }
 
-    // can only update refs if its a regular React component (not a pure component), so lets check that
-    if (componentPointer instanceof Component || // unit test deteceted that instanceof Component can be in either of these locations so test both (not sure why this is the case)
-        (componentPointer.type && componentPointer.type.prototype instanceof Component)) {
-          cloneExtensions.ref = 'activeComponent';
-    }
-
-    compToRender = React.cloneElement(componentPointer, cloneExtensions);
+    //compToRender = React.cloneElement(componentPointer, cloneExtensions);
+//{compToRender}
 
     return (
       <div className="multi-step" onKeyDown={(evt) => {this.handleKeyDown(evt)}}>
@@ -323,7 +324,8 @@ class FormWizard extends React.Component {
               : <span></span>
           }
 
-          {compToRender}
+        <Document listenEventName="FormWizardChange"/>
+
         <div style={this.props.showNavigation ? {} : this.hidden} className="footer-buttons">
           <button
             className={classNames(props.backButtonCls, {disabled: !this.state.showPreviousBtn})}
@@ -361,10 +363,10 @@ FormWizard.defaultProps = {
 };
 
 FormWizard.propTypes = {
-  steps: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    component: PropTypes.element.isRequired
-  })).isRequired,
+//  steps: PropTypes.arrayOf(PropTypes.shape({
+//    name: PropTypes.string.isRequired,
+//    component: PropTypes.element.isRequired
+//  })).isRequired,
   showSteps: PropTypes.bool,
   showNavigation: PropTypes.bool,
   stepsNavigation: PropTypes.bool,
