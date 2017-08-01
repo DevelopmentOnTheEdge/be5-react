@@ -14,10 +14,12 @@ const listeners = (function() {
 
 function listen(eventType, listener) {
   listeners(eventType).push(listener);
+  //console.log("listen: " + eventType + " " + listener);
 };
 
 function notListen(eventType, listener) {
   delete listeners(eventType).listener;
+  //console.log("notListen: " + eventType + " " + listener);
 };
 
 function fire(type, event = {}) {
@@ -31,6 +33,7 @@ function replaceListeners(eventType, listener) {
 export default {
   /* function(eventType: string, listener: function(event: object)) */
   listen: listen,
+  notListen: notListen,
   /* function(type: string, event: object) */
   fire: fire,
   /* function(eventType: string, listener: function(event: object)) */
