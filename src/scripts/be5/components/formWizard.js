@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import Document from './document';
+import PropTypes            from 'prop-types';
+import classNames           from 'classnames';
+import be5                  from '../be5';
+import Document             from './document';
 
 //based on https://github.com/newbreedofgeek/react-stepzilla
 class FormWizard extends React.Component {
@@ -21,7 +22,7 @@ class FormWizard extends React.Component {
     // if user did not give a custom nextTextOnFinalActionStep, the nextButtonText becomes the default
     this.nextTextOnFinalActionStep = (this.props.nextTextOnFinalActionStep) ? this.props.nextTextOnFinalActionStep : this.props.nextButtonText;
 
-    this.applyValidationFlagsToSteps();
+    //this.applyValidationFlagsToSteps();
   }
 
   componentDidMount(){
@@ -29,22 +30,22 @@ class FormWizard extends React.Component {
   }
 
   // extend the "steps" array with flags to indicate if they have been validated
-  applyValidationFlagsToSteps() {
-    this.props.steps.map((i, idx) => {
-      if (this.props.dontValidate) {
-        i.validated = true;
-      }
-      else {
-        // check if isValidated was exposed in the step, if yes then set initial state as not validated (false) or vice versa
-        // if HOCValidation is used for the step then mark it as "requires to be validated. i.e. false"
-        i.validated = (typeof i.component.type === 'undefined' ||
-          (typeof i.component.type.prototype.isValidated === 'undefined' &&
-            !this.isStepAtIndexHOCValidationBased(idx))) ? true : false;
-      }
-
-      return i;
-    });
-  }
+  // applyValidationFlagsToSteps() {
+  //   this.props.steps.map((i, idx) => {
+  //     if (this.props.dontValidate) {
+  //       i.validated = true;
+  //     }
+  //     else {
+  //       // check if isValidated was exposed in the step, if yes then set initial state as not validated (false) or vice versa
+  //       // if HOCValidation is used for the step then mark it as "requires to be validated. i.e. false"
+  //       i.validated = (typeof i.component.type === 'undefined' ||
+  //         (typeof i.component.type.prototype.isValidated === 'undefined' &&
+  //           !this.isStepAtIndexHOCValidationBased(idx))) ? true : false;
+  //     }
+  //
+  //     return i;
+  //   });
+  // }
 
   // update the header nav states via classes so they can be styled via css
   getNavStates(indx, length) {
@@ -314,6 +315,8 @@ class FormWizard extends React.Component {
     //compToRender = React.cloneElement(componentPointer, cloneExtensions);
 //{compToRender}
 
+    be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
+
     return (
       <div className="multi-step" onKeyDown={(evt) => {this.handleKeyDown(evt)}}>
           {
@@ -324,7 +327,7 @@ class FormWizard extends React.Component {
               : <span></span>
           }
 
-        <Document documentName="FormWizard"/>
+        <Document documentName={this.props.documentName} />
 
         <div style={this.props.showNavigation ? {} : this.hidden} className="footer-buttons">
           <button
@@ -359,7 +362,8 @@ FormWizard.defaultProps = {
   nextButtonCls: "btn btn-prev btn-primary btn-lg pull-right",
   backButtonText: "Previous",
   backButtonCls: "btn btn-next btn-primary btn-lg pull-left",
-  hocValidationAppliedTo: []
+  hocValidationAppliedTo: [],
+  documentName: "FormWizard",
 };
 
 FormWizard.propTypes = {
@@ -378,7 +382,8 @@ FormWizard.propTypes = {
   nextButtonCls: PropTypes.string,
   backButtonCls: PropTypes.string,
   backButtonText: PropTypes.string,
-  hocValidationAppliedTo: PropTypes.array
-}
+  hocValidationAppliedTo: PropTypes.array,
+  documentName: PropTypes.string
+};
 
 export default FormWizard

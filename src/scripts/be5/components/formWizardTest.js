@@ -23,10 +23,11 @@ export default class FormWizardTest extends Component {
 
     const steps = [
       //{name: 'Организация', component: <Form value={data.value}/>},
-      {name: 'Документы', component: 'static/welcome.be'},
-//      {name: 'Категории граждан', component: <StaticPage value="page 3" />},
-//      {name: 'Услуги', component: <StaticPage value="page 4" />}
-    ]
+      {name: 'Организация', url: '#!form/testtable/Test%201D/Insert'},
+      {name: 'Документы', url: '#!form/testtable/Test%201D/TestOperation'},
+      {name: 'Категории граждан', url: '#!table/testtable/Test 1D'},
+      {name: 'Категории граждан', url: '#!static/welcome.be'},
+    ];
 
     return (
       <div className='formWizardTest'>
