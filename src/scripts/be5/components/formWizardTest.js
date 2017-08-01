@@ -10,19 +10,17 @@ export default class FormWizardTest extends Component {
   }
 
   render() {
-//    const steps =
-//    [
-//      {name: 'Step1', component: <StaticPage value="page 1" />},
-//      {name: 'Step1', component: <StaticPage value="page 2" />}
-//    ]
-    //{name: 'Step6', component: <Step6 getStore={() => (this.getStore())} updateStore={(u) => {this.updateStore(u)}} />}
+    const steps =
+    [
+      {name: 'Организация', component: <StaticPage value="page 1" />},
+      {name: 'Документы', component: <StaticPage value="page 2" />},
+      {name: 'Категории граждан', component: <StaticPage value="page 3" />},
+      {name: 'Услуги', component: <StaticPage value="page 4" />}
+    ]
 
     return (
       <div className='formWizardTest'>
-        <FormWizard>
-          <StaticPage value="page 1" />
-          <StaticPage value="page 2" />
-        </FormWizard>
+        <FormWizard steps={steps} />
       </div>
     )
   }

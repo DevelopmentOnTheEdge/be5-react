@@ -1,0 +1,72 @@
+.progtrckr {
+    list-style-type: none;
+    padding: 0;
+    background-color: #f9f9f9;
+    border: 1px solid #d4d4d4;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background: #ededed;
+}
+
+.progtrckr li em {
+    color: #fff;
+    background: #00bca4;
+    display: none;
+}
+
+.progtrckr li {
+    position: relative;
+    float: left;
+    padding: 10px;
+    padding-left: 20px;
+    margin-right: 0px;
+    position: relative;
+    color: #000;
+    cursor: default;
+
+}
+
+.progtrckr li:first-child {
+    padding-left: 20px;
+    border-radius: 4px 0 0 4px;
+}
+
+.progtrckr li:before {
+    position: absolute;
+    top: 0px;
+    right: -13px;
+    display: block;
+    border: 22px solid transparent;
+    border-right: 0;
+    border-left: 14px solid #ededed;
+    content: "";
+    z-index: 1
+}
+
+.progtrckr li.progtrckr-doing {
+    color: #ffffff;
+    background: #0275d8;
+}
+
+.progtrckr li.progtrckr-doing:before {
+    position: absolute;
+    top: 0px;
+    right: -13px;
+    display: block;
+    border: 22px solid transparent;
+    border-right: 0;
+    border-left: 14px solid #0275d8;
+    content: "";
+    z-index: 1
+}
+
+.progtrckr li.progtrckr-done {
+    color: #ffffff;
+    background: #01cc52;
+}
+.progtrckr li.progtrckr-done:before {
+    border: 22px solid transparent;
+    border-right: 0;
+    border-left: 14px solid #01cc52;
+}
