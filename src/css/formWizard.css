@@ -10,7 +10,7 @@
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    background: #ededed;
+    background: #f5f5f5;
 }
 
 .progtrckr li em {
@@ -43,7 +43,7 @@
     display: block;
     border: 22px solid transparent;
     border-right: 0;
-    border-left: 14px solid #ededed;
+    border-left: 14px solid #f5f5f5;
     content: "";
     z-index: 1
 }
