@@ -42,7 +42,16 @@ var messages = {
     OK: 'OK',
 
     loginError: 'Incorrect login or password',
-    checkYourEmail: 'Check your email for further instructions'
+    checkYourEmail: 'Check your email for further instructions',
+    property : {
+      locale: 'en',
+      clearAllText: 'Clear all',
+      clearValueText: 'Clear value',
+      noResultsText: 'No results found',
+      searchPromptText: 'Type to search',
+      placeholder: 'Select ...',
+      loadingPlaceholder: 'Loading...'
+    }
   },
   
   ru: {
@@ -72,7 +81,16 @@ var messages = {
     OK: 'Выполнить',
 
     loginError: 'Неверный логин или пароль',
-    checkYourEmail: 'Дальнейшие инструкции высланы на Ваш электронный адрес'
+    checkYourEmail: 'Дальнейшие инструкции высланы на Ваш электронный адрес',
+    property: {
+      locale: 'ru',
+      clearAllText: 'Очистить всё',
+      clearValueText: 'Очистить',
+      noResultsText: 'Нет результатов',
+      searchPromptText: 'Начните вводить для поиска',
+      placeholder: 'Выберите...',
+      loadingPlaceholder: 'Загрузка...'
+    }
   },
   
   ja: {

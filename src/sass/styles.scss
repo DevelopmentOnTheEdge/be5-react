@@ -42,12 +42,11 @@ table.dataTable.compact tbody td:first-child {
     border-left: 1px solid #efefef;
 }
 
-
 .Select-placeholder, .Select--single > .Select-control .Select-value{
-  line-height: 32px;
+  line-height: 30px;
 }
 .Select-control, .Select-input{
-  height: 32px;
+  height: 30px;
   font-size: 14px;
 }
 .Select-clear {
@@ -56,4 +55,11 @@ table.dataTable.compact tbody td:first-child {
 .Select-option {
   font-size: 14px;
   padding: 4px 10px;
+}
+.Select--multi .Select-value{
+  margin-top: 4px;
+}
+.Select-input > input{
+  line-height: 30px;
+  padding: 0px 0 0px;
 }
