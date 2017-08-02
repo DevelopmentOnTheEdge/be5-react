@@ -12,8 +12,8 @@ export default class FormWizardTest extends Component {
 
     const steps = [
       {name: 'Организация', url: '#!form/_test_/Test%201D/GeneralRequirements'},
-      {name: 'Документы', url: '#!form/_test_/Test%201D/DocumentBaseOperation'},
-      {name: 'Категории граждан', url: '#!static/welcome.be'},
+      {name: 'Документы', url: '#!form/_test_/Test%201D/NameNewDocument'},
+      {name: 'Категории граждан', url: '#!form/_test_/Test%201D/DocumentBaseOperation'},
       {name: 'Услуги', url: '#!static/welcome.be'},
     ];
 

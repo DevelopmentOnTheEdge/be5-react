@@ -11,10 +11,10 @@ const CustomServlet = React.createClass({
   }
 });
 
-be5.ui.registerDocumentType('servlet', function(value) {
-  return (
-    React.createElement(CustomServlet, {content: value})
-  );
-});
+//be5.ui.registerDocumentType('servlet', function(value) {
+//  return (
+//    React.createElement(CustomServlet, {content: value})
+//  );
+//});
 
 export default CustomServlet;

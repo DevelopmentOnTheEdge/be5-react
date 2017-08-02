@@ -20,10 +20,10 @@ const FormTable = React.createClass({
   }
 });
 
-be5.ui.registerDocumentType('formTable', value => {
-  return (
-    React.createElement(FormTable, value)
-  );
-});
-  
+//be5.ui.registerDocumentType('formTable', value => {
+//  return (
+//    React.createElement(FormTable, value)
+//  );
+//});
+//
 export default FormTable;

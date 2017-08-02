@@ -173,18 +173,18 @@ const be5 = {
   },
   
   ui: {
-    documentTypes: {},
+    //documentTypes: {},
     /*
      * Note that creator doesn't create a document,
      * it creates a description of a component as React's <ComponentName /> does.
      */
-    registerDocumentType(type, creator) {
-      be5.ui.documentTypes[type] = creator;
-    },
+//    registerDocumentType(type, creator) {
+//      be5.ui.documentTypes[type] = creator;
+//    },
     
-    createDocument(type, props) {
-      return be5.ui.documentTypes[type](props);
-    },
+//    createDocument(type, props) {
+//      return be5.ui.documentTypes[type](props);
+//    },
     
     setTitle(docTitle) {
       var titleComponents = [docTitle, be5.appInfo.title];

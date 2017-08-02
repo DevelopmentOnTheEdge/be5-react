@@ -319,7 +319,7 @@ class FormWizard extends React.Component {
 //{compToRender}
 
     return (
-      <div className="multi-step" onKeyDown={(evt) => {this.handleKeyDown(evt)}}>
+      <div className="formWizard" onKeyDown={(evt) => {this.handleKeyDown(evt)}}>
           {
               this.props.showSteps
                   ? <ol className="progtrckr clearfix">
@@ -330,6 +330,7 @@ class FormWizard extends React.Component {
 
         <Document documentName={this.props.documentName} />
 
+        <hr/>
         <div style={this.props.showNavigation ? {} : this.hidden} className="footer-buttons">
           <button
             className={classNames(props.backButtonCls, {disabled: !this.state.showPreviousBtn})}
