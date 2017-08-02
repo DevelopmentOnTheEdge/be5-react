@@ -11,9 +11,9 @@ export default class FormWizardTest extends Component {
   render() {
 
     const steps = [
-      {name: 'Организация', url: '#!form/testtable/Test%201D/Insert'},
-      {name: 'Документы', url: '#!form/testtable/Test%201D/TestOperation'},
-      {name: 'Категории граждан', url: '#!table/testtable/Test 1D'},
+      {name: 'Организация', url: '#!form/_test_/Test%201D/GeneralRequirements'},
+      {name: 'Документы', url: '#!form/_test_/Test%201D/DocumentBaseOperation'},
+      {name: 'Категории граждан', url: '#!static/welcome.be'},
       {name: 'Услуги', url: '#!static/welcome.be'},
     ];
 
