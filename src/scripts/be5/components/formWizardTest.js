@@ -11,10 +11,17 @@ export default class FormWizardTest extends Component {
   render() {
 
     const steps = [
-      {name: 'Организация', url: '#!form/_test_/Test%201D/GeneralRequirements'},
-      {name: 'Документы', url: '#!form/_test_/Test%201D/NameNewDocument'},
-      {name: 'Категории граждан', url: '#!form/_test_/Test%201D/DocumentBaseOperation'},
-      {name: 'Услуги', url: '#!static/welcome.be'},
+      {title: 'Организация<br/><small>Общие сведения</small>', url: '#!form/_test_/Test%201D/GeneralRequirements'},
+      {title: 'Организация<br/><small>Адреса</small>', url: '#!form/_test_/Test%201D/GeneralRequirements'},
+      {title: 'Организация<br/><small>Документ-основание</small>', url: '#!form/_test_/Test%201D/DocumentBaseOperation'},
+
+      {title: 'Документы<br/>&nbsp;', url: '#!form/_test_/Test%201D/NameNewDocument'},
+
+      {title: 'Категории граждан<br/><small>Перечень категорий</small>', url: '#!static/welcome.be'},
+      {title: 'Категории граждан<br/><small>Правила присвоения категорий</small>', url: '#!static/welcome.be'},
+
+      {title: 'Услуги<br/><small>Общие сведения</small>', url: '#!static/welcome.be'},
+      {title: 'Услуги<br/><small>Правила приема документов</small>', url: '#!static/welcome.be'},
     ];
 
     return (

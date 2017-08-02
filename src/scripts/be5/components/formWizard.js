@@ -291,8 +291,9 @@ class FormWizard extends React.Component {
     return this.props.steps.map((s, i)=> (
       <li className={this.getClassName("progtrckr", i)} onClick={() => this.jumpToStep(i)} key={i} value={i}>
           <em>{i+1}</em>
-          <span>{this.props.steps[i].name}</span>
+          <span dangerouslySetInnerHTML={ {__html: this.props.steps[i].title} }></span>
       </li>
+      //{this.props.steps[i].name}
     ));
   }
 
