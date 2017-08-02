@@ -14,12 +14,12 @@ class Document extends Component {
   }
 
   componentDidMount() {
-    bus.listen(this.props.documentName, data => this.setState(data));
+    bus.replaceListeners(this.props.documentName, data => this.setState(data));
   }
 
-  componentWillUnmount(){
-    bus.notListen(this.props.documentName);
-  }
+//  componentWillUnmount(){
+//    bus.notListen(this.props.documentName);
+//  }
 
   render() {
     be5.ui.setTitle(this.state.value.title);
