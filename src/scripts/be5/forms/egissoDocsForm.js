@@ -1,0 +1,83 @@
+import React          from 'react';
+import PropTypes from 'prop-types';
+import be5                  from '../be5';
+import Document             from '../components/document';
+import changeDocument from '../core/changeDocument';
+
+class EgissoDocsForm extends React.Component {
+
+  componentDidMount(){
+    be5.url.process("EgissoDocs1", "#!form/_test_/Test%201D/NameCategoryDocuments/embedded=true");
+    be5.url.process("EgissoDocs2", "#!form/_test_/Test%201D/NameNewDocument");
+    be5.url.process("EgissoDocs3", "#!form/_test_/Test%201D/ReferDocumentToCategory");
+  }
+
+  render() {
+    return (
+      <div className="container"><div className="row">
+        <div className="col-md-12">
+          <h1>Документы</h1>
+          Заполните сведения о документах, которые требуются при определении права на предоставление услуг.
+          Категории дкументов необходимы для того, чтобы группировать взаимозаменяемые документы, которые
+          может предоставить гражданин при обращении за предоставлением услуги.
+          По умолчанию для примера добавлены следующе категории документов:
+                      <ol>
+              <li>
+                  Категория “Документ, удостоверяющий личность граждан РФ”. К ней относятся следующие документы:
+                  <ol>
+                      <li>Паспорт гражданина РФ</li>
+                      <li>Свидетельство о рождении</li>
+                      <li>Военный билет</li>
+                      <li>Удостоверение личности военнослужащего</li>
+                      <li>Иной документ, удостоверяющий личность</li>
+                  </ol>
+              </li>
+
+              <li>
+                  Категория “Документы, подтверждающие доходы”. К ней относятся следующие документы:
+                  <ol>
+                      <li>Справка о заработной плате</li>
+                  </ol>
+              </li>
+          </ol>
+          <hr/>
+          Для начала создайте категории документов, которые необходимы для предоставления услуг в Вашем муниципалитете.
+        </div>
+        <div className="row"><div className="col-md-12">
+            <div className="col-md-6">
+              <Document documentName={"EgissoDocs1"} />
+            </div>
+            <div className="col-md-6">
+              <button type="button" className="btn btn-primary" >Добавить категорию</button>
+            </div>
+        </div></div>
+        <div className="row"><div className="col-md-12">
+            <div className="col-md-6">
+              <Document documentName={"EgissoDocs2"} />
+            </div>
+            <div className="col-md-6">
+              <button type="button" className="btn btn-primary" >Добавить документ</button>
+            </div>
+        </div></div>
+
+        <div className="col-md-12">
+          <p>
+                Отнесите документы из справочника к категориям документов. Можете выбрать несколько документов и
+                несколько категорий, при этом каждому выбранному документу будет присвоена каждая выбранная категория,
+                если не была присвоена ранее.
+          </p>
+        </div>
+        <div className="col-md-12">
+          <Document documentName={"EgissoDocs3"} />
+        </div>
+      </div></div>
+    );
+  }
+
+}
+
+be5.registerAction('egissoDocs', (documentName) =>{
+  changeDocument(documentName, { component: EgissoDocsForm, value: {} })
+});
+
+export default EgissoDocsForm;

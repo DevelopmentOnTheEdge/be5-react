@@ -10,7 +10,7 @@ class StaticPage extends React.Component {
 
 }
 
-Document.defaultProps = {
+StaticPage.defaultProps = {
   value: ''
 };
 
