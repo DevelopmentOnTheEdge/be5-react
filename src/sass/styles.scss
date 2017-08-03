@@ -1,5 +1,10 @@
 @CHARSET "UTF-8";
 
+$font-size-root:             14px;
+$input-line-height:          1.19;
+$btn-line-height:            1.19;
+$btn-padding-x:              0.8rem;
+
 $font-size-h1:               1.5rem;
 $font-size-h2:               1.4rem;
 $font-size-h3:               1.25rem;
@@ -11,61 +16,3 @@ $enable-flex: false;
 $bootstrap-sass-asset-helper: true;
 
 @import "~bootstrap/scss/bootstrap";
-
-body{
-  font-size: 14px;
-}
-
-.btn { 
-  @extend .btn-sm;
-  line-height: 1.60;
-}
-.form-control{
-  @extend .form-control-sm;
-  line-height: 1.60;
-}
-.lower-alpha{
-  list-style-type: lower-alpha;
-}
-
-
-.Pane{
-  padding: 15px;
-}
-
-
-table.dataTable tfoot th, table.dataTable thead th{
-    font-size: 13px;
-}
-table.dataTable.compact tbody th,
-table.dataTable.compact tbody td {
-    padding: 4px;
-    border-right: 1px solid #efefef;
-}
-table.dataTable.compact tbody th:first-child,
-table.dataTable.compact tbody td:first-child {
-    padding: 4px;
-    border-left: 1px solid #efefef;
-}
-
-.Select-placeholder, .Select--single > .Select-control .Select-value{
-  line-height: 30px;
-}
-.Select-control, .Select-input{
-  height: 30px;
-  font-size: 14px;
-}
-.Select-clear {
-  font-size: 14px;
-}
-.Select-option {
-  font-size: 14px;
-  padding: 4px 10px;
-}
-.Select--multi .Select-value{
-  margin-top: 4px;
-}
-.Select-input > input{
-  line-height: 30px;
-  padding: 0px 0 0px;
-}

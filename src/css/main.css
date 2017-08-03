@@ -1,0 +1,63 @@
+/****** table.dataTable ******/
+table.dataTable tfoot th, table.dataTable thead th{
+    font-size: 13px;
+}
+table.dataTable.compact tbody th,
+table.dataTable.compact tbody td {
+    padding: 4px;
+    border-right: 1px solid #efefef;
+}
+table.dataTable.compact tbody th:first-child,
+table.dataTable.compact tbody td:first-child {
+    padding: 4px;
+    border-left: 1px solid #efefef;
+}
+
+/****** Select ******/
+.Select-placeholder, .Select--single > .Select-control .Select-value{
+    line-height: 30px;
+}
+.Select-control, .Select-input{
+    height: 30px;
+    font-size: 14px;
+}
+.Select-clear {
+    font-size: 14px;
+}
+.Select-option {
+    font-size: 14px;
+    padding: 4px 10px;
+}
+.Select--multi .Select-value{
+    margin-top: 4px;
+}
+.Select-input > input{
+    line-height: 30px;
+    padding: 0px 0 0px;
+}
+
+/****** init-loader ******/
+.document-content .init-loader{
+    border:10px solid #f3f3f3;
+    border-top:10px solid #3bb3c2;
+    border-radius:50%;
+    width:80px;
+    height:80px;
+    animation:spin 1.5s linear infinite;
+    margin: 50px auto;
+}
+@keyframes spin{
+    0%{transform:rotate(0)}100%{transform:rotate(360deg)}
+}
+
+/************/
+.lower-alpha{
+    list-style-type: lower-alpha;
+}
+
+.Pane{
+    padding: 15px;
+}
+
+/************/
+
