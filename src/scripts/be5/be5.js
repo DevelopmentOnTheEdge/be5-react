@@ -7,6 +7,7 @@ import bus      from './core/bus';
 import changeDocument from './core/changeDocument';
 window.jQuery = window.$ = require('jquery');
 
+import loading from './actions/loading.js';
 import formAction from './actions/form.js';
 import loginAction from './actions/login.js';
 import logoutAction from './actions/logout.js';
@@ -488,6 +489,7 @@ const be5 = {
   },
 
   actions: {
+    loading: loading,
     login: loginAction,
     logout: logoutAction,
     form: formAction,

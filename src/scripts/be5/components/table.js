@@ -480,9 +480,8 @@ const Table = React.createClass({
     const reloadClass = "table-reload float-xs-right " + this.state.runReload;
 
     return (
-      <div>
-
-        <h1>{value.title}</h1>
+      <div className="table-component">
+        <h1 className="table-component__title">{value.title}</h1>
         <TableBox
           ref="tableBox"
           category={value.category} 

@@ -10,12 +10,12 @@
     background-clip: padding-box;
 }
 
- .Resizer:hover {
+.Resizer:hover {
     -webkit-transition: all 2s ease;
     transition: all 2s ease;
 }
 
- .Resizer.horizontal {
+.Resizer.horizontal {
     height: 11px;
     margin: -5px 0;
     border-top: 5px solid rgba(255, 255, 255, 0);
@@ -41,4 +41,8 @@
 .Resizer.vertical:hover {
     border-left: 5px solid rgba(0, 0, 0, 0.5);
     border-right: 5px solid rgba(0, 0, 0, 0.5);
+}
+
+.Pane{
+    padding: 15px;
 }

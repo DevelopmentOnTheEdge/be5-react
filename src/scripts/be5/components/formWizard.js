@@ -361,9 +361,9 @@ FormWizard.defaultProps = {
   preventEnterSubmission: false,
   startAtStep: '0',
   nextButtonText: "Next",
-  nextButtonCls: "btn btn-prev btn-primary btn-lg pull-right",
+  nextButtonCls: "btn btn-prev btn-primary pull-right",
   backButtonText: "Previous",
-  backButtonCls: "btn btn-next btn-primary btn-lg pull-left",
+  backButtonCls: "btn btn-next btn-primary pull-left",
   documentName: "FormWizard",
 };
 

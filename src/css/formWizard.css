@@ -83,6 +83,12 @@ label {
 
 /************************************************************/
 
-.formBox h1 {
+.formWizard .formBox h1 {
+    display: none;
+}
+.formWizard .table-component__title {
+    display: none;
+}
+.formWizard .operationList {
     display: none;
 }

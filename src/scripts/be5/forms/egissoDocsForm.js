@@ -15,7 +15,7 @@ class EgissoDocsForm extends React.Component {
 
   render() {
     return (
-      <div className="container max-width-970"><div className="row">
+      <div className="row"><div className="container max-width-970"><div className="row">
         <div className="col-md-12">
           <h1>Документы</h1>
           <div className="alert alert-success alert-dismissible show" role="alert">
@@ -78,10 +78,12 @@ class EgissoDocsForm extends React.Component {
         <div className="col-md-12">
           <Document documentName={"EgissoDocs3"} />
         </div>
+
         <div className="col-md-12">
+          <br/>
           <Document documentName={"EgissoDocs4"} />
         </div>
-      </div></div>
+      </div></div></div>
     );
   }
 
