@@ -10,6 +10,7 @@ class EgissoDocsForm extends React.Component {
     be5.url.process("EgissoDocs1", "#!form/_test_/Test%201D/NameCategoryDocuments/embedded=true");
     be5.url.process("EgissoDocs2", "#!form/_test_/Test%201D/NameNewDocument");
     be5.url.process("EgissoDocs3", "#!form/_test_/Test%201D/ReferDocumentToCategory");
+    be5.url.process("EgissoDocs4", "#!table/companies/All records");
   }
 
   render() {
@@ -17,7 +18,8 @@ class EgissoDocsForm extends React.Component {
       <div className="container max-width-970"><div className="row">
         <div className="col-md-12">
           <h1>Документы</h1>
-          <div className="alert alert-success">
+          <div className="alert alert-success alert-dismissible show" role="alert">
+            <button type="button" className="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             Заполните сведения о документах, которые требуются при определении права на предоставление услуг.
             Категории документов необходимы для того, чтобы группировать взаимозаменяемые документы, которые
             может предоставить гражданин при обращении за предоставлением услуги.
@@ -25,7 +27,7 @@ class EgissoDocsForm extends React.Component {
             <ol>
                 <li>
                     Категория “Документ, удостоверяющий личность граждан РФ”. К ней относятся следующие документы:
-                    <ol>
+                    <ol className="lower-alpha">
                         <li>Паспорт гражданина РФ</li>
                         <li>Свидетельство о рождении</li>
                         <li>Военный билет</li>
@@ -36,7 +38,7 @@ class EgissoDocsForm extends React.Component {
 
                 <li>
                     Категория “Документы, подтверждающие доходы”. К ней относятся следующие документы:
-                    <ol>
+                    <ol className="lower-alpha">
                         <li>Справка о заработной плате</li>
                     </ol>
                 </li>
@@ -50,10 +52,10 @@ class EgissoDocsForm extends React.Component {
 
         <div className="row"><div className="col-md-12">
             <div className="col-md-6">
-              <div className="property-set row"><div className="form-group property col-md-12 required"><label for="categorynameField" className="form-control-label">Наименование категории документов</label><div className="controls"><input type="text" id="categorynameField" value="" className="form-control"/></div></div></div>
+              <div className="property-set row"><div className="form-group property col-md-12 required"><label htmlFor="categorynameField" className="form-control-label">Наименование категории документов</label><div className="controls"><input type="text" id="categorynameField" value="" className="form-control"/></div></div></div>
             </div>
             <div className="col-md-6">
-              <label class="form-control-label">&nbsp;</label>
+              <label className="form-control-label">&nbsp;</label>
               <button type="button" className="btn btn-primary" >Добавить категорию</button>
             </div>
         </div></div>
@@ -65,16 +67,19 @@ class EgissoDocsForm extends React.Component {
 
         <div className="row"><div className="col-md-12">
             <div className="col-md-6">
-              <div className="property-set row"><div className="col-md-12"><div></div></div><div className="form-group property col-md-12 required"><label for="namenewdocumentField" className="form-control-label">Наименование нового документа</label><div className="controls"><input type="text" id="namenewdocumentField" value="" className="form-control"/></div></div></div>
+              <div className="property-set row"><div className="col-md-12"><div></div></div><div className="form-group property col-md-12 required"><label htmlFor="namenewdocumentField" className="form-control-label">Наименование нового документа</label><div className="controls"><input type="text" id="namenewdocumentField" value="" className="form-control"/></div></div></div>
             </div>
             <div className="col-md-6">
-              <label class="form-control-label">&nbsp;</label>
+              <label className="form-control-label">&nbsp;</label>
               <button type="button" className="btn btn-primary" >Добавить документ</button>
             </div>
         </div></div>
 
         <div className="col-md-12">
           <Document documentName={"EgissoDocs3"} />
+        </div>
+        <div className="col-md-12">
+          <Document documentName={"EgissoDocs4"} />
         </div>
       </div></div>
     );

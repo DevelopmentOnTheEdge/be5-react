@@ -12,7 +12,7 @@ export default class FormWizardTest extends Component {
 
     const steps = [
       {title: 'Организация<br/><small>Общие сведения</small>', url: '#!form/_test_/Test%201D/GeneralRequirements'},
-      {title: 'Организация<br/><small>Адреса</small>', url: '#!form/_test_/Test%201D/Addresses'},
+      {title: 'Организация<br/><small>Адреса</small>', url: '#!addresses'},
       {title: 'Организация<br/><small>Документ-основание</small>', url: '#!form/_test_/Test%201D/DocumentBaseOperation'},
 
       {title: 'Документы<br/>&nbsp;', url: '#!egissoDocs'},

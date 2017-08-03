@@ -12,6 +12,7 @@ import "beanexplorer-react/src/propertySet.css";
 
 //todo move to egisso-be5 frontend
 import EgissoDocsForm from './forms/egissoDocsForm';
+import AddressesForm from './forms/addresses';
 
 ReactDOM.render(
   <App/>,
