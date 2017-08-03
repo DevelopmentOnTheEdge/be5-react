@@ -43670,6 +43670,10 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _classnames = __webpack_require__(5);
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _reactDatetime = __webpack_require__(38);
 
 var _reactDatetime2 = _interopRequireDefault(_reactDatetime);
@@ -43828,7 +43832,7 @@ var Property = function (_Component) {
 
       var label = _react2.default.createElement(
         'label',
-        { htmlFor: id, className: this.props.labelClassName },
+        { htmlFor: id, className: this.props.labelClassName || 'form-control-label' },
         meta.displayName || id
       );
       var messageElement = meta.message ? _react2.default.createElement(
@@ -43837,30 +43841,34 @@ var Property = function (_Component) {
         meta.message
       ) : undefined;
 
-      var hasStatus = void 0;
-      if (meta.status === 'error') hasStatus = 'has-danger';else hasStatus = meta.status ? 'has-' + meta.status : '';
+      var hasStatusClasses = (0, _classnames2.default)({ 'has-danger': meta.status === 'error' }, { 'has-warning': meta.status === 'warning' }, { 'has-success': meta.status === 'success' });
+      var classNameForm = meta.type === "Boolean" ? this.props.classNameFormCheck || 'form-check property' : this.props.classNameFormGroup || 'form-group property';
+      var cssClasses = meta.cssClasses || 'col-xs-12';
+
+      var classes = (0, _classnames2.default)(classNameForm, cssClasses, hasStatusClasses, { 'required': !meta.canBeNull && !meta.readOnly });
 
       if (meta.type === "Boolean") {
         return _react2.default.createElement(
           'div',
-          { className: (this.props.classNameFormCheck || 'form-check property') + ' ' + (meta.cssClasses || 'col-xs-12') + ' ' + hasStatus },
+          { className: classes },
           _react2.default.createElement(
             'label',
             { className: 'form-check-label' },
             valueControl,
+            ' ',
             ' ' + meta.displayName || id
           )
         );
       } else if (meta.labelField) {
         return _react2.default.createElement(
           'div',
-          { className: (meta.cssClasses || 'col-xs-12') + ' ' + hasStatus },
+          { className: (0, _classnames2.default)(meta.cssClasses || 'col-xs-12', hasStatusClasses) },
           valueControl
         );
       } else {
         return _react2.default.createElement(
           'div',
-          { className: (this.props.classNameFormFroup || 'form-group property') + ' ' + (meta.cssClasses || 'col-xs-12') + ' ' + hasStatus },
+          { className: classes },
           label,
           _react2.default.createElement(
             'div',
@@ -74339,7 +74347,7 @@ var FormWizardTest = function (_Component) {
     key: 'render',
     value: function render() {
 
-      var steps = [{ title: 'Организация<br/><small>Общие сведения</small>', url: '#!form/_test_/Test%201D/GeneralRequirements' }, { title: 'Организация<br/><small>Адреса</small>', url: '#!form/_test_/Test%201D/GeneralRequirements' }, { title: 'Организация<br/><small>Документ-основание</small>', url: '#!form/_test_/Test%201D/DocumentBaseOperation' }, { title: 'Документы<br/>&nbsp;', url: '#!form/_test_/Test%201D/NameNewDocument' }, { title: 'Категории граждан<br/><small>Перечень категорий</small>', url: '#!static/welcome.be' }, { title: 'Категории граждан<br/><small>Правила присвоения категорий</small>', url: '#!static/welcome.be' }, { title: 'Услуги<br/><small>Общие сведения</small>', url: '#!static/welcome.be' }, { title: 'Услуги<br/><small>Правила приема документов</small>', url: '#!static/welcome.be' }];
+      var steps = [{ title: 'Организация<br/><small>Общие сведения</small>', url: '#!form/_test_/Test%201D/GeneralRequirements' }, { title: 'Организация<br/><small>Адреса</small>', url: '#!form/_test_/Test%201D/Addresses' }, { title: 'Организация<br/><small>Документ-основание</small>', url: '#!form/_test_/Test%201D/DocumentBaseOperation' }, { title: 'Документы<br/>&nbsp;', url: '#!form/_test_/Test%201D/NameNewDocument' }, { title: 'Категории граждан<br/><small>Перечень категорий</small>', url: '#!static/welcome.be' }, { title: 'Категории граждан<br/><small>Правила присвоения категорий</small>', url: '#!static/welcome.be' }, { title: 'Услуги<br/><small>Общие сведения</small>', url: '#!static/welcome.be' }, { title: 'Услуги<br/><small>Правила приема документов</small>', url: '#!static/welcome.be' }];
 
       return _react2.default.createElement(
         'div',
@@ -76216,7 +76224,7 @@ exports = module.exports = __webpack_require__(9)();
 
 
 // module
-exports.push([module.i, ".property-error .help-block{\n  color: #920000;\n}\n\n.property-group {\n  border-top: 1px solid rgba(0, 0, 0, 0.125);\n  border-bottom: 1px solid rgba(0, 0, 0, 0.125);\n  padding: 1.4em 15px 1.1em;\n  margin-top: 1.8em;\n  margin-bottom: 1.2em;\n  position: relative;\n}\n\n.property-group:first-child{\n  border-top: none;\n}\n\n.property-group h3 {\n  top: -0.8em;\n  position: absolute;\n  background-color: white;\n  padding: 3pt;\n  font-size: 1.6em;\n  margin: 0 0 0 -3px;\n}\n\n.form-control-feedback {\n  font-size: 0.875em;\n}", ""]);
+exports.push([module.i, ".property-error .help-block{\n  color: #920000;\n}\n\n.property-group {\n  border-top: 1px solid rgba(0, 0, 0, 0.125);\n  border-bottom: 1px solid rgba(0, 0, 0, 0.125);\n  padding: 1.4em 15px 1.1em;\n  margin-top: 1.8em;\n  margin-bottom: 1.2em;\n  position: relative;\n}\n\n.property-group:first-child{\n  border-top: none;\n}\n\n.property-group h3 {\n  top: -0.8em;\n  position: absolute;\n  background-color: white;\n  padding: 3pt;\n  font-size: 1.6em;\n  margin: 0 0 0 -3px;\n}\n\n.form-control-feedback {\n  font-size: 0.875em;\n}\n\n.form-group.required .form-control-label:after,\n.form-check.required .form-check-label:after{\n  content:\"*\";\n  color:#b90000;\n  margin-left: 2px;\n}\n\n/*.form-group.required .form-control-label,\n.form-check.required .form-check-label{\n  font-weight: bold;\n}*/", ""]);
 
 // exports
 
