@@ -14,14 +14,14 @@ class EgissoDocsForm extends React.Component {
 
   render() {
     return (
-      <div className="container"><div className="row">
+      <div className="container max-width-970"><div className="row">
         <div className="col-md-12">
           <h1>Документы</h1>
           Заполните сведения о документах, которые требуются при определении права на предоставление услуг.
-          Категории дкументов необходимы для того, чтобы группировать взаимозаменяемые документы, которые
+          Категории документов необходимы для того, чтобы группировать взаимозаменяемые документы, которые
           может предоставить гражданин при обращении за предоставлением услуги.
           По умолчанию для примера добавлены следующе категории документов:
-                      <ol>
+          <ol>
               <li>
                   Категория “Документ, удостоверяющий личность граждан РФ”. К ней относятся следующие документы:
                   <ol>
@@ -41,32 +41,35 @@ class EgissoDocsForm extends React.Component {
               </li>
           </ol>
           <hr/>
-          Для начала создайте категории документов, которые необходимы для предоставления услуг в Вашем муниципалитете.
+          <p>Для начала создайте категории документов, которые необходимы для предоставления услуг в Вашем муниципалитете.</p>
         </div>
+
+
         <div className="row"><div className="col-md-12">
             <div className="col-md-6">
-              <Document documentName={"EgissoDocs1"} />
+              <div className="property-set row"><div className="form-group property col-md-12 required"><label for="categorynameField" className="form-control-label">Наименование категории документов</label><div className="controls"><input type="text" id="categorynameField" value="" className="form-control"/></div></div></div>
             </div>
             <div className="col-md-6">
+              <label class="form-control-label">&nbsp;</label>
               <button type="button" className="btn btn-primary" >Добавить категорию</button>
             </div>
         </div></div>
+
+        <div className="col-md-12"><p>
+            Созайте документы, которые используются при предоставлении услуг в Вашем муниципалитете, если их
+            еще нет в общем справочнике документов.
+        </p></div>
+
         <div className="row"><div className="col-md-12">
             <div className="col-md-6">
-              <Document documentName={"EgissoDocs2"} />
+              <div className="property-set row"><div className="col-md-12"><div></div></div><div className="form-group property col-md-12 required"><label for="namenewdocumentField" className="form-control-label">Наименование нового документа</label><div className="controls"><input type="text" id="namenewdocumentField" value="" className="form-control"/></div></div></div>
             </div>
             <div className="col-md-6">
+              <label class="form-control-label">&nbsp;</label>
               <button type="button" className="btn btn-primary" >Добавить документ</button>
             </div>
         </div></div>
 
-        <div className="col-md-12">
-          <p>
-                Отнесите документы из справочника к категориям документов. Можете выбрать несколько документов и
-                несколько категорий, при этом каждому выбранному документу будет присвоена каждая выбранная категория,
-                если не была присвоена ранее.
-          </p>
-        </div>
         <div className="col-md-12">
           <Document documentName={"EgissoDocs3"} />
         </div>
@@ -74,6 +77,26 @@ class EgissoDocsForm extends React.Component {
     );
   }
 
+//        <div className="row"><div className="col-md-12">
+//            <div className="col-md-6">
+//              <Document documentName={"EgissoDocs1"} />
+//            </div>
+//            <div className="col-md-6">
+//              <button type="button" className="btn btn-primary" >Добавить категорию</button>
+//            </div>
+//        </div></div>
+//        <div className="col-md-12"><p>
+//            Созайте документы, которые используются при предоставлении услуг в Вашем муниципалитете, если их
+//            еще нет в общем справочнике документов.
+//        </p></div>
+//        <div className="row"><div className="col-md-12">
+//            <div className="col-md-6">
+//              <Document documentName={"EgissoDocs2"} />
+//            </div>
+//            <div className="col-md-6">
+//              <button type="button" className="btn btn-primary" >Добавить документ</button>
+//            </div>
+//        </div></div>
 }
 
 be5.registerAction('egissoDocs', (documentName) =>{

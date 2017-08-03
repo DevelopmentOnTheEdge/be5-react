@@ -54,7 +54,7 @@ class FormWizard extends React.Component {
       if (i < indx) {
         styles.push('done');
       }
-      else if (i === indx) {
+      else if (i == indx) {
         styles.push('doing');
       }
       else {
@@ -359,7 +359,7 @@ FormWizard.defaultProps = {
   stepsNavigation: true,
   prevBtnOnLastStep: true,
   preventEnterSubmission: false,
-  startAtStep: 0,
+  startAtStep: '0',
   nextButtonText: "Next",
   nextButtonCls: "btn btn-prev btn-primary btn-lg pull-right",
   backButtonText: "Previous",
@@ -377,7 +377,7 @@ FormWizard.propTypes = {
   stepsNavigation: PropTypes.bool,
   prevBtnOnLastStep: PropTypes.bool,
   preventEnterSubmission: PropTypes.bool,
-  startAtStep: PropTypes.number,
+  startAtStep: PropTypes.string,
   nextButtonText: PropTypes.string,
   nextButtonCls: PropTypes.string,
   backButtonCls: PropTypes.string,

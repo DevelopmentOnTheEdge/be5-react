@@ -12,6 +12,9 @@ $bootstrap-sass-asset-helper: true;
 
 @import "~bootstrap/scss/bootstrap";
 
+body{
+  font-size: 14px;
+}
 
 .btn { 
   @extend .btn-sm;

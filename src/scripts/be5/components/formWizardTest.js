@@ -15,7 +15,7 @@ export default class FormWizardTest extends Component {
       {title: 'Организация<br/><small>Адреса</small>', url: '#!form/_test_/Test%201D/Addresses'},
       {title: 'Организация<br/><small>Документ-основание</small>', url: '#!form/_test_/Test%201D/DocumentBaseOperation'},
 
-      {title: 'Документы<br/>&nbsp;', url: '#!form/_test_/Test%201D/NameNewDocument'},
+      {title: 'Документы<br/>&nbsp;', url: '#!egissoDocs'},
 
       {title: 'Категории граждан<br/><small>Перечень категорий</small>', url: '#!form/_test_/Test%201D/CategoryList'},
       {title: 'Категории граждан<br/><small>Правила присвоения категорий</small>', url: '#!static/welcome.be'},
@@ -26,7 +26,10 @@ export default class FormWizardTest extends Component {
 
     return (
       <div className='formWizardTest'>
-        <FormWizard steps={steps} />
+        <FormWizard steps={steps} startAtStep={this.props.value.startAtStep}
+          backButtonText="Предыдущий шаг"
+          nextButtonText="Следующий шаг"
+        />
       </div>
     )
   }
