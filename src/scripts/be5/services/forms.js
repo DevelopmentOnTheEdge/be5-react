@@ -2,7 +2,7 @@ import be5            from '../be5';
 import Preconditions  from '../preconditions';
 import _              from 'underscore';
 import changeDocument from '../core/changeDocument';
-import Form,{HtmlResult}          from '../components/form';
+import Form,{HtmlResult}          from '../components/forms/form';
 
 export default {
   load(params, documentName) {

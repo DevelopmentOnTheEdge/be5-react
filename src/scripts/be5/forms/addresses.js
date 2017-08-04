@@ -23,7 +23,7 @@ class Addresses extends React.Component {
 
   _showAddBuilding(){
     be5.url.process("BootstrapModal", "#!loading");
-    be5.url.process("BootstrapModal", "#!form/_test_/Test%201D/AddBuilding");
+    be5.url.process("BootstrapModal", '#!form/_test_/Test%201D/AddBuilding/street=РОССИЙСКАЯ УЛ');
     this.refs.modal.open();
   }
 
@@ -71,9 +71,13 @@ class Addresses extends React.Component {
         </div>
         <div className="col-md-12">
           <Document documentName={"Addresses1"} />
-          <br/>
-          <button type="button" className="btn btn-primary btn-sm" onClick={this._showAddBuilding}>Добавить здание</button>  { }
-          <button type="button" className="btn btn-primary btn-sm" onClick={this._showAddApartment}>Добавить квартиру</button>
+        </div>
+        <div className="col-md-8">&nbsp;</div>
+        <div className="col-md-2">
+          <button type="button" className="btn btn-primary btn-sm up-btn" onClick={this._showAddBuilding}>Добавить здание</button>
+        </div>
+        <div className="col-md-2">
+          <button type="button" className="btn btn-primary btn-sm up-btn" onClick={this._showAddApartment}>Добавить квартиру</button>
         </div>
 
         {bootstrapModal}

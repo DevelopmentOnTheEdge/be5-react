@@ -26,7 +26,11 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "tether": "^1.4.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "moment": "^2.18.1",
+    "react-datetime": "^2.8.10",
+    "react-select": "^1.0.0-rc.5",
+    "react-virtualized-select": "^3.1.0"
   },
   "devDependencies": {
     "beanexplorer-react": "^0.1.13",

@@ -8,6 +8,8 @@ import 'react-virtualized/styles.css'
 import 'react-virtualized-select/styles.css'
 import "beanexplorer-react/src/propertySet.css";
 
+import '../../css/form.css';
+
 import '../../sass/styles.scss'
 import '../../css/formWizard.css';
 import '../../css/main.css';

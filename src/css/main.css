@@ -54,5 +54,10 @@ table.dataTable.compact tbody td:first-child {
 .lower-alpha{
     list-style-type: lower-alpha;
 }
-/************/
+/**** временны хак, пока не сделаны кастомные формы ********/
+.property-group.col-xs-12 {padding-bottom: 30px;}
+
+.up-btn{
+    margin-top: -165px;
+}
 
