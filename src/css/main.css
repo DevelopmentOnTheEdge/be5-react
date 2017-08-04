@@ -1,4 +1,10 @@
 /****** table.dataTable ******/
+#quickColumns {
+    margin: 0.7em 0;
+}
+.dataTables_wrapper .dataTables_info {
+    padding: 0.7em 0;
+}
 table.dataTable tfoot th, table.dataTable thead th{
     font-size: 13px;
 }
@@ -11,6 +17,54 @@ table.dataTable.compact tbody th:first-child,
 table.dataTable.compact tbody td:first-child {
     padding: 4px;
     border-left: 1px solid #efefef;
+}
+
+table.dataTable thead th,
+table.dataTable thead td {
+    border-bottom: 1px solid #d8d8d8;
+}
+
+table.dataTable,
+table.dataTable.no-footer{
+    border: 1px solid #d8d8d8;
+}
+
+/*******************************************************/
+/* egisso colors                                       */
+/*******************************************************/
+.dataTable thead{
+    background: #4181f4;
+    color: #fff;
+    font-weight: normal;
+}
+table.dataTable,
+table.dataTable.no-footer{
+    border: 1px solid #4181f4;
+}
+.td-strong {
+    font-weight: normal;
+}
+
+table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
+    background: #fff;
+}
+table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr{
+    background: #f9f9f9;
+}
+.Pane {
+    background: #f2f2f2;
+}
+a.menuItemWithRef {
+    color: #5b5b5b;
+}
+.progtrckr {
+    background: #ffffff;
+}
+.formBox form{
+    border: 1px solid #d8d8d8;
+    padding: 15px;
+    background: #fff;
+    border-radius: 3px;
 }
 
 /****** Select ******/

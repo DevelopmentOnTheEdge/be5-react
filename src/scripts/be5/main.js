@@ -15,8 +15,10 @@ import '../../css/formWizard.css';
 import '../../css/main.css';
 
 //todo move to egisso-be5 frontend
-import EgissoDocsForm from './forms/egissoDocsForm';
-import AddressesForm from './forms/addresses';
+import egissoDocsForm from './forms/egissoDocsForm';
+import addresses from './forms/addresses';
+import companies from './forms/companies';
+import servicesGeneralInformation from './forms/servicesGeneralInformation';
 
 ReactDOM.render(
   <App/>,

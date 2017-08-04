@@ -11,7 +11,7 @@ export default class FormWizardTest extends Component {
   render() {
 
     const steps = [
-      {title: 'Организация<br/><small>Общие сведения</small>', url: '#!form/_test_/Test%201D/GeneralRequirements'},
+      {title: 'Организация<br/><small>Общие сведения</small>', url: '#!companies'},
       {title: 'Организация<br/><small>Адреса</small>', url: '#!addresses'},
       {title: 'Организация<br/><small>Документ-основание</small>', url: '#!form/_test_/Test%201D/DocumentBaseOperation'},
 
@@ -20,7 +20,7 @@ export default class FormWizardTest extends Component {
       {title: 'Категории граждан<br/><small>Перечень категорий</small>', url: '#!form/_test_/Test%201D/CategoryList'},
       {title: 'Категории граждан<br/><small>Правила присвоения категорий</small>', url: '#!static/welcome.be'},
 
-      {title: 'Услуги<br/><small>Общие сведения</small>', url: '#!form/_test_/Test%201D/ServicesGeneralInformation'},
+      {title: 'Услуги<br/><small>Общие сведения</small>', url: '#!servicesGeneralInformation'},
       {title: 'Услуги<br/><small>Правила приема документов</small>', url: '#!static/welcome.be'},
     ];
 
