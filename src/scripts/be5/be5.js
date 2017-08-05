@@ -368,7 +368,7 @@ const be5 = {
       let result = null;
       const failure = function(data) {
         result = data;
-        be5.log.error(data.value.code + "\n\n" + data.value.message);
+        be5.log.error(data);
         if (typeof (failureFunc) === 'function')failureFunc(data);
       };
 
@@ -458,25 +458,9 @@ const be5 = {
   },
 
   log: {
-    error(message) {
-      console.error(message);
-/*<div class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Error:</h4>
-      </div>
-      <div class="modal-body">
-        //TODO: insert bootstrap alert
-        <div class="alert alert-danger">message</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>*/
+    error(data) {
+      bus.fire("alert", {msg: data.value.code, type: 'error', time: 0});
+      console.error(data.value.code + "\n\n" + data.value.message);
     }
   },
 

@@ -3,7 +3,8 @@ import bus from '../core/bus';
 import SideBar from './sideBar';
 import Document from './document';
 import SplitPane from './splitPane';
-  
+import AlertContainer from 'react-alert'
+
 export default React.createClass({
   displayName: 'App',
   
@@ -12,14 +13,25 @@ export default React.createClass({
     bus.listen('LoggedIn', this.refresh);
     bus.listen('LanguageChanged', this.refresh);
     bus.listen('RoleChanged', this.refresh);
+    bus.listen("alert", data => this.msg.show(data.msg, data) );
   },
-  
+
   render: function() {
+    const alertOptions = {
+      offset: 14,
+      position: 'top right',
+      theme: 'light',
+      time: 5000,
+      transition: 'scale'
+    };
     return (
-      <SplitPane split="vertical" defaultSize={280}>
-        <SideBar ref="sideBar"/>
-        <Document ref="document"/>
-      </SplitPane>
+      <div>
+        <AlertContainer ref={a => this.msg = a} {...alertOptions} />
+        <SplitPane split="vertical" defaultSize={280}>
+          <SideBar ref="sideBar"/>
+          <Document ref="document"/>
+        </SplitPane>
+      </div>
     );
   },
   

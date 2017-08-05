@@ -8,6 +8,7 @@ export default function() {
 
     bus.fire('LoggedOut');
     bus.fire('CallDefaultAction');
+    bus.fire("alert", {msg:"Logout successful.", type: 'success'})
   });
 
 };

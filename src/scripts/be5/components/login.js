@@ -109,6 +109,7 @@ const Login = React.createClass({
   _onSuccess() {
     this.props.onSuccess();
     this._close();
+    bus.fire("alert", {msg:"Login successful.", type: 'success'})
   },
   
   _close() {
