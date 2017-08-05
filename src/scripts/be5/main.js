@@ -4,14 +4,13 @@ import App              from './components/application';
 
 import 'react-datetime/css/react-datetime.css';
 import 'react-select/dist/react-select.css';
-import 'react-virtualized/styles.css'
-import 'react-virtualized-select/styles.css'
-import "beanexplorer-react/src/propertySet.css";
-
-import '../../css/form.css';
+import 'react-virtualized/styles.css';
+import 'react-virtualized-select/styles.css';
 
 import '../../sass/styles.scss'
+import '../../css/form.css';
 import '../../css/formWizard.css';
+import '../../css/propertySet.css';
 import '../../css/main.css';
 
 //todo move to egisso-be5 frontend

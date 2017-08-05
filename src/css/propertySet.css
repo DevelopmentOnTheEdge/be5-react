@@ -1,0 +1,46 @@
+.property-error .help-block{
+  color: #920000;
+}
+
+.property-group {
+  border-top: 1px solid rgb(216, 216, 216);
+  border-bottom: 1px solid rgb(216, 216, 216);
+  margin-top: 1.2em;
+  margin-bottom: 1.2em;
+  position: relative;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.property-groop-box {
+
+}
+
+.property-group:first-child{
+  border-top: none;
+}
+
+.property-group h3 {
+  top: -0.8em;
+  position: absolute;
+  background-color: white;
+  padding: 3pt;
+  font-size: 1.6em;
+  margin: 0 0 0 -3px;
+}
+
+.form-control-feedback {
+  font-size: 0.875em;
+}
+
+.form-group.required .form-control-label:after,
+.form-check.required .form-check-label:after{
+  content:"*";
+  color:#b90000;
+  margin-left: 2px;
+}
+
+/*.form-group.required .form-control-label,
+.form-check.required .form-check-label{
+  font-weight: bold;
+}*/

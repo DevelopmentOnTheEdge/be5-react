@@ -331,7 +331,7 @@ class FormWizard extends React.Component {
 
         <Document documentName={this.props.documentName} />
 
-        <hr/>
+        <br/>
         <div style={this.props.showNavigation ? {} : this.hidden} className="footer-buttons">
           <button
             className={classNames(props.backButtonCls, {disabled: !this.state.showPreviousBtn})}

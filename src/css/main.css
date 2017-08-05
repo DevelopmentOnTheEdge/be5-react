@@ -46,12 +46,6 @@ table.dataTable tfoot th, table.dataTable tfoot td {
 a.menuItemWithRef {
     color: #5b5b5b;
 }
-.formBox form{
-    border: 1px solid #d8d8d8;
-    padding: 15px;
-    background: #fff;
-    border-radius: 3px;
-}
 
 /*******************************************************/
 /* egisso colors                                       */
@@ -135,7 +129,7 @@ a.menuItemWithRef {
 /**** временны хак, пока не сделаны кастомные формы ********/
 .property-group.col-xs-12 {padding-bottom: 30px;}
 
-.up-btn{
-    margin-top: -165px;
+.up-btn {
+    top: -100px;
+    position: absolute;
 }
-

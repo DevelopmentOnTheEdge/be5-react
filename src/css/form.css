@@ -22,6 +22,16 @@
     border: 1px solid rgba(0, 0, 0, 0.125);
 }
 
+.formBox form{
+    border: 1px solid #d8d8d8;
+    padding: 15px;
+    border-radius: 3px;
+}
+.modal-content .formBox form{
+    border: none;
+    padding: 0;
+}
+
 /*.formBox .formActions {
     text-align: center;
 }
