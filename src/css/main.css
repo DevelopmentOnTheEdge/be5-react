@@ -28,11 +28,35 @@ table.dataTable,
 table.dataTable.no-footer{
     border: 1px solid #d8d8d8;
 }
+table.dataTable.compact th {
+    border-bottom-width: 3px;
+}
+table.dataTable.compact tfoot th, table.dataTable.compact tfoot td {
+    padding: 4px;
+}
+table.dataTable tfoot th, table.dataTable tfoot td {
+    border-top: 3px solid #d8d8d8;
+}
+/*******************************************************/
+/* colors                                              */
+/*******************************************************/
+.pane1 {
+    background: #f8f8f8;
+}
+a.menuItemWithRef {
+    color: #5b5b5b;
+}
+.formBox form{
+    border: 1px solid #d8d8d8;
+    padding: 15px;
+    background: #fff;
+    border-radius: 3px;
+}
 
 /*******************************************************/
 /* egisso colors                                       */
 /*******************************************************/
-.dataTable thead{
+/*.dataTable thead{
     background: #4181f4;
     color: #fff;
     font-weight: normal;
@@ -66,7 +90,7 @@ a.menuItemWithRef {
     background: #fff;
     border-radius: 3px;
 }
-
+*/
 /****** Select ******/
 .Select-placeholder, .Select--single > .Select-control .Select-value{
     line-height: 30px;

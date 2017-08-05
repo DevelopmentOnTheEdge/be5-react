@@ -14,7 +14,7 @@ var Pane = React.createClass({
   
   render() {
     var split = this.props.split;
-    var classes = ['Pane', split];
+    var classes = ['Pane', split, this.props.classes];
 
     var style = {
       flex: 1,
@@ -165,9 +165,9 @@ var SplitPane = React.createClass({displayName: "SplitPane",
     var children = this.props.children;
     var child0 = children[0];
     var child1 = children[1];
-    elements.push(React.createElement(Pane, {ref: "pane1", key: "pane1", split: split}, child0));
+    elements.push(React.createElement(Pane, {ref: "pane1", key: "pane1", split: split, classes: "pane1" }, child0));
     elements.push(React.createElement(Resizer, {ref: "resizer", key: "resizer", down: this.down, split: split}));
-    elements.push(React.createElement(Pane, {ref: "pane2", key: "pane2", split: split}, child1));
+    elements.push(React.createElement(Pane, {ref: "pane2", key: "pane2", split: split, classes: "pane2"}, child1));
 
     var classes = ['SplitPane', split];
 
