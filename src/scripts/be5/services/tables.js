@@ -31,6 +31,12 @@ export default {
       data = documentUtils.createDocument(data);
 
       changeDocument(documentName, { component: Table, value: data.value });
-    }, (data)=> changeDocument(documentName, { error: data }));
+    }, (data)=> {
+      changeDocument(documentName, {
+        component: 'text',
+        error: true,
+        value: be5.messages.errorServerQueryException.replace('$message', data.value.code)
+      });
+    });
   }
 };

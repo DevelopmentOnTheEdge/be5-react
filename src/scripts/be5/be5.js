@@ -364,14 +364,14 @@ const be5 = {
       return copy;
     },
     
-    requestUrl(url, type, params, success, failure) {
+    requestUrl(url, type, params, success, failureFunc) {
       let result = null;
-      if (typeof (failure) !== 'function') {
-        failure = function(data) {
-          result = data;
-          be5.log.error(data.value.code + "\n\n" + data.value.message);
-        };
-      }
+      const failure = function(data) {
+        result = data;
+        be5.log.error(data.value.code + "\n\n" + data.value.message);
+        if (typeof (failureFunc) === 'function')failureFunc(data);
+      };
+
       $.ajax({
         url : url,
         dataType : type,
