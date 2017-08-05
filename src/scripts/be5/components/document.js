@@ -9,38 +9,44 @@ class Document extends Component {
 
   constructor(props) {
     super(props);
-
-    this.state = { component: 'text', value: "Page is loading..." };
+    this.state = { value: {}, loading: true };
   }
 
   componentDidMount() {
-    bus.replaceListeners(this.props.documentName, data => this.setState(data));
+    bus.replaceListeners(this.props.documentName, data => {
+      this.setState(data);
+      if(!data.loading && !data.error)this.setState({ loading: false });
+      if(!data.error)this.setState({ error: null });
+    });
   }
 
-//  componentWillUnmount(){
-//    bus.notListen(this.props.documentName);
-//  }
-
   render() {
+    const loadingItem = this.state.loading
+      ? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
+
+    let contentItem = null;
     be5.ui.setTitle(this.state.value.title);
+
     if(this.state.component){
       if (this.state.component === 'text')
       {
-        return <div className="document-content">
-                 <h1>{this.state.value}</h1>
-               </div>
-      }
-
-      const DocumentContent = this.state.component;
-      if(DocumentContent !== null) {
-        return (
-          <div className="document-content">
-            <DocumentContent value={this.state.value}/>
-          </div>
+        contentItem = (
+           <h1>{this.state.value}</h1>
+        );
+      }else if (this.state.component !== null) {
+        const DocumentContent = this.state.component;
+        contentItem = (
+          <DocumentContent value={this.state.value}/>
         )
       }
     }
-    return (<div class="init-loader"></div>);
+
+    return (
+      <div className='document-content' id={'document-content___' + this.props.documentName}>
+        {loadingItem}
+        {contentItem}
+      </div>
+    );
   }
 
 }

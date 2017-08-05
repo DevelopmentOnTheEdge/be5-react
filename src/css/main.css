@@ -42,7 +42,15 @@ table.dataTable tfoot th, table.dataTable tfoot td {
 /*******************************************************/
 .pane1 {
     background: #f8f8f8;
+    padding: 15px;
 }
+#document-content___MainDocument {
+    padding: 15px;
+}
+.document-content {
+    position: relative;
+}
+
 a.menuItemWithRef {
     color: #5b5b5b;
 }
@@ -108,20 +116,13 @@ a.menuItemWithRef {
     padding: 0px 0 0px;
 }
 
-/****** init-loader ******/
-.document-content .init-loader{
-    border:10px solid #f3f3f3;
-    border-top:10px solid #3bb3c2;
-    border-radius:50%;
-    width:80px;
-    height:80px;
-    animation:spin 1.5s linear infinite;
-    margin: 50px auto;
+/****** error-loader ******/
+.document-loader.error {
+    background: #f10000;
 }
-@keyframes spin{
-    0%{transform:rotate(0)}100%{transform:rotate(360deg)}
+.document-loader.error:before {
+    display: none;
 }
-
 /************/
 .lower-alpha{
     list-style-type: lower-alpha;

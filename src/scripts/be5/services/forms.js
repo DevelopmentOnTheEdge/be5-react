@@ -20,7 +20,7 @@ export default {
 
     be5.net.request('form', requestParams, data => {
       this.performOperationResult(data, documentName);
-    });
+    }, (data)=> changeDocument(documentName, { error: data }));
 
   },
 

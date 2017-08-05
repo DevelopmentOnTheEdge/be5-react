@@ -10,7 +10,7 @@ export default function(documentName, page) {
 class Loading extends React.Component {
 
   render() {
-    return <div className="init-loader"></div>;
+    return <div className="document-loader"/>;
   }
 
 }

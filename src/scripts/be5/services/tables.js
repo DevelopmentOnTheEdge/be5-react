@@ -31,6 +31,6 @@ export default {
       data = documentUtils.createDocument(data);
 
       changeDocument(documentName, { component: Table, value: data.value });
-    });
+    }, (data)=> changeDocument(documentName, { error: data }));
   }
 };
