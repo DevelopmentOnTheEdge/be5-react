@@ -88,5 +88,3 @@ class Addresses extends React.Component {
 be5.registerAction('addresses', (documentName) =>{
   changeDocument(documentName, { component: Addresses, value: {} })
 });
-
-export default Addresses;

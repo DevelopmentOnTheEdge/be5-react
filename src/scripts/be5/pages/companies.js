@@ -24,5 +24,3 @@ class Companies extends React.Component {
 be5.registerAction('companies', (documentName) =>{
   changeDocument(documentName, { component: Companies, value: {} })
 });
-
-//export default Companies;

@@ -14,10 +14,10 @@ import '../../css/propertySet.css';
 import '../../css/main.css';
 
 //todo move to egisso-be5 frontend
-import egissoDocsForm from './forms/egissoDocsForm';
-import addresses from './forms/addresses';
-import companies from './forms/companies';
-import servicesGeneralInformation from './forms/servicesGeneralInformation';
+import egissoDocsForm from './pages/egissoDocsForm';
+import addresses from './pages/addresses';
+import companies from './pages/companies';
+import servicesGeneralInformation from './pages/servicesGeneralInformation';
 
 ReactDOM.render(
   <App/>,

@@ -3,6 +3,7 @@ import Preconditions  from '../preconditions';
 import _              from 'underscore';
 import changeDocument from '../core/changeDocument';
 import Form,{HtmlResult}          from '../components/forms/form';
+import formsCollections from './formsCollections.js';
 
 export default {
   load(documentName, entity, query, operation, operationParams) {
@@ -43,8 +44,7 @@ export default {
     switch (data.type)
     {
       case 'form':
-        changeDocument(documentName, { component: Form, value:
-            _.extend({}, data.value, {documentName: documentName}) });
+        this.performForm(data, documentName);
         return;
       case 'operationResult':
         const operationResult = data.value;
@@ -64,6 +64,25 @@ export default {
         return;
       default:
         changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + data.type) });
+    }
+  },
+
+  performForm(data, documentName){
+    //console.log(data, documentName);
+    if(!data.value.layout){
+      changeDocument(documentName, {
+        component: Form, value: _.extend({}, data.value, {documentName: documentName})
+      });
+      return;
+    }
+    switch (data.value.layout.type) {
+      case 'custom':
+        changeDocument(documentName, {
+          component: formsCollections.getForm(data.value.layout.name), value: _.extend({}, data.value, {documentName: documentName})
+        });
+        return;
+      default:
+        console.error("Not found form type: " + data.value.layout.type);
     }
   }
 

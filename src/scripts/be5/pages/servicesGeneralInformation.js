@@ -4,17 +4,16 @@ import be5                  from '../be5';
 import Document             from '../components/document';
 import changeDocument from '../core/changeDocument';
 
-class EgissoDocsForm extends React.Component {
+class ServicesGeneralInformation extends React.Component {
 
   componentDidMount(){
-    be5.url.process("EgissoDocs1", "#!form/_test_/Test%201D/NameCategoryDocuments/embedded=true");
-    be5.url.process("EgissoDocs2", "#!form/_test_/Test%201D/NameNewDocument");
-    be5.url.process("EgissoDocs3", "#!form/_test_/Test%201D/ReferDocumentToCategory");
-    be5.url.process("EgissoDocs4", "#!table/companies/All records");
+    be5.url.process("table", "#!table/companies/All records");
+    be5.url.process("table", "#!table/companies/All records");
   }
 
   render() {
-    return (
+    return (<div>
+      <Document documentName={"table"} />
       <div className="row"><div className="container max-width-970"><div className="row">
         <div className="col-md-12">
           <h1>Документы</h1>
@@ -84,33 +83,12 @@ class EgissoDocsForm extends React.Component {
           <Document documentName={"EgissoDocs4"} />
         </div>
       </div></div></div>
-    );
+
+     </div>);
   }
 
-//        <div className="row"><div className="col-md-12">
-//            <div className="col-md-6">
-//              <Document documentName={"EgissoDocs1"} />
-//            </div>
-//            <div className="col-md-6">
-//              <button type="button" className="btn btn-primary" >Добавить категорию</button>
-//            </div>
-//        </div></div>
-//        <div className="col-md-12"><p>
-//            Созайте документы, которые используются при предоставлении услуг в Вашем муниципалитете, если их
-//            еще нет в общем справочнике документов.
-//        </p></div>
-//        <div className="row"><div className="col-md-12">
-//            <div className="col-md-6">
-//              <Document documentName={"EgissoDocs2"} />
-//            </div>
-//            <div className="col-md-6">
-//              <button type="button" className="btn btn-primary" >Добавить документ</button>
-//            </div>
-//        </div></div>
 }
 
-be5.registerAction('egissoDocs', (documentName) =>{
-  changeDocument(documentName, { component: EgissoDocsForm, value: {} })
+be5.registerAction('servicesGeneralInformation', (documentName) =>{
+  changeDocument(documentName, { component: ServicesGeneralInformation, value: {} })
 });
-
-export default EgissoDocsForm;
