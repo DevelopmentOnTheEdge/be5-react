@@ -10,46 +10,13 @@ class Addresses extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this._showAddBuilding = this._showAddBuilding.bind(this);
-    this._showAddApartment = this._showAddApartment.bind(this);
-    this._closeModal = this._closeModal.bind(this);
-    this._confirm = this._confirm.bind(this);
   }
 
   componentDidMount(){
     be5.url.process("Addresses1", "#!form/_test_/Test%201D/Addresses");
   }
 
-  _showAddBuilding(){
-    be5.url.process("BootstrapModal", "#!loading");
-    be5.url.process("BootstrapModal", '#!form/_test_/Test%201D/AddBuilding/street=РОССИЙСКАЯ УЛ');
-    this.refs.modal.open();
-  }
-
-  _showAddApartment(){
-    be5.url.process("BootstrapModal", "#!loading");
-    be5.url.process("BootstrapModal", "#!form/_test_/Test%201D/AddApartment");
-    this.refs.modal.open();
-  }
-
-  _closeModal() {
-    this.refs.modal.close();
-  }
-
-  _confirm() {
-    console.log("_confirm");
-    this._closeModal();
-  }
-
   render() {
-    const bootstrapModal = (
-      <BootstrapModal ref="modal" onCancel={this._closeModal} onConfirm={this._confirm}
-          title="Добавить" cancel={be5.messages.cancel} >
-        <Document documentName={"BootstrapModal"} />
-      </BootstrapModal>
-    );
-
     return (
       <div className="row"><div className="container max-width-970">
         <h1>Организация - Адреса</h1>
@@ -69,16 +36,6 @@ class Addresses extends React.Component {
         </div>
 
         <Document documentName={"Addresses1"} />
-
-        <div className="col-md-8">&nbsp;</div>
-        <div className="col-md-2">
-          <button type="button" className="btn btn-primary btn-sm up-btn" onClick={this._showAddBuilding}>Добавить здание</button>
-        </div>
-        <div className="col-md-2">
-          <button type="button" className="btn btn-primary btn-sm up-btn" onClick={this._showAddApartment}>Добавить квартиру</button>
-        </div>
-
-        {bootstrapModal}
       </div></div>
     );
   }
