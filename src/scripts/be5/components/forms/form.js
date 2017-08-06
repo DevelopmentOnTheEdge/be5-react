@@ -150,7 +150,7 @@ const Form = React.createClass({
         <div className={'formBox container ' + (this.state.cssClass || 'formBoxDefault')}>
           <h1>{this.state.title}</h1>
           <form className="" onSubmit={this._applyOnSubmit}>
-            <PropertySet fields={this.state.bean} onChange={this._onFieldChange} localization={be5.messages.property}/>
+            <PropertySet bean={this.state.bean} onChange={this._onFieldChange} localization={be5.messages.property}/>
             {this._createFormActions()}
           </form>
         </div>

@@ -5,6 +5,34 @@ import JsonPointer          from 'json-pointer';
 
 class PropertySet extends Component {
 
+  _createGroup(curGroup, curGroupId, curGroupName) {
+    return (
+      <div className='property-group col-xs-12' key={curGroupId} ref={curGroupId}>
+        <div className='property-groop-box'>
+          <h3>{curGroupName}</h3>
+          <div className="row">
+            {curGroup}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  get(path){
+    const itemName = path.substring(path.lastIndexOf("/")+1);
+    const itemMeta = this.props.bean.meta[path];
+    const itemValue = JsonPointer.get(this.props.bean, "/values" + path);
+    return {
+      meta: itemMeta,
+      name: itemName,
+      value: itemValue,
+      path: path,
+      key: itemName + "Property",
+      ref: itemName + "Property",
+      localization: this.props.localization
+    }
+  }
+
   render() {
     let curGroup = [];
     let curGroupName = null, curGroupId = null;
@@ -21,21 +49,17 @@ class PropertySet extends Component {
       curGroup = [];
     };
 
-    for(const item of this.props.fields.order) {
-      var itemName = item.substring(item.lastIndexOf("/")+1);
-      var itemMeta = this.props.fields.meta[item];
-      var itemValue = JsonPointer.get(this.props.fields, "/values" + item);
+    for(const path of this.props.bean.order) {
+      const itemProps = this.get(path);
 
-      const newGroupId = itemMeta.groupId || null;
-      const newGroupName = itemMeta.groupName || null;
+      const newGroupId = itemProps.meta.groupId || null;
+      const newGroupName = itemProps.meta.groupName || null;
       if(newGroupId !== curGroupId) {
         finishGroup();
         curGroupName = newGroupName;
         curGroupId = newGroupId;
       }
-      const field = (<Property meta={itemMeta} name={itemName} value={itemValue} path={item}
-                               key={itemName + "Property"} ref={itemName + "Property"} onChange={this.props.onChange}
-                               localization={this.props.localization} />);
+      const field = (<Property {...itemProps} onChange={this.props.onChange} />);
       curGroup.push(field);
     }
     finishGroup();
@@ -47,19 +71,6 @@ class PropertySet extends Component {
     );
   }
 
-  _createGroup(curGroup, curGroupId, curGroupName) {
-    return (
-      <div className='property-group col-xs-12' key={curGroupId} ref={curGroupId}>
-        <div className='property-groop-box'>
-          <h3>{curGroupName}</h3>
-          <div className="row">
-            {curGroup}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
 }
 
 PropertySet.defaultProps = {
@@ -67,7 +78,7 @@ PropertySet.defaultProps = {
 };
 
 PropertySet.propTypes = {
-  fields: PropTypes.object.isRequired,
+  bean: PropTypes.object.isRequired,
   onChange: PropTypes.func,
   localization: PropTypes.object
 };
