@@ -22,11 +22,12 @@ export default React.createClass({
       position: 'top right',
       theme: 'light',
       time: 5000,
-      transition: 'scale'
+      transition: 'fade',
+      icon: null
     };
     return (
       <div>
-        <AlertContainer ref={a => this.msg = a} {...alertOptions} />
+        <AlertContainer ref={a => this.msg = a} {...alertOptions } />
         <SplitPane split="vertical" defaultSize={280}>
           <SideBar ref="sideBar"/>
           <Document ref="document"/>

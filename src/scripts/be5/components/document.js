@@ -15,7 +15,7 @@ class Document extends Component {
   componentDidMount() {
     bus.replaceListeners(this.props.documentName, data => {
       this.setState(data);
-      if(!data.loading && !data.error)this.setState({ loading: false });
+      if(!data.loading)this.setState({ loading: false });
       if(!data.error)this.setState({ error: null });
     });
   }
