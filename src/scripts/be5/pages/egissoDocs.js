@@ -4,7 +4,7 @@ import be5                  from '../be5';
 import Document             from '../components/document';
 import changeDocument from '../core/changeDocument';
 
-class EgissoDocsForm extends React.Component {
+class EgissoDocs extends React.Component {
 
   componentDidMount(){
     be5.url.process("EgissoDocs1", "#!form/_test_/Test%201D/NameCategoryDocuments/embedded=true");
@@ -112,5 +112,5 @@ class EgissoDocsForm extends React.Component {
 }
 
 be5.registerAction('egissoDocs', (documentName) =>{
-  changeDocument(documentName, { component: EgissoDocsForm, value: {} })
+  changeDocument(documentName, { component: EgissoDocs, value: {} })
 });
