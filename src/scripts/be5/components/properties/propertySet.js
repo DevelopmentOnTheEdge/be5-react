@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes            from 'prop-types';
-import Property             from './Property';
+import Property             from './property';
 import JsonPointer          from 'json-pointer';
 
 class PropertySet extends Component {

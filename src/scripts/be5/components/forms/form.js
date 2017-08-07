@@ -1,7 +1,7 @@
 import React                from 'react';
 import be5                  from '../../be5';
 import Forms                from '../../services/forms';
-import PropertySet          from '../properties/PropertySet';
+import PropertySet          from '../properties/propertySet';
 import JsonPointer          from 'json-pointer';
 import _                    from 'underscore';
 

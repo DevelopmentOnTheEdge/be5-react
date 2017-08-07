@@ -91,10 +91,3 @@ a.menuItemWithRef {
 .navs-component .nav {
     margin-bottom: 15px;
 }
-/**** временны хак, пока не сделаны кастомные формы ********/
-.property-group.col-xs-12 {padding-bottom: 30px;}
-
-.up-btn {
-    top: -51px;
-    position: absolute;
-}

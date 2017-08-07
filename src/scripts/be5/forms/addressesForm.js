@@ -7,7 +7,8 @@ import BootstrapModal from '../components/bootstrapModal';
 import Form from '../components/forms/form.js';
 import formsCollections from '../services/formsCollections.js';
 import Forms                from '../services/forms';
-import PropertySet          from '../components/properties/PropertySet';
+import PropertySet          from '../components/properties/propertySet';
+import Properties          from '../components/properties/properties';
 import JsonPointer          from 'json-pointer';
 import _                    from 'underscore';
 
@@ -56,13 +57,29 @@ class AddressesForm extends Form {
         <div className={'formBox container ' + (this.state.cssClass || 'formBoxDefault')}>
           <h1>{this.state.title}</h1>
           <form className="" onSubmit={this._applyOnSubmit}>
-            <PropertySet bean={this.state.bean} onChange={this._onFieldChange} localization={be5.messages.property}/>
-            <div className="col-md-8">&nbsp;</div>
-            <div className="col-md-2">
-              <button type="button" className="btn btn-primary btn-sm up-btn" onClick={this._showAddBuilding}>Добавить здание</button>
-            </div>
-            <div className="col-md-2">
-              <button type="button" className="btn btn-primary btn-sm up-btn" onClick={this._showAddApartment}>Добавить квартиру</button>
+            <div className="row">
+              <Properties bean={this.state.bean} ids={[0,1,2,3,4,5,6,7,8,9]}
+                          localization={be5.messages.property} onChange={this._onFieldChange} />
+
+              <div className='property-group col-xs-12'>
+                <div className='property-groop-box'><div className="row">
+                    <Properties bean={this.state.bean} ids={[10,11]}
+                                                        localization={be5.messages.property} onChange={this._onFieldChange} />
+
+                    <Properties bean={this.state.bean} ids={[12]}
+                                                        localization={be5.messages.property} onChange={this._onFieldChange} />
+                    <Properties bean={this.state.bean} ids={[13]}
+                                                        localization={be5.messages.property} onChange={this._onFieldChange} />
+
+                    <div className="col-md-2">
+                      <button type="button" className="btn btn-primary btn-sm up-btn" onClick={this._showAddBuilding}>Добавить здание</button>
+                    </div>
+                    <div className="col-md-2">
+                      <button type="button" className="btn btn-primary btn-sm up-btn" onClick={this._showAddApartment}>Добавить квартиру</button>
+                    </div>
+                </div></div>
+              </div>
+
             </div>
             {this._createFormActions()}
           </form>

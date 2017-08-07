@@ -10,7 +10,6 @@ class EgissoDocs extends React.Component {
     be5.url.process("EgissoDocs1", "#!form/_test_/Test%201D/NameCategoryDocuments/embedded=true");
     be5.url.process("EgissoDocs2", "#!form/_test_/Test%201D/NameNewDocument");
     be5.url.process("EgissoDocs3", "#!form/_test_/Test%201D/ReferDocumentToCategory");
-    be5.url.process("EgissoDocs4", "#!table/companies/All records");
   }
 
   render() {
@@ -81,10 +80,6 @@ class EgissoDocs extends React.Component {
           <Document documentName={"EgissoDocs3"} />
         </div>
 
-        <div className="col-md-12">
-          <br/>
-          <Document documentName={"EgissoDocs4"} />
-        </div>
       </div></div></div>
     );
   }
