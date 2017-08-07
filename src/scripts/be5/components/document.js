@@ -36,7 +36,11 @@ class Document extends Component {
       }else if (this.state.component !== null) {
         const DocumentContent = this.state.component;
         contentItem = (
-          <DocumentContent value={this.state.value}/>
+          <DocumentContent
+                value={this.state.value}
+                onChange={this.props.onChange}
+                operationDocumentName={this.props.operationDocumentName || this.props.documentName}
+          />
         )
       }
     }

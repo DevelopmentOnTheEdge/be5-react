@@ -64,7 +64,7 @@ const Form = React.createClass({
     // }
     if (this.props.isEmbedded !== true) {
       be5.net.request('form/apply', this.getRequestParams(this.state.bean.values), data => {
-        Forms.performOperationResult(data, this.props.value.documentName)
+        Forms.performOperationResult(data, this.props.value.documentName, this.props.onChange)
       });
     } else {
       be5.net.request('form/apply', this.getRequestParams(this.state.bean.values));

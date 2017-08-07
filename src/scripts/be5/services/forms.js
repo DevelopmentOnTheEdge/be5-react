@@ -1,4 +1,5 @@
 import be5            from '../be5';
+import bus from '../core/bus';
 import Preconditions  from '../preconditions';
 import _              from 'underscore';
 import changeDocument from '../core/changeDocument';
@@ -37,7 +38,7 @@ export default {
 
   },
 
-  performOperationResult(data, documentName){
+  performOperationResult(data, documentName, onChange){
     //console.log("forms perform: " + documentName);
     Preconditions.passed(documentName);
 
@@ -47,6 +48,8 @@ export default {
         this.performForm(data, documentName);
         return;
       case 'operationResult':
+        if(onChange)onChange();
+        bus.fire("alert", {msg:"Operation completed successfully.", type: 'success'})
         const operationResult = data.value;
         switch (operationResult.status)
         {

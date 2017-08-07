@@ -60,17 +60,17 @@ const OperationBox = React.createClass({displayName: "OperationBox",
       return out;
     };
     var operations = this.props.operations.map(operation => {
-      if (operation.isClientSide) {
-        const action = Action.parse(operation.action); 
-        const attrs = {
-          key: operation.name,
-          ref: operation.name,
-          href: action.href,
-          target: action.target,
-          className: 'btn btn-secondary'
-        }; 
-        return React.createElement('a', attrs, operation.title);
-      }
+//      if (operation.isClientSide) {
+//        const action = Action.parse(operation.action);
+//        const attrs = {
+//          key: operation.name,
+//          ref: operation.name,
+//          href: action.href,
+//          target: action.target,
+//          className: 'btn btn-secondary'
+//        };
+//        return React.createElement('a', attrs, operation.title);
+//      }
       return (
         React.createElement('a', {key: operation.name, ref: operation.name, href: '', onClick: this.onClick.bind(this, operation.name), className: 'btn btn-secondary'}, operation.title)
       );
@@ -214,7 +214,11 @@ const TableBox = React.createClass({
   },
   
   onOperationClick(name) {
-    be5.url.set(be5.url.create('form', [this.props.category, this.props.page, name], this.props.parameters));
+    be5.url.process(
+        this.props.operationDocumentName,
+        "#!" + be5.url.create('form', [this.props.category, this.props.page, name], this.props.parameters)
+    );
+    //be5.url.set(be5.url.create('form', [this.props.category, this.props.page, name], this.props.parameters));
   },
   
   onSelectionChange() {
@@ -497,6 +501,7 @@ const Table = React.createClass({
           callbacks={value.callbacks}
           embedded={value.embedded}
           value={value}
+          operationDocumentName={this.props.operationDocumentName}
         />
       </div>
     );

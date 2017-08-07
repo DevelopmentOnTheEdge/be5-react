@@ -7,16 +7,19 @@ import changeDocument from '../core/changeDocument';
 class CompaniesGeneralInformation extends React.Component {
 
   componentDidMount(){
-    be5.url.process("table", "#!table/companies/All records");
+    be5.url.process("table", "#!table/companies/Общие сведения");
     be5.url.process("form", "#!form/_test_/Test%201D/GeneralRequirements");
   }
 
   render() {
     return (<div>
-      <Document documentName={"table"} />
-      <Document documentName={"form"} />
+      <Document documentName={"table"} operationDocumentName={"form"}/>
+      <Document documentName={"form"} onChange={()=>{
+        be5.url.process("table", "#!table/companies/Общие сведения");
+      }} />
      </div>);
   }
+  //todo updateDocuments={"asd,asd"} вместо onChange={()=>{be5.url.process...
 
 }
 
