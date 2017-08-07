@@ -40,15 +40,17 @@ class AddressesForm extends Form {
   }
 
   _confirm() {
-    console.log("_confirm");
     this._closeModal();
+    this._reload(this.state.bean.values);
   }
 
   render() {
     const bootstrapModal = (
       <BootstrapModal ref="modal" title="Добавить"
                       onCancel={this._closeModal} cancel={be5.messages.cancel} >
-        <Document documentName={"BootstrapModal"} />
+        <Document documentName={"BootstrapModal"} onChange={()=>{
+          this._confirm()
+        }}/>
       </BootstrapModal>
     );
 
