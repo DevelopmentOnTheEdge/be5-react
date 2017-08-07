@@ -73,9 +73,5 @@ class AddressesForm extends Form {
   }
 
 }
-//
-// formsCollections.registerForm('addresses', (documentName) =>{
-//   changeDocument(documentName, { component: AddressesForm, value: {} })
-// });
 
 export default AddressesForm;
