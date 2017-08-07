@@ -7,10 +7,6 @@ import changeDocument from '../core/changeDocument';
 
 class ServicesGeneralInformation extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const steps = [
       {title: 'Группы МСП', url: '#!form/_test_/Test%201D/WelfareGroupAdd'},
@@ -20,7 +16,7 @@ class ServicesGeneralInformation extends React.Component {
     return (
       <div>
         <h1>Услуги - Общие сведения</h1>
-        <Navs steps={steps} pills/>
+        <Navs steps={steps} tabs/>
       </div>
     );
   }

@@ -4,7 +4,7 @@ import be5                  from '../be5';
 import Document             from '../components/document';
 import changeDocument from '../core/changeDocument';
 
-class Companies extends React.Component {
+class CompaniesGeneralInformation extends React.Component {
 
   componentDidMount(){
     be5.url.process("table", "#!table/companies/All records");
@@ -13,7 +13,6 @@ class Companies extends React.Component {
 
   render() {
     return (<div>
-      <h1>Организации</h1>
       <Document documentName={"table"} />
       <Document documentName={"form"} />
      </div>);
@@ -21,6 +20,6 @@ class Companies extends React.Component {
 
 }
 
-be5.registerAction('companies', (documentName) =>{
-  changeDocument(documentName, { component: Companies, value: {} })
+be5.registerAction('companiesGeneralInformation', (documentName) =>{
+  changeDocument(documentName, { component: CompaniesGeneralInformation, value: {} })
 });

@@ -3,17 +3,10 @@ import FormWizard from './formWizard'
 
 export default class FormWizardTest extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   render() {
 
     const steps = [
-      {title: 'Организация<br/><small>Общие сведения</small>', url: '#!companies'},
-      {title: 'Организация<br/><small>Адреса</small>', url: '#!addresses'},
-      {title: 'Организация<br/><small>Документ-основание</small>', url: '#!form/_test_/Test%201D/DocumentBaseOperation'},
+      {title: 'Организация<br/><small>Общие сведения</small>', url: '#!company'},
 
       {title: 'Документы<br/>&nbsp;', url: '#!egissoDocs'},
 
