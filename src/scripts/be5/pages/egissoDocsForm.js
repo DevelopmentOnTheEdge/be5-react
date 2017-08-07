@@ -17,9 +17,11 @@ class EgissoDocsForm extends React.Component {
     return (
       <div className="row"><div className="container max-width-970"><div className="row">
         <div className="col-md-12">
+          <button className="btn btn-info pull-right btn-sm float-right" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+              Справка
+          </button>
           <h1>Документы</h1>
-          <div className="alert alert-success alert-dismissible show" role="alert">
-            <button type="button" className="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <div className="collapse" id="collapse1"><div className="alert alert-success" role="alert">
             Заполните сведения о документах, которые требуются при определении права на предоставление услуг.
             Категории документов необходимы для того, чтобы группировать взаимозаменяемые документы, которые
             может предоставить гражданин при обращении за предоставлением услуги.
@@ -43,7 +45,7 @@ class EgissoDocsForm extends React.Component {
                     </ol>
                 </li>
             </ol>
-          </div>
+          </div></div>
         </div>
         <div className="col-md-12">
           <p>Для начала создайте категории документов, которые необходимы для предоставления услуг в Вашем муниципалитете.</p>

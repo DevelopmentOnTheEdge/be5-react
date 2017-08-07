@@ -16,3 +16,7 @@ $enable-flex: false;
 $bootstrap-sass-asset-helper: true;
 
 @import "~bootstrap/scss/bootstrap";
+
+.float-right{
+  @include float-right();
+}
