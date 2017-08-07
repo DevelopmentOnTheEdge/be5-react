@@ -7,23 +7,17 @@ import Form,{HtmlResult}          from '../components/forms/form';
 import formsCollections from './formsCollections.js';
 
 export default {
-  load(documentName, entity, query, operation, operationParams) {
-    Preconditions.passed(entity);
-    Preconditions.passed(query);
-    Preconditions.passed(operation);
+  load(params, documentName) {
+    Preconditions.passed(params.entity);
+    Preconditions.passed(params.query);
+    Preconditions.passed(params.operation);
 
-    const selectedRows = (operationParams === undefined || operationParams.selectedRows === undefined)
-      ? be5.tableState.selectedRows.join() : operationParams.selectedRows;
-    if(operationParams !== undefined && operationParams.selectedRows !== undefined){
-      delete operationParams.selectedRows;
-    }
-
-    const requestParams = { 
-        entity: entity,
-        query: query,
-        operation: operation,
-        values: be5.net.paramString(operationParams) || '',
-        selectedRows: selectedRows || ''
+    const requestParams = {
+      entity: params.entity,
+      query: params.query,
+      operation: params.operation,
+      values: params.values || '',
+      selectedRows: params.selectedRows || ''
     };
 
     be5.net.request('form', requestParams, data => {

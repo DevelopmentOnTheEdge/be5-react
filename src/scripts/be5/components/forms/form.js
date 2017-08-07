@@ -43,10 +43,10 @@ const Form = React.createClass({
 
   getRequestParams(values){
     return {
-      entity: this.state.entity,
-      query: this.state.query,
-      operation: this.state.operation,
-      selectedRows: this.state.selectedRows,
+      entity: this.props.value.entity,
+      query: this.props.value.query,
+      operation: this.props.value.operation,
+      selectedRows: this.props.value.selectedRows,
       values: JSON.stringify(values)
     }
   },
