@@ -127,6 +127,9 @@ a.menuItemWithRef {
 .lower-alpha{
     list-style-type: lower-alpha;
 }
+.navs-component .nav {
+    margin-bottom: 15px;
+}
 /**** временны хак, пока не сделаны кастомные формы ********/
 .property-group.col-xs-12 {padding-bottom: 30px;}
 

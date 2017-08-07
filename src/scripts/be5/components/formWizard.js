@@ -368,10 +368,10 @@ FormWizard.defaultProps = {
 };
 
 FormWizard.propTypes = {
-//  steps: PropTypes.arrayOf(PropTypes.shape({
-//    name: PropTypes.string.isRequired,
-//    component: PropTypes.element.isRequired
-//  })).isRequired,
+  steps: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired
+  })).isRequired,
   showSteps: PropTypes.bool,
   showNavigation: PropTypes.bool,
   stepsNavigation: PropTypes.bool,
