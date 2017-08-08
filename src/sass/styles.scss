@@ -20,3 +20,7 @@ $bootstrap-sass-asset-helper: true;
 .float-right{
   @include float-right();
 }
+
+.display-none{
+  display: none;
+}

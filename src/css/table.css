@@ -122,7 +122,7 @@ table.dataTable.compact tfoot th, table.dataTable.compact tfoot td {
     padding: 4px;
 }
 table.dataTable tfoot th, table.dataTable tfoot td {
-    border-top: 3px solid #d8d8d8;
+    border-top: 2px solid #d8d8d8;
 }
 table.dataTable.compact tbody td:last-child {
     border-right: 0;
