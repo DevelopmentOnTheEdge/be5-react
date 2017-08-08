@@ -91,3 +91,7 @@ a.menuItemWithRef {
 .navs-component .nav {
     margin-bottom: 15px;
 }
+
+.show-modal-btn{
+    margin-top: 10px;
+}

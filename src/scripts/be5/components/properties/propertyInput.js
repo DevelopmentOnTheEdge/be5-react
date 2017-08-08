@@ -5,6 +5,7 @@ import Datetime             from 'react-datetime';
 import moment               from 'moment';
 import Select               from 'react-select';
 import VirtualizedSelect    from 'react-virtualized-select'
+import JsonPointer          from 'json-pointer';
 
 
 class PropertyInput extends Component {
@@ -14,6 +15,21 @@ class PropertyInput extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeMulti = this.handleChangeMulti.bind(this);
+  }
+
+  static get(path, bean, localization){
+    const itemName = path.substring(path.lastIndexOf("/")+1);
+    const itemMeta = bean.meta[path];
+    const itemValue = JsonPointer.get(bean, "/values" + path);
+    return {
+      meta: itemMeta,
+      name: itemName,
+      value: itemValue,
+      path: path,
+      key: itemName + "Property",
+      ref: itemName + "Property",
+      localization: localization
+    }
   }
 
   handleChange(event) {
@@ -42,15 +58,16 @@ class PropertyInput extends Component {
   }
 
   render() {
-    const meta  = this.props.meta;
-    const value = this.props.value;
-    const id    = this.props.name + "Field";
+    const attr = PropertyInput.get(this.props.path, this.props.bean, this.props.localization);
+    const meta  = attr.meta;
+    const value = attr.value;
+    const id    = attr.name + "Field";
     const handle = meta.multipleSelectionList ? this.handleChangeMulti : this.handleChange;
 
     const controls = {
       Boolean: () => (
         <input type="checkbox" id={id} key={id} value={value} checked={value} onChange={handle}
-                 className={this.props.controlClassName || 'form-check-input'} disabled={meta.readOnly} />
+                 className={attr.controlClassName || 'form-check-input'} disabled={meta.readOnly} />
       ),
       select: () => {
         const options = this.optionsToArray(meta.tagList);
@@ -62,48 +79,48 @@ class PropertyInput extends Component {
                           searchable
                           labelKey="label"
                           valueKey="value"
-                          clearAllText={this.props.localization.clearAllText}
-                          clearValueText={this.props.localization.clearValueText}
-                          noResultsText={this.props.localization.noResultsText}
-                          searchPromptText={this.props.localization.searchPromptText}
-                          placeholder={this.props.localization.placeholder}
-                          loadingPlaceholder={this.props.localization.loadingPlaceholder}
+                          clearAllText={attr.localization.clearAllText}
+                          clearValueText={attr.localization.clearValueText}
+                          noResultsText={attr.localization.noResultsText}
+                          searchPromptText={attr.localization.searchPromptText}
+                          placeholder={attr.localization.placeholder}
+                          loadingPlaceholder={attr.localization.loadingPlaceholder}
           />
 //        }else{
 //          return <Select ref={id} name={id} value={value} options={options}
 //                          disabled={meta.readOnly} onChange={handle} placeholder={meta.placeholder}
 //                          multi={meta.multipleSelectionList} matchPos="start"
-//                          clearAllText={this.props.localization.clearAllText}
-//                          clearValueText={this.props.localization.clearValueText}
-//                          noResultsText={this.props.localization.noResultsText}
-//                          searchPromptText={this.props.localization.searchPromptText}
-//                          placeholder={this.props.localization.placeholder}
-//                          loadingPlaceholder={this.props.localization.loadingPlaceholder}
+//                          clearAllText={attr.localization.clearAllText}
+//                          clearValueText={attr.localization.clearValueText}
+//                          noResultsText={attr.localization.noResultsText}
+//                          searchPromptText={attr.localization.searchPromptText}
+//                          placeholder={attr.localization.placeholder}
+//                          loadingPlaceholder={attr.localization.loadingPlaceholder}
 //          />
 //        }
       },
       Date: () => {
           return <Datetime dateFormat="DD.MM.YYYY" value={moment(value)} onChange={handle} id={id} key={id}
-                           timeFormat={false} closeOnSelect={true} closeOnTab={true} locale={this.props.localization.locale || "en"}
+                           timeFormat={false} closeOnSelect={true} closeOnTab={true} locale={attr.localization.locale || "en"}
                            inputProps={ {disabled: meta.readOnly} } />
       },
 //      dateTime: {
 //        normal: () => {
-//          return ( React.createElement(Datetime, {id: id, key: id, value: value, parent: _this, onChange: handleChange, time: true, className: this.props.controlClassName}) );
+//          return ( React.createElement(Datetime, {id: id, key: id, value: value, parent: _this, onChange: handleChange, time: true, className: attr.controlClassName}) );
 //        },
 //        readOnly: () => this.createStatic(value)
 //      },
       textArea: () => {
           return <textarea placeholder={meta.placeholder} id={id}  rows={meta.rows || 3} cols={meta.columns} value={value}
-                    onChange={handle} className={this.props.controlClassName || "form-control"} disabled={meta.readOnly} />
+                    onChange={handle} className={attr.controlClassName || "form-control"} disabled={meta.readOnly} />
       },
       textInput: () => {
           return <input type="text" placeholder={meta.placeholder} id={id} key={id} value={value}
-                    onChange={handle} className={this.props.controlClassName || "form-control"} disabled={meta.readOnly} />
+                    onChange={handle} className={attr.controlClassName || "form-control"} disabled={meta.readOnly} />
       },
       passwordField: () => {
           return <input type="password" placeholder={meta.placeholder} id={id} key={id} value={value}
-                       onChange={handle} className={this.props.controlClassName || "form-control"} disabled={meta.readOnly} />
+                       onChange={handle} className={attr.controlClassName || "form-control"} disabled={meta.readOnly} />
       },
       labelField: () => {
           if(meta.rawValue){
@@ -114,68 +131,29 @@ class PropertyInput extends Component {
       },
     };
 
-    let valueControl;
+    //let valueControl;
     if(meta.tagList)
     {
-      valueControl = controls['select']();
+      return controls['select']();
     }
     else if(meta.passwordField)
     {
-      valueControl = controls['passwordField']();
+      return controls['passwordField']();
     }
     else if(meta.labelField)
     {
-      valueControl = controls['labelField']();
+      return controls['labelField']();
     }
     else
     {
-      valueControl = (controls[meta.type] || controls['textInput'])();
+      return (controls[meta.type] || controls['textInput'])();
     }
+    //return ({valueControl})
+//    return (
+//      <ValueControl {...Properties.get(attr.bean, path, attr.localization)}
+//                    onChange={attr.onChange} />
+//    );
 
-    const label = <label htmlFor={id} className={this.props.labelClassName || 'form-control-label'}>{meta.displayName || id}</label>;
-    const messageElement = meta.message ? <span className={this.props.messageClassName || "form-control-feedback"}>{meta.message}</span> : undefined;
-
-    const hasStatusClasses = classNames(
-      {'has-danger' : meta.status === 'error'},
-      {'has-warning' : meta.status === 'warning'},
-      {'has-success' : meta.status === 'success'},
-    );
-    const classNameForm = (meta.type === "Boolean")
-          ? this.props.classNameFormCheck || 'form-check property'
-          : this.props.classNameFormGroup || 'form-group property';
-    const cssClasses = meta.cssClasses || 'col-xs-12';
-
-    const classes = classNames(
-      classNameForm,
-      cssClasses,
-      hasStatusClasses,
-      {'required' : !meta.canBeNull && !meta.readOnly}
-    );
-
-    if(meta.type === "Boolean")
-    {
-      return (
-        <div className={classes}>
-          <label className="form-check-label">
-            {valueControl} {' ' + meta.displayName || id}
-          </label>
-        </div>
-      );
-    }else if(meta.labelField){
-       return (
-         <div className={classNames(meta.cssClasses || 'col-xs-12', hasStatusClasses)}>{valueControl}</div>
-       );
-    }else{
-      return (
-        <div className={classes}>
-          {label}
-          <div className="controls">
-            {valueControl}
-            {messageElement}
-          </div>
-        </div>
-      );
-    }
   }
 
   optionsToArray(options){
@@ -203,7 +181,7 @@ class PropertyInput extends Component {
   }
 }
 
-Property.defaultProps = {
+PropertyInput.defaultProps = {
   localization: {
     locale: 'en',
     clearAllText: 'Clear all',

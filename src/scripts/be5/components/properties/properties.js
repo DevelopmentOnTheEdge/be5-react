@@ -5,10 +5,10 @@ import JsonPointer          from 'json-pointer';
 
 class Properties extends Component {
 
-  get(path){
+  static get(path, bean, localization){
     const itemName = path.substring(path.lastIndexOf("/")+1);
-    const itemMeta = this.props.bean.meta[path];
-    const itemValue = JsonPointer.get(this.props.bean, "/values" + path);
+    const itemMeta = bean.meta[path];
+    const itemValue = JsonPointer.get(bean, "/values" + path);
     return {
       meta: itemMeta,
       name: itemName,
@@ -16,17 +16,15 @@ class Properties extends Component {
       path: path,
       key: itemName + "Property",
       ref: itemName + "Property",
-      localization: this.props.localization
+      localization: localization
     }
   }
 
   render() {
-//    let curGroup = [];
-//    let curGroupName = null, curGroupId = null;
     let fields = this.props.bean.order.map((path, i)=> {
       if(this.props.ids === undefined || this.props.ids.includes(i)){
         return(
-         <Property {...this.get(path)} onChange={this.props.onChange} />
+         <Property {...Properties.get(path, this.props.bean, this.props.localization)} onChange={this.props.onChange} />
         )
       }else{
         return null;

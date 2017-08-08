@@ -8,7 +8,8 @@ import Form from '../components/forms/form.js';
 import formsCollections from '../services/formsCollections.js';
 import Forms                from '../services/forms';
 import PropertySet          from '../components/properties/propertySet';
-import Properties          from '../components/properties/properties';
+import Properties           from '../components/properties/properties';
+import PropertyInput        from '../components/properties/propertyInput';
 import JsonPointer          from 'json-pointer';
 import _                    from 'underscore';
 
@@ -65,19 +66,22 @@ class AddressesForm extends Form {
 
               <div className='property-group col-xs-12'>
                 <div className='property-groop-box'><div className="row">
-                    <Properties bean={this.state.bean} ids={[10,11]}
-                                                        localization={be5.messages.property} onChange={this._onFieldChange} />
+                    <Properties bean={this.state.bean} ids={[10,11]} localization={be5.messages.property} onChange={this._onFieldChange} />
 
-                    <Properties bean={this.state.bean} ids={[12]}
-                                                        localization={be5.messages.property} onChange={this._onFieldChange} />
-                    <Properties bean={this.state.bean} ids={[13]}
-                                                        localization={be5.messages.property} onChange={this._onFieldChange} />
-
-                    <div className="col-md-2">
-                      <button type="button" className="btn btn-primary btn-sm up-btn" onClick={this._showAddBuilding}>Добавить здание</button>
+                    <div className="form-group property col-lg-2 required">
+                      <label htmlFor="districtField" className="form-control-label">Здание:</label>
+                      <div className="controls">
+                        <PropertyInput path={"/buildingno"} bean={this.state.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
+                      </div>
+                      <button type="button" className="btn btn-primary btn-sm show-modal-btn" onClick={this._showAddBuilding}>Добавить здание</button>
                     </div>
-                    <div className="col-md-2">
-                      <button type="button" className="btn btn-primary btn-sm up-btn" onClick={this._showAddApartment}>Добавить квартиру</button>
+
+                    <div className="form-group property col-lg-2 required">
+                      <label htmlFor="districtField" className="form-control-label">Квартира:</label>
+                      <div className="controls">
+                        <PropertyInput path={"/apartment"} bean={this.state.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
+                      </div>
+                      <button type="button" className="btn btn-primary btn-sm show-modal-btn" onClick={this._showAddApartment}>Добавить квартиру</button>
                     </div>
                 </div></div>
               </div>
