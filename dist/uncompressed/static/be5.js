@@ -84873,7 +84873,7 @@ var FormWizardTest = function (_Component) {
     key: 'render',
     value: function render() {
 
-      var steps = [{ title: 'Организация', url: '#!company' }, { title: 'Документы<br/>&nbsp;', url: '#!egissoDocs' }, { title: 'Категории граждан<br/><small>Перечень категорий</small>', url: '#!form/_test_/Test%201D/CategoryList' },
+      var steps = [{ title: 'Организация<br/>&nbsp;', url: '#!company' }, { title: 'Документы<br/>&nbsp;', url: '#!egissoDocs' }, { title: 'Категории граждан<br/><small>Перечень категорий</small>', url: '#!form/_test_/Test%201D/CategoryList' },
       //{title: 'Категории граждан<br/><small>Правила присвоения категорий</small>', url: '#!static/welcome.be'},
 
       { title: 'Услуги<br/><small>Общие сведения</small>', url: '#!servicesGeneralInformation' }];

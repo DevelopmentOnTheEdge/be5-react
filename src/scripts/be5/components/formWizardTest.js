@@ -6,7 +6,7 @@ export default class FormWizardTest extends Component {
   render() {
 
     const steps = [
-      {title: 'Организация', url: '#!company'},
+      {title: 'Организация<br/>&nbsp;', url: '#!company'},
 
       {title: 'Документы<br/>&nbsp;', url: '#!egissoDocs'},
 
