@@ -11,6 +11,9 @@ class ServicesGeneralInformation extends React.Component {
     const steps = [
       {title: 'Группы МСП', url: '#!form/_test_/Test%201D/WelfareGroupAdd'},
       {title: 'Виды МСП', url: '#!form/_test_/Test%201D/WelfareTypesAdd'},
+      {title: 'Сведения для ЕГИССО', url: '#!form/_test_/Test%201D/ServicesBelongToClassifier'},
+      {title: 'НПА', url: '#!form/_test_/Test%201D/InformationAboutDocuments'},
+
     ];
 
     return (
