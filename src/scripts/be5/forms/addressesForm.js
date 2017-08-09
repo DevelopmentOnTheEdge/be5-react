@@ -18,6 +18,11 @@ class AddressesForm extends Form {
   constructor(props) {
     super(props);
 
+    this.state = Object.assign({}, this.props.value, { allFieldsFilled: false,
+       buildingFormUrl: "",
+       apartmentFormUrl: ""})
+
+
     this._showAddBuilding = this._showAddBuilding.bind(this);
     this._showAddApartment = this._showAddApartment.bind(this);
     this._closeModal = this._closeModal.bind(this);
@@ -61,17 +66,17 @@ class AddressesForm extends Form {
           <h1>{this.state.title}</h1>
           <form className="" onSubmit={this._applyOnSubmit}>
             <div className="row">
-              <Properties bean={this.state.bean} ids={[0,1,2,3,4,5,6,7,8,9]}
+              <Properties bean={this.state.bean} ids={[0,1,2,3,4,5,6]}
                           localization={be5.messages.property} onChange={this._onFieldChange} />
 
               <div className='property-group col-xs-12'>
                 <div className='property-groop-box'><div className="row">
-                    <Properties bean={this.state.bean} ids={[10,11]} localization={be5.messages.property} onChange={this._onFieldChange} />
+                    <Properties bean={this.state.bean} ids={[7,8,9,10,11]} localization={be5.messages.property} onChange={this._onFieldChange} />
 
                     <div className="form-group property col-lg-2 required">
                       <label htmlFor="districtField" className="form-control-label">Здание:</label>
                       <div className="controls">
-                        <PropertyInput path={"/buildingno"} bean={this.state.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
+                        <PropertyInput path={"/buildingNo"} bean={this.state.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
                       </div>
                       <button type="button" className="btn btn-primary btn-sm show-modal-btn" onClick={this._showAddBuilding}>Добавить здание</button>
                     </div>
@@ -79,7 +84,7 @@ class AddressesForm extends Form {
                     <div className="form-group property col-lg-2 required">
                       <label htmlFor="districtField" className="form-control-label">Квартира:</label>
                       <div className="controls">
-                        <PropertyInput path={"/apartment"} bean={this.state.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
+                        <PropertyInput path={"/propertyID"} bean={this.state.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
                       </div>
                       <button type="button" className="btn btn-primary btn-sm show-modal-btn" onClick={this._showAddApartment}>Добавить квартиру</button>
                     </div>

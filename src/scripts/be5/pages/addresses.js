@@ -13,7 +13,7 @@ class Addresses extends React.Component {
   }
 
   componentDidMount(){
-    be5.url.process("Addresses1", "#!form/_test_/Test%201D/Addresses");
+    be5.url.process("Addresses1", "#!form/_test_/Test%201D/InsertOccupancy");
   }
 
   render() {
