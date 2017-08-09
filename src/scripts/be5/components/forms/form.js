@@ -147,7 +147,7 @@ const Form = React.createClass({
   render() {
     return (
       <div className="row">
-        <div className={'formBox container ' + (this.state.cssClass || 'formBoxDefault')}>
+        <div className={'formBox col-xs-12 max-width-970 ' + (this.state.cssClass || 'formBoxDefault')}>
           <h1>{this.state.title}</h1>
           <form className="" onSubmit={this._applyOnSubmit}>
             <PropertySet bean={this.state.bean} onChange={this._onFieldChange} localization={be5.messages.property}/>

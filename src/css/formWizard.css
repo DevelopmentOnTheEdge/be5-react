@@ -18,7 +18,7 @@
 .progtrckr li {
     position: relative;
     float: left;
-    padding: 10px;
+    padding: 11px;
     padding-left: 20px;
     margin-right: 0px;
     position: relative;
@@ -89,4 +89,8 @@ label {
 }
 .formWizard .table-component__title {
     display: none;
+}
+
+.progtrckr li small{
+  display: none;
 }

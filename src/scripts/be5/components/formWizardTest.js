@@ -6,9 +6,9 @@ export default class FormWizardTest extends Component {
   render() {
 
     const steps = [
-      {title: 'Организация<br/>&nbsp;', url: '#!company'},
+      {title: 'Организация<br/><small>&nbsp;</small>', url: '#!company'},
 
-      {title: 'Документы<br/>&nbsp;', url: '#!egissoDocs'},
+      {title: 'Документы<br/><small>&nbsp;</small>', url: '#!egissoDocs'},
 
       {title: 'Категории граждан<br/><small>Перечень категорий</small>', url: '#!form/_test_/Test%201D/CategoryList'},
       //{title: 'Категории граждан<br/><small>Правила присвоения категорий</small>', url: '#!static/welcome.be'},

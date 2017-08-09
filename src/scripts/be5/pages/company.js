@@ -11,7 +11,7 @@ class Company extends React.Component {
     const steps = [
       {title: 'Общие сведения', url: '#!companiesGeneralInformation'},
       {title: 'Адреса', url: '#!addresses'},
-      {title: 'Документ-основание', url: '#!form/_test_/Test%201D/DocumentBaseOperation'},
+      {title: 'Документ-основание', url: '#!contractors'},
     ];
 
     return (
