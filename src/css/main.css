@@ -77,6 +77,15 @@ a.menuItemWithRef {
     padding: 0px 0 0px;
 }
 
+.Select-value-label:hover {
+    white-space: inherit;
+}
+.Select-value-label {
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 350px;
+}
+
 /****** error-loader ******/
 .document-loader.error {
     background: #f10000;

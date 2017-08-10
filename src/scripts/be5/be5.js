@@ -459,7 +459,7 @@ const be5 = {
 
   log: {
     error(data) {
-      bus.fire("alert", {msg: data.value.code, type: 'error', time: 0});
+      bus.fire("alert", {msg: data.value.code, type: 'error'}); //, time: 0
       console.error(data.value.code + "\n\n" + data.value.message);
     }
   },
