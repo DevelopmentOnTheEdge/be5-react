@@ -214,14 +214,17 @@ const TableBox = React.createClass({
   },
   
   onOperationClick(name) {
-    if(be5.documentName === this.props.operationDocumentName){
+    if(this.props.operationDocumentName === be5.documentName)
+    {
       be5.url.set(be5.url.create('form', [this.props.category, this.props.page, name], this.props.parameters));
     }
-
-    be5.url.process(
-        this.props.operationDocumentName,
-        "#!" + be5.url.create('form', [this.props.category, this.props.page, name], this.props.parameters)
-    );
+    else
+    {
+      be5.url.process(
+          this.props.operationDocumentName,
+          "#!" + be5.url.create('form', [this.props.category, this.props.page, name], this.props.parameters)
+      );
+    }
   },
   
   onSelectionChange() {

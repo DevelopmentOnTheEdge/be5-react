@@ -48,8 +48,14 @@ export default {
         switch (operationResult.status)
         {
           case 'redirect':
-            be5.url.process(documentName, '#!' + operationResult.details);
-            //be5.url.set(operationResult.details);
+            if(documentName === be5.documentName)
+            {
+              be5.url.set(operationResult.details);
+            }
+            else
+            {
+              be5.url.process(documentName, '#!' + operationResult.details);
+            }
             return;
           case 'finished':
             if(operationResult.message !== null)
