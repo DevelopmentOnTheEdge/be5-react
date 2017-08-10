@@ -22,10 +22,7 @@ class TableForm extends Table {
 
   onChange(){
     const data = this.props.value;
-    const paramsObject = {
-      entity: data.category, query: data.page, params: data.parameters
-    };
-    Tables.load(paramsObject, (data, documentName) =>{
+    Tables.load({ entity: data.category, query: data.page, params: data.parameters}, (data, documentName) =>{
       changeDocument(documentName, { component: Table, value: data.value });
     }, "table");
   }
