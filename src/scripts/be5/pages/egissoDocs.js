@@ -7,14 +7,26 @@ import changeDocument from '../core/changeDocument';
 class EgissoDocs extends React.Component {
 
   componentDidMount(){
-    be5.url.process("EgissoDocs1", "#!form/_test_/Test%201D/NameCategoryDocuments/embedded=true");
-    be5.url.process("EgissoDocs2", "#!form/_test_/Test%201D/NameNewDocument");
-    be5.url.process("EgissoDocs3", "#!form/_test_/Test%201D/ReferDocumentToCategory");
+    be5.url.process("EgissoDocs1", "#!form/categories/All records/Insert");
+    be5.url.process("EgissoDocs2", "#!form/docTypes/All records/Insert");
+    be5.url.process("EgissoDocs3", "#!form/classifications/All records/Insert");
+
+    be5.url.process("categories", "#!table/categories/All records");
+    be5.url.process("docTypes", "#!table/docTypes/All records");
+    be5.url.process("classifications", "#!table/classifications/All records");
+
   }
 
   render() {
     return (
-      <div className="row"><div className="container max-width-970"><div className="row">
+      <div>
+        <div className="row">
+          <div className="col-md-4"><Document documentName={"categories"} /></div>
+          <div className="col-md-4"><Document documentName={"docTypes"} /></div>
+          <div className="col-md-4"><Document documentName={"classifications"} /></div>
+        </div>
+      <div className="row">
+      <div className="container max-width-970"><div className="row">
         <div className="col-md-12">
           <button className="btn btn-info pull-right btn-sm float-right" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
               Справка
@@ -81,6 +93,7 @@ class EgissoDocs extends React.Component {
         </div>
 
       </div></div></div>
+      </div>
     );
   }
 
