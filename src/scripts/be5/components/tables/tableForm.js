@@ -5,6 +5,7 @@ import Document       from '../document';
 import Table          from './table';
 import Tables          from '../../services/tables';
 import changeDocument from '../../core/changeDocument';
+import formAction      from '../../actions/form';
 
 class TableForm extends Table {
 
@@ -16,16 +17,13 @@ class TableForm extends Table {
   componentDidMount(){
     const data = this.props.value;
     changeDocument("table", { component: Table, value: data });
-    be5.url.process("form",
-      "#!" + be5.url.create('form', [data.category, data.page, data.layout.defaultOperation], data.parameters)
-    );
+    formAction("form", data.category, data.page, data.layout.defaultOperation, data.parameters, data.onChange);
   }
 
   onChange(){
     const data = this.props.value;
     const paramsObject = {
-      entity: data.category, query: data.page, params: data.parameters,
-      options: { embedded: false }
+      entity: data.category, query: data.page, params: data.parameters
     };
     Tables.load(paramsObject, (data, documentName) =>{
       changeDocument(documentName, { component: Table, value: data.value });

@@ -6,8 +6,7 @@ export default function(documentName, entity, query, params) {
   const paramsObject = {
     entity: entity,
     query: query || 'All records',
-    params: params,
-    options: { embedded: false }
+    params: params
   };
   Tables.load(paramsObject, Tables.performData, documentName);
 

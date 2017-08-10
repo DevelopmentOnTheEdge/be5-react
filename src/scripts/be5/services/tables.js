@@ -8,9 +8,7 @@ import TableForm      from '../components/tables/tableForm';
 import TableFormRow      from '../components/tables/tableFormRow';
 
 const createDefaultOptions = function() {
-  return {
-    embedded: true
-  };
+  return {};
 };
 
 export default {
