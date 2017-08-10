@@ -10,6 +10,7 @@ import 'react-virtualized-select/styles.css';
 
 import '../../sass/styles.scss'
 import '../../css/form.css';
+import '../../css/table.css';
 import '../../css/formWizard.css';
 import '../../css/propertySet.css';
 import '../../css/main.css';

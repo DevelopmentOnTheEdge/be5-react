@@ -3,7 +3,8 @@ import documentUtils  from '../core/documentUtils';
 import changeDocument from '../core/changeDocument';
 import _              from 'underscore';
 import Preconditions  from '../preconditions';
-import Table          from '../components/table';
+import Table          from '../components/tables/table';
+import TableForm      from '../components/tables/tableForm';
 
 const createDefaultOptions = function() {
   return {
@@ -12,7 +13,7 @@ const createDefaultOptions = function() {
 };
 
 export default {
-  load(params, documentName) {
+  load(params, performData, documentName) {
     Preconditions.passed(params.entity);
     Preconditions.passed(params.query);
     
@@ -30,7 +31,7 @@ export default {
       data.value = _.extend({}, data.value, options);
       data = documentUtils.createDocument(data);
 
-      changeDocument(documentName, { component: Table, value: data.value });
+      performData(data, documentName);
     }, (data)=> {
       changeDocument(documentName, {
         component: 'text',
@@ -38,5 +39,14 @@ export default {
         value: be5.messages.errorServerQueryException.replace('$message', data.value.code)
       });
     });
-  }
+  },
+
+  performData(data, documentName){
+    if(data.value.layout.type === 'tableForm'){
+      changeDocument(documentName, { component: TableForm, value: data.value });
+    }else{
+      changeDocument(documentName, { component: Table, value: data.value });
+    }
+  },
+
 };

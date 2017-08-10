@@ -9,6 +9,6 @@ export default function(documentName, entity, query, params) {
     params: params,
     options: { embedded: false }
   };
-  Tables.load(paramsObject, documentName);
+  Tables.load(paramsObject, Tables.performData, documentName);
 
 };

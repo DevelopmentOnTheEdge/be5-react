@@ -1,4 +1,4 @@
-import AddressesForm from '../forms/addressesForm.js'
+import AddressesForm from '../components/forms/addressesForm.js'
 
 
 // todo move to Redux
