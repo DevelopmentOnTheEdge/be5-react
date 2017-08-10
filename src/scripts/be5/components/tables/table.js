@@ -4,6 +4,7 @@ import be5             from '../../be5';
 import $               from 'jquery';
 import Action          from '../action';
 import _               from 'underscore';
+import formAction      from '../../actions/form';
 import numberFormatter from 'number-format.js';
 import DataTables     from 'datatables';
 
@@ -219,10 +220,13 @@ const TableBox = React.createClass({
     }
     else
     {
-      be5.url.process(
-          this.props.operationDocumentName,
-          "#!" + be5.url.create('form', [this.props.category, this.props.page, name], this.props.parameters)
-      );
+      formAction(this.props.operationDocumentName, this.props.category, this.props.page, name,
+        this.props.parameters, this.props.onChange);
+      // be5.url.process(
+      //     this.props.operationDocumentName,
+      //     "#!" + be5.url.create('form', [this.props.category, this.props.page, name], this.props.parameters)
+      // );
+
     }
   },
   
@@ -507,6 +511,7 @@ const Table = React.createClass({
           embedded={value.embedded}
           value={value}
           operationDocumentName={this.props.operationDocumentName}
+          onChange={this.props.onChange}
         />
       </div>
     );

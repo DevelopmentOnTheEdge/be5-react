@@ -62,13 +62,13 @@ const Form = React.createClass({
     //   be5.url.set(be5.url.form(structuredAction.positional, _.extend({}, structuredAction.named, values)));
     //   return;
     // }
-    if (this.props.isEmbedded !== true) {
-      be5.net.request('form/apply', this.getRequestParams(this.state.bean.values), data => {
-        Forms.performOperationResult(data, this.props.value.documentName, this.props.onChange)
-      });
-    } else {
-      be5.net.request('form/apply', this.getRequestParams(this.state.bean.values));
-    }
+//    if (this.props.isEmbedded !== true) {
+    be5.net.request('form/apply', this.getRequestParams(this.state.bean.values), data => {
+      Forms.performOperationResult(data, this.props.value.documentName, this.props.onChange)
+    });
+    // } else {
+    //   be5.net.request('form/apply', this.getRequestParams(this.state.bean.values));
+    // }
   },
   
   // cancel() {

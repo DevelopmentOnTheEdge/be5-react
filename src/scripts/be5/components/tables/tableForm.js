@@ -8,6 +8,11 @@ import changeDocument from '../../core/changeDocument';
 
 class TableForm extends Table {
 
+  constructor(){
+    super();
+    this.onChange = this.onChange.bind(this);
+  }
+
   componentDidMount(){
     const data = this.props.value;
     changeDocument("table", { component: Table, value: data });
@@ -16,22 +21,23 @@ class TableForm extends Table {
     );
   }
 
-  render() {
+  onChange(){
     const data = this.props.value;
+    const paramsObject = {
+      entity: data.category, query: data.page, params: data.parameters,
+      options: { embedded: false }
+    };
+    Tables.load(paramsObject, (data, documentName) =>{
+      changeDocument(documentName, { component: Table, value: data.value });
+    }, "table");
+  }
+
+  render() {
     return (<div>
-      <Document documentName={"table"} operationDocumentName={"form"}/>
-      <Document documentName={"form"} onChange={()=>{
-        const paramsObject = {
-          entity: data.category, query: data.page, params: data.parameters,
-          options: { embedded: false }
-        };
-        Tables.load(paramsObject, (data, documentName) =>{
-          changeDocument(documentName, { component: Table, value: data.value });
-        }, "table");
-      }} />
+      <Document documentName={"table"} operationDocumentName={"form"} onChange={this.onChange}/>
+      <Document documentName={"form"} onChange={this.onChange} />
      </div>);
   }
-  //todo updateDocuments={"asd,asd"} вместо onChange={()=>{be5.url.process...
 
 }
 

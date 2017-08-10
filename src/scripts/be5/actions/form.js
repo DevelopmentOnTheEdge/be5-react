@@ -2,7 +2,7 @@ import React          from 'react';
 import be5            from '../be5';
 import Forms          from '../services/forms';
 
-export default function(documentName, entity, query, operation, operationParams) {
+export default function(documentName, entity, query, operation, operationParams, onChange) {
 
   const selectedRows = (operationParams === undefined || operationParams.selectedRows === undefined)
     ? be5.tableState.selectedRows.join() : operationParams.selectedRows;
@@ -18,5 +18,5 @@ export default function(documentName, entity, query, operation, operationParams)
     selectedRows: selectedRows
   };
 
-  Forms.load(params, documentName);
+  Forms.load(params, documentName, onChange);
 };

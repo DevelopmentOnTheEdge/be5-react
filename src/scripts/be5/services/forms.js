@@ -7,7 +7,7 @@ import Form,{HtmlResult}          from '../components/forms/form';
 import formsCollections from './formsCollections.js';
 
 export default {
-  load(params, documentName) {
+  load(params, documentName, onChange) {
     Preconditions.passed(params.entity);
     Preconditions.passed(params.query);
     Preconditions.passed(params.operation);
@@ -21,7 +21,7 @@ export default {
     };
 
     be5.net.request('form', requestParams, data => {
-      this.performOperationResult(data, documentName);
+      this.performOperationResult(data, documentName, onChange);
     }, (data)=> {
       changeDocument(documentName, {
         component: 'text',
@@ -43,7 +43,7 @@ export default {
         return;
       case 'operationResult':
         if(onChange)onChange();
-        bus.fire("alert", {msg:"Operation completed successfully.", type: 'success'})
+        bus.fire("alert", {msg: "Operation completed successfully.", type: 'success'});
         const operationResult = data.value;
         switch (operationResult.status)
         {
