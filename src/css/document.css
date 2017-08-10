@@ -8,6 +8,6 @@ body div.scroll {
 */
 @media (min-width: 1200px){
   .max-width-970{
-      width: 970px!important;
+      max-width: 970px;
   }
 }

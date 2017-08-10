@@ -5,6 +5,7 @@ import _              from 'underscore';
 import Preconditions  from '../preconditions';
 import Table          from '../components/tables/table';
 import TableForm      from '../components/tables/tableForm';
+import TableFormRow      from '../components/tables/tableFormRow';
 
 const createDefaultOptions = function() {
   return {
@@ -44,6 +45,8 @@ export default {
   performData(data, documentName){
     if(data.value.layout.type === 'tableForm'){
       changeDocument(documentName, { component: TableForm, value: data.value });
+    }else if(data.value.layout.type === 'tableFormRow'){
+      changeDocument(documentName, { component: TableFormRow, value: data.value });
     }else{
       changeDocument(documentName, { component: Table, value: data.value });
     }
