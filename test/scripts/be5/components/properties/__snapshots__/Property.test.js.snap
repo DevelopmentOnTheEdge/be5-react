@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`simple property 1`] = `
+<div
+  className="form-group property col-xs-12 required"
+>
+  <label
+    className="form-control-label"
+    htmlFor="testNameField"
+  >
+    Simple property
+  </label>
+  <div
+    className="controls"
+  >
+    <input
+      className="form-control"
+      disabled={undefined}
+      id="testNameField"
+      onChange={[Function]}
+      placeholder={undefined}
+      type="text"
+      value="testValue"
+    />
+  </div>
+</div>
+`;

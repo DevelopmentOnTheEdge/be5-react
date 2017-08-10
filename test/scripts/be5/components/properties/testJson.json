@@ -1,0 +1,80 @@
+{
+  "values": {
+    "label": "<p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href=\"#\">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p><ol><li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>   <li>Aliquam tincidunt mauris eu risus.</li></ol>",
+    "date": "2017-07-20",
+    "number": "123abc",
+    "agree": true,
+    "select": "vanilla",
+    "multiSelect": "",
+    "description": "",
+    "login": "",
+    "pass": "password"
+  },
+  "meta": {
+    "/label": {
+      "labelField": true,
+      "rawValue": true,
+      "cssClasses": "col-md-12"
+    },
+    "/date": {
+      "displayName": "Date",
+      "type": "Date",
+      "cssClasses": "col-md-6"
+    },
+    "/number": {
+      "displayName": "Number",
+      "type": "Long",
+      "message": "number is required here",
+      "status": "error",
+      "cssClasses": "col-md-6"
+    },
+    "/select": {
+      "displayName": "Select",
+      "tagList": [["vanilla","Vanilla"],["chocolate","Chocolate"],["strawberry","Strawberry"],["cookiescream","Cookies and Cream"],["caramel","Caramel"],["peppermint","Peppermint"]],
+      "cssClasses": "col-md-6",
+      "message": "message example"
+    },
+    "/multiSelect": {
+      "displayName": "Multi Select",
+      "multipleSelectionList": true,
+      "tagList": [["vanilla","Vanilla"],["chocolate","Chocolate"],["strawberry","Strawberry"],["cookiescream","Cookies and Cream"],["caramel","Caramel"],["peppermint","Peppermint"]],
+      "cssClasses": "col-md-6"
+    },
+    "/description": {
+      "displayName": "Description",
+      "type": "textArea",
+      "placeholder": "field for text",
+      "cssClasses": "col-md-12"
+    },
+    "/login": {
+      "displayName": "Name",
+      "groupId": 5,
+      "groupName": "Security",
+      "cssClasses": "col-md-12"
+    },
+    "/pass": {
+      "displayName": "Password",
+      "passwordField": true,
+      "groupId": 5,
+      "status": "success",
+      "cssClasses": "col-md-12"
+    },
+    "/agree": {
+      "displayName": "Agree",
+      "type": "Boolean",
+      "status": "success",
+      "cssClasses": "col-md-6"
+    }
+  },
+  "order": [
+    "/label",
+    "/date",
+    "/number",
+    "/select",
+    "/multiSelect",
+    "/description",
+    "/login",
+    "/pass",
+    "/agree"
+  ]
+}

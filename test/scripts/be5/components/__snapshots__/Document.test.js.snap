@@ -3,16 +3,18 @@
 exports[`component 1`] = `
 <div
   className="document-content"
+  id="document-content___MainDocument"
 >
-  <h1>
-    Page is loading...
-  </h1>
+  <div
+    className="document-loader "
+  />
 </div>
 `;
 
 exports[`component 2`] = `
 <div
   className="document-content"
+  id="document-content___MainDocument"
 >
   <div>
     <div
@@ -39,6 +41,7 @@ exports[`component 2`] = `
 exports[`snapshot 1`] = `
 <div
   className="document-content"
+  id="document-content___MainDocument"
 >
   <h1>
     Page loaded.
