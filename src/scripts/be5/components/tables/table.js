@@ -72,7 +72,7 @@ const OperationBox = React.createClass({displayName: "OperationBox",
 //        return React.createElement('a', attrs, operation.title);
 //      }
       return (
-        React.createElement('a', {key: operation.name, ref: operation.name, href: '', onClick: this.onClick.bind(this, operation.name), className: 'btn btn-secondary'}, operation.title)
+        React.createElement('a', {key: operation.name, ref: operation.name, href: '', onClick: this.onClick.bind(this, operation.name), className: 'btn btn-secondary btn-md'}, operation.title)
       );
     });
 
