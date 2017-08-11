@@ -17,7 +17,7 @@ class Company extends React.Component {
     return (
       <div>
         <h1>Организация</h1>
-        <Navs steps={steps} tabs startAtStep="1"/>
+        <Navs steps={steps} tabs startAtStep="0"/>
       </div>
     );
   }

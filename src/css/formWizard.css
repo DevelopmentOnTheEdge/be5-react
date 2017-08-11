@@ -84,7 +84,7 @@ label {
 
 /************************************************************/
 
-.formWizard .formBox h1 {
+.formWizard .form-component__title {
     display: none;
 }
 .formWizard .table-component__title {
