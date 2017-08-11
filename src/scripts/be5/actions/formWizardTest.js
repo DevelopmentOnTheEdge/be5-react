@@ -1,7 +1,7 @@
 import be5            from '../be5';
 import React          from 'react';
 import changeDocument from '../core/changeDocument';
-import FormWizardTest from '../components/formWizardTest';
+import FormWizardTest from '../pages/formWizardTest';
 
 export default function(documentName, startAtStep) {
 

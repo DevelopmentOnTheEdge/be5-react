@@ -7,7 +7,7 @@ import Tables          from '../../services/tables';
 import changeDocument from '../../core/changeDocument';
 import formAction      from '../../actions/form';
 
-class TableForm extends Table {
+class TableForm extends React.Component {
 
   constructor(){
     super();
@@ -28,7 +28,7 @@ class TableForm extends Table {
   }
 
   render() {
-    return (<div>
+    return (<div className="table-form">
       <Document documentName={"table"} operationDocumentName={"form"} onChange={this.onChange}/>
       <Document documentName={"form"} onChange={this.onChange} />
      </div>);

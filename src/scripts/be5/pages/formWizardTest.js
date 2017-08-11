@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FormWizard from './formWizard'
+import FormWizard from '../components/formWizard'
 
 export default class FormWizardTest extends Component {
 

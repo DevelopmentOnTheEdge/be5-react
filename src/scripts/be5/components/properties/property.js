@@ -54,7 +54,8 @@ class Property extends Component {
       ),
       select: () => {
         const options = this.optionsToArray(meta.tagList);
-        //if(options.length > 100){
+        //выбор нужного, или попробовать в VirtualizedSelect css подправить (на длинных строках с переносами)
+        if(options.length > 1000){
           return <VirtualizedSelect ref={id} name={id} value={value} options={options}
                           disabled={meta.readOnly} onChange={handle}
                           multi={meta.multipleSelectionList} matchPos="start"
@@ -69,18 +70,18 @@ class Property extends Component {
                           placeholder={this.props.localization.placeholder}
                           loadingPlaceholder={this.props.localization.loadingPlaceholder}
           />
-//        }else{
-//          return <Select ref={id} name={id} value={value} options={options}
-//                          disabled={meta.readOnly} onChange={handle} placeholder={meta.placeholder}
-//                          multi={meta.multipleSelectionList} matchPos="start"
-//                          clearAllText={this.props.localization.clearAllText}
-//                          clearValueText={this.props.localization.clearValueText}
-//                          noResultsText={this.props.localization.noResultsText}
-//                          searchPromptText={this.props.localization.searchPromptText}
-//                          placeholder={this.props.localization.placeholder}
-//                          loadingPlaceholder={this.props.localization.loadingPlaceholder}
-//          />
-//        }
+        }else{
+          return <Select ref={id} name={id} value={value} options={options}
+                          disabled={meta.readOnly} onChange={handle} placeholder={meta.placeholder}
+                          multi={meta.multipleSelectionList} matchPos="start"
+                          clearAllText={this.props.localization.clearAllText}
+                          clearValueText={this.props.localization.clearValueText}
+                          noResultsText={this.props.localization.noResultsText}
+                          searchPromptText={this.props.localization.searchPromptText}
+                          placeholder={this.props.localization.placeholder}
+                          loadingPlaceholder={this.props.localization.loadingPlaceholder}
+          />
+        }
       },
       Date: () => {
           return <Datetime dateFormat="DD.MM.YYYY" value={moment(value)} onChange={handle} id={id} key={id}

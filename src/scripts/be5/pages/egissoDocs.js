@@ -21,9 +21,9 @@ class EgissoDocs extends React.Component {
     return (
       <div>
         <div className="row">
-          <div className="col-md-4"><Document documentName={"categories"} /></div>
-          <div className="col-md-4"><Document documentName={"docTypes"} /></div>
-          <div className="col-md-4"><Document documentName={"classifications"} /></div>
+          <div className="col-md-3"><Document documentName={"categories"} /></div>
+          <div className="col-md-3"><Document documentName={"docTypes"} /></div>
+          <div className="col-md-6"><Document documentName={"classifications"} /></div>
         </div>
       <div className="row">
       <div className="container max-width-970"><div className="row">
