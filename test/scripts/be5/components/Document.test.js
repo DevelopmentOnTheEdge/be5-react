@@ -2,7 +2,7 @@ import React          from 'react';
 import renderer       from 'react-test-renderer';
 import Document       from '../../../../src/scripts/be5/components/document';
 import changeDocument from '../../../../src/scripts/be5/core/changeDocument';
-import {HtmlResult, performOperationResult}   from '../../../../src/scripts/be5/components/form';
+import {HtmlResult, performOperationResult}   from '../../../../src/scripts/be5/components/forms/form';
 
 test('snapshot', () => {
     const component = renderer.create(

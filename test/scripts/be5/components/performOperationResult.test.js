@@ -1,7 +1,7 @@
 import React          from 'react';
 import renderer       from 'react-test-renderer';
 //import changeDocument from '../../../../src/scripts/be5/core/changeDocument';
-import {HtmlResult, performOperationResult}   from '../../../../src/scripts/be5/components/form';
+import {HtmlResult, performOperationResult}   from '../../../../src/scripts/be5/components/forms/form';
 
 test('form.performOperationResult() redirect', () => {
 //    const component = renderer.create(
