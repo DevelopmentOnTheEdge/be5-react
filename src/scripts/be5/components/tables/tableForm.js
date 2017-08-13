@@ -14,7 +14,15 @@ class TableForm extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
+  componentDidUpdate(){
+    this.updateDocuments();
+  }
+
   componentDidMount(){
+    this.updateDocuments();
+  }
+
+  updateDocuments(){
     const data = this.props.value;
     changeDocument("table", { component: Table, value: data });
     formAction("form", data.category, data.page, data.layout.defaultOperation, data.parameters, data.onChange);
