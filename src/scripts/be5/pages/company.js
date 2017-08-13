@@ -9,9 +9,9 @@ class Company extends React.Component {
 
   render() {
     const steps = [
-      {title: 'Общие сведения', url: '#!companiesGeneralInformation'},
+      {title: 'Общие сведения', url: '#!table/companies/Общие сведения'},
       {title: 'Адреса', url: '#!addresses'},
-      {title: 'Документ-основание', url: '#!contractors'},
+      {title: 'Документ-основание', url: '#!table/contractor/All records'},
     ];
 
     return (
