@@ -57,50 +57,12 @@ class EgissoDocs extends React.Component {
   render() {
     const help = this.help();
     const steps = [
-      {title: 'Категории документов', url: '#!table/categories/All records'},
+      {title: 'Категории документов', url: '#!table/categories/Doc categories'},
       {title: 'Документы', url: '#!table/docTypes/All records'},
       {title: 'Отнесение документов к категориям', url: '#!table/classifications/All records'}
     ];
     return (<div>
-      <div className="row">
-      <div className="container max-width-970"><div className="row">
-        {help}
-        <div className="col-md-12">
-          <p>Для начала создайте категории документов, которые необходимы для предоставления услуг в Вашем муниципалитете.</p>
-        </div>
-
-
-        <div className="row"><div className="col-md-12">
-            <div className="col-md-6">
-              <div className="property-set row"><div className="form-group property col-md-12 required"><label htmlFor="categorynameField" className="form-control-label">Наименование категории документов</label><div className="controls"><input type="text" id="categorynameField" value="" className="form-control"/></div></div></div>
-            </div>
-            <div className="col-md-6">
-              <label className="form-control-label">&nbsp;</label>
-              <button type="button" className="btn btn-primary" >Добавить категорию</button>
-            </div>
-        </div></div>
-
-        <div className="col-md-12"><p>
-            Созайте документы, которые используются при предоставлении услуг в Вашем муниципалитете, если их
-            еще нет в общем справочнике документов.
-        </p></div>
-
-        <div className="row"><div className="col-md-12">
-            <div className="col-md-6">
-              <div className="property-set row"><div className="col-md-12"><div></div></div><div className="form-group property col-md-12 required"><label htmlFor="namenewdocumentField" className="form-control-label">Наименование нового документа</label><div className="controls"><input type="text" id="namenewdocumentField" value="" className="form-control"/></div></div></div>
-            </div>
-            <div className="col-md-6">
-              <label className="form-control-label">&nbsp;</label>
-              <button type="button" className="btn btn-primary" >Добавить документ</button>
-            </div>
-        </div></div>
-
-        <div className="col-md-12">
-          <Document documentName={"EgissoDocs3"} />
-        </div>
-
-      </div></div></div>
-      <br/>
+      {help}
       <Navs steps={steps} tabs/>
     </div>);
   }
