@@ -40,7 +40,7 @@ var messages = {
     Name: 'Name',
     Password: 'Password',
     Login: 'Login',
-    OK: 'OK',
+    Submit: 'Submit',
 
     loginError: 'Incorrect login or password',
     checkYourEmail: 'Check your email for further instructions',
@@ -79,7 +79,7 @@ var messages = {
     Name: 'Логин',
     Password: 'Пароль',
     Login: 'Авторизация',
-    OK: 'Выполнить',
+    Submit: 'Выполнить',
 
     loginError: 'Неверный логин или пароль',
     checkYourEmail: 'Дальнейшие инструкции высланы на Ваш электронный адрес',

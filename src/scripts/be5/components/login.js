@@ -30,7 +30,7 @@ const Login = React.createClass({
     //<a href="#!restore">Forgot password?</a>
     return (
       <div className="login">
-        <BootstrapModal title={be5.messages.Login} ref="modal" confirm={be5.messages.OK} cancel={be5.messages.cancel} onCancel={this._cancel} onConfirm={this._confirm}>
+        <BootstrapModal title={be5.messages.Login} ref="modal" confirm={be5.messages.Submit} cancel={be5.messages.cancel} onCancel={this._cancel} onConfirm={this._confirm}>
           <form className="login-form">
             <div className="form-group row">
               <label htmlFor="login-username">{be5.messages.Name}</label>

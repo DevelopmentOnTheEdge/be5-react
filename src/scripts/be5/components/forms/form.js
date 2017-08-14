@@ -1,6 +1,6 @@
 import React                from 'react';
 import be5                  from '../../be5';
-import Forms                from '../../services/forms';
+import formService                from '../../services/forms';
 import PropertySet          from '../properties/propertySet';
 import JsonPointer          from 'json-pointer';
 import _                    from 'underscore';
@@ -52,7 +52,7 @@ const Form = React.createClass({
   },
 
   _reload(values) {
-    Forms.load(this.getRequestParams(values), this.props.value.documentName);
+    formService.load(this.getRequestParams(values), this.props.value.documentName);
   },
 
   apply() {
@@ -64,7 +64,7 @@ const Form = React.createClass({
     // }
 //    if (this.props.isEmbedded !== true) {
     be5.net.request('form/apply', this.getRequestParams(this.state.bean.values), data => {
-      Forms.performOperationResult(data, this.props.value.documentName, this.props.onChange)
+      formService.performOperationResult(data, this.props.value.documentName, this.props.onChange)
     });
     // } else {
     //   be5.net.request('form/apply', this.getRequestParams(this.state.bean.values));
@@ -120,7 +120,7 @@ const Form = React.createClass({
   _createOkAction() {
     return (
       <button type="button" className="btn btn-primary" onClick={this.apply} disabled={!this.state.allFieldsFilled}>
-        {be5.messages.OK}
+        {be5.messages.Submit}
       </button>
     );
   },
