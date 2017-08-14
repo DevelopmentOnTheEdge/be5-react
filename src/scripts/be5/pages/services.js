@@ -5,7 +5,7 @@ import Document             from '../components/document';
 import Navs             from '../components/navs';
 import changeDocument from '../core/changeDocument';
 
-class ServicesGeneralInformation extends React.Component {
+class Services extends React.Component {
 
   render() {
     const steps = [
@@ -25,6 +25,6 @@ class ServicesGeneralInformation extends React.Component {
 
 }
 
-be5.registerAction('servicesGeneralInformation', (documentName) =>{
-  changeDocument(documentName, { component: ServicesGeneralInformation, value: {} })
+be5.registerAction('services', (documentName) =>{
+  changeDocument(documentName, { component: Services, value: {} })
 });

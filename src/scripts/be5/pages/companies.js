@@ -5,7 +5,7 @@ import Document             from '../components/document';
 import Navs             from '../components/navs';
 import changeDocument from '../core/changeDocument';
 
-class Company extends React.Component {
+class Companies extends React.Component {
 
   render() {
     const steps = [
@@ -24,6 +24,6 @@ class Company extends React.Component {
 
 }
 
-be5.registerAction('company', (documentName) =>{
-  changeDocument(documentName, { component: Company, value: {} })
+be5.registerAction('companies', (documentName) =>{
+  changeDocument(documentName, { component: Companies, value: {} })
 });
