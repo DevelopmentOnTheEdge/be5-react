@@ -34,6 +34,7 @@ var messages = {
     cancel: 'Cancel',
     reload: 'reload',
     All: 'All',
+    successfullyCompleted: 'Successfully completed.',
     
     filter: 'Filter...',
 
@@ -73,6 +74,7 @@ var messages = {
     cancel: 'Отмена',
     reload: 'Перезагрузить',
     All: 'Все',
+    successfullyCompleted: 'Успешно выполнено.',
 
     filter: 'Фильтр...',
 

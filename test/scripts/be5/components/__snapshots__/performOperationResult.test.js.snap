@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`performOperationResult finished 1`] = `
+<div
+  className="document-content"
+  id="document-content___test"
+>
+  <div>
+    <div
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "Successfully completed.",
+        }
+      }
+    />
+    <div
+      className="linkBack"
+    >
+      <button
+        className="btn btn-secondary btn-sm"
+        onClick={[Function]}
+      >
+        Back
+      </button>
+    </div>
+  </div>
+</div>
+`;
