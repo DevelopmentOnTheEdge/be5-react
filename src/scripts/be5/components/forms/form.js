@@ -173,13 +173,13 @@ export const HtmlResult = React.createClass({
     return (
       <div>
         <div dangerouslySetInnerHTML={{__html: this.props.value}}/>
-        <div className="linkBack">
-          <button className="btn btn-secondary btn-sm" onClick={back}>
-            {be5.messages.back}
-          </button>
-        </div>
       </div>
     );
+//    <div className="linkBack">
+//              <button className="btn btn-secondary btn-sm" onClick={back}>
+//                {be5.messages.back}
+//              </button>
+//            </div>
   }
   
 });
