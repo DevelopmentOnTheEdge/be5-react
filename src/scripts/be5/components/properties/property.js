@@ -110,7 +110,7 @@ class Property extends Component {
           if(meta.rawValue){
             return (<div dangerouslySetInnerHTML={{__html: value}} ></div>)
           }else{
-            return (<div>{value}</div>)
+            return (<div className="form-group">{value}</div>)
           }
       },
     };
