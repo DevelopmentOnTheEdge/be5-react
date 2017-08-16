@@ -284,7 +284,7 @@ const TableBox = React.createClass({
       .append( ( this.props.rows.length > 10 ? tfoot : ''))
       .appendTo(node);
 
-    const lengths = [10,20,50,100,500,1000];
+    const lengths = [5,10,20,50,100,500,1000];
     const pageLength = this.props.length;
     
     if (lengths.indexOf(pageLength) == -1) {
@@ -327,7 +327,7 @@ const TableBox = React.createClass({
         }
       },
       lengthMenu: lengths,
-      pageLength: pageLength, 
+      pageLength: pageLength,
       // This both tells
       // that the first bunch of data is already loaded (so no request is required), and
       // which is the total length of the result.

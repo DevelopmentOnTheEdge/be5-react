@@ -6,6 +6,7 @@ import Table          from './table';
 import Tables          from '../../services/tables';
 import changeDocument from '../../core/changeDocument';
 import formAction      from '../../actions/form';
+import {HtmlResult}   from '../../components/forms/form';
 
 class TableForm extends React.Component {
 
@@ -25,7 +26,12 @@ class TableForm extends React.Component {
   updateDocuments(){
     const data = this.props.value;
     changeDocument("table", { component: Table, value: data });
-    formAction("form", data.category, data.page, data.layout.defaultOperation, data.parameters, data.onChange);
+    if(data.layout.defaultOperation !== undefined){
+      formAction("form", data.category, data.page, data.layout.defaultOperation, data.parameters, data.onChange);
+    }else{
+      changeDocument("form", { component: HtmlResult, value: "" });
+    }
+
   }
 
   onChange(){

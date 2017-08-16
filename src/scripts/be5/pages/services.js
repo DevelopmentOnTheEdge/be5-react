@@ -12,7 +12,7 @@ class Services extends React.Component {
       {title: 'Группы МСП', url: '#!table/welfareGroups/General information'},
       {title: 'Виды МСП', url: '#!table/welfareTypes/General information'},
       {title: 'Сведения для ЕГИССО', url: '#!table/localMSZ/Info For Egisso'},
-      {title: 'НПА', url: '#!form/_test_/Test%201D/InformationAboutDocuments'},
+      {title: 'НПА', url: '#!table/localNPA/All records'},
     ];
 
     return (

@@ -7,17 +7,6 @@ import Navs             from '../components/navs';
 
 class EgissoDocs extends React.Component {
 
-  componentDidMount(){
-    be5.url.process("EgissoDocs1", "#!form/categories/All records/Insert");
-    be5.url.process("EgissoDocs2", "#!form/docTypes/All records/Insert");
-    be5.url.process("EgissoDocs3", "#!form/classifications/All records/Insert");
-
-    be5.url.process("categories", "#!table/categories/All records");
-    be5.url.process("docTypes", "#!table/docTypes/All records");
-    be5.url.process("classifications", "#!table/classifications/All records");
-
-  }
-
   help(){
     return (
       <div className="col-md-12">
@@ -67,26 +56,6 @@ class EgissoDocs extends React.Component {
     </div>);
   }
 
-//        <div className="row"><div className="col-md-12">
-//            <div className="col-md-6">
-//              <Document documentName={"EgissoDocs1"} />
-//            </div>
-//            <div className="col-md-6">
-//              <button type="button" className="btn btn-primary" >Добавить категорию</button>
-//            </div>
-//        </div></div>
-//        <div className="col-md-12"><p>
-//            Созайте документы, которые используются при предоставлении услуг в Вашем муниципалитете, если их
-//            еще нет в общем справочнике документов.
-//        </p></div>
-//        <div className="row"><div className="col-md-12">
-//            <div className="col-md-6">
-//              <Document documentName={"EgissoDocs2"} />
-//            </div>
-//            <div className="col-md-6">
-//              <button type="button" className="btn btn-primary" >Добавить документ</button>
-//            </div>
-//        </div></div>
 }
 
 be5.registerAction('egissoDocs', (documentName) =>{

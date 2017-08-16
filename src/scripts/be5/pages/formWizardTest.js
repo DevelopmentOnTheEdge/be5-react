@@ -10,7 +10,7 @@ export default class FormWizardTest extends Component {
 
       {title: 'Документы<br/><small>&nbsp;</small>', url: '#!egissoDocs'},
 
-      {title: 'Категории граждан<br/><small>Перечень категорий</small>', url: '#!table/_localCategories_'},
+      {title: 'Категории граждан<br/><small>Перечень категорий</small>', url: '#!table/localCategories/All records Egisso'},
       //{title: 'Категории граждан<br/><small>Правила присвоения категорий</small>', url: '#!static/welcome.be'},
 
       {title: 'Услуги<br/><small>Общие сведения</small>', url: '#!services'},

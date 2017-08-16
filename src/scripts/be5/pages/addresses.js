@@ -14,7 +14,7 @@ class Addresses extends React.Component {
 
   componentDidMount(){
     be5.url.process("table", "#!table/occupancies/For companies");
-    be5.url.process("form", "#!form/_test_/Test%201D/InsertOccupancy");
+    be5.url.process("form", "#!form/occupancies/For companies/Insert");
   }
 
   render() {
