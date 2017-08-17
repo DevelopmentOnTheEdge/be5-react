@@ -3,7 +3,7 @@ import PropTypes            from 'prop-types';
 import classNames           from 'classnames';
 import Datetime             from 'react-datetime';
 import moment               from 'moment';
-import Select               from 'react-select';
+import Select, { Creatable }from 'react-select';
 import VirtualizedSelect    from 'react-virtualized-select'
 
 
@@ -41,11 +41,21 @@ class Property extends Component {
     return (element.type === 'checkbox') ? element.checked : element.value;
   }
 
+  getExtraAttrsMap(extraAttrs){
+    let map = {}
+    if(extraAttrs === undefined)return map;
+    for (let i=0 ;i< extraAttrs.length; i++){
+      map[extraAttrs[i][0]] = extraAttrs[i][1];
+    }
+    return map;
+  }
+
   render() {
     const meta  = this.props.meta;
     const value = this.props.value;
     const id    = this.props.name + "Field";
     const handle = meta.multipleSelectionList ? this.handleChangeMulti : this.handleChange;
+    const extraAttrsMap = this.getExtraAttrsMap(meta.extraAttrs);
 
     const controls = {
       Boolean: () => (
@@ -54,34 +64,29 @@ class Property extends Component {
       ),
       select: () => {
         const options = this.optionsToArray(meta.tagList);
-        //выбор нужного, или попробовать в VirtualizedSelect css подправить (на длинных строках с переносами)
-        if(options.length > 1000){
-          return <VirtualizedSelect ref={id} name={id} value={value} options={options}
-                          disabled={meta.readOnly} onChange={handle}
-                          multi={meta.multipleSelectionList} matchPos="start"
-                          clearable
-                          searchable
-                          labelKey="label"
-                          valueKey="value"
-                          clearAllText={this.props.localization.clearAllText}
-                          clearValueText={this.props.localization.clearValueText}
-                          noResultsText={this.props.localization.noResultsText}
-                          searchPromptText={this.props.localization.searchPromptText}
-                          placeholder={this.props.localization.placeholder}
-                          loadingPlaceholder={this.props.localization.loadingPlaceholder}
-          />
-        }else{
-          return <Select ref={id} name={id} value={value} options={options}
-                          disabled={meta.readOnly} onChange={handle} placeholder={meta.placeholder}
-                          multi={meta.multipleSelectionList} matchPos="start"
-                          clearAllText={this.props.localization.clearAllText}
-                          clearValueText={this.props.localization.clearValueText}
-                          noResultsText={this.props.localization.noResultsText}
-                          searchPromptText={this.props.localization.searchPromptText}
-                          placeholder={this.props.localization.placeholder}
-                          loadingPlaceholder={this.props.localization.loadingPlaceholder}
-          />
+        // VirtualizedSelect css подправить (на длинных строках с переносами)
+        const selectProps = {
+          ref: id, name: id, value: value, options: options, onChange: handle,
+          clearAllText: this.props.localization.clearAllText,
+          clearValueText: this.props.localization.clearValueText,
+          noResultsText: this.props.localization.noResultsText,
+          searchPromptText: this.props.localization.searchPromptText,
+          loadingPlaceholder: this.props.localization.loadingPlaceholder,
+          placeholder: meta.placeholder || this.props.localization.placeholder,
+          backspaceRemoves: false,
+          disabled: meta.readOnly,
+          multi: meta.multipleSelectionList,
+          matchPos: "start"
+        };
+
+        if(extraAttrsMap.inputType === "Creatable"){
+          return <Creatable {...selectProps} />
         }
+
+        if(extraAttrsMap.inputType === "VirtualizedSelect"){
+          return <VirtualizedSelect {...selectProps} clearable searchable labelKey="label" valueKey="value" />
+        }
+        return <Select {...selectProps} />
       },
       Date: () => {
           return <Datetime dateFormat="DD.MM.YYYY" value={moment(value)} onChange={handle} id={id} key={id}
