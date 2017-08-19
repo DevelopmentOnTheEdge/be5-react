@@ -315,7 +315,8 @@ const be5 = {
       const action = be5.getAction(actionName);
 
       if(action !== undefined){
-        changeDocument(documentName, { loading: true });
+        console.log("loading: true - " + documentName);
+        //changeDocument(documentName, { loading: true });
         action.apply(be5, positional);
       }else{
         changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', actionName) });

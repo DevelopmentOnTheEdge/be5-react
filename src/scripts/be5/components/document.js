@@ -9,20 +9,20 @@ class Document extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { value: {}, loading: true };
+    this.state = { value: {} };
   }
 
   componentDidMount() {
     bus.replaceListeners(this.props.documentName, data => {
       this.setState(data);
-      if(!data.loading)this.setState({ loading: false });
-      if(!data.error)this.setState({ error: null });
+      // if(!data.loading)this.setState({ loading: false });
+      // if(!data.error)this.setState({ error: null });
     });
   }
 
   render() {
-    const loadingItem = this.state.loading
-      ? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
+    const loadingItem = null;//this.state.loading
+      //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
 
     let contentItem = null;
     be5.ui.setTitle(this.state.value.title);
