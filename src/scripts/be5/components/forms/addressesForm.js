@@ -20,7 +20,7 @@ class AddressesForm extends Form {
 
     this.state = Object.assign({}, this.props.value, { allFieldsFilled: false,
        buildingFormUrl: "",
-       apartmentFormUrl: ""})
+       apartmentFormUrl: ""});
 
 
     this._showAddBuilding = this._showAddBuilding.bind(this);
@@ -47,10 +47,11 @@ class AddressesForm extends Form {
 
   _confirm() {
     this._closeModal();
-    this._reload(this.state.bean.values);
+    this._reload(this.state.data.attributes.bean.values);
   }
 
   render() {
+    const attributes = this.state.data.attributes;
     const bootstrapModal = (
       <BootstrapModal ref="modal" title="Добавить"
                       onCancel={this._closeModal} cancel={be5.messages.cancel} >
@@ -62,21 +63,21 @@ class AddressesForm extends Form {
 
     return (
       <div className="row">
-        <div className={'formBox container ' + (this.state.cssClass || 'formBoxDefault')}>
-          <h1>{this.state.title}</h1>
+        <div className={'formBox container ' + (attributes.cssClass || 'formBoxDefault')}>
+          <h1>{attributes.title}</h1>
           <form className="" onSubmit={this._applyOnSubmit}>
             <div className="row">
-              <Properties bean={this.state.bean} ids={[0,1,2,3,4,5,6]}
+              <Properties bean={attributes.bean} ids={[0,1,2,3,4,5,6]}
                           localization={be5.messages.property} onChange={this._onFieldChange} />
 
               <div className='property-group col-xs-12'>
                 <div className='property-groop-box'><div className="row">
-                    <Properties bean={this.state.bean} ids={[7,8,9,10,11]} localization={be5.messages.property} onChange={this._onFieldChange} />
+                    <Properties bean={attributes.bean} ids={[7,8,9,10,11]} localization={be5.messages.property} onChange={this._onFieldChange} />
 
                     <div className="form-group property col-lg-2 required">
                       <label htmlFor="districtField" className="form-control-label">Здание:</label>
                       <div className="controls">
-                        <PropertyInput path={"/buildingNo"} bean={this.state.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
+                        <PropertyInput path={"/buildingNo"} bean={attributes.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
                       </div>
                       <button type="button" className="btn btn-primary btn-sm show-modal-btn" onClick={this._showAddBuilding}>Добавить здание</button>
                     </div>
@@ -84,7 +85,7 @@ class AddressesForm extends Form {
                     <div className="form-group property col-lg-2 required">
                       <label htmlFor="districtField" className="form-control-label">Квартира:</label>
                       <div className="controls">
-                        <PropertyInput path={"/propertyID"} bean={this.state.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
+                        <PropertyInput path={"/propertyID"} bean={attributes.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
                       </div>
                       <button type="button" className="btn btn-primary btn-sm show-modal-btn" onClick={this._showAddApartment}>Добавить квартиру</button>
                     </div>
