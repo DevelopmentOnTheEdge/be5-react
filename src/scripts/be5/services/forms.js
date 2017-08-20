@@ -60,7 +60,7 @@ export default {
             return;
           case 'finished':
             changeDocument(documentName, { component: HtmlResult, value:
-                (operationResult.message !== null) ? operationResult.message : be5.messages.successfullyCompleted});
+                (operationResult.message !== undefined) ? operationResult.message : be5.messages.successfullyCompleted});
             return;
           default:
             changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'operationResult.status = ' + operationResult.status) });

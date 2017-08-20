@@ -94,18 +94,6 @@ var messages = {
       placeholder: 'Выберите...',
       loadingPlaceholder: 'Загрузка...'
     }
-  },
-  
-  ja: {
-    welcome: '今日は',
-    loading: '読み込み中',
-    emptyTable: 'データなし',
-    roles: 'ロール',
-    back: '戻る',
-    error: 'エラー：',
-    cancel: 'Cancel',
-    
-    filter: 'Filter...'
   }
 };
 

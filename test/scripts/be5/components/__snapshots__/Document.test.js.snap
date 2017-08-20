@@ -4,11 +4,7 @@ exports[`component 1`] = `
 <div
   className="document-content"
   id="document-content___MainDocument"
->
-  <div
-    className="document-loader "
-  />
-</div>
+/>
 `;
 
 exports[`component 2`] = `
@@ -24,16 +20,6 @@ exports[`component 2`] = `
         }
       }
     />
-    <div
-      className="linkBack"
-    >
-      <button
-        className="btn btn-secondary btn-sm"
-        onClick={[Function]}
-      >
-        Back
-      </button>
-    </div>
   </div>
 </div>
 `;

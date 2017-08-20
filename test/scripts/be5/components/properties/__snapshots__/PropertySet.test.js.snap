@@ -11,7 +11,7 @@ exports[`simple property set 1`] = `
   className="property-set row"
 >
   <div
-    className="form-group property col-xs-12 required"
+    className="form-group property col-lg-12 required"
   >
     <label
       className="form-control-label"

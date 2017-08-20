@@ -28,7 +28,7 @@ class Document extends Component {
       //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
 
     let contentItem = null;
-    be5.ui.setTitle(this.state.value.title);
+    if(this.state.value)be5.ui.setTitle(this.state.value.title);
 
     if(this.state.component){
       if (this.state.component === 'text')
