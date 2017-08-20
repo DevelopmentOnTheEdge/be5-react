@@ -18,7 +18,10 @@ export default {
     Preconditions.passed(params.query);
     
     const options = _.extend(createDefaultOptions(), params.options);
-    const requestParams = { entity: params.entity, query: params.query, values: be5.net.paramString(params.params) };
+    const requestParams = {
+      entity: params.entity, query: params.query, values: be5.net.paramString(params.params),
+      _ts_: new Date().getTime()
+    };
     
     be5.net.request('document', requestParams, data => {
       // data.time = Date.now();
@@ -41,15 +44,16 @@ export default {
     });
   },
 
-  performData(data, documentName){
-    if(data.value.layout.type === 'tableForm'){
-      changeDocument(documentName, { component: TableForm, value: data.value });
-    }else if(data.value.layout.type === 'formTable'){
-      changeDocument(documentName, { component: FormTable, value: data.value });
-    }else if(data.value.layout.type === 'tableFormRow'){
-      changeDocument(documentName, { component: TableFormRow, value: data.value });
+  performData(json, documentName){
+    const layoutType = json.data.attributes.layout.type;
+    if(layoutType === 'tableForm'){
+      changeDocument(documentName, { component: TableForm, value: json });
+    }else if(layoutType === 'formTable'){
+      changeDocument(documentName, { component: FormTable, value: json });
+    }else if(layoutType === 'tableFormRow'){
+      changeDocument(documentName, { component: TableFormRow, value: json });
     }else{
-      changeDocument(documentName, { component: Table, value: data.value });
+      changeDocument(documentName, { component: Table, value: json });
     }
   },
 

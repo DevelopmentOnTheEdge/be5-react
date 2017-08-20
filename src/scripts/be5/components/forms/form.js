@@ -38,16 +38,19 @@ const Form = React.createClass({
   // },
   
   _reloadOnChange(controlName) {
-    this._reload(Object.assign({}, this.state.bean.values, { name: '_reloadcontrol_', value: controlName }));
+    const attributes = this.state.data.attributes;
+    this._reload(Object.assign({}, attributes.bean.values, { name: '_reloadcontrol_', value: controlName }));
   },
 
   getRequestParams(values){
+    const attributes = this.state.data.attributes;
     return {
-      entity: this.props.value.entity,
-      query: this.props.value.query,
-      operation: this.props.value.operation,
-      selectedRows: this.props.value.selectedRows,
-      values: JSON.stringify(values)
+      entity: attributes.entity,
+      query: attributes.query,
+      operation: attributes.operation,
+      selectedRows: attributes.selectedRows,
+      values: JSON.stringify(values),
+      _ts_: new Date().getTime()
     }
   },
 
@@ -56,6 +59,7 @@ const Form = React.createClass({
   },
 
   apply() {
+    const attributes = this.state.data.attributes;
     // if (this.props.value.customAction) {
     //   const values = _.object(_.map(this._getRawFormValues(), m => [ m.name, m.value ]));
     //   const structuredAction = be5.url.parse(this.props.value.customAction);
@@ -63,7 +67,7 @@ const Form = React.createClass({
     //   return;
     // }
 //    if (this.props.isEmbedded !== true) {
-    be5.net.request('form/apply', this.getRequestParams(this.state.bean.values), data => {
+    be5.net.request('form/apply', this.getRequestParams(attributes.bean.values), data => {
       formService.performOperationResult(data, this.props.value.documentName, this.props.onChange)
     });
     // } else {
@@ -84,7 +88,8 @@ const Form = React.createClass({
   },
   
   _getRawFormValues() {
-    return this.state.bean.map(field => ({ name: field.name, value: field.value, required: !field.canBeNull }))
+    const attributes = this.state.data.attributes;
+    return attributes.bean.map(field => ({ name: field.name, value: field.value, required: !field.canBeNull }))
   },
   
   _getRequredValues() {
@@ -92,13 +97,14 @@ const Form = React.createClass({
   },
   
   _onFieldChange(name, value) {
-    JsonPointer.set(this.state.bean, "/values" + name, value);
+    const attributes = this.state.data.attributes;
+    JsonPointer.set(attributes.bean, "/values" + name, value);
 
     this.forceUpdate(() => {
       this.setState({ allFieldsFilled: this._allFieldsFilled() });
       
-      if (this.state.bean.meta[name].hasOwnProperty('reloadOnChange') ||
-          this.state.bean.meta[name].hasOwnProperty('autoRefresh') ) {
+      if (attributes.bean.meta[name].hasOwnProperty('reloadOnChange') ||
+          attributes.bean.meta[name].hasOwnProperty('autoRefresh') ) {
         this._reloadOnChange(name);
       }
     });
@@ -126,6 +132,7 @@ const Form = React.createClass({
   },
   
   _createCancelAction() {
+    //const attributes = this.state.data.attributes;
     if (!this.props.value.showCancel) {
       return null;
     }
@@ -138,19 +145,21 @@ const Form = React.createClass({
   },
   
   _allFieldsFilled() {
-    return this.state.bean.order.every(field =>
-      this.state.bean.meta[field].hasOwnProperty('canBeNull') ||
-      JsonPointer.get(this.state.bean, "/values" + field) !== ''
+    const attributes = this.state.data.attributes;
+    return attributes.bean.order.every(field =>
+      attributes.bean.meta[field].hasOwnProperty('canBeNull') ||
+      JsonPointer.get(attributes.bean, "/values" + field) !== ''
     );
   },
 
   render() {
+    const attributes = this.state.data.attributes;
     return (
       <div className="row">
         <div className={'formBox col-xs-12 max-width-970 ' + (this.state.cssClass || 'formBoxDefault')}>
           <h1 className="form-component__title">{this.state.title}</h1>
           <form className="" onSubmit={this._applyOnSubmit}>
-            <PropertySet bean={this.state.bean} onChange={this._onFieldChange} localization={be5.messages.property}/>
+            <PropertySet bean={attributes.bean} onChange={this._onFieldChange} localization={be5.messages.property}/>
             {this._createFormActions()}
           </form>
         </div>

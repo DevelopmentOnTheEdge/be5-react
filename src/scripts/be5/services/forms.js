@@ -17,7 +17,8 @@ export default {
       query: params.query,
       operation: params.operation,
       values: params.values || '',
-      selectedRows: params.selectedRows || ''
+      selectedRows: params.selectedRows || '',
+      _ts_: new Date().getTime()
     };
 
     be5.net.request('form', requestParams, data => {
@@ -32,19 +33,19 @@ export default {
 
   },
 
-  performOperationResult(data, documentName, onChange){
+  performOperationResult(json, documentName, onChange){
     //console.log("forms perform: " + documentName);
     Preconditions.passed(documentName);
 
-    switch (data.type)
+    switch (json.data.type)
     {
       case 'form':
-        this.performForm(data, documentName);
+        this.performForm(json, documentName);
         return;
       case 'operationResult':
         if(onChange)onChange();
         bus.fire("alert", {msg: "Operation completed successfully.", type: 'success'});
-        const operationResult = data.value;
+        const operationResult = json.data.attributes;
         switch (operationResult.status)
         {
           case 'redirect':
@@ -66,26 +67,26 @@ export default {
         }
         return;
       default:
-        changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + data.type) });
+        changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + json.data.attributes.type) });
     }
   },
 
-  performForm(data, documentName){
+  performForm(json, documentName){
     //console.log(data, documentName);
-    if(!data.value.layout){
+    if(!json.data.attributes.layout){
       changeDocument(documentName, {
-        component: Form, value: _.extend({}, data.value, {documentName: documentName})
+        component: Form, value: _.extend({}, json, {documentName: documentName})
       });
       return;
     }
-    switch (data.value.layout.type) {
+    switch (json.data.attributes.layout.type) {
       case 'custom':
         changeDocument(documentName, {
-          component: formsCollections.getForm(data.value.layout.name), value: _.extend({}, data.value, {documentName: documentName})
+          component: formsCollections.getForm(json.data.attributes.layout.name), value: _.extend({}, json, {documentName: documentName})
         });
         return;
       default:
-        console.error("Not found form type: " + data.value.layout.type);
+        console.error("Not found form type: " + json.data.attributes.layout.type);
     }
   }
 

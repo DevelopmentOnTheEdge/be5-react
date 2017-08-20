@@ -24,10 +24,13 @@ class TableForm extends React.Component {
   }
 
   updateDocuments(){
-    const data = this.props.value;
-    changeDocument("table", { component: Table, value: data });
-    if(data.layout.defaultOperation !== undefined){
-      formAction("form", data.category, data.page, data.layout.defaultOperation, data.parameters, data.onChange);
+    const attributes = this.props.value.data.attributes;
+    changeDocument("table", { component: Table, value: this.props.value });
+    if(attributes.layout.defaultOperation !== undefined){
+      formAction("form",
+        attributes.category, attributes.page, attributes.layout.defaultOperation,
+        attributes.parameters, attributes.onChange
+      );
     }else{
       changeDocument("form", { component: HtmlResult, value: "" });
     }
@@ -35,10 +38,14 @@ class TableForm extends React.Component {
   }
 
   onChange(){
-    const data = this.props.value;
-    Tables.load({ entity: data.category, query: data.page, params: data.parameters}, (data, documentName) =>{
-      changeDocument(documentName, { component: Table, value: data.value });
-    }, "table");
+    const value = this.props.value;
+    Tables.load({
+      entity: value.data.attributes.category,
+      query: value.data.attributes.page,
+      params: value.data.attributes.parameters},
+      (data, documentName) =>{
+        changeDocument(documentName, { component: Table, value: data });
+      }, "table");
   }
 
   render() {
