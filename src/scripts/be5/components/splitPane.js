@@ -11,7 +11,7 @@ var Pane = React.createClass({
   getInitialState() {
     return {};
   },
-  
+
   render() {
     var split = this.props.split;
     var classes = ['Pane', split, this.props.classes];
@@ -22,6 +22,11 @@ var Pane = React.createClass({
       outline: 'none',
       overflow: 'auto'
     };
+
+    if(this.state.hide){
+      style['display'] = 'none';
+    }
+
     if (this.state.size) {
       if (split === 'horizontal') {
         style.height = this.state.size;
@@ -107,6 +112,11 @@ var SplitPane = React.createClass({displayName: "SplitPane",
           this.setState({
             position: current
           });
+          if(newSize < 32){
+            ref.setState({hide: true});
+          }else{
+            ref.setState({hide: false});
+          }
           if (newSize >= this.props.minSize) {
             ref.setState({
               size: newSize
