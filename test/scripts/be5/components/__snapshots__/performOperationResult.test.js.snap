@@ -13,16 +13,6 @@ exports[`performOperationResult finished 1`] = `
         }
       }
     />
-    <div
-      className="linkBack"
-    >
-      <button
-        className="btn btn-secondary btn-sm"
-        onClick={[Function]}
-      >
-        Back
-      </button>
-    </div>
   </div>
 </div>
 `;

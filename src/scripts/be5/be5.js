@@ -94,18 +94,6 @@ var messages = {
       placeholder: 'Выберите...',
       loadingPlaceholder: 'Загрузка...'
     }
-  },
-  
-  ja: {
-    welcome: '今日は',
-    loading: '読み込み中',
-    emptyTable: 'データなし',
-    roles: 'ロール',
-    back: '戻る',
-    error: 'エラー：',
-    cancel: 'Cancel',
-    
-    filter: 'Filter...'
   }
 };
 
@@ -315,7 +303,8 @@ const be5 = {
       const action = be5.getAction(actionName);
 
       if(action !== undefined){
-        changeDocument(documentName, { loading: true });
+        console.log("loading: true - " + documentName);
+        //changeDocument(documentName, { loading: true });
         action.apply(be5, positional);
       }else{
         changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', actionName) });

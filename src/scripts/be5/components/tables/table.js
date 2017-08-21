@@ -29,10 +29,10 @@ const OperationBox = React.createClass({displayName: "OperationBox",
         visible = true;
         break;
       case 'oneSelected':
-        visible = (be5.tableState.selectedRows.length == 1);
+        visible = (be5.tableState.selectedRows.length === 1);
         break;
       case 'anySelected':
-        visible = (be5.tableState.selectedRows.length != 0);
+        visible = (be5.tableState.selectedRows.length !== 0);
         break;
       case 'hasRecords':
         visible = this.props.hasRows;
@@ -76,7 +76,7 @@ const OperationBox = React.createClass({displayName: "OperationBox",
       );
     });
 
-    if(this.props.operations.length == 0){
+    if(this.props.operations.length === 0){
       return (
           <div></div>
       );
@@ -214,14 +214,15 @@ const TableBox = React.createClass({
   },
   
   onOperationClick(name) {
+    const attributes = this.props.value.data.attributes;
     if(this.props.operationDocumentName === be5.documentName)
     {
-      be5.url.set(be5.url.create('form', [this.props.category, this.props.page, name], this.props.parameters));
+      be5.url.set(be5.url.create('form', [attributes.category, attributes.page, name], attributes.parameters));
     }
     else
     {
-      formAction(this.props.operationDocumentName, this.props.category, this.props.page, name,
-        this.props.parameters, this.props.onChange);
+      formAction(this.props.operationDocumentName, attributes.category, attributes.page, name,
+        attributes.parameters, this.props.onChange);
       // be5.url.process(
       //     this.props.operationDocumentName,
       //     "#!" + be5.url.create('form', [this.props.category, this.props.page, name], this.props.parameters)
@@ -242,8 +243,9 @@ const TableBox = React.createClass({
   applyTableStyle(node) {
     // see http://datatables.net/examples/index
     $(node).empty();
-    if (this.props.columns.length == 0) return;
-    
+    const attributes = this.props.value.data.attributes;
+    if (attributes.columns.length === 0) return;
+
     const _this = this;
     be5.tableState.selectedRows = [];
     
@@ -252,8 +254,8 @@ const TableBox = React.createClass({
     const tbody = $('<tbody>');
     const tfoot = $('<tfoot>');
     const tfootrow = $('<tr>').appendTo(tfoot);
-    const hasCheckBoxes = this.props.selectable;
-    const editable = this.props.operations.filter((op) => op.name === 'Edit').length === 1;
+    const hasCheckBoxes = attributes.selectable;
+    const editable = attributes.operations.filter((op) => op.name === 'Edit').length === 1;
     let columnIndexShift = 0;
     
     if (hasCheckBoxes) {
@@ -262,12 +264,12 @@ const TableBox = React.createClass({
       columnIndexShift = 1;
     }
 
-    this.props.columns.forEach((column, idx) => {
+    attributes.columns.forEach((column, idx) => {
       const title = typeof column === 'object' ? column.title : column;
       theadrow.append($("<th>").html( formatCell(title, 'th', true) ));
       tfootrow.append($("<th>").html( formatCell(title, 'th', true) ));
     });
-    this.props.rows.forEach((row, rowId, rows) => {
+    attributes.rows.forEach((row, rowId, rows) => {
       const tr = $('<tr>');
       row.cells.forEach((cell, idx) => {
         tr.append($('<td>').html(formatCell(cell.content, cell.options)));
@@ -281,11 +283,11 @@ const TableBox = React.createClass({
     const tableDiv = $('<table class="display compact" cellspacing="0"/>')
       .append(thead)
       .append(tbody)
-      .append( ( this.props.rows.length > 10 ? tfoot : ''))
+      .append( ( attributes.rows.length > 10 ? tfoot : ''))
       .appendTo(node);
 
     const lengths = [5,10,20,50,100,500,1000];
-    const pageLength = this.props.length;
+    const pageLength = attributes.length;
     
     if (lengths.indexOf(pageLength) == -1) {
       lengths.push(pageLength);
@@ -307,11 +309,11 @@ const TableBox = React.createClass({
       ajax: {
         url: be5.net.url('document/moreRows'),
         data: {
-          entity: this.props.category,
-          query: this.props.page,
-          values: be5.net.paramString(this.props.parameters),
-          selectable: this.props.selectable,
-          totalNumberOfRows: this.props.totalNumberOfRows
+          entity: attributes.category,
+          query: attributes.page,
+          values: be5.net.paramString(attributes.parameters),
+          selectable: attributes.selectable,
+          totalNumberOfRows: attributes.totalNumberOfRows
         },
         dataSrc: function(d){
           if(d.type === "error"){
@@ -332,7 +334,7 @@ const TableBox = React.createClass({
       // that the first bunch of data is already loaded (so no request is required), and
       // which is the total length of the result.
       // See https://datatables.net/reference/option/deferLoading
-      deferLoading: this.props.totalNumberOfRows,
+      deferLoading: attributes.totalNumberOfRows,
       columnDefs: [
         {
           render: (data, type, row, meta) => {
@@ -343,7 +345,7 @@ const TableBox = React.createClass({
             const id = "row-" + val + "-checkbox";
             let display = meta.row+1;
             if(editable) {
-              display = '<a href="#!'+be5.url.create('form', [this.props.category, this.props.page, 'Edit'], {selectedRows: val})+'">'+display+'</a>';
+              display = '<a href="#!'+be5.url.create('form', [attributes.category, attributes.page, 'Edit'], {selectedRows: val})+'">'+display+'</a>';
             }
             // Pure HTML! Have no idea how to convert some react.js to string.
             return '\
@@ -380,9 +382,9 @@ const TableBox = React.createClass({
       }
     };
     let groupingColumn = null;
-    const nColumns = this.props.rows[0].cells.length;
+    const nColumns = attributes.rows[0].cells.length;
     for (let i = 0; i < nColumns; i++) {
-      const column = this.props.rows[0].cells[i];
+      const column = attributes.rows[0].cells[i];
       if (typeof column === 'object') {
         if ('options' in column) {
           if ('grouping' in column.options) {
@@ -432,10 +434,11 @@ const TableBox = React.createClass({
   },
 
   render() {
-    if (this.props.columns.length == 0) {
+    const attributes = this.props.value.data.attributes;
+    if (attributes.columns.length === 0) {
       return (
         <div>
-          <OperationBox ref="operations" operations={this.props.operations} onOperationClick={this.onOperationClick} hasRows={this.props.rows.length != 0}/>
+          <OperationBox ref="operations" operations={attributes.operations} onOperationClick={this.onOperationClick} hasRows={attributes.rows.length !== 0}/>
           {be5.messages.emptyTable}
         </div>
       );
@@ -443,8 +446,8 @@ const TableBox = React.createClass({
     
     return (
       <div>
-        <OperationBox ref="operations" operations={this.props.operations} onOperationClick={this.onOperationClick} hasRows={this.props.rows.length != 0}/>
-        <QuickColumns ref="quickColumns" columns={this.props.columns} firstRow={this.props.rows[0].cells} table={this.refs.table} selectable={this.props.selectable}/>
+        <OperationBox ref="operations" operations={attributes.operations} onOperationClick={this.onOperationClick} hasRows={attributes.rows.length !== 0}/>
+        <QuickColumns ref="quickColumns" columns={attributes.columns} firstRow={attributes.rows[0].cells} table={this.refs.table} selectable={attributes.selectable}/>
         <div className="scroll">
           <div ref="table"/>
         </div>
@@ -453,16 +456,16 @@ const TableBox = React.createClass({
   },
   
   // _loadCountIfNeeded() {
-  //   if (this.props.embedded) { // FIXME actually this should work even if the component is embedded
+  //   if (attributes.embedded) { // FIXME actually this should work even if the component is embedded
   //     return;
   //   }
   //
-  //   if (this.props.value.type === 'table' && !this.props.totalNumberOfRows && this.props.totalNumberOfRows != 0) {
-  //     be5.net.request('document/count', this.props.value.requestParams, res => {
+  //   if (attributes.value.type === 'table' && !attributes.totalNumberOfRows && attributes.totalNumberOfRows != 0) {
+  //     be5.net.request('document/count', attributes.value.requestParams, res => {
   //       const documentState = {
   //         time: Date.now(),
   //         type: 'table',
-  //         value: _.extend({}, this.props.value, {totalNumberOfRows: res.value})
+  //         value: _.extend({}, attributes.value, {totalNumberOfRows: res.value})
   //       };
   //
   //       changeDocument(documentState);
@@ -494,7 +497,7 @@ const Table = React.createClass({
 
     return (
       <div className="table-component">
-        <h1 className="table-component__title">{value.title}</h1>
+        <h1 className="table-component__title">{value.data.attributes.title}</h1>
         <TableBox
           ref="tableBox"
           category={value.category} 

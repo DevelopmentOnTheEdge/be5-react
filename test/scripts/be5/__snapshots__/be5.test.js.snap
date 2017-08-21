@@ -111,11 +111,7 @@ exports[`snapshot 1`] = `
       <div
         className="document-content"
         id="document-content___MainDocument"
-      >
-        <div
-          className="document-loader "
-        />
-      </div>
+      />
     </div>
   </div>
 </div>

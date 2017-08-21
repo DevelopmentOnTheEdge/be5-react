@@ -149,7 +149,7 @@ class Property extends Component {
     const classNameForm = (meta.type === "Boolean")
           ? this.props.classNameFormCheck || 'form-check property'
           : this.props.classNameFormGroup || 'form-group property';
-    const cssClasses = meta.cssClasses || 'col-xs-12';
+    const cssClasses = meta.cssClasses || 'col-lg-12';
 
     const classes = classNames(
       classNameForm,
@@ -170,7 +170,7 @@ class Property extends Component {
       );
     }else if(meta.labelField){
        return (
-         <div className={classNames(meta.cssClasses || 'col-xs-12', hasStatusClasses)}>{valueControl}</div>
+         <div className={classNames(meta.cssClasses || 'col-lg-12', hasStatusClasses)}>{valueControl}</div>
        );
     }else{
       return (
