@@ -77,6 +77,9 @@ var SplitPane = React.createClass({displayName: "SplitPane",
     if (ref){
       if (this.props.defaultSize) {
         ref.setState({size: this.props.defaultSize});
+        if(this.props.defaultSize < 32){
+          ref.setState({hide: true});
+        }
       }
     }
   },
