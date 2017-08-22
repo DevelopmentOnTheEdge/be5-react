@@ -362,8 +362,12 @@ const be5 = {
         if (typeof (failureFunc) === 'function')failureFunc(data);
       };
 
+      var getUrl = window.location;
+      var baseUrl = getUrl.protocol + "//" + getUrl.host;
+      if(getUrl.pathname.split('/')[1] !== "")  baseUrl += "/" + getUrl.pathname.split('/')[1]
+      console.log(baseUrl);
       $.ajax({
-        url : url,
+        url : baseUrl + url,
         dataType : type,
         type : 'POST',
         data : params,
