@@ -175,19 +175,27 @@ export const HtmlResult = React.createClass({
   
   propTypes: {
     value: PropTypes.shape({
-      attributes: PropTypes.string,
-      meta: PropTypes.shape({
-        _ts_: PropTypes.number.isRequired
+      data: PropTypes.shape({
+        attributes: PropTypes.object.isRequired,
+        meta: PropTypes.shape({
+          _ts_: PropTypes.isRequired
+        })
       })
     }),
   },
 
   render() {
     const back = () => { history.back(); };
+    const attributes = this.props.value.data.attributes;
+
+    let message = attributes.message;
+    if(attributes.status == 'finished' && attributes.message === undefined){
+        message = be5.messages.successfullyCompleted;
+    }
 
     return (
       <div>
-        <div dangerouslySetInnerHTML={{__html: this.props.value.attributes}}/>
+        <div dangerouslySetInnerHTML={{__html: message}}/>
       </div>
     );
 //    <div className="linkBack">

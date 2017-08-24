@@ -45,25 +45,24 @@ export default {
       case 'operationResult':
         if(onChange)onChange();
         bus.fire("alert", {msg: "Operation completed successfully.", type: 'success'});
-        const operationResult = json.data.attributes;
-        switch (operationResult.status)
+        const attributes = json.data.attributes;
+        switch (attributes.status)
         {
           case 'redirect':
             if(documentName === be5.documentName)
             {
-              be5.url.set(operationResult.details);
+              be5.url.set(attributes.details);
             }
             else
             {
-              be5.url.process(documentName, '#!' + operationResult.details);
+              be5.url.process(documentName, '#!' + attributes.details);
             }
             return;
           case 'finished':
-            changeDocument(documentName, { component: HtmlResult, value:
-                (operationResult.message !== undefined) ? operationResult.message : be5.messages.successfullyCompleted});
+            changeDocument(documentName, { component: HtmlResult, value: json });
             return;
           default:
-            changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'operationResult.status = ' + operationResult.status) });
+            changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'status = ' + attributes.status) });
         }
         return;
       default:
