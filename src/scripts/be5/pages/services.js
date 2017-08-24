@@ -18,7 +18,7 @@ class Services extends React.Component {
     return (
       <div>
         <h1>Услуги - Общие сведения</h1>
-        <Navs steps={steps} tabs startAtStep="2"/>
+        <Navs steps={steps} tabs startAtStep="0"/>
       </div>
     );
   }

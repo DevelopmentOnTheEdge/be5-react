@@ -31,13 +31,13 @@ class AddressesForm extends Form {
 
   _showAddBuilding(){
     be5.url.process("BootstrapModal", "#!loading");
-    be5.url.process("BootstrapModal", '#!form/_test_/Test%201D/AddBuilding/street=РОССИЙСКАЯ УЛ');
+    be5.url.process("BootstrapModal", '#!form/buildings/All records/Insert/street=РОССИЙСКАЯ УЛ');
     this.refs.modal.open();
   }
 
   _showAddApartment(){
     be5.url.process("BootstrapModal", "#!loading");
-    be5.url.process("BootstrapModal", "#!form/_test_/Test%201D/AddApartment");
+    be5.url.process("BootstrapModal", "#!form/properties/All records/Insert");
     this.refs.modal.open();
   }
 
@@ -63,7 +63,7 @@ class AddressesForm extends Form {
 
     return (
       <div className="row">
-        <div className={'formBox container ' + (attributes.cssClass || 'formBoxDefault')}>
+        <div className={'formBox col-xs-12 max-width-970 ' + (attributes.cssClass || 'formBoxDefault')}>
           <h1>{attributes.title}</h1>
           <form className="" onSubmit={this._applyOnSubmit}>
             <div className="row">
