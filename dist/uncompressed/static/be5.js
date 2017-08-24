@@ -5109,18 +5109,6 @@ var messages = {
       placeholder: 'Выберите...',
       loadingPlaceholder: 'Загрузка...'
     }
-  },
-
-  ja: {
-    welcome: '今日は',
-    loading: '読み込み中',
-    emptyTable: 'データなし',
-    roles: 'ロール',
-    back: '戻る',
-    error: 'エラー：',
-    cancel: 'Cancel',
-
-    filter: 'Filter...'
   }
 };
 
@@ -5321,7 +5309,8 @@ var be5 = {
       var action = be5.getAction(actionName);
 
       if (action !== undefined) {
-        (0, _changeDocument2.default)(documentName, { loading: true });
+        console.log("loading: true - " + documentName);
+        //changeDocument(documentName, { loading: true });
         action.apply(be5, positional);
       } else {
         (0, _changeDocument2.default)(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', actionName) });
@@ -5374,8 +5363,12 @@ var be5 = {
         if (typeof failureFunc === 'function') failureFunc(data);
       };
 
+      var getUrl = window.location;
+      var baseUrl = getUrl.protocol + "//" + getUrl.host;
+      if (getUrl.pathname.split('/')[1] !== "") baseUrl += "/" + getUrl.pathname.split('/')[1];
+      console.log(baseUrl);
       _jquery2.default.ajax({
-        url: url,
+        url: baseUrl + url,
         dataType: type,
         type: 'POST',
         data: params,
@@ -6803,7 +6796,7 @@ var Document = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Document.__proto__ || Object.getPrototypeOf(Document)).call(this, props));
 
-    _this.state = { value: {}, loading: true };
+    _this.state = { value: {} };
     return _this;
   }
 
@@ -6813,18 +6806,21 @@ var Document = function (_Component) {
       var _this2 = this;
 
       _bus2.default.replaceListeners(this.props.documentName, function (data) {
-        _this2.setState(data);
-        if (!data.loading) _this2.setState({ loading: false });
-        if (!data.error) _this2.setState({ error: null });
+        if (_this2.state.value.meta === undefined || data.value.meta === undefined || data.value.meta._ts_ > _this2.state.value.meta._ts_) {
+          _this2.setState(data);
+        }
+        // if(!data.loading)this.setState({ loading: false });
+        // if(!data.error)this.setState({ error: null });
       });
     }
   }, {
     key: 'render',
     value: function render() {
-      var loadingItem = this.state.loading ? _react2.default.createElement('div', { className: "document-loader " + (this.state.error ? "error" : "") }) : null;
+      var loadingItem = null; //this.state.loading
+      //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
 
       var contentItem = null;
-      _be2.default.ui.setTitle(this.state.value.title);
+      if (this.state.value) _be2.default.ui.setTitle(this.state.value.title);
 
       if (this.state.component) {
         if (this.state.component === 'text') {
@@ -26707,7 +26703,8 @@ var _default = {
       query: params.query,
       operation: params.operation,
       values: params.values || '',
-      selectedRows: params.selectedRows || ''
+      selectedRows: params.selectedRows || '',
+      _ts_: new Date().getTime()
     };
 
     _be2.default.net.request('form', requestParams, function (data) {
@@ -26720,18 +26717,18 @@ var _default = {
       });
     });
   },
-  performOperationResult: function performOperationResult(data, documentName, onChange) {
+  performOperationResult: function performOperationResult(json, documentName, onChange) {
     //console.log("forms perform: " + documentName);
     _preconditions2.default.passed(documentName);
 
-    switch (data.type) {
+    switch (json.data.type) {
       case 'form':
-        this.performForm(data, documentName);
+        this.performForm(json, documentName);
         return;
       case 'operationResult':
         if (onChange) onChange();
         _bus2.default.fire("alert", { msg: "Operation completed successfully.", type: 'success' });
-        var operationResult = data.value;
+        var operationResult = json.data.attributes;
         switch (operationResult.status) {
           case 'redirect':
             if (documentName === _be2.default.documentName) {
@@ -26741,32 +26738,32 @@ var _default = {
             }
             return;
           case 'finished':
-            (0, _changeDocument2.default)(documentName, { component: _form.HtmlResult, value: operationResult.message !== null ? operationResult.message : _be2.default.messages.successfullyCompleted });
+            (0, _changeDocument2.default)(documentName, { component: _form.HtmlResult, value: operationResult.message !== undefined ? operationResult.message : _be2.default.messages.successfullyCompleted });
             return;
           default:
             (0, _changeDocument2.default)(documentName, { component: 'text', value: _be2.default.messages.errorUnknownAction.replace('$action', 'operationResult.status = ' + operationResult.status) });
         }
         return;
       default:
-        (0, _changeDocument2.default)(documentName, { component: 'text', value: _be2.default.messages.errorUnknownAction.replace('$action', 'data.type = ' + data.type) });
+        (0, _changeDocument2.default)(documentName, { component: 'text', value: _be2.default.messages.errorUnknownAction.replace('$action', 'data.type = ' + json.data.attributes.type) });
     }
   },
-  performForm: function performForm(data, documentName) {
+  performForm: function performForm(json, documentName) {
     //console.log(data, documentName);
-    if (!data.value.layout) {
+    if (!json.data.attributes.layout) {
       (0, _changeDocument2.default)(documentName, {
-        component: _form2.default, value: _underscore2.default.extend({}, data.value, { documentName: documentName })
+        component: _form2.default, value: _underscore2.default.extend({}, json, { documentName: documentName })
       });
       return;
     }
-    switch (data.value.layout.type) {
+    switch (json.data.attributes.layout.type) {
       case 'custom':
         (0, _changeDocument2.default)(documentName, {
-          component: _formsCollections2.default.getForm(data.value.layout.name), value: _underscore2.default.extend({}, data.value, { documentName: documentName })
+          component: _formsCollections2.default.getForm(json.data.attributes.layout.name), value: _underscore2.default.extend({}, json, { documentName: documentName })
         });
         return;
       default:
-        console.error("Not found form type: " + data.value.layout.type);
+        console.error("Not found form type: " + json.data.attributes.layout.type);
     }
   }
 };
@@ -26798,6 +26795,10 @@ exports.HtmlResult = undefined;
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(5);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _be = __webpack_require__(7);
 
@@ -26852,15 +26853,18 @@ var Form = _react2.default.createClass({
   // },
 
   _reloadOnChange: function _reloadOnChange(controlName) {
-    this._reload(Object.assign({}, this.state.bean.values, { name: '_reloadcontrol_', value: controlName }));
+    var attributes = this.state.data.attributes;
+    this._reload(Object.assign({}, attributes.bean.values, { name: '_reloadcontrol_', value: controlName }));
   },
   getRequestParams: function getRequestParams(values) {
+    var attributes = this.state.data.attributes;
     return {
-      entity: this.props.value.entity,
-      query: this.props.value.query,
-      operation: this.props.value.operation,
-      selectedRows: this.props.value.selectedRows,
-      values: JSON.stringify(values)
+      entity: attributes.entity,
+      query: attributes.query,
+      operation: attributes.operation,
+      selectedRows: attributes.selectedRows,
+      values: JSON.stringify(values),
+      _ts_: new Date().getTime()
     };
   },
   _reload: function _reload(values) {
@@ -26869,6 +26873,7 @@ var Form = _react2.default.createClass({
   apply: function apply() {
     var _this = this;
 
+    var attributes = this.state.data.attributes;
     // if (this.props.value.customAction) {
     //   const values = _.object(_.map(this._getRawFormValues(), m => [ m.name, m.value ]));
     //   const structuredAction = be5.url.parse(this.props.value.customAction);
@@ -26876,7 +26881,7 @@ var Form = _react2.default.createClass({
     //   return;
     // }
     //    if (this.props.isEmbedded !== true) {
-    _be2.default.net.request('form/apply', this.getRequestParams(this.state.bean.values), function (data) {
+    _be2.default.net.request('form/apply', this.getRequestParams(attributes.bean.values), function (data) {
       _forms2.default.performOperationResult(data, _this.props.value.documentName, _this.props.onChange);
     });
     // } else {
@@ -26897,7 +26902,8 @@ var Form = _react2.default.createClass({
     this.apply();
   },
   _getRawFormValues: function _getRawFormValues() {
-    return this.state.bean.map(function (field) {
+    var attributes = this.state.data.attributes;
+    return attributes.bean.map(function (field) {
       return { name: field.name, value: field.value, required: !field.canBeNull };
     });
   },
@@ -26909,12 +26915,13 @@ var Form = _react2.default.createClass({
   _onFieldChange: function _onFieldChange(name, value) {
     var _this2 = this;
 
-    _jsonPointer2.default.set(this.state.bean, "/values" + name, value);
+    var attributes = this.state.data.attributes;
+    _jsonPointer2.default.set(attributes.bean, "/values" + name, value);
 
     this.forceUpdate(function () {
       _this2.setState({ allFieldsFilled: _this2._allFieldsFilled() });
 
-      if (_this2.state.bean.meta[name].hasOwnProperty('reloadOnChange') || _this2.state.bean.meta[name].hasOwnProperty('autoRefresh')) {
+      if (attributes.bean.meta[name].hasOwnProperty('reloadOnChange') || attributes.bean.meta[name].hasOwnProperty('autoRefresh')) {
         _this2._reloadOnChange(name);
       }
     });
@@ -26939,6 +26946,7 @@ var Form = _react2.default.createClass({
     );
   },
   _createCancelAction: function _createCancelAction() {
+    //const attributes = this.state.data.attributes;
     if (!this.props.value.showCancel) {
       return null;
     }
@@ -26952,28 +26960,28 @@ var Form = _react2.default.createClass({
     );
   },
   _allFieldsFilled: function _allFieldsFilled() {
-    var _this3 = this;
-
-    return this.state.bean.order.every(function (field) {
-      return _this3.state.bean.meta[field].hasOwnProperty('canBeNull') || _jsonPointer2.default.get(_this3.state.bean, "/values" + field) !== '';
+    var attributes = this.state.data.attributes;
+    return attributes.bean.order.every(function (field) {
+      return attributes.bean.meta[field].hasOwnProperty('canBeNull') || _jsonPointer2.default.get(attributes.bean, "/values" + field) !== '';
     });
   },
   render: function render() {
+    var attributes = this.state.data.attributes;
     return _react2.default.createElement(
       'div',
       { className: 'row' },
       _react2.default.createElement(
         'div',
-        { className: 'formBox col-xs-12 max-width-970 ' + (this.state.cssClass || 'formBoxDefault') },
+        { className: 'formBox col-xs-12 max-width-970 ' + (attributes.cssClass || 'formBoxDefault') },
         _react2.default.createElement(
           'h1',
           { className: 'form-component__title' },
-          this.state.title
+          attributes.title
         ),
         _react2.default.createElement(
           'form',
           { className: '', onSubmit: this._applyOnSubmit },
-          _react2.default.createElement(_propertySet2.default, { bean: this.state.bean, onChange: this._onFieldChange, localization: _be2.default.messages.property }),
+          _react2.default.createElement(_propertySet2.default, { bean: attributes.bean, onChange: this._onFieldChange, localization: _be2.default.messages.property }),
           this._createFormActions()
         )
       )
@@ -26986,7 +26994,12 @@ var HtmlResult = exports.HtmlResult = _react2.default.createClass({
   displayName: 'HtmlResult',
 
   propTypes: {
-    value: _react2.default.PropTypes.string.isRequired
+    value: _propTypes2.default.shape({
+      attributes: _propTypes2.default.string,
+      meta: _propTypes2.default.shape({
+        _ts_: _propTypes2.default.number.isRequired
+      })
+    })
   },
 
   render: function render() {
@@ -26997,7 +27010,7 @@ var HtmlResult = exports.HtmlResult = _react2.default.createClass({
     return _react2.default.createElement(
       'div',
       null,
-      _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.value } })
+      _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.value.attributes } })
     );
     //    <div className="linkBack">
     //              <button className="btn btn-secondary btn-sm" onClick={back}>
@@ -27264,20 +27277,23 @@ var TableForm = function (_React$Component) {
   }, {
     key: 'updateDocuments',
     value: function updateDocuments() {
-      var data = this.props.value;
-      (0, _changeDocument2.default)("table", { component: _table2.default, value: data });
-      if (data.layout.defaultOperation !== undefined) {
-        (0, _form2.default)("form", data.category, data.page, data.layout.defaultOperation, data.parameters, data.onChange);
+      var attributes = this.props.value.data.attributes;
+      (0, _changeDocument2.default)("table", { component: _table2.default, value: this.props.value });
+      if (attributes.layout.defaultOperation !== undefined) {
+        (0, _form2.default)("form", attributes.category, attributes.page, attributes.layout.defaultOperation, attributes.parameters, attributes.onChange);
       } else {
-        (0, _changeDocument2.default)("form", { component: _form3.HtmlResult, value: "" });
+        (0, _changeDocument2.default)("form", { component: _form3.HtmlResult, value: { attributes: attributes.layout.textInFormDocument, meta: { _ts_: new Date().getTime() } } });
       }
     }
   }, {
     key: 'onChange',
     value: function onChange() {
-      var data = this.props.value;
-      _tables2.default.load({ entity: data.category, query: data.page, params: data.parameters }, function (data, documentName) {
-        (0, _changeDocument2.default)(documentName, { component: _table2.default, value: data.value });
+      var value = this.props.value;
+      _tables2.default.load({
+        entity: value.data.attributes.category,
+        query: value.data.attributes.page,
+        params: value.data.attributes.parameters }, function (data, documentName) {
+        (0, _changeDocument2.default)(documentName, { component: _table2.default, value: data });
       }, "table");
     }
   }, {
@@ -32397,6 +32413,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(2);
@@ -32428,8 +32446,6 @@ var _reactVirtualizedSelect = __webpack_require__(236);
 var _reactVirtualizedSelect2 = _interopRequireDefault(_reactVirtualizedSelect);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -32476,6 +32492,16 @@ var Property = function (_Component) {
       return element.type === 'checkbox' ? element.checked : element.value;
     }
   }, {
+    key: 'getExtraAttrsMap',
+    value: function getExtraAttrsMap(extraAttrs) {
+      var map = {};
+      if (extraAttrs === undefined) return map;
+      for (var i = 0; i < extraAttrs.length; i++) {
+        map[extraAttrs[i][0]] = extraAttrs[i][1];
+      }
+      return map;
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -32484,6 +32510,7 @@ var Property = function (_Component) {
       var value = this.props.value;
       var id = this.props.name + "Field";
       var handle = meta.multipleSelectionList ? this.handleChangeMulti : this.handleChange;
+      var extraAttrsMap = this.getExtraAttrsMap(meta.extraAttrs);
 
       var controls = {
         Boolean: function Boolean() {
@@ -32492,34 +32519,29 @@ var Property = function (_Component) {
         },
         select: function select() {
           var options = _this2.optionsToArray(meta.tagList);
-          //выбор нужного, или попробовать в VirtualizedSelect css подправить (на длинных строках с переносами)
-          if (options.length > 1000) {
-            return _react2.default.createElement(_reactVirtualizedSelect2.default, { ref: id, name: id, value: value, options: options,
-              disabled: meta.readOnly, onChange: handle,
-              multi: meta.multipleSelectionList, matchPos: 'start',
-              clearable: true,
-              searchable: true,
-              labelKey: 'label',
-              valueKey: 'value',
-              clearAllText: _this2.props.localization.clearAllText,
-              clearValueText: _this2.props.localization.clearValueText,
-              noResultsText: _this2.props.localization.noResultsText,
-              searchPromptText: _this2.props.localization.searchPromptText,
-              placeholder: _this2.props.localization.placeholder,
-              loadingPlaceholder: _this2.props.localization.loadingPlaceholder
-            });
-          } else {
-            var _React$createElement;
+          // VirtualizedSelect css подправить (на длинных строках с переносами)
+          var selectProps = {
+            ref: id, name: id, value: value, options: options, onChange: handle,
+            clearAllText: _this2.props.localization.clearAllText,
+            clearValueText: _this2.props.localization.clearValueText,
+            noResultsText: _this2.props.localization.noResultsText,
+            searchPromptText: _this2.props.localization.searchPromptText,
+            loadingPlaceholder: _this2.props.localization.loadingPlaceholder,
+            placeholder: meta.placeholder || _this2.props.localization.placeholder,
+            backspaceRemoves: false,
+            disabled: meta.readOnly,
+            multi: meta.multipleSelectionList,
+            matchPos: "start"
+          };
 
-            return _react2.default.createElement(_reactSelect2.default, (_React$createElement = { ref: id, name: id, value: value, options: options,
-              disabled: meta.readOnly, onChange: handle, placeholder: meta.placeholder,
-              multi: meta.multipleSelectionList, matchPos: 'start',
-              clearAllText: _this2.props.localization.clearAllText,
-              clearValueText: _this2.props.localization.clearValueText,
-              noResultsText: _this2.props.localization.noResultsText,
-              searchPromptText: _this2.props.localization.searchPromptText
-            }, _defineProperty(_React$createElement, 'placeholder', _this2.props.localization.placeholder), _defineProperty(_React$createElement, 'loadingPlaceholder', _this2.props.localization.loadingPlaceholder), _React$createElement));
+          if (extraAttrsMap.inputType === "Creatable") {
+            return _react2.default.createElement(_reactSelect.Creatable, selectProps);
           }
+
+          if (extraAttrsMap.inputType === "VirtualizedSelect") {
+            return _react2.default.createElement(_reactVirtualizedSelect2.default, _extends({}, selectProps, { clearable: true, searchable: true, labelKey: 'label', valueKey: 'value' }));
+          }
+          return _react2.default.createElement(_reactSelect2.default, selectProps);
         },
         Date: function Date() {
           return _react2.default.createElement(_reactDatetime2.default, { dateFormat: 'DD.MM.YYYY', value: (0, _moment2.default)(value), onChange: handle, id: id, key: id,
@@ -32550,7 +32572,7 @@ var Property = function (_Component) {
           } else {
             return _react2.default.createElement(
               'div',
-              null,
+              { className: 'form-group' },
               value
             );
           }
@@ -32581,7 +32603,7 @@ var Property = function (_Component) {
 
       var hasStatusClasses = (0, _classnames2.default)({ 'has-danger': meta.status === 'error' }, { 'has-warning': meta.status === 'warning' }, { 'has-success': meta.status === 'success' });
       var classNameForm = meta.type === "Boolean" ? this.props.classNameFormCheck || 'form-check property' : this.props.classNameFormGroup || 'form-group property';
-      var cssClasses = meta.cssClasses || 'col-xs-12';
+      var cssClasses = meta.cssClasses || 'col-lg-12';
 
       var classes = (0, _classnames2.default)(classNameForm, cssClasses, hasStatusClasses, { 'required': !meta.canBeNull && !meta.readOnly }, { 'display-none': meta.hidden });
 
@@ -32600,7 +32622,7 @@ var Property = function (_Component) {
       } else if (meta.labelField) {
         return _react2.default.createElement(
           'div',
-          { className: (0, _classnames2.default)(meta.cssClasses || 'col-xs-12', hasStatusClasses) },
+          { className: (0, _classnames2.default)(meta.cssClasses || 'col-lg-12', hasStatusClasses) },
           valueControl
         );
       } else {
@@ -44722,7 +44744,10 @@ var _default = {
     _preconditions2.default.passed(params.query);
 
     var options = _underscore2.default.extend(createDefaultOptions(), params.options);
-    var requestParams = { entity: params.entity, query: params.query, values: _be2.default.net.paramString(params.params) };
+    var requestParams = {
+      entity: params.entity, query: params.query, values: _be2.default.net.paramString(params.params),
+      _ts_: new Date().getTime()
+    };
 
     _be2.default.net.request('document', requestParams, function (data) {
       // data.time = Date.now();
@@ -44744,15 +44769,16 @@ var _default = {
       });
     });
   },
-  performData: function performData(data, documentName) {
-    if (data.value.layout.type === 'tableForm') {
-      (0, _changeDocument2.default)(documentName, { component: _tableForm2.default, value: data.value });
-    } else if (data.value.layout.type === 'formTable') {
-      (0, _changeDocument2.default)(documentName, { component: _formTable2.default, value: data.value });
-    } else if (data.value.layout.type === 'tableFormRow') {
-      (0, _changeDocument2.default)(documentName, { component: _tableFormRow2.default, value: data.value });
+  performData: function performData(json, documentName) {
+    var layoutType = json.data.attributes.layout.type;
+    if (layoutType === 'tableForm') {
+      (0, _changeDocument2.default)(documentName, { component: _tableForm2.default, value: json });
+    } else if (layoutType === 'formTable') {
+      (0, _changeDocument2.default)(documentName, { component: _formTable2.default, value: json });
+    } else if (layoutType === 'tableFormRow') {
+      (0, _changeDocument2.default)(documentName, { component: _tableFormRow2.default, value: json });
     } else {
-      (0, _changeDocument2.default)(documentName, { component: _table2.default, value: data.value });
+      (0, _changeDocument2.default)(documentName, { component: _table2.default, value: json });
     }
   }
 };
@@ -44846,10 +44872,10 @@ var OperationBox = _react2.default.createClass({ displayName: "OperationBox",
           visible = true;
           break;
         case 'oneSelected':
-          visible = _be2.default.tableState.selectedRows.length == 1;
+          visible = _be2.default.tableState.selectedRows.length === 1;
           break;
         case 'anySelected':
-          visible = _be2.default.tableState.selectedRows.length != 0;
+          visible = _be2.default.tableState.selectedRows.length !== 0;
           break;
         case 'hasRecords':
           visible = _this2.props.hasRows;
@@ -44892,7 +44918,7 @@ var OperationBox = _react2.default.createClass({ displayName: "OperationBox",
       return _react2.default.createElement('a', { key: operation.name, ref: operation.name, href: '', onClick: _this3.onClick.bind(_this3, operation.name), className: 'btn btn-secondary btn-md' }, operation.title);
     });
 
-    if (this.props.operations.length == 0) {
+    if (this.props.operations.length === 0) {
       return _react2.default.createElement('div', null);
     }
     return _react2.default.createElement('div', { className: 'operationList' }, splitWithSpaces(operations));
@@ -45029,10 +45055,11 @@ var TableBox = _react2.default.createClass({
     //this._loadCountIfNeeded();
   },
   onOperationClick: function onOperationClick(name) {
+    var attributes = this.props.value.data.attributes;
     if (this.props.operationDocumentName === _be2.default.documentName) {
-      _be2.default.url.set(_be2.default.url.create('form', [this.props.category, this.props.page, name], this.props.parameters));
+      _be2.default.url.set(_be2.default.url.create('form', [attributes.category, attributes.page, name], attributes.parameters));
     } else {
-      (0, _form2.default)(this.props.operationDocumentName, this.props.category, this.props.page, name, this.props.parameters, this.props.onChange);
+      (0, _form2.default)(this.props.operationDocumentName, attributes.category, attributes.page, name, attributes.parameters, this.props.onChange);
       // be5.url.process(
       //     this.props.operationDocumentName,
       //     "#!" + be5.url.create('form', [this.props.category, this.props.page, name], this.props.parameters)
@@ -45047,11 +45074,10 @@ var TableBox = _react2.default.createClass({
     }
   },
   applyTableStyle: function applyTableStyle(node) {
-    var _this6 = this;
-
     // see http://datatables.net/examples/index
     (0, _jquery2.default)(node).empty();
-    if (this.props.columns.length == 0) return;
+    var attributes = this.props.value.data.attributes;
+    if (attributes.columns.length === 0) return;
 
     var _this = this;
     _be2.default.tableState.selectedRows = [];
@@ -45061,8 +45087,8 @@ var TableBox = _react2.default.createClass({
     var tbody = (0, _jquery2.default)('<tbody>');
     var tfoot = (0, _jquery2.default)('<tfoot>');
     var tfootrow = (0, _jquery2.default)('<tr>').appendTo(tfoot);
-    var hasCheckBoxes = this.props.selectable;
-    var editable = this.props.operations.filter(function (op) {
+    var hasCheckBoxes = attributes.selectable;
+    var editable = attributes.operations.filter(function (op) {
       return op.name === 'Edit';
     }).length === 1;
     var columnIndexShift = 0;
@@ -45073,12 +45099,12 @@ var TableBox = _react2.default.createClass({
       columnIndexShift = 1;
     }
 
-    this.props.columns.forEach(function (column, idx) {
+    attributes.columns.forEach(function (column, idx) {
       var title = (typeof column === 'undefined' ? 'undefined' : _typeof(column)) === 'object' ? column.title : column;
       theadrow.append((0, _jquery2.default)("<th>").html(formatCell(title, 'th', true)));
       tfootrow.append((0, _jquery2.default)("<th>").html(formatCell(title, 'th', true)));
     });
-    this.props.rows.forEach(function (row, rowId, rows) {
+    attributes.rows.forEach(function (row, rowId, rows) {
       var tr = (0, _jquery2.default)('<tr>');
       row.cells.forEach(function (cell, idx) {
         tr.append((0, _jquery2.default)('<td>').html(formatCell(cell.content, cell.options)));
@@ -45089,10 +45115,10 @@ var TableBox = _react2.default.createClass({
       tbody.append(tr);
     });
 
-    var tableDiv = (0, _jquery2.default)('<table class="display compact" cellspacing="0"/>').append(thead).append(tbody).append(this.props.rows.length > 10 ? tfoot : '').appendTo(node);
+    var tableDiv = (0, _jquery2.default)('<table class="display compact" cellspacing="0"/>').append(thead).append(tbody).append(attributes.rows.length > 10 ? tfoot : '').appendTo(node);
 
     var lengths = [5, 10, 20, 50, 100, 500, 1000];
-    var pageLength = this.props.length;
+    var pageLength = attributes.length;
 
     if (lengths.indexOf(pageLength) == -1) {
       lengths.push(pageLength);
@@ -45116,11 +45142,11 @@ var TableBox = _react2.default.createClass({
       ajax: {
         url: _be2.default.net.url('document/moreRows'),
         data: {
-          entity: this.props.category,
-          query: this.props.page,
-          values: _be2.default.net.paramString(this.props.parameters),
-          selectable: this.props.selectable,
-          totalNumberOfRows: this.props.totalNumberOfRows
+          entity: attributes.category,
+          query: attributes.page,
+          values: _be2.default.net.paramString(attributes.parameters),
+          selectable: attributes.selectable,
+          totalNumberOfRows: attributes.totalNumberOfRows
         },
         dataSrc: function dataSrc(d) {
           if (d.type === "error") {
@@ -45141,7 +45167,7 @@ var TableBox = _react2.default.createClass({
       // that the first bunch of data is already loaded (so no request is required), and
       // which is the total length of the result.
       // See https://datatables.net/reference/option/deferLoading
-      deferLoading: this.props.totalNumberOfRows,
+      deferLoading: attributes.totalNumberOfRows,
       columnDefs: [{
         render: function render(data, type, row, meta) {
           if (!hasCheckBoxes) {
@@ -45151,7 +45177,7 @@ var TableBox = _react2.default.createClass({
           var id = "row-" + val + "-checkbox";
           var display = meta.row + 1;
           if (editable) {
-            display = '<a href="#!' + _be2.default.url.create('form', [_this6.props.category, _this6.props.page, 'Edit'], { selectedRows: val }) + '">' + display + '</a>';
+            display = '<a href="#!' + _be2.default.url.create('form', [attributes.category, attributes.page, 'Edit'], { selectedRows: val }) + '">' + display + '</a>';
           }
           // Pure HTML! Have no idea how to convert some react.js to string.
           return '\
@@ -45185,9 +45211,9 @@ var TableBox = _react2.default.createClass({
       }
     };
     var groupingColumn = null;
-    var nColumns = this.props.rows[0].cells.length;
+    var nColumns = attributes.rows[0].cells.length;
     for (var i = 0; i < nColumns; i++) {
-      var column = this.props.rows[0].cells[i];
+      var column = attributes.rows[0].cells[i];
       if ((typeof column === 'undefined' ? 'undefined' : _typeof(column)) === 'object') {
         if ('options' in column) {
           if ('grouping' in column.options) {
@@ -45235,11 +45261,12 @@ var TableBox = _react2.default.createClass({
     this.onSelectionChange();
   },
   render: function render() {
-    if (this.props.columns.length == 0) {
+    var attributes = this.props.value.data.attributes;
+    if (attributes.columns.length === 0) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(OperationBox, { ref: 'operations', operations: this.props.operations, onOperationClick: this.onOperationClick, hasRows: this.props.rows.length != 0 }),
+        _react2.default.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick, hasRows: attributes.rows.length !== 0 }),
         _be2.default.messages.emptyTable
       );
     }
@@ -45247,8 +45274,8 @@ var TableBox = _react2.default.createClass({
     return _react2.default.createElement(
       'div',
       null,
-      _react2.default.createElement(OperationBox, { ref: 'operations', operations: this.props.operations, onOperationClick: this.onOperationClick, hasRows: this.props.rows.length != 0 }),
-      _react2.default.createElement(QuickColumns, { ref: 'quickColumns', columns: this.props.columns, firstRow: this.props.rows[0].cells, table: this.refs.table, selectable: this.props.selectable }),
+      _react2.default.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick, hasRows: attributes.rows.length !== 0 }),
+      _react2.default.createElement(QuickColumns, { ref: 'quickColumns', columns: attributes.columns, firstRow: attributes.rows[0].cells, table: this.refs.table, selectable: attributes.selectable }),
       _react2.default.createElement(
         'div',
         { className: 'scroll' },
@@ -45259,16 +45286,16 @@ var TableBox = _react2.default.createClass({
 
 
   // _loadCountIfNeeded() {
-  //   if (this.props.embedded) { // FIXME actually this should work even if the component is embedded
+  //   if (attributes.embedded) { // FIXME actually this should work even if the component is embedded
   //     return;
   //   }
   //
-  //   if (this.props.value.type === 'table' && !this.props.totalNumberOfRows && this.props.totalNumberOfRows != 0) {
-  //     be5.net.request('document/count', this.props.value.requestParams, res => {
+  //   if (attributes.value.type === 'table' && !attributes.totalNumberOfRows && attributes.totalNumberOfRows != 0) {
+  //     be5.net.request('document/count', attributes.value.requestParams, res => {
   //       const documentState = {
   //         time: Date.now(),
   //         type: 'table',
-  //         value: _.extend({}, this.props.value, {totalNumberOfRows: res.value})
+  //         value: _.extend({}, attributes.value, {totalNumberOfRows: res.value})
   //       };
   //
   //       changeDocument(documentState);
@@ -45305,7 +45332,7 @@ var Table = _react2.default.createClass({
       _react2.default.createElement(
         'h1',
         { className: 'table-component__title' },
-        value.title
+        value.data.attributes.title
       ),
       _react2.default.createElement(TableBox, {
         ref: 'tableBox',
@@ -57206,7 +57233,7 @@ var _default = _react2.default.createClass({
         } }, alertOptions)),
       _react2.default.createElement(
         _splitPane2.default,
-        { split: 'vertical', defaultSize: 280 },
+        { split: 'vertical', defaultSize: 1 },
         _react2.default.createElement(_sideBar2.default, { ref: 'sideBar' }),
         _react2.default.createElement(_document2.default, { ref: 'document' })
       )
@@ -63002,14 +63029,14 @@ var AddressesForm = function (_Form) {
     key: '_showAddBuilding',
     value: function _showAddBuilding() {
       _be2.default.url.process("BootstrapModal", "#!loading");
-      _be2.default.url.process("BootstrapModal", '#!form/_test_/Test%201D/AddBuilding/street=РОССИЙСКАЯ УЛ');
+      _be2.default.url.process("BootstrapModal", '#!form/buildings/All records/Insert/street=РОССИЙСКАЯ УЛ');
       this.refs.modal.open();
     }
   }, {
     key: '_showAddApartment',
     value: function _showAddApartment() {
       _be2.default.url.process("BootstrapModal", "#!loading");
-      _be2.default.url.process("BootstrapModal", "#!form/_test_/Test%201D/AddApartment");
+      _be2.default.url.process("BootstrapModal", "#!form/properties/All records/Insert");
       this.refs.modal.open();
     }
   }, {
@@ -63021,13 +63048,14 @@ var AddressesForm = function (_Form) {
     key: '_confirm',
     value: function _confirm() {
       this._closeModal();
-      this._reload(this.state.bean.values);
+      this._reload(this.state.data.attributes.bean.values);
     }
   }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
 
+      var attributes = this.state.data.attributes;
       var bootstrapModal = _react2.default.createElement(
         _bootstrapModal2.default,
         { ref: 'modal', title: '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C',
@@ -63042,11 +63070,11 @@ var AddressesForm = function (_Form) {
         { className: 'row' },
         _react2.default.createElement(
           'div',
-          { className: 'formBox container ' + (this.state.cssClass || 'formBoxDefault') },
+          { className: 'formBox col-xs-12 max-width-970 ' + (attributes.cssClass || 'formBoxDefault') },
           _react2.default.createElement(
             'h1',
             null,
-            this.state.title
+            attributes.title
           ),
           _react2.default.createElement(
             'form',
@@ -63054,7 +63082,7 @@ var AddressesForm = function (_Form) {
             _react2.default.createElement(
               'div',
               { className: 'row' },
-              _react2.default.createElement(_properties2.default, { bean: this.state.bean, ids: [0, 1, 2, 3, 4, 5, 6],
+              _react2.default.createElement(_properties2.default, { bean: attributes.bean, ids: [0, 1, 2, 3, 4, 5, 6],
                 localization: _be2.default.messages.property, onChange: this._onFieldChange }),
               _react2.default.createElement(
                 'div',
@@ -63065,7 +63093,7 @@ var AddressesForm = function (_Form) {
                   _react2.default.createElement(
                     'div',
                     { className: 'row' },
-                    _react2.default.createElement(_properties2.default, { bean: this.state.bean, ids: [7, 8, 9, 10, 11], localization: _be2.default.messages.property, onChange: this._onFieldChange }),
+                    _react2.default.createElement(_properties2.default, { bean: attributes.bean, ids: [7, 8, 9, 10, 11], localization: _be2.default.messages.property, onChange: this._onFieldChange }),
                     _react2.default.createElement(
                       'div',
                       { className: 'form-group property col-lg-2 required' },
@@ -63077,7 +63105,7 @@ var AddressesForm = function (_Form) {
                       _react2.default.createElement(
                         'div',
                         { className: 'controls' },
-                        _react2.default.createElement(_propertyInput2.default, { path: "/buildingNo", bean: this.state.bean, localization: _be2.default.messages.property, onChange: this._onFieldChange })
+                        _react2.default.createElement(_propertyInput2.default, { path: "/buildingNo", bean: attributes.bean, localization: _be2.default.messages.property, onChange: this._onFieldChange })
                       ),
                       _react2.default.createElement(
                         'button',
@@ -63096,7 +63124,7 @@ var AddressesForm = function (_Form) {
                       _react2.default.createElement(
                         'div',
                         { className: 'controls' },
-                        _react2.default.createElement(_propertyInput2.default, { path: "/propertyID", bean: this.state.bean, localization: _be2.default.messages.property, onChange: this._onFieldChange })
+                        _react2.default.createElement(_propertyInput2.default, { path: "/propertyID", bean: attributes.bean, localization: _be2.default.messages.property, onChange: this._onFieldChange })
                       ),
                       _react2.default.createElement(
                         'button',
@@ -86501,6 +86529,11 @@ var Pane = _react2.default.createClass({
       outline: 'none',
       overflow: 'auto'
     };
+
+    if (this.state.hide) {
+      style['display'] = 'none';
+    }
+
     if (this.state.size) {
       if (split === 'horizontal') {
         style.height = this.state.size;
@@ -86548,6 +86581,9 @@ var SplitPane = _react2.default.createClass({ displayName: "SplitPane",
     if (ref) {
       if (this.props.defaultSize) {
         ref.setState({ size: this.props.defaultSize });
+        if (this.props.defaultSize < 32) {
+          ref.setState({ hide: true });
+        }
       }
     }
   },
@@ -86580,6 +86616,11 @@ var SplitPane = _react2.default.createClass({ displayName: "SplitPane",
           this.setState({
             position: current
           });
+          if (newSize < 32) {
+            ref.setState({ hide: true });
+          } else {
+            ref.setState({ hide: false });
+          }
           if (newSize >= this.props.minSize) {
             ref.setState({
               size: newSize
@@ -88103,6 +88144,7 @@ plugins.keyframes = new _plugins.PluginSet([_plugins.prefixes, _plugins.fallback
 
 var isDev = process.env.NODE_ENV === 'development' || !process.env.NODE_ENV;
 var isTest = process.env.NODE_ENV === 'test';
+var isBrowser = typeof window !== 'undefined';
 
 /**** simulations  ****/
 
@@ -88278,7 +88320,7 @@ function toCSS(_ref) {
 }
 
 function deconstruct(style) {
-  // we can be sure it's not infinitely nested here 
+  // we can be sure it's not infinitely nested here
   var plain = void 0,
       selects = void 0,
       medias = void 0,
@@ -88345,7 +88387,9 @@ function insert(spec) {
   if (!inserted[spec.id]) {
     inserted[spec.id] = true;
     var deconstructed = deconstruct(spec.style);
-    deconstructedStyleToCSS(spec.id, deconstructed).map(function (cssRule) {
+    var rules = deconstructedStyleToCSS(spec.id, deconstructed);
+    inserted[spec.id] = isBrowser ? true : rules;
+    rules.forEach(function (cssRule) {
       return styleSheet.insert(cssRule);
     });
   }
@@ -88527,7 +88571,7 @@ var prefixedPseudoSelectors = {
 
 function _css(rules) {
   var style = { label: [] };
-  build(style, { src: rules }); // mutative! but worth it. 
+  build(style, { src: rules }); // mutative! but worth it.
 
   var spec = {
     id: hashify(style),
@@ -88565,7 +88609,7 @@ function multiIndexCache(fn) {
         var ret = coi.get(args[ctr]);
 
         if (registered[ret.toString().substring(4)]) {
-          // make sure it hasn't been flushed 
+          // make sure it hasn't been flushed
           return ret;
         }
       }
@@ -88622,7 +88666,7 @@ css.insert = function (css) {
   register(spec);
   if (!inserted[spec.id]) {
     styleSheet.insert(spec.css);
-    inserted[spec.id] = true;
+    inserted[spec.id] = isBrowser ? true : [spec.css];
   }
 };
 
@@ -88644,11 +88688,14 @@ function insertKeyframe(spec) {
       return result.name + '{' + (0, _CSSPropertyOperations.createMarkupForStyles)(result.style) + '}';
     }).join('');
 
-    ['-webkit-', '-moz-', '-o-', ''].forEach(function (prefix) {
-      return styleSheet.insert('@' + prefix + 'keyframes ' + (spec.name + '_' + spec.id) + '{' + inner + '}');
+    var rules = ['-webkit-', '-moz-', '-o-', ''].map(function (prefix) {
+      return '@' + prefix + 'keyframes ' + (spec.name + '_' + spec.id) + '{' + inner + '}';
+    });
+    rules.forEach(function (rule) {
+      return styleSheet.insert(rule);
     });
 
-    inserted[spec.id] = true;
+    inserted[spec.id] = isBrowser ? true : rules;
   }
 }
 css.keyframes = function (name, kfs) {
@@ -88689,8 +88736,9 @@ var keyframes = exports.keyframes = css.keyframes;
 
 function insertFontFace(spec) {
   if (!inserted[spec.id]) {
-    styleSheet.insert('@font-face{' + (0, _CSSPropertyOperations.createMarkupForStyles)(spec.font) + '}');
-    inserted[spec.id] = true;
+    var rule = '@font-face{' + (0, _CSSPropertyOperations.createMarkupForStyles)(spec.font) + '}';
+    styleSheet.insert(rule);
+    inserted[spec.id] = isBrowser ? true : [rule];
   }
 }
 
@@ -88970,7 +89018,7 @@ function cssFor() {
   rules = (0, _clean2.default)(rules);
   return rules ? rules.map(function (r) {
     var style = { label: [] };
-    build(style, { src: r }); // mutative! but worth it.   
+    build(style, { src: r }); // mutative! but worth it.
     return deconstructedStyleToCSS(hashify(style), deconstruct(style)).join('');
   }).join('') : '';
 }
@@ -97360,7 +97408,7 @@ var Services = function (_React$Component) {
           null,
           '\u0423\u0441\u043B\u0443\u0433\u0438 - \u041E\u0431\u0449\u0438\u0435 \u0441\u0432\u0435\u0434\u0435\u043D\u0438\u044F'
         ),
-        _react2.default.createElement(_navs2.default, { steps: steps, tabs: true, startAtStep: '2' })
+        _react2.default.createElement(_navs2.default, { steps: steps, tabs: true, startAtStep: '0' })
       );
     }
   }]);

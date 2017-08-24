@@ -1,4 +1,5 @@
 import React                from 'react';
+import PropTypes            from 'prop-types';
 import be5                  from '../../be5';
 import formService                from '../../services/forms';
 import PropertySet          from '../properties/propertySet';
@@ -173,15 +174,20 @@ export const HtmlResult = React.createClass({
   displayName: 'HtmlResult',
   
   propTypes: {
-    value: React.PropTypes.string.isRequired
+    value: PropTypes.shape({
+      attributes: PropTypes.string,
+      meta: PropTypes.shape({
+        _ts_: PropTypes.number.isRequired
+      })
+    }),
   },
-  
+
   render() {
     const back = () => { history.back(); };
-    
+
     return (
       <div>
-        <div dangerouslySetInnerHTML={{__html: this.props.value}}/>
+        <div dangerouslySetInnerHTML={{__html: this.props.value.attributes}}/>
       </div>
     );
 //    <div className="linkBack">

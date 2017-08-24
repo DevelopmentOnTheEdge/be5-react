@@ -32,7 +32,7 @@ class TableForm extends React.Component {
         attributes.parameters, attributes.onChange
       );
     }else{
-      changeDocument("form", { component: HtmlResult, value: "" });
+      changeDocument("form", { component: HtmlResult, value: {attributes: attributes.layout.textInFormDocument, meta:{_ts_: new Date().getTime()}} });
     }
 
   }
