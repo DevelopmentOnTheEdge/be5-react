@@ -30,13 +30,13 @@ class AddressesForm extends Form {
   }
 
   _showAddBuilding(){
-    be5.url.process("BootstrapModal", "#!loading");
-    be5.url.process("BootstrapModal", '#!form/buildings/All records/Insert/street=РОССИЙСКАЯ УЛ');
+    //be5.url.process("BootstrapModal", "#!loading"); todo open after load
+    be5.url.process("BootstrapModal", '#!form/buildings/All records/Insert/kladrStreetCode=' + this.state.data.attributes.bean.values.Street);
     this.refs.modal.open();
   }
 
   _showAddApartment(){
-    be5.url.process("BootstrapModal", "#!loading");
+    //be5.url.process("BootstrapModal", "#!loading");
     be5.url.process("BootstrapModal", "#!form/properties/All records/Insert");
     this.refs.modal.open();
   }

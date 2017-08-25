@@ -147,10 +147,14 @@ const Form = React.createClass({
   
   _allFieldsFilled() {
     const attributes = this.state.data.attributes;
-    return attributes.bean.order.every(field =>
-      attributes.bean.meta[field].hasOwnProperty('canBeNull') ||
-      JsonPointer.get(attributes.bean, "/values" + field) !== ''
-    );
+    return attributes.bean.order.every(field => {
+      let filled = attributes.bean.meta[field].hasOwnProperty('canBeNull') ||
+                        JsonPointer.get(attributes.bean, "/values" + field) != '';
+      if(be5.debug && !filled){
+        console.log(field);
+      }
+      return filled;
+    });
   },
 
   render() {

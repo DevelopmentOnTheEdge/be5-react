@@ -100,6 +100,8 @@ var messages = {
 //const remote = Settings.hasOwnProperty('baseUrl');
 
 const be5 = {
+  debug: true,
+
   def: {
     URL_PREFIX : '/api/',
     APPLICATION_PREFIX : '/',

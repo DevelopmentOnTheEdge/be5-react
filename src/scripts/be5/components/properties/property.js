@@ -115,7 +115,7 @@ class Property extends Component {
           if(meta.rawValue){
             return (<div dangerouslySetInnerHTML={{__html: value}} ></div>)
           }else{
-            return (<div className="form-group">{value}</div>)
+            return (<label className="form-control-label">{value}</label>)
           }
       },
     };
@@ -155,7 +155,7 @@ class Property extends Component {
       classNameForm,
       cssClasses,
       hasStatusClasses,
-      {'required' : !meta.canBeNull && !meta.readOnly},
+      {'required' : !meta.canBeNull},
       {'display-none' : meta.hidden}
     );
 
@@ -170,7 +170,7 @@ class Property extends Component {
       );
     }else if(meta.labelField){
        return (
-         <div className={classNames(meta.cssClasses || 'col-lg-12', hasStatusClasses)}>{valueControl}</div>
+         <div className={classNames('form-group property property-label', meta.cssClasses || 'col-lg-12', hasStatusClasses)}>{valueControl}</div>
        );
     }else{
       return (

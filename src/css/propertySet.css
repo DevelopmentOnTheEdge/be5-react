@@ -40,6 +40,10 @@
   margin-left: 2px;
 }
 
+.property-label .form-control-label {
+  margin: 0;
+}
+
 /*.form-group.required .form-control-label,
 .form-check.required .form-check-label{
   font-weight: bold;
