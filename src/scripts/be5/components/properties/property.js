@@ -65,8 +65,17 @@ class Property extends Component {
       select: () => {
         const options = this.optionsToArray(meta.tagList);
         // VirtualizedSelect css подправить (на длинных строках с переносами)
+        let strValue;
+        if(Array.isArray(value)){
+            strValue = [];
+            for (let i = 0; i < value.length; i++)strValue.push("" + value[i]);
+        }
+        else
+        {
+            strValue = "" + value;
+        }
         const selectProps = {
-          ref: id, name: id, value: value, options: options, onChange: handle,
+          ref: id, name: id, value: strValue, options: options, onChange: handle,
           clearAllText: this.props.localization.clearAllText,
           clearValueText: this.props.localization.clearValueText,
           noResultsText: this.props.localization.noResultsText,
