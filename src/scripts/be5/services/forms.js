@@ -44,8 +44,13 @@ export default {
         return;
       case 'operationResult':
         if(onChange)onChange();
-        bus.fire("alert", {msg: "Operation completed successfully.", type: 'success'});
         const attributes = json.data.attributes;
+
+        if(attributes.operationResult.status !== 'error')
+        {
+          bus.fire("alert", {msg: "Operation completed successfully.", type: 'success'});
+        }
+
         switch (attributes.status)
         {
           case 'redirect':
@@ -70,8 +75,15 @@ export default {
     }
   },
 
-  performForm(json, documentName){
+  performForm(json, documentName)
+  {
     //console.log(data, documentName);
+    let operationResult = json.data.attributes.operationResult;
+    if(operationResult.status === 'error')
+    {
+      bus.fire("alert", {msg: operationResult.message, type: 'error'});
+    }
+
     if(!json.data.attributes.layout){
       changeDocument(documentName, {
         component: Form, value: _.extend({}, json, {documentName: documentName})
