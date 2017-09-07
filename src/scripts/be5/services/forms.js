@@ -46,14 +46,16 @@ export default {
         if(onChange)onChange();
         const attributes = json.data.attributes;
 
-        if(attributes.operationResult.status !== 'error')
+        if(attributes.status === 'error')
         {
-          bus.fire("alert", {msg: "Operation completed successfully.", type: 'success'});
+          bus.fire("alert", {msg: attributes.message, type: 'error'});
+          return;
         }
 
         switch (attributes.status)
         {
           case 'redirect':
+            bus.fire("alert", {msg: "Operation completed successfully.", type: 'success'});
             if(documentName === be5.documentName)
             {
               be5.url.set(attributes.details);
@@ -79,6 +81,7 @@ export default {
   {
     //console.log(data, documentName);
     let operationResult = json.data.attributes.operationResult;
+
     if(operationResult.status === 'error')
     {
       bus.fire("alert", {msg: operationResult.message, type: 'error'});
