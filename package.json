@@ -5,7 +5,7 @@
   "main": "dist/lib/static/be5.js",
   "scripts": {
     "start": "ws -d dist/uncompressed",
-    "dev": "webpack-dev-server --progress --profile --colors",
+    "dev": "webpack-dev-server --host 127.0.0.1 --progress --profile --colors",
     "build": "webpack --config webpack.production.config.js --progress --profile --colors --env.build",
     "build-min": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.min",
     "test": "jest",
