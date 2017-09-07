@@ -116,6 +116,10 @@ class Property extends Component {
           return <input type="text" placeholder={meta.placeholder} id={id} key={id} value={value}
                     onChange={handle} className={this.props.controlClassName || "form-control"} disabled={meta.readOnly} />
       },
+      numberInput: () => {
+          return <input type="number" placeholder={meta.placeholder} id={id} key={id} value={value}
+                        onChange={handle} className={this.props.controlClassName || "form-control"} disabled={meta.readOnly} />
+      },
       passwordField: () => {
           return <input type="password" placeholder={meta.placeholder} id={id} key={id} value={value}
                        onChange={handle} className={this.props.controlClassName || "form-control"} disabled={meta.readOnly} />
@@ -144,7 +148,12 @@ class Property extends Component {
     }
     else
     {
-      valueControl = (controls[meta.type] || controls['textInput'])();
+      if(controls[meta.type] !== undefined){
+          valueControl = controls[meta.type]();
+      }else{
+          //if(meta.validationRules)
+          valueControl = (controls['textInput'])();
+      }
     }
 
     const label = <label htmlFor={id} className={this.props.labelClassName || 'form-control-label'}>{meta.displayName || id}</label>;
