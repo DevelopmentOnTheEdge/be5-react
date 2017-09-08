@@ -20,6 +20,7 @@ class Property extends Component {
 
   handleChange(event) {
     this.props.onChange(this.props.path, Property._getValueFromEvent(event));
+    console.log(this.props.path + ": " + Property._getValueFromEvent(event));
   }
 
   handleChangeMulti(event) {
@@ -35,11 +36,18 @@ class Property extends Component {
   }
 
   static _getValueFromEvent(event) {
+    // if(typeof event === "string"){
+    //   return event;
+    // }
     if(!event)
       return '';
-    if(event._d)
-    {
-      return Property.formatDate(event._d);
+    if(event.date){
+      console.log(event);
+      if(typeof event.date === "string"){
+        return event.date;
+      }else {
+        return Property.formatDate(event.date._d);
+      }
     }
     if(!event.target)
       return event.value;
@@ -157,7 +165,7 @@ class Property extends Component {
         return <Select {...selectProps} />
       },
       Date: () => {
-        return <Datetime dateFormat="DD.MM.YYYY" value={moment(value)} onChange={handle} id={id} key={id}
+        return <Datetime dateFormat="DD.MM.YYYY" value={moment(value)} onBlur={(value) => handle({date: value})} id={id} key={id}
                          timeFormat={false} closeOnSelect={true} closeOnTab={true} locale={props.localization.locale || "en"}
                          inputProps={ {disabled: meta.readOnly} } />
       },
