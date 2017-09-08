@@ -17,7 +17,7 @@ class Property extends Component {
   }
 
   handleChange(event) {
-    this.props.onChange(this.props.path, this._getValueFromEvent(event));
+    this.props.onChange(this.props.path, Property._getValueFromEvent(event));
   }
 
   handleChangeMulti(event) {
@@ -28,12 +28,12 @@ class Property extends Component {
     this.props.onChange(this.props.path, selectArray);
   }
 
-  _getValueFromEvent(event) {
+  static _getValueFromEvent(event) {
     if(!event)
       return '';
     if(event._d)
     {
-      return this.formatDate(event._d);
+      return Property.formatDate(event._d);
     }
     if(!event.target)
       return event.value;
@@ -41,8 +41,8 @@ class Property extends Component {
     return (element.type === 'checkbox') ? element.checked : element.value;
   }
 
-  getExtraAttrsMap(extraAttrs){
-    let map = {}
+  static getExtraAttrsMap(extraAttrs){
+    let map = {};
     if(extraAttrs === undefined)return map;
     for (let i=0 ;i< extraAttrs.length; i++){
       map[extraAttrs[i][0]] = extraAttrs[i][1];
@@ -52,109 +52,9 @@ class Property extends Component {
 
   render() {
     const meta  = this.props.meta;
-    const value = this.props.value;
     const id    = this.props.name + "Field";
-    const handle = meta.multipleSelectionList ? this.handleChangeMulti : this.handleChange;
-    const extraAttrsMap = this.getExtraAttrsMap(meta.extraAttrs);
 
-    const controls = {
-      Boolean: () => (
-        <input type="checkbox" id={id} key={id} value={value} checked={value} onChange={handle}
-                 className={this.props.controlClassName || 'form-check-input'} disabled={meta.readOnly} />
-      ),
-      select: () => {
-        const options = this.optionsToArray(meta.tagList);
-        // VirtualizedSelect css подправить (на длинных строках с переносами)
-        let strValue;
-        if(Array.isArray(value)){
-            strValue = [];
-            for (let i = 0; i < value.length; i++)strValue.push("" + value[i]);
-        }
-        else
-        {
-            strValue = "" + value;
-        }
-        const selectProps = {
-          ref: id, name: id, value: strValue, options: options, onChange: handle,
-          clearAllText: this.props.localization.clearAllText,
-          clearValueText: this.props.localization.clearValueText,
-          noResultsText: this.props.localization.noResultsText,
-          searchPromptText: this.props.localization.searchPromptText,
-          loadingPlaceholder: this.props.localization.loadingPlaceholder,
-          placeholder: meta.placeholder || this.props.localization.placeholder,
-          backspaceRemoves: false,
-          disabled: meta.readOnly,
-          multi: meta.multipleSelectionList,
-          matchPos: "start"
-        };
-
-        if(extraAttrsMap.inputType === "Creatable"){
-          return <Creatable {...selectProps} />
-        }
-
-        if(extraAttrsMap.inputType === "VirtualizedSelect"){
-          return <VirtualizedSelect {...selectProps} clearable searchable labelKey="label" valueKey="value" />
-        }
-        return <Select {...selectProps} />
-      },
-      Date: () => {
-          return <Datetime dateFormat="DD.MM.YYYY" value={moment(value)} onChange={handle} id={id} key={id}
-                           timeFormat={false} closeOnSelect={true} closeOnTab={true} locale={this.props.localization.locale || "en"}
-                           inputProps={ {disabled: meta.readOnly} } />
-      },
-//      dateTime: {
-//        normal: () => {
-//          return ( React.createElement(Datetime, {id: id, key: id, value: value, parent: _this, onChange: handleChange, time: true, className: this.props.controlClassName}) );
-//        },
-//        readOnly: () => this.createStatic(value)
-//      },
-      textArea: () => {
-          return <textarea placeholder={meta.placeholder} id={id}  rows={meta.rows || 3} cols={meta.columns} value={value}
-                    onChange={handle} className={this.props.controlClassName || "form-control"} disabled={meta.readOnly} />
-      },
-      textInput: () => {
-          return <input type="text" placeholder={meta.placeholder} id={id} key={id} value={value}
-                    onChange={handle} className={this.props.controlClassName || "form-control"} disabled={meta.readOnly} />
-      },
-      numberInput: () => {
-          return <input type="number" placeholder={meta.placeholder} id={id} key={id} value={value}
-                        onChange={handle} className={this.props.controlClassName || "form-control"} disabled={meta.readOnly} />
-      },
-      passwordField: () => {
-          return <input type="password" placeholder={meta.placeholder} id={id} key={id} value={value}
-                       onChange={handle} className={this.props.controlClassName || "form-control"} disabled={meta.readOnly} />
-      },
-      labelField: () => {
-          if(meta.rawValue){
-            return (<div dangerouslySetInnerHTML={{__html: value}} ></div>)
-          }else{
-            return (<label className="form-control-label">{value}</label>)
-          }
-      },
-    };
-
-    let valueControl;
-    if(meta.tagList)
-    {
-      valueControl = controls['select']();
-    }
-    else if(meta.passwordField)
-    {
-      valueControl = controls['passwordField']();
-    }
-    else if(meta.labelField)
-    {
-      valueControl = controls['labelField']();
-    }
-    else
-    {
-      if(controls[meta.type] !== undefined){
-          valueControl = controls[meta.type]();
-      }else{
-          //if(meta.validationRules)
-          valueControl = (controls['textInput'])();
-      }
-    }
+    let valueControl = Property.getControl(this.props, this.handleChange, this.handleChangeMulti);
 
     const label = <label htmlFor={id} className={this.props.labelClassName || 'form-control-label'}>{meta.displayName || id}</label>;
     const messageElement = meta.message ? <span className={this.props.messageClassName || "form-control-feedback"}>{meta.message}</span> : undefined;
@@ -203,7 +103,117 @@ class Property extends Component {
     }
   }
 
-  optionsToArray(options){
+  static getControl(props, handleChange, handleChangeMulti){
+    const meta  = props.meta;
+    const value = props.value;
+    const id    = props.name + "Field";
+    const handle = meta.multipleSelectionList ? handleChangeMulti : handleChange;
+    const extraAttrsMap = Property.getExtraAttrsMap(meta.extraAttrs);
+
+    const controls = {
+      Boolean: () => (
+        <input type="checkbox" id={id} key={id} value={value} checked={value} onChange={handle}
+               className={props.controlClassName || 'form-check-input'} disabled={meta.readOnly} />
+      ),
+      select: () => {
+        const options = Property.optionsToArray(meta.tagList);
+        // VirtualizedSelect css подправить (на длинных строках с переносами)
+        let strValue;
+        if(Array.isArray(value)){
+          strValue = [];
+          for (let i = 0; i < value.length; i++)strValue.push("" + value[i]);
+        }
+        else
+        {
+          strValue = "" + value;
+        }
+        const selectProps = {
+          ref: id, name: id, value: strValue, options: options, onChange: handle,
+          clearAllText: props.localization.clearAllText,
+          clearValueText: props.localization.clearValueText,
+          noResultsText: props.localization.noResultsText,
+          searchPromptText: props.localization.searchPromptText,
+          loadingPlaceholder: props.localization.loadingPlaceholder,
+          placeholder: meta.placeholder || props.localization.placeholder,
+          backspaceRemoves: false,
+          disabled: meta.readOnly,
+          multi: meta.multipleSelectionList,
+          matchPos: "start"
+        };
+
+        if(extraAttrsMap.inputType === "Creatable"){
+          return <Creatable {...selectProps} />
+        }
+
+        if(extraAttrsMap.inputType === "VirtualizedSelect"){
+          return <VirtualizedSelect {...selectProps} clearable searchable labelKey="label" valueKey="value" />
+        }
+        return <Select {...selectProps} />
+      },
+      Date: () => {
+        return <Datetime dateFormat="DD.MM.YYYY" value={moment(value)} onChange={handle} id={id} key={id}
+                         timeFormat={false} closeOnSelect={true} closeOnTab={true} locale={props.localization.locale || "en"}
+                         inputProps={ {disabled: meta.readOnly} } />
+      },
+//      dateTime: {
+//        normal: () => {
+//          return ( React.createElement(Datetime, {id: id, key: id, value: value, parent: _this, onChange: handleChange, time: true, className: props.controlClassName}) );
+//        },
+//        readOnly: () => this.createStatic(value)
+//      },
+      textArea: () => {
+        return <textarea placeholder={meta.placeholder} id={id}  rows={meta.rows || 3} cols={meta.columns} value={value}
+                         onChange={handle} className={props.controlClassName || "form-control"} disabled={meta.readOnly} />
+      },
+      textInput: () => {
+        return <input type="text" placeholder={meta.placeholder} id={id} key={id} value={value}
+                      onChange={handle} className={props.controlClassName || "form-control"} disabled={meta.readOnly} />
+      },
+      numberInput: () => {
+        return <input type="number" placeholder={meta.placeholder} id={id} key={id} value={value}
+                      onChange={handle} className={props.controlClassName || "form-control"} disabled={meta.readOnly} />
+      },
+      passwordField: () => {
+        return <input type="password" placeholder={meta.placeholder} id={id} key={id} value={value}
+                      onChange={handle} className={props.controlClassName || "form-control"} disabled={meta.readOnly} />
+      },
+      labelField: () => {
+        if(meta.rawValue)
+        {
+          return (<div dangerouslySetInnerHTML={{__html: value}} />)
+        }
+        else
+        {
+          return (<label className="form-control-label">{value}</label>)
+        }
+      },
+    };
+
+    if(meta.tagList)
+    {
+      return controls['select']();
+    }
+
+    if(meta.passwordField)
+    {
+      return  controls['passwordField']();
+    }
+
+    if(meta.labelField)
+    {
+      return  controls['labelField']();
+    }
+
+    //if(meta.validationRules)
+
+    if(controls[meta.type] !== undefined){
+      return controls[meta.type]();
+    }
+
+    return controls['textInput']();
+  }
+
+  static optionsToArray(options){
     let optionObject = [];
     for(let i =0 ;i < options.length; i++){
       optionObject.push({ value: options[i][0], label: options[i][1] });
@@ -216,14 +226,14 @@ class Property extends Component {
 //  }
 
   //ISO 8601 format
-  formatDate(date) {
+  static formatDate(date){
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
-    return year + '-' + this.format2digit(month) + '-' + this.format2digit(day);
+    return year + '-' + Property.format2digit(month) + '-' + Property.format2digit(day);
   }
 
-  format2digit(number){
+  static format2digit(number){
     return ("0" + number).slice(-2);
   }
 }
