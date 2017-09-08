@@ -85,7 +85,7 @@ export default {
     //console.log(data, documentName);
     let operationResult = json.data.attributes.operationResult;
 
-    if(operationResult.status === 'error')
+    if(operationResult.status === 'error' && (operationResult.details === undefined || operationResult.details === "message") )
     {
       bus.fire("alert", {msg: operationResult.message, type: 'error'});
     }

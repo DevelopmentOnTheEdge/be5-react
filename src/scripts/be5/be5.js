@@ -444,7 +444,6 @@ const be5 = {
                         : (errorThrown.message == undefined ? errorThrown
                             .toString()
                             : errorThrown.message));
-          console.error("fail: ", data);
           failure(data);
         }
       });

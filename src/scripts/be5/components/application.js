@@ -13,7 +13,10 @@ export default React.createClass({
     bus.listen('LoggedIn', this.refresh);
     bus.listen('LanguageChanged', this.refresh);
     bus.listen('RoleChanged', this.refresh);
-    bus.listen("alert", data => this.msg.show(data.msg, data) );
+    bus.listen("alert", data => {
+      this.msg.show(data.msg, data)
+      console.log(data);
+    } );
   },
 
   render: function() {
