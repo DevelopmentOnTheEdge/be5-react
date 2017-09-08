@@ -37,7 +37,7 @@ class AddressesForm extends Form {
 
   _showAddApartment(){
     //be5.url.process("BootstrapModal", "#!loading");
-    be5.url.process("BootstrapModal", "#!form/properties/All records/Insert");
+    be5.url.process("BootstrapModal", "#!form/properties/All%20records/Insert/buildingID=" + this.state.data.attributes.bean.values.buildingNo);
     this.refs.modal.open();
   }
 
@@ -67,7 +67,7 @@ class AddressesForm extends Form {
           <h1>{attributes.title}</h1>
           <form className="" onSubmit={this._applyOnSubmit}>
             <div className="row">
-              <Properties bean={attributes.bean} ids={[0,1,2,3,4,5,6]}
+              <Properties bean={attributes.bean} ids={[4,5,6]}
                           localization={be5.messages.property} onChange={this._onFieldChange} />
 
               <div className='property-group col-xs-12'>
@@ -79,7 +79,8 @@ class AddressesForm extends Form {
                       <div className="controls">
                         <PropertyInput path={"/buildingNo"} bean={attributes.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
                       </div>
-                      <button type="button" className="btn btn-primary btn-sm show-modal-btn" onClick={this._showAddBuilding}>Добавить здание</button>
+                      <button type="button" className="btn btn-primary btn-sm show-modal-btn" onClick={this._showAddBuilding}
+                         disabled={!this.state.data.attributes.bean.values.Street} >Добавить здание</button>
                     </div>
 
                     <div className="form-group property col-lg-2 required">
@@ -87,7 +88,8 @@ class AddressesForm extends Form {
                       <div className="controls">
                         <PropertyInput path={"/propertyID"} bean={attributes.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
                       </div>
-                      <button type="button" className="btn btn-primary btn-sm show-modal-btn" onClick={this._showAddApartment}>Добавить квартиру</button>
+                      <button type="button" className="btn btn-primary btn-sm show-modal-btn" onClick={this._showAddApartment}
+                        disabled={!this.state.data.attributes.bean.values.buildingNo}>Добавить квартиру</button>
                     </div>
                 </div></div>
               </div>
