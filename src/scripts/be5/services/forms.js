@@ -24,11 +24,12 @@ export default {
     be5.net.request('form', requestParams, data => {
       this.performOperationResult(data, documentName, onChange);
     }, (data)=> {
-      changeDocument(documentName, {
-        component: 'text',
-        error: true,
-        value: be5.messages.errorServerQueryException.replace('$message', data.value.code)
-      });
+      bus.fire("alert", {msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error'});
+      // changeDocument(documentName, {
+      //   component: 'text',
+      //   error: true,
+      //   value: be5.messages.errorServerQueryException.replace('$message', data.value.code)
+      // });
     });
 
   },
@@ -69,11 +70,13 @@ export default {
             changeDocument(documentName, { component: HtmlResult, value: json });
             return;
           default:
-            changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'status = ' + attributes.status) });
+            bus.fire("alert", {msg: be5.messages.errorUnknownAction.replace('$action', 'status = ' + attributes.status), type: 'error'});
+            //changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'status = ' + attributes.status) });
         }
         return;
       default:
-        changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + json.data.attributes.type) });
+        bus.fire("alert", {msg: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + json.data.attributes.type), type: 'error'});
+        //changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + json.data.attributes.type) });
     }
   },
 
