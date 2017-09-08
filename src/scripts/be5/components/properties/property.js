@@ -5,6 +5,7 @@ import Datetime             from 'react-datetime';
 import moment               from 'moment';
 import Select, { Creatable }from 'react-select';
 import VirtualizedSelect    from 'react-virtualized-select'
+import NumericInput from 'react-numeric-input';
 
 
 class Property extends Component {
@@ -14,6 +15,7 @@ class Property extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeMulti = this.handleChangeMulti.bind(this);
+    this.numericHandleChange = this.numericHandleChange.bind(this);
   }
 
   handleChange(event) {
@@ -26,6 +28,10 @@ class Property extends Component {
       selectArray.push(event[key].value);
     });
     this.props.onChange(this.props.path, selectArray);
+  }
+
+  numericHandleChange(valueAsNumber, valueAsString, input){
+    this.props.onChange(this.props.path, valueAsNumber);
   }
 
   static _getValueFromEvent(event) {
@@ -54,7 +60,7 @@ class Property extends Component {
     const meta  = this.props.meta;
     const id    = this.props.name + "Field";
 
-    let valueControl = Property.getControl(this.props, this.handleChange, this.handleChangeMulti);
+    let valueControl = Property.getControl(this.props, this.handleChange, this.handleChangeMulti, this.numericHandleChange);
 
     const label = <label htmlFor={id} className={this.props.labelClassName || 'form-control-label'}>{meta.displayName || id}</label>;
     const messageElement = meta.message ? <span className={this.props.messageClassName || "form-control-feedback"}>{meta.message}</span> : undefined;
@@ -103,7 +109,7 @@ class Property extends Component {
     }
   }
 
-  static getControl(props, handleChange, handleChangeMulti){
+  static getControl(props, handleChange, handleChangeMulti, numericHandleChange){
     const meta  = props.meta;
     const value = props.value;
     const id    = props.name + "Field";
@@ -170,8 +176,10 @@ class Property extends Component {
                       onChange={handle} className={props.controlClassName || "form-control"} disabled={meta.readOnly} />
       },
       numberInput: () => {
-        return <input type="number" placeholder={meta.placeholder} id={id} key={id} value={value}
-                      onChange={handle} className={props.controlClassName || "form-control"} disabled={meta.readOnly} />
+        const numericProps = Property.getNumericProps(meta);
+        return <NumericInput {...numericProps} placeholder={meta.placeholder} id={id} key={id} value={value}
+                      onChange={numericHandleChange}
+                      className={props.controlClassName || "form-control"} disabled={meta.readOnly} />
       },
       passwordField: () => {
         return <input type="password" placeholder={meta.placeholder} id={id} key={id} value={value}
@@ -204,13 +212,47 @@ class Property extends Component {
       return  controls['labelField']();
     }
 
-    //if(meta.validationRules)
+    if(meta.validationRules !== undefined && Property.isNumberInput(meta.validationRules))
+    {
+      return controls['numberInput']()
+    }
 
     if(controls[meta.type] !== undefined){
       return controls[meta.type]();
     }
 
     return controls['textInput']();
+  }
+
+  static getNumericProps(meta)
+  {
+    let props = {};
+    props['maxLength'] = 17;//errors if more
+    const rules = meta.validationRules;
+    for (let i =0 ; i< rules.length; i++)
+    {
+      if(rules[i].type === "baseRule" && (rules[i].attr === "number"))
+      {
+        props['precision'] = 10;
+      }
+      if(rules[i].type === "baseRule" && (rules[i].attr === "integer"))
+      {
+        props['min'] = -2147483648;
+        props['max'] = 2147483647;
+        props['maxLength'] = 10;
+      }
+    }
+    return props;
+  }
+
+  static isNumberInput(rules)
+  {
+    for (let i =0 ; i< rules.length; i++)
+    {
+      if(rules[i].type === "baseRule" &&
+        ( rules[i].attr === "digits" || rules[i].attr === "integer" || rules[i].attr === "number" ))return true;
+    }
+    return false;
   }
 
   static optionsToArray(options){
