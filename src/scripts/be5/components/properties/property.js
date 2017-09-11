@@ -20,7 +20,6 @@ class Property extends Component {
 
   handleChange(event) {
     this.props.onChange(this.props.path, Property._getValueFromEvent(event));
-    console.log(this.props.path + ": " + Property._getValueFromEvent(event));
   }
 
   handleChangeMulti(event) {
@@ -36,18 +35,12 @@ class Property extends Component {
   }
 
   static _getValueFromEvent(event) {
-    // if(typeof event === "string"){
-    //   return event;
-    // }
     if(!event)
       return '';
-    if(event.date){
-      console.log(event);
-      if(typeof event.date === "string"){
-        return event.date;
-      }else {
-        return Property.formatDate(event.date._d);
-      }
+    if(event._d)
+    {
+      console.log(Property.formatDate(event._d));
+      return Property.formatDate(event._d);
     }
     if(!event.target)
       return event.value;
@@ -79,8 +72,8 @@ class Property extends Component {
       {'has-success' : meta.status === 'success'},
     );
     const classNameForm = (meta.type === "Boolean")
-          ? this.props.classNameFormCheck || 'form-check property'
-          : this.props.classNameFormGroup || 'form-group property';
+      ? this.props.classNameFormCheck || 'form-check property'
+      : this.props.classNameFormGroup || 'form-group property';
     const cssClasses = meta.cssClasses || 'col-lg-12';
 
     const classes = classNames(
@@ -101,9 +94,9 @@ class Property extends Component {
         </div>
       );
     }else if(meta.labelField){
-       return (
-         <div className={classNames('form-group property property-label', meta.cssClasses || 'col-lg-12', hasStatusClasses)}>{valueControl}</div>
-       );
+      return (
+        <div className={classNames('form-group property property-label', meta.cssClasses || 'col-lg-12', hasStatusClasses)}>{valueControl}</div>
+      );
     }else{
       return (
         <div className={classes}>
@@ -165,7 +158,7 @@ class Property extends Component {
         return <Select {...selectProps} />
       },
       Date: () => {
-        return <Datetime dateFormat="DD.MM.YYYY" value={moment(value)} onBlur={(value) => handle({date: value})} id={id} key={id}
+        return <Datetime dateFormat="DD.MM.YYYY" value={moment(value)} onChange={handle} id={id} key={id}
                          timeFormat={false} closeOnSelect={true} closeOnTab={true} locale={props.localization.locale || "en"}
                          inputProps={ {disabled: meta.readOnly} } />
       },
@@ -186,8 +179,8 @@ class Property extends Component {
       numberInput: () => {
         const numericProps = Property.getNumericProps(meta);
         return <NumericInput {...numericProps} placeholder={meta.placeholder} id={id} key={id} value={value}
-                      onChange={numericHandleChange}
-                      className={props.controlClassName || "form-control"} disabled={meta.readOnly} />
+                             onChange={numericHandleChange}
+                             className={props.controlClassName || "form-control"} disabled={meta.readOnly} />
       },
       passwordField: () => {
         return <input type="password" placeholder={meta.placeholder} id={id} key={id} value={value}
