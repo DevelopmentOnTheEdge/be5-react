@@ -61,6 +61,24 @@ class Property extends Component {
     }
   }
 
+  //todo error date status
+  // onDateChange(date){
+  //   //console.log(date);
+  //   if(typeof date === "string"){
+  //     if(date.match('(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d')){
+  //       //console.log("str 10: " + date);
+  //       this.handleChange(date);
+  //       this.setState({status: 'none'});
+  //     }else{
+  //       this.handleChange(date);
+  //       this.setState({status: 'error'});
+  //     }
+  //   }else{
+  //     this.handleChange(date);
+  //     this.setState({status: 'none'});
+  //   }
+  // }
+
   static getExtraAttrsMap(extraAttrs){
     let map = {};
     if(extraAttrs === undefined)return map;
@@ -84,6 +102,9 @@ class Property extends Component {
       {'has-warning' : meta.status === 'warning'},
       {'has-success' : meta.status === 'success'},
     );
+    if(this.state && this.state.status === 'error'){
+      hasStatusClasses = 'has-danger';
+    }
     const classNameForm = (meta.type === "Boolean")
       ? this.props.classNameFormCheck || 'form-check property'
       : this.props.classNameFormGroup || 'form-group property';
