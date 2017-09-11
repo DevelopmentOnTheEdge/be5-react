@@ -13,6 +13,7 @@ class Property extends Component {
   constructor(props) {
     super(props);
 
+    this.onDateChange = this.onDateChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeMulti = this.handleChangeMulti.bind(this);
     this.numericHandleChange = this.numericHandleChange.bind(this);
@@ -48,6 +49,18 @@ class Property extends Component {
     return (element.type === 'checkbox') ? element.checked : element.value;
   }
 
+  onDateChange(date){
+    //console.log(date);
+    if(typeof date === "string"){
+      if(date.match('(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d')){
+        //console.log("str 10: " + date);
+        this.handleChange(date);
+      }
+    }else{
+      this.handleChange(date)
+    }
+  }
+
   static getExtraAttrsMap(extraAttrs){
     let map = {};
     if(extraAttrs === undefined)return map;
@@ -61,12 +74,12 @@ class Property extends Component {
     const meta  = this.props.meta;
     const id    = this.props.name + "Field";
 
-    let valueControl = Property.getControl(this.props, this.handleChange, this.handleChangeMulti, this.numericHandleChange);
+    let valueControl = Property.getControl(this.props, this.handleChange, this.handleChangeMulti, this.numericHandleChange, this.onDateChange);
 
     const label = <label htmlFor={id} className={this.props.labelClassName || 'form-control-label'}>{meta.displayName || id}</label>;
     const messageElement = meta.message ? <span className={this.props.messageClassName || "form-control-feedback"}>{meta.message}</span> : undefined;
 
-    const hasStatusClasses = classNames(
+    let hasStatusClasses = classNames(
       {'has-danger' : meta.status === 'error'},
       {'has-warning' : meta.status === 'warning'},
       {'has-success' : meta.status === 'success'},
@@ -110,7 +123,7 @@ class Property extends Component {
     }
   }
 
-  static getControl(props, handleChange, handleChangeMulti, numericHandleChange){
+  static getControl(props, handleChange, handleChangeMulti, numericHandleChange, onDateChange){
     const meta  = props.meta;
     const value = props.value;
     const id    = props.name + "Field";
@@ -158,7 +171,8 @@ class Property extends Component {
         return <Select {...selectProps} />
       },
       Date: () => {
-        return <Datetime dateFormat="DD.MM.YYYY" value={moment(value)} onChange={handle} id={id} key={id}
+        return <Datetime dateFormat="DD.MM.YYYY" value={moment(value)}
+                         onChange={(v) => onDateChange(v)} id={id} key={id}
                          timeFormat={false} closeOnSelect={true} closeOnTab={true} locale={props.localization.locale || "en"}
                          inputProps={ {disabled: meta.readOnly} } />
       },
