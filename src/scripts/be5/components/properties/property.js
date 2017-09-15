@@ -153,7 +153,7 @@ class Property extends Component {
 
     const controls = {
       Boolean: () => (
-        <input type="checkbox" id={id} key={id} value={value} checked={value} onChange={handle}
+        <input type="checkbox" id={id} key={id} checked={value === true || value === "true"} onChange={handle}
                className={props.controlClassName || 'form-check-input'} disabled={meta.readOnly} />
       ),
       select: () => {
