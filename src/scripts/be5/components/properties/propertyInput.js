@@ -33,7 +33,13 @@ class PropertyInput extends Component {
   }
 
   handleChange(event) {
-    this.props.onChange(this.props.path, this._getValueFromEvent(event));
+    let path;
+    if(this.props.path){
+      path = this.props.path;
+    }else{
+      path = this.props.bean.order[this.props.id];
+    }
+    this.props.onChange(path, this._getValueFromEvent(event));
   }
 
   handleChangeMulti(event) {

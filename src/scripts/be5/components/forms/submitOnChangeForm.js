@@ -20,19 +20,20 @@ class SubmitOnChangeForm extends Form
     super(props);
     this.state = Object.assign({}, this.props.value, { allFieldsFilled: false });
 
-
-    // this._showAddBuilding = this._showAddBuilding.bind(this);
-    // this._showAddApartment = this._showAddApartment.bind(this);
-    // this._closeModal = this._closeModal.bind(this);
-    // this._confirm = this._confirm.bind(this);
+    this._onFieldChangeAndSubmit = this._onFieldChangeAndSubmit.bind(this);
   }
 
+  _onFieldChangeAndSubmit(name, value) {
+    super._onFieldChange(name, value);
+    console.log("test");
+    super.apply();
+  }
 
   render() {
     const attributes = this.state.data.attributes;
     return (
         <div className={'submit-onchange-form' + (attributes.cssClass)}>
-          <PropertyInput id={0} bean={attributes.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
+          <PropertyInput id={0} bean={attributes.bean} localization={be5.messages.property} onChange={this._onFieldChangeAndSubmit} />
         </div>
     );
   }
