@@ -83,7 +83,16 @@ class PropertyInput extends Component {
       select: () => {
         const options = this.optionsToArray(meta.tagList);
         //if(options.length > 100){
-          return <VirtualizedSelect ref={id} name={id} value={value} options={options}
+        let strValue;
+        if(Array.isArray(value)){
+          strValue = [];
+          for (let i = 0; i < value.length; i++)strValue.push("" + value[i]);
+        }
+        else
+        {
+          strValue = "" + value;
+        }
+          return <VirtualizedSelect ref={id} name={id} value={strValue} options={options}
                           disabled={meta.readOnly} onChange={handle}
                           multi={meta.multipleSelectionList} matchPos="start"
                           clearable
