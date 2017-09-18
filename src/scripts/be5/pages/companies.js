@@ -5,7 +5,12 @@ import Document             from '../components/document';
 import Navs             from '../components/navs';
 import changeDocument from '../core/changeDocument';
 
-class Companies extends React.Component {
+
+class Companies extends React.Component
+{
+  constructor(props) {
+    super(props);
+  }
 
   render() {
     const steps = [

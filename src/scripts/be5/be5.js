@@ -53,7 +53,9 @@ var messages = {
       searchPromptText: 'Type to search',
       placeholder: 'Select ...',
       loadingPlaceholder: 'Loading...'
-    }
+    },
+
+    formTypeNotFound: 'Form type not found: ',
   },
   
   ru: {
@@ -93,7 +95,9 @@ var messages = {
       searchPromptText: 'Начните вводить для поиска',
       placeholder: 'Выберите...',
       loadingPlaceholder: 'Загрузка...'
-    }
+    },
+
+    formTypeNotFound: 'Тип формы не найден: ',
   }
 };
 

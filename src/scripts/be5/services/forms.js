@@ -103,7 +103,14 @@ export default {
         });
         return;
       default:
-        console.error("Not found form type: " + json.data.attributes.layout.type);
+        const form = formsCollections.getForm(json.data.attributes.layout.type);
+        if(form === undefined){
+          bus.fire("alert", {msg: be5.messages.formTypeNotFound + json.data.attributes.layout.type, type: 'error'});
+        }else{
+          changeDocument(documentName, {
+            component: form, value: _.extend({}, json, {documentName: documentName})
+          });
+        }
     }
   }
 

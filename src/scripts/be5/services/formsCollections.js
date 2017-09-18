@@ -1,10 +1,10 @@
 import AddressesForm from '../components/forms/addressesForm.js'
+import SubmitOnChangeForm from '../components/forms/submitOnChangeForm.js'
 
-
-// todo move to Redux
 const formsCollections = {
   types: {
     addresses: AddressesForm,
+    submitOnChange: SubmitOnChangeForm,
   },
 
   getForm(actionName) {
