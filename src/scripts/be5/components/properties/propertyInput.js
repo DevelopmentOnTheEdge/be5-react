@@ -58,7 +58,12 @@ class PropertyInput extends Component {
   }
 
   render() {
-    const attr = PropertyInput.get(this.props.path, this.props.bean, this.props.localization);
+    let attr;
+    if(this.props.path){
+      attr = PropertyInput.get(this.props.path, this.props.bean, this.props.localization)
+    }else{
+      attr = PropertyInput.get(this.props.bean.order[this.props.id], this.props.bean, this.props.localization)
+    }
     const meta  = attr.meta;
     const value = attr.value;
     const id    = attr.name + "Field";
@@ -194,7 +199,11 @@ PropertyInput.defaultProps = {
 };
 
 PropertyInput.propTypes = {
-  localization: PropTypes.object
+  bean: PropTypes.object.isRequired,
+  path: PropTypes.string,
+  id: PropTypes.number,
+  onChange: PropTypes.func,
+  localization: PropTypes.object,
 };
 
 export default PropertyInput;

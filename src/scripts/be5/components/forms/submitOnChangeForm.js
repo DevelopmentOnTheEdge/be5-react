@@ -13,6 +13,7 @@ import PropertyInput        from '../../components/properties/propertyInput';
 import JsonPointer          from 'json-pointer';
 import _                    from 'underscore';
 
+
 class SubmitOnChangeForm extends Form
 {
   constructor(props) {
@@ -27,7 +28,14 @@ class SubmitOnChangeForm extends Form
   }
 
 
-
+  render() {
+    const attributes = this.state.data.attributes;
+    return (
+        <div className={'submit-onchange-form' + (attributes.cssClass)}>
+          <PropertyInput id={0} bean={attributes.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
+        </div>
+    );
+  }
 
 }
 
