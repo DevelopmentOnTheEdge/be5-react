@@ -10,6 +10,16 @@ class Companies extends React.Component
 {
   constructor(props) {
     super(props);
+
+    this.refresh = this.refresh.bind(this);
+  }
+
+  componentDidMount(){
+    be5.url.process("formSelectCompany", "#!form/companies/Selection view SelectCompany/SelectCompany");
+  }
+
+  refresh() {
+    this.refs.navs.refresh();
   }
 
   render() {
@@ -21,8 +31,14 @@ class Companies extends React.Component
 
     return (
       <div>
-        <h1>Организация</h1>
-        <Navs steps={steps} tabs startAtStep="0"/>
+        <div className="float-right">
+          <span>Выбор компании</span>
+          <Document documentName={"formSelectCompany"} onChange={()=>{
+            this.refresh()
+          }} />
+        </div>
+        <h1 style={{marginBottom: 9 + 'px'}}>Организация</h1>
+        <Navs ref="navs" steps={steps} tabs startAtStep="0"/>
       </div>
     );
   }

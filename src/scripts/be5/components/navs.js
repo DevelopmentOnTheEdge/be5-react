@@ -15,10 +15,15 @@ class Navs extends React.Component {
       compState: this.props.startAtStep
     };
 
+    this.refresh = this.refresh.bind(this);
   }
 
   componentDidMount(){
-    be5.url.process(this.props.documentName, this.props.steps[this.props.startAtStep].url);
+    this.refresh();
+  }
+
+  refresh() {
+    be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
   }
   
   setNavState(id) {
