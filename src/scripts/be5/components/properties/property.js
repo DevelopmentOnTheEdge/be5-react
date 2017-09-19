@@ -146,7 +146,7 @@ class Property extends Component {
 
   static getControl(props, handleChange, handleChangeMulti, numericHandleChange, onDateChange){
     const meta  = props.meta;
-    const value = props.value;
+    const value = props.value || props.meta.defaultValue;
     const id    = props.name + "Field";
     const handle = meta.multipleSelectionList ? handleChangeMulti : handleChange;
     const extraAttrsMap = Property.getExtraAttrsMap(meta.extraAttrs);

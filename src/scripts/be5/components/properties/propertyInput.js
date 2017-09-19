@@ -71,7 +71,7 @@ class PropertyInput extends Component {
       attr = PropertyInput.get(this.props.bean.order[this.props.id], this.props.bean, this.props.localization)
     }
     const meta  = attr.meta;
-    const value = attr.value;
+    const value = attr.value || attr.meta.defaultValue;
     const id    = attr.name + "Field";
     const handle = meta.multipleSelectionList ? this.handleChangeMulti : this.handleChange;
 
