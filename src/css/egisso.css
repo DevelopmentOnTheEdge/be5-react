@@ -1,0 +1,20 @@
+#document-content___formSelectCompany {
+    display: inline-block;
+    margin: 0;
+    width: 350px;
+}
+
+.selectCompany__label {
+    line-height: 32px;
+    height: 32px;
+    display: block;
+    float: left;
+    padding: 0 8px;
+    color: #fff;
+}
+
+.selectCompany {
+    background: #5bc0de;
+    border-radius: 5px;
+    height: 32px;
+}

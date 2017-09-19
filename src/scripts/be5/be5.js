@@ -373,7 +373,7 @@ const be5 = {
       var getUrl = window.location;
       var baseUrl = getUrl.protocol + "//" + getUrl.host;
       if(getUrl.pathname.split('/')[1] !== "")  baseUrl += "/" + getUrl.pathname.split('/')[1]
-      console.log(baseUrl);
+
       $.ajax({
         url : baseUrl + url,
         dataType : type,

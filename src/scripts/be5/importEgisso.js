@@ -5,3 +5,5 @@ import servicesPage from './pages/services';
 
 import addressesTable from './components/tables/addressesTable';
 import addressesForm from './components/forms/addressesForm';
+
+import '../../css/egisso.css';

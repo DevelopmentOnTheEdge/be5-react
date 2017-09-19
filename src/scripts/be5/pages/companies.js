@@ -31,8 +31,8 @@ class Companies extends React.Component
 
     return (
       <div>
-        <div className="float-right">
-          <span>Выбор компании</span>
+        <div className="float-right selectCompany">
+          <span className="selectCompany__label">Выбор компании</span>
           <Document documentName={"formSelectCompany"} onChange={()=>{
             this.refresh()
           }} />
