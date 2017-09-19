@@ -28,10 +28,11 @@ class Companies extends React.Component
       {title: 'Документ-основание', url: '#!table/contractor/All records'},
     ];
 
+    //move selectCompany to Адреса и Документ-основание?
     return (
       <div>
         <div className="float-right selectCompany">
-          <span className="selectCompany__label">Выбор компании</span>
+          <span className="selectCompany__label">Выбор организации</span>
           <Document documentName={"formSelectCompany"} onChange={()=>{
             this.refresh()
           }} />
