@@ -16,6 +16,7 @@ class Document extends Component {
     bus.replaceListeners(this.props.documentName, data => {
       if(this.state.value.meta === undefined || data.value.meta === undefined ||
          data.value.meta._ts_ > this.state.value.meta._ts_){
+        //console.log("Document "+this.props.documentName+" this.setState(data)");
         this.setState(data);
       }
       // if(!data.loading)this.setState({ loading: false });

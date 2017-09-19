@@ -3,8 +3,9 @@ import documentUtils       from '../core/documentUtils';
 import changeDocument      from '../core/changeDocument';
 import _                   from 'underscore';
 import Preconditions       from '../preconditions';
-import Table               from '../components/tables/table';
+import StaticPage          from '../components/staticPage';
 import TablesCollections   from '../services/tablesCollections';
+
 
 const createDefaultOptions = function() {
   return {};
@@ -48,7 +49,8 @@ export default {
     const tableComponent = TablesCollections.getTable(tableComponentName);
 
     if(tableComponent === undefined){
-      changeDocument(documentName, { component: 'text', value: be5.messages.tableComponentNotFound + tableComponentName });
+      changeDocument(documentName, { component: StaticPage,
+        value: StaticPage.createValue(be5.messages.formComponentNotFound + formComponentName, '')});
     }else{
       changeDocument(documentName, { component: tableComponent, value: json });
     }

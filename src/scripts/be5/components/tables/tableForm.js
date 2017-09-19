@@ -3,19 +3,22 @@ import PropTypes      from 'prop-types';
 import be5            from '../../be5';
 import Document       from '../document';
 import Table          from './table';
-import Tables          from '../../services/tables';
+import Tables         from '../../services/tables';
 import changeDocument from '../../core/changeDocument';
-import formAction      from '../../actions/form';
+import formAction     from '../../actions/form';
 import {HtmlResult}   from '../../components/forms/form';
+import StaticPage     from '../../components/staticPage';
 
-class TableForm extends React.Component {
 
+class TableForm extends React.Component
+{
   constructor(){
     super();
     this.onChange = this.onChange.bind(this);
   }
 
   componentDidUpdate(){
+    console.log("componentDidUpdate");
     this.updateDocuments();
   }
 
@@ -28,17 +31,14 @@ class TableForm extends React.Component {
     changeDocument("table", { component: Table, value: this.props.value });
     if(attributes.layout.defaultOperation !== undefined){
       console.log("attributes.layout.defaultOperation: " + attributes.layout.defaultOperation);
+      changeDocument("form", { component: StaticPage, value: StaticPage.createValue('', '')});
       formAction("form",
         attributes.category, attributes.page, attributes.layout.defaultOperation,
         attributes.parameters, attributes.onChange
       );
     }else{
       console.log("!attributes.layout.defaultOperation");
-      //todo refactoring staticPage to new json api and use it
-      changeDocument("form", { component: HtmlResult, value: {
-        data: {attributes: {status: 'finished', message: attributes.layout.textInFormDocument}},
-        meta:{_ts_: new Date().getTime()}
-      } });
+      changeDocument("form", { component: StaticPage, value: StaticPage.createValue('', attributes.layout.textInFormDocument)});
     }
 
   }

@@ -193,7 +193,7 @@ export const HtmlResult = React.createClass({
     const attributes = this.props.value.data.attributes;
 
     let message = attributes.message;
-    if(attributes.status == 'finished' && attributes.message === undefined){
+    if(attributes.status === 'finished' && attributes.message === undefined){
         message = be5.messages.successfullyCompleted;
     }
 

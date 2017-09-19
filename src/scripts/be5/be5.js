@@ -311,7 +311,7 @@ const be5 = {
       const action = be5.getAction(actionName);
 
       if(action !== undefined){
-        console.log("loading: true - " + documentName);
+        //console.log("loading: true - " + documentName);
         //changeDocument(documentName, { loading: true });
         action.apply(be5, positional);
       }else{

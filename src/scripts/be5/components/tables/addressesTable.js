@@ -11,7 +11,7 @@ class AddressesTable extends TableForm
       <div>
         <Document documentName={"table"} operationDocumentName={"form"} onChange={this.onChange}/>
         <div className="row"><div className="col-xs-12 max-width-970">
-          <button className="btn btn-info pull-right float-right" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+          <button className="btn btn-sm btn-info pull-right float-right" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
               Справка
           </button>
           <h1>&nbsp;</h1>

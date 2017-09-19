@@ -4,7 +4,9 @@ import Preconditions    from '../preconditions';
 import _                from 'underscore';
 import changeDocument   from '../core/changeDocument';
 import HtmlResult       from '../components/forms/form';
+import StaticPage       from '../components/staticPage';
 import FormsCollections from './formsCollections.js';
+
 
 export default {
   load(params, documentName, onChange) {
@@ -82,7 +84,6 @@ export default {
 
   performForm(json, documentName)
   {
-    //console.log(data, documentName);
     let operationResult = json.data.attributes.operationResult;
 
     if(operationResult.status === 'error' && (operationResult.details === undefined || operationResult.details === "message") )
@@ -94,7 +95,8 @@ export default {
     const formComponent = FormsCollections.getForm(formComponentName);
 
     if(formComponent === undefined){
-      changeDocument(documentName, { component: 'text', value: be5.messages.formComponentNotFound + formComponentName });
+      changeDocument(documentName, { component: StaticPage,
+        value: StaticPage.createValue(be5.messages.formComponentNotFound + formComponentName, '')});
     }else{
       changeDocument(documentName, { component: formComponent, value: _.extend({}, json, {documentName: documentName}) });
     }
