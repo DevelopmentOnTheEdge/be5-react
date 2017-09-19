@@ -50,7 +50,7 @@ export default {
 
     if(tableComponent === undefined){
       changeDocument(documentName, { component: StaticPage,
-        value: StaticPage.createValue(be5.messages.formComponentNotFound + formComponentName, '')});
+        value: StaticPage.createValue(be5.messages.tableComponentNotFound + tableComponentName, '')});
     }else{
       changeDocument(documentName, { component: tableComponent, value: json });
     }

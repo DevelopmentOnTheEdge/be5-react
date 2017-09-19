@@ -15,7 +15,6 @@ class SubmitOnChangeForm extends Form
 
   _onFieldChangeAndSubmit(name, value) {
     super._onFieldChange(name, value);
-    console.log("test");
     super.apply();
   }
 

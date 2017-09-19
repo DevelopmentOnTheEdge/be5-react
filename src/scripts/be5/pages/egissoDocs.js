@@ -1,7 +1,5 @@
 import React          from 'react';
-import PropTypes from 'prop-types';
 import be5                  from '../be5';
-import Document             from '../components/document';
 import changeDocument from '../core/changeDocument';
 import Navs             from '../components/navs';
 

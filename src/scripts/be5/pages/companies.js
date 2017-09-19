@@ -1,5 +1,4 @@
 import React          from 'react';
-import PropTypes from 'prop-types';
 import be5                  from '../be5';
 import Document             from '../components/document';
 import Navs             from '../components/navs';
@@ -37,8 +36,8 @@ class Companies extends React.Component
             this.refresh()
           }} />
         </div>
-        <h1 style={{marginBottom: 9 + 'px'}}>Организация</h1>
-        <Navs ref="navs" steps={steps} tabs startAtStep="0"/>
+        <h1 style={{marginBottom: 13 + 'px'}}>Организация</h1>
+        <Navs ref="navs" steps={steps} tabs startAtStep={0} />
       </div>
     );
   }

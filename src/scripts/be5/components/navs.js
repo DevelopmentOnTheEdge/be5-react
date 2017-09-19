@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes            from 'prop-types';
-import classNames           from 'classnames';
 import be5                  from '../be5';
 import Document             from './document';
 import { Nav, NavItem, NavLink } from 'reactstrap';
@@ -34,7 +33,7 @@ class Navs extends React.Component {
   renderSteps(){
     return this.props.steps.map((s, i)=> (
         <NavItem key={"NavItem"+i}>
-          <NavLink href="#" active={i == this.state.compState} onClick={() => this.setNavState(i)}
+          <NavLink href="#" active={i === this.state.compState} onClick={() => this.setNavState(i)}
                    key={"NavLink"+i} >{this.props.steps[i].title}</NavLink>
         </NavItem>
     ));
@@ -47,7 +46,7 @@ class Navs extends React.Component {
       vertical: this.props.vertical,
       navbar: this.props.navbar,
       tag: this.props.tag
-    }
+    };
 
     return (
       <div className="navs-component">
@@ -64,7 +63,7 @@ class Navs extends React.Component {
 }
 
 Navs.defaultProps = {
-  startAtStep: '0',
+  startAtStep: 0,
   documentName: "navs",
 };
 
@@ -79,7 +78,7 @@ Navs.propTypes = {
     title: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired
   })).isRequired,
-  startAtStep: PropTypes.string,
+  startAtStep: PropTypes.number,
   documentName: PropTypes.string
 };
 

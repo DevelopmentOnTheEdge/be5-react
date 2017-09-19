@@ -18,7 +18,7 @@ class TableForm extends React.Component
   }
 
   componentDidUpdate(){
-    console.log("componentDidUpdate");
+    //console.log("TableForm componentDidUpdate");
     this.updateDocuments();
   }
 
