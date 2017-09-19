@@ -1,20 +1,15 @@
 import React                from 'react';
-import PropTypes            from 'prop-types';
 import be5                  from '../../be5';
 import Document             from '../../components/document';
-import changeDocument       from '../../core/changeDocument';
 import BootstrapModal       from '../bootstrapModal';
 import Form                 from './form.js';
-import formsCollections     from '../../services/formsCollections.js';
-import Forms                from '../../services/forms';
-import PropertySet          from '../../components/properties/propertySet';
+import FormsCollections     from '../../services/formsCollections';
 import Properties           from '../../components/properties/properties';
 import PropertyInput        from '../../components/properties/propertyInput';
-import JsonPointer          from 'json-pointer';
-import _                    from 'underscore';
 
-class AddressesForm extends Form {
 
+class AddressesForm extends Form
+{
   constructor(props) {
     super(props);
 
@@ -105,4 +100,4 @@ class AddressesForm extends Form {
 
 }
 
-export default AddressesForm;
+FormsCollections.registerForm("addressesForm", AddressesForm);

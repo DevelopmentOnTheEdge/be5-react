@@ -1,9 +1,10 @@
-import AddressesForm from '../components/forms/addressesForm.js'
-import SubmitOnChangeForm from '../components/forms/submitOnChangeForm.js'
+import SubmitOnChangeForm from '../components/forms/submitOnChangeForm';
+import Form               from '../components/forms/form';
+
 
 const formsCollections = {
   types: {
-    addresses: AddressesForm,
+    form: Form,
     submitOnChange: SubmitOnChangeForm,
   },
 

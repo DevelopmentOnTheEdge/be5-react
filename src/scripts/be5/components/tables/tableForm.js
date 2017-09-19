@@ -27,11 +27,13 @@ class TableForm extends React.Component {
     const attributes = this.props.value.data.attributes;
     changeDocument("table", { component: Table, value: this.props.value });
     if(attributes.layout.defaultOperation !== undefined){
+      console.log("attributes.layout.defaultOperation: " + attributes.layout.defaultOperation);
       formAction("form",
         attributes.category, attributes.page, attributes.layout.defaultOperation,
         attributes.parameters, attributes.onChange
       );
     }else{
+      console.log("!attributes.layout.defaultOperation");
       //todo refactoring staticPage to new json api and use it
       changeDocument("form", { component: HtmlResult, value: {
         data: {attributes: {status: 'finished', message: attributes.layout.textInFormDocument}},

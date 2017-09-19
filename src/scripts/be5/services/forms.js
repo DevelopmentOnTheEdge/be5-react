@@ -1,10 +1,10 @@
-import be5            from '../be5';
-import bus from '../core/bus';
-import Preconditions  from '../preconditions';
-import _              from 'underscore';
-import changeDocument from '../core/changeDocument';
-import Form,{HtmlResult}          from '../components/forms/form';
-import formsCollections from './formsCollections.js';
+import be5              from '../be5';
+import bus              from '../core/bus';
+import Preconditions    from '../preconditions';
+import _                from 'underscore';
+import changeDocument   from '../core/changeDocument';
+import HtmlResult       from '../components/forms/form';
+import FormsCollections from './formsCollections.js';
 
 export default {
   load(params, documentName, onChange) {
@@ -90,27 +90,13 @@ export default {
       bus.fire("alert", {msg: operationResult.message, type: 'error'});
     }
 
-    if(!json.data.attributes.layout){
-      changeDocument(documentName, {
-        component: Form, value: _.extend({}, json, {documentName: documentName})
-      });
-      return;
-    }
-    switch (json.data.attributes.layout.type) {
-      case 'custom':
-        changeDocument(documentName, {
-          component: formsCollections.getForm(json.data.attributes.layout.name), value: _.extend({}, json, {documentName: documentName})
-        });
-        return;
-      default:
-        const form = formsCollections.getForm(json.data.attributes.layout.type);
-        if(form === undefined){
-          bus.fire("alert", {msg: be5.messages.formTypeNotFound + json.data.attributes.layout.type, type: 'error'});
-        }else{
-          changeDocument(documentName, {
-            component: form, value: _.extend({}, json, {documentName: documentName})
-          });
-        }
+    const formComponentName = json.data.attributes.layout.type || 'form';
+    const formComponent = FormsCollections.getForm(formComponentName);
+
+    if(formComponent === undefined){
+      changeDocument(documentName, { component: 'text', value: be5.messages.formComponentNotFound + formComponentName });
+    }else{
+      changeDocument(documentName, { component: formComponent, value: _.extend({}, json, {documentName: documentName}) });
     }
   }
 

@@ -1,12 +1,10 @@
-import be5            from '../be5';
-import documentUtils  from '../core/documentUtils';
-import changeDocument from '../core/changeDocument';
-import _              from 'underscore';
-import Preconditions  from '../preconditions';
-import Table          from '../components/tables/table';
-import TableForm      from '../components/tables/tableForm';
-import FormTable      from '../components/tables/formTable';
-import TableFormRow      from '../components/tables/tableFormRow';
+import be5                 from '../be5';
+import documentUtils       from '../core/documentUtils';
+import changeDocument      from '../core/changeDocument';
+import _                   from 'underscore';
+import Preconditions       from '../preconditions';
+import Table               from '../components/tables/table';
+import TablesCollections   from '../services/tablesCollections';
 
 const createDefaultOptions = function() {
   return {};
@@ -44,16 +42,15 @@ export default {
     });
   },
 
-  performData(json, documentName){
-    const layoutType = json.data.attributes.layout.type;
-    if(layoutType === 'tableForm'){
-      changeDocument(documentName, { component: TableForm, value: json });
-    }else if(layoutType === 'formTable'){
-      changeDocument(documentName, { component: FormTable, value: json });
-    }else if(layoutType === 'tableFormRow'){
-      changeDocument(documentName, { component: TableFormRow, value: json });
+  performData(json, documentName)
+  {
+    const tableComponentName = json.data.attributes.layout.type || 'table';
+    const tableComponent = TablesCollections.getTable(tableComponentName);
+
+    if(tableComponent === undefined){
+      changeDocument(documentName, { component: 'text', value: be5.messages.tableComponentNotFound + tableComponentName });
     }else{
-      changeDocument(documentName, { component: Table, value: json });
+      changeDocument(documentName, { component: tableComponent, value: json });
     }
   },
 

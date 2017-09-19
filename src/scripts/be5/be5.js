@@ -55,7 +55,8 @@ var messages = {
       loadingPlaceholder: 'Loading...'
     },
 
-    formTypeNotFound: 'Form type not found: ',
+    formComponentNotFound:  'Form type not found: ',
+    tableComponentNotFound: 'Table component not found: ',
   },
   
   ru: {
@@ -97,7 +98,8 @@ var messages = {
       loadingPlaceholder: 'Загрузка...'
     },
 
-    formTypeNotFound: 'Тип формы не найден: ',
+    formComponentNotFound:  'Компонент формы не найден: ',
+    tableComponentNotFound: 'Компонент таблицы не найден: ',
   }
 };
 

@@ -1,5 +1,7 @@
 //todo move to egisso-be5 frontend
 import egissoDocsPage from './pages/egissoDocs';
-import addressesPage from './pages/addresses';
 import companiesPage from './pages/companies';
 import servicesPage from './pages/services';
+
+import addressesTable from './components/tables/addressesTable';
+import addressesForm from './components/forms/addressesForm';

@@ -1,28 +1,17 @@
-import React          from 'react';
-import PropTypes from 'prop-types';
-import be5                  from '../be5';
-import Document             from '../components/document';
-import changeDocument from '../core/changeDocument';
-import BootstrapModal from '../components/bootstrapModal';
+import React              from 'react';
+import Document           from '../document';
+import TableForm          from './tableForm';
+import TablesCollections  from '../../services/tablesCollections';
 
 
-class Addresses extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
-
-  componentDidMount(){
-    be5.url.process("table", "#!table/occupancies/For companies");
-    be5.url.process("form", "#!form/occupancies/For companies/Insert");
-  }
-
+class AddressesTable extends TableForm
+{
   render() {
     return (
       <div>
-        <Document documentName={"table"} operationDocumentName={"form"}/>
+        <Document documentName={"table"} operationDocumentName={"form"} onChange={this.onChange}/>
         <div className="row"><div className="col-xs-12 max-width-970">
-          <button className="btn btn-info pull-right btn-sm float-right" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+          <button className="btn btn-info pull-right float-right" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
               Справка
           </button>
           <h1>&nbsp;</h1>
@@ -42,9 +31,7 @@ class Addresses extends React.Component {
             </div>
           </div>
 
-          <Document documentName={"form"} onChange={()=>{
-            be5.url.process("table", "#!table/occupancies/For companies");
-          }} />
+          <Document documentName={"form"} onChange={this.onChange} />
         </div></div>
       </div>
     );
@@ -52,6 +39,4 @@ class Addresses extends React.Component {
 
 }
 
-be5.registerAction('addresses', (documentName) =>{
-  changeDocument(documentName, { component: Addresses, value: {} })
-});
+TablesCollections.registerTable("addressesTable", AddressesTable);
