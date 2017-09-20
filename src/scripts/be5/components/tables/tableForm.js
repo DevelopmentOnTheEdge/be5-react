@@ -31,7 +31,8 @@ class TableForm extends React.Component
     changeDocument("table", { component: Table, value: this.props.value });
     if(attributes.layout.defaultOperation !== undefined){
       console.log("attributes.layout.defaultOperation: " + attributes.layout.defaultOperation);
-      changeDocument("form", { component: StaticPage, value: StaticPage.createValue('', '')});
+      //TODO вместо замены старой формы на StaticPage.createValue('', ''), делать все поля READ_ONLY и кнопку disabled
+      //changeDocument("form", { component: StaticPage, value: StaticPage.createValue('', '')}); - баг форма пропадает, ошибки обновления
       formAction("form",
         attributes.category, attributes.page, attributes.layout.defaultOperation,
         attributes.parameters, attributes.onChange
