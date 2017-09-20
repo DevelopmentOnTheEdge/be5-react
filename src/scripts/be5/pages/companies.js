@@ -13,10 +13,6 @@ class Companies extends React.Component
     this.refresh = this.refresh.bind(this);
   }
 
-  componentDidMount(){
-    be5.url.process("formSelectCompany", "#!form/companies/Selection view SelectCompany/SelectCompany");
-  }
-
   refresh() {
     this.refs.navs.refresh();
   }
@@ -31,12 +27,6 @@ class Companies extends React.Component
     //move selectCompany to Адреса и Документ-основание?
     return (
       <div>
-        <div className="float-right selectCompany">
-          <span className="selectCompany__label">Выбор организации</span>
-          <Document documentName={"formSelectCompany"} onChange={()=>{
-            this.refresh()
-          }} />
-        </div>
         <h1 style={{marginBottom: 13 + 'px'}}>Организация</h1>
         <Navs ref="navs" steps={steps} tabs startAtStep={0} />
       </div>
