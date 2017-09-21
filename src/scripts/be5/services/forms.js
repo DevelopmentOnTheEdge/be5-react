@@ -3,7 +3,7 @@ import bus              from '../core/bus';
 import Preconditions    from '../preconditions';
 import _                from 'underscore';
 import changeDocument   from '../core/changeDocument';
-import HtmlResult       from '../components/forms/form';
+import {HtmlResult}       from '../components/forms/form';
 import StaticPage       from '../components/staticPage';
 import FormsCollections from './formsCollections.js';
 
