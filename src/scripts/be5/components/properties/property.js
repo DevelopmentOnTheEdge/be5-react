@@ -214,7 +214,7 @@ class Property extends Component {
       numberInput: () => {
         const numericProps = Property.getNumericProps(meta);
         return <NumericInput {...numericProps} placeholder={meta.placeholder} id={id} key={id} value={value}
-                             onChange={numericHandleChange}
+                             onChange={numericHandleChange} style={ false }
                              className={props.controlClassName || "form-control"} disabled={meta.readOnly} />
       },
       passwordField: () => {
@@ -263,7 +263,7 @@ class Property extends Component {
   static getNumericProps(meta)
   {
     let props = {};
-    props['maxLength'] = 17;//errors if more
+    props['maxLength'] = 14;//errors if more
     const rules = meta.validationRules;
     for (let i =0 ; i< rules.length; i++)
     {
@@ -277,6 +277,13 @@ class Property extends Component {
         props['max'] = 2147483647;
         props['maxLength'] = 10;
       }
+      // if(rules[i].type === "digits")
+      // {
+      //   props['min'] = 0;//todo not work
+      // }
+    }
+    if(meta.columnSize){
+      props['maxLength'] = parseInt(meta.columnSize);
     }
     return props;
   }
