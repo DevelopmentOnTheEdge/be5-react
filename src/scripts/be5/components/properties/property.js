@@ -192,7 +192,7 @@ class Property extends Component {
         return <Select {...selectProps} />
       },
       Date: () => {
-        return <Datetime dateFormat="DD.MM.YYYY" value={moment(value)}
+        return <Datetime dateFormat="DD.MM.YYYY" value={moment(value === undefined ? "" : value)}
                          onChange={(v) => onDateChange(v)} id={id} key={id}
                          timeFormat={false} closeOnSelect={true} closeOnTab={true} locale={props.localization.locale || "en"}
                          inputProps={ {disabled: meta.readOnly} } />
