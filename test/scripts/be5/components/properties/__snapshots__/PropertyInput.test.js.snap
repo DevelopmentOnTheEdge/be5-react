@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`property input 1`] = `
+<input
+  className="form-control"
+  disabled={undefined}
+  id="textInputField"
+  onChange={[Function]}
+  placeholder={undefined}
+  type="text"
+  value="text"
+/>
+`;
+
+exports[`property input 2`] = `
+<input
+  className="form-control"
+  disabled={undefined}
+  id="textInputField"
+  onChange={[Function]}
+  placeholder={undefined}
+  type="text"
+  value=""
+/>
+`;
