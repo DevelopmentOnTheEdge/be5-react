@@ -77,7 +77,7 @@ class PropertyInput extends Component {
 
     const controls = {
       Boolean: () => (
-        <input type="checkbox" id={id} key={id} value={value} checked={value} onChange={handle}
+        <input type="checkbox" id={id} key={id} value={value} checked={value === undefined ? "" : value} onChange={handle}
                  className={attr.controlClassName || 'form-check-input'} disabled={meta.readOnly} />
       ),
       select: () => {
@@ -131,15 +131,15 @@ class PropertyInput extends Component {
 //        readOnly: () => this.createStatic(value)
 //      },
       textArea: () => {
-          return <textarea placeholder={meta.placeholder} id={id}  rows={meta.rows || 3} cols={meta.columns} value={value}
+          return <textarea placeholder={meta.placeholder} id={id}  rows={meta.rows || 3} cols={meta.columns} value={value === undefined ? "" : value}
                     onChange={handle} className={attr.controlClassName || "form-control"} disabled={meta.readOnly} />
       },
       textInput: () => {
-          return <input type="text" placeholder={meta.placeholder} id={id} key={id} value={value}
+          return <input type="text" placeholder={meta.placeholder} id={id} key={id} value={value === undefined ? "" : value}
                     onChange={handle} className={attr.controlClassName || "form-control"} disabled={meta.readOnly} />
       },
       passwordField: () => {
-          return <input type="password" placeholder={meta.placeholder} id={id} key={id} value={value}
+          return <input type="password" placeholder={meta.placeholder} id={id} key={id} value={value === undefined ? "" : value}
                        onChange={handle} className={attr.controlClassName || "form-control"} disabled={meta.readOnly} />
       },
       labelField: () => {
