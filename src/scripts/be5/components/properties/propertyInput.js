@@ -15,6 +15,7 @@ class PropertyInput extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeMulti = this.handleChangeMulti.bind(this);
+    this.onDateChange = this.onDateChange.bind(this);
   }
 
   static get(path, bean, localization){
@@ -40,6 +41,18 @@ class PropertyInput extends Component {
       path = this.props.bean.order[this.props.id];
     }
     this.props.onChange(path, this._getValueFromEvent(event));
+  }
+
+  onDateChange(date){
+      //console.log(date);
+      if(typeof date === "string"){
+          if(date.match('(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d')){
+              //console.log("str 10: " + date);
+              this.handleChange(date);
+          }
+      }else{
+          this.handleChange(date)
+      }
   }
 
   handleChangeMulti(event) {
@@ -120,8 +133,9 @@ class PropertyInput extends Component {
 //        }
       },
       Date: () => {
-          return <Datetime dateFormat="DD.MM.YYYY" value={moment(value)} onChange={handle} id={id} key={id}
-                           timeFormat={false} closeOnSelect={true} closeOnTab={true} locale={attr.localization.locale || "en"}
+          return <Datetime dateFormat="DD.MM.YYYY" value={moment(value === undefined ? "" : value)}
+                           onChange={(v) => onDateChange(v)} id={id} key={id}
+                           timeFormat={false} closeOnSelect={true} closeOnTab={true} locale={props.localization.locale || "en"}
                            inputProps={ {disabled: meta.readOnly} } />
       },
 //      dateTime: {

@@ -1,6 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`property input 1`] = `
+exports[`Description 1`] = `
+<textarea
+  className="form-control"
+  cols={undefined}
+  disabled={undefined}
+  id="descriptionField"
+  onChange={[Function]}
+  placeholder="field for text"
+  rows={3}
+  value=""
+/>
+`;
+
+exports[`input 1`] = `
 <input
   className="form-control"
   disabled={undefined}
@@ -12,7 +25,7 @@ exports[`property input 1`] = `
 />
 `;
 
-exports[`property input 2`] = `
+exports[`input 2`] = `
 <input
   className="form-control"
   disabled={undefined}
@@ -24,7 +37,163 @@ exports[`property input 2`] = `
 />
 `;
 
-exports[`property select 1`] = `
+exports[`multiSelect 1`] = `
+<div
+  className="Select Select--multi is-clearable is-searchable"
+  style={undefined}
+>
+  <div
+    className="Select-control"
+    onKeyDown={[Function]}
+    onMouseDown={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    style={undefined}
+  >
+    <span
+      className="Select-multi-value-wrapper"
+      id="react-select-5--value"
+    >
+      <div
+        className="Select-placeholder"
+      >
+        Select ...
+      </div>
+      <div
+        className="Select-input"
+        style={
+          Object {
+            "display": "inline-block",
+          }
+        }
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "input#undefined::-ms-clear {display: none;}",
+            }
+          }
+        />
+        <input
+          aria-activedescendant="react-select-5--value"
+          aria-describedby={undefined}
+          aria-expanded="false"
+          aria-haspopup="false"
+          aria-label={undefined}
+          aria-labelledby={undefined}
+          aria-owns=""
+          className={undefined}
+          id={undefined}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          required={false}
+          role="combobox"
+          style={
+            Object {
+              "boxSizing": "content-box",
+              "width": "5px",
+            }
+          }
+          tabIndex={undefined}
+          value=""
+        />
+        <div
+          style={
+            Object {
+              "height": 0,
+              "left": 0,
+              "overflow": "scroll",
+              "position": "absolute",
+              "top": 0,
+              "visibility": "hidden",
+              "whiteSpace": "pre",
+            }
+          }
+        >
+          
+        </div>
+      </div>
+    </span>
+    <span
+      aria-label="Clear all"
+      className="Select-clear-zone"
+      onMouseDown={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      title="Clear all"
+    >
+      <span
+        className="Select-clear"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&times;",
+          }
+        }
+      />
+    </span>
+    <span
+      className="Select-arrow-zone"
+      onMouseDown={[Function]}
+    >
+      <span
+        className="Select-arrow"
+        onMouseDown={[Function]}
+      />
+    </span>
+  </div>
+</div>
+`;
+
+exports[`passwordField 1`] = `
+<input
+  className="form-control"
+  disabled={undefined}
+  id="passField"
+  onChange={[Function]}
+  placeholder={undefined}
+  type="password"
+  value="password"
+/>
+`;
+
+exports[`property Boolean 1`] = `
+<input
+  checked={true}
+  className="form-check-input"
+  disabled={undefined}
+  id="agreeField"
+  onChange={[Function]}
+  type="checkbox"
+  value={true}
+/>
+`;
+
+exports[`property labelField 1`] = `
+<div
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "<p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href=\\"#\\">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p><ol><li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>   <li>Aliquam tincidunt mauris eu risus.</li></ol>",
+    }
+  }
+/>
+`;
+
+exports[`property login 1`] = `
+<input
+  className="form-control"
+  disabled={undefined}
+  id="loginField"
+  onChange={[Function]}
+  placeholder={undefined}
+  type="text"
+  value=""
+/>
+`;
+
+exports[`select 1`] = `
 <div
   className="Select Select--single is-clearable is-searchable has-value"
   style={undefined}
@@ -79,6 +248,226 @@ exports[`property select 1`] = `
         />
         <input
           aria-activedescendant="react-select-2--value"
+          aria-describedby={undefined}
+          aria-expanded="false"
+          aria-haspopup="false"
+          aria-label={undefined}
+          aria-labelledby={undefined}
+          aria-owns=""
+          className={undefined}
+          id={undefined}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          required={false}
+          role="combobox"
+          style={
+            Object {
+              "boxSizing": "content-box",
+              "width": "5px",
+            }
+          }
+          tabIndex={undefined}
+          value=""
+        />
+        <div
+          style={
+            Object {
+              "height": 0,
+              "left": 0,
+              "overflow": "scroll",
+              "position": "absolute",
+              "top": 0,
+              "visibility": "hidden",
+              "whiteSpace": "pre",
+            }
+          }
+        >
+          
+        </div>
+      </div>
+    </span>
+    <span
+      aria-label="Clear value"
+      className="Select-clear-zone"
+      onMouseDown={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      title="Clear value"
+    >
+      <span
+        className="Select-clear"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&times;",
+          }
+        }
+      />
+    </span>
+    <span
+      className="Select-arrow-zone"
+      onMouseDown={[Function]}
+    >
+      <span
+        className="Select-arrow"
+        onMouseDown={[Function]}
+      />
+    </span>
+  </div>
+</div>
+`;
+
+exports[`select 2`] = `
+<div
+  className="Select Select--single is-clearable is-searchable"
+  style={undefined}
+>
+  <div
+    className="Select-control"
+    onKeyDown={[Function]}
+    onMouseDown={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    style={undefined}
+  >
+    <span
+      className="Select-multi-value-wrapper"
+      id="react-select-3--value"
+    >
+      <div
+        className="Select-placeholder"
+      >
+        Select ...
+      </div>
+      <div
+        className="Select-input"
+        style={
+          Object {
+            "display": "inline-block",
+          }
+        }
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "input#undefined::-ms-clear {display: none;}",
+            }
+          }
+        />
+        <input
+          aria-activedescendant="react-select-3--value"
+          aria-describedby={undefined}
+          aria-expanded="false"
+          aria-haspopup="false"
+          aria-label={undefined}
+          aria-labelledby={undefined}
+          aria-owns=""
+          className={undefined}
+          id={undefined}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          required={false}
+          role="combobox"
+          style={
+            Object {
+              "boxSizing": "content-box",
+              "width": "5px",
+            }
+          }
+          tabIndex={undefined}
+          value=""
+        />
+        <div
+          style={
+            Object {
+              "height": 0,
+              "left": 0,
+              "overflow": "scroll",
+              "position": "absolute",
+              "top": 0,
+              "visibility": "hidden",
+              "whiteSpace": "pre",
+            }
+          }
+        >
+          
+        </div>
+      </div>
+    </span>
+    <span
+      aria-label="Clear value"
+      className="Select-clear-zone"
+      onMouseDown={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      title="Clear value"
+    >
+      <span
+        className="Select-clear"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&times;",
+          }
+        }
+      />
+    </span>
+    <span
+      className="Select-arrow-zone"
+      onMouseDown={[Function]}
+    >
+      <span
+        className="Select-arrow"
+        onMouseDown={[Function]}
+      />
+    </span>
+  </div>
+</div>
+`;
+
+exports[`select 3`] = `
+<div
+  className="Select Select--single is-clearable is-searchable"
+  style={undefined}
+>
+  <div
+    className="Select-control"
+    onKeyDown={[Function]}
+    onMouseDown={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    style={undefined}
+  >
+    <span
+      className="Select-multi-value-wrapper"
+      id="react-select-4--value"
+    >
+      <div
+        className="Select-placeholder"
+      >
+        Select ...
+      </div>
+      <div
+        className="Select-input"
+        style={
+          Object {
+            "display": "inline-block",
+          }
+        }
+      >
+        <style
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "input#undefined::-ms-clear {display: none;}",
+            }
+          }
+        />
+        <input
+          aria-activedescendant="react-select-4--value"
           aria-describedby={undefined}
           aria-expanded="false"
           aria-haspopup="false"
