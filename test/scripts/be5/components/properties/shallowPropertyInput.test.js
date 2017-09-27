@@ -19,16 +19,16 @@ it('input', () => {
     expect(handle.mock.calls.length).toBe(2);
 });
 
-it('select', () => {
-    const bean = require('./testJson.json');
-    const handle = jest.fn();
-
-    const wrapper = shallow(
-        <PropertyInput path={"/select"} bean={bean} onChange={handle} />
-    );
-
-    wrapper.find('input').simulate('change', {target: {value: 'watermelon'}});
-    expect(handle.mock.calls[0]).toEqual(["/select", ""]);
-
-    expect(handle.mock.calls.length).toBe(1);
-});
+// it('select', () => {
+//     const bean = require('./testJson.json');
+//     const handle = jest.fn();
+//
+//     const wrapper = shallow(
+//         <PropertyInput path={"/select"} bean={bean} onChange={handle} />
+//     );
+//
+//     wrapper.find('input').simulate('change', {target: {value: 'watermelon'}});
+//     expect(handle.mock.calls[0]).toEqual(["/select", ""]);
+//
+//     expect(handle.mock.calls.length).toBe(1);
+// });
