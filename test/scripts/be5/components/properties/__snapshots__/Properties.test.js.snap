@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`empty properties 1`] = `<div />`;
+
+exports[`empty properties 2`] = `<div />`;
