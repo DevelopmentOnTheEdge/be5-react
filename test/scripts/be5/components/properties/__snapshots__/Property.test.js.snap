@@ -1,5 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`property Boolean 1`] = `
+<div
+  className="form-group property col-lg-12 required"
+>
+  <label
+    className="form-control-label"
+    htmlFor="testNameField"
+  >
+    Boolean
+  </label>
+  <div
+    className="controls"
+  >
+    <input
+      className="form-control"
+      disabled={undefined}
+      id="testNameField"
+      onChange={[Function]}
+      placeholder={undefined}
+      type="text"
+      value="true"
+    />
+  </div>
+</div>
+`;
+
 exports[`simple property 1`] = `
 <div
   className="form-group property col-lg-12 required"

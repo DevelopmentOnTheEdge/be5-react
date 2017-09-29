@@ -7,6 +7,9 @@ const item = "/testName";
 const itemName = item.substring(item.lastIndexOf("/")+1);
 const itemValue = "testValue";
 
+/*
+    snapshot test
+*/
 it('simple property', () => {
 	const itemMeta = {"displayName": "Simple property"};
 
@@ -18,6 +21,21 @@ it('simple property', () => {
 	expect(tree).toMatchSnapshot();
 });
 
+it('property Boolean', () => {
+    const itemMeta = {"displayName":"Boolean"};
+    const item = "/agree";
+
+
+    let component = renderer.create(
+        <Property path={item} meta={itemMeta} name={itemName} key={itemName} value={"true"}/>
+    );
+
+    expect(component.toJSON()).toMatchSnapshot();
+});
+
+/*
+    shallow test
+*/
 it('call callback after click', () => {
 	const itemMeta = {};
 
