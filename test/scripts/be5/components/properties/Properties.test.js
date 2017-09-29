@@ -3,49 +3,21 @@ import Properties from '../../../../../src/scripts/be5/components/properties/pro
 import renderer from 'react-test-renderer';
 import {shallow, mount, render} from 'enzyme';
 
-it('renders without crashing', () => {
-	const testJson = require('./testJson.json');
-	const handle = jest.fn();
-
-	mount(<Properties bean={testJson} onChange={handle}/>);
-});
-
-it('renders without crashing readOnly', () => {
+it('contain property', () => {
 	const bean = require('./testJson.json');
-	for(let item in bean.meta) {
-    bean.meta[item]['readOnly'] = true;
-	}
-
-	const handle = jest.fn();
-
-	mount(<Properties bean={bean} onChange={handle}/>);
-});
-
-it('empty properties', () => {
-	const bean = {
-        "values": {},
-        "meta": {},
-        "order": []
-	};
-	const ids = [];
 
 	const component = renderer.create(
-    <Properties bean={bean} ids={ids}/>
+    <Properties bean={bean} ids={[0,1]}/>
   );
   let tree = component.toJSON();
   expect(tree).toMatchSnapshot();
 });
 
-it('empty properties', () => {
-    const bean = {
-        "values": {},
-        "meta": {},
-        "order": []
-    };
-    const ids = [];
+it('not contain property', () => {
+    const bean = require('./testJson.json');
 
     const component = renderer.create(
-        <Properties bean={bean} ids={ids}/>
+        <Properties bean={bean} ids={[1000000]}/>
     );
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();

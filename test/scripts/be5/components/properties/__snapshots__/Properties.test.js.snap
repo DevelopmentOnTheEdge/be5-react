@@ -1,5 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`empty properties 1`] = `<div />`;
+exports[`contain property 1`] = `
+<div>
+  <div
+    className="form-group property col-lg-12 required"
+  >
+    <label
+      className="form-control-label"
+      htmlFor="textInputField"
+    >
+      Text
+    </label>
+    <div
+      className="controls"
+    >
+      <input
+        className="form-control"
+        disabled={undefined}
+        id="textInputField"
+        onChange={[Function]}
+        placeholder={undefined}
+        type="text"
+        value="text"
+      />
+    </div>
+  </div>
+  <div
+    className="form-group property property-label col-md-12"
+  >
+    <div
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href=\\"#\\">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p><ol><li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>   <li>Aliquam tincidunt mauris eu risus.</li></ol>",
+        }
+      }
+    />
+  </div>
+</div>
+`;
 
-exports[`empty properties 2`] = `<div />`;
+exports[`not contain property 1`] = `<div />`;
