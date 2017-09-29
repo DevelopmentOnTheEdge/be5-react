@@ -1,11 +1,13 @@
 import React          from 'react';
-import be5                  from '../be5';
-import Navs             from '../components/navs';
+import be5            from '../be5';
+import Navs           from '../components/navs';
 import changeDocument from '../core/changeDocument';
 
-class Services extends React.Component {
 
-  render() {
+class Services extends React.Component
+{
+  render()
+  {
     const steps = [
       {title: 'Группы МСП', url: '#!table/welfareGroups/General information'},
       {title: 'Виды МСП', url: '#!table/welfareTypes/General information'},

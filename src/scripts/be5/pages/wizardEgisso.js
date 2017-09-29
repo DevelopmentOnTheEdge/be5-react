@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
-import FormWizard from '../components/formWizard'
+import React          from 'react';
+import be5            from '../be5';
+import changeDocument from '../core/changeDocument';
+import FormWizard     from '../components/formWizard'
 
 
-export default class FormWizardTest extends Component {
+class WizardEgisso extends React.Component {
 
   render() {
 
@@ -23,3 +25,7 @@ export default class FormWizardTest extends Component {
     )
   }
 }
+
+be5.registerAction('wizardEgisso', (documentName) =>{
+  changeDocument(documentName, { component: WizardEgisso, value: {} })
+});

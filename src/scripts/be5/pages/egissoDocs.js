@@ -1,11 +1,13 @@
 import React          from 'react';
-import be5                  from '../be5';
+import be5            from '../be5';
 import changeDocument from '../core/changeDocument';
-import Navs             from '../components/navs';
+import Navs           from '../components/navs';
 
-class EgissoDocs extends React.Component {
 
-  help(){
+class EgissoDocs extends React.Component
+{
+  help()
+  {
     return (
       <div className="">
         <button className="btn btn-info pull-right btn-sm float-right" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
