@@ -2,23 +2,26 @@ import React          from 'react';
 import renderer       from 'react-test-renderer';
 import Document       from '../../../../src/scripts/be5/components/document';
 import changeDocument from '../../../../src/scripts/be5/core/changeDocument';
-import {HtmlResult}   from '../../../../src/scripts/be5/components/forms/form';
+import StaticPage     from '../../../../src/scripts/be5/components/staticPage';
+import be5            from '../../../../src/scripts/be5/be5';
 
-test('snapshot', () => {
+test('text', () => {
     const component = renderer.create(
         <Document />
     );
 
-    changeDocument('MainDocument', { component: 'text', value: "Page loaded." } );
+    expect(component.toJSON()).toMatchSnapshot();
 
+    changeDocument('MainDocument', { component: 'text', value: "Page loaded." } );
     expect(component.toJSON()).toMatchSnapshot();
 });
 
-test('component', () => {
+test('StaticPage', () => {
     const component = renderer.create(
         <Document />
     );
-    expect(component.toJSON()).toMatchSnapshot();
-    changeDocument('MainDocument', { component: HtmlResult, value: "Page <b>text<b>." });
+
+    changeDocument('MainDocument', { component: StaticPage,
+            value: StaticPage.createValue("Test", 'test content')});
     expect(component.toJSON()).toMatchSnapshot();
 });

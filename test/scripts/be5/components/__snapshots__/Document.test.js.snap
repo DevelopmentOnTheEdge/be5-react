@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StaticPage 1`] = `
+<div
+  className="document-content"
+  id="document-content___MainDocument"
+>
+  <div
+    className="staticPage"
+  >
+    <div
+      className="staticPage__text"
+    >
+      Test
+    </div>
+    <div
+      className="staticPage__text"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "test content",
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`text 1`] = `
+<div
+  className="document-content"
+  id="document-content___MainDocument"
+/>
+`;
+
+exports[`text 2`] = `
+<div
+  className="document-content"
+  id="document-content___MainDocument"
+>
+  <h1>
+    Page loaded.
+  </h1>
+</div>
+`;
