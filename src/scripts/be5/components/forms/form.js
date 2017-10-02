@@ -150,9 +150,9 @@ const Form = React.createClass({
     return attributes.bean.order.every(field => {
       let filled = attributes.bean.meta[field].hasOwnProperty('canBeNull') ||
                         JsonPointer.get(attributes.bean, "/values" + field) != '';
-      if(be5.debug && !filled){
-        console.log(field);
-      }
+      // if(be5.debug && !filled){
+      //   console.log(field);
+      // }
       return filled;
     });
   },
