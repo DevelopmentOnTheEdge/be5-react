@@ -1,6 +1,7 @@
 import be5 from '../be5';
 import bus from '../core/bus';
 import React, { Component } from 'react';
+import PropTypes            from 'prop-types';
 
 import '../../../css/roleSelector.css';
 
@@ -9,7 +10,6 @@ class Role extends Component {
         super(props);
 
         this._onChange = this._onChange.bind(this);
-
     }
 
     static getInitialState() {
@@ -19,17 +19,22 @@ class Role extends Component {
     render() {
         const id = this.props.name + "-checkbox";
         return (
-            React.DOM.div({className: "role"},
-                React.DOM.input({type: "checkbox", checked: this.state.selectedRoles, id: id, onChange: this._onChange}),
-                React.DOM.label({htmlFor: id}, React.DOM.span({className: "checkBox"}), this.props.name)
-            )
-        );
-    }
+            <div className={"role"}>
+                <input type="checkbox" id={id} key={id} checked={Role.getInitialState()} onChange={this._onChange}
+                className={'checkBox'} />
+
+                <label id={id} className={"checkBox"}/>
+            </div>
+        )}
 
     _onChange(e) {
         this.setState({ selectedRoles : e.target.checked }, this.props.onChange);
     }
 }
+
+Role.propTypes = {
+    onChange: PropTypes.func.isRequired
+};
 
 class RoleBox extends Component {
     constructor(props) {
@@ -45,19 +50,18 @@ class RoleBox extends Component {
 
     render() {
         if (this.state.availableRoles.length <= 1) {
-            return ( React.DOM.div({className: "roleBox"}) );
+            return ( <div className={'roleBox'}/> );
         }
         const selectedRoles = this.state.selectedRoles;
         const roleNodes = this.state.availableRoles.map(function (role) {
             return (
-                React.createElement(Role, {key: role, ref: role, name: role, selectedRoles: $.inArray(role, selectedRoles) != -1, onChange: this._onRoleChange})
+              <Role key={role} ref={role} name={role} selectedRoles={$.inArray(role, selectedRoles) != -1} onChange={this._onRoleChange}/>
             );
         }.bind(this));
         return (
-            React.DOM.div({className: "roleBox"},
-                React.DOM.h4({}, be5.messages.roles),
-                roleNodes
-            )
+            <div className={'roleBox'}>
+                <h4>{roleNodes}</h4>
+            </div>
         );
     }
 
