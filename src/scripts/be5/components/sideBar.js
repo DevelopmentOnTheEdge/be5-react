@@ -7,12 +7,12 @@ import Menu             from './menu/menu';
 export default React.createClass({displayName: "SideBar",
   render() {
     return React.DOM.div({ className: "side" },
+      React.createElement(RoleSelector, { ref: "roleSelector" }),
       React.createElement(Menu, { ref: "menu" }),
       React.DOM.hr(),
       React.DOM.h3({},
         be5.messages.settings),
       React.createElement(LanguageSelector, { ref: "languageSelector" }),
-      React.createElement(RoleSelector, { ref: "roleSelector" })
     );
   },
   

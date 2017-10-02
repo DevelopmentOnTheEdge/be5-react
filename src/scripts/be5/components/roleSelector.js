@@ -5,25 +5,23 @@ import PropTypes            from 'prop-types';
 
 import '../../../css/roleSelector.css';
 
-class Role extends Component {
+class Role extends Component
+{
     constructor(props) {
         super(props);
+        this.state = {selectedRoles : this.props.selectedRoles};
 
         this._onChange = this._onChange.bind(this);
-    }
-
-    static getInitialState() {
-        return { selectedRoles : this.props.selectedRoles };
     }
 
     render() {
         const id = this.props.name + "-checkbox";
         return (
             <div className={"role"}>
-                <input type="checkbox" id={id} key={id} checked={Role.getInitialState()} onChange={this._onChange}
+                <input type="checkbox" id={id} checked={this.state.selectedRoles} onChange={this._onChange}
                 className={'checkBox'} />
 
-                <label id={id} className={"checkBox"}/>
+                <label id={id} className={"checkBox"}>{this.props.name}</label>
             </div>
         )}
 
@@ -40,6 +38,7 @@ class RoleBox extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {availableRoles: ["Unknown"], selectedRoles: ["Unknown"]};
         this._onRoleChange = this._onRoleChange.bind(this);
         this._changeRoles = this._changeRoles.bind(this);
     }
@@ -49,18 +48,17 @@ class RoleBox extends Component {
     }
 
     render() {
-        if (this.state.availableRoles.length <= 1) {
-            return ( <div className={'roleBox'}/> );
-        }
+        // if (this.state.availableRoles.length <= 1) {
+        //     return ( <div className={'roleBox'}/> );
+        // }
         const selectedRoles = this.state.selectedRoles;
-        const roleNodes = this.state.availableRoles.map(function (role) {
-            return (
+        const roleNodes = this.state.availableRoles.map((role) =>
               <Role key={role} ref={role} name={role} selectedRoles={$.inArray(role, selectedRoles) != -1} onChange={this._onRoleChange}/>
-            );
-        }.bind(this));
+        );
         return (
             <div className={'roleBox'}>
-                <h4>{roleNodes}</h4>
+                <h4>{be5.messages.roles}</h4>
+                {roleNodes}
             </div>
         );
     }
@@ -86,3 +84,4 @@ class RoleBox extends Component {
     }
 }
 
+export default RoleBox;
