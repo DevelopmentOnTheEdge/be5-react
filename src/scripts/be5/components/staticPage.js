@@ -8,7 +8,7 @@ class StaticPage extends React.Component
     const attributes = this.props.value.data.attributes;
     return <div className='staticPage'>
       <div className='staticPage__text' >{attributes.title}</div>
-      <div className='staticPage__text' dangerouslySetInnerHTML={ {__html: attributes.text} } />
+      <div className='staticPage__text' dangerouslySetInnerHTML={ {__html: attributes.content} } />
     </div>;
   }
 
@@ -20,7 +20,7 @@ class StaticPage extends React.Component
         type: 'staticPage',
         attributes: {
           title: title,
-          text: text
+          content: text
         }
       },
       meta: {_ts_: date}
@@ -38,7 +38,7 @@ StaticPage.propTypes =  {
     data: PropTypes.shape({
       attributes: PropTypes.shape({
         title   : PropTypes.string.isRequired,
-        text    : PropTypes.string.isRequired,
+        content: PropTypes.string.isRequired,
       }),
       meta: PropTypes.shape({
         _ts_: PropTypes.isRequired,
