@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render 1`] = `
+<div
+  className="roleBox"
+>
+  <h4>
+    Roles
+  </h4>
+  <div
+    className="role"
+  >
+    <input
+      checked={true}
+      id="Guest-checkbox"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <label
+      htmlFor="Guest-checkbox"
+    >
+      <span
+        className="checkBox"
+      />
+      Guest
+    </label>
+  </div>
+  <div
+    className="role"
+  >
+    <input
+      checked={false}
+      id="Administrator-checkbox"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <label
+      htmlFor="Administrator-checkbox"
+    >
+      <span
+        className="checkBox"
+      />
+      Administrator
+    </label>
+  </div>
+</div>
+`;
