@@ -2,6 +2,8 @@ import be5 from '../be5';
 import bus from '../core/bus';
 import React, { Component } from 'react';
 import PropTypes            from 'prop-types';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Button } from 'reactstrap';
 
 import '../../../css/roleSelector.css';
 
@@ -37,13 +39,30 @@ class RoleBox extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {availableRoles: ["Unknown"], selectedRoles: ["Unknown"]};
+    this.state = {
+      dropdownOpen: false,
+      availableRoles: ["Unknown"], selectedRoles: ["Unknown"]
+    };
+
     this._onRoleChange = this._onRoleChange.bind(this);
     this._changeRoles = this._changeRoles.bind(this);
+    this.handleSelectAll = this.handleSelectAll.bind(this);
+    this.handleClear = this.handleClear.bind(this);
+    this.toggle = this.toggle.bind(this);
   }
 
-  static getInitialState() {
-    return { availableRoles: ["Unknown"], selectedRoles: ["Unknown"] };
+  handleSelectAll() {
+    this._changeRoles(this.state.availableRoles.join(","))
+  }
+
+  handleClear() {
+    this._changeRoles("")
+  }
+
+  toggle() {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
   }
 
   render() {
@@ -54,10 +73,25 @@ class RoleBox extends Component {
     const roleNodes = this.state.availableRoles.map((role) =>
       <Role key={role} ref={role} name={role} selectedRoles={$.inArray(role, selectedRoles) != -1} onChange={this._onRoleChange}/>
     );
+
+    //todo use toggle, after remove bootstrap.js
     return (
       <div className={'roleBox'}>
-        <h4>{be5.messages.roles}</h4>
-        {roleNodes}
+        <Dropdown isOpen={this.state.dropdownOpen} toggle={ () => {}}>
+          <DropdownToggle caret>
+            {be5.messages.roles}
+          </DropdownToggle>
+
+          <DropdownMenu>
+            {roleNodes}
+            <DropdownItem divider />
+
+            <DropdownItem>
+              <Button onClick={this.handleSelectAll} color="primary" size="sm">Выбрать всё</Button>{' '}
+              <Button onClick={this.handleClear} color="secondary" size="sm">Очистить всё</Button>
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </div>
     );
   }
@@ -73,6 +107,7 @@ class RoleBox extends Component {
   _onRoleChange() {
     let roles = this.state.availableRoles.filter(name => this.refs[name].state.selectedRoles);
     this._changeRoles(roles.join(","));
+    console.log(this.state.availableRoles, roles)
   }
 
   _changeRoles(roles) {
