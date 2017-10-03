@@ -1,4 +1,4 @@
-import Settings from './be5';
+import be5 from './be5';
 import bus      from './core/bus';
 
 
