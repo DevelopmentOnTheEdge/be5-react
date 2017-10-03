@@ -2,6 +2,7 @@ import ReactDOM         from 'react-dom';
 import React            from 'react';
 import App              from './components/application';
 import importEgisso     from './importEgisso';
+import be5init          from './be5init';
 
 import 'react-datetime/css/react-datetime.css';
 import 'react-select/dist/react-select.css';
