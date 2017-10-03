@@ -10,6 +10,7 @@ class Services extends React.Component
   {
     const steps = [
       {title: 'Группы МСП', url: '#!table/welfareGroups/General information'},
+      {title: 'Территория предоставления услуг', url: '#!table/companies2welfareGroups/All records'},
       {title: 'Виды МСП', url: '#!table/welfareTypes/General information'},
       {title: 'Сведения для ЕГИССО', url: '#!table/localMSZ/Info For Egisso'},
       {title: 'НПА', url: '#!table/localNPA/All records'},
