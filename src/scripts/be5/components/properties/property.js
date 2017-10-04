@@ -179,7 +179,7 @@ class Property extends Component {
           backspaceRemoves: false,
           disabled: meta.readOnly,
           multi: meta.multipleSelectionList,
-          matchPos: "start"
+          matchPos: extraAttrsMap.matchPos || "any"
         };
 
         if(extraAttrsMap.inputType === "Creatable"){

@@ -14,7 +14,7 @@ export default React.createClass({
     bus.listen('LanguageChanged', this.refresh);
     bus.listen('RoleChanged', this.refresh);
     bus.listen("alert", data => {
-      this.msg.show(data.msg, data)
+      this.msg.show(data.msg, data);
       console.log(data);
     } );
   },

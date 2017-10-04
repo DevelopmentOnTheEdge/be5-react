@@ -107,7 +107,7 @@ class PropertyInput extends Component {
         }
           return <VirtualizedSelect ref={id} name={id} value={strValue} options={options}
                           disabled={meta.readOnly} onChange={handle}
-                          multi={meta.multipleSelectionList} matchPos="start"
+                          multi={meta.multipleSelectionList} matchPos="any"
                           clearable
                           searchable
                           labelKey="label"
