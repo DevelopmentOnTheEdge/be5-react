@@ -3,6 +3,7 @@ import $        from 'jquery';
 import _        from 'underscore';
 import Settings from './settings';
 import Const    from './constants';
+import utils    from './utils';
 import bus      from './core/bus';
 import changeDocument from './core/changeDocument';
 window.jQuery = window.$ = require('jquery');
@@ -369,12 +370,8 @@ const be5 = {
         if (typeof (failureFunc) === 'function')failureFunc(data);
       };
 
-      var getUrl = window.location;
-      var baseUrl = getUrl.protocol + "//" + getUrl.host;
-      if(getUrl.pathname.split('/')[1] !== "")  baseUrl += "/" + getUrl.pathname.split('/')[1]
-
       $.ajax({
-        url : baseUrl + url,
+        url : utils.getBaseUrl() + url,
         dataType : type,
         type : 'POST',
         data : params,

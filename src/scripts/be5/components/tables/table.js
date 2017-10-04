@@ -1,6 +1,7 @@
 import React           from 'react';
 import ReactDOM        from 'react-dom';
 import be5             from '../../be5';
+import utils           from '../../utils';
 import $               from 'jquery';
 import Action          from '../action';
 import _               from 'underscore';
@@ -307,7 +308,7 @@ const TableBox = React.createClass({
       autoWidth: false,
       aaSorting: [],
       ajax: {
-        url: be5.net.url('document/moreRows'),
+        url: utils.getBaseUrl() + be5.net.url('document/moreRows'),
         data: {
           entity: attributes.category,
           query: attributes.page,
@@ -403,7 +404,7 @@ const TableBox = React.createClass({
         $(_this.refs.table).find('.dataTables_length').hide();
         $(_this.refs.table).find('.paging_simple_numbers').hide()
       }
-    }
+    };
 
     if (groupingColumn !== null) {
       const resultGroupingColumn = columnIndexShift + groupingColumn;
