@@ -1,53 +1,60 @@
-import React      from 'react';
 import be5        from '../../be5';
 import _          from 'underscore';
 import MenuHeader from './menuHeader';
 import MenuFooter from './menuFooter';
 import MenuNode   from './menuNode';
-
+import React, { Component } from 'react';
 import '../../../../css/menu.css';
 
-const SearchField = React.createClass({
-  propTypes: {
-    onChange: React.PropTypes.func.isRequired
-  },
+class SearchField extends Component {
+  constructor(props) {
+    super(props);
 
-  displayName: 'SearchField',
-  
-  getInitialState: function() {
+    this._handleChange = this._handleChange.bind(this);
+  }
+
+  static getInitialState() {
     return { value: '' };
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <input type="text" className="searchField form-control" onChange={this._handleChange} value={this.state.value} placeholder={be5.messages.filter}/>
 		);
-  },
+  }
   
-  _handleChange: function(event) {
+  _handleChange(event) {
     this.setState({ value: event.target.value });
     this.props.onChange(event.target.value);
   }
-});
+}
 
-const MenuBody = React.createClass({
-  displayName: 'MenuBody',
-  
-  getInitialState: function() {
+SearchField.propTypes = {
+  onChange: PropTypes.func.isRequired
+};
+
+class MenuBody extends Component{
+  constructor(props) {
+    super(props);
+
+    this._getFilteredRoot = this._getFilteredRoot.bind(this);
+  }
+
+  static getInitialState() {
     return { root: [ { title: 'Loading...' } ], query: '' };
-  },
+  }
   
-  componentDidMount: function() {
+  componentDidMount() {
     this.refresh();
-  },
+  }
   
-  refresh: function() {
+  refresh() {
     be5.net.request('menu', {}, data => {
       this.setState(data);
     });
-  },
+  }
   
-  render: function() {
+  render() {
     const filteredRoot = this._getFilteredRoot();
     const rootNodes = filteredRoot.map(node => (
       <MenuNode key={JSON.stringify(node)} data={node} level={1}/>
@@ -55,9 +62,9 @@ const MenuBody = React.createClass({
     return (
       <div className="menu">{rootNodes}</div>
     );
-  },
+  }
   
-  _getFilteredRoot: function() {
+  _getFilteredRoot() {
     const containsIgnoreCase = (str, substr) => {
       return str.toLowerCase().indexOf(substr.toLowerCase()) !== -1;
     };
@@ -81,16 +88,20 @@ const MenuBody = React.createClass({
     
     return filterByTitle(this.state.root, this.state.query);
   }
-});
+}
 
-const Menu = React.createClass({
-  displayName: 'Menu',
-  
-  getInitialState: function() {
+class Menu extends Component{
+  constructor(props) {
+    super(props);
+
+    this._handleQueryChange = this._handleQueryChange.bind(this);
+  }
+
+  static getInitialState() {
     return {};
-  },
+  };
   
-  render: function() {
+  render() {
     return (
       <div className="menuContainer">
         <MenuHeader ref="menuheader"/>
@@ -99,16 +110,16 @@ const Menu = React.createClass({
         <MenuFooter/>
       </div>
     );
-  },
+  };
   
-  refresh: function() {
+  refresh() {
     this.refs.menuheader.setState({ message: be5.messages.welcome });
     this.refs.menubody.refresh();
-  },
+  };
   
-  _handleQueryChange: function(query) {
+  _handleQueryChange(query) {
     this.refs.menubody.setState({ query: query });
   }
-});
+}
 
 export default Menu;
