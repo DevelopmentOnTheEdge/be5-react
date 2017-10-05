@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot menu 1`] = `
+<div
+  className="languageBox"
+>
+  <div
+    className="languageList"
+  >
+    <div
+      className="language selectedLanguage"
+    >
+      RU
+    </div>
+  </div>
+</div>
+`;
