@@ -1,5 +1,71 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Form 1`] = `
+<div
+  className="document-content"
+  id="document-content___MainDocument"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="formBox col-xs-12 max-width-970 formBoxDefault"
+    >
+      <h1
+        className="form-component__title"
+      >
+        SelectCompany
+      </h1>
+      <form
+        className=""
+        onSubmit={[Function]}
+      >
+        <div
+          className="property-set row"
+        >
+          <div
+            className="form-group property col-lg-12 required"
+          >
+            <label
+              className="form-control-label"
+              htmlFor="companyIDField"
+            >
+              companyID
+            </label>
+            <div
+              className="controls"
+            >
+              <input
+                className="form-control"
+                disabled={undefined}
+                id="companyIDField"
+                onChange={[Function]}
+                placeholder={undefined}
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="formActions"
+        >
+          <button
+            className="btn btn-primary"
+            disabled={true}
+            onClick={[Function]}
+            type="button"
+          >
+            Submit
+          </button>
+           
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`StaticPage 1`] = `
 <div
   className="document-content"
@@ -21,6 +87,71 @@ exports[`StaticPage 1`] = `
         }
       }
     />
+  </div>
+</div>
+`;
+
+exports[`Table 1`] = `
+<div
+  className="document-content"
+  id="document-content___MainDocument"
+>
+  <div
+    className="table-component"
+  >
+    <h1
+      className="table-component__title"
+    >
+      Организации: Общие сведения
+    </h1>
+    <div>
+      <div
+        className="operationList"
+      >
+        <a
+          className="btn btn-secondary btn-md"
+          href=""
+          onClick={[Function]}
+        >
+          Редактировать
+        </a>
+         
+        <a
+          className="btn btn-secondary btn-md"
+          href=""
+          onClick={[Function]}
+        >
+          Добавить
+        </a>
+      </div>
+      <div
+        id="quickColumns"
+      >
+        <span>
+          Другие колонки:
+        </span>
+        <span>
+          <input
+            checked={false}
+            id="quick0"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="rowIndex"
+            htmlFor="quick0"
+          >
+            Наименование
+             
+          </label>
+        </span>
+      </div>
+      <div
+        className="scroll"
+      >
+        <div />
+      </div>
+    </div>
   </div>
 </div>
 `;
