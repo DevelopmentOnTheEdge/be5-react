@@ -104,9 +104,6 @@ exports[`snapshot sideBar 1`] = `
     </div>
   </div>
   <hr />
-  <h3>
-    Settings
-  </h3>
   <div
     className="languageBox"
   >

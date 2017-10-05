@@ -15,7 +15,6 @@ class SideBar extends Component {
         <RoleSelector ref="roleSelector"/>
         <Menu ref="menu"/>
         <hr/>
-        <h3>{be5.messages.settings}</h3>
         <LanguageSelector ref="languageSelector"/>
       </div>
     );
