@@ -1,21 +1,26 @@
-import React            from 'react';
+import React, { Component } from 'react';
 import be5              from '../be5';
 import LanguageSelector from './languageSelector';
 import RoleSelector     from './roleSelector';
 import Menu             from './menu/menu';
 
-export default React.createClass({displayName: "SideBar",
+class SideBar extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
-    return React.DOM.div({ className: "side" },
-      React.createElement(RoleSelector, { ref: "roleSelector" }),
-      React.createElement(Menu, { ref: "menu" }),
-      React.DOM.hr(),
-      React.DOM.h3({},
-        be5.messages.settings),
-      React.createElement(LanguageSelector, { ref: "languageSelector" }),
+    return (
+      <div className={"side"}>
+        <RoleSelector ref="roleSelector"/>
+        <Menu ref="menu"/>
+        <hr/>
+        <h3>{be5.messages.settings}</h3>
+        <LanguageSelector ref="languageSelector"/>
+      </div>
     );
-  },
-  
+  };
+
   refresh() {
     this.setState({});
     if(this.refs.menu)
@@ -24,5 +29,7 @@ export default React.createClass({displayName: "SideBar",
       this.refs.languageSelector.refresh();
     if(this.refs.roleSelector)
       this.refs.roleSelector.refresh();
-  }
-});
+  };
+}
+
+export default SideBar;

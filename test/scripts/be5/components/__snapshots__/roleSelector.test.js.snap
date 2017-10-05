@@ -4,44 +4,90 @@ exports[`render 1`] = `
 <div
   className="roleBox"
 >
-  <h4>
-    Roles
-  </h4>
   <div
-    className="role"
+    className="dropdown"
   >
-    <input
-      checked={true}
-      id="Guest-checkbox"
-      onChange={[Function]}
-      type="checkbox"
-    />
-    <label
-      htmlFor="Guest-checkbox"
+    <button
+      aria-expanded={false}
+      aria-haspopup="true"
+      className="dropdown-toggle btn btn-secondary"
+      data-toggle="dropdown"
+      onClick={[Function]}
+      type="button"
     >
-      <span
-        className="checkBox"
-      />
-      Guest
-    </label>
-  </div>
-  <div
-    className="role"
-  >
-    <input
-      checked={false}
-      id="Administrator-checkbox"
-      onChange={[Function]}
-      type="checkbox"
-    />
-    <label
-      htmlFor="Administrator-checkbox"
+      Roles
+    </button>
+    <div
+      aria-hidden={true}
+      className="dropdown-menu"
+      role="menu"
+      tabIndex="-1"
     >
-      <span
-        className="checkBox"
+      <div
+        className="role"
+      >
+        <input
+          checked={true}
+          id="Guest-checkbox"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <label
+          htmlFor="Guest-checkbox"
+        >
+          <span
+            className="checkBox"
+          />
+          Guest
+        </label>
+      </div>
+      <div
+        className="role"
+      >
+        <input
+          checked={false}
+          id="Administrator-checkbox"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <label
+          htmlFor="Administrator-checkbox"
+        >
+          <span
+            className="checkBox"
+          />
+          Administrator
+        </label>
+      </div>
+      <div
+        className="dropdown-divider"
+        onClick={[Function]}
+        tabIndex="-1"
+        type={undefined}
       />
-      Administrator
-    </label>
+      <button
+        className="dropdown-item"
+        onClick={[Function]}
+        tabIndex="0"
+        type="button"
+      >
+        <button
+          className="btn btn-primary btn-sm"
+          onClick={[Function]}
+          type="button"
+        >
+          Выбрать всё
+        </button>
+         
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={[Function]}
+          type="button"
+        >
+          Очистить всё
+        </button>
+      </button>
+    </div>
   </div>
 </div>
 `;
