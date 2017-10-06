@@ -108,21 +108,19 @@ exports[`Table 1`] = `
       <div
         className="operationList"
       >
-        <a
+        <button
           className="btn btn-secondary btn-md"
-          href=""
           onClick={[Function]}
         >
           Редактировать
-        </a>
+        </button>
          
-        <a
+        <button
           className="btn btn-secondary btn-md"
-          href=""
           onClick={[Function]}
         >
           Добавить
-        </a>
+        </button>
       </div>
       <div
         id="quickColumns"
