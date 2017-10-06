@@ -2,7 +2,7 @@ import React from 'react';
 import bus from '../core/bus';
 import SideBar from './sideBar';
 import Document from './document';
-import SplitPane from './splitPane';
+import SplitPane from 'react-split-pane';
 import AlertContainer from 'react-alert'
 
 export default React.createClass({
