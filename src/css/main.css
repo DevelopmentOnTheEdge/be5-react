@@ -5,6 +5,10 @@
     overflow: scroll;
 }
 
+.Pane2 {
+    overflow: scroll;
+}
+
 .side {
     background: #f8f8f8;
     padding: 15px;
