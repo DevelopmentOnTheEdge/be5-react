@@ -19,7 +19,7 @@ class Companies extends React.Component
 
   render() {
     const steps = [
-      {title: 'Общие сведения', url: '#!table/companies/Общие сведения'},
+      {title: 'Общие сведения', url: '#!table/companies/All records'},
       {title: 'Адреса', url: '#!table/occupancies/For companies'},
       {title: 'Документ-основание', url: '#!table/contractor/All records'},
     ];
