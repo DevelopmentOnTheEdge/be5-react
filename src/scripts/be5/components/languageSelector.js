@@ -26,7 +26,7 @@ class Language extends Component {
 }
 
 Language.propTypes = {
-  onChange: PropTypes.func.isRequired
+  onLanguageClick: PropTypes.func.isRequired
 };
 
 class LanguageList extends Component {
