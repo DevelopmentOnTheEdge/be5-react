@@ -38,7 +38,6 @@
     "underscore": "1.8.3"
   },
   "devDependencies": {
-    "beanexplorer-react": "0.1.13",
     "babel-cli": "6.24.1",
     "babel-core": "6.25.0",
     "babel-jest": "20.0.3",
@@ -53,6 +52,7 @@
     "babel-preset-react": "6.24.1",
     "babel-project-relative-import": "2.0.1",
     "babel-runtime": "6.22.0",
+    "beanexplorer-react": "0.1.13",
     "coveralls": "2.13.1",
     "create-index": "2.2.0",
     "css-loader": "0.26.1",
@@ -71,6 +71,7 @@
     "prop-types": "15.5.10",
     "react-addons-test-utils": "15.5.1",
     "react-hot-loader": "3.0.0-beta.6",
+    "react-split-pane": "^0.1.66",
     "react-test-renderer": "15.6.1",
     "sass-loader": "6.0.2",
     "style-loader": "0.13.1",
