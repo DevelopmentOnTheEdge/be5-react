@@ -19,8 +19,8 @@ class Categories extends React.Component
 
   render() {
     const steps = [
-      {title: 'Перечень категорий', url: '#!table/privilegeTypes/All records Master'},
-      {title: 'Правила присвоения категорий', url: '#!table/categoryRules/All records'},
+      {title: be5.messages.privilegeTypes__All_records_Master, url: '#!table/privilegeTypes/All records Master'},
+      {title: be5.messages.categoryRules__All_records, url: '#!table/categoryRules/All records'},
     ];
 
     return (

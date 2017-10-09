@@ -9,10 +9,10 @@ class WizardEgisso extends React.Component
   render() {
 
     const steps = [
-      {title: 'Организации', url: '#!companies'},
-      {title: 'Документы', url: '#!egissoDocs'},
-      {title: 'Категории граждан', url: '#!categories'},
-      {title: 'Услуги', url: '#!services'},
+      {title: be5.messages.companies__Tab, url: '#!companies'},
+      {title: be5.messages.egissoDocs__Tab, url: '#!egissoDocs'},
+      {title: be5.messages.categories__Tab, url: '#!categories'},
+      {title: be5.messages.services__Tab, url: '#!services'},
     ];
 
     return (
