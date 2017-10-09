@@ -19,7 +19,7 @@ class Categories extends React.Component
 
   render() {
     const steps = [
-      {title: 'Перечень категорий', url: '#!table/localCategories/All records Egisso'},
+      {title: 'Перечень категорий', url: '#!table/privilegeTypes/All records Master'},
       {title: 'Правила присвоения категорий', url: '#!table/categoryRules/All records'},
     ];
 
