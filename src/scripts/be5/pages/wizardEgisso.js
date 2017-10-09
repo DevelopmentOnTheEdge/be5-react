@@ -18,8 +18,8 @@ class WizardEgisso extends React.Component
     return (
       <div className='formWizardTest'>
         <FormWizard steps={steps} startAtStep={this.props.value.startAtStep}
-          backButtonText="Предыдущий шаг"
-          nextButtonText="Следующий шаг"
+          backButtonText={be5.messages.backButtonText}
+          nextButtonText={be5.messages.nextButtonText}
         />
       </div>
     )
