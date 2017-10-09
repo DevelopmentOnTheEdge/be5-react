@@ -1,5 +1,5 @@
 {
-  "port": 8100,
+  "port": 8200,
   "rewrite": [
     { "from": "/be5/*", "to": "/$1" }
   ],
@@ -8,7 +8,18 @@
       "route": "/api/languageSelector",
       "response": {
         "type": "application/json",
-        "body": {"languages":["RU"],"selected":"RU","messages":{"FIO":"ФИО"}}
+        "body": {
+          "languages": [
+            "RU"
+          ],
+          "messages": {
+            "no": "нет",
+            "yes": "да",
+            "assignmentRules__All_records": "Жизненные ситуации",
+            "fio": "Ф.И.О."
+          },
+          "selected": "RU"
+        }
       }
     },
     {
@@ -22,81 +33,22 @@
       "route": "/api/menu",
       "response": {
         "type": "application/json",
-        "body": {
-          "class": "class com.developmentontheedge.be5.components.Menu$MenuResponse",
-          "loggedIn": true,
-          "root": [
-            {"title":"Main page","default":true,"action":{"name":"call","arg":"static/welcome.be"}},
-            {
-              "action": null,
-              "children": [
-                {
-                  "action": {
-                    "arg": "table/testtable/Test 1D",
-                    "class": "class com.developmentontheedge.be5.model.Action",
-                    "name": "call"
-                  },
-                  "class": "class com.developmentontheedge.be5.components.Menu$QueryNode",
-                  "default": false,
-                  "id": null,
-                  "title": "Test 1D"
-                },
-                {
-                  "action": {
-                    "arg": "table/testtable/Test 1D unknown",
-                    "class": "class com.developmentontheedge.be5.model.Action",
-                    "name": "call"
-                  },
-                  "class": "class com.developmentontheedge.be5.components.Menu$QueryNode",
-                  "default": false,
-                  "id": null,
-                  "title": "Test 1D unknown"
-                }
-              ],
-              "class": "class com.developmentontheedge.be5.components.Menu$RootNode",
-              "default": false,
-              "id": {
-                "class": "class com.developmentontheedge.be5.components.Menu$Id",
-                "entity": "testtable",
-                "query": null
-              },
-              "operations": null,
-              "title": "testtable"
-            },
-            {
-              "action": null,
-              "children": [
-                {
-                  "action": {
-                    "arg": "login",
-                    "class": "class com.developmentontheedge.be5.model.Action",
-                    "name": "call"
-                  },
-                  "class": "class com.developmentontheedge.be5.components.Menu$QueryNode",
-                  "default": false,
-                  "id": null,
-                  "title": "Login"
-                }
-              ],
-              "class": "class com.developmentontheedge.be5.components.Menu$RootNode",
-              "default": false,
-              "id": {
-                "class": "class com.developmentontheedge.be5.components.Menu$Id",
-                "entity": "users",
-                "query": null
-              },
-              "operations": null,
-              "title": "users"
-            }
-          ]
-        }
+        "body": {"loggedIn":true,"root":[
+          {"title":"Main page","default":true,"action":{"name":"call","arg":"static/welcome.be"}},
+          {"id":{"entity":"testtable"},"title":"testtable","default":false,"children":[
+            {"title":"Test 1D","action":{"name":"call","arg":"table/testtable/Test 1D"},"default":false},
+            {"title":"Test 1D unknown","action":{"name":"call","arg":"table/testtable/Test 1D unknown"},"default":false}
+          ]},
+          {"title":"Logout","default":false,"action":{"name":"call","arg":"logout"}},
+          {"id":{"entity":"_system_"},"title":"System","default":false,"children":[{"title":"Pool","action":{"name":"call","arg":"pool"},"default":false}]},
+          {"title":"users","default":false,"action":{"name":"call","arg":"table/users/All records"}}]}
       }
     },
     {
       "route": "/api/appInfo",
       "response": {
         "type": "application/json",
-        "body": {"title":"BeanExplorer 5 application","url":"http://127.0.0.1:8100/"}
+        "body": {"title":"BeanExplorer 5 application","url":"http://127.0.0.1:8200/"}
       }
     },
     {
@@ -110,7 +62,21 @@
       "route": "/api/static/welcome.be",
       "response": {
         "type": "application/json",
-        "body": {"type":"static","value":"<h1>Main page</h1><div class=\"main-content\"><p>Test static page</p><a href=\"#!form/testtable/Test1D/Insert\">#!form/testtable/Test1D/Insert</a></div>"}
+        "body": {
+          "data": {
+            "attributes": {
+              "content": "<h1>Добро пожаловать</h1>\n<a class=\"\" href=\"#!login\">Вход</a>",
+              "title": ""
+            },
+            "type": "static"
+          },
+          "links": {
+            "self": "static/welcome.be"
+          },
+          "meta": {
+            "_ts_": "1507534117918"
+          }
+        }
       }
     },
     {
@@ -124,18 +90,120 @@
       "route": "/api/document",
       "response": {
         "type": "application/json",
-        "body": {"class":"class com.developmentontheedge.be5.api.impl.ResponseImpl$TypedResponse",
-          "type":"table",
-          "value":{
-            "category":"testtable",
-            "class":"class com.developmentontheedge.be5.model.TablePresentation",
-            "columns":["Name","Value"],
-            "hasAggregate":false,
-            "length":20,
-            "operations":[{"action":null,"class":"class com.developmentontheedge.be5.model.TableOperationPresentation","clientSide":false,"name":"Delete","requiresConfirmation":false,"title":"Удалить","visibleWhen":"anySelected"},{"action":null,"class":"class com.developmentontheedge.be5.model.TableOperationPresentation","clientSide":false,"name":"Edit","requiresConfirmation":false,"title":"Редактировать","visibleWhen":"anySelected"},{"action":null,"class":"class com.developmentontheedge.be5.model.TableOperationPresentation","clientSide":false,"name":"Insert","requiresConfirmation":false,"title":"Добавить","visibleWhen":"always"}],"page":"Test 1D","parameters":[],"rows":[{"cells":[{"class":"class com.developmentontheedge.be5.components.impl.model.TableModel$CellModel","content":"<a href=\"#!table/testtable/Test 1D unknown/ID=1\">test</a>","options":[{"link":{"class":"class java.util.TreeMap","empty":false}},{"quick":{"class":"class java.util.TreeMap","empty":false}}]},{"class":"class com.developmentontheedge.be5.components.impl.model.TableModel$CellModel","content":"1","options":[]}],"class":"class com.developmentontheedge.be5.components.impl.InitialRow","id":"1"},{"cells":[{"class":"class com.developmentontheedge.be5.components.impl.model.TableModel$CellModel","content":"<a href=\"#!table/testtable/Test 1D unknown/ID=2\">test</a>","options":[{"link":{"class":"class java.util.TreeMap","empty":false}},{"quick":{"class":"class java.util.TreeMap","empty":false}}]},{"class":"class com.developmentontheedge.be5.components.impl.model.TableModel$CellModel","content":"2","options":[]}],"class":"class com.developmentontheedge.be5.components.impl.InitialRow","id":"2"},{"cells":[{"class":"class com.developmentontheedge.be5.components.impl.model.TableModel$CellModel","content":"<a href=\"#!table/testtable/Test 1D unknown/ID=3\">test</a>","options":[{"link":{"class":"class java.util.TreeMap","empty":false}},{"quick":{"class":"class java.util.TreeMap","empty":false}}]},{"class":"class com.developmentontheedge.be5.components.impl.model.TableModel$CellModel","content":"test","options":[]}],"class":"class com.developmentontheedge.be5.components.impl.InitialRow","id":"3"}],
-            "selectable":true,
-            "title":"testtable: Test 1D",
-            "totalNumberOfRows":3
+        "body": {
+          "data": {
+            "attributes": {
+              "category": "companies",
+              "columns": [
+                "Наименование",
+                "Краткое наименование",
+                "ИНН",
+                "КПП",
+                "ОГРН",
+                "Дата открытия",
+                "Дата закрытия",
+                "Местоположение"
+              ],
+              "hasAggregate": false,
+              "layout": {
+                "type": "tableForm"
+              },
+              "length": 1,
+              "operations": [
+                {
+                  "clientSide": false,
+                  "isClientSide": false,
+                  "name": "Delete",
+                  "requiresConfirmation": false,
+                  "title": "Удалить",
+                  "visibleWhen": "anySelected"
+                },
+                {
+                  "clientSide": false,
+                  "isClientSide": false,
+                  "name": "Edit",
+                  "requiresConfirmation": false,
+                  "title": "Редактировать",
+                  "visibleWhen": "oneSelected"
+                },
+                {
+                  "clientSide": false,
+                  "isClientSide": false,
+                  "name": "Insert",
+                  "requiresConfirmation": false,
+                  "title": "Добавить",
+                  "visibleWhen": "always"
+                }
+              ],
+              "page": "All records",
+              "parameters": {},
+              "rows": [
+                {
+                  "cells": [
+                    {
+                      "content": "adfd",
+                      "options": {
+                        "quick": {
+                          "visible": "false"
+                        }
+                      }
+                    },
+                    {
+                      "content": "sdaf",
+                      "options": {}
+                    },
+                    {
+                      "content": "32232",
+                      "options": {
+                        "blankNulls": {}
+                      }
+                    },
+                    {
+                      "content": "131314",
+                      "options": {
+                        "blankNulls": {}
+                      }
+                    },
+                    {
+                      "content": "32141131",
+                      "options": {
+                        "blankNulls": {}
+                      }
+                    },
+                    {
+                      "content": "01.09.2017",
+                      "options": {}
+                    },
+                    {
+                      "content": "",
+                      "options": {
+                        "blankNulls": {},
+                        "quick": {
+                          "visible": "false"
+                        }
+                      }
+                    },
+                    {
+                      "content": "Зея (Амурская область)<br/> Вичуга (Ивановская область)<br/> Алейский район (Алтайский край)",
+                      "options": {
+                        "sql": {}
+                      }
+                    }
+                  ],
+                  "id": "19"
+                }
+              ],
+              "selectable": true,
+              "title": "Организации: Все записи",
+              "totalNumberOfRows": 1
+            },
+            "type": "table"
+          },
+          "links": {
+            "self": "table/companies/All records"
+          },
+          "meta": {
+            "_ts_": "1507538339251"
           }
         }
       }
@@ -145,86 +213,43 @@
       "response": {
         "type": "application/json",
         "body": {
-          "type": "form",
-          "value": {
-            "bean": {
-              "values": {
-                "date": "2017-07-20",
-                "number": "123abc",
-                "agree": true,
-                "select": "vanilla",
-                "multiSelect": "",
-                "description": "",
-                "login": "",
-                "pass": "password"
+          "data": {
+            "attributes": {
+              "bean": {
+                "values": {
+                  "companyID": ""
+                },
+                "meta": {
+                  "/companyID": {
+                    "displayName": "companyID"
+                  }
+                },
+                "order": [
+                  "/companyID"
+                ]
               },
-              "meta": {
-                "/date": {
-                  "displayName": "Date",
-                  "type": "Date",
-                  "inputSize": "col-lg-6"
-                },
-                "/number": {
-                  "displayName": "Number",
-                  "type": "Long",
-                  "message": "number is required here",
-                  "status": "error",
-                  "inputSize": "col-lg-6"
-                },
-                "/select": {
-                  "displayName": "Select",
-                  "tagList": [["vanilla","Vanilla"],["chocolate","Chocolate"],["strawberry","Strawberry"],["cookiescream","Cookies and Cream"],["caramel","Caramel"],["peppermint","Peppermint"]],
-                  "inputSize": "col-lg-6"
-                },
-                "/multiSelect": {
-                  "displayName": "Multi Select",
-                  "multipleSelectionList": true,
-                  "tagList": [["vanilla","Vanilla"],["chocolate","Chocolate"],["strawberry","Strawberry"],["cookiescream","Cookies and Cream"],["caramel","Caramel"],["peppermint","Peppermint"]],
-                  "inputSize": "col-lg-6"
-                },
-                "/description": {
-                  "displayName": "Name",
-                  "type": "textArea",
-                  "placeholder": "field for text",
-                  "inputSize": "col-lg-12"
-                },
-                "/login": {
-                  "displayName": "Name",
-                  "groupId": 5,
-                  "groupName": "Security",
-                  "inputSize": "col-lg-12"
-                },
-                "/pass": {
-                  "displayName": "Password",
-                  "type": "passwordInput",
-                  "groupId": 5,
-                  "status": "success",
-                  "inputSize": "col-lg-12"
-                },
-                "/agree": {
-                  "displayName": "Agree",
-                  "type": "Boolean",
-                  "status": "success",
-                  "inputSize": "col-lg-6"
-                }
+              "entity": "companies",
+              "layout": {},
+              "operation": "SelectCompany",
+              "operationResult": {
+                "status": "open"
               },
-              "order": [
-                "/date",
-                "/number",
-                "/select",
-                "/multiSelect",
-                "/description",
-                "/login",
-                "/pass",
-                "/agree"
-              ]
+              "query": "Selection view SelectCompany",
+              "selectedRows": "",
+              "title": "SelectCompany"
             },
-            "selectedRows": "0",
-            "title": "Insert"
+            "type": "form"
+          },
+          "links": {
+            "self": "form/companies/Selection view SelectCompany/SelectCompany"
+          },
+          "meta": {
+            "_ts_": "1507198229686"
           }
         }
       }
     },
+
     {
       "route": "/api/form/apply",
       "response": {
@@ -237,6 +262,13 @@
             "status":"redirect"
           }
         }
+      }
+    },
+    {
+      "route": "/api/login",
+      "response": {
+        "type": "application/json",
+        "body": {"type":"ok"}
       }
     }
 
