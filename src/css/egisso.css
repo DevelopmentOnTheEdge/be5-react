@@ -20,3 +20,7 @@
     height: 32px;
     margin-bottom: 22px;
 }
+
+.table-component td {
+    max-width: 740px;
+}

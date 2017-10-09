@@ -4,12 +4,12 @@ import changeDocument from '../core/changeDocument';
 import FormWizard     from '../components/formWizard'
 
 
-class WizardEgisso extends React.Component {
-
+class WizardEgisso extends React.Component
+{
   render() {
 
     const steps = [
-      {title: 'Организация', url: '#!companies'},
+      {title: 'Организации', url: '#!companies'},
       {title: 'Документы', url: '#!egissoDocs'},
       {title: 'Категории граждан', url: '#!categories'},
       {title: 'Услуги', url: '#!services'},
