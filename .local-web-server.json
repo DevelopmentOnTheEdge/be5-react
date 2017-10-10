@@ -217,15 +217,30 @@
             "attributes": {
               "bean": {
                 "values": {
-                  "companyID": ""
+                  "governmentCode": ""
                 },
                 "meta": {
-                  "/companyID": {
-                    "displayName": "companyID"
+                  "/governmentCode": {
+                    "displayName": "governmentCode",
+                    "validationRules": {
+                        "mask":"11"
+                    }
+                  },
+                  "/section": {
+                    "displayName": "section"
+                  },
+                  "/subsection": {
+                    "displayName": "subsection"
+                  },
+                  "/targetedArticle": {
+                    "displayName": "targetedArticle"
+                  },
+                  "/podStands": {
+                    "displayName": "podStands"
                   }
                 },
                 "order": [
-                  "/companyID"
+                  "/governmentCode"
                 ]
               },
               "entity": "companies",

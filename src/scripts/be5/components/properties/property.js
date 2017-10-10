@@ -6,6 +6,7 @@ import moment               from 'moment';
 import Select, { Creatable }from 'react-select';
 import VirtualizedSelect    from 'react-virtualized-select'
 import NumericInput from 'react-numeric-input';
+import MaskedInput from 'react-maskedinput'
 
 
 class Property extends Component {
@@ -251,6 +252,10 @@ class Property extends Component {
     if(meta.validationRules !== undefined && Property.isNumberInput(meta.validationRules))
     {
       return controls['numberInput']()
+    }
+    else if (meta.validationRules !== undefined && Property.getControl())
+    {
+      return <MaskedInput/>
     }
 
     if(controls[meta.type] !== undefined){
