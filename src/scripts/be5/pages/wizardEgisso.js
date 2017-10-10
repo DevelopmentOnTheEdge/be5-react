@@ -4,22 +4,22 @@ import changeDocument from '../core/changeDocument';
 import FormWizard     from '../components/formWizard'
 
 
-class WizardEgisso extends React.Component {
-
+class WizardEgisso extends React.Component
+{
   render() {
 
     const steps = [
-      {title: 'Организация', url: '#!companies'},
-      {title: 'Документы', url: '#!egissoDocs'},
-      {title: 'Категории граждан', url: '#!categories'},
-      {title: 'Услуги', url: '#!services'},
+      {title: be5.messages.companies__Tab, url: '#!companies'},
+      {title: be5.messages.egissoDocs__Tab, url: '#!egissoDocs'},
+      {title: be5.messages.categories__Tab, url: '#!categories'},
+      {title: be5.messages.services__Tab, url: '#!services'},
     ];
 
     return (
       <div className='formWizardTest'>
         <FormWizard steps={steps} startAtStep={this.props.value.startAtStep}
-          backButtonText="Предыдущий шаг"
-          nextButtonText="Следующий шаг"
+          backButtonText={be5.messages.backButtonText}
+          nextButtonText={be5.messages.nextButtonText}
         />
       </div>
     )

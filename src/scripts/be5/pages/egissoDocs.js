@@ -46,9 +46,9 @@ class EgissoDocs extends React.Component
   render() {
     const help = this.help();
     const steps = [
-      {title: 'Категории документов', url: '#!table/categories/Doc categories'},
-      {title: 'Документы', url: '#!table/docTypes/All records'},
-      {title: 'Отнесение документов к категориям', url: '#!table/classifications/All records'}
+      {title: be5.messages.categories__Doc_records, url: '#!table/categories/Doc categories'},
+      {title: be5.messages.docTypes__All_records, url: '#!table/docTypes/All records'},
+      {title: be5.messages.classifications__All_records, url: '#!table/classifications/All records'}
     ];
     return (<div>
       {help}
