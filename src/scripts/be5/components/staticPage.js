@@ -7,7 +7,7 @@ class StaticPage extends React.Component
   render() {
     const attributes = this.props.value.data.attributes;
     return <div className='staticPage'>
-      <div className='staticPage__text' >{attributes.title}</div>
+      <h1 className='staticPage__title' >{attributes.title}</h1>
       <div className='staticPage__text' dangerouslySetInnerHTML={ {__html: attributes.content} } />
     </div>;
   }

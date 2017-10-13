@@ -14,6 +14,7 @@ import loginAction from './actions/login.js';
 import logoutAction from './actions/logout.js';
 import staticAction from './actions/static.js';
 import tableAction from './actions/table.js';
+import StaticPage from "./components/staticPage";
 
 var messages = {
   en: {
@@ -458,6 +459,7 @@ const be5 = {
     error(data) {
       bus.fire("alert", {msg: data.value.code, type: 'error'}); //, time: 0
       console.error(data.value.code + "\n\n" + data.value.message);
+      //changeDocument("errors-document", { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)})
     }
   },
 

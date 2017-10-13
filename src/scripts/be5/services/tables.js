@@ -5,6 +5,7 @@ import _                   from 'underscore';
 import Preconditions       from '../preconditions';
 import StaticPage          from '../components/staticPage';
 import TablesCollections   from '../services/tablesCollections';
+import ErrorPane from "../components/errorPane";
 
 
 const createDefaultOptions = function() {
@@ -35,24 +36,24 @@ export default {
 
       performData(data, documentName);
     }, (data)=> {
-      changeDocument(documentName, {
-        component: 'text',
-        error: true,
-        value: be5.messages.errorServerQueryException.replace('$message', data.value.code)
-      });
+      changeDocument(documentName, { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)});
     });
   },
 
   performData(json, documentName)
   {
-    const tableComponentName = json.data.attributes.layout.type || 'table';
-    const tableComponent = TablesCollections.getTable(tableComponentName);
+    if(json.data !== undefined){
+      const tableComponentName = json.data.attributes.layout.type || 'table';
+      const tableComponent = TablesCollections.getTable(tableComponentName);
 
-    if(tableComponent === undefined){
-      changeDocument(documentName, { component: StaticPage,
-        value: StaticPage.createValue(be5.messages.tableComponentNotFound + tableComponentName, '')});
+      if(tableComponent === undefined){
+        changeDocument(documentName, { component: StaticPage,
+          value: StaticPage.createValue(be5.messages.tableComponentNotFound + tableComponentName, '')});
+      }else{
+        changeDocument(documentName, { component: tableComponent, value: json });
+      }
     }else{
-      changeDocument(documentName, { component: tableComponent, value: json });
+      changeDocument(documentName, { component: ErrorPane, value: json });
     }
   },
 
