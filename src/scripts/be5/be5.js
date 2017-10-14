@@ -14,6 +14,8 @@ import loginAction from './actions/login.js';
 import logoutAction from './actions/logout.js';
 import staticAction from './actions/static.js';
 import tableAction from './actions/table.js';
+import qBuilder from './actions/qBuilder.js';
+
 import StaticPage from "./components/staticPage";
 
 var messages = {
@@ -478,7 +480,8 @@ const be5 = {
     logout: logoutAction,
     form: formAction,
     table: tableAction,
-    static: staticAction
+    static: staticAction,
+    qBuilder: qBuilder
   },
 
   getAction(actionName) {
