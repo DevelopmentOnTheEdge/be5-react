@@ -4,11 +4,11 @@ exports[`snapshot 1`] = `
 <div
   className="staticPage"
 >
-  <div
-    className="staticPage__text"
+  <h1
+    className="staticPage__title"
   >
     Test
-  </div>
+  </h1>
   <div
     className="staticPage__text"
     dangerouslySetInnerHTML={
