@@ -9,7 +9,7 @@ export default function(documentName, page)
     _ts_: new Date().getTime()
   };
 
-  be5.net.request('qBuilder', requestParams, data => {
-    changeDocument(documentName, { component: QueryBuilder, value: data })
-  });
+  //be5.net.request('qBuilder', requestParams, data => {
+    changeDocument(documentName, { component: QueryBuilder, value: {} })
+  //});
 };

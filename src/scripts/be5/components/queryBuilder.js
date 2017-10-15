@@ -1,10 +1,13 @@
+import be5            from '../be5';
+import changeDocument from '../core/changeDocument';
 import React          from 'react';
 import CodeMirror     from 'react-codemirror';
 import CodeMirrorShowHint     from 'codemirror/addon/hint/show-hint.js';
 import CodeMirrorSqlHint     from 'codemirror/addon/hint/sql-hint.js';
 import Document       from './document';
+import Tables         from '../services/tables';
 
-import '../../../css/splitPane.css';
+import '../../../css/qBuilder.css';
 import "codemirror/lib/codemirror.css";
 import "codemirror/addon/hint/show-hint.css";
 
@@ -13,18 +16,20 @@ class QueryBuilder extends React.Component
 {
   constructor(props) {
     super(props);
-    this.state = {code: "select * from us"}
+    this.state = {code: "select * from users"}
 
     this.updateCode = this.updateCode.bind(this);
   }
+  componentDidMount(){
+    be5.net.request('queryBuilder', { sql: this.state.code, _ts_: new Date().getTime() }, json => {
+      Tables.performData(json, 'queryBuilder-table');
+    });
+  }
 
-  updateCode(newCode) {
-//    const requestParams = {
-//      _ts_: new Date().getTime()
-//    };
-//    be5.net.request('qBuilder', requestParams, data => {
-//      changeDocument(documentName, { component: QueryBuilder, value: data })
-//    });
+  updateCode(newCode){
+    be5.net.request('queryBuilder', { sql: newCode, _ts_: new Date().getTime() }, json => {
+      Tables.performData(json, 'queryBuilder-table');
+    });
 		this.setState({
 			code: newCode,
 		});
@@ -41,13 +46,14 @@ class QueryBuilder extends React.Component
       }}
     };
     return (
-      <div className="editor-table">
+      <div className="queryBuilder">
         <h1>Query Builder</h1>
         <CodeMirror value={this.state.code} onChange={this.updateCode} options={options} />
-        <button>Выполнить</button>
-        <Document documentName={"table"} />
+        <br/>
+        <Document documentName={"queryBuilder-table"} />
       </div>
     );
+    //<button>Выполнить</button>
   }
 }
 
