@@ -5,6 +5,7 @@ import formService                from '../../services/forms';
 import PropertySet          from '../properties/propertySet';
 import JsonPointer          from 'json-pointer';
 import _                    from 'underscore';
+import Document from "../document";
 
 
 const Form = React.createClass({
@@ -69,7 +70,7 @@ const Form = React.createClass({
     // }
 //    if (this.props.isEmbedded !== true) {
     be5.net.request('form/apply', this.getRequestParams(attributes.bean.values), data => {
-      formService.performOperationResult(data, this.props.value.documentName, this.props.onChange)
+      formService.performOperationResult(data, this.props.value.documentName, this.props.onChange, true)
     });
     // } else {
     //   be5.net.request('form/apply', this.getRequestParams(this.state.bean.values));
@@ -167,6 +168,8 @@ const Form = React.createClass({
             <PropertySet bean={attributes.bean} onChange={this._onFieldChange} localization={be5.messages.property}/>
             {this._createFormActions()}
           </form>
+          <br/>
+          <Document documentName={this.props.value.documentName +"_errors"} onChange={this.onChange} />
         </div>
       </div>
     );

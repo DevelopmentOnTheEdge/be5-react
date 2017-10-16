@@ -4,8 +4,8 @@ import changeDocument      from '../core/changeDocument';
 import _                   from 'underscore';
 import Preconditions       from '../preconditions';
 import StaticPage          from '../components/staticPage';
-import TablesCollections   from '../services/tablesCollections';
-import ErrorPane from "../components/errorPane";
+import ErrorPane           from "../components/errorPane";
+import TablesCollections   from './tablesCollections';
 
 
 const createDefaultOptions = function() {

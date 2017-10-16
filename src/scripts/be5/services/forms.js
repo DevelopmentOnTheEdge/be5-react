@@ -3,8 +3,9 @@ import bus              from '../core/bus';
 import Preconditions    from '../preconditions';
 import _                from 'underscore';
 import changeDocument   from '../core/changeDocument';
-import {HtmlResult}       from '../components/forms/form';
+import {HtmlResult}     from '../components/forms/form';
 import StaticPage       from '../components/staticPage';
+import ErrorPane        from "../components/errorPane";
 import FormsCollections from './formsCollections.js';
 
 
@@ -24,7 +25,7 @@ export default {
     };
 
     be5.net.request('form', requestParams, data => {
-      this.performOperationResult(data, documentName, onChange);
+      this.performOperationResult(data, documentName, onChange, false);
     }, (data)=> {
       bus.fire("alert", {msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error'});
       // changeDocument(documentName, {
@@ -36,49 +37,63 @@ export default {
 
   },
 
-  performOperationResult(json, documentName, onChange){
+  performOperationResult(json, documentName, onChange, apply){
     //console.log("forms perform: " + documentName);
     Preconditions.passed(documentName);
-
-    switch (json.data.type)
-    {
-      case 'form':
-        this.performForm(json, documentName);
-        return;
-      case 'operationResult':
-        if(onChange)onChange();
-        const attributes = json.data.attributes;
-
-        if(attributes.status === 'error')
-        {
-          bus.fire("alert", {msg: attributes.message, type: 'error'});
+    if(json.data !== undefined) {
+      switch (json.data.type) {
+        case 'form':
+          this.performForm(json, documentName);
           return;
-        }
+        case 'operationResult':
+          if (onChange) onChange();
+          const attributes = json.data.attributes;
 
-        switch (attributes.status)
-        {
-          case 'redirect':
-            bus.fire("alert", {msg: be5.messages.successfullyCompleted, type: 'success'});
-            if(documentName === be5.documentName)
-            {
-              be5.url.set(attributes.details);
-            }
-            else
-            {
-              be5.url.process(documentName, '#!' + attributes.details);
-            }
+          if (attributes.status === 'error') {
+            bus.fire("alert", {msg: attributes.message, type: 'error'});
             return;
-          case 'finished':
-            changeDocument(documentName, { component: HtmlResult, value: json });
-            return;
-          default:
-            bus.fire("alert", {msg: be5.messages.errorUnknownAction.replace('$action', 'status = ' + attributes.status), type: 'error'});
+          }
+
+          switch (attributes.status) {
+            case 'redirect':
+              bus.fire("alert", {msg: be5.messages.successfullyCompleted, type: 'success'});
+              if (documentName === be5.documentName) {
+                be5.url.set(attributes.details);
+              }
+              else {
+                be5.url.process(documentName, '#!' + attributes.details);
+              }
+              return;
+            case 'finished':
+              changeDocument(documentName, {component: HtmlResult, value: json});
+              return;
+            default:
+              bus.fire("alert", {
+                msg: be5.messages.errorUnknownAction.replace('$action', 'status = ' + attributes.status),
+                type: 'error'
+              });
             //changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'status = ' + attributes.status) });
-        }
-        return;
-      default:
-        bus.fire("alert", {msg: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + json.data.attributes.type), type: 'error'});
+          }
+          return;
+        default:
+          bus.fire("alert", {
+            msg: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + json.data.attributes.type),
+            type: 'error'
+          });
         //changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + json.data.attributes.type) });
+      }
+    }else{
+      const error = json.errors[0];
+      bus.fire("alert", {msg: error.status + " "+ error.title, type: 'error'});
+
+      if (apply)
+      {
+        changeDocument(documentName + "_errors", {component: ErrorPane, value: json});
+      }
+      else
+      {
+        changeDocument(documentName, {component: ErrorPane, value: json});
+      }
     }
   },
 
