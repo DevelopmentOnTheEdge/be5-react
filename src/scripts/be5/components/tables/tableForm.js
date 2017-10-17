@@ -14,7 +14,9 @@ class TableForm extends React.Component
 {
   constructor(){
     super();
+    this.state = {};
     this.onChange = this.onChange.bind(this);
+    this.tableInfo = this.tableInfo.bind(this);
   }
 
   componentDidUpdate(){
@@ -29,6 +31,12 @@ class TableForm extends React.Component
   updateDocuments(){
     const attributes = this.props.value.data.attributes;
     changeDocument("table", { component: Table, value: this.props.value });
+    if(this.state.tableInfo === undefined && attributes.layout.tableInfo !== undefined)
+    {
+      be5.url.process("table-form-info", "#!static/" + attributes.layout.tableInfo);
+      this.setState({tableInfo: attributes.layout.tableInfo});
+    }
+
     if(attributes.layout.defaultOperation !== undefined){
       //console.log("attributes.layout.defaultOperation: " + attributes.layout.defaultOperation);
       //TODO вместо замены старой формы на StaticPage.createValue('', ''), делать все поля READ_ONLY и кнопку disabled
@@ -57,11 +65,35 @@ class TableForm extends React.Component
       }, "table");
   }
 
+  tableInfo(){
+    const attributes = this.props.value.data.attributes;
+    if(attributes.layout.tableInfo !== undefined) {
+      return (
+        <div className="clearfix max-width-970">
+          <button className="btn btn-sm btn-info" type="button" data-toggle="collapse"
+                  data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+            Справка
+          </button>
+          <div className="collapse" id="collapse1">
+            <div className="alert alert-success" role="alert">
+              <Document documentName={"table-form-info"} />
+            </div>
+          </div>
+        </div>
+      )
+    } else {
+      return null;
+    }
+  }
+
   render() {
-    return (<div className="table-form">
-      <Document documentName={"table"} operationDocumentName={"form"} onChange={this.onChange}/>
-      <Document documentName={"form"} onChange={this.onChange} />
-     </div>);
+    return (
+      <div className="table-form">
+        <Document documentName={"table"} operationDocumentName={"form"} onChange={this.onChange}/>
+        {this.tableInfo()}
+        <Document documentName={"form"} onChange={this.onChange} />
+      </div>
+    );
   }
 
 }
