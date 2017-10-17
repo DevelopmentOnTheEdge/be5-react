@@ -6,37 +6,40 @@ import Navs           from '../components/navs';
 
 class EgissoDocs extends React.Component
 {
+  //todo move to static page
+  // componentDidMount(){
+  //
+  // }
+
   help()
   {
     return (
       <div className="">
-        <button className="btn btn-info pull-right btn-sm float-right" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+        <div className="clearfix">
+          <h1 className="wizard-page-title">Документы</h1>
+          <button className="wizard-page-help btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
             Справка
-        </button>
-        <h1>Документы</h1>
+          </button>
+        </div>
         <div className="collapse" id="collapse1"><div className="alert alert-success" role="alert">
           Заполните сведения о документах, которые требуются при определении права на предоставление услуг.
           Категории документов необходимы для того, чтобы группировать взаимозаменяемые документы, которые
           может предоставить гражданин при обращении за предоставлением услуги.
           По умолчанию для примера добавлены следующе категории документов:
-            <ol>
-              <li>
-                  Категория “Документ, удостоверяющий личность граждан РФ”. К ней относятся следующие документы:
-                  <ol className="lower-alpha">
-                      <li>Паспорт гражданина РФ</li>
-                      <li>Свидетельство о рождении</li>
-                      <li>Военный билет</li>
-                      <li>Удостоверение личности военнослужащего</li>
-                      <li>Иной документ, удостоверяющий личность</li>
-                  </ol>
-              </li>
-
-              <li>
-                  Категория “Документы, подтверждающие доходы”. К ней относятся следующие документы:
-                  <ol className="lower-alpha">
-                      <li>Справка о заработной плате</li>
-                  </ol>
-              </li>
+          <ol>
+            <li>
+              Категория “Документ, удостоверяющий личность граждан РФ”. К ней относятся следующие документы:
+              <ol className="lower-alpha">
+                <li>Паспорт гражданина РФ</li>
+                <li>Свидетельство о рождении</li>
+                <li>Военный билет</li>
+                <li>Загранпаспорт гражданина РФ</li>
+                <li>Временное удостоверение личности гражданина РФ</li>
+              </ol>
+            </li>
+            <li>
+              Категория “Заявление на предоставление услуги”. К ней относится документ "Заявление на тестовую услугу".
+            </li>
           </ol>
         </div></div>
       </div>

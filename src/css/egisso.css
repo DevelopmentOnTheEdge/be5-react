@@ -24,3 +24,13 @@
 .table-component td {
     max-width: 740px;
 }
+
+.wizard-page-title {
+    float: left;
+    margin-right: 12px;
+    margin-bottom: 12px;
+}
+
+.wizard-page-help {
+    margin-top: 2px;
+}
