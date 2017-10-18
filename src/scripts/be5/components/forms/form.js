@@ -28,7 +28,9 @@ const Form = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    this.setState(nextProps.value);
+    this.setState(nextProps.value, () => {
+      this.setState({ allFieldsFilled: this._allFieldsFilled() });
+    });
   },
   
   getFormValues() {
