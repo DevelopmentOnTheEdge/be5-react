@@ -41,7 +41,7 @@ const Form = React.createClass({
   
   _reloadOnChange(controlName) {
     const attributes = this.state.data.attributes;
-    this._reload(Object.assign({}, attributes.bean.values, { name: '_reloadcontrol_', value: controlName }));
+    this._reload(Object.assign({}, attributes.bean.values, { '_reloadcontrol_': controlName }));
   },
 
   getRequestParams(values){
