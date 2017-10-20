@@ -5,10 +5,12 @@
     <title>React App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+    <style type="text/css">.document-loader{height:3px;width:100%;position:absolute;top:0;left:0;overflow:hidden;background-color: transparent}
+    .document-loader:before{display:block;position:absolute;content:"";left:0;width:10%;height:3px;background-color:#40CCCC;
+        animation:loading 10s linear infinite}@keyframes loading{from{left:-50%;width:30%}50%{width:30%}70%{width:70%}80%{left:50%}95%{left:120%}to{left:100%}}</style>
 <link rel="shortcut icon" href="/favicon.ico"></head>
 <body>
-<div id="app"><div class="init-loader"></div></div>
+<div id="app"><div class="document-loader"></div></div>
 <div id="login"></div>
-<style type="text/css">.init-loader{border:10px solid #f3f3f3;border-top:10px solid #3bb3c2;border-radius:50%;width:80px;height:80px;animation:spin 1.5s linear infinite;margin:120px auto 0}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}</style>
 <script type="text/javascript" src="/static/be5.js"></script></body>
 </html>
