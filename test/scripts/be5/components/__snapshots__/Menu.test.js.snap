@@ -4,13 +4,6 @@ exports[`snapshot menu 1`] = `
 <div
   className="menuContainer"
 >
-  <div
-    className="menuHeader"
-  >
-    <h2>
-      Hello!
-    </h2>
-  </div>
   <input
     className="searchField form-control"
     onChange={[Function]}

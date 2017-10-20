@@ -65,11 +65,8 @@ exports[`render 1`] = `
         tabIndex="-1"
         type={undefined}
       />
-      <button
-        className="dropdown-item"
-        onClick={[Function]}
-        tabIndex="0"
-        type="button"
+      <div
+        className="roleBox_add-actions"
       >
         кнопки в разработке
         <br />
@@ -88,7 +85,7 @@ exports[`render 1`] = `
         >
           Очистить всё
         </button>
-      </button>
+      </div>
     </div>
   </div>
 </div>

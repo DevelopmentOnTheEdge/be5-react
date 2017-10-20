@@ -2,10 +2,10 @@ import be5 from '../be5';
 import bus from '../core/bus';
 import React, { Component } from 'react';
 import PropTypes            from 'prop-types';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Button } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button} from 'reactstrap';
 
 import '../../../css/roleSelector.css';
+
 
 class Role extends Component
 {
@@ -78,19 +78,17 @@ class RoleBox extends Component {
     return (
       <div className={'roleBox'}>
         <Dropdown isOpen={this.state.dropdownOpen} toggle={ () => {}}>
-          <DropdownToggle caret>
-            {be5.messages.roles}
-          </DropdownToggle>
+          <DropdownToggle caret>{be5.messages.roles}</DropdownToggle>
 
           <DropdownMenu>
             {roleNodes}
             <DropdownItem divider />
 
-            <DropdownItem>
+            <div className="roleBox_add-actions">
               кнопки в разработке<br/>
               <Button onClick={this.handleSelectAll} color="primary" size="sm">Выбрать всё</Button>{' '}
               <Button onClick={this.handleClear} color="secondary" size="sm">Очистить всё</Button>
-            </DropdownItem>
+            </div>
           </DropdownMenu>
         </Dropdown>
       </div>
