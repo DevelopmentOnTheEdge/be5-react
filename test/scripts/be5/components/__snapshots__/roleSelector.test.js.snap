@@ -5,7 +5,7 @@ exports[`render 1`] = `
   className="roleBox"
 >
   <div
-    className="dropdown"
+    className="btn-group-sm dropdown"
   >
     <button
       aria-expanded={false}
@@ -68,7 +68,9 @@ exports[`render 1`] = `
       <div
         className="roleBox_add-actions"
       >
-        кнопки в разработке
+        <small>
+          кнопки в разработке
+        </small>
         <br />
         <button
           className="btn btn-primary btn-sm"
@@ -88,5 +90,8 @@ exports[`render 1`] = `
       </div>
     </div>
   </div>
+  <div
+    className="roleBox_username"
+  />
 </div>
 `;

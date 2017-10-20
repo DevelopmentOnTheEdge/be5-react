@@ -77,7 +77,7 @@ class RoleBox extends Component {
     //todo use toggle, after remove bootstrap.js
     return (
       <div className={'roleBox'}>
-        <Dropdown isOpen={this.state.dropdownOpen} toggle={ () => {}}>
+        <Dropdown isOpen={this.state.dropdownOpen} size="sm" toggle={ () => {}}>
           <DropdownToggle caret>{be5.messages.roles}</DropdownToggle>
 
           <DropdownMenu>
@@ -85,12 +85,15 @@ class RoleBox extends Component {
             <DropdownItem divider />
 
             <div className="roleBox_add-actions">
-              кнопки в разработке<br/>
+              <small>кнопки в разработке</small><br/>
               <Button onClick={this.handleSelectAll} color="primary" size="sm">Выбрать всё</Button>{' '}
               <Button onClick={this.handleClear} color="secondary" size="sm">Очистить всё</Button>
             </div>
           </DropdownMenu>
         </Dropdown>
+        <div className="roleBox_username">
+          {this.state.username}
+        </div>
       </div>
     );
   }
