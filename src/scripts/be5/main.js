@@ -8,8 +8,10 @@ import 'react-datetime/css/react-datetime.css';
 import 'react-select/dist/react-select.css';
 import 'react-virtualized/styles.css';
 import 'react-virtualized-select/styles.css';
+import 'react-s-alert/dist/s-alert-default.css';
 
 import '../../sass/styles.scss'
+import '../../css/splitPane.css';
 import '../../css/form.css';
 import '../../css/table.css';
 import '../../css/formWizard.css';

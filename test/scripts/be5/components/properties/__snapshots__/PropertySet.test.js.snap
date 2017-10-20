@@ -6,6 +6,142 @@ exports[`empty property set 1`] = `
 />
 `;
 
+exports[`login in group 1`] = `
+<div
+  className="property-set row"
+>
+  <div
+    className="property-group col-xs-12"
+  >
+    <div
+      className="property-groop-box"
+    >
+      <h3>
+        Security
+      </h3>
+      <div
+        className="row"
+      >
+        <div
+          className="form-group property col-md-12 required"
+        >
+          <label
+            className="form-control-label"
+            htmlFor="loginField"
+          >
+            Name
+          </label>
+          <div
+            className="controls"
+          >
+            <input
+              className="form-control"
+              disabled={undefined}
+              id="loginField"
+              onChange={[Function]}
+              placeholder={undefined}
+              type="text"
+              value="login"
+            />
+          </div>
+        </div>
+        <div
+          className="form-group property col-md-12 has-success required"
+        >
+          <label
+            className="form-control-label"
+            htmlFor="passField"
+          >
+            Password
+          </label>
+          <div
+            className="controls"
+          >
+            <input
+              className="form-control"
+              disabled={undefined}
+              id="passField"
+              onChange={[Function]}
+              placeholder={undefined}
+              type="password"
+              value="password"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`pass in group 1`] = `
+<div
+  className="property-set row"
+>
+  <div
+    className="property-group col-xs-12"
+  >
+    <div
+      className="property-groop-box"
+    >
+      <h3>
+        Security
+      </h3>
+      <div
+        className="row"
+      >
+        <div
+          className="form-group property col-md-12 required"
+        >
+          <label
+            className="form-control-label"
+            htmlFor="loginField"
+          >
+            Name
+          </label>
+          <div
+            className="controls"
+          >
+            <input
+              className="form-control"
+              disabled={undefined}
+              id="loginField"
+              onChange={[Function]}
+              placeholder={undefined}
+              type="text"
+              value="login"
+            />
+          </div>
+        </div>
+        <div
+          className="form-group property col-md-12 has-success required"
+        >
+          <label
+            className="form-control-label"
+            htmlFor="passField"
+          >
+            Password
+          </label>
+          <div
+            className="controls"
+          >
+            <input
+              className="form-control"
+              disabled={undefined}
+              id="passField"
+              onChange={[Function]}
+              placeholder={undefined}
+              type="password"
+              value="password"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`simple property set 1`] = `
 <div
   className="property-set row"

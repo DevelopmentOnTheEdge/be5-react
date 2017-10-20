@@ -1,5 +1,5 @@
 import be5 from './be5';
-import bus      from './core/bus';
+import bus from './core/bus';
 
 
 const hashChange = function() {

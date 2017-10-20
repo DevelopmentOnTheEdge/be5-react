@@ -6,3 +6,4 @@ coverage/
 *.iws
 *.iml
 *.ipr
+*.log

@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot menu 1`] = `
+<div
+  className="menuContainer"
+>
+  <div
+    className="menuHeader"
+  >
+    <h2>
+      Hello!
+    </h2>
+  </div>
+  <input
+    className="searchField form-control"
+    onChange={[Function]}
+    placeholder="Filter..."
+    type="text"
+    value=""
+  />
+  <div
+    className="menu"
+  >
+    <div
+      className="menuNode"
+    >
+      <a
+        className="rootMenuItem menuItemWithRef"
+        href="#!static/welcome.be"
+        onClick={[Function]}
+        target=""
+      >
+        Добро пожаловать
+      </a>
+      <div />
+    </div>
+    <div
+      className="menuNode"
+    >
+      <span
+        className="rootMenuItem menuItemWithoutRef"
+      >
+        Пользователи
+      </span>
+      <div />
+      <ul>
+        <li>
+          <div
+            className="menuNode"
+          >
+            <a
+              className="menuItem menuItemWithRef"
+              href="#!login"
+              onClick={[Function]}
+              target=""
+            >
+              Вход
+            </a>
+            <div />
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div
+      className="menuNode"
+    >
+      <span
+        className="rootMenuItem menuItemWithoutRef"
+      >
+        Услуги
+      </span>
+      <div />
+      <ul>
+        <li>
+          <div
+            className="menuNode"
+          >
+            <a
+              className="menuItem menuItemWithRef"
+              href="#!table/welfareGroups/Муниципальные услуги"
+              onClick={[Function]}
+              target=""
+            >
+              Муниципальные услуги
+            </a>
+            <div />
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div
+    className="menuFooter"
+  >
+    <img
+      src={Object {}}
+    />
+  </div>
+</div>
+`;

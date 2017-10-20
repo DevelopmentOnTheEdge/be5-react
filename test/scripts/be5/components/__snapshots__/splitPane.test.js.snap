@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot menu 1`] = `
+<div
+  className="SplitPane vertical"
+  style={
+    Object {
+      "display": "flex",
+      "flex": 1,
+      "flexDirection": "row",
+      "height": "100%",
+      "left": 0,
+      "outline": "none",
+      "overflow": "hidden",
+      "position": "absolute",
+      "right": 0,
+    }
+  }
+>
+  <div
+    className="Pane vertical pane1"
+    style={
+      Object {
+        "flex": "none",
+        "outline": "none",
+        "overflow": "auto",
+        "position": "relative",
+        "width": 280,
+      }
+    }
+  >
+    <div />
+  </div>
+  <span
+    className="Resizer vertical"
+    onMouseDown={[Function]}
+  />
+  <div
+    className="Pane vertical pane2"
+    style={
+      Object {
+        "flex": 1,
+        "outline": "none",
+        "overflow": "auto",
+        "position": "relative",
+      }
+    }
+  >
+    <div />
+  </div>
+</div>
+`;

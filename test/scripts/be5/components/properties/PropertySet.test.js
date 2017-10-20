@@ -52,5 +52,25 @@ it('empty property set', () => {
     <PropertySet bean={bean} />
   );
   let tree = component.toJSON();
-	expect(tree).toMatchSnapshot();
+  expect(tree).toMatchSnapshot();
+});
+
+it('login in group', () => {
+    const bean = require('./testGroupJson.json');
+
+    const component = renderer.create(
+       <PropertySet bean={bean} path={"/login"}/>
+    );
+    let tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+});
+
+it('pass in group', () => {
+    const bean = require('./testGroupJson.json');
+
+    const component = renderer.create(
+        <PropertySet bean={bean} path={"/pass"}/>
+    );
+    let tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
 });

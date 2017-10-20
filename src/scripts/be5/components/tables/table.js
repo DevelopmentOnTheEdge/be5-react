@@ -1,4 +1,5 @@
-import React           from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM        from 'react-dom';
 import be5             from '../../be5';
 import utils           from '../../utils';
@@ -11,20 +12,24 @@ import DataTables     from 'datatables';
 
 //import reloadImg from '../../../images/reload.png';
 
-const OperationBox = React.createClass({displayName: "OperationBox",
+class OperationBox extends Component {
+  constructor(props) {
+    super(props);
+  };
+
   onClick(name, e) {
     if (!$(ReactDOM.findDOMNode(this.refs[name])).hasClass('disabled')) {
-      var operation = this.props.operations.find(operation => operation.name === name);
+      const operation = this.props.operations.find(operation => operation.name === name);
       if (!operation.requiresConfirmation || confirm(operation.title + "?")) {
         this.props.onOperationClick(name);
       }
     }
     e.preventDefault();
-  },
-  
+  }
+
   refreshEnablement() {
     this.props.operations.forEach(operation => {
-      var visible = false;
+      let visible = false;
       switch (operation.visibleWhen) {
       case 'always':
         visible = true;
@@ -47,10 +52,10 @@ const OperationBox = React.createClass({displayName: "OperationBox",
         $(ReactDOM.findDOMNode(this.refs[operation.name])).removeClass('enabled');
       }
     });
-  },
-  
+  }
+
   render() {
-    const splitWithSpaces = function(elements) {
+    const splitWithSpaces = (elements) => {
       const out = [];
       _(elements).each(e => {
         if (out.length !== 0) {
@@ -60,7 +65,7 @@ const OperationBox = React.createClass({displayName: "OperationBox",
       });
       return out;
     };
-    var operations = this.props.operations.map(operation => {
+    const operations = this.props.operations.map(operation => {
 //      if (operation.isClientSide) {
 //        const action = Action.parse(operation.action);
 //        const attrs = {
@@ -73,65 +78,66 @@ const OperationBox = React.createClass({displayName: "OperationBox",
 //        return React.createElement('a', attrs, operation.title);
 //      }
       return (
-        React.createElement('a', {key: operation.name, ref: operation.name, href: '', onClick: this.onClick.bind(this, operation.name), className: 'btn btn-secondary btn-md'}, operation.title)
+        <button key={operation.name} ref={operation.name} onClick={this.onClick.bind(this, operation.name)} className={'btn btn-secondary btn-md'}>
+          {operation.title}
+        </button>
       );
     });
 
     if(this.props.operations.length === 0){
       return (
-          <div></div>
+          <div/>
       );
     }
     return (
-      React.createElement('div', {className: 'operationList'}, 
-        splitWithSpaces(operations)
-      )
+      <div className={'operationList'}>{splitWithSpaces(operations)}</div>
     );
   }
-});
+}
 
-const QuickColumns = React.createClass({
+class QuickColumns extends Component {
+  constructor(props) {
+    super(props);
 
-  getInitialState: function(){
-    return this.createStateFromProps(this.props);
-  },
+    this.state = this.createStateFromProps(this.props);
+  };
 
   componentWillReceiveProps(nextProps){
     this.setState(this.createStateFromProps(nextProps));
-  },
+  }
 
   createStateFromProps(props){
     return {quickColumns:
       props.firstRow
        .map( (col, idx) => {
          if(col.options.quick)
-           return {columnId: idx, visible: col.options.quick.visible == 'true'}
+           return {columnId: idx, visible: col.options.quick.visible == 'true'};
          else return null;
        })
        .filter((col) => {return col !== null})
     };
-  },
+  }
 
   setTable(_table){
       this.setState({table: _table});
-  },
+  }
 
   quickHandleChange(idx) {
     this.state.quickColumns[idx].visible = !this.state.quickColumns[idx].visible;
     this.forceUpdate();
-  },
+  }
 
   render() {
     if(this.state.quickColumns.length == 0){
-       return (<div></div>)
+       return (<div/>)
     }
     if(this.state.table){
-      var dataTable = $(this.state.table).find('table').dataTable();
-      var columnsCount = dataTable.fnSettings().aoColumns.length ;
+      const dataTable = $(this.state.table).find('table').dataTable();
+      const columnsCount = dataTable.fnSettings().aoColumns.length ;
       this.state.quickColumns.forEach((col) => {
           const columnId = col.columnId + (this.props.selectable ? 1 : 0);
           if(columnId < columnsCount){
-            var dtColumn = dataTable.api().column( columnId );
+            const dtColumn = dataTable.api().column( columnId );
             if(dtColumn.visible)dtColumn.visible( col.visible );
           }
       });
@@ -155,7 +161,7 @@ const QuickColumns = React.createClass({
       </div>
     )
   }
-});
+}
 
 const formatCell = (data, options, isColumn) => {
   if (!Array.isArray(data)) {
@@ -190,29 +196,32 @@ const formatCell = (data, options, isColumn) => {
   return data;
 };
 
-const TableBox = React.createClass({
-  
-  displayName: 'TableBox',
-  
+class TableBox extends Component {
+  constructor(props) {
+    super(props);
+
+    this.onOperationClick = this.onOperationClick.bind(this);
+  }
+
   componentDidMount() {
     if(this.refs.table)
       this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
     
     this._refreshEnablementIfNeeded();
     //this._loadCountIfNeeded();
-  },
+  }
   
   shouldComponentUpdate(nextProps, nextState) {
     return JSON.stringify(nextProps) !== JSON.stringify(this.props)
       || JSON.stringify(nextState) !== JSON.stringify(this.state);
-  },
+  }
   
   componentDidUpdate() {
     if(this.refs.table)
       this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
     
     //this._loadCountIfNeeded();
-  },
+  }
   
   onOperationClick(name) {
     const attributes = this.props.value.data.attributes;
@@ -230,7 +239,7 @@ const TableBox = React.createClass({
       // );
 
     }
-  },
+  }
   
   onSelectionChange() {
     this._refreshEnablementIfNeeded();
@@ -240,7 +249,7 @@ const TableBox = React.createClass({
     {
       this.props.callbacks.onSelectionChange(be5.tableState.selectedRows);
     }
-  },
+  }
   applyTableStyle(node) {
     // see http://datatables.net/examples/index
     $(node).empty();
@@ -295,7 +304,7 @@ const TableBox = React.createClass({
       lengths.sort(function(a,b) {return a-b;});
     }
 
-    var language = null;
+    let language = null;
     if(be5.locale.value != 'en'){
         language = be5.messages.dataTables;
     }
@@ -320,8 +329,8 @@ const TableBox = React.createClass({
           if(d.type === "error"){
             be5.log.error(d.value.code + "\n" + d.value.message);
           }else{
-            for(var i=0; i < d.data.length; i++){
-              for(var j=0; j < d.data[0].length - columnIndexShift; j++){
+            for(let i=0; i < d.data.length; i++){
+              for(let j=0; j < d.data[0].length - columnIndexShift; j++){
                 d.data[i][j + columnIndexShift] = formatCell(d.data[i][j + columnIndexShift].content, d.data[i][j + columnIndexShift].options)
               }
             }
@@ -395,7 +404,7 @@ const TableBox = React.createClass({
       }
     }
 
-    var hideControls = function(){
+    const hideControls = () => {
       if ( $(_this.refs.table).find('.paging_simple_numbers span .paginate_button')
            && $(_this.refs.table).find('.paging_simple_numbers span .paginate_button').length > 1) {
         $(_this.refs.table).find('.dataTables_length').show();
@@ -406,13 +415,15 @@ const TableBox = React.createClass({
       }
     };
 
+    let drawGrouping;
+
     if (groupingColumn !== null) {
       const resultGroupingColumn = columnIndexShift + groupingColumn;
       tableConfiguration.columnDefs.push({ visible: false, targets: resultGroupingColumn });
-      var drawGrouping = function(api) {
+      drawGrouping = (api) => {
         const rows = api.rows({ page:'current' }).nodes();
         let last = null;
-        
+
         api.column(resultGroupingColumn, { page: 'current' }).data().each(function(group, i) {
           if (last !== group) {
             $(rows).eq(i).before('<tr class="table-group"><td colspan="' + nColumns + '">' + group + '</td></tr>');
@@ -422,7 +433,7 @@ const TableBox = React.createClass({
       };
     }
 
-    tableConfiguration.drawCallback = function(settings) {
+    tableConfiguration.drawCallback = (settings) => {
       if (groupingColumn !== null)drawGrouping(this.api());
       hideControls();
     };
@@ -432,7 +443,7 @@ const TableBox = React.createClass({
     this.refs.quickColumns.setTable(this.refs.table);
 
     this.onSelectionChange();
-  },
+  }
 
   render() {
     const attributes = this.props.value.data.attributes;
@@ -454,7 +465,7 @@ const TableBox = React.createClass({
         </div>
       </div>
     );
-  },
+  }
   
   // _loadCountIfNeeded() {
   //   if (attributes.embedded) { // FIXME actually this should work even if the component is embedded
@@ -479,19 +490,15 @@ const TableBox = React.createClass({
       this.refs.operations.refreshEnablement();
     }
   }
-});
+}
 
-const Table = React.createClass({
-  propTypes: {
-    value: React.PropTypes.object.isRequired
-  },
+class Table extends Component {
+  constructor(props) {
+    super(props);
 
-  getInitialState() {
-    return { runReload: "" };
-  },
-  
-  displayName: 'Table',
-  
+    this.state = {runReload: ""}
+  }
+
   render() {
     const value = this.props.value;
     //const reloadClass = "table-reload float-xs-right " + this.state.runReload;
@@ -519,7 +526,7 @@ const Table = React.createClass({
         />
       </div>
     );
-  },
+  }
 
   // componentWillUpdate() {
   //   if(this.state.runReload != "")this.setState({ runReload: "" });
@@ -534,6 +541,10 @@ const Table = React.createClass({
 //     Tables.load({ entity: value.category, query: value.page || 'All records', params: value.parameters, options: { embedded: false } }, changeDocument);
 //   }
 
-});
+}
+
+Table.propTypes = {
+  onChange: PropTypes.func.isRequired
+};
 
 export default Table;
