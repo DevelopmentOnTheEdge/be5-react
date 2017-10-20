@@ -6,6 +6,7 @@ import CodeMirrorShowHint     from 'codemirror/addon/hint/show-hint.js';
 import CodeMirrorSqlHint     from 'codemirror/addon/hint/sql-hint.js';
 import Document       from './document';
 import Tables         from '../services/tables';
+import SplitPane from 'react-split-pane';
 
 import '../../../css/qBuilder.css';
 import "codemirror/lib/codemirror.css";
@@ -48,9 +49,11 @@ class QueryBuilder extends React.Component
     return (
       <div className="queryBuilder">
         <h1>Query Builder</h1>
-        <CodeMirror value={this.state.code} onChange={this.updateCode} options={options} />
-        <br/>
-        <Document documentName={"queryBuilder-table"} />
+        <SplitPane split="horizontal" defaultSize={500} >
+          <CodeMirror value={this.state.code} onChange={this.updateCode} options={options} />
+          <Document documentName={"queryBuilder-table"} onChange={()=>{}}/>
+        </SplitPane>
+
       </div>
     );
     //<button>Выполнить</button>

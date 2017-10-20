@@ -2,11 +2,11 @@
 /* colors                                              */
 /*******************************************************/
 .Pane1 {
-    overflow: scroll;
+    overflow: auto;
 }
 
 .Pane2 {
-    overflow: scroll;
+    overflow: auto;
 }
 
 .side {

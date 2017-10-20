@@ -1,3 +1,11 @@
 .ReactCodeMirror {
     border: 1px solid #e0e0e0;
+    width: 100%;
+}
+.queryBuilder .CodeMirror {
+    height: 100%;
+}
+
+.queryBuilder .SplitPane {
+    position: relative!important;
 }
