@@ -11,25 +11,23 @@ class Role extends Component
 {
   constructor(props) {
     super(props);
-    //this.state = {selectedRoles : this.props.selectedRoles};
+    this.state = {selectedRoles : this.props.selectedRoles};
 
     this._onChange = this._onChange.bind(this);
   }
 
   render() {
     const id = this.props.name + "-checkbox";
-    //console.log(id, this.state.selectedRoles);
     return (
       <div className={"role"}>
-        <input type="checkbox" id={id} checked={this.props.selectedRoles} onChange={this._onChange} />
+        <input type="checkbox" id={id} checked={this.state.selectedRoles} onChange={this._onChange} />
         <label htmlFor={id}><span className={"checkBox"}/>{this.props.name}</label>
       </div>
     )
   }
 
   _onChange(e) {
-    //this.setState({ selectedRoles : e.target.checked }, this.props.onChange);
-    this.props.onChange();
+    this.setState({ selectedRoles : e.target.checked }, this.props.onChange);
   }
 }
 
@@ -76,7 +74,6 @@ class RoleBox extends Component {
       <Role key={role} ref={role} name={role} selectedRoles={$.inArray(role, selectedRoles) != -1} onChange={this._onRoleChange}/>
     );
 
-
     //todo use toggle, after remove bootstrap.js
     return (
       <div className={'roleBox'}>
@@ -90,6 +87,7 @@ class RoleBox extends Component {
             <DropdownItem divider />
 
             <DropdownItem>
+              кнопки в разработке<br/>
               <Button onClick={this.handleSelectAll} color="primary" size="sm">Выбрать всё</Button>{' '}
               <Button onClick={this.handleClear} color="secondary" size="sm">Очистить всё</Button>
             </DropdownItem>
@@ -110,7 +108,7 @@ class RoleBox extends Component {
   _onRoleChange() {
     let roles = this.state.availableRoles.filter(name => this.refs[name].state.selectedRoles);
     this._changeRoles(roles.join(","));
-
+    console.log(this.state.availableRoles, roles)
   }
 
   _changeRoles(roles) {

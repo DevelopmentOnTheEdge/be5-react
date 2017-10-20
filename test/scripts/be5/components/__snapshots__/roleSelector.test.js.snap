@@ -71,6 +71,8 @@ exports[`render 1`] = `
         tabIndex="0"
         type="button"
       >
+        кнопки в разработке
+        <br />
         <button
           className="btn btn-primary btn-sm"
           onClick={[Function]}

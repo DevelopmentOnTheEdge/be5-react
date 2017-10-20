@@ -61,6 +61,11 @@ exports[`Form 1`] = `
            
         </div>
       </form>
+      <br />
+      <div
+        className="document-content"
+        id="document-content___undefined_errors"
+      />
     </div>
   </div>
 </div>
