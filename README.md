@@ -37,7 +37,7 @@ $ npm run coverage
 
 
 [npm-url]: https://npmjs.org/package/be5-react
-[npm-image]: https://img.shields.io/npm/v/generator-badges.svg?style=flat-square
+[npm-image]: https://img.shields.io/npm/v/be5-react.svg?style=flat-square
 
 [travis-url]: https://travis-ci.org/DevelopmentOnTheEdge/be5-react
 [travis-image]: https://img.shields.io/travis/DevelopmentOnTheEdge/be5-react/master.svg?style=flat-square
