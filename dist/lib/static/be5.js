@@ -50749,7 +50749,6 @@ var RoleBox = function (_Component2) {
     var _this2 = _possibleConstructorReturn(this, (RoleBox.__proto__ || Object.getPrototypeOf(RoleBox)).call(this, props));
 
     _this2.state = {
-      dropdownOpen: false,
       availableRoles: ["Unknown"], selectedRoles: ["Unknown"]
     };
 
@@ -50757,7 +50756,6 @@ var RoleBox = function (_Component2) {
     _this2._changeRoles = _this2._changeRoles.bind(_this2);
     _this2.handleSelectAll = _this2.handleSelectAll.bind(_this2);
     _this2.handleClear = _this2.handleClear.bind(_this2);
-    _this2.toggle = _this2.toggle.bind(_this2);
     return _this2;
   }
 
@@ -50770,13 +50768,6 @@ var RoleBox = function (_Component2) {
     key: 'handleClear',
     value: function handleClear() {
       this._changeRoles("");
-    }
-  }, {
-    key: 'toggle',
-    value: function toggle() {
-      this.setState({
-        dropdownOpen: !this.state.dropdownOpen
-      });
     }
   }, {
     key: 'render',
@@ -50795,8 +50786,8 @@ var RoleBox = function (_Component2) {
         'div',
         { className: 'roleBox' },
         _react2.default.createElement(
-          _reactstrap.Dropdown,
-          { isOpen: this.state.dropdownOpen, size: 'sm', toggle: this.toggle },
+          _reactstrap.UncontrolledDropdown,
+          { size: 'sm' },
           _react2.default.createElement(
             _reactstrap.DropdownToggle,
             { caret: true },
