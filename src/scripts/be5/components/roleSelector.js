@@ -2,7 +2,7 @@ import be5 from '../be5';
 import bus from '../core/bus';
 import React, { Component } from 'react';
 import PropTypes            from 'prop-types';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button} from 'reactstrap';
+import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button} from 'reactstrap';
 
 import '../../../css/roleSelector.css';
 
@@ -40,7 +40,6 @@ class RoleBox extends Component {
     super(props);
 
     this.state = {
-      dropdownOpen: false,
       availableRoles: ["Unknown"], selectedRoles: ["Unknown"]
     };
 
@@ -48,7 +47,6 @@ class RoleBox extends Component {
     this._changeRoles = this._changeRoles.bind(this);
     this.handleSelectAll = this.handleSelectAll.bind(this);
     this.handleClear = this.handleClear.bind(this);
-    this.toggle = this.toggle.bind(this);
   }
 
 
@@ -58,12 +56,6 @@ class RoleBox extends Component {
 
   handleClear() {
     this._changeRoles("")
-  }
-
-  toggle() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    });
   }
 
   render() {
@@ -77,7 +69,7 @@ class RoleBox extends Component {
 
     return (
       <div className={'roleBox'}>
-        <Dropdown isOpen={this.state.dropdownOpen} size="sm" toggle={this.toggle}>
+        <UncontrolledDropdown size="sm">
           <DropdownToggle caret>{be5.messages.roles}</DropdownToggle>
 
           <DropdownMenu>
@@ -90,7 +82,7 @@ class RoleBox extends Component {
               <Button onClick={this.handleClear} color="secondary" size="sm">Очистить всё</Button>
             </div>
           </DropdownMenu>
-        </Dropdown>
+        </UncontrolledDropdown>
         <div className="roleBox_username">
           {this.state.username}
         </div>
