@@ -58,7 +58,7 @@ const load = function() {
   });
 };
 
-load();
+//load();
 
 export default {
   // function(listener)
