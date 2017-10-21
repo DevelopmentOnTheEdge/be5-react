@@ -10,12 +10,17 @@
 }
 
 .side {
-    background: #f8f8f8;
     padding: 15px;
 }
+
+.Pane.vertical.pane1 {
+    background: #f8f8f8;
+}
+
 #document-content___MainDocument {
     padding: 15px;
 }
+
 .document-content {
     position: relative;
     margin-bottom: 15px;
