@@ -1,25 +1,29 @@
 @CHARSET "UTF-8";
 
-$font-size-root:             14px;
-$input-line-height:          1.19;
-$btn-line-height:            1.19;
-$btn-padding-x:              0.8rem;
+$font-size-base:             0.875rem !default;
 
-$font-size-h1:               1.5rem;
-$font-size-h2:               1.4rem;
-$font-size-h3:               1.25rem;
-$font-size-h4:               1.2rem;
-$font-size-h5:               1.1rem;
-$font-size-h6:               1rem;
+$input-btn-padding-x:       .625rem !default;
+$input-btn-padding-y-sm:    .15rem !default;
 
-$enable-flex: false;
-$bootstrap-sass-asset-helper: true;
+$input-btn-padding-y:       .407rem !default;
+
+$input-btn-line-height:     1.25 !default;
+
+$h1-font-size:               1.5rem !default;
+$h2-font-size:               1.4rem !default;
+$h3-font-size:               1.25rem !default;
+$h4-font-size:               1.2rem !default;
+$h5-font-size:               1.1rem !default;
+$h6-font-size:               1rem !default;
+
+//$enable-flex: false;
+//$bootstrap-sass-asset-helper: true;
 
 @import "~bootstrap/scss/bootstrap";
 
-.float-right{
-  @include float-right();
-}
+//.float-right{
+//  @include float-right();
+//}
 
 .display-none{
   display: none;

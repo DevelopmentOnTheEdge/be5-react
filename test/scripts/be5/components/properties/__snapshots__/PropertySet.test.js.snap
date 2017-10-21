@@ -11,7 +11,7 @@ exports[`login in group 1`] = `
   className="property-set row"
 >
   <div
-    className="property-group col-xs-12"
+    className="property-group col-12"
   >
     <div
       className="property-groop-box"
@@ -79,7 +79,7 @@ exports[`pass in group 1`] = `
   className="property-set row"
 >
   <div
-    className="property-group col-xs-12"
+    className="property-group col-12"
   >
     <div
       className="property-groop-box"

@@ -7,7 +7,7 @@ class PropertySet extends Component {
 
   _createGroup(curGroup, curGroupId, curGroupName) {
     return (
-      <div className='property-group col-xs-12' key={curGroupId} ref={curGroupId}>
+      <div className='property-group col-12' key={curGroupId} ref={curGroupId}>
         <div className='property-groop-box'>
           <h3>{curGroupName}</h3>
           <div className="row">

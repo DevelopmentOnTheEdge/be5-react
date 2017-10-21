@@ -78,7 +78,7 @@ class OperationBox extends Component {
 //        return React.createElement('a', attrs, operation.title);
 //      }
       return (
-        <button key={operation.name} ref={operation.name} onClick={this.onClick.bind(this, operation.name)} className={'btn btn-secondary btn-md'}>
+        <button key={operation.name} ref={operation.name} onClick={this.onClick.bind(this, operation.name)} className={'btn btn-secondary btn-secondary-old btn-sm'}>
           {operation.title}
         </button>
       );

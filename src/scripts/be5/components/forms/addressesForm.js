@@ -58,14 +58,14 @@ class AddressesForm extends Form
 
     return (
       <div className="row">
-        <div className={'formBox col-xs-12 max-width-970 ' + (attributes.cssClass || 'formBoxDefault')}>
+        <div className={'formBox col-12 max-width-970 ' + (attributes.cssClass || 'formBoxDefault')}>
           <h1>{attributes.title}</h1>
           <form className="" onSubmit={this._applyOnSubmit}>
             <div className="row">
               <Properties bean={attributes.bean} ids={[4,5,6]}
                           localization={be5.messages.property} onChange={this._onFieldChange} />
 
-              <div className='property-group col-xs-12'>
+              <div className='property-group col-12'>
                 <div className='property-groop-box'><div className="row">
                     <Properties bean={attributes.bean} ids={[7,8,9,10,11]} localization={be5.messages.property} onChange={this._onFieldChange} />
 

@@ -50,7 +50,7 @@ class QueryBuilder extends React.Component
         <h1>Query Builder</h1>
         <CodeMirror value={this.state.code} onChange={this.updateCode} options={options} />
         <br/>
-        <Document documentName={"queryBuilder-table"} />
+        <Document documentName={"queryBuilder-table"} onChange={()=>{}} />
       </div>
     );
     //<button>Выполнить</button>
