@@ -1,6 +1,5 @@
 import be5        from '../../be5';
 import _          from 'underscore';
-import MenuHeader from './menuHeader';
 import MenuFooter from './menuFooter';
 import MenuNode   from './menuNode';
 import PropTypes            from 'prop-types';
@@ -96,7 +95,6 @@ class Menu extends Component{
   render() {
     return (
       <div className="menuContainer">
-        <MenuHeader ref="menuheader"/>
         <SearchField ref="searchfield" onChange={this._handleQueryChange}/>
         <MenuBody ref="menubody"/>
         <MenuFooter/>
@@ -105,7 +103,6 @@ class Menu extends Component{
   };
 
   refresh() {
-    this.refs.menuheader.setState({ message: be5.messages.welcome });
     this.refs.menubody.refresh();
   };
 

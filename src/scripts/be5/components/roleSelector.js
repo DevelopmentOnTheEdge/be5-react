@@ -2,10 +2,10 @@ import be5 from '../be5';
 import bus from '../core/bus';
 import React, { Component } from 'react';
 import PropTypes            from 'prop-types';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Button } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button} from 'reactstrap';
 
 import '../../../css/roleSelector.css';
+
 
 class Role extends Component
 {
@@ -51,6 +51,7 @@ class RoleBox extends Component {
     this.toggle = this.toggle.bind(this);
   }
 
+
   handleSelectAll() {
     this._changeRoles(this.state.availableRoles.join(","))
   }
@@ -66,7 +67,7 @@ class RoleBox extends Component {
   }
 
   render() {
-    if (this.state.availableRoles.length <= 1) {
+    if (this.state.availableRoles.length < 1) {
       return ( <div className={'roleBox'}/> );
     }
     const selectedRoles = this.state.selectedRoles;
@@ -74,25 +75,25 @@ class RoleBox extends Component {
       <Role key={role} ref={role} name={role} selectedRoles={$.inArray(role, selectedRoles) != -1} onChange={this._onRoleChange}/>
     );
 
-    //todo use toggle, after remove bootstrap.js
     return (
       <div className={'roleBox'}>
-        <Dropdown isOpen={this.state.dropdownOpen} toggle={ () => {}}>
-          <DropdownToggle caret>
-            {be5.messages.roles}
-          </DropdownToggle>
+        <Dropdown isOpen={this.state.dropdownOpen} size="sm" toggle={this.toggle}>
+          <DropdownToggle caret>{be5.messages.roles}</DropdownToggle>
 
           <DropdownMenu>
             {roleNodes}
             <DropdownItem divider />
 
-            <DropdownItem>
-              кнопки в разработке<br/>
+            <div className="roleBox_add-actions">
+              <small>кнопки в разработке</small><br/>
               <Button onClick={this.handleSelectAll} color="primary" size="sm">Выбрать всё</Button>{' '}
               <Button onClick={this.handleClear} color="secondary" size="sm">Очистить всё</Button>
-            </DropdownItem>
+            </div>
           </DropdownMenu>
         </Dropdown>
+        <div className="roleBox_username">
+          {this.state.username}
+        </div>
       </div>
     );
   }
