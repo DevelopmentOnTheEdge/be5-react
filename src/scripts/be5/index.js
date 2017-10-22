@@ -1,6 +1,7 @@
 // @create-index
 
 export { default as be5 } from './be5.js';
+export { default as be5init } from './be5init.js';
 export { default as constants } from './constants.js';
 export { default as preconditions } from './preconditions.js';
 export { default as settings } from './settings.js';
