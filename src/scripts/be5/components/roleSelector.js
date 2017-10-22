@@ -2,7 +2,7 @@ import be5 from '../be5';
 import bus from '../core/bus';
 import React, { Component } from 'react';
 import PropTypes            from 'prop-types';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button} from 'reactstrap';
+import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button} from 'reactstrap';
 
 import '../../../css/roleSelector.css';
 
@@ -40,7 +40,6 @@ class RoleBox extends Component {
     super(props);
 
     this.state = {
-      dropdownOpen: false,
       availableRoles: ["Unknown"], selectedRoles: ["Unknown"]
     };
 
@@ -48,8 +47,8 @@ class RoleBox extends Component {
     this._changeRoles = this._changeRoles.bind(this);
     this.handleSelectAll = this.handleSelectAll.bind(this);
     this.handleClear = this.handleClear.bind(this);
-    this.toggle = this.toggle.bind(this);
   }
+
 
   handleSelectAll() {
     this._changeRoles(this.state.availableRoles.join(","))
@@ -59,14 +58,8 @@ class RoleBox extends Component {
     this._changeRoles("")
   }
 
-  toggle() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    });
-  }
-
   render() {
-    if (this.state.availableRoles.length <= 1) {
+    if (this.state.availableRoles.length < 1) {
       return ( <div className={'roleBox'}/> );
     }
     const selectedRoles = this.state.selectedRoles;
@@ -74,10 +67,9 @@ class RoleBox extends Component {
       <Role key={role} ref={role} name={role} selectedRoles={$.inArray(role, selectedRoles) != -1} onChange={this._onRoleChange}/>
     );
 
-    //todo use toggle, after remove bootstrap.js
     return (
       <div className={'roleBox'}>
-        <Dropdown isOpen={this.state.dropdownOpen} size="sm" toggle={ () => {}}>
+        <UncontrolledDropdown size="sm">
           <DropdownToggle caret>{be5.messages.roles}</DropdownToggle>
 
           <DropdownMenu>
@@ -90,7 +82,7 @@ class RoleBox extends Component {
               <Button onClick={this.handleClear} color="secondary" size="sm">Очистить всё</Button>
             </div>
           </DropdownMenu>
-        </Dropdown>
+        </UncontrolledDropdown>
         <div className="roleBox_username">
           {this.state.username}
         </div>

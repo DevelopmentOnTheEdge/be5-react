@@ -9,7 +9,7 @@ exports[`Form 1`] = `
     className="row"
   >
     <div
-      className="formBox col-xs-12 max-width-970 formBoxDefault"
+      className="formBox col-12 max-width-970 formBoxDefault"
     >
       <h1
         className="form-component__title"
@@ -114,14 +114,14 @@ exports[`Table 1`] = `
         className="operationList"
       >
         <button
-          className="btn btn-secondary btn-md"
+          className="btn btn-secondary btn-secondary-old btn-sm"
           onClick={[Function]}
         >
           Редактировать
         </button>
          
         <button
-          className="btn btn-secondary btn-md"
+          className="btn btn-secondary btn-secondary-old btn-sm"
           onClick={[Function]}
         >
           Добавить
