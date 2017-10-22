@@ -22,7 +22,6 @@ export { default as Be5Block } from './components/be5Block.js';
 export { default as Be5Menu } from './components/be5Menu.js';
 export { default as Be5MenuHolder } from './components/be5MenuHolder.js';
 export { default as Be5MenuItem } from './components/be5MenuItem.js';
-export { default as BootstrapButton } from './components/bootstrapButton.js';
 export { default as BootstrapModal } from './components/bootstrapModal.js';
 export { default as CustomServlet } from './components/customServlet.js';
 export { default as Document } from './components/document.js';

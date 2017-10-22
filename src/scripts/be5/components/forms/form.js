@@ -164,7 +164,7 @@ const Form = React.createClass({
     const attributes = this.state.data.attributes;
     return (
       <div className="row">
-        <div className={'formBox col-xs-12 max-width-970 ' + (attributes.cssClass || 'formBoxDefault')}>
+        <div className={'formBox col-12 max-width-970 ' + (attributes.cssClass || 'formBoxDefault')}>
           <h1 className="form-component__title">{attributes.title}</h1>
           <form className="" onSubmit={this._applyOnSubmit}>
             <PropertySet bean={attributes.bean} onChange={this._onFieldChange} localization={be5.messages.property}/>

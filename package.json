@@ -1,6 +1,6 @@
 {
   "name": "be5-react",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "React client UI for be5 server api",
   "main": "dist/lib/static/be5.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "lib": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.lib"
   },
   "dependencies": {
-    "bootstrap": "4.0.0-alpha.5",
+    "bootstrap": "^4.0.0-beta",
     "bundle-loader": "0.5.5",
     "classnames": "2.2.5",
     "datatables": "1.10.13",
@@ -34,7 +34,7 @@
     "react-numeric-input": "2.2.0",
     "react-select": "1.0.0-rc.10",
     "react-virtualized-select": "3.1.0",
-    "reactstrap": "4.8.0",
+    "reactstrap": "^5.0.0-alpha.3",
     "tether": "1.4.0",
     "underscore": "1.8.3"
   },
