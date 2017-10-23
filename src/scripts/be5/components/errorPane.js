@@ -1,9 +1,21 @@
 import React          from 'react';
 import PropTypes      from 'prop-types';
-
+import be5            from '../be5';
+import Document       from '../components/document';
+import { Collapse, Button, CardBody, Card } from 'reactstrap';
 
 class ErrorPane extends React.Component
 {
+  constructor(){
+    super();
+    this.state = {helpCollapse: false};
+    this.helpCollapseToggle = this.helpCollapseToggle.bind(this);
+  }
+
+  helpCollapseToggle() {
+    this.setState({ helpCollapse: !this.state.helpCollapse });
+  }
+
   render() {
     const error = this.props.value.errors[0];
     return <div className='errorPane'>
@@ -16,14 +28,17 @@ class ErrorPane extends React.Component
       }
       {error.detail !== undefined ?
         <div>
-          <a className="" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            Details
-          </a>
-          <div className="collapse" id="collapseExample">
-            <div className="card card-body">
-              <pre className='errorPane__detail' >{error.detail}</pre>
-            </div>
-          </div>
+          <Button color="info" className="btn-sm" onClick={this.helpCollapseToggle} style={{ marginBottom: '1rem' }}>
+            {be5.messages.details}
+          </Button>
+          <Collapse isOpen={this.state.helpCollapse}>
+            <Card>
+              <CardBody>
+                <pre className='errorPane__detail' >{error.detail}</pre>
+              </CardBody>
+            </Card>
+          </Collapse>
+
         </div>
         : null}
     </div>;

@@ -61,6 +61,7 @@ var messages = {
     formComponentNotFound:  'Form type not found: ',
     tableComponentNotFound: 'Table component not found: ',
     helpInfo: "Help",
+    details: "Details",
   },
   
   ru: {
@@ -105,6 +106,7 @@ var messages = {
     formComponentNotFound:  'Компонент формы не найден: ',
     tableComponentNotFound: 'Компонент таблицы не найден: ',
     helpInfo: "Справка",
+    details: "Подробнее",
   }
 };
 
