@@ -5,9 +5,9 @@
     padding-left: 1rem;
     list-style-type: none;
 }
-a.rootMenuItem {
-    font-size: 1.1rem;
-}
+/*a.rootMenuItem {*/
+    /*font-size: 1.1rem;*/
+/*}*/
 a.menuItemWithoutRef {
     color: #1f1a17;
     text-decoration: none;
