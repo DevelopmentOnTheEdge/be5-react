@@ -40,7 +40,12 @@ export default {
   performOperationResult(json, documentName, onChange, apply){
     //console.log("forms perform: " + documentName);
     Preconditions.passed(documentName);
-    if(json.data !== undefined) {
+    const documentNameForError = apply ? documentName + "_errors" : documentName;
+
+    if(json.data !== undefined)
+    {
+      changeDocument(documentNameForError, { component: 'text', value: "" } );
+
       switch (json.data.type) {
         case 'form':
           this.performForm(json, documentName);
@@ -86,14 +91,7 @@ export default {
       const error = json.errors[0];
       bus.fire("alert", {msg: error.status + " "+ error.title, type: 'error'});
 
-      if (apply)
-      {
-        changeDocument(documentName + "_errors", {component: ErrorPane, value: json});
-      }
-      else
-      {
-        changeDocument(documentName, {component: ErrorPane, value: json});
-      }
+      changeDocument(documentNameForError, {component: ErrorPane, value: json});
     }
   },
 
