@@ -8,15 +8,21 @@ import changeDocument from '../../core/changeDocument';
 import formAction     from '../../actions/form';
 import {HtmlResult}   from '../../components/forms/form';
 import StaticPage     from '../../components/staticPage';
+import { Collapse, Button } from 'reactstrap';
 
 
 class TableForm extends React.Component
 {
   constructor(){
     super();
-    this.state = {};
+    this.state = {helpCollapse: false};
     this.onChange = this.onChange.bind(this);
     this.tableInfo = this.tableInfo.bind(this);
+    this.helpCollapseToggle = this.helpCollapseToggle.bind(this);
+  }
+
+  helpCollapseToggle() {
+    this.setState({ helpCollapse: !this.state.helpCollapse });
   }
 
   componentDidUpdate(){
@@ -70,15 +76,14 @@ class TableForm extends React.Component
     if(attributes.layout.tableInfo !== undefined) {
       return (
         <div className="clearfix max-width-970">
-          <button className="btn btn-sm btn-info" type="button" data-toggle="collapse"
-                  data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
-            Справка
-          </button>
-          <div className="collapse" id="collapse1">
+          <Button color="info" className="btn-sm" onClick={this.helpCollapseToggle} style={{ marginBottom: '1rem' }}>
+            {be5.messages.helpInfo}
+          </Button>
+          <Collapse isOpen={this.state.helpCollapse}>
             <div className="alert alert-success" role="alert">
               <Document documentName={"table-form-info"} />
             </div>
-          </div>
+          </Collapse>
         </div>
       )
     } else {

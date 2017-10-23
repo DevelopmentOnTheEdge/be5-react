@@ -1,15 +1,25 @@
 import React          from 'react';
 import be5            from '../be5';
+import Document       from '../components/document';
 import changeDocument from '../core/changeDocument';
 import Navs           from '../components/navs';
-
+import { Collapse, Button } from 'reactstrap';
 
 class EgissoDocs extends React.Component
 {
-  //todo move to static page
-  // componentDidMount(){
-  //
-  // }
+  constructor(){
+    super();
+    this.state = {helpCollapse: false};
+    this.helpCollapseToggle = this.helpCollapseToggle.bind(this);
+  }
+
+  componentDidMount(){
+    be5.url.process("wizard-page-help", "#!static/egissoDocs.be");
+  }
+
+  helpCollapseToggle() {
+    this.setState({ helpCollapse: !this.state.helpCollapse });
+  }
 
   help()
   {
@@ -17,31 +27,15 @@ class EgissoDocs extends React.Component
       <div className="">
         <div className="clearfix">
           <h1 className="wizard-page-title">Документы</h1>
-          <button className="wizard-page-help btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
-            Справка
-          </button>
+          <Button color="info" className="wizard-page-help btn-sm" onClick={this.helpCollapseToggle} style={{ marginBottom: '1rem' }}>
+            {be5.messages.helpInfo}
+          </Button>
         </div>
-        <div className="collapse" id="collapse1"><div className="alert alert-success" role="alert">
-          Заполните сведения о документах, которые требуются при определении права на предоставление услуг.
-          Категории документов необходимы для того, чтобы группировать взаимозаменяемые документы, которые
-          может предоставить гражданин при обращении за предоставлением услуги.
-          По умолчанию для примера добавлены следующе категории документов:
-          <ol>
-            <li>
-              Категория “Документ, удостоверяющий личность граждан РФ”. К ней относятся следующие документы:
-              <ol className="lower-alpha">
-                <li>Паспорт гражданина РФ</li>
-                <li>Свидетельство о рождении</li>
-                <li>Военный билет</li>
-                <li>Загранпаспорт гражданина РФ</li>
-                <li>Временное удостоверение личности гражданина РФ</li>
-              </ol>
-            </li>
-            <li>
-              Категория “Заявление на предоставление услуги”. К ней относится документ "Заявление на тестовую услугу".
-            </li>
-          </ol>
-        </div></div>
+        <Collapse isOpen={this.state.helpCollapse}>
+          <div className="alert alert-success" role="alert">
+            <Document documentName={"wizard-page-help"} />
+          </div>
+        </Collapse>
       </div>
     )
   }

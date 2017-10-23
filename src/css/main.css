@@ -21,7 +21,9 @@
     position: relative;
     margin-bottom: 15px;
 }
-
+.alert .document-content {
+    margin-bottom: 0;
+}
 a.menuItemWithRef {
     color: #5b5b5b;
 }
