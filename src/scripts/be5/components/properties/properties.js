@@ -31,16 +31,18 @@ class Properties extends Component {
       }
     });
 
-    return <div>{fields}</div>;
+    return <div className={this.props.className}>{fields}</div>;
   }
 
 }
 
 Properties.defaultProps = {
+  className: "row",
   localization: {},
 };
 
 Properties.propTypes = {
+  className: PropTypes.string.isRequired,
   bean: PropTypes.object.isRequired,
   ids: PropTypes.array,
   onChange: PropTypes.func,

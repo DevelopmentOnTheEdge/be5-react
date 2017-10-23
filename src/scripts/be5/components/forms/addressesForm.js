@@ -61,36 +61,35 @@ class AddressesForm extends Form
         <div className={'formBox col-12 max-width-970 ' + (attributes.cssClass || 'formBoxDefault')}>
           <h1>{attributes.title}</h1>
           <form className="" onSubmit={this._applyOnSubmit}>
-            <div className="row">
               <Properties bean={attributes.bean} ids={[4,5,6]}
                           localization={be5.messages.property} onChange={this._onFieldChange} />
-
-              <div className='property-group col-12'>
-                <div className='property-groop-box'><div className="row">
+              <div className='row'>
+                <div className='property-group col-12'>
+                  <div className='property-groop-box'>
                     <Properties bean={attributes.bean} ids={[7,8,9,10,11]} localization={be5.messages.property} onChange={this._onFieldChange} />
-
-                    <div className="form-group property col-lg-2 required">
-                      <label htmlFor="districtField" className="form-control-label">Здание:</label>
-                      <div className="controls">
-                        <PropertyInput path={"/buildingNo"} bean={attributes.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
+                    <div className="row">
+                      <div className="form-group property col-lg-2 required">
+                        <label htmlFor="districtField" className="form-control-label">Здание:</label>
+                        <div className="controls">
+                          <PropertyInput path={"/buildingNo"} bean={attributes.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
+                        </div>
+                        <button type="button" className="btn btn-primary btn-sm show-modal-btn" onClick={this._showAddBuilding}
+                           disabled={!this.state.data.attributes.bean.values.Street} >Добавить здание</button>
                       </div>
-                      <button type="button" className="btn btn-primary btn-sm show-modal-btn" onClick={this._showAddBuilding}
-                         disabled={!this.state.data.attributes.bean.values.Street} >Добавить здание</button>
-                    </div>
 
-                    <div className="form-group property col-lg-2 required">
-                      <label htmlFor="districtField" className="form-control-label">Квартира:</label>
-                      <div className="controls">
-                        <PropertyInput path={"/propertyID"} bean={attributes.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
+                      <div className="form-group property col-lg-2 required">
+                        <label htmlFor="districtField" className="form-control-label">Квартира:</label>
+                        <div className="controls">
+                          <PropertyInput path={"/propertyID"} bean={attributes.bean} localization={be5.messages.property} onChange={this._onFieldChange} />
+                        </div>
+                        <button type="button" className="btn btn-primary btn-sm show-modal-btn" onClick={this._showAddApartment}
+                          disabled={!this.state.data.attributes.bean.values.buildingNo}>Добавить квартиру</button>
                       </div>
-                      <button type="button" className="btn btn-primary btn-sm show-modal-btn" onClick={this._showAddApartment}
-                        disabled={!this.state.data.attributes.bean.values.buildingNo}>Добавить квартиру</button>
                     </div>
-                </div></div>
+                  </div>
+                </div>
               </div>
-
-            </div>
-            {this._createFormActions()}
+              {this._createFormActions()}
           </form>
           {bootstrapModal}
         </div>

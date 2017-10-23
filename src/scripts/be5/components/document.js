@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import be5 from '../be5';
 import bus from '../core/bus';
 
-import '../../../css/document.css';
 
 class Document extends Component {
 

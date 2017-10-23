@@ -11,6 +11,7 @@ import 'react-virtualized-select/styles.css';
 import 'react-s-alert/dist/s-alert-default.css';
 
 import '../../sass/styles.scss'
+import '../../css/document.css';
 import '../../css/splitPane.css';
 import '../../css/form.css';
 import '../../css/table.css';

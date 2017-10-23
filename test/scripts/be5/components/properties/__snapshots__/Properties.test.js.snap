@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`contain property 1`] = `
-<div>
+<div
+  className="row"
+>
   <div
     className="form-group property col-lg-12 required"
   >
@@ -39,4 +41,8 @@ exports[`contain property 1`] = `
 </div>
 `;
 
-exports[`not contain property 1`] = `<div />`;
+exports[`not contain property 1`] = `
+<div
+  className="row"
+/>
+`;
