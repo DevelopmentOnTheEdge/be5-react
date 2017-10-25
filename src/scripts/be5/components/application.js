@@ -6,7 +6,7 @@ import SplitPane from './splitPane';
 import AlertContainer from 'react-alert'
 
 export default React.createClass({
-  displayName: 'App',
+  displayName: 'Application',
 
   componentDidMount: function() {
     bus.listen('LoggedOut', this.refresh);

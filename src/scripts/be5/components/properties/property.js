@@ -5,7 +5,8 @@ import Datetime             from 'react-datetime';
 import moment               from 'moment';
 import Select, { Creatable }from 'react-select';
 import VirtualizedSelect    from 'react-virtualized-select'
-import NumericInput from 'react-numeric-input';
+import NumericInput         from 'react-numeric-input';
+import CKEditor             from "react-ckeditor-component";
 
 
 class Property extends Component {
@@ -20,6 +21,7 @@ class Property extends Component {
   }
 
   handleChange(event) {
+    //console.log(this.props.path, Property._getValueFromEvent(event));
     this.props.onChange(this.props.path, Property._getValueFromEvent(event));
   }
 
@@ -221,6 +223,14 @@ class Property extends Component {
         return <input type="password" placeholder={meta.placeholder} id={id} key={id} value={value === undefined ? "" : value}
                       onChange={handle} className={props.controlClassName || "form-control"} disabled={meta.readOnly} />
       },
+      WYSIWYG: () => {
+        return <CKEditor activeClass="p10" content={value}
+            events={{
+              "change": (evt) => { handle({value:evt.editor.getData()}) }
+            }}
+            config={{language: 'ru',}}
+        />
+      },
       labelField: () => {
         if(meta.rawValue)
         {
@@ -253,8 +263,19 @@ class Property extends Component {
       return controls['numberInput']()
     }
 
-    if(controls[meta.type] !== undefined){
+    if(controls[meta.type] !== undefined)
+    {
       return controls[meta.type]();
+    }
+
+    if(extraAttrsMap.inputType === 'WYSIWYG')
+    {
+      return controls['WYSIWYG']();
+    }
+
+    if(extraAttrsMap.inputType === 'textArea')
+    {
+      return controls['textArea']();
     }
 
     return controls['textInput']();

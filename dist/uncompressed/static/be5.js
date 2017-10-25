@@ -4990,6 +4990,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 window.jQuery = window.$ = __webpack_require__(41);
 
+//todo move to messages.js
 var messages = {
   en: {
     errorCannotConnect: 'Cannot connect to server',
@@ -5033,7 +5034,9 @@ var messages = {
     formComponentNotFound: 'Form type not found: ',
     tableComponentNotFound: 'Table component not found: ',
     helpInfo: "Help",
-    details: "Details"
+    details: "Details",
+
+    NotFound: "Not Found"
   },
 
   ru: {
@@ -5078,7 +5081,9 @@ var messages = {
     formComponentNotFound: 'Компонент формы не найден: ',
     tableComponentNotFound: 'Компонент таблицы не найден: ',
     helpInfo: "Справка",
-    details: "Подробнее"
+    details: "Подробнее",
+
+    NotFound: "Не найдено"
   }
 };
 
@@ -26889,7 +26894,7 @@ var Form = _react2.default.createClass({
       { className: 'row' },
       _react2.default.createElement(
         'div',
-        { className: 'formBox col-12 max-width-970 ' + (attributes.cssClass || 'formBoxDefault') },
+        { className: 'formBox ' + (attributes.layout.formBoxCssClasses || 'col-12 max-width-970 formBoxDefault') },
         _react2.default.createElement(
           'h1',
           { className: 'form-component__title' },
@@ -48548,7 +48553,7 @@ var Property = function (_Component) {
     key: 'getControl',
     value: function getControl(props, handleChange, handleChangeMulti, numericHandleChange, onDateChange) {
       var meta = props.meta;
-      var value = props.value || props.meta.defaultValue;
+      var value = props.value;
       var id = props.name + "Field";
       var handle = meta.multipleSelectionList ? handleChangeMulti : handleChange;
       var extraAttrsMap = Property.getExtraAttrsMap(meta.extraAttrs);
@@ -75216,7 +75221,7 @@ var _reactAlert2 = _interopRequireDefault(_reactAlert);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _default = _react2.default.createClass({
-  displayName: 'App',
+  displayName: 'Application',
 
   componentDidMount: function componentDidMount() {
     var _this = this;
@@ -114893,7 +114898,7 @@ exports = module.exports = __webpack_require__(10)();
 
 
 // module
-exports.push([module.i, "/*\r\n@CHARSET \"UTF-8\";\r\nbody div.scroll {\r\n    width: 100%;\r\n    overflow: auto;\r\n}\r\n\r\n*/\r\n@media (min-width: 1200px){\r\n  .max-width-970{\r\n      max-width: 970px;\r\n  }\r\n}", ""]);
+exports.push([module.i, "/*\r\n@CHARSET \"UTF-8\";\r\nbody div.scroll {\r\n    width: 100%;\r\n    overflow: auto;\r\n}\r\n\r\n*/\r\n@media (min-width: 1200px){\r\n  .max-width-970{\r\n      max-width: 970px;\r\n  }\r\n  .max-width-1140{\r\n      max-width: 1140px;\r\n  }\r\n}", ""]);
 
 // exports
 
