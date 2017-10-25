@@ -10,4 +10,7 @@ body div.scroll {
   .max-width-970{
       max-width: 970px;
   }
+  .max-width-1140{
+      max-width: 1140px;
+  }
 }
