@@ -35,6 +35,7 @@ export { default as SimpleTable } from './components/simpleTable.js';
 export { default as Sorter } from './components/sorter.js';
 export { default as SplitPane } from './components/splitPane.js';
 export { default as StaticPage } from './components/staticPage.js';
+export { default as ErrorPane } from './components/errorPane.js';
 export { default as Table } from './components/tables/table.js';
 export { default as TreeMenu } from './components/treeMenu.js';
 

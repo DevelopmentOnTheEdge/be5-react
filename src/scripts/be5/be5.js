@@ -18,6 +18,7 @@ import qBuilder from './actions/qBuilder.js';
 
 import StaticPage from "./components/staticPage";
 
+//todo move to messages.js
 var messages = {
   en: {
     errorCannotConnect : 'Cannot connect to server',
@@ -62,6 +63,8 @@ var messages = {
     tableComponentNotFound: 'Table component not found: ',
     helpInfo: "Help",
     details: "Details",
+
+    NotFound: "Not Found",
   },
   
   ru: {
@@ -107,6 +110,8 @@ var messages = {
     tableComponentNotFound: 'Компонент таблицы не найден: ',
     helpInfo: "Справка",
     details: "Подробнее",
+
+    NotFound: "Не найдено",
   }
 };
 
