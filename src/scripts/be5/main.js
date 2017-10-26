@@ -10,7 +10,8 @@ import 'react-virtualized/styles.css';
 import 'react-virtualized-select/styles.css';
 import 'react-s-alert/dist/s-alert-default.css';
 
-import '../../sass/styles.scss'
+import '../../sass/styles.scss';
+import '../../css/base.css';
 import '../../css/document.css';
 import '../../css/splitPane.css';
 import '../../css/form.css';

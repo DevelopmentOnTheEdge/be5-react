@@ -1,0 +1,70 @@
+/*ta - text alignment*/
+.ta-center { text-align: center; }
+.ta-right { text-align: right; }
+
+/*fs - font style*/
+.fs-italic { font-style: italic; }
+
+/*fw - font weight*/
+.fw-bold { font-weight: bold; }
+
+/*итоги в представлении*/
+.total { text-align: right; font-weight: bold; }
+
+/*td - text decoration */
+.td-through { text-decoration: line-through }
+.td-underline { text-decoration: underline }
+.td-overline { text-decoration: overline }
+
+.cl-red { color: red; }
+.cl-yellow { color: yellow; }
+.cl-green { color: green; }
+.cl-skyblue { color: skyblue; }
+.cl-blue { color: blue; }
+.cl-violet { color: violet; }
+
+.cl-orange { color: orange; }
+.cl-lime { color: lime; }
+.cl-olive { color: olive; }
+.cl-fuchsia { color: fuchsia; }
+
+.cl-black { color: black; }
+.cl-white { color: white; }
+.cl-gray { color: gray; }
+.cl-grey { color: gray; }
+.cl-silver { color: silver; }
+.cl-brown { color: brown; }
+
+.cl-darkblue { color: darkblue; }
+.cl-darkcyan { color: darkcyan; }
+.cl-darkgoldenrod { color: darkgoldenrod; }
+.cl-darkgray { color: darkgray; }
+.cl-darkgreen { color: darkgreen; }
+.cl-darkgrey { color: darkgrey; }
+.cl-darkkhaki { color: darkkhaki; }
+.cl-darkmagenta { color: darkmagenta; }
+.cl-darkolivegreen { color: darkolivegreen; }
+.cl-darkorange { color: darkorange; }
+.cl-darkorchid { color: darkorchid; }
+.cl-darkred { color: darkred; }
+.cl-darksalmon { color: darksalmon; }
+.cl-darkseagreen { color: darkseagreen; }
+.cl-darkslateblue { color: darkslateblue; }
+.cl-darkslategray { color: darkslategray; }
+.cl-darkslategrey { color: darkslategrey; }
+.cl-darkturquoise { color: darkturquoise; }
+.cl-darkviolet { color: darkviolet; }
+.cl-dimgray { color: dimgrey; }
+
+.cl-lightblue { color: lightblue; }
+.cl-lightcoral { color: lightcoral; }
+.cl-lightcyan { color: lightcyan; }
+.cl-lightgray { color: lightgray; }
+.cl-lightgreen { color: lightgreen; }
+.cl-lightgrey { color: lightgrey; }
+.cl-lightpink { color: lightpink; }
+.cl-lightsalmon { color: lightsalmon; }
+.cl-lightseagreen { color: lightseagreen; }
+.cl-lightskyblue { color: lightskyblue; }
+.cl-lightsteelblue { color: lightsteelblue; }
+.cl-lightyellow { color: lightyellow; }
