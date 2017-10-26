@@ -21,7 +21,7 @@ class Property extends Component {
   }
 
   handleChange(event) {
-    //console.log(this.props.path, Property._getValueFromEvent(event));
+    console.log(this.props.path, Property._getValueFromEvent(event));
     this.props.onChange(this.props.path, Property._getValueFromEvent(event));
   }
 
@@ -49,6 +49,15 @@ class Property extends Component {
       return event.value;
     const element = event.target;
     return (element.type === 'checkbox') ? element.checked : element.value;
+  }
+
+  static getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
   }
 
   onDateChange(date){
@@ -223,10 +232,25 @@ class Property extends Component {
         return <input type="password" placeholder={meta.placeholder} id={id} key={id} value={value === undefined ? "" : value}
                       onChange={handle} className={props.controlClassName || "form-control"} disabled={meta.readOnly} />
       },
+      file: () => {
+        return <input type="file" placeholder={meta.placeholder} id={id} key={id}
+                      className={props.controlClassName || "form-control"} disabled={meta.readOnly}
+                      multiple={meta.multipleSelectionList}
+                      onChange={(e) => {
+                        if(e.target.files && e.target.files.length === 1) {
+                          const fileName = e.target.files[0].name;
+                          Property.getBase64(e.target.files[0]).then(data => {
+                            handle({value: {type: "Base64File", name: fileName, data: data}})
+                          });
+                        }
+                      }
+        } />
+      },
+
       WYSIWYG: () => {
         return <CKEditor activeClass="p10" content={value}
             events={{
-              "change": (evt) => { handle({value:evt.editor.getData()}) }
+              "change": (evt) => { handle({value: evt.editor.getData()}) }
             }}
             config={{language: 'ru',}}
         />
@@ -276,6 +300,11 @@ class Property extends Component {
     if(extraAttrsMap.inputType === 'textArea')
     {
       return controls['textArea']();
+    }
+
+    if(extraAttrsMap.inputType === 'file')
+    {
+      return controls['file']();
     }
 
     return controls['textInput']();
