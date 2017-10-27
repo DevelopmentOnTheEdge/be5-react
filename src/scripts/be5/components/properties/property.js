@@ -21,7 +21,7 @@ class Property extends Component {
   }
 
   handleChange(event) {
-    console.log(this.props.path, Property._getValueFromEvent(event));
+    //console.log(this.props.path, Property._getValueFromEvent(event));
     this.props.onChange(this.props.path, Property._getValueFromEvent(event));
   }
 
