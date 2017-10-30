@@ -1,5 +1,4 @@
 import be5                 from '../be5';
-import documentUtils       from '../core/documentUtils';
 import changeDocument      from '../core/changeDocument';
 import _                   from 'underscore';
 import Preconditions       from '../preconditions';
@@ -31,8 +30,8 @@ export default {
       // } else {
       //   data.value.embedded = true;
       // }
-      data.value = _.extend({}, data.value, options);
-      data = documentUtils.createDocument(data);
+      // data.value = _.extend({}, data.value, options);
+      // data = documentUtils.createDocument(data);
 
       performData(data, documentName);
     }, (data)=> {

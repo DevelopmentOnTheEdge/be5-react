@@ -508,18 +508,6 @@ class Table extends Component {
         <h1 className="table-component__title">{value.data.attributes.title}</h1>
         <TableBox
           ref="tableBox"
-          category={value.category} 
-          page={value.page}
-          operations={value.operations} 
-          selectable={value.selectable} 
-          columns={value.columns}
-          rows={value.rows}
-          length={value.length}
-          parameters={value.parameters} 
-          totalNumberOfRows={value.totalNumberOfRows}
-          hasAggregate={value.hasAggregate}
-          callbacks={value.callbacks}
-          embedded={value.embedded}
           value={value}
           operationDocumentName={this.props.operationDocumentName}
           onChange={this.props.onChange}
