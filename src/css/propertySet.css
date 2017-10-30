@@ -33,6 +33,10 @@
   font-size: 0.875em;
 }
 
+.has-danger .form-control-feedback {
+  color:#b90000;
+}
+
 .form-group.required .form-control-label:after,
 .form-check.required .form-check-label:after{
   content:"*";
