@@ -492,7 +492,24 @@ class TableBox extends Component {
   }
 }
 
-class Table extends Component {
+//todo add register new component and move to condo, add base types
+class ListTableBox extends Component
+{
+  render(){
+    const list = this.props.value.data.attributes.rows.map( (col, idx) => {
+      return <li key={idx} dangerouslySetInnerHTML={ {__html: col.cells[0].content}}/>;
+    });
+
+    return (
+      <ul className="listTableBox">
+        {list}
+      </ul>
+    );
+  }
+}
+
+class Table extends Component
+{
   constructor(props) {
     super(props);
 
@@ -502,16 +519,32 @@ class Table extends Component {
   render() {
     const value = this.props.value;
     //const reloadClass = "table-reload float-xs-right " + this.state.runReload;
+    let table = null;
 
-    return (
-      <div className="table-component">
-        <h1 className="table-component__title">{value.data.attributes.title}</h1>
+    if(value.data.attributes.parameters && value.data.attributes.parameters.displayType === 'list')
+    {
+      table = (
+        <ListTableBox ref="tableBox" value={value} />
+      )
+    }
+    else
+    {
+      table = (
         <TableBox
           ref="tableBox"
           value={value}
           operationDocumentName={this.props.operationDocumentName}
           onChange={this.props.onChange}
         />
+      );
+    }
+
+    const TitleTag = `h${(value.data.attributes.parameters && value.data.attributes.parameters.titleLevel) || 1}`;
+
+    return (
+      <div className="table-component">
+        <TitleTag className="table-component__title">{value.data.attributes.title}</TitleTag>
+        {table}
       </div>
     );
   }
