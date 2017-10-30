@@ -1,8 +1,8 @@
 {
   "name": "be5-react",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "React client UI for be5 server api",
-  "main": "src/scripts/be5/index.js",
+  "main": "dist/lib/static/be5.js",
   "scripts": {
     "start": "ws -d dist/uncompressed",
     "dev": "webpack-dev-server --host 127.0.0.1 --progress --profile --colors",
