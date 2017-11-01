@@ -37,9 +37,9 @@ const Form = React.createClass({
     return this._getRawFormValues().filter(field => field.value != null);
   },
   
-  // refresh() {
-  //   this._reload(this.state.bean.values);
-  // },
+  refresh() {
+    this._reload(this.state.data.attributes.bean.values);
+  },
   
   _reloadOnChange(controlName) {
     const attributes = this.state.data.attributes;
@@ -64,19 +64,10 @@ const Form = React.createClass({
 
   apply() {
     const attributes = this.state.data.attributes;
-    // if (this.props.value.customAction) {
-    //   const values = _.object(_.map(this._getRawFormValues(), m => [ m.name, m.value ]));
-    //   const structuredAction = be5.url.parse(this.props.value.customAction);
-    //   be5.url.set(be5.url.form(structuredAction.positional, _.extend({}, structuredAction.named, values)));
-    //   return;
-    // }
-//    if (this.props.isEmbedded !== true) {
+
     be5.net.request('form/apply', this.getRequestParams(attributes.bean.values), data => {
       formService.performOperationResult(data, this.props.value.documentName, this.props.onChange, true)
     });
-    // } else {
-    //   be5.net.request('form/apply', this.getRequestParams(this.state.bean.values));
-    // }
   },
   
   // cancel() {
@@ -171,10 +162,12 @@ const Form = React.createClass({
             {this._createFormActions()}
           </form>
           <br/>
+
           <Document documentName={this.props.value.documentName +"_errors"} onChange={this.onChange} />
         </div>
       </div>
     );
+    //<button onClick={this.refresh}>refresh</button>
   }
 });
 
