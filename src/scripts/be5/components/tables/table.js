@@ -163,7 +163,8 @@ class QuickColumns extends Component {
   }
 }
 
-const formatCell = (data, options, isColumn) => {
+const formatCell = (data, options, isColumn) =>
+{
   if (!Array.isArray(data)) {
     if (data === '') {
       if (options && options.blankNulls && options.blankNulls.value)
@@ -181,7 +182,7 @@ const formatCell = (data, options, isColumn) => {
       const wrap = $('<div>');
       if(options.css && options.css.class) wrap.addClass(options.css.class);
       if(options === 'th')wrap.addClass("ta-center td-strong");
-      data = wrap.html(data);
+      data = wrap.html(data).html();
     }
     if(!isColumn && options.link) {
       data = $('<a>',{
