@@ -25,7 +25,7 @@ export default {
     };
 
     be5.net.request('form', requestParams, data => {
-      this.performOperationResult(data, documentName, onChange, false);
+      this.performOperationResult(data, params.values, documentName, onChange, false);
     }, (data)=> {
       bus.fire("alert", {msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error'});
       // changeDocument(documentName, {
@@ -37,7 +37,7 @@ export default {
 
   },
 
-  performOperationResult(json, documentName, onChange, reloadOrApply){
+  performOperationResult(json, hashParams, documentName, onChange, reloadOrApply){
     //console.log("forms perform: " + documentName);
     Preconditions.passed(documentName);
 
@@ -47,7 +47,7 @@ export default {
 
       switch (json.data.type) {
         case 'form':
-          this.performForm(json, documentName);
+          this.performForm(json, hashParams, documentName);
           return;
         case 'operationResult':
           if (onChange) onChange();
@@ -94,7 +94,7 @@ export default {
     }
   },
 
-  performForm(json, documentName)
+  performForm(json, hashParams, documentName)
   {
     let operationResult = json.data.attributes.operationResult;
 
@@ -110,7 +110,7 @@ export default {
       changeDocument(documentName, { component: StaticPage,
         value: StaticPage.createValue(be5.messages.formComponentNotFound + formComponentName, '')});
     }else{
-      changeDocument(documentName, { component: formComponent, value: _.extend({}, json, {documentName: documentName}) });
+      changeDocument(documentName, { component: formComponent, value: Object.assign({}, json, {documentName: documentName, hashParams: hashParams}) });
     }
   }
 
