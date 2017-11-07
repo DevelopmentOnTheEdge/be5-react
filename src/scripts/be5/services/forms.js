@@ -1,7 +1,6 @@
 import be5              from '../be5';
 import bus              from '../core/bus';
 import Preconditions    from '../preconditions';
-import _                from 'underscore';
 import changeDocument   from '../core/changeDocument';
 import {HtmlResult}     from '../components/forms/form';
 import StaticPage       from '../components/staticPage';
@@ -37,7 +36,7 @@ export default {
 
   },
 
-  performOperationResult(json, hashParams, documentName, onChange, reloadOrApply){
+  performOperationResult(json, oldValues, documentName, onChange, reloadOrApply){
     //console.log("forms perform: " + documentName);
     Preconditions.passed(documentName);
 
@@ -47,7 +46,7 @@ export default {
 
       switch (json.data.type) {
         case 'form':
-          this.performForm(json, hashParams, documentName);
+          this.performForm(json, oldValues, documentName);
           return;
         case 'operationResult':
           if (onChange) onChange();
@@ -94,7 +93,7 @@ export default {
     }
   },
 
-  performForm(json, hashParams, documentName)
+  performForm(json, oldValues, documentName)
   {
     let operationResult = json.data.attributes.operationResult;
 
@@ -110,7 +109,7 @@ export default {
       changeDocument(documentName, { component: StaticPage,
         value: StaticPage.createValue(be5.messages.formComponentNotFound + formComponentName, '')});
     }else{
-      changeDocument(documentName, { component: formComponent, value: Object.assign({}, json, {documentName: documentName, hashParams: hashParams}) });
+      changeDocument(documentName, { component: formComponent, value: Object.assign({}, json, {documentName: documentName, oldValues: oldValues}) });
     }
   }
 
