@@ -25,7 +25,7 @@ export default {
     };
 
     be5.net.request('form', requestParams, data => {
-      this.performOperationResult(data, params.values, documentName, onChange, false);
+      this.performOperationResult(data, params.values || '{}', documentName, onChange, false);
     }, (data)=> {
       bus.fire("alert", {msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error'});
       // changeDocument(documentName, {

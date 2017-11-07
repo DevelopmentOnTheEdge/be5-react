@@ -60,7 +60,7 @@ const Form = React.createClass({
 
   _reload(values) {
     formService.load(this.getRequestParams(
-      Object.assign({}, values, JSON.parse(this.props.value.hashParams))
+      Object.assign({}, JSON.parse(this.props.value.hashParams), values)
     ), this.props.value.documentName);
   },
 
@@ -68,7 +68,7 @@ const Form = React.createClass({
     const attributes = this.state.data.attributes;
     console.log(this.props.value.hashParams);
     be5.net.request('form/apply', this.getRequestParams(
-      Object.assign({}, attributes.bean.values, JSON.parse(this.props.value.hashParams))), data => {
+      Object.assign({}, JSON.parse(this.props.value.hashParams), attributes.bean.values) ), data => {
       formService.performOperationResult(data, this.props.value.hashParams, this.props.value.documentName, this.props.onChange, true)
     });
   },
