@@ -16593,12 +16593,9 @@ var Form = _react2.default.createClass({
       return field.value != null;
     });
   },
-
-
-  // refresh() {
-  //   this._reload(this.state.bean.values);
-  // },
-
+  refresh: function refresh() {
+    this._reload(this.state.data.attributes.bean.values);
+  },
   _reloadOnChange: function _reloadOnChange(controlName) {
     var attributes = this.state.data.attributes;
     this._reload(Object.assign({}, attributes.bean.values, { '_reloadcontrol_': controlName }));
@@ -16615,25 +16612,16 @@ var Form = _react2.default.createClass({
     };
   },
   _reload: function _reload(values) {
-    _forms2.default.load(this.getRequestParams(values), this.props.value.documentName);
+    _forms2.default.load(this.getRequestParams(Object.assign({}, values, JSON.parse(this.props.value.hashParams))), this.props.value.documentName);
   },
   apply: function apply() {
     var _this2 = this;
 
     var attributes = this.state.data.attributes;
-    // if (this.props.value.customAction) {
-    //   const values = _.object(_.map(this._getRawFormValues(), m => [ m.name, m.value ]));
-    //   const structuredAction = be5.url.parse(this.props.value.customAction);
-    //   be5.url.set(be5.url.form(structuredAction.positional, _.extend({}, structuredAction.named, values)));
-    //   return;
-    // }
-    //    if (this.props.isEmbedded !== true) {
-    _be2.default.net.request('form/apply', this.getRequestParams(attributes.bean.values), function (data) {
-      _forms2.default.performOperationResult(data, _this2.props.value.documentName, _this2.props.onChange, true);
+    console.log(this.props.value.hashParams);
+    _be2.default.net.request('form/apply', this.getRequestParams(Object.assign({}, attributes.bean.values, JSON.parse(this.props.value.hashParams))), function (data) {
+      _forms2.default.performOperationResult(data, _this2.props.value.hashParams, _this2.props.value.documentName, _this2.props.onChange, true);
     });
-    // } else {
-    //   be5.net.request('form/apply', this.getRequestParams(this.state.bean.values));
-    // }
   },
 
 
@@ -16739,6 +16727,7 @@ var Form = _react2.default.createClass({
         _react2.default.createElement(_document2.default, { documentName: this.props.value.documentName + "_errors", onChange: this.onChange })
       )
     );
+    //<button onClick={this.refresh}>refresh</button>
   }
 });
 
@@ -34742,7 +34731,7 @@ var _default = {
     };
 
     _be2.default.net.request('form', requestParams, function (data) {
-      _this.performOperationResult(data, documentName, onChange, false);
+      _this.performOperationResult(data, params.values, documentName, onChange, false);
     }, function (data) {
       _bus2.default.fire("alert", { msg: _be2.default.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error' });
       // changeDocument(documentName, {
@@ -34752,17 +34741,16 @@ var _default = {
       // });
     });
   },
-  performOperationResult: function performOperationResult(json, documentName, onChange, apply) {
+  performOperationResult: function performOperationResult(json, hashParams, documentName, onChange, reloadOrApply) {
     //console.log("forms perform: " + documentName);
     _preconditions2.default.passed(documentName);
-    var documentNameForError = apply ? documentName + "_errors" : documentName;
 
     if (json.data !== undefined) {
-      (0, _changeDocument2.default)(documentNameForError, { component: 'text', value: "" });
+      if (reloadOrApply) (0, _changeDocument2.default)(documentName + "_errors", { component: 'text', value: "" });
 
       switch (json.data.type) {
         case 'form':
-          this.performForm(json, documentName);
+          this.performForm(json, hashParams, documentName);
           return;
         case 'operationResult':
           if (onChange) onChange();
@@ -34804,10 +34792,10 @@ var _default = {
       var error = json.errors[0];
       _bus2.default.fire("alert", { msg: error.status + " " + error.title, type: 'error' });
 
-      (0, _changeDocument2.default)(documentNameForError, { component: _errorPane2.default, value: json });
+      (0, _changeDocument2.default)(reloadOrApply ? documentName + "_errors" : documentName, { component: _errorPane2.default, value: json });
     }
   },
-  performForm: function performForm(json, documentName) {
+  performForm: function performForm(json, hashParams, documentName) {
     var operationResult = json.data.attributes.operationResult;
 
     if (operationResult.status === 'error' && (operationResult.details === undefined || operationResult.details === "message")) {
@@ -34821,7 +34809,7 @@ var _default = {
       (0, _changeDocument2.default)(documentName, { component: _staticPage2.default,
         value: _staticPage2.default.createValue(_be2.default.messages.formComponentNotFound + formComponentName, '') });
     } else {
-      (0, _changeDocument2.default)(documentName, { component: formComponent, value: _underscore2.default.extend({}, json, { documentName: documentName }) });
+      (0, _changeDocument2.default)(documentName, { component: formComponent, value: Object.assign({}, json, { documentName: documentName, hashParams: hashParams }) });
     }
   }
 };
@@ -36170,7 +36158,7 @@ var formatCell = function formatCell(data, options, isColumn) {
       var wrap = (0, _jquery2.default)('<div>');
       if (options.css && options.css.class) wrap.addClass(options.css.class);
       if (options === 'th') wrap.addClass("ta-center td-strong");
-      data = wrap.html(data);
+      data = wrap.html(data).html();
     }
     if (!isColumn && options.link) {
       data = (0, _jquery2.default)('<a>', {
