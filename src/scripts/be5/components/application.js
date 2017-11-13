@@ -31,7 +31,7 @@ export default React.createClass({
     return (
       <div>
         <AlertContainer ref={a => this.msg = a} {...alertOptions } />
-        <SplitPane split="vertical" defaultSize={1} >
+        <SplitPane split="vertical" defaultSize={280} >
           <SideBar ref="sideBar"/>
           <Document ref="document" onChange={()=>{}}/>
         </SplitPane>
