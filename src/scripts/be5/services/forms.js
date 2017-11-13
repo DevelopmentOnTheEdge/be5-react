@@ -5,7 +5,7 @@ import changeDocument   from '../core/changeDocument';
 import {HtmlResult}     from '../components/forms/form';
 import StaticPage       from '../components/staticPage';
 import ErrorPane        from "../components/errorPane";
-import FormsCollections from './formsCollections.js';
+import formsCollections from './formsCollections.js';
 
 
 export default {
@@ -103,7 +103,7 @@ export default {
     }
 
     const formComponentName = json.data.attributes.layout.type || 'form';
-    const formComponent = FormsCollections.getForm(formComponentName);
+    const formComponent = formsCollections.getForm(formComponentName);
 
     if(formComponent === undefined){
       changeDocument(documentName, { component: StaticPage,
