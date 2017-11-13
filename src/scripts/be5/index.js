@@ -40,15 +40,23 @@ export { default as Navs }       from './components/navs.js';
 export { default as Form }             from './components/forms/form.js';
 export { default as SubmitOnChangeForm }             from './components/forms/submitOnChangeForm.js';
 
+// tables
 export { default as Table } from './components/tables/table.js';
 export { default as FormTable } from './components/tables/formTable.js';
 export { default as TableForm } from './components/tables/tableForm.js';
 export { default as TableFormRow } from './components/tables/tableFormRow.js';
 
+// forms
 export { default as menu } from './components/menu/menu.js';
 export { default as menuFooter } from './components/menu/menuFooter.js';
 export { default as menuHeader } from './components/menu/menuHeader.js';
 export { default as menuNode } from './components/menu/menuNode.js';
+
+// properties
+export { default as Property } from './components/properties/property.js';
+export { default as Properties } from './components/properties/properties.js';
+export { default as PropertyInput } from './components/properties/propertyInput.js';
+export { default as PropertySet } from './components/properties/propertySet.js';
 
 // actions
 export { default as formAction } from './actions/form.js';
