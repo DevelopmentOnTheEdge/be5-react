@@ -6,7 +6,8 @@ import moment               from 'moment';
 import Select, { Creatable }from 'react-select';
 import VirtualizedSelect    from 'react-virtualized-select'
 import NumericInput         from 'react-numeric-input';
-import CKEditor             from "react-ckeditor-component";
+import CKEditor             from 'react-ckeditor-component';
+import MaskedInput          from 'react-maskedinput';
 
 
 class Property extends Component {
@@ -214,9 +215,14 @@ class Property extends Component {
 //        },
 //        readOnly: () => this.createStatic(value)
 //      },
+
+
       textArea: () => {
         return <textarea placeholder={meta.placeholder} id={id}  rows={meta.rows || 3} cols={meta.columns} value={value === undefined ? "" : value}
                          onChange={handle} className={props.controlClassName || "form-control"} disabled={meta.readOnly} />
+      },
+      maskTest: () => {
+        return <MaskedInput mask={"1111111111111"} onChange={handle} className={props.controlClassName || "form-control"} />
       },
       textInput: () => {
         return <input type="text" placeholder={meta.placeholder} id={id} key={id} value={value === undefined ? "" : value}
@@ -307,6 +313,11 @@ class Property extends Component {
       return controls['file']();
     }
 
+    if(meta.validationRules !== undefined && Property.isMaskInput(meta.validationRules))
+    {
+      return controls['maskTest']();
+    }
+
     return controls['textInput']();
   }
 
@@ -336,6 +347,15 @@ class Property extends Component {
       props['maxLength'] = parseInt(meta.columnSize);
     }
     return props;
+  }
+
+  static isMaskInput(rules)
+  {
+    for (let i = 0; i < rules.length; i++)
+    {
+      if ("mask" in rules[i]) return true;
+    }
+    return false;
   }
 
   static isNumberInput(rules)
