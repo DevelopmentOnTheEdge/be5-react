@@ -17,32 +17,46 @@ export { default as http } from './core/http.js';
 export { default as loadDocument } from './core/loadDocument.js';
 
 // components
-export { default as action } from './components/action.js';
-export { default as Application } from './components/application.js';
-export { default as Be5Block } from './components/be5Block.js';
-export { default as Be5Menu } from './components/be5Menu.js';
-export { default as Be5MenuHolder } from './components/be5MenuHolder.js';
-export { default as Be5MenuItem } from './components/be5MenuItem.js';
-export { default as BootstrapModal } from './components/bootstrapModal.js';
-export { default as CustomServlet } from './components/customServlet.js';
-export { default as Document } from './components/document.js';
-export { default as Form } from './components/forms/form.js';
+export { default as action }           from './components/action.js';
+export { default as Application }      from './components/application.js';
+export { default as Be5Menu }          from './components/be5Menu.js';
+export { default as Be5MenuHolder }    from './components/be5MenuHolder.js';
+export { default as Be5MenuItem }      from './components/be5MenuItem.js';
+export { default as BootstrapModal }   from './components/bootstrapModal.js';
+export { default as CustomServlet }    from './components/customServlet.js';
+export { default as Document }         from './components/document.js';
 export { default as LanguageSelector } from './components/languageSelector.js';
-export { default as Login } from './components/login.js';
+export { default as Login }            from './components/login.js';
 export { default as RoleSelector } from './components/roleSelector.js';
 export { default as SideBar } from './components/sideBar.js';
-export { default as SimpleTable } from './components/simpleTable.js';
 export { default as Sorter } from './components/sorter.js';
 export { default as SplitPane } from './components/splitPane.js';
 export { default as StaticPage } from './components/staticPage.js';
 export { default as ErrorPane } from './components/errorPane.js';
-export { default as Table } from './components/tables/table.js';
 export { default as TreeMenu } from './components/treeMenu.js';
+export { default as FormWizard } from './components/formWizard.js';
+export { default as Navs }       from './components/navs.js';
 
+export { default as Form }             from './components/forms/form.js';
+export { default as SubmitOnChangeForm }             from './components/forms/submitOnChangeForm.js';
+
+// tables
+export { default as Table } from './components/tables/table.js';
+export { default as FormTable } from './components/tables/formTable.js';
+export { default as TableForm } from './components/tables/tableForm.js';
+export { default as TableFormRow } from './components/tables/tableFormRow.js';
+
+// forms
 export { default as menu } from './components/menu/menu.js';
 export { default as menuFooter } from './components/menu/menuFooter.js';
 export { default as menuHeader } from './components/menu/menuHeader.js';
 export { default as menuNode } from './components/menu/menuNode.js';
+
+// properties
+export { default as Property } from './components/properties/property.js';
+export { default as Properties } from './components/properties/properties.js';
+export { default as PropertyInput } from './components/properties/propertyInput.js';
+export { default as PropertySet } from './components/properties/propertySet.js';
 
 // actions
 export { default as formAction } from './actions/form.js';
@@ -53,5 +67,7 @@ export { default as tableAction } from './actions/table.js';
 
 // services
 export { default as forms } from './services/forms.js';
+export { default as formsCollections } from './services/formsCollections.js';
 export { default as tables } from './services/tables.js';
+export { default as tablesCollections } from './services/tablesCollections.js';
 
