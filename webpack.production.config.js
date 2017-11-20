@@ -43,7 +43,7 @@ let config = {
         loaders
     },
     plugins: [
-        //new BundleAnalyzerPlugin(),
+        new BundleAnalyzerPlugin(),
         new WebpackCleanupPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new ExtractTextPlugin({
@@ -92,21 +92,31 @@ if (env.min) {
 if (env.lib) {
   config.entry.be5 = './src/scripts/be5/index.js';
   config.externals = [
-    'react',
-    'react-dom',
-    'underscore',
-    'react-virtualized',
-    'moment',
-    'datatables',
-    'classnames',
+    'beanexplorer-react',
     'bootstrap',
+    'bundle-loader',
+    'classnames',
+    'datatables',
+    'jquery',
+    'moment',
+    'react',
+    'react-addons-css-transition-group',
+    'react-addons-transition-group',
+    'react-alert',
+    'react-ckeditor-component',
+    'react-codemirror',
+    'react-datetime',
+    'react-dom',
+    'react-numeric-input',
+    'react-select',
+    'react-virtualized',
+    'react-virtualized-select',
     'react-codemirror',
     'react-virtualized-select',
     'reactstrap',
     'tether',
-    'jquery',
     'classnames',
-    'beanexplorer-react'
+    'underscore',
   ];
 }
 
