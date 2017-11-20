@@ -72,6 +72,22 @@ module.exports = {
                 js: [ "bundle.js"],
             }
         }),
-        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|ru/)
-    ]
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|ru/),
+        new webpack.ProvidePlugin({
+          _: 'underscore',
+          $: "jquery",
+          jQuery: "jquery",
+          DataTables: "datatables",
+        })
+    ],
+    externals: {
+      //jquery: 'jQuery',
+      "react": "React",
+      "react-dom": "ReactDOM",
+      "react-virtualized" : "react-virtualized",
+      underscore : '_',
+      //jquery : '$',
+      //"datatables" : "DataTables",
+      "moment" : "moment",
+    }
 };
