@@ -6,7 +6,7 @@ import Const    from './constants';
 import utils    from './utils';
 import bus      from './core/bus';
 import changeDocument from './core/changeDocument';
-window.jQuery = window.$ = require('jquery');
+//window.jQuery = window.$ = require('jquery');
 
 import loading from './actions/loading.js';
 import formAction from './actions/form.js';

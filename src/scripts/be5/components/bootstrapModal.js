@@ -21,17 +21,7 @@ class BootstrapModal extends React.Component
       modal: !this.state.modal
     });
   }
-  // // The following two methods are the only places we need to
-  // // integrate with Bootstrap or jQuery!
-  // componentDidMount() {
-  //   // When the component is added, turn it into a modal
-  //   $(ReactDOM.findDOMNode(this)).modal({backdrop: 'static', keyboard: false, show: false})
-  // },
-  //
-  // componentWillUnmount() {
-  //   $(ReactDOM.findDOMNode(this)).off('hidden', this.handleHidden);
-  // },
-  //
+
   close() {
     this.setState({ modal: false });
   }

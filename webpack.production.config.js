@@ -43,6 +43,7 @@ let config = {
         loaders
     },
     plugins: [
+        //new BundleAnalyzerPlugin(),
         new WebpackCleanupPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new ExtractTextPlugin({
@@ -59,6 +60,11 @@ let config = {
                 css: ['style.css'],
                 js: ['bundle.js'],
             }
+        }),
+        new webpack.ProvidePlugin({
+          _: 'underscore',
+          $: "jquery",
+          jQuery: "jquery"
         })
     ]
 };
@@ -78,6 +84,16 @@ if (env.lib) {
     'react',
     'react-dom',
     'underscore',
+    'react-virtualized',
+    'moment',
+    'datatables',
+    'classnames',
+    'bootstrap',
+    'react-codemirror',
+    'react-virtualized-select',
+    'reactstrap',
+    'tether',
+    'jquery',
     'classnames',
     'beanexplorer-react'
   ];

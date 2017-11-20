@@ -191,7 +191,7 @@ const formatCell = (data, options, isColumn) =>
       });
     }
   }
-  if(data instanceof jQuery){
+  if(data instanceof $){
     data = $('<div>').append($(data).clone()).html();
   }
   return data;
