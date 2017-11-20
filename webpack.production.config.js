@@ -64,9 +64,20 @@ let config = {
         new webpack.ProvidePlugin({
           _: 'underscore',
           $: "jquery",
-          jQuery: "jquery"
+          jQuery: "jquery",
+          DataTables: "datatables",
         })
-    ]
+    ],
+    externals: {
+      //jquery: 'jQuery',
+      "react": "React",
+      "react-dom": "ReactDOM",
+      "react-virtualized" : "react-virtualized",
+      underscore : '_',
+      //jquery : '$',
+      //"datatables" : "DataTables",
+      "moment" : "moment",
+    }
 };
 
 if (env.min) {
