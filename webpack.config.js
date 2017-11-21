@@ -66,7 +66,7 @@ module.exports = {
         new DashboardPlugin(),
         new HtmlWebpackPlugin({
             chunks: ['be5app'],
-            template: './src/template.html',
+            template: './src/template-dev.html',
             files: {
                 css: ['style.css'],
                 js: [ "bundle.js"],
