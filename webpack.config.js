@@ -1,7 +1,8 @@
 "use strict";
 var webpack = require('webpack');
 var path = require('path');
-var loaders = require('./webpack.loaders');
+var loaders = require('./webpack.common').loaders;
+var externals = require('./webpack.common').externals;
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var DashboardPlugin = require('webpack-dashboard/plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -74,13 +75,5 @@ module.exports = {
         }),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|ru/),
     ],
-    externals: {
-        react: "React",
-        "react-dom": "ReactDOM",
-        "react-virtualized": "react-virtualized",
-        underscore: '_',
-        jquery: 'jQuery',
-        datatables: "DataTables",
-        moment: "moment",
-    }
+    externals: externals
 };
