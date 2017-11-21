@@ -61,26 +61,18 @@ let config = {
                 js: ['bundle.js'],
             }
         }),
-        // new webpack.ProvidePlugin({
-        //   _: 'underscore',
-        //   $: "jquery",
-        //   jQuery: "jquery",
-        //   DataTables: "datatables",
-        // }),
-        // new webpack.ProvidePlugin({
-        //   $: "jquery", jQuery: "jquery", "window.jQuery": "jquery",
-        //   React: "React", react: "React", "window.react": "React", "window.React": "React",
-        // }),
+        new webpack.ProvidePlugin({
+          React: "React", react: "React", "window.react": "React", "window.React": "React",
+        }),
     ],
     externals: {
-      //jquery: 'jQuery',
-      "react": "React",
+      react: "React",
       "react-dom": "ReactDOM",
       "react-virtualized" : "react-virtualized",
       underscore : '_',
-      //jquery : '$',
-      //"datatables" : "DataTables",
-      "moment" : "moment",
+      jquery: 'jQuery',
+      datatables : "DataTables",
+      moment : "moment",
     }
 };
 
@@ -101,8 +93,8 @@ if (env.lib) {
     'bundle-loader':'bundle-loader',
     'brace':'brace',
     'classnames':'classnames',
-    'datatables':'datatables',
-    'jquery':'$',
+    'datatables':'DataTables',
+    'jquery':'jQuery',
     'moment':'moment',
     'react':'React',
     'react-ace':'react-ace',
