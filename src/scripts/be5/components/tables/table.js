@@ -8,7 +8,6 @@ import Action          from '../action';
 import _               from 'underscore';
 import formAction      from '../../actions/form';
 import numberFormatter from 'number-format.js';
-import DataTables     from 'datatables';
 
 //import reloadImg from '../../../images/reload.png';
 
