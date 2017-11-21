@@ -61,12 +61,16 @@ let config = {
                 js: ['bundle.js'],
             }
         }),
-        new webpack.ProvidePlugin({
-          _: 'underscore',
-          $: "jquery",
-          jQuery: "jquery",
-          DataTables: "datatables",
-        })
+        // new webpack.ProvidePlugin({
+        //   _: 'underscore',
+        //   $: "jquery",
+        //   jQuery: "jquery",
+        //   DataTables: "datatables",
+        // }),
+        // new webpack.ProvidePlugin({
+        //   $: "jquery", jQuery: "jquery", "window.jQuery": "jquery",
+        //   React: "React", react: "React", "window.react": "React", "window.React": "React",
+        // }),
     ],
     externals: {
       //jquery: 'jQuery',
