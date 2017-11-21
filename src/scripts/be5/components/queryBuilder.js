@@ -50,6 +50,8 @@ class QueryBuilder extends React.Component
             fontSize={13}
             onChange={this.updateCode}
             name="UNIQUE_ID_OF_DIV"
+            width='100%'
+            height='100%'
             editorProps={{
               $blockScrolling: true,
               enableBasicAutocompletion: true,

@@ -1,3 +1,4 @@
+import React    from 'react';
 import $        from 'jquery';
 import _        from 'underscore';
 import Settings from './settings';

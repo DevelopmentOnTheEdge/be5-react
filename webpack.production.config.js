@@ -61,9 +61,7 @@ let config = {
                 js: ['bundle.js'],
             }
         }),
-        new webpack.ProvidePlugin({
-          React: "React", react: "React", "window.react": "React", "window.React": "React",
-        }),
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|ru/),
     ],
     externals: {
       react: "React",
