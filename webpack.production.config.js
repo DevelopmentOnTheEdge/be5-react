@@ -68,11 +68,11 @@ let config = {
     externals: {
       react: "React",
       "react-dom": "ReactDOM",
-      "react-virtualized" : "react-virtualized",
-      underscore : '_',
+      "react-virtualized": "react-virtualized",
+      underscore: '_',
       jquery: 'jQuery',
-      datatables : "DataTables",
-      moment : "moment",
+      datatables: "DataTables",
+      moment: "moment",
     }
 };
 
@@ -87,32 +87,33 @@ if (env.min) {
 
 if (env.lib) {
   config.entry.be5 = './src/scripts/be5/index.js';
-  config.externals = {
-    'beanexplorer-react':'beanexplorer-react',
-    'bootstrap':'bootstrap',
-    'bundle-loader':'bundle-loader',
-    'brace':'brace',
-    'classnames':'classnames',
-    'datatables':'DataTables',
-    'jquery':'jQuery',
-    'moment':'moment',
-    'react':'React',
-    'react-ace':'react-ace',
-    'react-addons-css-transition-group':'react-addons-css-transition-group',
-    'react-addons-transition-group':'react-addons-transition-group',
-    'react-alert':'react-alert',
-    'react-ckeditor-component':'react-ckeditor-component',
-    'react-codemirror':'react-codemirror',
-    'react-datetime':'react-datetime',
-    'react-dom': 'ReactDOM',
-    'react-numeric-input':'react-numeric-input',
-    'react-select':'react-select',
-    'react-virtualized':'react-virtualized',
-    'react-virtualized-select':'react-virtualized-select',
-    'reactstrap':'reactstrap',
-    'tether':'tether',
-    'underscore':'_',
-  };
+  config.externals = [
+    'beanexplorer-react',
+    'bootstrap',
+    'bundle-loader',
+    'brace',
+    'classnames',
+    'datatables',
+    'jquery',
+    'moment',
+    'react',
+    'react-ace',
+    'react-addons-css-transition-group',
+    'react-addons-transition-group',
+    'react-alert',
+    'react-ckeditor-component',
+    'react-codemirror',
+    'react-datetime',
+    'react-dom',
+    'react-numeric-input',
+    'react-select',
+    'react-virtualized',
+    'react-virtualized-select',
+    'react-codemirror',
+    'reactstrap',
+    'tether',
+    'underscore',
+  ];
 }
 
 module.exports = config;
