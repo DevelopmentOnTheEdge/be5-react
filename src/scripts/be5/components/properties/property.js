@@ -222,7 +222,7 @@ class Property extends Component {
                          onChange={handle} className={props.controlClassName || "form-control"} disabled={meta.readOnly} />
       },
       maskTest: () => {
-        return <MaskedInput mask={meta.validationRules[0].mask} onChange={handle} className={props.controlClassName || "form-control"} />
+        return <MaskedInput mask={this.props.meta.validationRules} onChange={handle} className={props.controlClassName || "form-control"} />
       },
       textInput: () => {
         return <input type="text" placeholder={meta.placeholder} id={id} key={id} value={value === undefined ? "" : value}
