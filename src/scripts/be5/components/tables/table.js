@@ -434,7 +434,11 @@ class TableBox extends Component {
     }
 
     tableConfiguration.drawCallback = (settings) => {
-      if (groupingColumn !== null)drawGrouping(this.api());
+      if(this.refs && this.refs.table)
+      {
+        const dataTable = $(this.refs.table).find('table').dataTable();
+        if (groupingColumn !== null) drawGrouping(dataTable.api());
+      }
       hideControls();
     };
 
