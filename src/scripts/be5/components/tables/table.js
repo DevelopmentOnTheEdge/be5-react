@@ -183,8 +183,7 @@ const formatCell = (data, options, isColumn) =>
         href: "#!" + options.link.url
       });
     }
-    if(options.css || options === 'th'){
-      console.log(options.css);
+    if(options.css || options === 'th') {
       const wrap = $('<div>');
       if(options.css && options.css.class) wrap.addClass(options.css.class);
       if(options === 'th')wrap.addClass("ta-center td-strong");

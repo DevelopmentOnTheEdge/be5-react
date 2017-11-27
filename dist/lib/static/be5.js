@@ -92,6 +92,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
 var _jquery = __webpack_require__(35);
 
 var _jquery2 = _interopRequireDefault(_jquery);
@@ -3733,17 +3737,18 @@ var formatCell = function formatCell(data, options, isColumn) {
     if (options.format) {
       data = (0, _numberFormat2.default)(options.format.mask, data);
     }
-    if (options.css || options === 'th') {
-      var wrap = (0, _jquery2.default)('<div>');
-      if (options.css && options.css.class) wrap.addClass(options.css.class);
-      if (options === 'th') wrap.addClass("ta-center td-strong");
-      data = wrap.html(data).html();
-    }
     if (!isColumn && options.link) {
       data = (0, _jquery2.default)('<a>', {
         text: data,
         href: "#!" + options.link.url
       });
+    }
+    if (options.css || options === 'th') {
+      console.log(options.css);
+      var wrap = (0, _jquery2.default)('<div>');
+      if (options.css && options.css.class) wrap.addClass(options.css.class);
+      if (options === 'th') wrap.addClass("ta-center td-strong");
+      data = wrap.html(data);
     }
   }
   if (data instanceof _jquery2.default) {
@@ -3990,7 +3995,10 @@ var TableBox = function (_Component3) {
       }
 
       tableConfiguration.drawCallback = function (settings) {
-        if (groupingColumn !== null) drawGrouping(_this9.api());
+        if (_this9.refs && _this9.refs.table) {
+          var dataTable = (0, _jquery2.default)(_this9.refs.table).find('table').dataTable();
+          if (groupingColumn !== null) drawGrouping(dataTable.api());
+        }
         hideControls();
       };
 
@@ -8903,6 +8911,8 @@ var QueryBuilder = function (_React$Component) {
             fontSize: 13,
             onChange: this.updateCode,
             name: 'UNIQUE_ID_OF_DIV',
+            width: '100%',
+            height: '100%',
             editorProps: {
               $blockScrolling: true,
               enableBasicAutocompletion: true,
@@ -13179,7 +13189,7 @@ exports = module.exports = __webpack_require__(8)();
 
 
 // module
-exports.push([module.i, ".ReactCodeMirror {\n    border: 1px solid #e0e0e0;\n    width: 100%;\n}\n.queryBuilder .CodeMirror {\n    height: 100%;\n}\n\n.queryBuilder .SplitPane {\n    position: relative!important;\n}", ""]);
+exports.push([module.i, "#UNIQUE_ID_OF_DIV {\n    border-top: 1px solid #e0e0e0;\n    border-left: 1px solid #e0e0e0;\n    border-right: 1px solid #e0e0e0;\n    width: 100%;\n}\n.queryBuilder .CodeMirror {\n    height: 100%;\n}\n\n.queryBuilder .SplitPane {\n    position: relative!important;\n}", ""]);
 
 // exports
 
