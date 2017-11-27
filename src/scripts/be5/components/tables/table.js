@@ -177,17 +177,18 @@ const formatCell = (data, options, isColumn) =>
     if(options.format){
         data = numberFormatter(options.format.mask, data);
     }
-    if(options.css || options === 'th'){
-      const wrap = $('<div>');
-      if(options.css && options.css.class) wrap.addClass(options.css.class);
-      if(options === 'th')wrap.addClass("ta-center td-strong");
-      data = wrap.html(data).html();
-    }
     if(!isColumn && options.link) {
       data = $('<a>',{
         text: data,
         href: "#!" + options.link.url
       });
+    }
+    if(options.css || options === 'th'){
+      console.log(options.css);
+      const wrap = $('<div>');
+      if(options.css && options.css.class) wrap.addClass(options.css.class);
+      if(options === 'th')wrap.addClass("ta-center td-strong");
+      data = wrap.html(data);
     }
   }
   if(data instanceof $){
