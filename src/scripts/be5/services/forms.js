@@ -60,11 +60,19 @@ export default {
           switch (attributes.status) {
             case 'redirect':
               bus.fire("alert", {msg: be5.messages.successfullyCompleted, type: 'success'});
-              if (documentName === be5.documentName) {
-                be5.url.set(attributes.details);
+              if(attributes.details === 'refreshAll')
+              {
+                be5.url.set("");
+                bus.fire('LoggedIn');
               }
-              else {
-                be5.url.process(documentName, '#!' + attributes.details);
+              else
+              {
+                if (documentName === be5.documentName) {
+                  be5.url.set(attributes.details);
+                }
+                else {
+                  be5.url.process(documentName, '#!' + attributes.details);
+                }
               }
               return;
             case 'finished':
