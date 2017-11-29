@@ -22,9 +22,7 @@ class ErrorPane extends React.Component
       <h1 className='errorPane__title' >{error.status} - {error.title}</h1>
       <br/>
       {error.code !== undefined ?
-        <pre className='errorPane__code' >
-          {error.code}
-        </pre> : null
+        <pre className='errorPane__code' dangerouslySetInnerHTML={ {__html: error.code} }/> : null
       }
       {error.detail !== undefined ?
         <div>

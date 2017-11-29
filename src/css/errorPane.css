@@ -1,11 +1,19 @@
 .errorPane__title {
-    color: #c70000;
+  color: #c70000;
 }
 .errorPane__code {
-    color: black;
-    white-space: pre-wrap;
-    white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    word-wrap: break-word;
+  color: black;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
+.errorPane__code code {
+  display: block;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 7px;
+  border-radius: 3px;
 }
