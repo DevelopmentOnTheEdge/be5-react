@@ -165,7 +165,8 @@ const Form = React.createClass({
             {this._createFormActions()}
           </form>
           <br/>
-
+        </div>
+        <div className="col-12">
           <Document documentName={this.props.value.documentName +"_errors"} onChange={this.onChange} />
         </div>
       </div>
