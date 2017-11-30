@@ -97,6 +97,7 @@ export default {
       const error = json.errors[0];
       bus.fire("alert", {msg: error.status + " "+ error.title, type: 'error'});
 
+      console.log(reloadOrApply);
       changeDocument(reloadOrApply ? documentName + "_errors" : documentName, {component: ErrorPane, value: json});
     }
   },
@@ -108,6 +109,10 @@ export default {
     if(operationResult.status === 'error' )
     {
       bus.fire("alert", {msg: operationResult.message, type: 'error'});
+      if(json.data.attributes.errorModel)
+      {
+        changeDocument(documentName + "_errors", {component: ErrorPane, value: json.data.attributes.errorModel});
+      }
     }
 
     const formComponentName = json.data.attributes.layout.type || 'form';
