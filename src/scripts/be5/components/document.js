@@ -13,6 +13,9 @@ class Document extends Component {
 
   componentDidMount() {
     bus.replaceListeners(this.props.documentName, data => {
+      if(this.state.value.meta !== undefined && !Number.isInteger(Number.parseInt(this.state.value.meta._ts_))){
+        console.error("meta._ts_ mast be string of Integer " + this.state.value.meta._ts_);
+      }
       if(this.state.value.meta === undefined || data.value.meta === undefined ||
          data.value.meta._ts_ > this.state.value.meta._ts_){
         this.setState(data);
