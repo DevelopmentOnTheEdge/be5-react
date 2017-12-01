@@ -1,16 +1,16 @@
 import be5            from '../be5';
 import changeDocument from '../core/changeDocument';
 import React          from 'react';
-import CodeMirror     from 'react-codemirror';
-import CodeMirrorShowHint     from 'codemirror/addon/hint/show-hint.js';
-import CodeMirrorSqlHint     from 'codemirror/addon/hint/sql-hint.js';
+//import brace from 'brace';
+import AceEditor from 'react-ace';
 import Document       from './document';
 import Tables         from '../services/tables';
 import SplitPane from 'react-split-pane';
 
 import '../../../css/qBuilder.css';
-import "codemirror/lib/codemirror.css";
-import "codemirror/addon/hint/show-hint.css";
+
+import 'brace/mode/mysql';
+import 'brace/theme/xcode';
 
 
 class QueryBuilder extends React.Component
@@ -37,20 +37,30 @@ class QueryBuilder extends React.Component
 	}
 
   render() {
-    var options = {
-      lineNumbers: true,
-      mode:  "text/x-pgsql",
-      extraKeys: {"Ctrl-Space": "autocomplete"},
-      hintOptions: {tables: {
-        users: {name: null, score: null, birthDate: null},
-        countries: {name: null, population: null, size: null}
-      }}
-    };
+
     return (
       <div className="queryBuilder">
         <h1>Query Builder</h1>
         <SplitPane split="horizontal" defaultSize={500} >
-          <CodeMirror value={this.state.code} onChange={this.updateCode} options={options} />
+
+          <AceEditor
+            value={this.state.code}
+            mode="mysql"
+            theme="xcode"
+            fontSize={13}
+            onChange={this.updateCode}
+            name="UNIQUE_ID_OF_DIV"
+            width='100%'
+            height='100%'
+            editorProps={{
+              $blockScrolling: true,
+              enableBasicAutocompletion: true,
+              enableLiveAutocompletion: true,
+              enableSnippets: true,
+              showLineNumbers: true,
+              tabSize: 2,
+            }}
+          />
           <Document documentName={"queryBuilder-table"} onChange={()=>{}}/>
         </SplitPane>
 

@@ -8,7 +8,6 @@ import Action          from '../action';
 import _               from 'underscore';
 import formAction      from '../../actions/form';
 import numberFormatter from 'number-format.js';
-import DataTables     from 'datatables';
 
 //import reloadImg from '../../../images/reload.png';
 
@@ -178,20 +177,20 @@ const formatCell = (data, options, isColumn) =>
     if(options.format){
         data = numberFormatter(options.format.mask, data);
     }
-    if(options.css || options === 'th'){
-      const wrap = $('<div>');
-      if(options.css && options.css.class) wrap.addClass(options.css.class);
-      if(options === 'th')wrap.addClass("ta-center td-strong");
-      data = wrap.html(data).html();
-    }
     if(!isColumn && options.link) {
       data = $('<a>',{
         text: data,
         href: "#!" + options.link.url
       });
     }
+    if(options.css || options === 'th') {
+      const wrap = $('<div>');
+      if(options.css && options.css.class) wrap.addClass(options.css.class);
+      if(options === 'th')wrap.addClass("ta-center td-strong");
+      data = wrap.html(data);
+    }
   }
-  if(data instanceof jQuery){
+  if(data instanceof $){
     data = $('<div>').append($(data).clone()).html();
   }
   return data;
@@ -435,7 +434,11 @@ class TableBox extends Component {
     }
 
     tableConfiguration.drawCallback = (settings) => {
-      if (groupingColumn !== null)drawGrouping(this.api());
+      if(this.refs && this.refs.table)
+      {
+        const dataTable = $(this.refs.table).find('table').dataTable();
+        if (groupingColumn !== null) drawGrouping(dataTable.api());
+      }
       hideControls();
     };
 

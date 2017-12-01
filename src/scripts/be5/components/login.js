@@ -3,7 +3,7 @@ import ReactDOM       from 'react-dom';
 import be5            from '../be5';
 import ext            from '../core/ext';
 import bus            from '../core/bus';
-import $              from 'jquery';
+//import $              from 'jquery';
 import BootstrapModal from './bootstrapModal';
 
 import '../../../css/login.css';
@@ -56,7 +56,8 @@ const Login = React.createClass({
   
   show() {
     this.refs.modal.open();
-    setTimeout(() => $('#login-username').focus(), 500);
+    this.refs.username.focus();
+    //setTimeout(() => $('#login-username').focus(), 500);
   },
   
   _getErrorMessage() {

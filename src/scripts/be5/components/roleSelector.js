@@ -64,7 +64,7 @@ class RoleBox extends Component {
     }
     const selectedRoles = this.state.selectedRoles;
     const roleNodes = this.state.availableRoles.map((role) =>
-      <Role key={role} ref={role} name={role} selectedRoles={$.inArray(role, selectedRoles) != -1} onChange={this._onRoleChange}/>
+      <Role key={role} ref={role} name={role} selectedRoles={selectedRoles.indexOf(role) !== -1} onChange={this._onRoleChange}/>
     );
 
     return (

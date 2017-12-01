@@ -17,14 +17,12 @@ class ErrorPane extends React.Component
   }
 
   render() {
-    const error = this.props.value.errors[0];
+    const error = this.props.value.errors ? this.props.value.errors[0] : this.props.value;
     return <div className='errorPane'>
       <h1 className='errorPane__title' >{error.status} - {error.title}</h1>
       <br/>
       {error.code !== undefined ?
-        <pre className='errorPane__code' >
-          {error.code}
-        </pre> : null
+        <pre className='errorPane__code' dangerouslySetInnerHTML={ {__html: error.code} }/> : null
       }
       {error.detail !== undefined ?
         <div>

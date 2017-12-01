@@ -60,11 +60,19 @@ export default {
           switch (attributes.status) {
             case 'redirect':
               bus.fire("alert", {msg: be5.messages.successfullyCompleted, type: 'success'});
-              if (documentName === be5.documentName) {
-                be5.url.set(attributes.details);
+              if(attributes.details === 'refreshAll')
+              {
+                be5.url.set("");
+                bus.fire('LoggedIn');
               }
-              else {
-                be5.url.process(documentName, '#!' + attributes.details);
+              else
+              {
+                if (documentName === be5.documentName) {
+                  be5.url.set(attributes.details);
+                }
+                else {
+                  be5.url.process(documentName, '#!' + attributes.details);
+                }
               }
               return;
             case 'finished':
@@ -89,6 +97,7 @@ export default {
       const error = json.errors[0];
       bus.fire("alert", {msg: error.status + " "+ error.title, type: 'error'});
 
+      console.log(reloadOrApply);
       changeDocument(reloadOrApply ? documentName + "_errors" : documentName, {component: ErrorPane, value: json});
     }
   },
@@ -97,9 +106,13 @@ export default {
   {
     let operationResult = json.data.attributes.operationResult;
 
-    if(operationResult.status === 'error' && (operationResult.details === undefined || operationResult.details === "message") )
+    if(operationResult.status === 'error' )
     {
       bus.fire("alert", {msg: operationResult.message, type: 'error'});
+      if(json.data.attributes.errorModel)
+      {
+        changeDocument(documentName + "_errors", {component: ErrorPane, value: json.data.attributes.errorModel});
+      }
     }
 
     const formComponentName = json.data.attributes.layout.type || 'form';

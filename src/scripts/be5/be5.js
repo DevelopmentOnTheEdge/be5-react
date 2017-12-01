@@ -6,7 +6,6 @@ import Const    from './constants';
 import utils    from './utils';
 import bus      from './core/bus';
 import changeDocument from './core/changeDocument';
-window.jQuery = window.$ = require('jquery');
 
 import loading from './actions/loading.js';
 import formAction from './actions/form.js';
@@ -16,7 +15,7 @@ import staticAction from './actions/static.js';
 import tableAction from './actions/table.js';
 import qBuilder from './actions/qBuilder.js';
 
-import StaticPage from "./components/staticPage";
+import "./components/staticPage";
 
 //todo move to messages.js
 var messages = {

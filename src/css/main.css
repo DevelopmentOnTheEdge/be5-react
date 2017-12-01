@@ -2,11 +2,11 @@
 /* colors                                              */
 /*******************************************************/
 .Pane1 {
-    overflow: scroll;
+    overflow: auto;
 }
 
 .Pane2 {
-    overflow: scroll;
+    overflow: auto;
 }
 .Pane.vertical.pane1 {
     background: #f8f8f8;
@@ -28,6 +28,13 @@ a.menuItemWithRef {
     color: #5b5b5b;
 }
 
+#app .css-hx30u2 {
+  width: 350px;
+}
+#app .css-6bx4c3 {
+  text-transform: none;
+  font-size: 1.1em;
+}
 /*******************************************************/
 /* egisso colors                                       */
 /*******************************************************/

@@ -1,6 +1,6 @@
 {
   "name": "be5-react",
-  "version": "0.1.24",
+  "version": "0.1.32",
   "description": "React client UI for be5 server api",
   "main": "dist/lib/static/be5.js",
   "scripts": {
@@ -22,9 +22,9 @@
     "classnames": "2.2.5",
     "datatables": "1.10.13",
     "jquery": "3.2.1",
-    "jqueryui": "1.11.1",
     "moment": "2.18.1",
     "react": "15.6.1",
+    "react-ace": "^5.7.0",
     "react-addons-css-transition-group": "15.6.0",
     "react-addons-transition-group": "15.6.0",
     "react-alert": "2.2.0",
@@ -71,6 +71,7 @@
     "optimize-css-assets-webpack-plugin": "2.0.0",
     "postcss-loader": "1.2.2",
     "prop-types": "15.5.10",
+    "raw-loader": "^0.5.1",
     "react-addons-test-utils": "15.5.1",
     "react-hot-loader": "3.0.0-beta.6",
     "react-maskedinput": "4.0.0",

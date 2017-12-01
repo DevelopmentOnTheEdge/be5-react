@@ -1,12 +1,13 @@
-var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack');
+const path = require('path');
 const env  = require('yargs').argv.env; // use --env with webpack 2
-var loaders = require('./webpack.loaders');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const loaders = require('./webpack.common').loaders;
+const externals = require('./webpack.common').externals;
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 loaders.push({
     test: /\.scss$/,
@@ -43,6 +44,7 @@ let config = {
         loaders
     },
     plugins: [
+        //new BundleAnalyzerPlugin(),
         new WebpackCleanupPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new ExtractTextPlugin({
@@ -59,8 +61,10 @@ let config = {
                 css: ['style.css'],
                 js: ['bundle.js'],
             }
-        })
-    ]
+        }),
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|ru/),
+    ],
+    externals: externals
 };
 
 if (env.min) {
@@ -75,11 +79,31 @@ if (env.min) {
 if (env.lib) {
   config.entry.be5 = './src/scripts/be5/index.js';
   config.externals = [
-    'react',
-    'react-dom',
-    'underscore',
+    'beanexplorer-react',
+    'bootstrap',
+    'bundle-loader',
+    'brace',
     'classnames',
-    'beanexplorer-react'
+    'datatables',
+    'jquery',
+    'moment',
+    'react',
+    'react-ace',
+    'react-addons-css-transition-group',
+    'react-addons-transition-group',
+    'react-alert',
+    'react-ckeditor-component',
+    'react-codemirror',
+    'react-datetime',
+    'react-dom',
+    'react-numeric-input',
+    'react-select',
+    'react-virtualized',
+    'react-virtualized-select',
+    'react-codemirror',
+    'reactstrap',
+    'tether',
+    'underscore',
   ];
 }
 
