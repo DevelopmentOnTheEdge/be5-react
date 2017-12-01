@@ -1552,7 +1552,11 @@ var Form = _react2.default.createClass({
           _react2.default.createElement(_propertySet2.default, { bean: attributes.bean, onChange: this._onFieldChange, localization: _be2.default.messages.property }),
           this._createFormActions()
         ),
-        _react2.default.createElement('br', null),
+        _react2.default.createElement('br', null)
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'col-12' },
         _react2.default.createElement(_document2.default, { documentName: this.props.value.documentName + "_errors", onChange: this.onChange })
       )
     );
@@ -2591,10 +2595,15 @@ var _default = {
           switch (attributes.status) {
             case 'redirect':
               _bus2.default.fire("alert", { msg: _be2.default.messages.successfullyCompleted, type: 'success' });
-              if (documentName === _be2.default.documentName) {
-                _be2.default.url.set(attributes.details);
+              if (attributes.details === 'refreshAll') {
+                _be2.default.url.set("");
+                _bus2.default.fire('LoggedIn');
               } else {
-                _be2.default.url.process(documentName, '#!' + attributes.details);
+                if (documentName === _be2.default.documentName) {
+                  _be2.default.url.set(attributes.details);
+                } else {
+                  _be2.default.url.process(documentName, '#!' + attributes.details);
+                }
               }
               return;
             case 'finished':
@@ -2619,14 +2628,18 @@ var _default = {
       var error = json.errors[0];
       _bus2.default.fire("alert", { msg: error.status + " " + error.title, type: 'error' });
 
+      console.log(reloadOrApply);
       (0, _changeDocument2.default)(reloadOrApply ? documentName + "_errors" : documentName, { component: _errorPane2.default, value: json });
     }
   },
   performForm: function performForm(json, oldValues, documentName) {
     var operationResult = json.data.attributes.operationResult;
 
-    if (operationResult.status === 'error' && (operationResult.details === undefined || operationResult.details === "message")) {
+    if (operationResult.status === 'error') {
       _bus2.default.fire("alert", { msg: operationResult.message, type: 'error' });
+      if (json.data.attributes.errorModel) {
+        (0, _changeDocument2.default)(documentName + "_errors", { component: _errorPane2.default, value: json.data.attributes.errorModel });
+      }
     }
 
     var formComponentName = json.data.attributes.layout.type || 'form';
@@ -3363,7 +3376,7 @@ var ErrorPane = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var error = this.props.value.errors[0];
+      var error = this.props.value.errors ? this.props.value.errors[0] : this.props.value;
       return _react2.default.createElement(
         'div',
         { className: 'errorPane' },
@@ -3375,11 +3388,7 @@ var ErrorPane = function (_React$Component) {
           error.title
         ),
         _react2.default.createElement('br', null),
-        error.code !== undefined ? _react2.default.createElement(
-          'pre',
-          { className: 'errorPane__code' },
-          error.code
-        ) : null,
+        error.code !== undefined ? _react2.default.createElement('pre', { className: 'errorPane__code', dangerouslySetInnerHTML: { __html: error.code } }) : null,
         error.detail !== undefined ? _react2.default.createElement(
           'div',
           null,
@@ -3744,7 +3753,6 @@ var formatCell = function formatCell(data, options, isColumn) {
       });
     }
     if (options.css || options === 'th') {
-      console.log(options.css);
       var wrap = (0, _jquery2.default)('<div>');
       if (options.css && options.css.class) wrap.addClass(options.css.class);
       if (options === 'th') wrap.addClass("ta-center td-strong");
