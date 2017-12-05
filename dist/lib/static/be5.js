@@ -7230,6 +7230,10 @@ var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _be = __webpack_require__(1);
+
+var _be2 = _interopRequireDefault(_be);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7255,7 +7259,7 @@ var MenuSearchField = function (_Component) {
   _createClass(MenuSearchField, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('input', { type: 'text', className: 'searchField form-control', onChange: this._handleChange, value: this.state.value, placeholder: be5.messages.filter });
+      return _react2.default.createElement('input', { type: 'text', className: 'searchField form-control', onChange: this._handleChange, value: this.state.value, placeholder: _be2.default.messages.filter });
     }
   }, {
     key: '_handleChange',
