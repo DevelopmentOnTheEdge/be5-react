@@ -123,6 +123,151 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 "use strict";
 
 
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _ScalingCellSizeAndPositionManager = __webpack_require__(33);
+
+var _ScalingCellSizeAndPositionManager2 = _interopRequireDefault(_ScalingCellSizeAndPositionManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_CellPosition', {
+  value: {
+    columnIndex: __webpack_require__(0).number.isRequired,
+    rowIndex: __webpack_require__(0).number.isRequired
+  },
+  configurable: true
+});
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_CellRendererParams', {
+  value: {
+    columnIndex: __webpack_require__(0).number.isRequired,
+    isScrolling: __webpack_require__(0).bool.isRequired,
+    isVisible: __webpack_require__(0).bool.isRequired,
+    key: __webpack_require__(0).string.isRequired,
+    parent: __webpack_require__(0).object.isRequired,
+    rowIndex: __webpack_require__(0).number.isRequired,
+    style: __webpack_require__(0).object.isRequired
+  },
+  configurable: true
+});
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_CellRenderer', {
+  value: __webpack_require__(0).func,
+  configurable: true
+});
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_CellRangeRendererParams', {
+  value: {
+    cellCache: __webpack_require__(0).object.isRequired,
+    cellRenderer: __webpack_require__(0).func.isRequired,
+    columnSizeAndPositionManager: typeof _ScalingCellSizeAndPositionManager2.default === 'function' ? __webpack_require__(0).instanceOf(_ScalingCellSizeAndPositionManager2.default).isRequired : __webpack_require__(0).any.isRequired,
+    columnStartIndex: __webpack_require__(0).number.isRequired,
+    columnStopIndex: __webpack_require__(0).number.isRequired,
+    deferredMeasurementCache: __webpack_require__(0).object,
+    horizontalOffsetAdjustment: __webpack_require__(0).number.isRequired,
+    isScrolling: __webpack_require__(0).bool.isRequired,
+    parent: __webpack_require__(0).object.isRequired,
+    rowSizeAndPositionManager: typeof _ScalingCellSizeAndPositionManager2.default === 'function' ? __webpack_require__(0).instanceOf(_ScalingCellSizeAndPositionManager2.default).isRequired : __webpack_require__(0).any.isRequired,
+    rowStartIndex: __webpack_require__(0).number.isRequired,
+    rowStopIndex: __webpack_require__(0).number.isRequired,
+    scrollLeft: __webpack_require__(0).number.isRequired,
+    scrollTop: __webpack_require__(0).number.isRequired,
+    styleCache: __webpack_require__(0).object.isRequired,
+    verticalOffsetAdjustment: __webpack_require__(0).number.isRequired,
+    visibleColumnIndices: __webpack_require__(0).object.isRequired,
+    visibleRowIndices: __webpack_require__(0).object.isRequired
+  },
+  configurable: true
+});
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_CellRangeRenderer', {
+  value: __webpack_require__(0).func,
+  configurable: true
+});
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_CellSizeGetter', {
+  value: __webpack_require__(0).func,
+  configurable: true
+});
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_CellSize', {
+  value: __webpack_require__(0).oneOfType([__webpack_require__(0).func, __webpack_require__(0).number]),
+  configurable: true
+});
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_NoContentRenderer', {
+  value: __webpack_require__(0).func,
+  configurable: true
+});
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_Scroll', {
+  value: {
+    clientHeight: __webpack_require__(0).number.isRequired,
+    clientWidth: __webpack_require__(0).number.isRequired,
+    scrollHeight: __webpack_require__(0).number.isRequired,
+    scrollLeft: __webpack_require__(0).number.isRequired,
+    scrollTop: __webpack_require__(0).number.isRequired,
+    scrollWidth: __webpack_require__(0).number.isRequired
+  },
+  configurable: true
+});
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_ScrollbarPresenceChange', {
+  value: {
+    horizontal: __webpack_require__(0).bool.isRequired,
+    vertical: __webpack_require__(0).bool.isRequired,
+    size: __webpack_require__(0).number.isRequired
+  },
+  configurable: true
+});
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_RenderedSection', {
+  value: {
+    columnOverscanStartIndex: __webpack_require__(0).number.isRequired,
+    columnOverscanStopIndex: __webpack_require__(0).number.isRequired,
+    columnStartIndex: __webpack_require__(0).number.isRequired,
+    columnStopIndex: __webpack_require__(0).number.isRequired,
+    rowOverscanStartIndex: __webpack_require__(0).number.isRequired,
+    rowOverscanStopIndex: __webpack_require__(0).number.isRequired,
+    rowStartIndex: __webpack_require__(0).number.isRequired,
+    rowStopIndex: __webpack_require__(0).number.isRequired
+  },
+  configurable: true
+});
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetterParams', {
+  value: {
+    direction: __webpack_require__(0).oneOf(['horizontal', 'vertical']).isRequired,
+    scrollDirection: __webpack_require__(0).oneOf([-1, 1]).isRequired,
+    cellCount: __webpack_require__(0).number.isRequired,
+    overscanCellsCount: __webpack_require__(0).number.isRequired,
+    startIndex: __webpack_require__(0).number.isRequired,
+    stopIndex: __webpack_require__(0).number.isRequired
+  },
+  configurable: true
+});
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_OverscanIndices', {
+  value: {
+    overscanStartIndex: __webpack_require__(0).number.isRequired,
+    overscanStopIndex: __webpack_require__(0).number.isRequired
+  },
+  configurable: true
+});
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter', {
+  value: __webpack_require__(0).func,
+  configurable: true
+});
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_Alignment', {
+  value: __webpack_require__(0).oneOf(['auto', 'end', 'start', 'center']),
+  configurable: true
+});
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_VisibleCellRange', {
+  value: {
+    start: __webpack_require__(0).number,
+    stop: __webpack_require__(0).number
+  },
+  configurable: true
+});
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -667,151 +812,6 @@ var _temp = function () {
 }();
 
 ;
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _ScalingCellSizeAndPositionManager = __webpack_require__(33);
-
-var _ScalingCellSizeAndPositionManager2 = _interopRequireDefault(_ScalingCellSizeAndPositionManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_CellPosition", {
-  value: {
-    columnIndex: __webpack_require__(0).number.isRequired,
-    rowIndex: __webpack_require__(0).number.isRequired
-  },
-  configurable: true
-});
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_CellRendererParams", {
-  value: {
-    columnIndex: __webpack_require__(0).number.isRequired,
-    isScrolling: __webpack_require__(0).bool.isRequired,
-    isVisible: __webpack_require__(0).bool.isRequired,
-    key: __webpack_require__(0).string.isRequired,
-    parent: __webpack_require__(0).object.isRequired,
-    rowIndex: __webpack_require__(0).number.isRequired,
-    style: __webpack_require__(0).object.isRequired
-  },
-  configurable: true
-});
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_CellRenderer", {
-  value: __webpack_require__(0).func,
-  configurable: true
-});
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_CellRangeRendererParams", {
-  value: {
-    cellCache: __webpack_require__(0).object.isRequired,
-    cellRenderer: __webpack_require__(0).func.isRequired,
-    columnSizeAndPositionManager: typeof _ScalingCellSizeAndPositionManager2.default === "function" ? __webpack_require__(0).instanceOf(_ScalingCellSizeAndPositionManager2.default).isRequired : __webpack_require__(0).any.isRequired,
-    columnStartIndex: __webpack_require__(0).number.isRequired,
-    columnStopIndex: __webpack_require__(0).number.isRequired,
-    deferredMeasurementCache: __webpack_require__(0).object,
-    horizontalOffsetAdjustment: __webpack_require__(0).number.isRequired,
-    isScrolling: __webpack_require__(0).bool.isRequired,
-    parent: __webpack_require__(0).object.isRequired,
-    rowSizeAndPositionManager: typeof _ScalingCellSizeAndPositionManager2.default === "function" ? __webpack_require__(0).instanceOf(_ScalingCellSizeAndPositionManager2.default).isRequired : __webpack_require__(0).any.isRequired,
-    rowStartIndex: __webpack_require__(0).number.isRequired,
-    rowStopIndex: __webpack_require__(0).number.isRequired,
-    scrollLeft: __webpack_require__(0).number.isRequired,
-    scrollTop: __webpack_require__(0).number.isRequired,
-    styleCache: __webpack_require__(0).object.isRequired,
-    verticalOffsetAdjustment: __webpack_require__(0).number.isRequired,
-    visibleColumnIndices: __webpack_require__(0).object.isRequired,
-    visibleRowIndices: __webpack_require__(0).object.isRequired
-  },
-  configurable: true
-});
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_CellRangeRenderer", {
-  value: __webpack_require__(0).func,
-  configurable: true
-});
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_CellSizeGetter", {
-  value: __webpack_require__(0).func,
-  configurable: true
-});
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_CellSize", {
-  value: __webpack_require__(0).oneOfType([__webpack_require__(0).func, __webpack_require__(0).number]),
-  configurable: true
-});
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_NoContentRenderer", {
-  value: __webpack_require__(0).func,
-  configurable: true
-});
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_Scroll", {
-  value: {
-    clientHeight: __webpack_require__(0).number.isRequired,
-    clientWidth: __webpack_require__(0).number.isRequired,
-    scrollHeight: __webpack_require__(0).number.isRequired,
-    scrollLeft: __webpack_require__(0).number.isRequired,
-    scrollTop: __webpack_require__(0).number.isRequired,
-    scrollWidth: __webpack_require__(0).number.isRequired
-  },
-  configurable: true
-});
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_ScrollbarPresenceChange", {
-  value: {
-    horizontal: __webpack_require__(0).bool.isRequired,
-    vertical: __webpack_require__(0).bool.isRequired,
-    size: __webpack_require__(0).number.isRequired
-  },
-  configurable: true
-});
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_RenderedSection", {
-  value: {
-    columnOverscanStartIndex: __webpack_require__(0).number.isRequired,
-    columnOverscanStopIndex: __webpack_require__(0).number.isRequired,
-    columnStartIndex: __webpack_require__(0).number.isRequired,
-    columnStopIndex: __webpack_require__(0).number.isRequired,
-    rowOverscanStartIndex: __webpack_require__(0).number.isRequired,
-    rowOverscanStopIndex: __webpack_require__(0).number.isRequired,
-    rowStartIndex: __webpack_require__(0).number.isRequired,
-    rowStopIndex: __webpack_require__(0).number.isRequired
-  },
-  configurable: true
-});
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetterParams", {
-  value: {
-    direction: __webpack_require__(0).oneOf(["horizontal", "vertical"]).isRequired,
-    scrollDirection: __webpack_require__(0).oneOf([-1, 1]).isRequired,
-    cellCount: __webpack_require__(0).number.isRequired,
-    overscanCellsCount: __webpack_require__(0).number.isRequired,
-    startIndex: __webpack_require__(0).number.isRequired,
-    stopIndex: __webpack_require__(0).number.isRequired
-  },
-  configurable: true
-});
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_OverscanIndices", {
-  value: {
-    overscanStartIndex: __webpack_require__(0).number.isRequired,
-    overscanStopIndex: __webpack_require__(0).number.isRequired
-  },
-  configurable: true
-});
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter", {
-  value: __webpack_require__(0).func,
-  configurable: true
-});
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_Alignment", {
-  value: __webpack_require__(0).oneOf(["auto", "end", "start", "center"]),
-  configurable: true
-});
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_VisibleCellRange", {
-  value: {
-    start: __webpack_require__(0).number,
-    stop: __webpack_require__(0).number
-  },
-  configurable: true
-});
 
 /***/ }),
 /* 4 */
@@ -1461,13 +1461,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _Grid = __webpack_require__(117);
 
-Object.defineProperty(exports, "default", {
+Object.defineProperty(exports, 'default', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_Grid).default;
   }
 });
-Object.defineProperty(exports, "Grid", {
+Object.defineProperty(exports, 'Grid', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_Grid).default;
@@ -1476,7 +1476,7 @@ Object.defineProperty(exports, "Grid", {
 
 var _accessibilityOverscanIndicesGetter = __webpack_require__(124);
 
-Object.defineProperty(exports, "accessibilityOverscanIndicesGetter", {
+Object.defineProperty(exports, 'accessibilityOverscanIndicesGetter', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_accessibilityOverscanIndicesGetter).default;
@@ -1485,7 +1485,7 @@ Object.defineProperty(exports, "accessibilityOverscanIndicesGetter", {
 
 var _defaultCellRangeRenderer = __webpack_require__(58);
 
-Object.defineProperty(exports, "defaultCellRangeRenderer", {
+Object.defineProperty(exports, 'defaultCellRangeRenderer', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_defaultCellRangeRenderer).default;
@@ -1494,7 +1494,7 @@ Object.defineProperty(exports, "defaultCellRangeRenderer", {
 
 var _defaultOverscanIndicesGetter = __webpack_require__(57);
 
-Object.defineProperty(exports, "defaultOverscanIndicesGetter", {
+Object.defineProperty(exports, 'defaultOverscanIndicesGetter', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_defaultOverscanIndicesGetter).default;
@@ -1613,7 +1613,7 @@ var _propTypes = __webpack_require__(0);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -1647,6 +1647,9 @@ var Document = function (_Component) {
       var _this2 = this;
 
       _bus2.default.replaceListeners(this.props.documentName, function (data) {
+        if (_this2.state.value.meta !== undefined && !Number.isInteger(Number.parseInt(_this2.state.value.meta._ts_))) {
+          console.error("meta._ts_ mast be string of Integer " + _this2.state.value.meta._ts_);
+        }
         if (_this2.state.value.meta === undefined || data.value.meta === undefined || data.value.meta._ts_ > _this2.state.value.meta._ts_) {
           _this2.setState(data);
         }
@@ -1932,7 +1935,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var React = __webpack_require__(1);
 var React__default = _interopDefault(React);
-var glamor = __webpack_require__(230);
+var glamor = __webpack_require__(232);
 
 var PropTypes = void 0;
 
@@ -2495,7 +2498,7 @@ var _propTypes = __webpack_require__(0);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -2679,7 +2682,11 @@ var Form = _react2.default.createClass({
           _react2.default.createElement(_propertySet2.default, { bean: attributes.bean, onChange: this._onFieldChange, localization: _be2.default.messages.property }),
           this._createFormActions()
         ),
-        _react2.default.createElement('br', null),
+        _react2.default.createElement('br', null)
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'col-12' },
         _react2.default.createElement(_document2.default, { documentName: this.props.value.documentName + "_errors", onChange: this.onChange })
       )
     );
@@ -10051,7 +10058,7 @@ module.exports = g;
 "use strict";
 
 
-var randomFromSeed = __webpack_require__(223);
+var randomFromSeed = __webpack_require__(225);
 
 var ORIGINAL = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-';
 var alphabet;
@@ -10164,7 +10171,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -10338,11 +10345,11 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var babelPluginFlowReactPropTypes_proptype_VisibleCellRange = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_VisibleCellRange || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_VisibleCellRange = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_VisibleCellRange || __webpack_require__(0).any;
 
-var babelPluginFlowReactPropTypes_proptype_CellSizeGetter = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_CellSizeGetter || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_CellSizeGetter = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_CellSizeGetter || __webpack_require__(0).any;
 
-var babelPluginFlowReactPropTypes_proptype_Alignment = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_Alignment || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_Alignment = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_Alignment || __webpack_require__(0).any;
 
 /**
  * Browsers have scroll offset limitations (eg Chrome stops scrolling at ~33.5M pixels where as Edge tops out at ~1.5M pixels).
@@ -10358,7 +10365,7 @@ var ScalingCellSizeAndPositionManager = function () {
   function ScalingCellSizeAndPositionManager(_ref) {
     var _ref$maxScrollSize = _ref.maxScrollSize,
         maxScrollSize = _ref$maxScrollSize === undefined ? DEFAULT_MAX_SCROLL_SIZE : _ref$maxScrollSize,
-        params = _objectWithoutProperties(_ref, ["maxScrollSize"]);
+        params = _objectWithoutProperties(_ref, ['maxScrollSize']);
 
     _classCallCheck(this, ScalingCellSizeAndPositionManager);
 
@@ -10368,27 +10375,27 @@ var ScalingCellSizeAndPositionManager = function () {
   }
 
   _createClass(ScalingCellSizeAndPositionManager, [{
-    key: "areOffsetsAdjusted",
+    key: 'areOffsetsAdjusted',
     value: function areOffsetsAdjusted() {
       return this._cellSizeAndPositionManager.getTotalSize() > this._maxScrollSize;
     }
   }, {
-    key: "configure",
+    key: 'configure',
     value: function configure(params) {
       this._cellSizeAndPositionManager.configure(params);
     }
   }, {
-    key: "getCellCount",
+    key: 'getCellCount',
     value: function getCellCount() {
       return this._cellSizeAndPositionManager.getCellCount();
     }
   }, {
-    key: "getEstimatedCellSize",
+    key: 'getEstimatedCellSize',
     value: function getEstimatedCellSize() {
       return this._cellSizeAndPositionManager.getEstimatedCellSize();
     }
   }, {
-    key: "getLastMeasuredIndex",
+    key: 'getLastMeasuredIndex',
     value: function getLastMeasuredIndex() {
       return this._cellSizeAndPositionManager.getLastMeasuredIndex();
     }
@@ -10399,7 +10406,7 @@ var ScalingCellSizeAndPositionManager = function () {
      */
 
   }, {
-    key: "getOffsetAdjustment",
+    key: 'getOffsetAdjustment',
     value: function getOffsetAdjustment(_ref2) {
       var containerSize = _ref2.containerSize,
           offset = _ref2.offset;
@@ -10415,12 +10422,12 @@ var ScalingCellSizeAndPositionManager = function () {
       return Math.round(offsetPercentage * (safeTotalSize - totalSize));
     }
   }, {
-    key: "getSizeAndPositionOfCell",
+    key: 'getSizeAndPositionOfCell',
     value: function getSizeAndPositionOfCell(index) {
       return this._cellSizeAndPositionManager.getSizeAndPositionOfCell(index);
     }
   }, {
-    key: "getSizeAndPositionOfLastMeasuredCell",
+    key: 'getSizeAndPositionOfLastMeasuredCell',
     value: function getSizeAndPositionOfLastMeasuredCell() {
       return this._cellSizeAndPositionManager.getSizeAndPositionOfLastMeasuredCell();
     }
@@ -10428,7 +10435,7 @@ var ScalingCellSizeAndPositionManager = function () {
     /** See CellSizeAndPositionManager#getTotalSize */
 
   }, {
-    key: "getTotalSize",
+    key: 'getTotalSize',
     value: function getTotalSize() {
       return Math.min(this._maxScrollSize, this._cellSizeAndPositionManager.getTotalSize());
     }
@@ -10436,10 +10443,10 @@ var ScalingCellSizeAndPositionManager = function () {
     /** See CellSizeAndPositionManager#getUpdatedOffsetForIndex */
 
   }, {
-    key: "getUpdatedOffsetForIndex",
+    key: 'getUpdatedOffsetForIndex',
     value: function getUpdatedOffsetForIndex(_ref3) {
       var _ref3$align = _ref3.align,
-          align = _ref3$align === undefined ? "auto" : _ref3$align,
+          align = _ref3$align === undefined ? 'auto' : _ref3$align,
           containerSize = _ref3.containerSize,
           currentOffset = _ref3.currentOffset,
           targetIndex = _ref3.targetIndex;
@@ -10465,7 +10472,7 @@ var ScalingCellSizeAndPositionManager = function () {
     /** See CellSizeAndPositionManager#getVisibleCellRange */
 
   }, {
-    key: "getVisibleCellRange",
+    key: 'getVisibleCellRange',
     value: function getVisibleCellRange(_ref4) {
       var containerSize = _ref4.containerSize,
           offset = _ref4.offset;
@@ -10481,12 +10488,12 @@ var ScalingCellSizeAndPositionManager = function () {
       });
     }
   }, {
-    key: "resetCell",
+    key: 'resetCell',
     value: function resetCell(index) {
       this._cellSizeAndPositionManager.resetCell(index);
     }
   }, {
-    key: "_getOffsetPercentage",
+    key: '_getOffsetPercentage',
     value: function _getOffsetPercentage(_ref5) {
       var containerSize = _ref5.containerSize,
           offset = _ref5.offset,
@@ -10495,7 +10502,7 @@ var ScalingCellSizeAndPositionManager = function () {
       return totalSize <= containerSize ? 0 : offset / (totalSize - containerSize);
     }
   }, {
-    key: "_offsetToSafeOffset",
+    key: '_offsetToSafeOffset',
     value: function _offsetToSafeOffset(_ref6) {
       var containerSize = _ref6.containerSize,
           offset = _ref6.offset;
@@ -10516,7 +10523,7 @@ var ScalingCellSizeAndPositionManager = function () {
       }
     }
   }, {
-    key: "_safeOffsetToOffset",
+    key: '_safeOffsetToOffset',
     value: function _safeOffsetToOffset(_ref7) {
       var containerSize = _ref7.containerSize,
           offset = _ref7.offset;
@@ -10569,7 +10576,7 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_RowRendererParams", {
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_RowRendererParams', {
   value: {
     index: __webpack_require__(0).number.isRequired,
     isScrolling: __webpack_require__(0).bool.isRequired,
@@ -10580,11 +10587,11 @@ if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype
   },
   configurable: true
 });
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_RowRenderer", {
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_RowRenderer', {
   value: __webpack_require__(0).func,
   configurable: true
 });
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_RenderedRows", {
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_RenderedRows', {
   value: {
     overscanStartIndex: __webpack_require__(0).number.isRequired,
     overscanStopIndex: __webpack_require__(0).number.isRequired,
@@ -10593,7 +10600,7 @@ if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype
   },
   configurable: true
 });
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_Scroll", {
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_Scroll', {
   value: {
     clientHeight: __webpack_require__(0).number.isRequired,
     scrollHeight: __webpack_require__(0).number.isRequired,
@@ -10842,7 +10849,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -10955,7 +10962,7 @@ var _propTypes = __webpack_require__(0);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -11326,7 +11333,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -11409,10 +11416,15 @@ var _default = {
           switch (attributes.status) {
             case 'redirect':
               _bus2.default.fire("alert", { msg: _be2.default.messages.successfullyCompleted, type: 'success' });
-              if (documentName === _be2.default.documentName) {
-                _be2.default.url.set(attributes.details);
+              if (attributes.details === 'refreshAll') {
+                _be2.default.url.set("");
+                _bus2.default.fire('LoggedIn');
               } else {
-                _be2.default.url.process(documentName, '#!' + attributes.details);
+                if (documentName === _be2.default.documentName) {
+                  _be2.default.url.set(attributes.details);
+                } else {
+                  _be2.default.url.process(documentName, '#!' + attributes.details);
+                }
               }
               return;
             case 'finished':
@@ -11437,14 +11449,18 @@ var _default = {
       var error = json.errors[0];
       _bus2.default.fire("alert", { msg: error.status + " " + error.title, type: 'error' });
 
+      console.log(reloadOrApply);
       (0, _changeDocument2.default)(reloadOrApply ? documentName + "_errors" : documentName, { component: _errorPane2.default, value: json });
     }
   },
   performForm: function performForm(json, oldValues, documentName) {
     var operationResult = json.data.attributes.operationResult;
 
-    if (operationResult.status === 'error' && (operationResult.details === undefined || operationResult.details === "message")) {
+    if (operationResult.status === 'error') {
       _bus2.default.fire("alert", { msg: operationResult.message, type: 'error' });
+      if (json.data.attributes.errorModel) {
+        (0, _changeDocument2.default)(documentName + "_errors", { component: _errorPane2.default, value: json.data.attributes.errorModel });
+      }
     }
 
     var formComponentName = json.data.attributes.layout.type || 'form';
@@ -12987,15 +13003,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = defaultOverscanIndicesGetter;
 
-var babelPluginFlowReactPropTypes_proptype_OverscanIndices = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_OverscanIndices || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_OverscanIndices = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_OverscanIndices || __webpack_require__(0).any;
 
-var babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetterParams = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetterParams || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetterParams = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetterParams || __webpack_require__(0).any;
 
 var SCROLL_DIRECTION_BACKWARD = exports.SCROLL_DIRECTION_BACKWARD = -1;
 var SCROLL_DIRECTION_FORWARD = exports.SCROLL_DIRECTION_FORWARD = 1;
 
-var SCROLL_DIRECTION_HORIZONTAL = exports.SCROLL_DIRECTION_HORIZONTAL = "horizontal";
-var SCROLL_DIRECTION_VERTICAL = exports.SCROLL_DIRECTION_VERTICAL = "vertical";
+var SCROLL_DIRECTION_HORIZONTAL = exports.SCROLL_DIRECTION_HORIZONTAL = 'horizontal';
+var SCROLL_DIRECTION_VERTICAL = exports.SCROLL_DIRECTION_VERTICAL = 'vertical';
 
 /**
  * Calculates the number of cells to overscan before and after a specified range.
@@ -13039,7 +13055,7 @@ exports.default = defaultCellRangeRenderer;
  * This renderer supports cell-caching while the user is scrolling.
  */
 
-var babelPluginFlowReactPropTypes_proptype_CellRangeRendererParams = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_CellRangeRendererParams || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_CellRangeRendererParams = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_CellRangeRendererParams || __webpack_require__(0).any;
 
 function defaultCellRangeRenderer(_ref) {
   var cellCache = _ref.cellCache,
@@ -13076,7 +13092,7 @@ function defaultCellRangeRenderer(_ref) {
     for (var columnIndex = columnStartIndex; columnIndex <= columnStopIndex; columnIndex++) {
       var columnDatum = columnSizeAndPositionManager.getSizeAndPositionOfCell(columnIndex);
       var isVisible = columnIndex >= visibleColumnIndices.start && columnIndex <= visibleColumnIndices.stop && rowIndex >= visibleRowIndices.start && rowIndex <= visibleRowIndices.stop;
-      var key = rowIndex + "-" + columnIndex;
+      var key = rowIndex + '-' + columnIndex;
       var style = void 0;
 
       // Cache style objects so shallow-compare doesn't re-render unnecessarily.
@@ -13090,17 +13106,17 @@ function defaultCellRangeRenderer(_ref) {
           // And give them width/height of 'auto' so they can grow larger than the parent Grid if necessary.
           // Positioning them further to the right/bottom influences their measured size.
           style = {
-            height: "auto",
+            height: 'auto',
             left: 0,
-            position: "absolute",
+            position: 'absolute',
             top: 0,
-            width: "auto"
+            width: 'auto'
           };
         } else {
           style = {
             height: rowDatum.size,
             left: columnDatum.offset + horizontalOffsetAdjustment,
-            position: "absolute",
+            position: 'absolute',
             top: rowDatum.offset + verticalOffsetAdjustment,
             width: columnDatum.size
           };
@@ -13145,7 +13161,7 @@ function defaultCellRangeRenderer(_ref) {
         continue;
       }
 
-      if (process.env.NODE_ENV !== "production") {
+      if (process.env.NODE_ENV !== 'production') {
         warnAboutMissingStyle(parent, renderedCell);
       }
 
@@ -13157,7 +13173,7 @@ function defaultCellRangeRenderer(_ref) {
 }
 
 function warnAboutMissingStyle(parent, renderedCell) {
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== 'production') {
     if (renderedCell) {
       // If the direct child is a CellMeasurer, then we should check its child
       // See issue #611
@@ -13168,7 +13184,7 @@ function warnAboutMissingStyle(parent, renderedCell) {
       if (renderedCell && renderedCell.props && renderedCell.props.style === undefined && parent.__warnedAboutMissingStyle !== true) {
         parent.__warnedAboutMissingStyle = true;
 
-        console.warn("Rendered cell should include style property for positioning.");
+        console.warn('Rendered cell should include style property for positioning.');
       }
     }
   }
@@ -13189,7 +13205,7 @@ exports.requestAnimationTimeout = exports.cancelAnimationTimeout = undefined;
 
 var _animationFrame = __webpack_require__(123);
 
-if (true) Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_AnimationTimeoutId", {
+if (true) Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_AnimationTimeoutId', {
   value: {
     id: __webpack_require__(0).number.isRequired
   },
@@ -13244,7 +13260,7 @@ var _propTypes = __webpack_require__(0);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -13283,7 +13299,7 @@ var ErrorPane = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var error = this.props.value.errors[0];
+      var error = this.props.value.errors ? this.props.value.errors[0] : this.props.value;
       return _react2.default.createElement(
         'div',
         { className: 'errorPane' },
@@ -13295,11 +13311,7 @@ var ErrorPane = function (_React$Component) {
           error.title
         ),
         _react2.default.createElement('br', null),
-        error.code !== undefined ? _react2.default.createElement(
-          'pre',
-          { className: 'errorPane__code' },
-          error.code
-        ) : null,
+        error.code !== undefined ? _react2.default.createElement('pre', { className: 'errorPane__code', dangerouslySetInnerHTML: { __html: error.code } }) : null,
         error.detail !== undefined ? _react2.default.createElement(
           'div',
           null,
@@ -13410,7 +13422,7 @@ var _reactDom = __webpack_require__(7);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -13657,17 +13669,17 @@ var formatCell = function formatCell(data, options, isColumn) {
     if (options.format) {
       data = (0, _numberFormat2.default)(options.format.mask, data);
     }
-    if (options.css || options === 'th') {
-      var wrap = (0, _jquery2.default)('<div>');
-      if (options.css && options.css.class) wrap.addClass(options.css.class);
-      if (options === 'th') wrap.addClass("ta-center td-strong");
-      data = wrap.html(data).html();
-    }
     if (!isColumn && options.link) {
       data = (0, _jquery2.default)('<a>', {
         text: data,
         href: "#!" + options.link.url
       });
+    }
+    if (options.css || options === 'th') {
+      var wrap = (0, _jquery2.default)('<div>');
+      if (options.css && options.css.class) wrap.addClass(options.css.class);
+      if (options === 'th') wrap.addClass("ta-center td-strong");
+      data = wrap.html(data);
     }
   }
   if (data instanceof _jquery2.default) {
@@ -13914,7 +13926,10 @@ var TableBox = function (_Component3) {
       }
 
       tableConfiguration.drawCallback = function (settings) {
-        if (groupingColumn !== null) drawGrouping(_this9.api());
+        if (_this9.refs && _this9.refs.table) {
+          var dataTable = (0, _jquery2.default)(_this9.refs.table).find('table').dataTable();
+          if (groupingColumn !== null) drawGrouping(dataTable.api());
+        }
         hideControls();
       };
 
@@ -35605,7 +35620,7 @@ module.exports = exports['default'];
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(206);
+var content = __webpack_require__(208);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(5)(content, {});
@@ -35635,7 +35650,7 @@ exports.__esModule = true;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _chainFunction = __webpack_require__(212);
+var _chainFunction = __webpack_require__(214);
 
 var _chainFunction2 = _interopRequireDefault(_chainFunction);
 
@@ -35647,11 +35662,11 @@ var _propTypes = __webpack_require__(0);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _warning = __webpack_require__(213);
+var _warning = __webpack_require__(215);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _ChildMapping = __webpack_require__(214);
+var _ChildMapping = __webpack_require__(216);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35962,7 +35977,7 @@ var nameShape = exports.nameShape = _propTypes2.default.oneOfType([_propTypes2.d
 "use strict";
 
 
-var randomByte = __webpack_require__(224);
+var randomByte = __webpack_require__(226);
 
 function encode(lookup, number) {
     var loopCounter = 0;
@@ -35994,19 +36009,19 @@ Object.defineProperty(exports, "__esModule", {
 exports.processStyleName = undefined;
 exports.createMarkupForStyles = createMarkupForStyles;
 
-var _camelizeStyleName = __webpack_require__(232);
+var _camelizeStyleName = __webpack_require__(234);
 
 var _camelizeStyleName2 = _interopRequireDefault(_camelizeStyleName);
 
-var _dangerousStyleValue = __webpack_require__(234);
+var _dangerousStyleValue = __webpack_require__(236);
 
 var _dangerousStyleValue2 = _interopRequireDefault(_dangerousStyleValue);
 
-var _hyphenateStyleName = __webpack_require__(236);
+var _hyphenateStyleName = __webpack_require__(238);
 
 var _hyphenateStyleName2 = _interopRequireDefault(_hyphenateStyleName);
 
-var _memoizeStringOnly = __webpack_require__(238);
+var _memoizeStringOnly = __webpack_require__(240);
 
 var _memoizeStringOnly2 = _interopRequireDefault(_memoizeStringOnly);
 
@@ -36169,11 +36184,9 @@ var _application = __webpack_require__(87);
 
 var _application2 = _interopRequireDefault(_application);
 
-var _be5init = __webpack_require__(249);
+var _be5init = __webpack_require__(251);
 
 var _be5init2 = _interopRequireDefault(_be5init);
-
-__webpack_require__(250);
 
 __webpack_require__(252);
 
@@ -36185,13 +36198,13 @@ __webpack_require__(258);
 
 __webpack_require__(260);
 
-__webpack_require__(261);
+__webpack_require__(262);
 
 __webpack_require__(263);
 
-__webpack_require__(81);
-
 __webpack_require__(265);
+
+__webpack_require__(81);
 
 __webpack_require__(267);
 
@@ -36202,6 +36215,8 @@ __webpack_require__(271);
 __webpack_require__(273);
 
 __webpack_require__(275);
+
+__webpack_require__(277);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36245,11 +36260,11 @@ var _document = __webpack_require__(14);
 
 var _document2 = _interopRequireDefault(_document);
 
-var _splitPane = __webpack_require__(205);
+var _splitPane = __webpack_require__(207);
 
 var _splitPane2 = _interopRequireDefault(_splitPane);
 
-var _reactAlert = __webpack_require__(207);
+var _reactAlert = __webpack_require__(209);
 
 var _reactAlert2 = _interopRequireDefault(_reactAlert);
 
@@ -36332,7 +36347,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -36475,7 +36490,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -40277,13 +40292,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _AutoSizer = __webpack_require__(112);
 
-Object.defineProperty(exports, "default", {
+Object.defineProperty(exports, 'default', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_AutoSizer).default;
   }
 });
-Object.defineProperty(exports, "AutoSizer", {
+Object.defineProperty(exports, 'AutoSizer', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_AutoSizer).default;
@@ -40344,8 +40359,8 @@ var AutoSizer = function (_React$PureComponent) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = AutoSizer.__proto__ || Object.getPrototypeOf(AutoSizer)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      height: 0,
-      width: 0
+      height: _this.props.defaultHeight || 0,
+      width: _this.props.defaultWidth || 0
     }, _this._onResize = function () {
       var _this$props = _this.props,
           disableHeight = _this$props.disableHeight,
@@ -40385,7 +40400,7 @@ var AutoSizer = function (_React$PureComponent) {
   }
 
   _createClass(AutoSizer, [{
-    key: "componentDidMount",
+    key: 'componentDidMount',
     value: function componentDidMount() {
       var nonce = this.props.nonce;
 
@@ -40404,14 +40419,14 @@ var AutoSizer = function (_React$PureComponent) {
       }
     }
   }, {
-    key: "componentWillUnmount",
+    key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       if (this._detectElementResize && this._parentNode) {
         this._detectElementResize.removeResizeListener(this._parentNode, this._onResize);
       }
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       var _props = this.props,
           children = _props.children,
@@ -40425,20 +40440,24 @@ var AutoSizer = function (_React$PureComponent) {
       // Inner component should overflow and use calculated width/height.
       // See issue #68 for more information.
 
-      var outerStyle = { overflow: "visible" };
+      var outerStyle = { overflow: 'visible' };
+      var childParams = {};
 
       if (!disableHeight) {
         outerStyle.height = 0;
+        childParams.height = height;
       }
 
       if (!disableWidth) {
         outerStyle.width = 0;
+        childParams.width = width;
       }
 
       /**
        * TODO: Avoid rendering children before the initial measurements have been collected.
        * At best this would just be wasting cycles.
        * Add this check into version 10 though as it could break too many ref callbacks in version 9.
+       * Note that if default width/height props were provided this would still work with SSR.
       if (
         height !== 0 &&
         width !== 0
@@ -40448,9 +40467,9 @@ var AutoSizer = function (_React$PureComponent) {
       */
 
       return _react2.default.createElement(
-        "div",
+        'div',
         { ref: this._setRef, style: outerStyle },
-        children({ height: height, width: width })
+        children(childParams)
       );
     }
   }]);
@@ -40465,6 +40484,8 @@ AutoSizer.defaultProps = {
 };
 AutoSizer.propTypes = {
   children: __webpack_require__(0).func.isRequired,
+  defaultHeight: __webpack_require__(0).number,
+  defaultWidth: __webpack_require__(0).number,
   disableHeight: __webpack_require__(0).bool.isRequired,
   disableWidth: __webpack_require__(0).bool.isRequired,
   nonce: __webpack_require__(0).string,
@@ -40498,15 +40519,15 @@ exports.default = createDetectElementResize;
 function createDetectElementResize(nonce) {
   // Check `document` and `window` in case of server-side rendering
   var _window;
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     _window = window;
-  } else if (typeof self !== "undefined") {
+  } else if (typeof self !== 'undefined') {
     _window = self;
   } else {
     _window = this;
   }
 
-  var attachEvent = typeof document !== "undefined" && document.attachEvent;
+  var attachEvent = typeof document !== 'undefined' && document.attachEvent;
 
   if (!attachEvent) {
     var requestFrame = function () {
@@ -40532,8 +40553,8 @@ function createDetectElementResize(nonce) {
           expandChild = expand.firstElementChild;
       contract.scrollLeft = contract.scrollWidth;
       contract.scrollTop = contract.scrollHeight;
-      expandChild.style.width = expand.offsetWidth + 1 + "px";
-      expandChild.style.height = expand.offsetHeight + 1 + "px";
+      expandChild.style.width = expand.offsetWidth + 1 + 'px';
+      expandChild.style.height = expand.offsetHeight + 1 + 'px';
       expand.scrollLeft = expand.scrollWidth;
       expand.scrollTop = expand.scrollHeight;
     };
@@ -40544,13 +40565,15 @@ function createDetectElementResize(nonce) {
 
     var scrollListener = function scrollListener(e) {
       // Don't measure (which forces) reflow for scrolls that happen inside of children!
-      if (e.target.className.indexOf("contract-trigger") < 0 && e.target.className.indexOf("expand-trigger") < 0) {
+      if (e.target.className.indexOf('contract-trigger') < 0 && e.target.className.indexOf('expand-trigger') < 0) {
         return;
       }
 
       var element = this;
       resetTriggers(this);
-      if (this.__resizeRAF__) cancelFrame(this.__resizeRAF__);
+      if (this.__resizeRAF__) {
+        cancelFrame(this.__resizeRAF__);
+      }
       this.__resizeRAF__ = requestFrame(function () {
         if (checkTriggers(element)) {
           element.__resizeLast__.width = element.offsetWidth;
@@ -40564,22 +40587,22 @@ function createDetectElementResize(nonce) {
 
     /* Detect CSS Animations support to detect element display/re-attach */
     var animation = false,
-        keyframeprefix = "",
-        animationstartevent = "animationstart",
-        domPrefixes = "Webkit Moz O ms".split(" "),
-        startEvents = "webkitAnimationStart animationstart oAnimationStart MSAnimationStart".split(" "),
-        pfx = "";
+        keyframeprefix = '',
+        animationstartevent = 'animationstart',
+        domPrefixes = 'Webkit Moz O ms'.split(' '),
+        startEvents = 'webkitAnimationStart animationstart oAnimationStart MSAnimationStart'.split(' '),
+        pfx = '';
     {
-      var elm = document.createElement("fakeelement");
+      var elm = document.createElement('fakeelement');
       if (elm.style.animationName !== undefined) {
         animation = true;
       }
 
       if (animation === false) {
         for (var i = 0; i < domPrefixes.length; i++) {
-          if (elm.style[domPrefixes[i] + "AnimationName"] !== undefined) {
+          if (elm.style[domPrefixes[i] + 'AnimationName'] !== undefined) {
             pfx = domPrefixes[i];
-            keyframeprefix = "-" + pfx.toLowerCase() + "-";
+            keyframeprefix = '-' + pfx.toLowerCase() + '-';
             animationstartevent = startEvents[i];
             animation = true;
             break;
@@ -40588,23 +40611,23 @@ function createDetectElementResize(nonce) {
       }
     }
 
-    var animationName = "resizeanim";
-    var animationKeyframes = "@" + keyframeprefix + "keyframes " + animationName + " { from { opacity: 0; } to { opacity: 0; } } ";
-    var animationStyle = keyframeprefix + "animation: 1ms " + animationName + "; ";
+    var animationName = 'resizeanim';
+    var animationKeyframes = '@' + keyframeprefix + 'keyframes ' + animationName + ' { from { opacity: 0; } to { opacity: 0; } } ';
+    var animationStyle = keyframeprefix + 'animation: 1ms ' + animationName + '; ';
   }
 
   var createStyles = function createStyles() {
-    if (!document.getElementById("detectElementResize")) {
+    if (!document.getElementById('detectElementResize')) {
       //opacity:0 works around a chrome bug https://code.google.com/p/chromium/issues/detail?id=286360
-      var css = (animationKeyframes ? animationKeyframes : "") + ".resize-triggers { " + (animationStyle ? animationStyle : "") + "visibility: hidden; opacity: 0; } " + '.resize-triggers, .resize-triggers > div, .contract-trigger:before { content: " "; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; z-index: -1; } .resize-triggers > div { background: #eee; overflow: auto; } .contract-trigger:before { width: 200%; height: 200%; }',
-          head = document.head || document.getElementsByTagName("head")[0],
-          style = document.createElement("style");
+      var css = (animationKeyframes ? animationKeyframes : '') + '.resize-triggers { ' + (animationStyle ? animationStyle : '') + 'visibility: hidden; opacity: 0; } ' + '.resize-triggers, .resize-triggers > div, .contract-trigger:before { content: " "; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; z-index: -1; } .resize-triggers > div { background: #eee; overflow: auto; } .contract-trigger:before { width: 200%; height: 200%; }',
+          head = document.head || document.getElementsByTagName('head')[0],
+          style = document.createElement('style');
 
-      style.id = "detectElementResize";
-      style.type = "text/css";
+      style.id = 'detectElementResize';
+      style.type = 'text/css';
 
       if (nonce != null) {
-        style.setAttribute("nonce", nonce);
+        style.setAttribute('nonce', nonce);
       }
 
       if (style.styleSheet) {
@@ -40618,25 +40641,29 @@ function createDetectElementResize(nonce) {
   };
 
   var addResizeListener = function addResizeListener(element, fn) {
-    if (attachEvent) element.attachEvent("onresize", fn);else {
+    if (attachEvent) {
+      element.attachEvent('onresize', fn);
+    } else {
       if (!element.__resizeTriggers__) {
         var elementStyle = _window.getComputedStyle(element);
-        if (elementStyle && elementStyle.position == "static") {
-          element.style.position = "relative";
+        if (elementStyle && elementStyle.position == 'static') {
+          element.style.position = 'relative';
         }
         createStyles();
         element.__resizeLast__ = {};
         element.__resizeListeners__ = [];
-        (element.__resizeTriggers__ = document.createElement("div")).className = "resize-triggers";
+        (element.__resizeTriggers__ = document.createElement('div')).className = 'resize-triggers';
         element.__resizeTriggers__.innerHTML = '<div class="expand-trigger"><div></div></div>' + '<div class="contract-trigger"></div>';
         element.appendChild(element.__resizeTriggers__);
         resetTriggers(element);
-        element.addEventListener("scroll", scrollListener, true);
+        element.addEventListener('scroll', scrollListener, true);
 
         /* Listen for a css animation to detect element display/re-attach */
         if (animationstartevent) {
           element.__resizeTriggers__.__animationListener__ = function animationListener(e) {
-            if (e.animationName == animationName) resetTriggers(element);
+            if (e.animationName == animationName) {
+              resetTriggers(element);
+            }
           };
           element.__resizeTriggers__.addEventListener(animationstartevent, element.__resizeTriggers__.__animationListener__);
         }
@@ -40646,10 +40673,12 @@ function createDetectElementResize(nonce) {
   };
 
   var removeResizeListener = function removeResizeListener(element, fn) {
-    if (attachEvent) element.detachEvent("onresize", fn);else {
+    if (attachEvent) {
+      element.detachEvent('onresize', fn);
+    } else {
       element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1);
       if (!element.__resizeListeners__.length) {
-        element.removeEventListener("scroll", scrollListener, true);
+        element.removeEventListener('scroll', scrollListener, true);
         if (element.__resizeTriggers__.__animationListener__) {
           element.__resizeTriggers__.removeEventListener(animationstartevent, element.__resizeTriggers__.__animationListener__);
           element.__resizeTriggers__.__animationListener__ = null;
@@ -40697,13 +40726,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _List = __webpack_require__(116);
 
-Object.defineProperty(exports, "default", {
+Object.defineProperty(exports, 'default', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_List).default;
   }
 });
-Object.defineProperty(exports, "List", {
+Object.defineProperty(exports, 'List', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_List).default;
@@ -40806,13 +40835,13 @@ var List = function (_React$PureComponent) {
       // Check to make sure we can still modify the style before proceeding.
       // https://github.com/facebook/react/commit/977357765b44af8ff0cfea327866861073095c12#commitcomment-20648713
 
-      var _Object$getOwnPropert = Object.getOwnPropertyDescriptor(style, "width"),
+      var _Object$getOwnPropert = Object.getOwnPropertyDescriptor(style, 'width'),
           writable = _Object$getOwnPropert.writable;
 
       if (writable) {
         // By default, List cells should be 100% width.
         // This prevents them from flowing under a scrollbar (if present).
-        style.width = "100%";
+        style.width = '100%';
       }
 
       return rowRenderer({
@@ -40851,7 +40880,7 @@ var List = function (_React$PureComponent) {
   }
 
   _createClass(List, [{
-    key: "forceUpdateGrid",
+    key: 'forceUpdateGrid',
     value: function forceUpdateGrid() {
       if (this.Grid) {
         this.Grid.forceUpdate();
@@ -40861,7 +40890,7 @@ var List = function (_React$PureComponent) {
     /** See Grid#getOffsetForCell */
 
   }, {
-    key: "getOffsetForRow",
+    key: 'getOffsetForRow',
     value: function getOffsetForRow(_ref5) {
       var alignment = _ref5.alignment,
           index = _ref5.index;
@@ -40882,7 +40911,7 @@ var List = function (_React$PureComponent) {
     /** CellMeasurer compatibility */
 
   }, {
-    key: "invalidateCellSizeAfterRender",
+    key: 'invalidateCellSizeAfterRender',
     value: function invalidateCellSizeAfterRender(_ref6) {
       var columnIndex = _ref6.columnIndex,
           rowIndex = _ref6.rowIndex;
@@ -40898,7 +40927,7 @@ var List = function (_React$PureComponent) {
     /** See Grid#measureAllCells */
 
   }, {
-    key: "measureAllRows",
+    key: 'measureAllRows',
     value: function measureAllRows() {
       if (this.Grid) {
         this.Grid.measureAllCells();
@@ -40908,7 +40937,7 @@ var List = function (_React$PureComponent) {
     /** CellMeasurer compatibility */
 
   }, {
-    key: "recomputeGridSize",
+    key: 'recomputeGridSize',
     value: function recomputeGridSize() {
       var _ref7 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
           _ref7$columnIndex = _ref7.columnIndex,
@@ -40927,7 +40956,7 @@ var List = function (_React$PureComponent) {
     /** See Grid#recomputeGridSize */
 
   }, {
-    key: "recomputeRowHeights",
+    key: 'recomputeRowHeights',
     value: function recomputeRowHeights() {
       var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
@@ -40942,7 +40971,7 @@ var List = function (_React$PureComponent) {
     /** See Grid#scrollToPosition */
 
   }, {
-    key: "scrollToPosition",
+    key: 'scrollToPosition',
     value: function scrollToPosition() {
       var scrollTop = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
@@ -40954,7 +40983,7 @@ var List = function (_React$PureComponent) {
     /** See Grid#scrollToCell */
 
   }, {
-    key: "scrollToRow",
+    key: 'scrollToRow',
     value: function scrollToRow() {
       var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
@@ -40966,7 +40995,7 @@ var List = function (_React$PureComponent) {
       }
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       var _props = this.props,
           className = _props.className,
@@ -40975,7 +41004,7 @@ var List = function (_React$PureComponent) {
           width = _props.width;
 
 
-      var classNames = (0, _classnames2.default)("ReactVirtualized__List", className);
+      var classNames = (0, _classnames2.default)('ReactVirtualized__List', className);
 
       return _react2.default.createElement(_Grid2.default, _extends({}, this.props, {
         autoContainerWidth: true,
@@ -41005,7 +41034,7 @@ List.defaultProps = {
   onRowsRendered: function onRowsRendered() {},
   overscanIndicesGetter: _Grid.accessibilityOverscanIndicesGetter,
   overscanRowCount: 10,
-  scrollToAlignment: "auto",
+  scrollToAlignment: 'auto',
   scrollToIndex: -1,
   style: {}
 };
@@ -41015,15 +41044,15 @@ List.propTypes = {
   className: __webpack_require__(0).string,
   estimatedRowSize: __webpack_require__(0).number.isRequired,
   height: __webpack_require__(0).number.isRequired,
-  noRowsRenderer: typeof babelPluginFlowReactPropTypes_proptype_NoContentRenderer === "function" ? babelPluginFlowReactPropTypes_proptype_NoContentRenderer.isRequired ? babelPluginFlowReactPropTypes_proptype_NoContentRenderer.isRequired : babelPluginFlowReactPropTypes_proptype_NoContentRenderer : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_NoContentRenderer).isRequired,
+  noRowsRenderer: typeof babelPluginFlowReactPropTypes_proptype_NoContentRenderer === 'function' ? babelPluginFlowReactPropTypes_proptype_NoContentRenderer.isRequired ? babelPluginFlowReactPropTypes_proptype_NoContentRenderer.isRequired : babelPluginFlowReactPropTypes_proptype_NoContentRenderer : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_NoContentRenderer).isRequired,
   onRowsRendered: __webpack_require__(0).func.isRequired,
   onScroll: __webpack_require__(0).func.isRequired,
-  overscanIndicesGetter: typeof babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter === "function" ? babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter.isRequired ? babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter.isRequired : babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter).isRequired,
+  overscanIndicesGetter: typeof babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter === 'function' ? babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter.isRequired ? babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter.isRequired : babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter).isRequired,
   overscanRowCount: __webpack_require__(0).number.isRequired,
-  rowHeight: typeof babelPluginFlowReactPropTypes_proptype_CellSize === "function" ? babelPluginFlowReactPropTypes_proptype_CellSize.isRequired ? babelPluginFlowReactPropTypes_proptype_CellSize.isRequired : babelPluginFlowReactPropTypes_proptype_CellSize : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_CellSize).isRequired,
-  rowRenderer: typeof babelPluginFlowReactPropTypes_proptype_RowRenderer === "function" ? babelPluginFlowReactPropTypes_proptype_RowRenderer.isRequired ? babelPluginFlowReactPropTypes_proptype_RowRenderer.isRequired : babelPluginFlowReactPropTypes_proptype_RowRenderer : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_RowRenderer).isRequired,
+  rowHeight: typeof babelPluginFlowReactPropTypes_proptype_CellSize === 'function' ? babelPluginFlowReactPropTypes_proptype_CellSize.isRequired ? babelPluginFlowReactPropTypes_proptype_CellSize.isRequired : babelPluginFlowReactPropTypes_proptype_CellSize : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_CellSize).isRequired,
+  rowRenderer: typeof babelPluginFlowReactPropTypes_proptype_RowRenderer === 'function' ? babelPluginFlowReactPropTypes_proptype_RowRenderer.isRequired ? babelPluginFlowReactPropTypes_proptype_RowRenderer.isRequired : babelPluginFlowReactPropTypes_proptype_RowRenderer : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_RowRenderer).isRequired,
   rowCount: __webpack_require__(0).number.isRequired,
-  scrollToAlignment: typeof babelPluginFlowReactPropTypes_proptype_Alignment === "function" ? babelPluginFlowReactPropTypes_proptype_Alignment.isRequired ? babelPluginFlowReactPropTypes_proptype_Alignment.isRequired : babelPluginFlowReactPropTypes_proptype_Alignment : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_Alignment).isRequired,
+  scrollToAlignment: typeof babelPluginFlowReactPropTypes_proptype_Alignment === 'function' ? babelPluginFlowReactPropTypes_proptype_Alignment.isRequired ? babelPluginFlowReactPropTypes_proptype_Alignment.isRequired : babelPluginFlowReactPropTypes_proptype_Alignment : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_Alignment).isRequired,
   scrollToIndex: __webpack_require__(0).number.isRequired,
   scrollTop: __webpack_require__(0).number,
   style: __webpack_require__(0).object.isRequired,
@@ -41096,27 +41125,27 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var babelPluginFlowReactPropTypes_proptype_Alignment = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_Alignment || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_Alignment = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_Alignment || __webpack_require__(0).any;
 
-var babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter || __webpack_require__(0).any;
 
-var babelPluginFlowReactPropTypes_proptype_RenderedSection = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_RenderedSection || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_RenderedSection = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_RenderedSection || __webpack_require__(0).any;
 
-var babelPluginFlowReactPropTypes_proptype_ScrollbarPresenceChange = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_ScrollbarPresenceChange || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_ScrollbarPresenceChange = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_ScrollbarPresenceChange || __webpack_require__(0).any;
 
-var babelPluginFlowReactPropTypes_proptype_Scroll = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_Scroll || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_Scroll = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_Scroll || __webpack_require__(0).any;
 
-var babelPluginFlowReactPropTypes_proptype_NoContentRenderer = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_NoContentRenderer || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_NoContentRenderer = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_NoContentRenderer || __webpack_require__(0).any;
 
-var babelPluginFlowReactPropTypes_proptype_CellSizeGetter = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_CellSizeGetter || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_CellSizeGetter = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_CellSizeGetter || __webpack_require__(0).any;
 
-var babelPluginFlowReactPropTypes_proptype_CellSize = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_CellSize || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_CellSize = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_CellSize || __webpack_require__(0).any;
 
-var babelPluginFlowReactPropTypes_proptype_CellPosition = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_CellPosition || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_CellPosition = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_CellPosition || __webpack_require__(0).any;
 
-var babelPluginFlowReactPropTypes_proptype_CellRangeRenderer = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_CellRangeRenderer || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_CellRangeRenderer = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_CellRangeRenderer || __webpack_require__(0).any;
 
-var babelPluginFlowReactPropTypes_proptype_CellRenderer = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_CellRenderer || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_CellRenderer = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_CellRenderer || __webpack_require__(0).any;
 
 var babelPluginFlowReactPropTypes_proptype_AnimationTimeoutId = __webpack_require__(59).babelPluginFlowReactPropTypes_proptype_AnimationTimeoutId || __webpack_require__(0).any;
 
@@ -41131,8 +41160,8 @@ var DEFAULT_SCROLLING_RESET_TIME_INTERVAL = exports.DEFAULT_SCROLLING_RESET_TIME
  * This prevents Grid from interrupting mouse-wheel animations (see issue #2).
  */
 var SCROLL_POSITION_CHANGE_REASONS = {
-  OBSERVED: "observed",
-  REQUESTED: "requested"
+  OBSERVED: 'observed',
+  REQUESTED: 'requested'
 };
 
 var renderNull = function renderNull() {
@@ -41246,7 +41275,7 @@ var Grid = function (_React$PureComponent) {
 
 
   _createClass(Grid, [{
-    key: "getOffsetForCell",
+    key: 'getOffsetForCell',
     value: function getOffsetForCell() {
       var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
           _ref$alignment = _ref.alignment,
@@ -41274,7 +41303,7 @@ var Grid = function (_React$PureComponent) {
      */
 
   }, {
-    key: "handleScrollEvent",
+    key: 'handleScrollEvent',
     value: function handleScrollEvent(_ref2) {
       var _ref2$scrollLeft = _ref2.scrollLeft,
           scrollLeftParam = _ref2$scrollLeft === undefined ? 0 : _ref2$scrollLeft,
@@ -41352,13 +41381,13 @@ var Grid = function (_React$PureComponent) {
     // @TODO (bvaughn) Add automated test coverage for this.
 
   }, {
-    key: "invalidateCellSizeAfterRender",
+    key: 'invalidateCellSizeAfterRender',
     value: function invalidateCellSizeAfterRender(_ref3) {
       var columnIndex = _ref3.columnIndex,
           rowIndex = _ref3.rowIndex;
 
-      this._deferredInvalidateColumnIndex = typeof this._deferredInvalidateColumnIndex === "number" ? Math.min(this._deferredInvalidateColumnIndex, columnIndex) : columnIndex;
-      this._deferredInvalidateRowIndex = typeof this._deferredInvalidateRowIndex === "number" ? Math.min(this._deferredInvalidateRowIndex, rowIndex) : rowIndex;
+      this._deferredInvalidateColumnIndex = typeof this._deferredInvalidateColumnIndex === 'number' ? Math.min(this._deferredInvalidateColumnIndex, columnIndex) : columnIndex;
+      this._deferredInvalidateRowIndex = typeof this._deferredInvalidateRowIndex === 'number' ? Math.min(this._deferredInvalidateRowIndex, rowIndex) : rowIndex;
     }
 
     /**
@@ -41368,7 +41397,7 @@ var Grid = function (_React$PureComponent) {
      */
 
   }, {
-    key: "measureAllCells",
+    key: 'measureAllCells',
     value: function measureAllCells() {
       var _props2 = this.props,
           columnCount = _props2.columnCount,
@@ -41386,7 +41415,7 @@ var Grid = function (_React$PureComponent) {
      */
 
   }, {
-    key: "recomputeGridSize",
+    key: 'recomputeGridSize',
     value: function recomputeGridSize() {
       var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
           _ref4$columnIndex = _ref4.columnIndex,
@@ -41421,7 +41450,7 @@ var Grid = function (_React$PureComponent) {
      */
 
   }, {
-    key: "scrollToCell",
+    key: 'scrollToCell',
     value: function scrollToCell(_ref5) {
       var columnIndex = _ref5.columnIndex,
           rowIndex = _ref5.rowIndex;
@@ -41445,7 +41474,7 @@ var Grid = function (_React$PureComponent) {
       }
     }
   }, {
-    key: "componentDidMount",
+    key: 'componentDidMount',
     value: function componentDidMount() {
       var _props4 = this.props,
           getScrollbarSize = _props4.getScrollbarSize,
@@ -41469,7 +41498,7 @@ var Grid = function (_React$PureComponent) {
         this.setState({});
       }
 
-      if (typeof scrollLeft === "number" && scrollLeft >= 0 || typeof scrollTop === "number" && scrollTop >= 0) {
+      if (typeof scrollLeft === 'number' && scrollLeft >= 0 || typeof scrollTop === 'number' && scrollTop >= 0) {
         this.scrollToPosition({ scrollLeft: scrollLeft, scrollTop: scrollTop });
       }
 
@@ -41504,7 +41533,7 @@ var Grid = function (_React$PureComponent) {
      */
 
   }, {
-    key: "componentDidUpdate",
+    key: 'componentDidUpdate',
     value: function componentDidUpdate(prevProps, prevState) {
       var _this2 = this;
 
@@ -41563,7 +41592,7 @@ var Grid = function (_React$PureComponent) {
         (0, _updateScrollIndexHelper2.default)({
           cellSizeAndPositionManager: this._columnSizeAndPositionManager,
           previousCellsCount: prevProps.columnCount,
-          previousCellSize: typeof prevProps.columnWidth === "number" ? prevProps.columnWidth : null,
+          previousCellSize: prevProps.columnWidth,
           previousScrollToAlignment: prevProps.scrollToAlignment,
           previousScrollToIndex: prevProps.scrollToColumn,
           previousSize: prevProps.width,
@@ -41585,7 +41614,7 @@ var Grid = function (_React$PureComponent) {
         (0, _updateScrollIndexHelper2.default)({
           cellSizeAndPositionManager: this._rowSizeAndPositionManager,
           previousCellsCount: prevProps.rowCount,
-          previousCellSize: typeof prevProps.rowHeight === "number" ? prevProps.rowHeight : null,
+          previousCellSize: prevProps.rowHeight,
           previousScrollToAlignment: prevProps.scrollToAlignment,
           previousScrollToIndex: prevProps.scrollToRow,
           previousSize: prevProps.height,
@@ -41619,7 +41648,7 @@ var Grid = function (_React$PureComponent) {
       this._maybeCallOnScrollbarPresenceChange();
     }
   }, {
-    key: "componentWillMount",
+    key: 'componentWillMount',
     value: function componentWillMount() {
       var getScrollbarSize = this.props.getScrollbarSize;
 
@@ -41637,7 +41666,7 @@ var Grid = function (_React$PureComponent) {
       this._calculateChildrenToRender();
     }
   }, {
-    key: "componentWillUnmount",
+    key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       if (this._disablePointerEventsTimeoutId) {
         (0, _requestAnimationTimeout.cancelAnimationTimeout)(this._disablePointerEventsTimeoutId);
@@ -41653,7 +41682,7 @@ var Grid = function (_React$PureComponent) {
      */
 
   }, {
-    key: "componentWillReceiveProps",
+    key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       var _this3 = this;
 
@@ -41717,13 +41746,13 @@ var Grid = function (_React$PureComponent) {
       // Update scroll offsets if the size or number of cells have changed, invalidating the previous value
       (0, _calculateSizeAndPositionDataAndUpdateScrollOffset2.default)({
         cellCount: columnCount,
-        cellSize: typeof this.props.columnWidth === "number" ? this.props.columnWidth : null,
+        cellSize: typeof this.props.columnWidth === 'number' ? this.props.columnWidth : null,
         computeMetadataCallback: function computeMetadataCallback() {
           return _this3._columnSizeAndPositionManager.resetCell(0);
         },
         computeMetadataCallbackProps: nextProps,
         nextCellsCount: nextProps.columnCount,
-        nextCellSize: typeof nextProps.columnWidth === "number" ? nextProps.columnWidth : null,
+        nextCellSize: typeof nextProps.columnWidth === 'number' ? nextProps.columnWidth : null,
         nextScrollToIndex: nextProps.scrollToColumn,
         scrollToIndex: this.props.scrollToColumn,
         updateScrollOffsetForScrollToIndex: function updateScrollOffsetForScrollToIndex() {
@@ -41732,13 +41761,13 @@ var Grid = function (_React$PureComponent) {
       });
       (0, _calculateSizeAndPositionDataAndUpdateScrollOffset2.default)({
         cellCount: rowCount,
-        cellSize: typeof this.props.rowHeight === "number" ? this.props.rowHeight : null,
+        cellSize: typeof this.props.rowHeight === 'number' ? this.props.rowHeight : null,
         computeMetadataCallback: function computeMetadataCallback() {
           return _this3._rowSizeAndPositionManager.resetCell(0);
         },
         computeMetadataCallbackProps: nextProps,
         nextCellsCount: nextProps.rowCount,
-        nextCellSize: typeof nextProps.rowHeight === "number" ? nextProps.rowHeight : null,
+        nextCellSize: typeof nextProps.rowHeight === 'number' ? nextProps.rowHeight : null,
         nextScrollToIndex: nextProps.scrollToRow,
         scrollToIndex: this.props.scrollToRow,
         updateScrollOffsetForScrollToIndex: function updateScrollOffsetForScrollToIndex() {
@@ -41747,12 +41776,12 @@ var Grid = function (_React$PureComponent) {
       });
     }
   }, {
-    key: "componentWillUpdate",
+    key: 'componentWillUpdate',
     value: function componentWillUpdate(nextProps, nextState) {
       this._calculateChildrenToRender(nextProps, nextState);
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       var _props7 = this.props,
           autoContainerWidth = _props7.autoContainerWidth,
@@ -41774,13 +41803,13 @@ var Grid = function (_React$PureComponent) {
       var isScrolling = this._isScrolling();
 
       var gridStyle = {
-        boxSizing: "border-box",
-        direction: "ltr",
-        height: autoHeight ? "auto" : height,
-        position: "relative",
-        width: autoWidth ? "auto" : width,
-        WebkitOverflowScrolling: "touch",
-        willChange: "transform"
+        boxSizing: 'border-box',
+        direction: 'ltr',
+        height: autoHeight ? 'auto' : height,
+        position: 'relative',
+        width: autoWidth ? 'auto' : width,
+        WebkitOverflowScrolling: 'touch',
+        willChange: 'transform'
       };
 
       var totalColumnsWidth = this._columnSizeAndPositionManager.getTotalSize();
@@ -41803,42 +41832,40 @@ var Grid = function (_React$PureComponent) {
       // But an initial scroll index of offset is set as an external prop.
       // Without this style, Grid would render the correct range of cells but would NOT update its internal offset.
       // This was originally reported via clauderic/react-infinite-calendar/issues/23
-      gridStyle.overflowX = totalColumnsWidth + verticalScrollBarSize <= width ? "hidden" : "auto";
-      gridStyle.overflowY = totalRowsHeight + horizontalScrollBarSize <= height ? "hidden" : "auto";
+      gridStyle.overflowX = totalColumnsWidth + verticalScrollBarSize <= width ? 'hidden' : 'auto';
+      gridStyle.overflowY = totalRowsHeight + horizontalScrollBarSize <= height ? 'hidden' : 'auto';
 
       var childrenToDisplay = this._childrenToDisplay;
 
       var showNoContentRenderer = childrenToDisplay.length === 0 && height > 0 && width > 0;
 
       return _react2.default.createElement(
-        "div",
+        'div',
         _extends({
           ref: this._setScrollingContainerRef
         }, containerProps, {
-          "aria-label": this.props["aria-label"],
-          "aria-readonly": this.props["aria-readonly"],
-          className: (0, _classnames2.default)("ReactVirtualized__Grid", className),
+          'aria-label': this.props['aria-label'],
+          'aria-readonly': this.props['aria-readonly'],
+          className: (0, _classnames2.default)('ReactVirtualized__Grid', className),
           id: id,
           onScroll: this._onScroll,
           role: role,
           style: _extends({}, gridStyle, style),
-          tabIndex: tabIndex
-        }),
+          tabIndex: tabIndex }),
         childrenToDisplay.length > 0 && _react2.default.createElement(
-          "div",
+          'div',
           {
-            className: "ReactVirtualized__Grid__innerScrollContainer",
+            className: 'ReactVirtualized__Grid__innerScrollContainer',
             role: containerRole,
             style: _extends({
-              width: autoContainerWidth ? "auto" : totalColumnsWidth,
+              width: autoContainerWidth ? 'auto' : totalColumnsWidth,
               height: totalRowsHeight,
               maxWidth: totalColumnsWidth,
               maxHeight: totalRowsHeight,
-              overflow: "hidden",
-              pointerEvents: isScrolling ? "none" : "",
-              position: "relative"
-            }, containerStyle)
-          },
+              overflow: 'hidden',
+              pointerEvents: isScrolling ? 'none' : '',
+              position: 'relative'
+            }, containerStyle) },
           childrenToDisplay
         ),
         showNoContentRenderer && noContentRenderer()
@@ -41848,7 +41875,7 @@ var Grid = function (_React$PureComponent) {
     /* ---------------------------- Helper methods ---------------------------- */
 
   }, {
-    key: "_calculateChildrenToRender",
+    key: '_calculateChildrenToRender',
     value: function _calculateChildrenToRender() {
       var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
       var state = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.state;
@@ -41899,21 +41926,21 @@ var Grid = function (_React$PureComponent) {
         this._renderedRowStopIndex = visibleRowIndices.stop;
 
         var overscanColumnIndices = overscanIndicesGetter({
-          direction: "horizontal",
+          direction: 'horizontal',
           cellCount: columnCount,
           overscanCellsCount: overscanColumnCount,
           scrollDirection: scrollDirectionHorizontal,
-          startIndex: typeof this._renderedColumnStartIndex === "number" ? this._renderedColumnStartIndex : 0,
-          stopIndex: typeof this._renderedColumnStopIndex === "number" ? this._renderedColumnStopIndex : -1
+          startIndex: typeof this._renderedColumnStartIndex === 'number' ? this._renderedColumnStartIndex : 0,
+          stopIndex: typeof this._renderedColumnStopIndex === 'number' ? this._renderedColumnStopIndex : -1
         });
 
         var overscanRowIndices = overscanIndicesGetter({
-          direction: "vertical",
+          direction: 'vertical',
           cellCount: rowCount,
           overscanCellsCount: overscanRowCount,
           scrollDirection: scrollDirectionVertical,
-          startIndex: typeof this._renderedRowStartIndex === "number" ? this._renderedRowStartIndex : 0,
-          stopIndex: typeof this._renderedRowStopIndex === "number" ? this._renderedRowStopIndex : -1
+          startIndex: typeof this._renderedRowStartIndex === 'number' ? this._renderedRowStartIndex : 0,
+          stopIndex: typeof this._renderedRowStopIndex === 'number' ? this._renderedRowStopIndex : -1
           // stopIndex: this._renderedRowStopIndex
         });
 
@@ -41953,7 +41980,7 @@ var Grid = function (_React$PureComponent) {
      */
 
   }, {
-    key: "_debounceScrollEnded",
+    key: '_debounceScrollEnded',
     value: function _debounceScrollEnded() {
       var scrollingResetTimeInterval = this.props.scrollingResetTimeInterval;
 
@@ -41965,14 +41992,14 @@ var Grid = function (_React$PureComponent) {
       this._disablePointerEventsTimeoutId = (0, _requestAnimationTimeout.requestAnimationTimeout)(this._debounceScrollEndedCallback, scrollingResetTimeInterval);
     }
   }, {
-    key: "_getEstimatedColumnSize",
+    key: '_getEstimatedColumnSize',
     value: function _getEstimatedColumnSize(props) {
-      return typeof props.columnWidth === "number" ? props.columnWidth : props.estimatedColumnSize;
+      return typeof props.columnWidth === 'number' ? props.columnWidth : props.estimatedColumnSize;
     }
   }, {
-    key: "_getEstimatedRowSize",
+    key: '_getEstimatedRowSize',
     value: function _getEstimatedRowSize(props) {
-      return typeof props.rowHeight === "number" ? props.rowHeight : props.estimatedRowSize;
+      return typeof props.rowHeight === 'number' ? props.rowHeight : props.estimatedRowSize;
     }
 
     /**
@@ -41981,9 +42008,9 @@ var Grid = function (_React$PureComponent) {
      */
 
   }, {
-    key: "_handleInvalidatedGridSize",
+    key: '_handleInvalidatedGridSize',
     value: function _handleInvalidatedGridSize() {
-      if (typeof this._deferredInvalidateColumnIndex === "number" && typeof this._deferredInvalidateRowIndex === "number") {
+      if (typeof this._deferredInvalidateColumnIndex === 'number' && typeof this._deferredInvalidateRowIndex === 'number') {
         var columnIndex = this._deferredInvalidateColumnIndex;
         var rowIndex = this._deferredInvalidateRowIndex;
 
@@ -41994,7 +42021,7 @@ var Grid = function (_React$PureComponent) {
       }
     }
   }, {
-    key: "_invokeOnScrollMemoizer",
+    key: '_invokeOnScrollMemoizer',
     value: function _invokeOnScrollMemoizer(_ref6) {
       var _this4 = this;
 
@@ -42029,17 +42056,17 @@ var Grid = function (_React$PureComponent) {
       });
     }
   }, {
-    key: "_isScrolling",
+    key: '_isScrolling',
     value: function _isScrolling() {
       var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
       var state = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.state;
 
       // If isScrolling is defined in props, use it to override the value in state
       // This is a performance optimization for WindowScroller + Grid
-      return Object.hasOwnProperty.call(props, "isScrolling") ? Boolean(props.isScrolling) : Boolean(state.isScrolling);
+      return Object.hasOwnProperty.call(props, 'isScrolling') ? Boolean(props.isScrolling) : Boolean(state.isScrolling);
     }
   }, {
-    key: "_maybeCallOnScrollbarPresenceChange",
+    key: '_maybeCallOnScrollbarPresenceChange',
     value: function _maybeCallOnScrollbarPresenceChange() {
       if (this._scrollbarPresenceChanged) {
         var _onScrollbarPresenceChange = this.props.onScrollbarPresenceChange;
@@ -42055,7 +42082,7 @@ var Grid = function (_React$PureComponent) {
       }
     }
   }, {
-    key: "scrollToPosition",
+    key: 'scrollToPosition',
 
 
     /**
@@ -42070,29 +42097,29 @@ var Grid = function (_React$PureComponent) {
         scrollPositionChangeReason: SCROLL_POSITION_CHANGE_REASONS.REQUESTED
       };
 
-      if (typeof scrollLeft === "number" && scrollLeft >= 0) {
+      if (typeof scrollLeft === 'number' && scrollLeft >= 0) {
         newState.scrollDirectionHorizontal = scrollLeft > this.state.scrollLeft ? _defaultOverscanIndicesGetter.SCROLL_DIRECTION_FORWARD : _defaultOverscanIndicesGetter.SCROLL_DIRECTION_BACKWARD;
         newState.scrollLeft = scrollLeft;
       }
 
-      if (typeof scrollTop === "number" && scrollTop >= 0) {
+      if (typeof scrollTop === 'number' && scrollTop >= 0) {
         newState.scrollDirectionVertical = scrollTop > this.state.scrollTop ? _defaultOverscanIndicesGetter.SCROLL_DIRECTION_FORWARD : _defaultOverscanIndicesGetter.SCROLL_DIRECTION_BACKWARD;
         newState.scrollTop = scrollTop;
       }
 
-      if (typeof scrollLeft === "number" && scrollLeft >= 0 && scrollLeft !== this.state.scrollLeft || typeof scrollTop === "number" && scrollTop >= 0 && scrollTop !== this.state.scrollTop) {
+      if (typeof scrollLeft === 'number' && scrollLeft >= 0 && scrollLeft !== this.state.scrollLeft || typeof scrollTop === 'number' && scrollTop >= 0 && scrollTop !== this.state.scrollTop) {
         this.setState(newState);
       }
     }
   }, {
-    key: "_wrapSizeGetter",
+    key: '_wrapSizeGetter',
     value: function _wrapSizeGetter(value) {
-      return typeof value === "function" ? value : function () {
+      return typeof value === 'function' ? value : function () {
         return value;
       };
     }
   }, {
-    key: "_getCalculatedScrollLeft",
+    key: '_getCalculatedScrollLeft',
     value: function _getCalculatedScrollLeft() {
       var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
       var state = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.state;
@@ -42119,7 +42146,7 @@ var Grid = function (_React$PureComponent) {
       }
     }
   }, {
-    key: "_updateScrollLeftForScrollToColumn",
+    key: '_updateScrollLeftForScrollToColumn',
     value: function _updateScrollLeftForScrollToColumn() {
       var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
       var state = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.state;
@@ -42127,7 +42154,7 @@ var Grid = function (_React$PureComponent) {
 
       var calculatedScrollLeft = this._getCalculatedScrollLeft(props, state);
 
-      if (typeof calculatedScrollLeft === "number" && calculatedScrollLeft >= 0 && scrollLeft !== calculatedScrollLeft) {
+      if (typeof calculatedScrollLeft === 'number' && calculatedScrollLeft >= 0 && scrollLeft !== calculatedScrollLeft) {
         this.scrollToPosition({
           scrollLeft: calculatedScrollLeft,
           scrollTop: -1
@@ -42135,7 +42162,7 @@ var Grid = function (_React$PureComponent) {
       }
     }
   }, {
-    key: "_getCalculatedScrollTop",
+    key: '_getCalculatedScrollTop',
     value: function _getCalculatedScrollTop() {
       var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
       var state = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.state;
@@ -42162,7 +42189,7 @@ var Grid = function (_React$PureComponent) {
       }
     }
   }, {
-    key: "_resetStyleCache",
+    key: '_resetStyleCache',
     value: function _resetStyleCache() {
       var styleCache = this._styleCache;
 
@@ -42176,7 +42203,7 @@ var Grid = function (_React$PureComponent) {
       // Copy over the visible cell styles so avoid unnecessary re-render.
       for (var rowIndex = this._rowStartIndex; rowIndex <= this._rowStopIndex; rowIndex++) {
         for (var columnIndex = this._columnStartIndex; columnIndex <= this._columnStopIndex; columnIndex++) {
-          var key = rowIndex + "-" + columnIndex;
+          var key = rowIndex + '-' + columnIndex;
           this._styleCache[key] = styleCache[key];
         }
       }
@@ -42186,7 +42213,7 @@ var Grid = function (_React$PureComponent) {
       });
     }
   }, {
-    key: "_updateScrollTopForScrollToRow",
+    key: '_updateScrollTopForScrollToRow',
     value: function _updateScrollTopForScrollToRow() {
       var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
       var state = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.state;
@@ -42194,7 +42221,7 @@ var Grid = function (_React$PureComponent) {
 
       var calculatedScrollTop = this._getCalculatedScrollTop(props, state);
 
-      if (typeof calculatedScrollTop === "number" && calculatedScrollTop >= 0 && scrollTop !== calculatedScrollTop) {
+      if (typeof calculatedScrollTop === 'number' && calculatedScrollTop >= 0 && scrollTop !== calculatedScrollTop) {
         this.scrollToPosition({
           scrollLeft: -1,
           scrollTop: calculatedScrollTop
@@ -42207,13 +42234,13 @@ var Grid = function (_React$PureComponent) {
 }(_react2.default.PureComponent);
 
 Grid.defaultProps = {
-  "aria-label": "grid",
-  "aria-readonly": true,
+  'aria-label': 'grid',
+  'aria-readonly': true,
   autoContainerWidth: false,
   autoHeight: false,
   autoWidth: false,
   cellRangeRenderer: _defaultCellRangeRenderer2.default,
-  containerRole: "rowgroup",
+  containerRole: 'rowgroup',
   containerStyle: {},
   estimatedColumnSize: 100,
   estimatedRowSize: 30,
@@ -42229,9 +42256,9 @@ Grid.defaultProps = {
   overscanColumnCount: 0,
   overscanIndicesGetter: _defaultOverscanIndicesGetter2.default,
   overscanRowCount: 10,
-  role: "grid",
+  role: 'grid',
   scrollingResetTimeInterval: DEFAULT_SCROLLING_RESET_TIME_INTERVAL,
-  scrollToAlignment: "auto",
+  scrollToAlignment: 'auto',
   scrollToColumn: -1,
   scrollToRow: -1,
   style: {},
@@ -42243,11 +42270,11 @@ Grid.propTypes = {
   autoContainerWidth: __webpack_require__(0).bool.isRequired,
   autoHeight: __webpack_require__(0).bool.isRequired,
   autoWidth: __webpack_require__(0).bool.isRequired,
-  cellRenderer: typeof babelPluginFlowReactPropTypes_proptype_CellRenderer === "function" ? babelPluginFlowReactPropTypes_proptype_CellRenderer.isRequired ? babelPluginFlowReactPropTypes_proptype_CellRenderer.isRequired : babelPluginFlowReactPropTypes_proptype_CellRenderer : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_CellRenderer).isRequired,
-  cellRangeRenderer: typeof babelPluginFlowReactPropTypes_proptype_CellRangeRenderer === "function" ? babelPluginFlowReactPropTypes_proptype_CellRangeRenderer.isRequired ? babelPluginFlowReactPropTypes_proptype_CellRangeRenderer.isRequired : babelPluginFlowReactPropTypes_proptype_CellRangeRenderer : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_CellRangeRenderer).isRequired,
+  cellRenderer: typeof babelPluginFlowReactPropTypes_proptype_CellRenderer === 'function' ? babelPluginFlowReactPropTypes_proptype_CellRenderer.isRequired ? babelPluginFlowReactPropTypes_proptype_CellRenderer.isRequired : babelPluginFlowReactPropTypes_proptype_CellRenderer : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_CellRenderer).isRequired,
+  cellRangeRenderer: typeof babelPluginFlowReactPropTypes_proptype_CellRangeRenderer === 'function' ? babelPluginFlowReactPropTypes_proptype_CellRangeRenderer.isRequired ? babelPluginFlowReactPropTypes_proptype_CellRangeRenderer.isRequired : babelPluginFlowReactPropTypes_proptype_CellRangeRenderer : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_CellRangeRenderer).isRequired,
   className: __webpack_require__(0).string,
   columnCount: __webpack_require__(0).number.isRequired,
-  columnWidth: typeof babelPluginFlowReactPropTypes_proptype_CellSize === "function" ? babelPluginFlowReactPropTypes_proptype_CellSize.isRequired ? babelPluginFlowReactPropTypes_proptype_CellSize.isRequired : babelPluginFlowReactPropTypes_proptype_CellSize : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_CellSize).isRequired,
+  columnWidth: typeof babelPluginFlowReactPropTypes_proptype_CellSize === 'function' ? babelPluginFlowReactPropTypes_proptype_CellSize.isRequired ? babelPluginFlowReactPropTypes_proptype_CellSize.isRequired : babelPluginFlowReactPropTypes_proptype_CellSize : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_CellSize).isRequired,
   containerProps: __webpack_require__(0).object,
   containerRole: __webpack_require__(0).string.isRequired,
   containerStyle: __webpack_require__(0).object.isRequired,
@@ -42258,24 +42285,24 @@ Grid.propTypes = {
   height: __webpack_require__(0).number.isRequired,
   id: __webpack_require__(0).string,
   isScrolling: __webpack_require__(0).bool,
-  noContentRenderer: typeof babelPluginFlowReactPropTypes_proptype_NoContentRenderer === "function" ? babelPluginFlowReactPropTypes_proptype_NoContentRenderer.isRequired ? babelPluginFlowReactPropTypes_proptype_NoContentRenderer.isRequired : babelPluginFlowReactPropTypes_proptype_NoContentRenderer : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_NoContentRenderer).isRequired,
+  noContentRenderer: typeof babelPluginFlowReactPropTypes_proptype_NoContentRenderer === 'function' ? babelPluginFlowReactPropTypes_proptype_NoContentRenderer.isRequired ? babelPluginFlowReactPropTypes_proptype_NoContentRenderer.isRequired : babelPluginFlowReactPropTypes_proptype_NoContentRenderer : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_NoContentRenderer).isRequired,
   onScroll: __webpack_require__(0).func.isRequired,
   onScrollbarPresenceChange: __webpack_require__(0).func.isRequired,
   onSectionRendered: __webpack_require__(0).func.isRequired,
   overscanColumnCount: __webpack_require__(0).number.isRequired,
-  overscanIndicesGetter: typeof babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter === "function" ? babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter.isRequired ? babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter.isRequired : babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter).isRequired,
+  overscanIndicesGetter: typeof babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter === 'function' ? babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter.isRequired ? babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter.isRequired : babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetter).isRequired,
   overscanRowCount: __webpack_require__(0).number.isRequired,
   role: __webpack_require__(0).string.isRequired,
-  rowHeight: typeof babelPluginFlowReactPropTypes_proptype_CellSize === "function" ? babelPluginFlowReactPropTypes_proptype_CellSize.isRequired ? babelPluginFlowReactPropTypes_proptype_CellSize.isRequired : babelPluginFlowReactPropTypes_proptype_CellSize : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_CellSize).isRequired,
+  rowHeight: typeof babelPluginFlowReactPropTypes_proptype_CellSize === 'function' ? babelPluginFlowReactPropTypes_proptype_CellSize.isRequired ? babelPluginFlowReactPropTypes_proptype_CellSize.isRequired : babelPluginFlowReactPropTypes_proptype_CellSize : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_CellSize).isRequired,
   rowCount: __webpack_require__(0).number.isRequired,
   scrollingResetTimeInterval: __webpack_require__(0).number.isRequired,
   scrollLeft: __webpack_require__(0).number,
-  scrollToAlignment: typeof babelPluginFlowReactPropTypes_proptype_Alignment === "function" ? babelPluginFlowReactPropTypes_proptype_Alignment.isRequired ? babelPluginFlowReactPropTypes_proptype_Alignment.isRequired : babelPluginFlowReactPropTypes_proptype_Alignment : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_Alignment).isRequired,
+  scrollToAlignment: typeof babelPluginFlowReactPropTypes_proptype_Alignment === 'function' ? babelPluginFlowReactPropTypes_proptype_Alignment.isRequired ? babelPluginFlowReactPropTypes_proptype_Alignment.isRequired : babelPluginFlowReactPropTypes_proptype_Alignment : __webpack_require__(0).shape(babelPluginFlowReactPropTypes_proptype_Alignment).isRequired,
   scrollToColumn: __webpack_require__(0).number.isRequired,
   scrollTop: __webpack_require__(0).number,
   scrollToRow: __webpack_require__(0).number.isRequired,
   style: __webpack_require__(0).object.isRequired,
-  tabIndex: __webpack_require__(0).number.isRequired,
+  tabIndex: __webpack_require__(0).number,
   width: __webpack_require__(0).number.isRequired
 };
 exports.default = Grid;
@@ -42304,7 +42331,7 @@ function calculateSizeAndPositionDataAndUpdateScrollOffset(_ref) {
 
   // Don't compare cell sizes if they are functions because inline functions would cause infinite loops.
   // In that event users should use the manual recompute methods to inform of changes.
-  if (cellCount !== nextCellsCount || (typeof cellSize === "number" || typeof nextCellSize === "number") && cellSize !== nextCellSize) {
+  if (cellCount !== nextCellsCount || (typeof cellSize === 'number' || typeof nextCellSize === 'number') && cellSize !== nextCellSize) {
     computeMetadataCallback(computeMetadataCallbackProps);
 
     // Updated cell metadata may have hidden the previous scrolled-to item.
@@ -42334,11 +42361,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var babelPluginFlowReactPropTypes_proptype_VisibleCellRange = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_VisibleCellRange || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_VisibleCellRange = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_VisibleCellRange || __webpack_require__(0).any;
 
-var babelPluginFlowReactPropTypes_proptype_CellSizeGetter = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_CellSizeGetter || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_CellSizeGetter = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_CellSizeGetter || __webpack_require__(0).any;
 
-var babelPluginFlowReactPropTypes_proptype_Alignment = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_Alignment || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_Alignment = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_Alignment || __webpack_require__(0).any;
 
 /**
  * Just-in-time calculates and caches size and position information for a collection of cells.
@@ -42373,12 +42400,12 @@ var CellSizeAndPositionManager = function () {
 
 
   _createClass(CellSizeAndPositionManager, [{
-    key: "areOffsetsAdjusted",
+    key: 'areOffsetsAdjusted',
     value: function areOffsetsAdjusted() {
       return false;
     }
   }, {
-    key: "configure",
+    key: 'configure',
     value: function configure(_ref2) {
       var cellCount = _ref2.cellCount,
           estimatedCellSize = _ref2.estimatedCellSize;
@@ -42387,22 +42414,22 @@ var CellSizeAndPositionManager = function () {
       this._estimatedCellSize = estimatedCellSize;
     }
   }, {
-    key: "getCellCount",
+    key: 'getCellCount',
     value: function getCellCount() {
       return this._cellCount;
     }
   }, {
-    key: "getEstimatedCellSize",
+    key: 'getEstimatedCellSize',
     value: function getEstimatedCellSize() {
       return this._estimatedCellSize;
     }
   }, {
-    key: "getLastMeasuredIndex",
+    key: 'getLastMeasuredIndex',
     value: function getLastMeasuredIndex() {
       return this._lastMeasuredIndex;
     }
   }, {
-    key: "getOffsetAdjustment",
+    key: 'getOffsetAdjustment',
     value: function getOffsetAdjustment() {
       return 0;
     }
@@ -42413,10 +42440,10 @@ var CellSizeAndPositionManager = function () {
      */
 
   }, {
-    key: "getSizeAndPositionOfCell",
+    key: 'getSizeAndPositionOfCell',
     value: function getSizeAndPositionOfCell(index) {
       if (index < 0 || index >= this._cellCount) {
-        throw Error("Requested index " + index + " is outside of range 0.." + this._cellCount);
+        throw Error('Requested index ' + index + ' is outside of range 0..' + this._cellCount);
       }
 
       if (index > this._lastMeasuredIndex) {
@@ -42429,7 +42456,7 @@ var CellSizeAndPositionManager = function () {
           // undefined or NaN probably means a logic error in the size getter.
           // null means we're using CellMeasurer and haven't yet measured a given index.
           if (_size === undefined || isNaN(_size)) {
-            throw Error("Invalid size returned for cell " + i + " of value " + _size);
+            throw Error('Invalid size returned for cell ' + i + ' of value ' + _size);
           } else if (_size === null) {
             this._cellSizeAndPositionData[i] = {
               offset: _offset,
@@ -42453,7 +42480,7 @@ var CellSizeAndPositionManager = function () {
       return this._cellSizeAndPositionData[index];
     }
   }, {
-    key: "getSizeAndPositionOfLastMeasuredCell",
+    key: 'getSizeAndPositionOfLastMeasuredCell',
     value: function getSizeAndPositionOfLastMeasuredCell() {
       return this._lastMeasuredIndex >= 0 ? this._cellSizeAndPositionData[this._lastMeasuredIndex] : {
         offset: 0,
@@ -42468,7 +42495,7 @@ var CellSizeAndPositionManager = function () {
      */
 
   }, {
-    key: "getTotalSize",
+    key: 'getTotalSize',
     value: function getTotalSize() {
       var lastMeasuredCellSizeAndPosition = this.getSizeAndPositionOfLastMeasuredCell();
       var totalSizeOfMeasuredCells = lastMeasuredCellSizeAndPosition.offset + lastMeasuredCellSizeAndPosition.size;
@@ -42490,10 +42517,10 @@ var CellSizeAndPositionManager = function () {
      */
 
   }, {
-    key: "getUpdatedOffsetForIndex",
+    key: 'getUpdatedOffsetForIndex',
     value: function getUpdatedOffsetForIndex(_ref3) {
       var _ref3$align = _ref3.align,
-          align = _ref3$align === undefined ? "auto" : _ref3$align,
+          align = _ref3$align === undefined ? 'auto' : _ref3$align,
           containerSize = _ref3.containerSize,
           currentOffset = _ref3.currentOffset,
           targetIndex = _ref3.targetIndex;
@@ -42509,13 +42536,13 @@ var CellSizeAndPositionManager = function () {
       var idealOffset = void 0;
 
       switch (align) {
-        case "start":
+        case 'start':
           idealOffset = maxOffset;
           break;
-        case "end":
+        case 'end':
           idealOffset = minOffset;
           break;
-        case "center":
+        case 'center':
           idealOffset = maxOffset - (containerSize - datum.size) / 2;
           break;
         default:
@@ -42528,7 +42555,7 @@ var CellSizeAndPositionManager = function () {
       return Math.max(0, Math.min(totalSize - containerSize, idealOffset));
     }
   }, {
-    key: "getVisibleCellRange",
+    key: 'getVisibleCellRange',
     value: function getVisibleCellRange(params) {
       // Advanced use-cases (eg CellMeasurer) require batched measurements to determine accurate sizes.
       // eg we can't know a row's height without measuring the height of all columns within that row.
@@ -42576,12 +42603,12 @@ var CellSizeAndPositionManager = function () {
      */
 
   }, {
-    key: "resetCell",
+    key: 'resetCell',
     value: function resetCell(index) {
       this._lastMeasuredIndex = Math.min(this._lastMeasuredIndex, index - 1);
     }
   }, {
-    key: "_binarySearch",
+    key: '_binarySearch',
     value: function _binarySearch(high, low, offset) {
       while (low <= high) {
         var middle = low + Math.floor((high - low) / 2);
@@ -42603,7 +42630,7 @@ var CellSizeAndPositionManager = function () {
       }
     }
   }, {
-    key: "_exponentialSearch",
+    key: '_exponentialSearch',
     value: function _exponentialSearch(index, offset) {
       var interval = 1;
 
@@ -42623,10 +42650,10 @@ var CellSizeAndPositionManager = function () {
      */
 
   }, {
-    key: "_findNearestCell",
+    key: '_findNearestCell',
     value: function _findNearestCell(offset) {
       if (isNaN(offset)) {
-        throw Error("Invalid offset " + offset + " specified");
+        throw Error('Invalid offset ' + offset + ' specified');
       }
 
       // Our search algorithms find the nearest match at or below the specified offset.
@@ -42685,7 +42712,7 @@ function createCallbackMemoizer() {
       var cachedValue = cachedIndices[key];
       var value = indices[key];
 
-      return Array.isArray(value) ? cachedValue.join(",") !== value.join(",") : cachedValue !== value;
+      return Array.isArray(value) ? cachedValue.join(',') !== value.join(',') : cachedValue !== value;
     });
 
     cachedIndices = indices;
@@ -42714,7 +42741,9 @@ var _ScalingCellSizeAndPositionManager2 = _interopRequireDefault(_ScalingCellSiz
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var babelPluginFlowReactPropTypes_proptype_Alignment = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_Alignment || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_CellSize = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_CellSize || __webpack_require__(0).any;
+
+var babelPluginFlowReactPropTypes_proptype_Alignment = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_Alignment || __webpack_require__(0).any;
 
 /**
  * Helper function that determines when to update scroll offsets to ensure that a scroll-to-index remains visible.
@@ -42738,7 +42767,7 @@ function updateScrollIndexHelper(_ref) {
 
   var cellCount = cellSizeAndPositionManager.getCellCount();
   var hasScrollToIndex = scrollToIndex >= 0 && scrollToIndex < cellCount;
-  var sizeHasChanged = size !== previousSize || sizeJustIncreasedFromZero || !previousCellSize || typeof cellSize === "number" && cellSize !== previousCellSize;
+  var sizeHasChanged = size !== previousSize || sizeJustIncreasedFromZero || !previousCellSize || typeof cellSize === 'number' && cellSize !== previousCellSize;
 
   // If we have a new scroll target OR if height/row-height has changed,
   // We should ensure that the scroll target is visible.
@@ -42814,9 +42843,9 @@ Object.defineProperty(exports, "__esModule", {
 // Properly handle server-side rendering.
 var win = void 0;
 
-if (typeof window !== "undefined") {
+if (typeof window !== 'undefined') {
   win = window;
-} else if (typeof self !== "undefined") {
+} else if (typeof self !== 'undefined') {
   win = self;
 } else {
   win = {};
@@ -42847,15 +42876,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = defaultOverscanIndicesGetter;
 
-var babelPluginFlowReactPropTypes_proptype_OverscanIndices = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_OverscanIndices || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_OverscanIndices = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_OverscanIndices || __webpack_require__(0).any;
 
-var babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetterParams = __webpack_require__(3).babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetterParams || __webpack_require__(0).any;
+var babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetterParams = __webpack_require__(2).babelPluginFlowReactPropTypes_proptype_OverscanIndicesGetterParams || __webpack_require__(0).any;
 
 var SCROLL_DIRECTION_BACKWARD = exports.SCROLL_DIRECTION_BACKWARD = -1;
 var SCROLL_DIRECTION_FORWARD = exports.SCROLL_DIRECTION_FORWARD = 1;
 
-var SCROLL_DIRECTION_HORIZONTAL = exports.SCROLL_DIRECTION_HORIZONTAL = "horizontal";
-var SCROLL_DIRECTION_VERTICAL = exports.SCROLL_DIRECTION_VERTICAL = "vertical";
+var SCROLL_DIRECTION_HORIZONTAL = exports.SCROLL_DIRECTION_HORIZONTAL = 'horizontal';
+var SCROLL_DIRECTION_VERTICAL = exports.SCROLL_DIRECTION_VERTICAL = 'vertical';
 
 /**
  * Calculates the number of cells to overscan before and after a specified range.
@@ -47466,7 +47495,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -47868,7 +47897,7 @@ var _reactDom = __webpack_require__(7);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -47970,7 +47999,7 @@ var _reactDom = __webpack_require__(7);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -48405,7 +48434,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -48454,7 +48483,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -48784,7 +48813,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -48835,7 +48864,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -55325,7 +55354,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -55526,7 +55555,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -55797,31 +55826,23 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _be = __webpack_require__(2);
+var _react = __webpack_require__(1);
 
-var _be2 = _interopRequireDefault(_be);
-
-var _underscore = __webpack_require__(15);
-
-var _underscore2 = _interopRequireDefault(_underscore);
+var _react2 = _interopRequireDefault(_react);
 
 var _menuFooter = __webpack_require__(198);
 
 var _menuFooter2 = _interopRequireDefault(_menuFooter);
 
-var _menuNode = __webpack_require__(202);
+var _MenuBody = __webpack_require__(202);
 
-var _menuNode2 = _interopRequireDefault(_menuNode);
+var _MenuBody2 = _interopRequireDefault(_MenuBody);
 
-var _propTypes = __webpack_require__(0);
+var _SearchField = __webpack_require__(204);
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _SearchField2 = _interopRequireDefault(_SearchField);
 
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-__webpack_require__(203);
+__webpack_require__(205);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -55831,128 +55852,18 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var SearchField = function (_Component) {
-  _inherits(SearchField, _Component);
-
-  function SearchField(props) {
-    _classCallCheck(this, SearchField);
-
-    var _this = _possibleConstructorReturn(this, (SearchField.__proto__ || Object.getPrototypeOf(SearchField)).call(this, props));
-
-    _this.state = { value: '' };
-
-    _this._handleChange = _this._handleChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(SearchField, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement('input', { type: 'text', className: 'searchField form-control', onChange: this._handleChange, value: this.state.value, placeholder: _be2.default.messages.filter });
-    }
-  }, {
-    key: '_handleChange',
-    value: function _handleChange(event) {
-      this.setState({ value: event.target.value });
-      this.props.onChange(event.target.value);
-    }
-  }]);
-
-  return SearchField;
-}(_react.Component);
-
-SearchField.propTypes = {
-  onChange: _propTypes2.default.func.isRequired
-};
-
-var MenuBody = function (_Component2) {
-  _inherits(MenuBody, _Component2);
-
-  function MenuBody(props) {
-    _classCallCheck(this, MenuBody);
-
-    var _this2 = _possibleConstructorReturn(this, (MenuBody.__proto__ || Object.getPrototypeOf(MenuBody)).call(this, props));
-
-    _this2.state = { root: [{ title: 'Loading...' }], query: '' };
-
-    _this2._getFilteredRoot = _this2._getFilteredRoot.bind(_this2);
-    return _this2;
-  }
-
-  _createClass(MenuBody, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.refresh();
-    }
-  }, {
-    key: 'refresh',
-    value: function refresh() {
-      var _this3 = this;
-
-      _be2.default.net.request('menu', {}, function (data) {
-        _this3.setState(data);
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var filteredRoot = this._getFilteredRoot();
-      var rootNodes = filteredRoot.map(function (node) {
-        return _react2.default.createElement(_menuNode2.default, { key: JSON.stringify(node), data: node, level: 1 });
-      });
-      return _react2.default.createElement(
-        'div',
-        { className: 'menu' },
-        rootNodes
-      );
-    }
-  }, {
-    key: '_getFilteredRoot',
-    value: function _getFilteredRoot() {
-      var containsIgnoreCase = function containsIgnoreCase(str, substr) {
-        return str.toLowerCase().indexOf(substr.toLowerCase()) !== -1;
-      };
-      var anyChildContainsIgnoreCase = function anyChildContainsIgnoreCase(node, query) {
-        if (containsIgnoreCase(node.title, query)) {
-          return true;
-        }
-        return node.children && _underscore2.default.any(node.children, function (child) {
-          return anyChildContainsIgnoreCase(child, query);
-        });
-      };
-      var filterNodeContent = function filterNodeContent(node, query) {
-        if (!node.children) {
-          return node;
-        }
-        return _underscore2.default.extend({}, node, { children: filterByTitle(node.children, query) });
-      };
-      var filterByTitle = function filterByTitle(root, query) {
-        return root.filter(function (node) {
-          return anyChildContainsIgnoreCase(node, query);
-        }).map(function (node) {
-          return filterNodeContent(node, query);
-        });
-      };
-
-      return filterByTitle(this.state.root, this.state.query);
-    }
-  }]);
-
-  return MenuBody;
-}(_react.Component);
-
-var Menu = function (_Component3) {
-  _inherits(Menu, _Component3);
+var Menu = function (_Component) {
+  _inherits(Menu, _Component);
 
   function Menu(props) {
     _classCallCheck(this, Menu);
 
-    var _this4 = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
 
-    _this4.state = {};
+    _this.state = {};
 
-    _this4._handleQueryChange = _this4._handleQueryChange.bind(_this4);
-    return _this4;
+    _this._handleQueryChange = _this._handleQueryChange.bind(_this);
+    return _this;
   }
 
   _createClass(Menu, [{
@@ -55961,8 +55872,8 @@ var Menu = function (_Component3) {
       return _react2.default.createElement(
         'div',
         { className: 'menuContainer' },
-        _react2.default.createElement(SearchField, { ref: 'searchfield', onChange: this._handleQueryChange }),
-        _react2.default.createElement(MenuBody, { ref: 'menubody' }),
+        _react2.default.createElement(_SearchField2.default, { ref: 'searchfield', onChange: this._handleQueryChange }),
+        _react2.default.createElement(_MenuBody2.default, { ref: 'menubody' }),
         _react2.default.createElement(_menuFooter2.default, null)
       );
     }
@@ -55990,10 +55901,6 @@ var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
     return;
   }
-
-  __REACT_HOT_LOADER__.register(SearchField, 'SearchField', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/menu/menu.js');
-
-  __REACT_HOT_LOADER__.register(MenuBody, 'MenuBody', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/menu/menu.js');
 
   __REACT_HOT_LOADER__.register(Menu, 'Menu', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/menu/menu.js');
 
@@ -56107,11 +56014,140 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
+
+var _be2 = _interopRequireDefault(_be);
+
+var _menuNode = __webpack_require__(203);
+
+var _menuNode2 = _interopRequireDefault(_menuNode);
+
+var _underscore = __webpack_require__(15);
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MenuBody = function (_Component) {
+  _inherits(MenuBody, _Component);
+
+  function MenuBody(props) {
+    _classCallCheck(this, MenuBody);
+
+    var _this = _possibleConstructorReturn(this, (MenuBody.__proto__ || Object.getPrototypeOf(MenuBody)).call(this, props));
+
+    _this.state = { root: [{ title: 'Loading...' }], query: '' };
+
+    _this._getFilteredRoot = _this._getFilteredRoot.bind(_this);
+    return _this;
+  }
+
+  _createClass(MenuBody, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.refresh();
+    }
+  }, {
+    key: 'refresh',
+    value: function refresh() {
+      var _this2 = this;
+
+      _be2.default.net.request('menu', {}, function (data) {
+        _this2.setState(data);
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var filteredRoot = this._getFilteredRoot();
+      var rootNodes = filteredRoot.map(function (node) {
+        return _react2.default.createElement(_menuNode2.default, { key: JSON.stringify(node), data: node, level: 1 });
+      });
+      return _react2.default.createElement(
+        'div',
+        { className: 'menu' },
+        rootNodes
+      );
+    }
+  }, {
+    key: '_getFilteredRoot',
+    value: function _getFilteredRoot() {
+      var containsIgnoreCase = function containsIgnoreCase(str, substr) {
+        return str.toLowerCase().indexOf(substr.toLowerCase()) !== -1;
+      };
+      var anyChildContainsIgnoreCase = function anyChildContainsIgnoreCase(node, query) {
+        if (containsIgnoreCase(node.title, query)) {
+          return true;
+        }
+        return node.children && _underscore2.default.any(node.children, function (child) {
+          return anyChildContainsIgnoreCase(child, query);
+        });
+      };
+      var filterNodeContent = function filterNodeContent(node, query) {
+        if (!node.children) {
+          return node;
+        }
+        return _underscore2.default.extend({}, node, { children: filterByTitle(node.children, query) });
+      };
+      var filterByTitle = function filterByTitle(root, query) {
+        return root.filter(function (node) {
+          return anyChildContainsIgnoreCase(node, query);
+        }).map(function (node) {
+          return filterNodeContent(node, query);
+        });
+      };
+
+      return filterByTitle(this.state.root, this.state.query);
+    }
+  }]);
+
+  return MenuBody;
+}(_react.Component);
+
+var _default = MenuBody;
+exports.default = _default;
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(MenuBody, 'MenuBody', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/menu/MenuBody.js');
+
+  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/menu/MenuBody.js');
+}();
+
+;
+
+/***/ }),
+/* 203 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -56234,13 +56270,92 @@ var _temp = function () {
 ;
 
 /***/ }),
-/* 203 */
+/* 204 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(0);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SearchField = function (_Component) {
+  _inherits(SearchField, _Component);
+
+  function SearchField(props) {
+    _classCallCheck(this, SearchField);
+
+    var _this = _possibleConstructorReturn(this, (SearchField.__proto__ || Object.getPrototypeOf(SearchField)).call(this, props));
+
+    _this.state = { value: '' };
+
+    _this._handleChange = _this._handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(SearchField, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement('input', { type: 'text', className: 'searchField form-control', onChange: this._handleChange, value: this.state.value, placeholder: be5.messages.filter });
+    }
+  }, {
+    key: '_handleChange',
+    value: function _handleChange(event) {
+      this.setState({ value: event.target.value });
+      this.props.onChange(event.target.value);
+    }
+  }]);
+
+  return SearchField;
+}(_react.Component);
+
+SearchField.propTypes = {
+  onChange: _propTypes2.default.func.isRequired
+};
+
+var _default = SearchField;
+exports.default = _default;
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(SearchField, 'SearchField', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/menu/SearchField.js');
+
+  __REACT_HOT_LOADER__.register(_default, 'default', '/home/uuinnk/workspace/github/be5-react/src/scripts/be5/components/menu/SearchField.js');
+}();
+
+;
+
+/***/ }),
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(204);
+var content = __webpack_require__(206);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(5)(content, {});
@@ -56260,7 +56375,7 @@ if(false) {
 }
 
 /***/ }),
-/* 204 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)();
@@ -56274,7 +56389,7 @@ exports.push([module.i, "@CHARSET \"UTF-8\";\r\n.menu ul {\r\n    margin-top: 0p
 
 
 /***/ }),
-/* 205 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56292,7 +56407,7 @@ var _reactDom = __webpack_require__(7);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -56495,7 +56610,7 @@ var _temp = function () {
 ;
 
 /***/ }),
-/* 206 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)();
@@ -56509,7 +56624,7 @@ exports.push([module.i, ".Resizer {\r\n    background: #000;\r\n    opacity: .2;
 
 
 /***/ }),
-/* 207 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56519,7 +56634,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _alertContainer = __webpack_require__(208);
+var _alertContainer = __webpack_require__(210);
 
 var _alertContainer2 = _interopRequireDefault(_alertContainer);
 
@@ -56528,7 +56643,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _alertContainer2.default;
 
 /***/ }),
-/* 208 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56538,7 +56653,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _AlertContainer = __webpack_require__(209);
+var _AlertContainer = __webpack_require__(211);
 
 var _AlertContainer2 = _interopRequireDefault(_AlertContainer);
 
@@ -56547,7 +56662,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _AlertContainer2.default;
 
 /***/ }),
-/* 209 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56569,17 +56684,17 @@ var _propTypes = __webpack_require__(0);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactTransitionGroup = __webpack_require__(210);
+var _reactTransitionGroup = __webpack_require__(212);
 
-var _shortid = __webpack_require__(221);
+var _shortid = __webpack_require__(223);
 
 var _shortid2 = _interopRequireDefault(_shortid);
 
-var _Container = __webpack_require__(229);
+var _Container = __webpack_require__(231);
 
 var _Container2 = _interopRequireDefault(_Container);
 
-var _alert = __webpack_require__(243);
+var _alert = __webpack_require__(245);
 
 var _alert2 = _interopRequireDefault(_alert);
 
@@ -56720,13 +56835,13 @@ AlertContainer.propTypes = {
 exports.default = AlertContainer;
 
 /***/ }),
-/* 210 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _CSSTransitionGroup = __webpack_require__(211);
+var _CSSTransitionGroup = __webpack_require__(213);
 
 var _CSSTransitionGroup2 = _interopRequireDefault(_CSSTransitionGroup);
 
@@ -56742,7 +56857,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 211 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56764,7 +56879,7 @@ var _TransitionGroup = __webpack_require__(82);
 
 var _TransitionGroup2 = _interopRequireDefault(_TransitionGroup);
 
-var _CSSTransitionGroupChild = __webpack_require__(215);
+var _CSSTransitionGroupChild = __webpack_require__(217);
 
 var _CSSTransitionGroupChild2 = _interopRequireDefault(_CSSTransitionGroupChild);
 
@@ -56843,7 +56958,7 @@ module.exports = exports['default'];
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
-/* 212 */
+/* 214 */
 /***/ (function(module, exports) {
 
 
@@ -56869,7 +56984,7 @@ module.exports = function chain(){
 
 
 /***/ }),
-/* 213 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56937,7 +57052,7 @@ module.exports = warning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
-/* 214 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57034,7 +57149,7 @@ function mergeChildMappings(prev, next) {
 }
 
 /***/ }),
-/* 215 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57044,19 +57159,19 @@ exports.__esModule = true;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _addClass = __webpack_require__(216);
+var _addClass = __webpack_require__(218);
 
 var _addClass2 = _interopRequireDefault(_addClass);
 
-var _removeClass = __webpack_require__(218);
+var _removeClass = __webpack_require__(220);
 
 var _removeClass2 = _interopRequireDefault(_removeClass);
 
-var _requestAnimationFrame = __webpack_require__(219);
+var _requestAnimationFrame = __webpack_require__(221);
 
 var _requestAnimationFrame2 = _interopRequireDefault(_requestAnimationFrame);
 
-var _properties = __webpack_require__(220);
+var _properties = __webpack_require__(222);
 
 var _react = __webpack_require__(1);
 
@@ -57270,7 +57385,7 @@ module.exports = exports['default'];
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
-/* 216 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57281,7 +57396,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = addClass;
 
-var _hasClass = __webpack_require__(217);
+var _hasClass = __webpack_require__(219);
 
 var _hasClass2 = _interopRequireDefault(_hasClass);
 
@@ -57293,7 +57408,7 @@ function addClass(element, className) {
 module.exports = exports['default'];
 
 /***/ }),
-/* 217 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57309,7 +57424,7 @@ function hasClass(element, className) {
 module.exports = exports["default"];
 
 /***/ }),
-/* 218 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57320,7 +57435,7 @@ module.exports = function removeClass(element, className) {
 };
 
 /***/ }),
-/* 219 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57379,7 +57494,7 @@ exports.default = compatRaf;
 module.exports = exports['default'];
 
 /***/ }),
-/* 220 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57495,16 +57610,16 @@ function getTransitionProperties() {
 }
 
 /***/ }),
-/* 221 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-module.exports = __webpack_require__(222);
+module.exports = __webpack_require__(224);
 
 
 /***/ }),
-/* 222 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57512,15 +57627,15 @@ module.exports = __webpack_require__(222);
 
 var alphabet = __webpack_require__(28);
 var encode = __webpack_require__(84);
-var decode = __webpack_require__(225);
-var build = __webpack_require__(226);
-var isValid = __webpack_require__(227);
+var decode = __webpack_require__(227);
+var build = __webpack_require__(228);
+var isValid = __webpack_require__(229);
 
 // if you are using cluster or multiple servers use this to make each instance
 // has a unique value for worker
 // Note: I don't know if this is automatically set when using third
 // party cluster solutions such as pm2.
-var clusterWorkerId = __webpack_require__(228) || 0;
+var clusterWorkerId = __webpack_require__(230) || 0;
 
 /**
  * Set the seed.
@@ -57576,7 +57691,7 @@ module.exports.isValid = isValid;
 
 
 /***/ }),
-/* 223 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57608,7 +57723,7 @@ module.exports = {
 
 
 /***/ }),
-/* 224 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57629,7 +57744,7 @@ module.exports = randomByte;
 
 
 /***/ }),
-/* 225 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57653,7 +57768,7 @@ module.exports = decode;
 
 
 /***/ }),
-/* 226 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57708,7 +57823,7 @@ module.exports = build;
 
 
 /***/ }),
-/* 227 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57734,7 +57849,7 @@ module.exports = isShortId;
 
 
 /***/ }),
-/* 228 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57744,7 +57859,7 @@ module.exports = 0;
 
 
 /***/ }),
-/* 229 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57806,7 +57921,7 @@ var Container = (0, _glamorousCjs2.default)('div')({
 exports.default = Container;
 
 /***/ }),
-/* 230 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57883,17 +57998,17 @@ var _objectAssign = __webpack_require__(22);
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _sheet = __webpack_require__(231);
+var _sheet = __webpack_require__(233);
 
 var _CSSPropertyOperations = __webpack_require__(85);
 
-var _clean = __webpack_require__(239);
+var _clean = __webpack_require__(241);
 
 var _clean2 = _interopRequireDefault(_clean);
 
-var _plugins = __webpack_require__(240);
+var _plugins = __webpack_require__(242);
 
-var _hash = __webpack_require__(242);
+var _hash = __webpack_require__(244);
 
 var _hash2 = _interopRequireDefault(_hash);
 
@@ -58825,7 +58940,7 @@ function attribsFor() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
-/* 231 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59064,7 +59179,7 @@ function StyleSheet() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
-/* 232 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59079,7 +59194,7 @@ function StyleSheet() {
 
 
 
-var camelize = __webpack_require__(233);
+var camelize = __webpack_require__(235);
 
 var msPattern = /^-ms-/;
 
@@ -59107,7 +59222,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 233 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59142,7 +59257,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 234 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59152,7 +59267,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _CSSProperty = __webpack_require__(235);
+var _CSSProperty = __webpack_require__(237);
 
 var _CSSProperty2 = _interopRequireDefault(_CSSProperty);
 
@@ -59239,7 +59354,7 @@ exports.default = dangerousStyleValue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
-/* 235 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59399,7 +59514,7 @@ var CSSProperty = {
 exports.default = CSSProperty;
 
 /***/ }),
-/* 236 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59414,7 +59529,7 @@ exports.default = CSSProperty;
 
 
 
-var hyphenate = __webpack_require__(237);
+var hyphenate = __webpack_require__(239);
 
 var msPattern = /^ms-/;
 
@@ -59441,7 +59556,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 237 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59477,7 +59592,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 238 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59510,7 +59625,7 @@ function memoizeStringOnly(callback) {
 module.exports = memoizeStringOnly;
 
 /***/ }),
-/* 239 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59570,7 +59685,7 @@ function clean(input) {
 }
 
 /***/ }),
-/* 240 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59593,7 +59708,7 @@ var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
 var _CSSPropertyOperations = __webpack_require__(85);
 
-var _prefixer = __webpack_require__(241);
+var _prefixer = __webpack_require__(243);
 
 var _prefixer2 = _interopRequireDefault(_prefixer);
 
@@ -59683,7 +59798,7 @@ function prefixes(node) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
-/* 241 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59770,7 +59885,7 @@ function prefixer(style) {
 }
 
 /***/ }),
-/* 242 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59846,7 +59961,7 @@ function Umul32(n, m) {
 }
 
 /***/ }),
-/* 243 */
+/* 245 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59856,7 +59971,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _AlertMessage = __webpack_require__(244);
+var _AlertMessage = __webpack_require__(246);
 
 var _AlertMessage2 = _interopRequireDefault(_AlertMessage);
 
@@ -59865,7 +59980,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _AlertMessage2.default;
 
 /***/ }),
-/* 244 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59885,19 +60000,19 @@ var _propTypes = __webpack_require__(0);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Alert = __webpack_require__(245);
+var _Alert = __webpack_require__(247);
 
 var _Alert2 = _interopRequireDefault(_Alert);
 
-var _Message = __webpack_require__(246);
+var _Message = __webpack_require__(248);
 
 var _Message2 = _interopRequireDefault(_Message);
 
-var _Icon = __webpack_require__(247);
+var _Icon = __webpack_require__(249);
 
 var _Icon2 = _interopRequireDefault(_Icon);
 
-var _Close = __webpack_require__(248);
+var _Close = __webpack_require__(250);
 
 var _Close2 = _interopRequireDefault(_Close);
 
@@ -60002,7 +60117,7 @@ AlertMessage.propTypes = {
 exports.default = AlertMessage;
 
 /***/ }),
-/* 245 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60067,7 +60182,7 @@ var Alert = (0, _glamorousCjs2.default)('div')({
 exports.default = Alert;
 
 /***/ }),
-/* 246 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60094,7 +60209,7 @@ var Message = (0, _glamorousCjs2.default)('div')({
 exports.default = Message;
 
 /***/ }),
-/* 247 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60140,7 +60255,7 @@ var IconPlaceholder = exports.IconPlaceholder = (0, _glamorousCjs2.default)('div
 exports.default = Icon;
 
 /***/ }),
-/* 248 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60179,13 +60294,13 @@ var Close = (0, _glamorousCjs2.default)('div')({
 exports.default = Close;
 
 /***/ }),
-/* 249 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _be = __webpack_require__(2);
+var _be = __webpack_require__(3);
 
 var _be2 = _interopRequireDefault(_be);
 
@@ -60229,13 +60344,13 @@ var _temp = function () {
 ;
 
 /***/ }),
-/* 250 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(251);
+var content = __webpack_require__(253);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(5)(content, {});
@@ -60255,46 +60370,6 @@ if(false) {
 }
 
 /***/ }),
-/* 251 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(4)();
-// imports
-
-
-// module
-exports.push([module.i, "/*!\n * https://github.com/YouCanBookMe/react-datetime\n */\n\n.rdt {\n  position: relative;\n}\n.rdtPicker {\n  display: none;\n  position: absolute;\n  width: 250px;\n  padding: 4px;\n  margin-top: 1px;\n  z-index: 99999 !important;\n  background: #fff;\n  box-shadow: 0 1px 3px rgba(0,0,0,.1);\n  border: 1px solid #f9f9f9;\n}\n.rdtOpen .rdtPicker {\n  display: block;\n}\n.rdtStatic .rdtPicker {\n  box-shadow: none;\n  position: static;\n}\n\n.rdtPicker .rdtTimeToggle {\n  text-align: center;\n}\n\n.rdtPicker table {\n  width: 100%;\n  margin: 0;\n}\n.rdtPicker td,\n.rdtPicker th {\n  text-align: center;\n  height: 28px;\n}\n.rdtPicker td {\n  cursor: pointer;\n}\n.rdtPicker td.rdtDay:hover,\n.rdtPicker td.rdtHour:hover,\n.rdtPicker td.rdtMinute:hover,\n.rdtPicker td.rdtSecond:hover,\n.rdtPicker .rdtTimeToggle:hover {\n  background: #eeeeee;\n  cursor: pointer;\n}\n.rdtPicker td.rdtOld,\n.rdtPicker td.rdtNew {\n  color: #999999;\n}\n.rdtPicker td.rdtToday {\n  position: relative;\n}\n.rdtPicker td.rdtToday:before {\n  content: '';\n  display: inline-block;\n  border-left: 7px solid transparent;\n  border-bottom: 7px solid #428bca;\n  border-top-color: rgba(0, 0, 0, 0.2);\n  position: absolute;\n  bottom: 4px;\n  right: 4px;\n}\n.rdtPicker td.rdtActive,\n.rdtPicker td.rdtActive:hover {\n  background-color: #428bca;\n  color: #fff;\n  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);\n}\n.rdtPicker td.rdtActive.rdtToday:before {\n  border-bottom-color: #fff;\n}\n.rdtPicker td.rdtDisabled,\n.rdtPicker td.rdtDisabled:hover {\n  background: none;\n  color: #999999;\n  cursor: not-allowed;\n}\n\n.rdtPicker td span.rdtOld {\n  color: #999999;\n}\n.rdtPicker td span.rdtDisabled,\n.rdtPicker td span.rdtDisabled:hover {\n  background: none;\n  color: #999999;\n  cursor: not-allowed;\n}\n.rdtPicker th {\n  border-bottom: 1px solid #f9f9f9;\n}\n.rdtPicker .dow {\n  width: 14.2857%;\n  border-bottom: none;\n}\n.rdtPicker th.rdtSwitch {\n  width: 100px;\n}\n.rdtPicker th.rdtNext,\n.rdtPicker th.rdtPrev {\n  font-size: 21px;\n  vertical-align: top;\n}\n\n.rdtPrev span,\n.rdtNext span {\n  display: block;\n  -webkit-touch-callout: none; /* iOS Safari */\n  -webkit-user-select: none;   /* Chrome/Safari/Opera */\n  -khtml-user-select: none;    /* Konqueror */\n  -moz-user-select: none;      /* Firefox */\n  -ms-user-select: none;       /* Internet Explorer/Edge */\n  user-select: none;\n}\n\n.rdtPicker th.rdtDisabled,\n.rdtPicker th.rdtDisabled:hover {\n  background: none;\n  color: #999999;\n  cursor: not-allowed;\n}\n.rdtPicker thead tr:first-child th {\n  cursor: pointer;\n}\n.rdtPicker thead tr:first-child th:hover {\n  background: #eeeeee;\n}\n\n.rdtPicker tfoot {\n  border-top: 1px solid #f9f9f9;\n}\n\n.rdtPicker button {\n  border: none;\n  background: none;\n  cursor: pointer;\n}\n.rdtPicker button:hover {\n  background-color: #eee;\n}\n\n.rdtPicker thead button {\n  width: 100%;\n  height: 100%;\n}\n\ntd.rdtMonth,\ntd.rdtYear {\n  height: 50px;\n  width: 25%;\n  cursor: pointer;\n}\ntd.rdtMonth:hover,\ntd.rdtYear:hover {\n  background: #eee;\n}\n\n.rdtCounters {\n  display: inline-block;\n}\n\n.rdtCounters > div {\n  float: left;\n}\n\n.rdtCounter {\n  height: 100px;\n}\n\n.rdtCounter {\n  width: 40px;\n}\n\n.rdtCounterSeparator {\n  line-height: 100px;\n}\n\n.rdtCounter .rdtBtn {\n  height: 40%;\n  line-height: 40px;\n  cursor: pointer;\n  display: block;\n\n  -webkit-touch-callout: none; /* iOS Safari */\n  -webkit-user-select: none;   /* Chrome/Safari/Opera */\n  -khtml-user-select: none;    /* Konqueror */\n  -moz-user-select: none;      /* Firefox */\n  -ms-user-select: none;       /* Internet Explorer/Edge */\n  user-select: none;\n}\n.rdtCounter .rdtBtn:hover {\n  background: #eee;\n}\n.rdtCounter .rdtCount {\n  height: 20%;\n  font-size: 1.2em;\n}\n\n.rdtMilli {\n  vertical-align: middle;\n  padding-left: 8px;\n  width: 48px;\n}\n\n.rdtMilli input {\n  width: 100%;\n  font-size: 1.2em;\n  margin-top: 37px;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 252 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(253);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(5)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../css-loader/index.js?importLoaders=1!./react-select.css", function() {
-			var newContent = require("!!../../css-loader/index.js?importLoaders=1!./react-select.css");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
 /* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -60303,7 +60378,7 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
-exports.push([module.i, "/**\n * React Select\n * ============\n * Created by Jed Watson and Joss Mackison for KeystoneJS, http://www.keystonejs.com/\n * https://twitter.com/jedwatson https://twitter.com/jossmackison https://twitter.com/keystonejs\n * MIT License: https://github.com/JedWatson/react-select\n*/\n.Select {\n  position: relative;\n}\n.Select,\n.Select div,\n.Select input,\n.Select span {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\n.Select.is-disabled > .Select-control {\n  background-color: #f9f9f9;\n}\n.Select.is-disabled > .Select-control:hover {\n  box-shadow: none;\n}\n.Select.is-disabled .Select-arrow-zone {\n  cursor: default;\n  pointer-events: none;\n  opacity: 0.35;\n}\n.Select-control {\n  background-color: #fff;\n  border-color: #d9d9d9 #ccc #b3b3b3;\n  border-radius: 4px;\n  border: 1px solid #ccc;\n  color: #333;\n  cursor: default;\n  display: table;\n  border-spacing: 0;\n  border-collapse: separate;\n  height: 36px;\n  outline: none;\n  overflow: hidden;\n  position: relative;\n  width: 100%;\n}\n.Select-control:hover {\n  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);\n}\n.Select-control .Select-input:focus {\n  outline: none;\n}\n.is-searchable.is-open > .Select-control {\n  cursor: text;\n}\n.is-open > .Select-control {\n  border-bottom-right-radius: 0;\n  border-bottom-left-radius: 0;\n  background: #fff;\n  border-color: #b3b3b3 #ccc #d9d9d9;\n}\n.is-open > .Select-control .Select-arrow {\n  top: -2px;\n  border-color: transparent transparent #999;\n  border-width: 0 5px 5px;\n}\n.is-searchable.is-focused:not(.is-open) > .Select-control {\n  cursor: text;\n}\n.is-focused:not(.is-open) > .Select-control {\n  border-color: #007eff;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px rgba(0, 126, 255, 0.1);\n}\n.Select-placeholder,\n.Select--single > .Select-control .Select-value {\n  bottom: 0;\n  color: #aaa;\n  left: 0;\n  line-height: 34px;\n  padding-left: 10px;\n  padding-right: 10px;\n  position: absolute;\n  right: 0;\n  top: 0;\n  max-width: 100%;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.has-value.is-clearable.Select--single > .Select-control .Select-value {\n  padding-right: 42px;\n}\n.has-value.Select--single > .Select-control .Select-value .Select-value-label,\n.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label {\n  color: #333;\n}\n.has-value.Select--single > .Select-control .Select-value a.Select-value-label,\n.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value a.Select-value-label {\n  cursor: pointer;\n  text-decoration: none;\n}\n.has-value.Select--single > .Select-control .Select-value a.Select-value-label:hover,\n.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value a.Select-value-label:hover,\n.has-value.Select--single > .Select-control .Select-value a.Select-value-label:focus,\n.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value a.Select-value-label:focus {\n  color: #007eff;\n  outline: none;\n  text-decoration: underline;\n}\n.Select-input {\n  height: 34px;\n  padding-left: 10px;\n  padding-right: 10px;\n  vertical-align: middle;\n}\n.Select-input > input {\n  width: 100%;\n  background: none transparent;\n  border: 0 none;\n  box-shadow: none;\n  cursor: default;\n  display: inline-block;\n  font-family: inherit;\n  font-size: inherit;\n  margin: 0;\n  outline: none;\n  line-height: 14px;\n  /* For IE 8 compatibility */\n  padding: 8px 0 12px;\n  /* For IE 8 compatibility */\n  -webkit-appearance: none;\n}\n.is-focused .Select-input > input {\n  cursor: text;\n}\n.has-value.is-pseudo-focused .Select-input {\n  opacity: 0;\n}\n.Select-control:not(.is-searchable) > .Select-input {\n  outline: none;\n}\n.Select-loading-zone {\n  cursor: pointer;\n  display: table-cell;\n  position: relative;\n  text-align: center;\n  vertical-align: middle;\n  width: 16px;\n}\n.Select-loading {\n  -webkit-animation: Select-animation-spin 400ms infinite linear;\n  -o-animation: Select-animation-spin 400ms infinite linear;\n  animation: Select-animation-spin 400ms infinite linear;\n  width: 16px;\n  height: 16px;\n  box-sizing: border-box;\n  border-radius: 50%;\n  border: 2px solid #ccc;\n  border-right-color: #333;\n  display: inline-block;\n  position: relative;\n  vertical-align: middle;\n}\n.Select-clear-zone {\n  -webkit-animation: Select-animation-fadeIn 200ms;\n  -o-animation: Select-animation-fadeIn 200ms;\n  animation: Select-animation-fadeIn 200ms;\n  color: #999;\n  cursor: pointer;\n  display: table-cell;\n  position: relative;\n  text-align: center;\n  vertical-align: middle;\n  width: 17px;\n}\n.Select-clear-zone:hover {\n  color: #D0021B;\n}\n.Select-clear {\n  display: inline-block;\n  font-size: 18px;\n  line-height: 1;\n}\n.Select--multi .Select-clear-zone {\n  width: 17px;\n}\n.Select-arrow-zone {\n  cursor: pointer;\n  display: table-cell;\n  position: relative;\n  text-align: center;\n  vertical-align: middle;\n  width: 25px;\n  padding-right: 5px;\n}\n.Select-arrow {\n  border-color: #999 transparent transparent;\n  border-style: solid;\n  border-width: 5px 5px 2.5px;\n  display: inline-block;\n  height: 0;\n  width: 0;\n  position: relative;\n}\n.is-open .Select-arrow,\n.Select-arrow-zone:hover > .Select-arrow {\n  border-top-color: #666;\n}\n.Select--multi .Select-multi-value-wrapper {\n  display: inline-block;\n}\n.Select .Select-aria-only {\n  display: inline-block;\n  height: 1px;\n  width: 1px;\n  margin: -1px;\n  clip: rect(0, 0, 0, 0);\n  overflow: hidden;\n  float: left;\n}\n@-webkit-keyframes Select-animation-fadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n@keyframes Select-animation-fadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n.Select-menu-outer {\n  border-bottom-right-radius: 4px;\n  border-bottom-left-radius: 4px;\n  background-color: #fff;\n  border: 1px solid #ccc;\n  border-top-color: #e6e6e6;\n  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);\n  box-sizing: border-box;\n  margin-top: -1px;\n  max-height: 200px;\n  position: absolute;\n  top: 100%;\n  width: 100%;\n  z-index: 1;\n  -webkit-overflow-scrolling: touch;\n}\n.Select-menu {\n  max-height: 198px;\n  overflow-y: auto;\n}\n.Select-option {\n  box-sizing: border-box;\n  background-color: #fff;\n  color: #666666;\n  cursor: pointer;\n  display: block;\n  padding: 8px 10px;\n}\n.Select-option:last-child {\n  border-bottom-right-radius: 4px;\n  border-bottom-left-radius: 4px;\n}\n.Select-option.is-selected {\n  background-color: #f5faff;\n  /* Fallback color for IE 8 */\n  background-color: rgba(0, 126, 255, 0.04);\n  color: #333;\n}\n.Select-option.is-focused {\n  background-color: #ebf5ff;\n  /* Fallback color for IE 8 */\n  background-color: rgba(0, 126, 255, 0.08);\n  color: #333;\n}\n.Select-option.is-disabled {\n  color: #cccccc;\n  cursor: default;\n}\n.Select-noresults {\n  box-sizing: border-box;\n  color: #999999;\n  cursor: default;\n  display: block;\n  padding: 8px 10px;\n}\n.Select--multi .Select-input {\n  vertical-align: middle;\n  margin-left: 10px;\n  padding: 0;\n}\n.Select--multi.has-value .Select-input {\n  margin-left: 5px;\n}\n.Select--multi .Select-value {\n  background-color: #ebf5ff;\n  /* Fallback color for IE 8 */\n  background-color: rgba(0, 126, 255, 0.08);\n  border-radius: 2px;\n  border: 1px solid #c2e0ff;\n  /* Fallback color for IE 8 */\n  border: 1px solid rgba(0, 126, 255, 0.24);\n  color: #007eff;\n  display: inline-block;\n  font-size: 0.9em;\n  line-height: 1.4;\n  margin-left: 5px;\n  margin-top: 5px;\n  vertical-align: top;\n}\n.Select--multi .Select-value-icon,\n.Select--multi .Select-value-label {\n  display: inline-block;\n  vertical-align: middle;\n}\n.Select--multi .Select-value-label {\n  border-bottom-right-radius: 2px;\n  border-top-right-radius: 2px;\n  cursor: default;\n  padding: 2px 5px;\n}\n.Select--multi a.Select-value-label {\n  color: #007eff;\n  cursor: pointer;\n  text-decoration: none;\n}\n.Select--multi a.Select-value-label:hover {\n  text-decoration: underline;\n}\n.Select--multi .Select-value-icon {\n  cursor: pointer;\n  border-bottom-left-radius: 2px;\n  border-top-left-radius: 2px;\n  border-right: 1px solid #c2e0ff;\n  /* Fallback color for IE 8 */\n  border-right: 1px solid rgba(0, 126, 255, 0.24);\n  padding: 1px 5px 3px;\n}\n.Select--multi .Select-value-icon:hover,\n.Select--multi .Select-value-icon:focus {\n  background-color: #d8eafd;\n  /* Fallback color for IE 8 */\n  background-color: rgba(0, 113, 230, 0.08);\n  color: #0071e6;\n}\n.Select--multi .Select-value-icon:active {\n  background-color: #c2e0ff;\n  /* Fallback color for IE 8 */\n  background-color: rgba(0, 126, 255, 0.24);\n}\n.Select--multi.is-disabled .Select-value {\n  background-color: #fcfcfc;\n  border: 1px solid #e3e3e3;\n  color: #333;\n}\n.Select--multi.is-disabled .Select-value-icon {\n  cursor: not-allowed;\n  border-right: 1px solid #e3e3e3;\n}\n.Select--multi.is-disabled .Select-value-icon:hover,\n.Select--multi.is-disabled .Select-value-icon:focus,\n.Select--multi.is-disabled .Select-value-icon:active {\n  background-color: #fcfcfc;\n}\n@keyframes Select-animation-spin {\n  to {\n    transform: rotate(1turn);\n  }\n}\n@-webkit-keyframes Select-animation-spin {\n  to {\n    -webkit-transform: rotate(1turn);\n  }\n}\n", ""]);
+exports.push([module.i, "/*!\n * https://github.com/YouCanBookMe/react-datetime\n */\n\n.rdt {\n  position: relative;\n}\n.rdtPicker {\n  display: none;\n  position: absolute;\n  width: 250px;\n  padding: 4px;\n  margin-top: 1px;\n  z-index: 99999 !important;\n  background: #fff;\n  box-shadow: 0 1px 3px rgba(0,0,0,.1);\n  border: 1px solid #f9f9f9;\n}\n.rdtOpen .rdtPicker {\n  display: block;\n}\n.rdtStatic .rdtPicker {\n  box-shadow: none;\n  position: static;\n}\n\n.rdtPicker .rdtTimeToggle {\n  text-align: center;\n}\n\n.rdtPicker table {\n  width: 100%;\n  margin: 0;\n}\n.rdtPicker td,\n.rdtPicker th {\n  text-align: center;\n  height: 28px;\n}\n.rdtPicker td {\n  cursor: pointer;\n}\n.rdtPicker td.rdtDay:hover,\n.rdtPicker td.rdtHour:hover,\n.rdtPicker td.rdtMinute:hover,\n.rdtPicker td.rdtSecond:hover,\n.rdtPicker .rdtTimeToggle:hover {\n  background: #eeeeee;\n  cursor: pointer;\n}\n.rdtPicker td.rdtOld,\n.rdtPicker td.rdtNew {\n  color: #999999;\n}\n.rdtPicker td.rdtToday {\n  position: relative;\n}\n.rdtPicker td.rdtToday:before {\n  content: '';\n  display: inline-block;\n  border-left: 7px solid transparent;\n  border-bottom: 7px solid #428bca;\n  border-top-color: rgba(0, 0, 0, 0.2);\n  position: absolute;\n  bottom: 4px;\n  right: 4px;\n}\n.rdtPicker td.rdtActive,\n.rdtPicker td.rdtActive:hover {\n  background-color: #428bca;\n  color: #fff;\n  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);\n}\n.rdtPicker td.rdtActive.rdtToday:before {\n  border-bottom-color: #fff;\n}\n.rdtPicker td.rdtDisabled,\n.rdtPicker td.rdtDisabled:hover {\n  background: none;\n  color: #999999;\n  cursor: not-allowed;\n}\n\n.rdtPicker td span.rdtOld {\n  color: #999999;\n}\n.rdtPicker td span.rdtDisabled,\n.rdtPicker td span.rdtDisabled:hover {\n  background: none;\n  color: #999999;\n  cursor: not-allowed;\n}\n.rdtPicker th {\n  border-bottom: 1px solid #f9f9f9;\n}\n.rdtPicker .dow {\n  width: 14.2857%;\n  border-bottom: none;\n}\n.rdtPicker th.rdtSwitch {\n  width: 100px;\n}\n.rdtPicker th.rdtNext,\n.rdtPicker th.rdtPrev {\n  font-size: 21px;\n  vertical-align: top;\n}\n\n.rdtPrev span,\n.rdtNext span {\n  display: block;\n  -webkit-touch-callout: none; /* iOS Safari */\n  -webkit-user-select: none;   /* Chrome/Safari/Opera */\n  -khtml-user-select: none;    /* Konqueror */\n  -moz-user-select: none;      /* Firefox */\n  -ms-user-select: none;       /* Internet Explorer/Edge */\n  user-select: none;\n}\n\n.rdtPicker th.rdtDisabled,\n.rdtPicker th.rdtDisabled:hover {\n  background: none;\n  color: #999999;\n  cursor: not-allowed;\n}\n.rdtPicker thead tr:first-child th {\n  cursor: pointer;\n}\n.rdtPicker thead tr:first-child th:hover {\n  background: #eeeeee;\n}\n\n.rdtPicker tfoot {\n  border-top: 1px solid #f9f9f9;\n}\n\n.rdtPicker button {\n  border: none;\n  background: none;\n  cursor: pointer;\n}\n.rdtPicker button:hover {\n  background-color: #eee;\n}\n\n.rdtPicker thead button {\n  width: 100%;\n  height: 100%;\n}\n\ntd.rdtMonth,\ntd.rdtYear {\n  height: 50px;\n  width: 25%;\n  cursor: pointer;\n}\ntd.rdtMonth:hover,\ntd.rdtYear:hover {\n  background: #eee;\n}\n\n.rdtCounters {\n  display: inline-block;\n}\n\n.rdtCounters > div {\n  float: left;\n}\n\n.rdtCounter {\n  height: 100px;\n}\n\n.rdtCounter {\n  width: 40px;\n}\n\n.rdtCounterSeparator {\n  line-height: 100px;\n}\n\n.rdtCounter .rdtBtn {\n  height: 40%;\n  line-height: 40px;\n  cursor: pointer;\n  display: block;\n\n  -webkit-touch-callout: none; /* iOS Safari */\n  -webkit-user-select: none;   /* Chrome/Safari/Opera */\n  -khtml-user-select: none;    /* Konqueror */\n  -moz-user-select: none;      /* Firefox */\n  -ms-user-select: none;       /* Internet Explorer/Edge */\n  user-select: none;\n}\n.rdtCounter .rdtBtn:hover {\n  background: #eee;\n}\n.rdtCounter .rdtCount {\n  height: 20%;\n  font-size: 1.2em;\n}\n\n.rdtMilli {\n  vertical-align: middle;\n  padding-left: 8px;\n  width: 48px;\n}\n\n.rdtMilli input {\n  width: 100%;\n  font-size: 1.2em;\n  margin-top: 37px;\n}\n", ""]);
 
 // exports
 
@@ -60324,8 +60399,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../css-loader/index.js?importLoaders=1!./styles.css", function() {
-			var newContent = require("!!../css-loader/index.js?importLoaders=1!./styles.css");
+		module.hot.accept("!!../../css-loader/index.js?importLoaders=1!./react-select.css", function() {
+			var newContent = require("!!../../css-loader/index.js?importLoaders=1!./react-select.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -60343,7 +60418,7 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
-exports.push([module.i, "/* Collection default theme */\n\n.ReactVirtualized__Collection {\n}\n\n.ReactVirtualized__Collection__innerScrollContainer {\n}\n\n/* Grid default theme */\n\n.ReactVirtualized__Grid {\n}\n\n.ReactVirtualized__Grid__innerScrollContainer {\n}\n\n/* Table default theme */\n\n.ReactVirtualized__Table {\n}\n\n.ReactVirtualized__Table__Grid {\n}\n\n.ReactVirtualized__Table__headerRow {\n  font-weight: 700;\n  text-transform: uppercase;\n  display: -webkit-flex;\n  display: -moz-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-flex-direction: row;\n     -moz-box-orient: horizontal;\n     -moz-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-align-items: center;\n     -moz-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.ReactVirtualized__Table__row {\n  display: -webkit-flex;\n  display: -moz-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-flex-direction: row;\n     -moz-box-orient: horizontal;\n     -moz-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-align-items: center;\n     -moz-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n\n.ReactVirtualized__Table__headerTruncatedText {\n  display: inline-block;\n  max-width: 100%;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden;\n}\n\n.ReactVirtualized__Table__headerColumn,\n.ReactVirtualized__Table__rowColumn {\n  margin-right: 10px;\n  min-width: 0px;\n}\n.ReactVirtualized__Table__rowColumn {\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.ReactVirtualized__Table__headerColumn:first-of-type,\n.ReactVirtualized__Table__rowColumn:first-of-type {\n  margin-left: 10px;\n}\n.ReactVirtualized__Table__sortableHeaderColumn {\n  cursor: pointer;\n}\n\n.ReactVirtualized__Table__sortableHeaderIconContainer {\n  display: -webkit-flex;\n  display: -moz-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-align-items: center;\n     -moz-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.ReactVirtualized__Table__sortableHeaderIcon {\n  -webkit-flex: 0 0 24px;\n     -moz-box-flex: 0;\n      -ms-flex: 0 0 24px;\n          flex: 0 0 24px;\n  height: 1em;\n  width: 1em;\n  fill: currentColor;\n}\n\n/* List default theme */\n\n.ReactVirtualized__List {\n}\n", ""]);
+exports.push([module.i, "/**\n * React Select\n * ============\n * Created by Jed Watson and Joss Mackison for KeystoneJS, http://www.keystonejs.com/\n * https://twitter.com/jedwatson https://twitter.com/jossmackison https://twitter.com/keystonejs\n * MIT License: https://github.com/JedWatson/react-select\n*/\n.Select {\n  position: relative;\n}\n.Select,\n.Select div,\n.Select input,\n.Select span {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\n.Select.is-disabled > .Select-control {\n  background-color: #f9f9f9;\n}\n.Select.is-disabled > .Select-control:hover {\n  box-shadow: none;\n}\n.Select.is-disabled .Select-arrow-zone {\n  cursor: default;\n  pointer-events: none;\n  opacity: 0.35;\n}\n.Select-control {\n  background-color: #fff;\n  border-color: #d9d9d9 #ccc #b3b3b3;\n  border-radius: 4px;\n  border: 1px solid #ccc;\n  color: #333;\n  cursor: default;\n  display: table;\n  border-spacing: 0;\n  border-collapse: separate;\n  height: 36px;\n  outline: none;\n  overflow: hidden;\n  position: relative;\n  width: 100%;\n}\n.Select-control:hover {\n  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);\n}\n.Select-control .Select-input:focus {\n  outline: none;\n}\n.is-searchable.is-open > .Select-control {\n  cursor: text;\n}\n.is-open > .Select-control {\n  border-bottom-right-radius: 0;\n  border-bottom-left-radius: 0;\n  background: #fff;\n  border-color: #b3b3b3 #ccc #d9d9d9;\n}\n.is-open > .Select-control .Select-arrow {\n  top: -2px;\n  border-color: transparent transparent #999;\n  border-width: 0 5px 5px;\n}\n.is-searchable.is-focused:not(.is-open) > .Select-control {\n  cursor: text;\n}\n.is-focused:not(.is-open) > .Select-control {\n  border-color: #007eff;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px rgba(0, 126, 255, 0.1);\n}\n.Select-placeholder,\n.Select--single > .Select-control .Select-value {\n  bottom: 0;\n  color: #aaa;\n  left: 0;\n  line-height: 34px;\n  padding-left: 10px;\n  padding-right: 10px;\n  position: absolute;\n  right: 0;\n  top: 0;\n  max-width: 100%;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.has-value.is-clearable.Select--single > .Select-control .Select-value {\n  padding-right: 42px;\n}\n.has-value.Select--single > .Select-control .Select-value .Select-value-label,\n.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label {\n  color: #333;\n}\n.has-value.Select--single > .Select-control .Select-value a.Select-value-label,\n.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value a.Select-value-label {\n  cursor: pointer;\n  text-decoration: none;\n}\n.has-value.Select--single > .Select-control .Select-value a.Select-value-label:hover,\n.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value a.Select-value-label:hover,\n.has-value.Select--single > .Select-control .Select-value a.Select-value-label:focus,\n.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value a.Select-value-label:focus {\n  color: #007eff;\n  outline: none;\n  text-decoration: underline;\n}\n.Select-input {\n  height: 34px;\n  padding-left: 10px;\n  padding-right: 10px;\n  vertical-align: middle;\n}\n.Select-input > input {\n  width: 100%;\n  background: none transparent;\n  border: 0 none;\n  box-shadow: none;\n  cursor: default;\n  display: inline-block;\n  font-family: inherit;\n  font-size: inherit;\n  margin: 0;\n  outline: none;\n  line-height: 14px;\n  /* For IE 8 compatibility */\n  padding: 8px 0 12px;\n  /* For IE 8 compatibility */\n  -webkit-appearance: none;\n}\n.is-focused .Select-input > input {\n  cursor: text;\n}\n.has-value.is-pseudo-focused .Select-input {\n  opacity: 0;\n}\n.Select-control:not(.is-searchable) > .Select-input {\n  outline: none;\n}\n.Select-loading-zone {\n  cursor: pointer;\n  display: table-cell;\n  position: relative;\n  text-align: center;\n  vertical-align: middle;\n  width: 16px;\n}\n.Select-loading {\n  -webkit-animation: Select-animation-spin 400ms infinite linear;\n  -o-animation: Select-animation-spin 400ms infinite linear;\n  animation: Select-animation-spin 400ms infinite linear;\n  width: 16px;\n  height: 16px;\n  box-sizing: border-box;\n  border-radius: 50%;\n  border: 2px solid #ccc;\n  border-right-color: #333;\n  display: inline-block;\n  position: relative;\n  vertical-align: middle;\n}\n.Select-clear-zone {\n  -webkit-animation: Select-animation-fadeIn 200ms;\n  -o-animation: Select-animation-fadeIn 200ms;\n  animation: Select-animation-fadeIn 200ms;\n  color: #999;\n  cursor: pointer;\n  display: table-cell;\n  position: relative;\n  text-align: center;\n  vertical-align: middle;\n  width: 17px;\n}\n.Select-clear-zone:hover {\n  color: #D0021B;\n}\n.Select-clear {\n  display: inline-block;\n  font-size: 18px;\n  line-height: 1;\n}\n.Select--multi .Select-clear-zone {\n  width: 17px;\n}\n.Select-arrow-zone {\n  cursor: pointer;\n  display: table-cell;\n  position: relative;\n  text-align: center;\n  vertical-align: middle;\n  width: 25px;\n  padding-right: 5px;\n}\n.Select-arrow {\n  border-color: #999 transparent transparent;\n  border-style: solid;\n  border-width: 5px 5px 2.5px;\n  display: inline-block;\n  height: 0;\n  width: 0;\n  position: relative;\n}\n.is-open .Select-arrow,\n.Select-arrow-zone:hover > .Select-arrow {\n  border-top-color: #666;\n}\n.Select--multi .Select-multi-value-wrapper {\n  display: inline-block;\n}\n.Select .Select-aria-only {\n  display: inline-block;\n  height: 1px;\n  width: 1px;\n  margin: -1px;\n  clip: rect(0, 0, 0, 0);\n  overflow: hidden;\n  float: left;\n}\n@-webkit-keyframes Select-animation-fadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n@keyframes Select-animation-fadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n.Select-menu-outer {\n  border-bottom-right-radius: 4px;\n  border-bottom-left-radius: 4px;\n  background-color: #fff;\n  border: 1px solid #ccc;\n  border-top-color: #e6e6e6;\n  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);\n  box-sizing: border-box;\n  margin-top: -1px;\n  max-height: 200px;\n  position: absolute;\n  top: 100%;\n  width: 100%;\n  z-index: 1;\n  -webkit-overflow-scrolling: touch;\n}\n.Select-menu {\n  max-height: 198px;\n  overflow-y: auto;\n}\n.Select-option {\n  box-sizing: border-box;\n  background-color: #fff;\n  color: #666666;\n  cursor: pointer;\n  display: block;\n  padding: 8px 10px;\n}\n.Select-option:last-child {\n  border-bottom-right-radius: 4px;\n  border-bottom-left-radius: 4px;\n}\n.Select-option.is-selected {\n  background-color: #f5faff;\n  /* Fallback color for IE 8 */\n  background-color: rgba(0, 126, 255, 0.04);\n  color: #333;\n}\n.Select-option.is-focused {\n  background-color: #ebf5ff;\n  /* Fallback color for IE 8 */\n  background-color: rgba(0, 126, 255, 0.08);\n  color: #333;\n}\n.Select-option.is-disabled {\n  color: #cccccc;\n  cursor: default;\n}\n.Select-noresults {\n  box-sizing: border-box;\n  color: #999999;\n  cursor: default;\n  display: block;\n  padding: 8px 10px;\n}\n.Select--multi .Select-input {\n  vertical-align: middle;\n  margin-left: 10px;\n  padding: 0;\n}\n.Select--multi.has-value .Select-input {\n  margin-left: 5px;\n}\n.Select--multi .Select-value {\n  background-color: #ebf5ff;\n  /* Fallback color for IE 8 */\n  background-color: rgba(0, 126, 255, 0.08);\n  border-radius: 2px;\n  border: 1px solid #c2e0ff;\n  /* Fallback color for IE 8 */\n  border: 1px solid rgba(0, 126, 255, 0.24);\n  color: #007eff;\n  display: inline-block;\n  font-size: 0.9em;\n  line-height: 1.4;\n  margin-left: 5px;\n  margin-top: 5px;\n  vertical-align: top;\n}\n.Select--multi .Select-value-icon,\n.Select--multi .Select-value-label {\n  display: inline-block;\n  vertical-align: middle;\n}\n.Select--multi .Select-value-label {\n  border-bottom-right-radius: 2px;\n  border-top-right-radius: 2px;\n  cursor: default;\n  padding: 2px 5px;\n}\n.Select--multi a.Select-value-label {\n  color: #007eff;\n  cursor: pointer;\n  text-decoration: none;\n}\n.Select--multi a.Select-value-label:hover {\n  text-decoration: underline;\n}\n.Select--multi .Select-value-icon {\n  cursor: pointer;\n  border-bottom-left-radius: 2px;\n  border-top-left-radius: 2px;\n  border-right: 1px solid #c2e0ff;\n  /* Fallback color for IE 8 */\n  border-right: 1px solid rgba(0, 126, 255, 0.24);\n  padding: 1px 5px 3px;\n}\n.Select--multi .Select-value-icon:hover,\n.Select--multi .Select-value-icon:focus {\n  background-color: #d8eafd;\n  /* Fallback color for IE 8 */\n  background-color: rgba(0, 113, 230, 0.08);\n  color: #0071e6;\n}\n.Select--multi .Select-value-icon:active {\n  background-color: #c2e0ff;\n  /* Fallback color for IE 8 */\n  background-color: rgba(0, 126, 255, 0.24);\n}\n.Select--multi.is-disabled .Select-value {\n  background-color: #fcfcfc;\n  border: 1px solid #e3e3e3;\n  color: #333;\n}\n.Select--multi.is-disabled .Select-value-icon {\n  cursor: not-allowed;\n  border-right: 1px solid #e3e3e3;\n}\n.Select--multi.is-disabled .Select-value-icon:hover,\n.Select--multi.is-disabled .Select-value-icon:focus,\n.Select--multi.is-disabled .Select-value-icon:active {\n  background-color: #fcfcfc;\n}\n@keyframes Select-animation-spin {\n  to {\n    transform: rotate(1turn);\n  }\n}\n@-webkit-keyframes Select-animation-spin {\n  to {\n    -webkit-transform: rotate(1turn);\n  }\n}\n", ""]);
 
 // exports
 
@@ -60383,7 +60458,7 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
-exports.push([module.i, ".VirtualSelectGrid {\n  z-index: 1;\n}\n\n.VirtualizedSelectOption {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  padding: 0 .5rem;\n}\n.VirtualizedSelectFocusedOption {\n  background-color: rgba(0, 126, 255, 0.1);\n}\n.VirtualizedSelectDisabledOption {\n  opacity: 0.5;\n}\n.VirtualizedSelectSelectedOption {\n  font-weight: bold;\n}\n", ""]);
+exports.push([module.i, "/* Collection default theme */\n\n.ReactVirtualized__Collection {\n}\n\n.ReactVirtualized__Collection__innerScrollContainer {\n}\n\n/* Grid default theme */\n\n.ReactVirtualized__Grid {\n}\n\n.ReactVirtualized__Grid__innerScrollContainer {\n}\n\n/* Table default theme */\n\n.ReactVirtualized__Table {\n}\n\n.ReactVirtualized__Table__Grid {\n}\n\n.ReactVirtualized__Table__headerRow {\n  font-weight: 700;\n  text-transform: uppercase;\n  display: -webkit-flex;\n  display: -moz-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-flex-direction: row;\n     -moz-box-orient: horizontal;\n     -moz-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-align-items: center;\n     -moz-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.ReactVirtualized__Table__row {\n  display: -webkit-flex;\n  display: -moz-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-flex-direction: row;\n     -moz-box-orient: horizontal;\n     -moz-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-align-items: center;\n     -moz-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n\n.ReactVirtualized__Table__headerTruncatedText {\n  display: inline-block;\n  max-width: 100%;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden;\n}\n\n.ReactVirtualized__Table__headerColumn,\n.ReactVirtualized__Table__rowColumn {\n  margin-right: 10px;\n  min-width: 0px;\n}\n.ReactVirtualized__Table__rowColumn {\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.ReactVirtualized__Table__headerColumn:first-of-type,\n.ReactVirtualized__Table__rowColumn:first-of-type {\n  margin-left: 10px;\n}\n.ReactVirtualized__Table__sortableHeaderColumn {\n  cursor: pointer;\n}\n\n.ReactVirtualized__Table__sortableHeaderIconContainer {\n  display: -webkit-flex;\n  display: -moz-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-align-items: center;\n     -moz-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.ReactVirtualized__Table__sortableHeaderIcon {\n  -webkit-flex: 0 0 24px;\n     -moz-box-flex: 0;\n      -ms-flex: 0 0 24px;\n          flex: 0 0 24px;\n  height: 1em;\n  width: 1em;\n  fill: currentColor;\n}\n\n/* List default theme */\n\n.ReactVirtualized__List {\n}\n", ""]);
 
 // exports
 
@@ -60404,8 +60479,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../css-loader/index.js?importLoaders=1!./s-alert-default.css", function() {
-			var newContent = require("!!../../css-loader/index.js?importLoaders=1!./s-alert-default.css");
+		module.hot.accept("!!../css-loader/index.js?importLoaders=1!./styles.css", function() {
+			var newContent = require("!!../css-loader/index.js?importLoaders=1!./styles.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -60423,25 +60498,65 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
-exports.push([module.i, "/* Common, default styles for the notification box */\n\n.s-alert-box,\n.s-alert-box * {\n    box-sizing: border-box;\n}\n\n.s-alert-box {\n    position: fixed;\n    background: rgba(42,45,50,0.85);\n    padding: 22px;\n    line-height: 1.4;\n    z-index: 1000;\n    pointer-events: none;\n    color: rgba(250,251,255,0.95);\n    font-size: 100%;\n    font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;\n    max-width: 300px;\n    -webkit-transition: top .4s, bottom .4s;\n    transition: top .4s, bottom .4s;\n}\n\n.s-alert-box.s-alert-show {\n    pointer-events: auto;\n}\n\n.s-alert-box a {\n    color: inherit;\n    opacity: 0.7;\n    font-weight: 700;\n}\n\n.s-alert-box a:hover,\n.s-alert-box a:focus {\n    opacity: 1;\n}\n\n.s-alert-box p {\n    margin: 0;\n}\n\n.s-alert-box.s-alert-show,\n.s-alert-box.s-alert-visible {\n    pointer-events: auto;\n}\n\n.s-alert-close {\n    width: 20px;\n    height: 20px;\n    position: absolute;\n    right: 4px;\n    top: 4px;\n    overflow: hidden;\n    text-indent: 100%;\n    cursor: pointer;\n    -webkit-backface-visibility: hidden;\n    backface-visibility: hidden;\n}\n\n.s-alert-close:hover,\n.s-alert-close:focus {\n    outline: none;\n}\n\n.s-alert-close::before,\n.s-alert-close::after {\n    content: '';\n    position: absolute;\n    width: 3px;\n    height: 60%;\n    top: 50%;\n    left: 50%;\n    background: #fff;\n}\n\n.s-alert-close:hover::before,\n.s-alert-close:hover::after {\n    background: #fff;\n}\n\n.s-alert-close::before {\n    -webkit-transform: translate(-50%,-50%) rotate(45deg);\n    transform: translate(-50%,-50%) rotate(45deg);\n}\n\n.s-alert-close::after {\n    -webkit-transform: translate(-50%,-50%) rotate(-45deg);\n    transform: translate(-50%,-50%) rotate(-45deg);\n}\n\n/* positions */\n\n.s-alert-bottom-left {\n    top: auto;\n    right: auto;\n    bottom: 30px;\n    left: 30px;\n}\n.s-alert-top-left {\n    top: 30px;\n    right: auto;\n    bottom: auto;\n    left: 30px;\n}\n.s-alert-top-right {\n    top: 30px;\n    right: 30px;\n    bottom: auto;\n    left: auto;\n}\n.s-alert-bottom-right { /*default*/\n    top: auto;\n    right: 30px;\n    bottom: 30px;\n    left: auto;\n}\n.s-alert-bottom {\n    width: 100%;\n    max-width: 100%;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    top: auto;\n}\n.s-alert-top {\n    width: 100%;\n    max-width: 100%;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: auto;\n}\n\n/* conditions */\n\n.s-alert-info {\n    background: #00A2D3;\n    color: #fff;\n}\n.s-alert-success {\n    background: #27AE60;\n    color: #fff;\n}\n.s-alert-warning {\n    background: #F1C40F;\n    color: #fff;\n}\n.s-alert-error {\n    background: #E74C3C;\n    color: #fff;\n}\n\n[class^=\"s-alert-effect-\"].s-alert-hide,\n[class*=\" s-alert-effect-\"].s-alert-hide {\n    -webkit-animation-direction: reverse;\n    animation-direction: reverse;\n}\n\n/* height measurement helper */\n.s-alert-box-height {\n    visibility: hidden;\n    position: fixed;\n}\n", ""]);
+exports.push([module.i, ".VirtualSelectGrid {\n  z-index: 1;\n}\n\n.VirtualizedSelectOption {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  padding: 0 .5rem;\n}\n.VirtualizedSelectFocusedOption {\n  background-color: rgba(0, 126, 255, 0.1);\n}\n.VirtualizedSelectDisabledOption {\n  opacity: 0.5;\n}\n.VirtualizedSelectSelectedOption {\n  font-weight: bold;\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
 /* 260 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(262);
+var content = __webpack_require__(261);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(5)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../css-loader/index.js?importLoaders=1!./s-alert-default.css", function() {
+			var newContent = require("!!../../css-loader/index.js?importLoaders=1!./s-alert-default.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 261 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(4)();
+// imports
+
+
+// module
+exports.push([module.i, "/* Common, default styles for the notification box */\n\n.s-alert-box,\n.s-alert-box * {\n    box-sizing: border-box;\n}\n\n.s-alert-box {\n    position: fixed;\n    background: rgba(42,45,50,0.85);\n    padding: 22px;\n    line-height: 1.4;\n    z-index: 1000;\n    pointer-events: none;\n    color: rgba(250,251,255,0.95);\n    font-size: 100%;\n    font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;\n    max-width: 300px;\n    -webkit-transition: top .4s, bottom .4s;\n    transition: top .4s, bottom .4s;\n}\n\n.s-alert-box.s-alert-show {\n    pointer-events: auto;\n}\n\n.s-alert-box a {\n    color: inherit;\n    opacity: 0.7;\n    font-weight: 700;\n}\n\n.s-alert-box a:hover,\n.s-alert-box a:focus {\n    opacity: 1;\n}\n\n.s-alert-box p {\n    margin: 0;\n}\n\n.s-alert-box.s-alert-show,\n.s-alert-box.s-alert-visible {\n    pointer-events: auto;\n}\n\n.s-alert-close {\n    width: 20px;\n    height: 20px;\n    position: absolute;\n    right: 4px;\n    top: 4px;\n    overflow: hidden;\n    text-indent: 100%;\n    cursor: pointer;\n    -webkit-backface-visibility: hidden;\n    backface-visibility: hidden;\n}\n\n.s-alert-close:hover,\n.s-alert-close:focus {\n    outline: none;\n}\n\n.s-alert-close::before,\n.s-alert-close::after {\n    content: '';\n    position: absolute;\n    width: 3px;\n    height: 60%;\n    top: 50%;\n    left: 50%;\n    background: #fff;\n}\n\n.s-alert-close:hover::before,\n.s-alert-close:hover::after {\n    background: #fff;\n}\n\n.s-alert-close::before {\n    -webkit-transform: translate(-50%,-50%) rotate(45deg);\n    transform: translate(-50%,-50%) rotate(45deg);\n}\n\n.s-alert-close::after {\n    -webkit-transform: translate(-50%,-50%) rotate(-45deg);\n    transform: translate(-50%,-50%) rotate(-45deg);\n}\n\n/* positions */\n\n.s-alert-bottom-left {\n    top: auto;\n    right: auto;\n    bottom: 30px;\n    left: 30px;\n}\n.s-alert-top-left {\n    top: 30px;\n    right: auto;\n    bottom: auto;\n    left: 30px;\n}\n.s-alert-top-right {\n    top: 30px;\n    right: 30px;\n    bottom: auto;\n    left: auto;\n}\n.s-alert-bottom-right { /*default*/\n    top: auto;\n    right: 30px;\n    bottom: 30px;\n    left: auto;\n}\n.s-alert-bottom {\n    width: 100%;\n    max-width: 100%;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    top: auto;\n}\n.s-alert-top {\n    width: 100%;\n    max-width: 100%;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: auto;\n}\n\n/* conditions */\n\n.s-alert-info {\n    background: #00A2D3;\n    color: #fff;\n}\n.s-alert-success {\n    background: #27AE60;\n    color: #fff;\n}\n.s-alert-warning {\n    background: #F1C40F;\n    color: #fff;\n}\n.s-alert-error {\n    background: #E74C3C;\n    color: #fff;\n}\n\n[class^=\"s-alert-effect-\"].s-alert-hide,\n[class*=\" s-alert-effect-\"].s-alert-hide {\n    -webkit-animation-direction: reverse;\n    animation-direction: reverse;\n}\n\n/* height measurement helper */\n.s-alert-box-height {\n    visibility: hidden;\n    position: fixed;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 262 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 263 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(264);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(5)(content, {});
@@ -60461,46 +60576,6 @@ if(false) {
 }
 
 /***/ }),
-/* 262 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(4)();
-// imports
-
-
-// module
-exports.push([module.i, "/*ta - text alignment*/\n.ta-center { text-align: center; }\n.ta-right { text-align: right; }\n\n/*fs - font style*/\n.fs-italic { font-style: italic; }\n\n/*fw - font weight*/\n.fw-bold { font-weight: bold; }\n\n/*итоги в представлении*/\n.total { text-align: right; font-weight: bold; }\n\n/*td - text decoration */\n.td-through { text-decoration: line-through }\n.td-underline { text-decoration: underline }\n.td-overline { text-decoration: overline }\n\n.cl-red { color: red; }\n.cl-yellow { color: yellow; }\n.cl-green { color: green; }\n.cl-skyblue { color: skyblue; }\n.cl-blue { color: blue; }\n.cl-violet { color: violet; }\n\n.cl-orange { color: orange; }\n.cl-lime { color: lime; }\n.cl-olive { color: olive; }\n.cl-fuchsia { color: fuchsia; }\n\n.cl-black { color: black; }\n.cl-white { color: white; }\n.cl-gray { color: gray; }\n.cl-grey { color: gray; }\n.cl-silver { color: silver; }\n.cl-brown { color: brown; }\n\n.cl-darkblue { color: darkblue; }\n.cl-darkcyan { color: darkcyan; }\n.cl-darkgoldenrod { color: darkgoldenrod; }\n.cl-darkgray { color: darkgray; }\n.cl-darkgreen { color: darkgreen; }\n.cl-darkgrey { color: darkgrey; }\n.cl-darkkhaki { color: darkkhaki; }\n.cl-darkmagenta { color: darkmagenta; }\n.cl-darkolivegreen { color: darkolivegreen; }\n.cl-darkorange { color: darkorange; }\n.cl-darkorchid { color: darkorchid; }\n.cl-darkred { color: darkred; }\n.cl-darksalmon { color: darksalmon; }\n.cl-darkseagreen { color: darkseagreen; }\n.cl-darkslateblue { color: darkslateblue; }\n.cl-darkslategray { color: darkslategray; }\n.cl-darkslategrey { color: darkslategrey; }\n.cl-darkturquoise { color: darkturquoise; }\n.cl-darkviolet { color: darkviolet; }\n.cl-dimgray { color: dimgrey; }\n\n.cl-lightblue { color: lightblue; }\n.cl-lightcoral { color: lightcoral; }\n.cl-lightcyan { color: lightcyan; }\n.cl-lightgray { color: lightgray; }\n.cl-lightgreen { color: lightgreen; }\n.cl-lightgrey { color: lightgrey; }\n.cl-lightpink { color: lightpink; }\n.cl-lightsalmon { color: lightsalmon; }\n.cl-lightseagreen { color: lightseagreen; }\n.cl-lightskyblue { color: lightskyblue; }\n.cl-lightsteelblue { color: lightsteelblue; }\n.cl-lightyellow { color: lightyellow; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 263 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(264);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(5)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js?importLoaders=1!./document.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js?importLoaders=1!./document.css");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
 /* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -60509,7 +60584,7 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
-exports.push([module.i, "/*\r\n@CHARSET \"UTF-8\";\r\nbody div.scroll {\r\n    width: 100%;\r\n    overflow: auto;\r\n}\r\n\r\n*/\r\n@media (min-width: 1200px){\r\n  .max-width-970{\r\n      max-width: 970px;\r\n  }\r\n  .max-width-1140{\r\n      max-width: 1140px;\r\n  }\r\n}", ""]);
+exports.push([module.i, "/*ta - text alignment*/\n.ta-center { text-align: center; }\n.ta-right { text-align: right; }\n\n/*fs - font style*/\n.fs-italic { font-style: italic; }\n\n/*fw - font weight*/\n.fw-bold { font-weight: bold; }\n\n/*итоги в представлении*/\n.total { text-align: right; font-weight: bold; }\n\n/*td - text decoration */\n.td-through { text-decoration: line-through }\n.td-underline { text-decoration: underline }\n.td-overline { text-decoration: overline }\n\n.cl-red { color: red; }\n.cl-yellow { color: yellow; }\n.cl-green { color: green; }\n.cl-skyblue { color: skyblue; }\n.cl-blue { color: blue; }\n.cl-violet { color: violet; }\n\n.cl-orange { color: orange; }\n.cl-lime { color: lime; }\n.cl-olive { color: olive; }\n.cl-fuchsia { color: fuchsia; }\n\n.cl-black { color: black; }\n.cl-white { color: white; }\n.cl-gray { color: gray; }\n.cl-grey { color: gray; }\n.cl-silver { color: silver; }\n.cl-brown { color: brown; }\n\n.cl-darkblue { color: darkblue; }\n.cl-darkcyan { color: darkcyan; }\n.cl-darkgoldenrod { color: darkgoldenrod; }\n.cl-darkgray { color: darkgray; }\n.cl-darkgreen { color: darkgreen; }\n.cl-darkgrey { color: darkgrey; }\n.cl-darkkhaki { color: darkkhaki; }\n.cl-darkmagenta { color: darkmagenta; }\n.cl-darkolivegreen { color: darkolivegreen; }\n.cl-darkorange { color: darkorange; }\n.cl-darkorchid { color: darkorchid; }\n.cl-darkred { color: darkred; }\n.cl-darksalmon { color: darksalmon; }\n.cl-darkseagreen { color: darkseagreen; }\n.cl-darkslateblue { color: darkslateblue; }\n.cl-darkslategray { color: darkslategray; }\n.cl-darkslategrey { color: darkslategrey; }\n.cl-darkturquoise { color: darkturquoise; }\n.cl-darkviolet { color: darkviolet; }\n.cl-dimgray { color: dimgrey; }\n\n.cl-lightblue { color: lightblue; }\n.cl-lightcoral { color: lightcoral; }\n.cl-lightcyan { color: lightcyan; }\n.cl-lightgray { color: lightgray; }\n.cl-lightgreen { color: lightgreen; }\n.cl-lightgrey { color: lightgrey; }\n.cl-lightpink { color: lightpink; }\n.cl-lightsalmon { color: lightsalmon; }\n.cl-lightseagreen { color: lightseagreen; }\n.cl-lightskyblue { color: lightskyblue; }\n.cl-lightsteelblue { color: lightsteelblue; }\n.cl-lightyellow { color: lightyellow; }\n", ""]);
 
 // exports
 
@@ -60530,8 +60605,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js?importLoaders=1!./form.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js?importLoaders=1!./form.css");
+		module.hot.accept("!!../../node_modules/css-loader/index.js?importLoaders=1!./document.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js?importLoaders=1!./document.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -60549,7 +60624,7 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
-exports.push([module.i, "@CHARSET \"UTF-8\";\r\n\r\n@media (min-width: 1200px){\r\n    .formBox.container.formBoxDefault{\r\n        width: 970px;\r\n    }\r\n}\r\n.formBox{\r\n    /*margin-top: 30px;*/\r\n}\r\n.modal-content .formBox {\r\n    margin-top: 0px;\r\n}\r\n\r\n.formBoxBorder {\r\n    padding: 1em;\r\n    border-radius: 0.25rem;\r\n    border: 1px solid rgba(0, 0, 0, 0.125);\r\n}\r\n\r\n.formBox form{\r\n    border: 1px solid #d8d8d8;\r\n    padding: 15px;\r\n    border-radius: 3px;\r\n}\r\n.modal-content .formBox form{\r\n    border: none;\r\n    padding: 0;\r\n}\r\n\r\n/*.formBox .formActions {\r\n    text-align: center;\r\n}\r\n.formBox .formActions button.formAction {\r\n    display: inline;\r\n    padding: 8px;\r\n    margin: 4px;\r\n    background-color: #DDDDDD;\r\n    cursor: pointer;\r\n    border: none;\r\n    border-radius: 4px;\r\n}\r\n.formBox .formActions button.formAction:hover {\r\n    background-color: #AACCCC;\r\n}\r\n.formBox .formActions button.formAction:active {\r\n    background-color: #40CCCC;\r\n}\r\n.formBox {\r\n    width: 100%;\r\n    padding: 1em;\r\n    border-radius: 0.25rem;\r\n    border: 1px solid rgba(0, 0, 0, 0.125);\r\n    margin-top: 0.5em;\r\n}\r\n\r\n.formBox fieldset {\r\n    margin: 0 1em 1em;\r\n}\r\n.formBox fieldset:first-child {\r\n    margin-top: 1em;\r\n}\r\n\r\n.formBox .formField {\r\n    width: 100%;\r\n    clear: both;\r\n    overflow: auto;\r\n    background-color: #F8F8F8;\r\n    margin: 4px;\r\n    padding: 4px;\r\n    border-radius: 4px;\r\n    position: relative;\r\n}\r\n.formBox .formField:nth-child(odd):not(:hover) {\r\n    background-color: #E0E0F8;\r\n}\r\n.formBox .formField:nth-child(even):not(:hover) {\r\n    background-color: #E0F8E0;\r\n}\r\n.formBox .formField:hover {\r\n    background-color: #D0D0D0;\r\n}\r\n.formBox .formField .formLabel {\r\n    width: 25%;\r\n    word-break: break-all;\r\n    float: left;\r\n}\r\n.formBox .formField input, .formBox .formField select, .formBox .formField textarea {\r\n    width: 70%;\r\n}\r\n\r\n.linkBack {\r\n    margin-top: 1em;\r\n}\r\n\r\n.formBox label {\r\n    margin-bottom: 2px;\r\n}\r\n\r\n.formBox [type=\"checkbox\"],\r\n.formBox [type=\"radio\"]{\r\n    float: left;\r\n    top: 3px;\r\n    position: relative;\r\n    margin-right: 5px;\r\n}\r\n\r\n.formBox .formGroup {\r\n    border-top: 1px solid rgba(0, 0, 0, 0.125);\r\n    padding: 1.4em 0em 1.1em;\r\n    position: relative;\r\n}\r\n\r\n.formBox .formGroup:first-child{\r\n    border: none;\r\n}\r\n\r\n.formBox .formGroup h3 {\r\n    top: -0.8em;\r\n    position: absolute;\r\n    background-color: white;\r\n    padding: 3pt;\r\n    font-size: 1.3em;\r\n    margin: 0px 1em 0;\r\n}\r\n\r\n.form-group .form-control-static {\r\n    min-height: 0;\r\n    border-radius: 4px;\r\n    font-weight: bold;\r\n    padding: 0;\r\n    margin-bottom: 0;\r\n}\r\n*/", ""]);
+exports.push([module.i, "/*\r\n@CHARSET \"UTF-8\";\r\nbody div.scroll {\r\n    width: 100%;\r\n    overflow: auto;\r\n}\r\n\r\n*/\r\n@media (min-width: 1200px){\r\n  .max-width-970{\r\n      max-width: 970px;\r\n  }\r\n  .max-width-1140{\r\n      max-width: 1140px;\r\n  }\r\n}", ""]);
 
 // exports
 
@@ -60570,8 +60645,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js?importLoaders=1!./table.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js?importLoaders=1!./table.css");
+		module.hot.accept("!!../../node_modules/css-loader/index.js?importLoaders=1!./form.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js?importLoaders=1!./form.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -60589,7 +60664,7 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
-exports.push([module.i, "@CHARSET \"UTF-8\";\r\n.rowCheckbox {\r\n    margin: 0 !important;\r\n    top: 2px;\r\n    position: relative;\r\n}\r\n.rowIndex {\r\n    display: inline;\r\n    font-size: 100%;\r\n}\r\n.ta-left {\r\n    text-align: left;\r\n}\r\n.ta-right {\r\n    text-align: right;\r\n}\r\n.ta-center {\r\n    text-align: center;\r\n}\r\n.td-strong{\r\n    font-weight: bold;\r\n}\r\n#quickColumns span {\r\n    padding: 0 8px 0 0;\r\n    display: inline-block;\r\n}\r\n#quickColumns input {\r\n  top: 2px;\r\n  position: relative;\r\n  margin-right: 3px;\r\n}\r\n\r\ntable.dataTable {\r\n  width: auto;\r\n  margin: 0;\r\n}\r\n\r\n.table-reload {\r\n  opacity: 0.7;\r\n  padding: 4px 4px;\r\n  cursor: pointer;\r\n}\r\n\r\n.table-reload:hover {\r\n  opacity: 1;\r\n}\r\n\r\n.table-reload.active{\r\n  opacity: 0.2;\r\n}\r\n\r\n.operationList {\r\n    list-style-type: none;\r\n    margin: 0;\r\n    padding: 0;\r\n    margin-bottom: 10px;\r\n}\r\n.operationList a {\r\n    margin-bottom: 4px;\r\n}\r\n.operationBtn {\r\n    display: inline-block;\r\n    padding: 8px;\r\n    margin: 4px;\r\n    background-color: #DDDDDD;\r\n    cursor: pointer;\r\n    border-radius: 4px;\r\n    color: black;\r\n    text-decoration: none;\r\n}\r\n.operationBtn:hover {\r\n    background-color: #AACCCC;\r\n}\r\n.operationBtn:active {\r\n    background-color: #40CCCC;\r\n}\r\n.operationBtn.disabled {\r\n    color: gray;\r\n    cursor: default;\r\n}\r\n.operationBtn.disabled:hover {\r\n    background-color: #DDDDDD;\r\n}\r\n.operationBtn.disabled:active {\r\n    background-color: #DDDDDD;\r\n}\r\n\r\n/****** table.dataTable ******/\r\n#quickColumns {\r\n    margin: 0.7em 0;\r\n}\r\n.dataTables_wrapper .dataTables_info {\r\n    padding: 0.7em 0 0;\r\n}\r\ntable.dataTable tfoot th, table.dataTable thead th{\r\n    font-size: 13px;\r\n}\r\ntable.dataTable.compact tbody th,\r\ntable.dataTable.compact tbody td {\r\n    padding: 4px;\r\n    border-right: 1px solid #efefef;\r\n}\r\ntable.dataTable.compact tbody th:first-child,\r\ntable.dataTable.compact tbody td:first-child {\r\n    padding: 4px;\r\n    border-left: 1px solid #efefef;\r\n}\r\n\r\ntable.dataTable thead th,\r\ntable.dataTable thead td {\r\n    border-bottom: 1px solid #d8d8d8;\r\n}\r\n\r\ntable.dataTable,\r\ntable.dataTable.no-footer{\r\n    border: 1px solid #d8d8d8;\r\n}\r\ntable.dataTable.compact th {\r\n    border-bottom-width: 2px;\r\n}\r\ntable.dataTable.compact tfoot th, table.dataTable.compact tfoot td {\r\n    padding: 4px;\r\n}\r\ntable.dataTable tfoot th, table.dataTable tfoot td {\r\n    border-top: 2px solid #d8d8d8;\r\n}\r\ntable.dataTable.compact tbody td:last-child {\r\n    border-right: 0;\r\n}\r\ntable.dataTable.display tbody tr td:first-child {\r\n    border-left: 0;\r\n}", ""]);
+exports.push([module.i, "@CHARSET \"UTF-8\";\r\n\r\n@media (min-width: 1200px){\r\n    .formBox.container.formBoxDefault{\r\n        width: 970px;\r\n    }\r\n}\r\n.formBox{\r\n    /*margin-top: 30px;*/\r\n}\r\n.modal-content .formBox {\r\n    margin-top: 0px;\r\n}\r\n\r\n.formBoxBorder {\r\n    padding: 1em;\r\n    border-radius: 0.25rem;\r\n    border: 1px solid rgba(0, 0, 0, 0.125);\r\n}\r\n\r\n.formBox form{\r\n    border: 1px solid #d8d8d8;\r\n    padding: 15px;\r\n    border-radius: 3px;\r\n}\r\n.modal-content .formBox form{\r\n    border: none;\r\n    padding: 0;\r\n}\r\n\r\n/*.formBox .formActions {\r\n    text-align: center;\r\n}\r\n.formBox .formActions button.formAction {\r\n    display: inline;\r\n    padding: 8px;\r\n    margin: 4px;\r\n    background-color: #DDDDDD;\r\n    cursor: pointer;\r\n    border: none;\r\n    border-radius: 4px;\r\n}\r\n.formBox .formActions button.formAction:hover {\r\n    background-color: #AACCCC;\r\n}\r\n.formBox .formActions button.formAction:active {\r\n    background-color: #40CCCC;\r\n}\r\n.formBox {\r\n    width: 100%;\r\n    padding: 1em;\r\n    border-radius: 0.25rem;\r\n    border: 1px solid rgba(0, 0, 0, 0.125);\r\n    margin-top: 0.5em;\r\n}\r\n\r\n.formBox fieldset {\r\n    margin: 0 1em 1em;\r\n}\r\n.formBox fieldset:first-child {\r\n    margin-top: 1em;\r\n}\r\n\r\n.formBox .formField {\r\n    width: 100%;\r\n    clear: both;\r\n    overflow: auto;\r\n    background-color: #F8F8F8;\r\n    margin: 4px;\r\n    padding: 4px;\r\n    border-radius: 4px;\r\n    position: relative;\r\n}\r\n.formBox .formField:nth-child(odd):not(:hover) {\r\n    background-color: #E0E0F8;\r\n}\r\n.formBox .formField:nth-child(even):not(:hover) {\r\n    background-color: #E0F8E0;\r\n}\r\n.formBox .formField:hover {\r\n    background-color: #D0D0D0;\r\n}\r\n.formBox .formField .formLabel {\r\n    width: 25%;\r\n    word-break: break-all;\r\n    float: left;\r\n}\r\n.formBox .formField input, .formBox .formField select, .formBox .formField textarea {\r\n    width: 70%;\r\n}\r\n\r\n.linkBack {\r\n    margin-top: 1em;\r\n}\r\n\r\n.formBox label {\r\n    margin-bottom: 2px;\r\n}\r\n\r\n.formBox [type=\"checkbox\"],\r\n.formBox [type=\"radio\"]{\r\n    float: left;\r\n    top: 3px;\r\n    position: relative;\r\n    margin-right: 5px;\r\n}\r\n\r\n.formBox .formGroup {\r\n    border-top: 1px solid rgba(0, 0, 0, 0.125);\r\n    padding: 1.4em 0em 1.1em;\r\n    position: relative;\r\n}\r\n\r\n.formBox .formGroup:first-child{\r\n    border: none;\r\n}\r\n\r\n.formBox .formGroup h3 {\r\n    top: -0.8em;\r\n    position: absolute;\r\n    background-color: white;\r\n    padding: 3pt;\r\n    font-size: 1.3em;\r\n    margin: 0px 1em 0;\r\n}\r\n\r\n.form-group .form-control-static {\r\n    min-height: 0;\r\n    border-radius: 4px;\r\n    font-weight: bold;\r\n    padding: 0;\r\n    margin-bottom: 0;\r\n}\r\n*/", ""]);
 
 // exports
 
@@ -60610,8 +60685,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js?importLoaders=1!./formWizard.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js?importLoaders=1!./formWizard.css");
+		module.hot.accept("!!../../node_modules/css-loader/index.js?importLoaders=1!./table.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js?importLoaders=1!./table.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -60629,7 +60704,7 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
-exports.push([module.i, ".progtrckr {\n    list-style-type: none;\n    padding: 0;\n    background-color: #f9f9f9;\n    border: 1px solid #d4d4d4;\n    -webkit-border-radius: 4px;\n    -moz-border-radius: 4px;\n    border-radius: 4px;\n    background: #f5f5f5;\n}\n\n.progtrckr li em {\n    color: #fff;\n    background: #00bca4;\n    display: none;\n}\n\n.progtrckr li {\n    position: relative;\n    float: left;\n    padding: 11px;\n    padding-left: 20px;\n    margin-right: 0px;\n    position: relative;\n    color: #000;\n    cursor: default;\n\n}\n\n.progtrckr li:first-child {\n    padding-left: 15px;\n    border-radius: 4px 0 0 4px;\n}\n\n.progtrckr li:before {\n    position: absolute;\n    top: 0px;\n    right: -13px;\n    display: block;\n    border: 22px solid transparent;\n    border-right: 0;\n    border-left: 14px solid #f5f5f5;\n    content: \"\";\n    z-index: 1\n}\n\n.progtrckr li.progtrckr-doing {\n    color: #ffffff;\n    background: #0275d8;\n}\n\n.progtrckr li.progtrckr-doing:before {\n    position: absolute;\n    top: 0px;\n    right: -13px;\n    display: block;\n    border: 22px solid transparent;\n    border-right: 0;\n    border-left: 14px solid #0275d8;\n    content: \"\";\n    z-index: 1\n}\n\n.progtrckr li.progtrckr-done {\n    color: #ffffff;\n    background: #01cc52;\n}\n\n.progtrckr li.progtrckr-done:before {\n    border: 22px solid transparent;\n    border-right: 0;\n    border-left: 14px solid #01cc52;\n}\n\n.formWizard .footer-buttons{\n  text-align: center;\n  margin-top: 5rem;\n  margin-bottom: 5rem;\n}\n\nlabel {\n    width: 100%;\n}\n\n/************************************************************/\n\n.formWizard .form-component__title {\n/*    display: none;*/\n}\n.formWizard .table-component__title {\n    display: none;\n}\n\n.progtrckr li small{\n  display: none;\n}\n", ""]);
+exports.push([module.i, "@CHARSET \"UTF-8\";\r\n.rowCheckbox {\r\n    margin: 0 !important;\r\n    top: 2px;\r\n    position: relative;\r\n}\r\n.rowIndex {\r\n    display: inline;\r\n    font-size: 100%;\r\n}\r\n.ta-left {\r\n    text-align: left;\r\n}\r\n.ta-right {\r\n    text-align: right;\r\n}\r\n.ta-center {\r\n    text-align: center;\r\n}\r\n.td-strong{\r\n    font-weight: bold;\r\n}\r\n#quickColumns span {\r\n    padding: 0 8px 0 0;\r\n    display: inline-block;\r\n}\r\n#quickColumns input {\r\n  top: 2px;\r\n  position: relative;\r\n  margin-right: 3px;\r\n}\r\n\r\ntable.dataTable {\r\n  width: auto;\r\n  margin: 0;\r\n}\r\n\r\n.table-reload {\r\n  opacity: 0.7;\r\n  padding: 4px 4px;\r\n  cursor: pointer;\r\n}\r\n\r\n.table-reload:hover {\r\n  opacity: 1;\r\n}\r\n\r\n.table-reload.active{\r\n  opacity: 0.2;\r\n}\r\n\r\n.operationList {\r\n    list-style-type: none;\r\n    margin: 0;\r\n    padding: 0;\r\n    margin-bottom: 10px;\r\n}\r\n.operationList a {\r\n    margin-bottom: 4px;\r\n}\r\n.operationBtn {\r\n    display: inline-block;\r\n    padding: 8px;\r\n    margin: 4px;\r\n    background-color: #DDDDDD;\r\n    cursor: pointer;\r\n    border-radius: 4px;\r\n    color: black;\r\n    text-decoration: none;\r\n}\r\n.operationBtn:hover {\r\n    background-color: #AACCCC;\r\n}\r\n.operationBtn:active {\r\n    background-color: #40CCCC;\r\n}\r\n.operationBtn.disabled {\r\n    color: gray;\r\n    cursor: default;\r\n}\r\n.operationBtn.disabled:hover {\r\n    background-color: #DDDDDD;\r\n}\r\n.operationBtn.disabled:active {\r\n    background-color: #DDDDDD;\r\n}\r\n\r\n/****** table.dataTable ******/\r\n#quickColumns {\r\n    margin: 0.7em 0;\r\n}\r\n.dataTables_wrapper .dataTables_info {\r\n    padding: 0.7em 0 0;\r\n}\r\ntable.dataTable tfoot th, table.dataTable thead th{\r\n    font-size: 13px;\r\n}\r\ntable.dataTable.compact tbody th,\r\ntable.dataTable.compact tbody td {\r\n    padding: 4px;\r\n    border-right: 1px solid #efefef;\r\n}\r\ntable.dataTable.compact tbody th:first-child,\r\ntable.dataTable.compact tbody td:first-child {\r\n    padding: 4px;\r\n    border-left: 1px solid #efefef;\r\n}\r\n\r\ntable.dataTable thead th,\r\ntable.dataTable thead td {\r\n    border-bottom: 1px solid #d8d8d8;\r\n}\r\n\r\ntable.dataTable,\r\ntable.dataTable.no-footer{\r\n    border: 1px solid #d8d8d8;\r\n}\r\ntable.dataTable.compact th {\r\n    border-bottom-width: 2px;\r\n}\r\ntable.dataTable.compact tfoot th, table.dataTable.compact tfoot td {\r\n    padding: 4px;\r\n}\r\ntable.dataTable tfoot th, table.dataTable tfoot td {\r\n    border-top: 2px solid #d8d8d8;\r\n}\r\ntable.dataTable.compact tbody td:last-child {\r\n    border-right: 0;\r\n}\r\ntable.dataTable.display tbody tr td:first-child {\r\n    border-left: 0;\r\n}", ""]);
 
 // exports
 
@@ -60650,8 +60725,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js?importLoaders=1!./propertySet.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js?importLoaders=1!./propertySet.css");
+		module.hot.accept("!!../../node_modules/css-loader/index.js?importLoaders=1!./formWizard.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js?importLoaders=1!./formWizard.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -60669,7 +60744,7 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
-exports.push([module.i, ".property-error .help-block{\n  color: #920000;\n}\n\n.property-group {\n  border-top: 1px solid rgb(216, 216, 216);\n  border-bottom: 1px solid rgb(216, 216, 216);\n  margin-top: 1.2em;\n  margin-bottom: 1.2em;\n  position: relative;\n  padding-top: 1em;\n  padding-bottom: 1em;\n}\n\n.property-groop-box {\n\n}\n\n.property-group:first-child{\n  border-top: none;\n}\n\n.property-group h3 {\n  top: -0.8em;\n  position: absolute;\n  background-color: white;\n  padding: 3pt;\n  /*font-size: 1.6em;*/\n  margin: 0 0 0 -3px;\n}\n\n.form-control-feedback {\n  font-size: 0.875em;\n}\n\n.has-danger .form-control-feedback {\n  color:#b90000;\n}\n\n.form-group.required .form-control-label:after,\n.form-check.required .form-check-label:after{\n  content:\"*\";\n  color:#b90000;\n  margin-left: 2px;\n}\n\n.property-label .form-control-label {\n  margin: 0;\n}\n\n/*.form-group.required .form-control-label,\n.form-check.required .form-check-label{\n  font-weight: bold;\n}*/", ""]);
+exports.push([module.i, ".progtrckr {\n    list-style-type: none;\n    padding: 0;\n    background-color: #f9f9f9;\n    border: 1px solid #d4d4d4;\n    -webkit-border-radius: 4px;\n    -moz-border-radius: 4px;\n    border-radius: 4px;\n    background: #f5f5f5;\n}\n\n.progtrckr li em {\n    color: #fff;\n    background: #00bca4;\n    display: none;\n}\n\n.progtrckr li {\n    position: relative;\n    float: left;\n    padding: 11px;\n    padding-left: 20px;\n    margin-right: 0px;\n    position: relative;\n    color: #000;\n    cursor: default;\n\n}\n\n.progtrckr li:first-child {\n    padding-left: 15px;\n    border-radius: 4px 0 0 4px;\n}\n\n.progtrckr li:before {\n    position: absolute;\n    top: 0px;\n    right: -13px;\n    display: block;\n    border: 22px solid transparent;\n    border-right: 0;\n    border-left: 14px solid #f5f5f5;\n    content: \"\";\n    z-index: 1\n}\n\n.progtrckr li.progtrckr-doing {\n    color: #ffffff;\n    background: #0275d8;\n}\n\n.progtrckr li.progtrckr-doing:before {\n    position: absolute;\n    top: 0px;\n    right: -13px;\n    display: block;\n    border: 22px solid transparent;\n    border-right: 0;\n    border-left: 14px solid #0275d8;\n    content: \"\";\n    z-index: 1\n}\n\n.progtrckr li.progtrckr-done {\n    color: #ffffff;\n    background: #01cc52;\n}\n\n.progtrckr li.progtrckr-done:before {\n    border: 22px solid transparent;\n    border-right: 0;\n    border-left: 14px solid #01cc52;\n}\n\n.formWizard .footer-buttons{\n  text-align: center;\n  margin-top: 5rem;\n  margin-bottom: 5rem;\n}\n\nlabel {\n    width: 100%;\n}\n\n/************************************************************/\n\n.formWizard .form-component__title {\n/*    display: none;*/\n}\n.formWizard .table-component__title {\n    display: none;\n}\n\n.progtrckr li small{\n  display: none;\n}\n", ""]);
 
 // exports
 
@@ -60690,8 +60765,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js?importLoaders=1!./errorPane.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js?importLoaders=1!./errorPane.css");
+		module.hot.accept("!!../../node_modules/css-loader/index.js?importLoaders=1!./propertySet.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js?importLoaders=1!./propertySet.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -60709,7 +60784,7 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
-exports.push([module.i, ".errorPane__title {\n    color: #c70000;\n}\n.errorPane__code {\n    color: black;\n    white-space: pre-wrap;\n    white-space: -moz-pre-wrap;\n    white-space: -pre-wrap;\n    white-space: -o-pre-wrap;\n    word-wrap: break-word;\n}", ""]);
+exports.push([module.i, ".property-error .help-block{\n  color: #920000;\n}\n\n.property-group {\n  border-top: 1px solid rgb(216, 216, 216);\n  margin-top: 1.2em;\n  padding-top: 1em;\n  position: relative;\n}\n\n.property-groop-box {\n\n}\n\n.property-group:first-child{\n  border-top: none;\n}\n\n.property-group h3 {\n  top: -1em;\n  position: absolute;\n  background-color: white;\n  padding: 3pt;\n  /*font-size: 1.6em;*/\n  margin: 0 0 0 -3px;\n}\n\n.form-control-feedback {\n  font-size: 0.875em;\n}\n\n.has-danger .form-control-feedback {\n  color:#b90000;\n}\n\n.form-group.required .form-control-label:after,\n.form-check.required .form-check-label:after{\n  content:\"*\";\n  color:#b90000;\n  margin-left: 2px;\n}\n\n.property-label .form-control-label {\n  margin: 0;\n}\n\n/*.form-group.required .form-control-label,\n.form-check.required .form-check-label{\n  font-weight: bold;\n}*/", ""]);
 
 // exports
 
@@ -60730,8 +60805,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js?importLoaders=1!./main.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js?importLoaders=1!./main.css");
+		module.hot.accept("!!../../node_modules/css-loader/index.js?importLoaders=1!./errorPane.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js?importLoaders=1!./errorPane.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -60749,7 +60824,47 @@ exports = module.exports = __webpack_require__(4)();
 
 
 // module
-exports.push([module.i, "/*******************************************************/\n/* colors                                              */\n/*******************************************************/\n.Pane1 {\n    overflow: auto;\n}\n\n.Pane2 {\n    overflow: auto;\n}\n.Pane.vertical.pane1 {\n    background: #f8f8f8;\n}\n.side {\n    padding: 15px;\n}\n#document-content___MainDocument {\n    padding: 15px;\n}\n.document-content {\n    position: relative;\n    margin-bottom: 15px;\n}\n.alert .document-content {\n    margin-bottom: 0;\n}\na.menuItemWithRef {\n    color: #5b5b5b;\n}\n\n/*******************************************************/\n/* egisso colors                                       */\n/*******************************************************/\n/*.dataTable thead{\n    background: #4181f4;\n    color: #fff;\n    font-weight: normal;\n}\ntable.dataTable,\ntable.dataTable.no-footer{\n    border: 1px solid #4181f4;\n}\n.td-strong {\n    font-weight: normal;\n}\n\ntable.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {\n    background: #fff;\n}\ntable.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr{\n    background: #f9f9f9;\n}\n.Pane {\n    background: #f2f2f2;\n}\na.menuItemWithRef {\n    color: #5b5b5b;\n}\n.progtrckr {\n    background: #ffffff;\n}\n.formBox form{\n    border: 1px solid #d8d8d8;\n    padding: 15px;\n    background: #fff;\n    border-radius: 3px;\n}\n*/\n/****** Select ******/\n.Select-placeholder, .Select--single > .Select-control .Select-value{\n    line-height: 30px;\n}\n.Select-control, .Select-input{\n    height: 30px;\n    font-size: 14px;\n}\n.Select-clear {\n    font-size: 14px;\n}\n.Select-option {\n    font-size: 14px;\n    padding: 4px 10px;\n}\n.Select--multi .Select-value{\n    margin-top: 4px;\n}\n.Select-input > input{\n    line-height: 30px;\n    padding: 0px 0 0px;\n}\n/*\n.Select-value-label:hover {\n    white-space: inherit;\n}\n.Select-value-label {\n    white-space: nowrap;\n    overflow: hidden;\n    max-width: 350px;\n}\n*/\n/****** error-loader ******/\n.document-loader.error {\n    background: #f10000;\n}\n.document-loader.error:before {\n    display: none;\n}\n/************/\n.lower-alpha{\n    list-style-type: lower-alpha;\n}\n.navs-component .nav {\n    margin-bottom: 15px;\n}\n\n.show-modal-btn{\n    margin-top: 10px;\n}\n\n.btn-secondary-old {\n    color: #373a3c;\n    background-color: #fff;\n    border-color: #ccc; }\n.btn-secondary-old:hover {\n    color: #373a3c;\n    background-color: #e6e6e6;\n    border-color: #adadad; }\n.btn-secondary-old:focus, .btn-secondary-old.focus {\n    color: #373a3c;\n    background-color: #e6e6e6;\n    border-color: #adadad; }\n.btn-secondary-old:active, .btn-secondary-old.active,\n.open > .btn-secondary-old.dropdown-toggle {\n    color: #373a3c;\n    background-color: #e6e6e6;\n    border-color: #adadad;\n    background-image: none; }\n.btn-secondary-old:active:hover, .btn-secondary-old:active:focus, .btn-secondary-old:active.focus, .btn-secondary-old.active:hover, .btn-secondary-old.active:focus, .btn-secondary-old.active.focus,\n.open > .btn-secondary-old.dropdown-toggle:hover,\n.open > .btn-secondary-old.dropdown-toggle:focus,\n.open > .btn-secondary-old.dropdown-toggle.focus {\n    color: #373a3c;\n    background-color: #d4d4d4;\n    border-color: #8c8c8c; }\n.btn-secondary-old.disabled:focus, .btn-secondary-old.disabled.focus, .btn-secondary-old:disabled:focus, .btn-secondary-old:disabled.focus {\n    background-color: #fff;\n    border-color: #ccc;\n    box-shadow: none;\n}\n.btn-secondary-old.disabled:hover, .btn-secondary-old:disabled:hover {\n    background-color: #fff;\n    border-color: #ccc; }\n.btn-secondary-old.disabled, .btn-secondary-old:disabled {\n    opacity: .65;\n    color: #373a3c;\n    background-color: #fff;\n    border-color: #ccc;\n}", ""]);
+exports.push([module.i, ".errorPane__title {\n  color: #c70000;\n}\n.errorPane__code {\n  color: black;\n  white-space: pre-wrap;\n  white-space: -moz-pre-wrap;\n  white-space: -pre-wrap;\n  white-space: -o-pre-wrap;\n  word-wrap: break-word;\n}\n\n.errorPane__code code {\n  display: block;\n  background: #f9f9f9;\n  border: 1px solid #ddd;\n  padding: 7px;\n  border-radius: 3px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 277 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(278);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(5)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js?importLoaders=1!./main.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js?importLoaders=1!./main.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 278 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(4)();
+// imports
+
+
+// module
+exports.push([module.i, "/*******************************************************/\n/* colors                                              */\n/*******************************************************/\n.Pane1 {\n    overflow: auto;\n}\n\n.Pane2 {\n    overflow: auto;\n}\n.Pane.vertical.pane1 {\n    background: #f8f8f8;\n}\n.side {\n    padding: 15px;\n}\n#document-content___MainDocument {\n    padding: 15px;\n}\n.document-content {\n    position: relative;\n    margin-bottom: 15px;\n}\n.alert .document-content {\n    margin-bottom: 0;\n}\na.menuItemWithRef {\n    color: #5b5b5b;\n}\n\n#app .css-hx30u2 {\n  width: 350px;\n}\n#app .css-6bx4c3 {\n  text-transform: none;\n  font-size: 1.1em;\n}\n/*******************************************************/\n/* egisso colors                                       */\n/*******************************************************/\n/*.dataTable thead{\n    background: #4181f4;\n    color: #fff;\n    font-weight: normal;\n}\ntable.dataTable,\ntable.dataTable.no-footer{\n    border: 1px solid #4181f4;\n}\n.td-strong {\n    font-weight: normal;\n}\n\ntable.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {\n    background: #fff;\n}\ntable.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr{\n    background: #f9f9f9;\n}\n.Pane {\n    background: #f2f2f2;\n}\na.menuItemWithRef {\n    color: #5b5b5b;\n}\n.progtrckr {\n    background: #ffffff;\n}\n.formBox form{\n    border: 1px solid #d8d8d8;\n    padding: 15px;\n    background: #fff;\n    border-radius: 3px;\n}\n*/\n/****** Select ******/\n.Select-placeholder, .Select--single > .Select-control .Select-value{\n    line-height: 30px;\n}\n.Select-control, .Select-input{\n    height: 30px;\n    font-size: 14px;\n}\n.Select-clear {\n    font-size: 14px;\n}\n.Select-option {\n    font-size: 14px;\n    padding: 4px 10px;\n}\n.Select--multi .Select-value{\n    margin-top: 4px;\n}\n.Select-input > input{\n    line-height: 30px;\n    padding: 0px 0 0px;\n}\n/*\n.Select-value-label:hover {\n    white-space: inherit;\n}\n.Select-value-label {\n    white-space: nowrap;\n    overflow: hidden;\n    max-width: 350px;\n}\n*/\n/****** error-loader ******/\n.document-loader.error {\n    background: #f10000;\n}\n.document-loader.error:before {\n    display: none;\n}\n/************/\n.lower-alpha{\n    list-style-type: lower-alpha;\n}\n.navs-component .nav {\n    margin-bottom: 15px;\n}\n\n.show-modal-btn{\n    margin-top: 10px;\n}\n\n.btn-secondary-old {\n    color: #373a3c;\n    background-color: #fff;\n    border-color: #ccc; }\n.btn-secondary-old:hover {\n    color: #373a3c;\n    background-color: #e6e6e6;\n    border-color: #adadad; }\n.btn-secondary-old:focus, .btn-secondary-old.focus {\n    color: #373a3c;\n    background-color: #e6e6e6;\n    border-color: #adadad; }\n.btn-secondary-old:active, .btn-secondary-old.active,\n.open > .btn-secondary-old.dropdown-toggle {\n    color: #373a3c;\n    background-color: #e6e6e6;\n    border-color: #adadad;\n    background-image: none; }\n.btn-secondary-old:active:hover, .btn-secondary-old:active:focus, .btn-secondary-old:active.focus, .btn-secondary-old.active:hover, .btn-secondary-old.active:focus, .btn-secondary-old.active.focus,\n.open > .btn-secondary-old.dropdown-toggle:hover,\n.open > .btn-secondary-old.dropdown-toggle:focus,\n.open > .btn-secondary-old.dropdown-toggle.focus {\n    color: #373a3c;\n    background-color: #d4d4d4;\n    border-color: #8c8c8c; }\n.btn-secondary-old.disabled:focus, .btn-secondary-old.disabled.focus, .btn-secondary-old:disabled:focus, .btn-secondary-old:disabled.focus {\n    background-color: #fff;\n    border-color: #ccc;\n    box-shadow: none;\n}\n.btn-secondary-old.disabled:hover, .btn-secondary-old:disabled:hover {\n    background-color: #fff;\n    border-color: #ccc; }\n.btn-secondary-old.disabled, .btn-secondary-old:disabled {\n    opacity: .65;\n    color: #373a3c;\n    background-color: #fff;\n    border-color: #ccc;\n}", ""]);
 
 // exports
 

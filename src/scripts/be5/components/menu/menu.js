@@ -1,88 +1,10 @@
-import be5        from '../../be5';
-import _          from 'underscore';
-import MenuFooter from './menuFooter';
-import MenuNode   from './menuNode';
-import PropTypes            from 'prop-types';
 import React, { Component } from 'react';
+
+import MenuFooter  from './menuFooter';
+import MenuBody    from './MenuBody';
+import MenuSearchField from './MenuSearchField';
 import '../../../../css/menu.css';
 
-class SearchField extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { value: ''};
-
-    this._handleChange = this._handleChange.bind(this);
-  }
-
-  render() {
-    return (
-      <input type="text" className="searchField form-control" onChange={this._handleChange} value={this.state.value} placeholder={be5.messages.filter}/>
-    );
-  }
-
-  _handleChange(event) {
-    this.setState({ value: event.target.value });
-    this.props.onChange(event.target.value);
-  }
-}
-
-SearchField.propTypes = {
-  onChange: PropTypes.func.isRequired
-};
-
-class MenuBody extends Component{
-  constructor(props) {
-    super(props);
-    this.state = {root: [ { title: 'Loading...' } ], query: ''};
-
-    this._getFilteredRoot = this._getFilteredRoot.bind(this);
-  }
-
-  componentDidMount() {
-    this.refresh();
-  }
-
-  refresh() {
-    be5.net.request('menu', {}, data => {
-      this.setState(data);
-    });
-  }
-
-  render() {
-    const filteredRoot = this._getFilteredRoot();
-    const rootNodes = filteredRoot.map(node => (
-      <MenuNode key={JSON.stringify(node)} data={node} level={1}/>
-    ));
-    return (
-      <div className="menu">{rootNodes}</div>
-    );
-  }
-
-  _getFilteredRoot() {
-    const containsIgnoreCase = (str, substr) => {
-      return str.toLowerCase().indexOf(substr.toLowerCase()) !== -1;
-    };
-    const anyChildContainsIgnoreCase = (node, query) => {
-      if (containsIgnoreCase(node.title, query)) {
-        return true;
-      }
-      return node.children && _.any(node.children, child => anyChildContainsIgnoreCase(child, query));
-    };
-    const filterNodeContent = (node, query) => {
-      if (!node.children) {
-        return node;
-      }
-      return _.extend({}, node, { children: filterByTitle(node.children, query) });
-    };
-    const filterByTitle = (root, query) => {
-      return root
-        .filter(node => anyChildContainsIgnoreCase(node, query))
-        .map(node => filterNodeContent(node, query));
-    };
-
-    return filterByTitle(this.state.root, this.state.query);
-  }
-}
 
 class Menu extends Component{
   constructor(props) {
@@ -95,7 +17,7 @@ class Menu extends Component{
   render() {
     return (
       <div className="menuContainer">
-        <SearchField ref="searchfield" onChange={this._handleQueryChange}/>
+        <MenuSearchField ref="searchfield" onChange={this._handleQueryChange}/>
         <MenuBody ref="menubody"/>
         <MenuFooter/>
       </div>

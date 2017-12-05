@@ -45,6 +45,10 @@
   margin: 0;
 }
 
+.display-none{
+  display: none;
+}
+
 /*.form-group.required .form-control-label,
 .form-check.required .form-check-label{
   font-weight: bold;
