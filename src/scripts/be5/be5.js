@@ -246,9 +246,9 @@ const be5 = {
       document.location.hash = '';
     },
     
-    escapeComponent(hashUriComponent) {
-      return encodeURIComponent(hashUriComponent);
-    },
+    // escapeComponent(hashUriComponent) {
+    //   return encodeURIComponent(hashUriComponent);
+    // },
     
     create(action, positional = [], named = {}) {
       return be5.url.form([action].concat(positional), named);
@@ -257,10 +257,10 @@ const be5 = {
     form(positional, named = {}) {
       const res = [];
       for(var i=0; i<positional.length; i++) {
-        res.push(be5.url.escapeComponent(positional[i]));
+        res.push(positional[i]);
       }
       for(var key in named) {
-        res.push(be5.url.escapeComponent(key)+'='+be5.url.escapeComponent(named[key]));
+        res.push(key+'='+named[key]);
       }
       return res.join('/');
     },
