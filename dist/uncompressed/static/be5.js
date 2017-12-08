@@ -323,7 +323,7 @@ var be5 = {
     set: function set(loc, addMessages) {
       if (!loc) return;
       loc = loc.toLowerCase();
-      if (be5.locale.value == loc) return;
+      if (be5.locale.value === loc) return;
       be5.locale.value = loc;
       be5.messages = {};
       var newMessages = messages[loc];
@@ -333,9 +333,9 @@ var be5 = {
         if (msg === undefined) msg = defMessages[key];
         be5.messages[key] = msg;
       }
-      if (addMessages != null) {
-        for (var key in addMessages) {
-          be5.messages[key] = addMessages[key];
+      if (addMessages !== null) {
+        for (var _key in addMessages) {
+          be5.messages[_key] = addMessages[_key];
         }
       }
 
@@ -398,8 +398,8 @@ var be5 = {
 
   url: {
     set: function set(url) {
-      if (url.substring(0, 1) == '#') url = url.substring(1);
-      if (url.substring(0, 1) != '!') url = '!' + url;
+      if (url.substring(0, 1) === '#') url = url.substring(1);
+      if (url.substring(0, 1) !== '!') url = '!' + url;
       url = '#' + url;
       if (document.location.hash !== url) {
         document.location.hash = url;
@@ -414,9 +414,12 @@ var be5 = {
     clear: function clear() {
       document.location.hash = '';
     },
-    escapeComponent: function escapeComponent(hashUriComponent) {
-      return encodeURIComponent(hashUriComponent);
-    },
+
+
+    // escapeComponent(hashUriComponent) {
+    //   return encodeURIComponent(hashUriComponent);
+    // },
+
     create: function create(action) {
       var positional = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
       var named = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
@@ -428,10 +431,10 @@ var be5 = {
 
       var res = [];
       for (var i = 0; i < positional.length; i++) {
-        res.push(be5.url.escapeComponent(positional[i]));
+        res.push(positional[i]);
       }
       for (var key in named) {
-        res.push(be5.url.escapeComponent(key) + '=' + be5.url.escapeComponent(named[key]));
+        res.push(key + '=' + named[key]);
       }
       return res.join('/');
     },
@@ -455,8 +458,8 @@ var be5 = {
       if (url === '' || url === '#' || url === '#!') {
         _bus2.default.fire('CallDefaultAction');
       }
-      if (url.substring(0, 1) == '#') url = url.substring(1);
-      if (url.substring(0, 1) != '!') return;
+      if (url.substring(0, 1) === '#') url = url.substring(1);
+      if (url.substring(0, 1) !== '!') return;
       url = url.substring(1);
       if (url === '') {
         return;
@@ -11427,6 +11430,8 @@ var _default = {
               if (attributes.details === 'refreshAll') {
                 _be2.default.url.set("");
                 _bus2.default.fire('LoggedIn');
+              } else if (attributes.details.startsWith("http://") || attributes.details.startsWith("https://") || attributes.details.startsWith("ftp://")) {
+                window.location.href = attributes.details;
               } else {
                 if (documentName === _be2.default.documentName) {
                   _be2.default.url.set(attributes.details);
@@ -57626,13 +57631,22 @@ var Role = function (_Component) {
   }
 
   _createClass(Role, [{
+    key: 'toggleIsChecked',
+    value: function toggleIsChecked() {
+      if (this.state = { selectedRoles: this.props.selectedRoles }) {
+        this.setState({ isChecked: true });
+      } else if (this.state = { selectedRoles: this.props.selectedRoles }) {
+        this.setState({ isChecked: false });
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       var id = this.props.name + "-checkbox";
       return _react2.default.createElement(
         'div',
         { className: "role" },
-        _react2.default.createElement('input', { type: 'checkbox', id: id, checked: this.state.selectedRoles, onChange: this._onChange }),
+        _react2.default.createElement('input', { type: 'checkbox', id: id, checked: this.state.selectedRoles, onChange: this.toggleIsChecked(), onClick: this._onChange }),
         _react2.default.createElement(
           'label',
           { htmlFor: id },
@@ -57644,7 +57658,7 @@ var Role = function (_Component) {
   }, {
     key: '_onChange',
     value: function _onChange(e) {
-      this.setState({ selectedRoles: e.target.checked }, this.props.onChange);
+      this.setState({ selectedRoles: e.target.onClick }, this.props.onChange);
     }
   }]);
 
@@ -57677,7 +57691,7 @@ var RoleBox = function (_Component2) {
   _createClass(RoleBox, [{
     key: 'handleSelectAll',
     value: function handleSelectAll() {
-      this.onChange();
+      this._changeRoles(this.state.availableRoles.join(","));
     }
   }, {
     key: 'handleClear',
@@ -57766,7 +57780,6 @@ var RoleBox = function (_Component2) {
         return _this5.refs[name].state.selectedRoles;
       });
       this._changeRoles(roles.join(","));
-      console.log(this.state.availableRoles, roles);
     }
   }, {
     key: '_changeRoles',

@@ -16,26 +16,18 @@ class Role extends Component
     this._onChange = this._onChange.bind(this);
   }
 
-  toggleIsChecked () {
-    if (this.state = {selectedRoles : this.props.selectedRoles}) {
-      this.setState({isChecked: true})
-    } else if (this.state = {selectedRoles: this.props.selectedRoles}) {
-      this.setState({isChecked: false})
-    }
-  }
-
   render() {
     const id = this.props.name + "-checkbox";
     return (
       <div className={"role"}>
-        <input type="checkbox" id={id} checked={this.state.selectedRoles} onChange={this.toggleIsChecked()} onClick={this._onChange}/>
+        <input type="checkbox" id={id} checked={this.state.selectedRoles} onChange={this._onChange}/>
         <label htmlFor={id}><span className={"checkBox"}/>{this.props.name}</label>
       </div>
     )
   }
 
   _onChange(e) {
-    this.setState({ selectedRoles : e.target.onClick }, this.props.onChange);
+    this.setState({ selectedRoles : e.target.checked}, this.props.onChange);
   }
 }
 
@@ -59,11 +51,12 @@ class RoleBox extends Component {
 
 
   handleSelectAll() {
-    this._changeRoles(this.state.availableRoles.join(","))
+
+    this._changeRoles(this.state.availableRoles.join(","));
   }
 
   handleClear() {
-    this._changeRoles("")
+    this._changeRoles("");
   }
 
   render() {
@@ -109,6 +102,7 @@ class RoleBox extends Component {
   _onRoleChange() {
     let roles = this.state.availableRoles.filter(name => this.refs[name].state.selectedRoles);
     this._changeRoles(roles.join(","));
+    this.state = {selectedRoles: !this.props.selectedRoles};
   }
 
   _changeRoles(roles) {
