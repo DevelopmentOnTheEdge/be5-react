@@ -28,7 +28,7 @@ export default {
     }, (data)=> {
       bus.fire("alert", {msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error'});
       // changeDocument(documentName, {
-      //   component: 'text',
+      //
       //   error: true,
       //   value: be5.messages.errorServerQueryException.replace('$message', data.value.code)
       // });
@@ -42,7 +42,7 @@ export default {
 
     if(json.data !== undefined)
     {
-      if(reloadOrApply)changeDocument(documentName + "_errors", { component: 'text', value: "" } );
+      if(reloadOrApply)changeDocument(documentName + "_errors", { value: "" } );
 
       switch (json.data.type) {
         case 'form':
@@ -89,7 +89,7 @@ export default {
                 msg: be5.messages.errorUnknownAction.replace('$action', 'status = ' + attributes.status),
                 type: 'error'
               });
-            //changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'status = ' + attributes.status) });
+            //changeDocument(documentName, {  value: be5.messages.errorUnknownAction.replace('$action', 'status = ' + attributes.status) });
           }
           return;
         default:
@@ -97,7 +97,7 @@ export default {
             msg: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + json.data.attributes.type),
             type: 'error'
           });
-        //changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + json.data.attributes.type) });
+        //changeDocument(documentName, { value: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + json.data.attributes.type) });
       }
     }else{
       const error = json.errors[0];
@@ -119,6 +119,10 @@ export default {
       {
         changeDocument(documentName + "_errors", {component: ErrorPane, value: json.data.attributes.errorModel});
       }
+    }
+    else
+    {
+      changeDocument(documentName + "_errors", {value: ""});
     }
 
     const formComponentName = json.data.attributes.layout.type || 'form';

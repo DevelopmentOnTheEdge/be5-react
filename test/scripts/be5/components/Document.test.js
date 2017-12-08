@@ -14,7 +14,7 @@ test('text', () => {
 
     expect(component.toJSON()).toMatchSnapshot();
 
-    changeDocument('MainDocument', { component: 'text', value: "Page loaded." } );
+    changeDocument('MainDocument', { value: "Page loaded." } );
     expect(component.toJSON()).toMatchSnapshot();
 });
 

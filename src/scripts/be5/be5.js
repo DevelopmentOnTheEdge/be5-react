@@ -328,7 +328,7 @@ const be5 = {
         //changeDocument(documentName, { loading: true });
         action.apply(be5, positional);
       }else{
-        changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', actionName) });
+        changeDocument(documentName, { value: be5.messages.errorUnknownAction.replace('$action', actionName) });
         console.error(be5.messages.errorUnknownAction.replace('$action', actionName));
       }
     }
