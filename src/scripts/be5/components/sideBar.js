@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import be5              from '../be5';
 import LanguageSelector from './languageSelector';
 import RoleSelector     from './roleSelector';
 import Menu             from './menu/menu';
