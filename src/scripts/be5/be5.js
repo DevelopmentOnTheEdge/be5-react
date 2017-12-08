@@ -41,6 +41,7 @@ var messages = {
     
     filter: 'Filter...',
 
+    LogoutSuccessful: 'Logout successful',
     Name: 'Name',
     Password: 'Password',
     Login: 'Login',
@@ -88,6 +89,7 @@ var messages = {
 
     filter: 'Фильтр...',
 
+    LogoutSuccessful: 'Выход из системы - успешно',
     Name: 'Логин',
     Password: 'Пароль',
     Login: 'Авторизация',
