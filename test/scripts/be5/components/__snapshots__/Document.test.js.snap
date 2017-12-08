@@ -62,6 +62,10 @@ exports[`Form 1`] = `
         </div>
       </form>
       <br />
+    </div>
+    <div
+      className="col-12"
+    >
       <div
         className="document-content"
         id="document-content___undefined_errors"
