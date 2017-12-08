@@ -147,19 +147,19 @@ const be5 = {
     set(loc, addMessages) {
       if(!loc) return;
       loc = loc.toLowerCase();
-      if(be5.locale.value == loc) return;
+      if(be5.locale.value === loc) return;
       be5.locale.value = loc;
       be5.messages = {};
-      var newMessages = messages[loc];
-      var defMessages = messages.en;
-      for(var key in defMessages) {
-        var msg = newMessages[key];
+      let newMessages = messages[loc];
+      let defMessages = messages.en;
+      for(let key in defMessages) {
+        let msg = newMessages[key];
         if(msg === undefined)
           msg = defMessages[key];
         be5.messages[key] = msg;
       }
-      if(addMessages != null) {
-        for(var key in addMessages) {
+      if(addMessages !== null) {
+        for(let key in addMessages) {
           be5.messages[key] = addMessages[key];
         }
       }
@@ -215,7 +215,7 @@ const be5 = {
 //    },
     
     setTitle(docTitle) {
-      var titleComponents = [docTitle, be5.appInfo.title];
+      let titleComponents = [docTitle, be5.appInfo.title];
       document.title = titleComponents.filter(function(c) {
         return typeof(c) === 'string';
       }).join(' - ');
@@ -225,9 +225,9 @@ const be5 = {
 
   url: {
     set(url) {
-      if (url.substring(0, 1) == '#')
+      if (url.substring(0, 1) === '#')
         url = url.substring(1);
-      if (url.substring(0, 1) != '!')
+      if (url.substring(0, 1) !== '!')
         url = '!' + url;
       url = '#' + url;
       if(document.location.hash !== url){
@@ -238,7 +238,7 @@ const be5 = {
     },
     
     empty() {
-      var url = document.location.hash;
+      let url = document.location.hash;
       return url === '' || url === '#' || url === '!' || url === '#!';
     },
     
@@ -246,9 +246,9 @@ const be5 = {
       document.location.hash = '';
     },
     
-    escapeComponent(hashUriComponent) {
-      return encodeURIComponent(hashUriComponent);
-    },
+    // escapeComponent(hashUriComponent) {
+    //   return encodeURIComponent(hashUriComponent);
+    // },
     
     create(action, positional = [], named = {}) {
       return be5.url.form([action].concat(positional), named);
@@ -256,11 +256,11 @@ const be5 = {
     
     form(positional, named = {}) {
       const res = [];
-      for(var i=0; i<positional.length; i++) {
-        res.push(be5.url.escapeComponent(positional[i]));
+      for(let i=0; i<positional.length; i++) {
+        res.push(positional[i]);
       }
-      for(var key in named) {
-        res.push(be5.url.escapeComponent(key)+'='+be5.url.escapeComponent(named[key]));
+      for(let key in named) {
+        res.push(key+'='+named[key]);
       }
       return res.join('/');
     },
@@ -286,29 +286,29 @@ const be5 = {
       if (url === '' || url === '#' || url === '#!') {
         bus.fire('CallDefaultAction');
       }
-      if (url.substring(0, 1) == '#')
+      if (url.substring(0, 1) === '#')
         url = url.substring(1);
-      if (url.substring(0, 1) != '!')
+      if (url.substring(0, 1) !== '!')
         return;
       url = url.substring(1);
       if (url === '') {
         return;
       }
-      var urlParts = url.split('/');
+      let urlParts = url.split('/');
       // if (!be5.hasAction(urlParts[0])) {
       //   be5.log.error(be5.messages.errorUnknownAction.replace(
       //       '$action', urlParts[0]));
       //   return;
       // }
-      var positional = [documentName];
-      var hashParams = {};
-      var hasHashParam = false;
-      for (var i = 1; i < urlParts.length; i++) {
-        var urlPart = urlParts[i];
-        var pos = urlPart.indexOf('=');
+      let positional = [documentName];
+      let hashParams = {};
+      let hasHashParam = false;
+      for (let i = 1; i < urlParts.length; i++) {
+        let urlPart = urlParts[i];
+        let pos = urlPart.indexOf('=');
         if (pos >= 0) {
-          var name = decodeURIComponent(urlPart.substring(0, pos).replace(/\+/g, ' '));
-          var value = decodeURIComponent(urlPart.substring(pos + 1).replace(/\+/g, ' '));
+          let name = decodeURIComponent(urlPart.substring(0, pos).replace(/\+/g, ' '));
+          let value = decodeURIComponent(urlPart.substring(pos + 1).replace(/\+/g, ' '));
           hashParams[name] = value;
           hasHashParam = true;
         } else {

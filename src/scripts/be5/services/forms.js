@@ -65,6 +65,12 @@ export default {
                 be5.url.set("");
                 bus.fire('LoggedIn');
               }
+              else if(attributes.details.startsWith("http://")
+                      || attributes.details.startsWith("https://")
+                      || attributes.details.startsWith("ftp://"))
+              {
+                window.location.href = attributes.details;
+              }
               else
               {
                 if (documentName === be5.documentName) {
