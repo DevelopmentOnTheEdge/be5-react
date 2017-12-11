@@ -9,25 +9,14 @@ import '../../../css/roleSelector.css';
 
 class Role extends Component
 {
-  constructor(props) {
-    super(props);
-    this.state = {selectedRoles : this.props.selectedRoles};
-
-    this._onChange = this._onChange.bind(this);
-  }
-
   render() {
     const id = this.props.name + "-checkbox";
     return (
       <div className={"role"}>
-        <input type="checkbox" id={id} checked={this.state.selectedRoles} onChange={this._onChange} />
+        <input type="checkbox" id={id} checked={this.props.state} onChange={() => this.props.onChange()} />
         <label htmlFor={id}><span className={"checkBox"}/>{this.props.name}</label>
       </div>
     )
-  }
-
-  _onChange(e) {
-    this.setState({ selectedRoles : e.target.checked }, this.props.onChange);
   }
 }
 
@@ -64,7 +53,7 @@ class RoleBox extends Component {
     }
     const selectedRoles = this.state.selectedRoles;
     const roleNodes = this.state.availableRoles.map((role) =>
-      <Role key={role} ref={role} name={role} selectedRoles={selectedRoles.indexOf(role) !== -1} onChange={this._onRoleChange}/>
+      <Role key={role} ref={role} name={role} state={selectedRoles.indexOf(role) !== -1} onChange={() => this._onRoleChange(role)}/>
     );
 
     return (
@@ -98,10 +87,10 @@ class RoleBox extends Component {
     be5.net.request('roleSelector', {}, data => this.setState(data));
   }
 
-  _onRoleChange() {
-    let roles = this.state.availableRoles.filter(name => this.refs[name].state.selectedRoles);
-    this._changeRoles(roles.join(","));
-    console.log(this.state.availableRoles, roles)
+  _onRoleChange(name) {
+    // let roles = this.state.availableRoles.filter(name => this.refs[name].selectedRoles);
+     console.log(name);
+    // this._changeRoles(roles.join(","));
   }
 
   _changeRoles(roles) {
@@ -109,6 +98,7 @@ class RoleBox extends Component {
       this.setState(data);
       bus.fire('RoleChanged', {});
     });
+
   }
 }
 
