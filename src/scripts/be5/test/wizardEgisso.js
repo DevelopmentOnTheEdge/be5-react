@@ -1,15 +1,17 @@
 import React          from 'react';
-import {be5, changeDocument, FormWizard} from 'be5-react';
+import be5            from '../be5';
+import changeDocument from '../core/changeDocument';
+import FormWizard     from '../components/formWizard'
 
 class WizardEgisso extends React.Component
 {
   render() {
 
     const steps = [
-      {title: be5.messages.companies__Tab, url: '#!companies'},
-      {title: be5.messages.egissoDocs__Tab, url: '#!egissoDocs'},
-      {title: be5.messages.categories__Tab, url: '#!categories'},
-      {title: be5.messages.services__Tab, url: '#!services'},
+      {title: be5.messages.companies__Tab, url: '#!form/companies/All records/Insert'},
+      {title: be5.messages.egissoDocs__Tab, url: '#!form/companies/All records/Insert'},
+      {title: be5.messages.categories__Tab, url: '#!form/companies/All records/Insert'},
+      {title: be5.messages.services__Tab, url: '#!form/companies/All records/Insert'},
     ];
 
     return (
