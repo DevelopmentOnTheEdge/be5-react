@@ -88,15 +88,26 @@ class RoleBox extends Component {
   }
 
   _onRoleChange(name) {
-    // let roles = this.state.availableRoles.filter(name => this.refs[name].selectedRoles);
-    console.log(name);
-    // this._changeRoles(roles.join(","));
-  }
+    let roles = this.state.selectedRoles;
+    let containRole = false;
+    for (let i = 0; i < roles.length; i++) {
+      if (roles[i] === name) {
+        delete roles[i];
+        containRole = true;
+      }
+    }
 
+    if (containRole === false) {
+       roles.push(name);
+    }
+    this._changeRoles(roles.join(","));
+  }
+  
   _changeRoles(roles) {
     be5.net.request('roleSelector/select', { roles: roles }, data => {
       this.setState(data);
       bus.fire('RoleChanged', {});
+      console.log(roles, data)
     });
 
   }
