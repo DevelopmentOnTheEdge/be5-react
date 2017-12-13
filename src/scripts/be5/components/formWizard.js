@@ -4,7 +4,7 @@ import classNames           from 'classnames';
 import be5                  from '../be5';
 import Document             from './document';
 
-class FormWizard extends React.Component {
+class FormWizard extends Component {
   constructor(props) {
     super(props);
 
@@ -28,34 +28,15 @@ class FormWizard extends React.Component {
     be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
   }
 
-  // extend the "steps" array with flags to indicate if they have been validated
-  // applyValidationFlagsToSteps() {
-  //   this.props.steps.map((i, idx) => {
-  //     if (this.props.dontValidate) {
-  //       i.validated = true;
-  //     }
-  //     else {
-  //       // check if isValidated was exposed in the step, if yes then set initial state as not validated (false) or vice versa
-  //       // if HOCValidation is used for the step then mark it as "requires to be validated. i.e. false"
-  //       i.validated = (typeof i.component.type === 'undefined' ||
-  //         (typeof i.component.type.prototype.isValidated === 'undefined' &&
-  //           !this.isStepAtIndexHOCValidationBased(idx))) ? true : false;
-  //     }
-  //
-  //     return i;
-  //   });
-  // }
-
   // update the header nav states via classes so they can be styled via css
   getNavStates(indx, length) {
     let styles = [];
-
     for (let i=0; i<length; i++) {
-      if (i < indx) {
-        styles.push('done');
-      }
-      else if (i == indx) {
+      if (i === indx) {
         styles.push('doing');
+      }
+      else if (i < indx) {
+        styles.push('done');
       }
       else {
         styles.push('todo');
@@ -92,6 +73,7 @@ class FormWizard extends React.Component {
       showNextBtn,
       nextStepText
     };
+
   }
 
   // which step are we in?
@@ -275,7 +257,7 @@ class FormWizard extends React.Component {
 //    return Promise.resolve(this.stepMoveAllowed(movingBack));
 //  }
 
-  // get the classmame of steps
+  // get the classname of steps
   getClassName(className, i){
     let liClassName = className + "-" + this.state.navState.styles[i];
 
@@ -291,7 +273,7 @@ class FormWizard extends React.Component {
     return this.props.steps.map((s, i)=> (
       <li className={this.getClassName("progtrckr", i)} onClick={() => this.jumpToStep(i)} key={i} value={i}>
           <em>{i+1}</em>
-          <span dangerouslySetInnerHTML={ {__html: this.props.steps[i].title} }></span>
+          <span dangerouslySetInnerHTML={{__html: this.props.steps[i].title}}/>
       </li>
       //{this.props.steps[i].name}
     ));
@@ -359,7 +341,7 @@ FormWizard.defaultProps = {
   stepsNavigation: true,
   prevBtnOnLastStep: true,
   preventEnterSubmission: false,
-  startAtStep: '0',
+  startAtStep: 0,
   nextButtonText: "Next",
   nextButtonCls: "btn btn-prev btn-primary pull-right",
   backButtonText: "Previous",
