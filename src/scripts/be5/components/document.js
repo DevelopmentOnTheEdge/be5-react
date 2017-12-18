@@ -8,7 +8,7 @@ class Document extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { value: {} };
+    this.state = { value: "" };
   }
 
   componentDidMount() {
@@ -18,6 +18,9 @@ class Document extends Component {
       }
       if(this.state.value.meta === undefined || data.value.meta === undefined ||
          data.value.meta._ts_ > this.state.value.meta._ts_){
+        if(!data.component){
+          data.component = undefined
+        }
         this.setState(data);
       }
       // if(!data.loading)this.setState({ loading: false });
@@ -47,6 +50,12 @@ class Document extends Component {
                 operationDocumentName={this.props.operationDocumentName || this.props.documentName}
           />
         )
+      }
+    }else{
+      if (this.state.value) {
+        contentItem = (
+          <h1>{this.state.value}</h1>
+        );
       }
     }
 

@@ -41,6 +41,7 @@ var messages = {
     
     filter: 'Filter...',
 
+    LogoutSuccessful: 'Logout successful',
     Name: 'Name',
     Password: 'Password',
     Login: 'Login',
@@ -88,6 +89,7 @@ var messages = {
 
     filter: 'Фильтр...',
 
+    LogoutSuccessful: 'Выход из системы - успешно',
     Name: 'Логин',
     Password: 'Пароль',
     Login: 'Авторизация',
@@ -326,7 +328,7 @@ const be5 = {
         //changeDocument(documentName, { loading: true });
         action.apply(be5, positional);
       }else{
-        changeDocument(documentName, { component: 'text', value: be5.messages.errorUnknownAction.replace('$action', actionName) });
+        changeDocument(documentName, { value: be5.messages.errorUnknownAction.replace('$action', actionName) });
         console.error(be5.messages.errorUnknownAction.replace('$action', actionName));
       }
     }
