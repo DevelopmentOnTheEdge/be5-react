@@ -384,8 +384,13 @@ class TableBox extends Component {
           const checked = this.checked;
           if (checked && $.inArray(rowId, be5.tableState.selectedRows) == -1) {
             be5.tableState.selectedRows.push(rowId);
+            console.log(rowId,be5.tableState.selectedRows)
           } else if (!checked && $.inArray(rowId, be5.tableState.selectedRows) != -1) {
+            be5.tableState = {
+              selectedRows: []
+            };
             be5.tableState.selectedRows.splice($.inArray(rowId, be5.tableState.selectedRows), 1);
+            console.log(rowId,be5.tableState.selectedRows)
           }
           _this.onSelectionChange();
         });
