@@ -31,7 +31,7 @@ class FormWizard extends Component {
   // update the header nav states via classes so they can be styled via css
   getNavStates(indx, length) {
     let styles = [];
-    for (let i=0; i<length; i++) {
+    for (let i = 0; i<length; i++) {
       if (i === indx) {
         styles.push('doing');
       }
@@ -359,7 +359,7 @@ FormWizard.propTypes = {
   stepsNavigation: PropTypes.bool,
   prevBtnOnLastStep: PropTypes.bool,
   preventEnterSubmission: PropTypes.bool,
-  startAtStep: PropTypes.string,
+  startAtStep: PropTypes.number,
   nextButtonText: PropTypes.string,
   nextButtonCls: PropTypes.string,
   backButtonCls: PropTypes.string,

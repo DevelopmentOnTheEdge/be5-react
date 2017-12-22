@@ -8,7 +8,7 @@ class WizardEgisso extends React.Component
   render() {
 
     const steps = [
-      {title: be5.messages.companies__Tab, url: '#!table/companies/Selection view SelectCompany'},
+      {title: be5.messages.companies__Tab, url: '#!static/welcome.be'},
       {title: be5.messages.egissoDocs__Tab, url: '#!static/welcome.be'},
       {title: be5.messages.categories__Tab, url: '#!static/welcome.be'},
       {title: be5.messages.services__Tab, url: '#!static/welcome.be'},

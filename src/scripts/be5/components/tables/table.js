@@ -14,7 +14,7 @@ import numberFormatter from 'number-format.js';
 class OperationBox extends Component {
   constructor(props) {
     super(props);
-  };
+  }
 
   onClick(name, e) {
     if (!$(ReactDOM.findDOMNode(this.refs[name])).hasClass('disabled')) {
@@ -247,7 +247,7 @@ class TableBox extends Component {
     if (this.props.hasOwnProperty('callbacks') && this.props.callbacks !== undefined
       && this.props.callbacks.hasOwnProperty('onSelectionChange'))
     {
-      this.props.callbacks.onSelectionChange(be5.tableState.selectedRows);
+        this.props.callbacks.onSelectionChange(be5.tableState.selectedRows);
     }
   }
   applyTableStyle(node) {
@@ -386,16 +386,20 @@ class TableBox extends Component {
             be5.tableState.selectedRows.push(rowId);
             console.log(rowId,be5.tableState.selectedRows)
           } else if (!checked && $.inArray(rowId, be5.tableState.selectedRows) != -1) {
-            be5.tableState = {
-              selectedRows: []
-            };
             be5.tableState.selectedRows.splice($.inArray(rowId, be5.tableState.selectedRows), 1);
             console.log(rowId,be5.tableState.selectedRows)
           }
-          _this.onSelectionChange();
+           _this.onSelectionChange();
+        });
+      },
+
+      clickPagination () {
+        $('.paginate_button').on( 'click', function () {
+          be5.tableState = {selectedRows: []}
         });
       }
     };
+
     let groupingColumn = null;
     const nColumns = attributes.rows[0].cells.length;
     for (let i = 0; i < nColumns; i++) {
@@ -413,7 +417,7 @@ class TableBox extends Component {
       if ( $(_this.refs.table).find('.paging_simple_numbers span .paginate_button')
            && $(_this.refs.table).find('.paging_simple_numbers span .paginate_button').length > 1) {
         $(_this.refs.table).find('.dataTables_length').show();
-        $(_this.refs.table).find('.paging_simple_numbers').show()
+        $(_this.refs.table).find('.paging_simple_numbers').show();
       } else {
         $(_this.refs.table).find('.dataTables_length').hide();
         $(_this.refs.table).find('.paging_simple_numbers').hide()
