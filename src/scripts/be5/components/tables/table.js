@@ -392,12 +392,6 @@ class TableBox extends Component {
            _this.onSelectionChange();
         });
       },
-
-      clickPagination () {
-        $('.paginate_button').on( 'click', function () {
-          be5.tableState = {selectedRows: []}
-        });
-      }
     };
 
     let groupingColumn = null;
@@ -527,6 +521,21 @@ class Table extends Component
     super(props);
 
     this.state = {runReload: ""}
+  }
+
+  componentDidMount() {
+    $(document).ready(function (){
+      $('a').click(function () {
+        update(be5.tableState.selectedRows);
+        console.log(be5.tableState.selectedRows)
+      });
+
+      function update(j) {
+        if (j !== 0) {
+          j.length = 0;
+        }
+      }
+    });
   }
 
   render() {
