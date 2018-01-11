@@ -209,6 +209,18 @@ class TableBox extends Component {
     
     this._refreshEnablementIfNeeded();
     //this._loadCountIfNeeded();
+
+
+    $(document).on('click', '.paginate_button',function () {
+      update(be5.tableState.selectedRows);
+      console.log(be5.tableState.selectedRows)
+    });
+
+    function update(j) {
+      if (j !== 0) {
+        j.length = 0;
+      }
+    }
   }
   
   shouldComponentUpdate(nextProps, nextState) {
@@ -523,20 +535,9 @@ class Table extends Component
     this.state = {runReload: ""}
   }
 
-  componentDidMount() {
-    $(document).ready(function (){
-      $('a').click(function () {
-        update(be5.tableState.selectedRows);
-        console.log(be5.tableState.selectedRows)
-      });
-
-      function update(j) {
-        if (j !== 0) {
-          j.length = 0;
-        }
-      }
-    });
-  }
+  // componentDidMount() {
+  //
+  // }
 
   render() {
     const value = this.props.value;
