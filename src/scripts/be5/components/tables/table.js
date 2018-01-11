@@ -212,14 +212,14 @@ class TableBox extends Component {
 
 
     $(document).on('click', '.paginate_button',function () {
-      update(be5.tableState.selectedRows);
+      update();
       console.log(be5.tableState.selectedRows);
 
       if ($('#Delete').hasClass('enabled') && $('#Edit').hasClass('enabled')){
         $('#Edit').addClass('disabled');
         $('#Edit').removeClass('enabled');
       }
-      
+
       if ($('#Delete').hasClass('enabled')) {
         $('#Delete').addClass('disabled');
         $('#Delete').removeClass('enabled');
