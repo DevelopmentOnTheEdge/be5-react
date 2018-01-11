@@ -77,7 +77,7 @@ class OperationBox extends Component {
 //        return React.createElement('a', attrs, operation.title);
 //      }
       return (
-        <button key={operation.name} ref={operation.name} onClick={this.onClick.bind(this, operation.name)} className={'btn btn-secondary btn-secondary-old btn-sm'}>
+        <button id={operation.name} key={operation.name} ref={operation.name} onClick={this.onClick.bind(this, operation.name)} className={'btn btn-secondary btn-secondary-old btn-sm'}>
           {operation.title}
         </button>
       );
@@ -213,7 +213,19 @@ class TableBox extends Component {
 
     $(document).on('click', '.paginate_button',function () {
       update(be5.tableState.selectedRows);
-      console.log(be5.tableState.selectedRows)
+      console.log(be5.tableState.selectedRows);
+
+      if ($('#Delete').hasClass('enabled') && $('#Edit').hasClass('enabled')){
+        $('#Delete').addClass('disabled');
+        $('#Delete').removeClass('enabled');
+        $('#Edit').addClass('disabled');
+        $('#Edit').removeClass('enabled');
+      } else {
+        $('#Delete').addClass('enabled');
+        $('#Delete').removeClass('disabled');
+        $('#Edit').addClass('enabled');
+        $('#Edit').removeClass('disabled');
+      }
     });
 
     function update(j) {
