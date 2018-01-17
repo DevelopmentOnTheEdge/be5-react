@@ -218,6 +218,8 @@ class TableBox extends Component {
       if ($('#Delete').hasClass('enabled') && $('#Edit').hasClass('enabled')){
         $('#Edit').addClass('disabled');
         $('#Edit').removeClass('enabled');
+        $('#Clone').addClass('disabled');
+        $('#Clone').removeClass('enabled');
       }
 
       if ($('#Delete').hasClass('enabled')) {
