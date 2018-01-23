@@ -159,6 +159,7 @@ class Property extends Component {
   static getControl(props, handleChange, handleChangeMulti, numericHandleChange, onDateChange){
     const meta  = props.meta;
     const value = props.value;
+    const mask = props.meta.validationRules;
     const id    = props.name + "Field";
     const handle = meta.multipleSelectionList ? handleChangeMulti : handleChange;
     const extraAttrsMap = Property.getExtraAttrsMap(meta.extraAttrs);
@@ -222,7 +223,7 @@ class Property extends Component {
                          onChange={handle} className={props.controlClassName || "form-control"} disabled={meta.readOnly} />
       },
       maskTest: () => {
-        return <MaskedInput mask={this.props.meta.validationRules} onChange={handle} className={props.controlClassName || "form-control"} />
+        return <MaskedInput mask={mask[0].mask} onChange={handle} className={props.controlClassName || "form-control"} />
       },
       textInput: () => {
         return <input type="text" placeholder={meta.placeholder} id={id} key={id} value={value === undefined ? "" : value}
@@ -250,15 +251,15 @@ class Property extends Component {
                           });
                         }
                       }
-        } />
+                      } />
       },
 
       WYSIWYG: () => {
         return <CKEditor activeClass="p10" content={value}
-            events={{
-              "change": (evt) => { handle({value: evt.editor.getData()}) }
-            }}
-            config={{language: 'ru',}}
+                         events={{
+                           "change": (evt) => { handle({value: evt.editor.getData()}) }
+                         }}
+                         config={{language: 'ru',}}
         />
       },
       labelField: () => {
@@ -353,7 +354,15 @@ class Property extends Component {
   {
     for (let i = 0; i < rules.length; i++)
     {
-      if ("mask" in rules[i]) return true;
+      let valueMask;
+      if ("mask" in rules[i]) {
+        valueMask =  Object.values(rules[i]);
+        for (var key in valueMask){
+          console.log(valueMask[key])
+        }
+      } else {
+        valueMask = null;
+      }
     }
     return false;
   }
