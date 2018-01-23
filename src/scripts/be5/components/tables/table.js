@@ -14,7 +14,7 @@ import numberFormatter from 'number-format.js';
 class OperationBox extends Component {
   constructor(props) {
     super(props);
-  }
+  };
 
   onClick(name, e) {
     if (!$(ReactDOM.findDOMNode(this.refs[name])).hasClass('disabled')) {
@@ -30,18 +30,18 @@ class OperationBox extends Component {
     this.props.operations.forEach(operation => {
       let visible = false;
       switch (operation.visibleWhen) {
-      case 'always':
-        visible = true;
-        break;
-      case 'oneSelected':
-        visible = (be5.tableState.selectedRows.length === 1);
-        break;
-      case 'anySelected':
-        visible = (be5.tableState.selectedRows.length !== 0);
-        break;
-      case 'hasRecords':
-        visible = this.props.hasRows;
-        break;
+        case 'always':
+          visible = true;
+          break;
+        case 'oneSelected':
+          visible = (be5.tableState.selectedRows.length === 1);
+          break;
+        case 'anySelected':
+          visible = (be5.tableState.selectedRows.length !== 0);
+          break;
+        case 'hasRecords':
+          visible = this.props.hasRows;
+          break;
       }
       if (visible) {
         $(ReactDOM.findDOMNode(this.refs[operation.name])).addClass('enabled');
@@ -77,7 +77,7 @@ class OperationBox extends Component {
 //        return React.createElement('a', attrs, operation.title);
 //      }
       return (
-        <button id={operation.name} key={operation.name} ref={operation.name} onClick={this.onClick.bind(this, operation.name)} className={'btn btn-secondary btn-secondary-old btn-sm'}>
+        <button key={operation.name} ref={operation.name} onClick={this.onClick.bind(this, operation.name)} className={'btn btn-secondary btn-secondary-old btn-sm'}>
           {operation.title}
         </button>
       );
@@ -85,7 +85,7 @@ class OperationBox extends Component {
 
     if(this.props.operations.length === 0){
       return (
-          <div/>
+        <div/>
       );
     }
     return (
@@ -108,17 +108,17 @@ class QuickColumns extends Component {
   createStateFromProps(props){
     return {quickColumns:
       props.firstRow
-       .map( (col, idx) => {
-         if(col.options.quick)
-           return {columnId: idx, visible: col.options.quick.visible == 'true'};
-         else return null;
-       })
-       .filter((col) => {return col !== null})
+        .map( (col, idx) => {
+          if(col.options.quick)
+            return {columnId: idx, visible: col.options.quick.visible == 'true'};
+          else return null;
+        })
+        .filter((col) => {return col !== null})
     };
   }
 
   setTable(_table){
-      this.setState({table: _table});
+    this.setState({table: _table});
   }
 
   quickHandleChange(idx) {
@@ -128,17 +128,17 @@ class QuickColumns extends Component {
 
   render() {
     if(this.state.quickColumns.length == 0){
-       return (<div/>)
+      return (<div/>)
     }
     if(this.state.table){
       const dataTable = $(this.state.table).find('table').dataTable();
       const columnsCount = dataTable.fnSettings().aoColumns.length ;
       this.state.quickColumns.forEach((col) => {
-          const columnId = col.columnId + (this.props.selectable ? 1 : 0);
-          if(columnId < columnsCount){
-            const dtColumn = dataTable.api().column( columnId );
-            if(dtColumn.visible)dtColumn.visible( col.visible );
-          }
+        const columnId = col.columnId + (this.props.selectable ? 1 : 0);
+        if(columnId < columnsCount){
+          const dtColumn = dataTable.api().column( columnId );
+          if(dtColumn.visible)dtColumn.visible( col.visible );
+        }
       });
     }
 
@@ -175,7 +175,7 @@ const formatCell = (data, options, isColumn) =>
 
   if(options){
     if(options.format){
-        data = numberFormatter(options.format.mask, data);
+      data = numberFormatter(options.format.mask, data);
     }
     if(!isColumn && options.link) {
       data = $('<a>',{
@@ -206,48 +206,23 @@ class TableBox extends Component {
   componentDidMount() {
     if(this.refs.table)
       this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
-    
+
     this._refreshEnablementIfNeeded();
     //this._loadCountIfNeeded();
-
-
-    $(document).on('click', '.paginate_button',function () {
-      update();
-      console.log(be5.tableState.selectedRows);
-
-      if ($('#Delete').hasClass('enabled') && $('#Edit').hasClass('enabled')){
-        $('#Edit').addClass('disabled');
-        $('#Edit').removeClass('enabled');
-        $('#Clone').addClass('disabled');
-        $('#Clone').removeClass('enabled');
-      }
-
-      if ($('#Delete').hasClass('enabled')) {
-        $('#Delete').addClass('disabled');
-        $('#Delete').removeClass('enabled');
-      } else {
-        $('#Delete').addClass('enabled');
-        $('#Delete').removeClass('disabled');
-      }
-    });
-
-    function update() {
-      be5.tableState.selectedRows = [];
-    }
   }
-  
+
   shouldComponentUpdate(nextProps, nextState) {
     return JSON.stringify(nextProps) !== JSON.stringify(this.props)
       || JSON.stringify(nextState) !== JSON.stringify(this.state);
   }
-  
+
   componentDidUpdate() {
     if(this.refs.table)
       this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
-    
+
     //this._loadCountIfNeeded();
   }
-  
+
   onOperationClick(name) {
     const attributes = this.props.value.data.attributes;
     if(this.props.operationDocumentName === be5.documentName)
@@ -265,14 +240,14 @@ class TableBox extends Component {
 
     }
   }
-  
+
   onSelectionChange() {
     this._refreshEnablementIfNeeded();
-    
+
     if (this.props.hasOwnProperty('callbacks') && this.props.callbacks !== undefined
       && this.props.callbacks.hasOwnProperty('onSelectionChange'))
     {
-        this.props.callbacks.onSelectionChange(be5.tableState.selectedRows);
+      this.props.callbacks.onSelectionChange(be5.tableState.selectedRows);
     }
   }
   applyTableStyle(node) {
@@ -283,7 +258,7 @@ class TableBox extends Component {
 
     const _this = this;
     be5.tableState.selectedRows = [];
-    
+
     const thead = $('<thead>');
     const theadrow = $('<tr>').appendTo(thead);
     const tbody = $('<tbody>');
@@ -292,7 +267,7 @@ class TableBox extends Component {
     const hasCheckBoxes = attributes.selectable;
     const editable = attributes.operations.filter((op) => op.name === 'Edit').length === 1;
     let columnIndexShift = 0;
-    
+
     if (hasCheckBoxes) {
       theadrow.append($("<th>").text("#"));
       tfootrow.append($("<th>").text("#"));
@@ -323,7 +298,7 @@ class TableBox extends Component {
 
     const lengths = [5,10,20,50,100,500,1000];
     const pageLength = attributes.length;
-    
+
     if (lengths.indexOf(pageLength) == -1) {
       lengths.push(pageLength);
       lengths.sort(function(a,b) {return a-b;});
@@ -331,7 +306,7 @@ class TableBox extends Component {
 
     let language = null;
     if(be5.locale.value != 'en'){
-        language = be5.messages.dataTables;
+      language = be5.messages.dataTables;
     }
 
     const tableConfiguration = {
@@ -409,16 +384,13 @@ class TableBox extends Component {
           const checked = this.checked;
           if (checked && $.inArray(rowId, be5.tableState.selectedRows) == -1) {
             be5.tableState.selectedRows.push(rowId);
-            console.log(rowId,be5.tableState.selectedRows)
           } else if (!checked && $.inArray(rowId, be5.tableState.selectedRows) != -1) {
             be5.tableState.selectedRows.splice($.inArray(rowId, be5.tableState.selectedRows), 1);
-            console.log(rowId,be5.tableState.selectedRows)
           }
-           _this.onSelectionChange();
+          _this.onSelectionChange();
         });
-      },
+      }
     };
-
     let groupingColumn = null;
     const nColumns = attributes.rows[0].cells.length;
     for (let i = 0; i < nColumns; i++) {
@@ -434,9 +406,9 @@ class TableBox extends Component {
 
     const hideControls = () => {
       if ( $(_this.refs.table).find('.paging_simple_numbers span .paginate_button')
-           && $(_this.refs.table).find('.paging_simple_numbers span .paginate_button').length > 1) {
+        && $(_this.refs.table).find('.paging_simple_numbers span .paginate_button').length > 1) {
         $(_this.refs.table).find('.dataTables_length').show();
-        $(_this.refs.table).find('.paging_simple_numbers').show();
+        $(_this.refs.table).find('.paging_simple_numbers').show()
       } else {
         $(_this.refs.table).find('.dataTables_length').hide();
         $(_this.refs.table).find('.paging_simple_numbers').hide()
@@ -487,7 +459,7 @@ class TableBox extends Component {
         </div>
       );
     }
-    
+
     return (
       <div>
         <OperationBox ref="operations" operations={attributes.operations} onOperationClick={this.onOperationClick} hasRows={attributes.rows.length !== 0}/>
@@ -498,7 +470,7 @@ class TableBox extends Component {
       </div>
     );
   }
-  
+
   // _loadCountIfNeeded() {
   //   if (attributes.embedded) { // FIXME actually this should work even if the component is embedded
   //     return;
@@ -516,7 +488,7 @@ class TableBox extends Component {
   //     });
   //   }
   // },
-  
+
   _refreshEnablementIfNeeded() {
     if (this.refs !== undefined && this.refs.operations !== undefined) {
       this.refs.operations.refreshEnablement();
@@ -547,10 +519,6 @@ class Table extends Component
 
     this.state = {runReload: ""}
   }
-
-  // componentDidMount() {
-  //
-  // }
 
   render() {
     const value = this.props.value;
