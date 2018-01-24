@@ -159,7 +159,6 @@ class Property extends Component {
   static getControl(props, handleChange, handleChangeMulti, numericHandleChange, onDateChange){
     const meta  = props.meta;
     const value = props.value;
-    const mask = props.meta.validationRules;
     const id    = props.name + "Field";
     const handle = meta.multipleSelectionList ? handleChangeMulti : handleChange;
     const extraAttrsMap = Property.getExtraAttrsMap(meta.extraAttrs);
@@ -223,7 +222,7 @@ class Property extends Component {
                          onChange={handle} className={props.controlClassName || "form-control"} disabled={meta.readOnly} />
       },
       maskTest: () => {
-        return <MaskedInput mask={mask[0].mask} onChange={handle} className={props.controlClassName || "form-control"} />
+        return <MaskedInput mask={Property.getMaskInput(meta.validationRules)} onChange={handle} className={props.controlClassName || "form-control"} />
       },
       textInput: () => {
         return <input type="text" placeholder={meta.placeholder} id={id} key={id} value={value === undefined ? "" : value}
@@ -314,7 +313,7 @@ class Property extends Component {
       return controls['file']();
     }
 
-    if(meta.validationRules !== undefined && Property.isMaskInput(meta.validationRules))
+    if(meta.validationRules !== undefined && Property.getMaskInput(meta.validationRules))
     {
       return controls['maskTest']();
     }
@@ -350,21 +349,15 @@ class Property extends Component {
     return props;
   }
 
-  static isMaskInput(rules)
+  static getMaskInput(rules)
   {
     for (let i = 0; i < rules.length; i++)
     {
-      let valueMask;
       if ("mask" in rules[i]) {
-        valueMask =  Object.values(rules[i]);
-        for (var key in valueMask){
-          console.log(valueMask[key])
-        }
-      } else {
-        valueMask = null;
+        return rules[i].mask
       }
     }
-    return false;
+    return null;
   }
 
   static isNumberInput(rules)
