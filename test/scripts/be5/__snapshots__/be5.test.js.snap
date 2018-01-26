@@ -3,10 +3,8 @@
 exports[`snapshot 1`] = `
 <div>
   <div
-    className="css-132hx50"
-  >
-    <span />
-  </div>
+    className="s-alert-wrapper"
+  />
   <div
     className="SplitPane vertical"
     style={

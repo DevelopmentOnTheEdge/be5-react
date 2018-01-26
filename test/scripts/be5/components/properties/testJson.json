@@ -9,7 +9,8 @@
     "multiSelect": "",
     "description": "",
     "login": "",
-    "pass": "password"
+    "pass": "password",
+    "maskInput": ""
   },
   "meta": {
     "/textInput": {
@@ -68,6 +69,11 @@
       "type": "Boolean",
       "status": "success",
       "cssClasses": "col-md-6"
+    },
+    "/maskInput": {
+      "displayName": "Mask Input",
+      "mask": "[{mask: '123'}]",
+      "cssClasses": "col-md-3"
     }
   },
   "order": [
@@ -80,6 +86,7 @@
     "/description",
     "/login",
     "/pass",
-    "/agree"
+    "/agree",
+    "/maskInput"
   ]
 }

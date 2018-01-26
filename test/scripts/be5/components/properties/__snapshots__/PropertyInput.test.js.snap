@@ -193,6 +193,18 @@ exports[`property login 1`] = `
 />
 `;
 
+exports[`property maskTest 1`] = `
+<input
+  className="form-control"
+  disabled={undefined}
+  id="maskInputField"
+  onChange={[Function]}
+  placeholder={undefined}
+  type="text"
+  value=""
+/>
+`;
+
 exports[`select 1`] = `
 <div
   className="Select Select--single is-clearable is-searchable has-value"

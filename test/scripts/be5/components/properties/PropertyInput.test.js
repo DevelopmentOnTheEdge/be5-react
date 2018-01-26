@@ -149,6 +149,17 @@ it('property labelField', () => {
     expect(component.toJSON()).toMatchSnapshot();
 });
 
+it('property maskTest', () => {
+  const bean = require('./testJson.json');
+  const handle = jest.fn();
+
+  let component = renderer.create(
+    <PropertyInput path={"/maskInput"} bean={bean} onChange={handle} />
+  );
+
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
 //to do: не работает, выдает непонятную ошибку
 // it('property data', () => {
 //     const bean = require('./testJson.json');
