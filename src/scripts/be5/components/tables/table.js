@@ -464,6 +464,11 @@ class TableBox extends Component {
 
     tableDiv.dataTable(tableConfiguration);
 
+    tableDiv.on( 'draw.dt', function () {
+      be5.tableState.selectedRows = [];
+      _this._refreshEnablementIfNeeded();
+    } );
+
     this.refs.quickColumns.setTable(this.refs.table);
 
     this.onSelectionChange();
