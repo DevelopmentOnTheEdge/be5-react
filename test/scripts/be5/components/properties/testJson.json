@@ -72,7 +72,7 @@
     },
     "/maskInput": {
       "displayName": "Mask Input",
-      "mask": "[{mask: '123'}]",
+      "mask": "['123']",
       "cssClasses": "col-md-3"
     }
   },
