@@ -18,13 +18,11 @@ export default React.createClass({
       if (data.type === 'error') {
         Alert.error(data.msg, {
           position: 'top-right',
-          effect: 'slide',
           timeout: 5000
         });
       } else {
         Alert.success(data.msg, {
           position: 'top-right',
-          effect: 'slide',
           timeout: 5000
         });
       }
@@ -33,7 +31,7 @@ export default React.createClass({
   render: function() {
     return (
       <div>
-        <Alert stack={{limit: 3}}/>
+        <Alert stack={{limit: 10}}/>
         <SplitPane split="vertical" defaultSize={280} >
           <SideBar ref="sideBar"/>
           <Document ref="document" onChange={()=>{}}/>
