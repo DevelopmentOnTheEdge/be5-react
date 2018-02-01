@@ -15,6 +15,7 @@
 }
 .roleBox_add-actions{
 	padding: 2px 10px;
+	min-width: 200px;
 }
 
 .roleBox .dropdown {

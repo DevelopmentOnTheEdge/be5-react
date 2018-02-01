@@ -66,9 +66,9 @@ class RoleBox extends Component {
             <DropdownItem divider />
 
             <div className="roleBox_add-actions">
-              <small>кнопки в разработке</small><br/>
-              <Button onClick={this.handleSelectAll} color="primary" size="sm">Выбрать всё</Button>{' '}
-              <Button onClick={this.handleClear} color="secondary" size="sm">Очистить всё</Button>
+              Выбрать:{' '}
+              <Button onClick={this.handleSelectAll} color="primary" size="sm">Всё</Button>{' '}
+              <Button onClick={this.handleClear} color="secondary" size="sm">Ничего</Button>
             </div>
           </DropdownMenu>
         </UncontrolledDropdown>
