@@ -104,7 +104,6 @@ class RoleBox extends Component {
     be5.net.request('roleSelector/select', { roles: roles }, data => {
       this.setState(data);
       bus.fire('RoleChanged', {});
-      console.log(roles, data)
     });
 
   }

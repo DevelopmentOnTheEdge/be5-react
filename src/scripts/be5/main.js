@@ -21,8 +21,6 @@ import '../../css/propertySet.css';
 import '../../css/errorPane.css';
 import '../../css/main.css';
 
-import './test/wizardEgisso.js'
-
 ReactDOM.render(
   <App/>,
   document.getElementById('app')
