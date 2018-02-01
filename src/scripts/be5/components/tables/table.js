@@ -380,35 +380,15 @@ class TableBox extends Component {
       ],
       createdRow(row, data, index) { // see http://datatables.net/examples/advanced_init/row_callback.html
         $('input', row).change(function() {
-          let rowsSelected = be5.tableState.selectedRows;
           const rowId = data[0];
-          var $row = $(this).closest('tr');
           const checked = this.checked;
-
-          if (checked && $.inArray(rowId, rowsSelected) == -1) {
-            rowsSelected.push(rowId);
-          } else if (!checked && $.inArray(rowId, rowsSelected) != -1) {
-            rowsSelected.splice($.inArray(rowId, rowsSelected), 1);
+          if (checked && $.inArray(rowId, be5.tableState.selectedRows) == -1) {
+            be5.tableState.selectedRows.push(rowId);
+          } else if (!checked && $.inArray(rowId, be5.tableState.selectedRows) != -1) {
+            be5.tableState.selectedRows.splice($.inArray(rowId, be5.tableState.selectedRows), 1);
           }
-
-          if(this.checked){
-            $row.addClass('selected');
-          } else {
-            $row.removeClass('selected');
-          }
-
           _this.onSelectionChange();
         });
-
-        $('#DataTables_Table_0').DataTable({
-          "initComplete": function () {
-            var api = this.api();
-            api.$('.paginate_button').on('click', function () {
-              be5.tableState.selectedRows = [];
-            })
-          }
-        });
-
       }
     };
     let groupingColumn = null;
