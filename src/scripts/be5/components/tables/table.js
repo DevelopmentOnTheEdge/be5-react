@@ -439,7 +439,7 @@ class TableBox extends Component {
         const dataTable = $(this.refs.table).find('table').dataTable();
         if (groupingColumn !== null) drawGrouping(dataTable.api());
       }
-      hideControls();
+      //hideControls();
     };
 
     tableDiv.dataTable(tableConfiguration);
