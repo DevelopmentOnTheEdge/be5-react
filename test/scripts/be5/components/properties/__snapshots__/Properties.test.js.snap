@@ -5,26 +5,30 @@ exports[`contain property 1`] = `
   className="row"
 >
   <div
-    className="form-group property col-lg-12 required"
+    className="col-lg-12"
   >
-    <label
-      className="form-control-label"
-      htmlFor="textInputField"
-    >
-      Text
-    </label>
     <div
-      className="controls"
+      className="form-group property required"
     >
-      <input
-        className="form-control"
-        disabled={undefined}
-        id="textInputField"
-        onChange={[Function]}
-        placeholder={undefined}
-        type="text"
-        value="text"
-      />
+      <label
+        className="form-control-label"
+        htmlFor="textInputField"
+      >
+        Text
+      </label>
+      <div
+        className="controls"
+      >
+        <input
+          className="form-control"
+          disabled={undefined}
+          id="textInputField"
+          onChange={[Function]}
+          placeholder={undefined}
+          type="text"
+          value="text"
+        />
+      </div>
     </div>
   </div>
   <div

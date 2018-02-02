@@ -106,7 +106,9 @@ class Property extends Component {
 
     let valueControl = Property.getControl(this.props, this.handleChange, this.handleChangeMulti, this.numericHandleChange, this.onDateChange);
 
-    const label = <label htmlFor={id} className={this.props.labelClassName || 'form-control-label'}>{meta.displayName || id}</label>;
+    const label = <label htmlFor={id} className={meta.type === "Boolean" ? 'form-check-label' : 'form-control-label'}>
+      {meta.displayName || id}</label>;
+
     const messageElement = meta.message ? <span className={this.props.messageClassName || "form-control-feedback"}>{meta.message}</span> : undefined;
 
     let hasStatusClasses = classNames(
@@ -120,23 +122,29 @@ class Property extends Component {
     const classNameForm = (meta.type === "Boolean")
       ? this.props.classNameFormCheck || 'form-check property'
       : this.props.classNameFormGroup || 'form-group property';
+
     const cssClasses = meta.cssClasses || 'col-lg-12';
+
+    const outerClasses = classNames(
+      cssClasses,
+      {'display-none' : meta.hidden}
+    );
 
     const classes = classNames(
       classNameForm,
-      cssClasses,
       hasStatusClasses,
-      {'required' : !meta.canBeNull},
-      {'display-none' : meta.hidden}
+      {'required' : !meta.canBeNull}
     );
 
     if(meta.type === "Boolean")
     {
       return (
-        <div className={classes}>
-          <label className="form-check-label">
-            {valueControl} {' ' + meta.displayName || id}
-          </label>
+        <div className={outerClasses}>
+          <div className={classes}>
+            {valueControl}
+            {label}
+            {messageElement}
+          </div>
         </div>
       );
     }else if(meta.labelField){
@@ -145,11 +153,13 @@ class Property extends Component {
       );
     }else{
       return (
-        <div className={classes}>
-          {label}
-          <div className="controls">
-            {valueControl}
-            {messageElement}
+        <div className={outerClasses}>
+          <div className={classes}>
+            {label}
+            <div className="controls">
+              {valueControl}
+              {messageElement}
+            </div>
           </div>
         </div>
       );

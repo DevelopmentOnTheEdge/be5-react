@@ -2,52 +2,60 @@
 
 exports[`property Boolean 1`] = `
 <div
-  className="form-group property col-lg-12 required"
+  className="col-lg-12"
 >
-  <label
-    className="form-control-label"
-    htmlFor="testNameField"
-  >
-    Boolean
-  </label>
   <div
-    className="controls"
+    className="form-group property required"
   >
-    <input
-      className="form-control"
-      disabled={undefined}
-      id="testNameField"
-      onChange={[Function]}
-      placeholder={undefined}
-      type="text"
-      value="true"
-    />
+    <label
+      className="form-control-label"
+      htmlFor="testNameField"
+    >
+      Boolean
+    </label>
+    <div
+      className="controls"
+    >
+      <input
+        className="form-control"
+        disabled={undefined}
+        id="testNameField"
+        onChange={[Function]}
+        placeholder={undefined}
+        type="text"
+        value="true"
+      />
+    </div>
   </div>
 </div>
 `;
 
 exports[`simple property 1`] = `
 <div
-  className="form-group property col-lg-12 required"
+  className="col-lg-12"
 >
-  <label
-    className="form-control-label"
-    htmlFor="testNameField"
-  >
-    Simple property
-  </label>
   <div
-    className="controls"
+    className="form-group property required"
   >
-    <input
-      className="form-control"
-      disabled={undefined}
-      id="testNameField"
-      onChange={[Function]}
-      placeholder={undefined}
-      type="text"
-      value="testValue"
-    />
+    <label
+      className="form-control-label"
+      htmlFor="testNameField"
+    >
+      Simple property
+    </label>
+    <div
+      className="controls"
+    >
+      <input
+        className="form-control"
+        disabled={undefined}
+        id="testNameField"
+        onChange={[Function]}
+        placeholder={undefined}
+        type="text"
+        value="testValue"
+      />
+    </div>
   </div>
 </div>
 `;

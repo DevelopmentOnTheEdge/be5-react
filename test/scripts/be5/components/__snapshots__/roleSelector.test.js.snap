@@ -68,16 +68,14 @@ exports[`render 1`] = `
       <div
         className="roleBox_add-actions"
       >
-        <small>
-          кнопки в разработке
-        </small>
-        <br />
+        Выбрать:
+         
         <button
           className="btn btn-primary btn-sm"
           onClick={[Function]}
           type="button"
         >
-          Выбрать всё
+          Всё
         </button>
          
         <button
@@ -85,7 +83,7 @@ exports[`render 1`] = `
           onClick={[Function]}
           type="button"
         >
-          Очистить всё
+          Ничего
         </button>
       </div>
     </div>

@@ -28,6 +28,10 @@
     padding: 0;
 }
 
+.formActions {
+    margin-top: 0.5rem;
+}
+
 /*.formBox .formActions {
     text-align: center;
 }

@@ -24,26 +24,30 @@ exports[`Form 1`] = `
           className="property-set row"
         >
           <div
-            className="form-group property col-lg-12 required"
+            className="col-lg-12"
           >
-            <label
-              className="form-control-label"
-              htmlFor="companyIDField"
-            >
-              companyID
-            </label>
             <div
-              className="controls"
+              className="form-group property required"
             >
-              <input
-                className="form-control"
-                disabled={undefined}
-                id="companyIDField"
-                onChange={[Function]}
-                placeholder={undefined}
-                type="text"
-                value=""
-              />
+              <label
+                className="form-control-label"
+                htmlFor="companyIDField"
+              >
+                companyID
+              </label>
+              <div
+                className="controls"
+              >
+                <input
+                  className="form-control"
+                  disabled={undefined}
+                  id="companyIDField"
+                  onChange={[Function]}
+                  placeholder={undefined}
+                  type="text"
+                  value=""
+                />
+              </div>
             </div>
           </div>
         </div>

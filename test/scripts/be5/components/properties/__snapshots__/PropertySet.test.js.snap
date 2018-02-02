@@ -23,49 +23,57 @@ exports[`login in group 1`] = `
         className="row"
       >
         <div
-          className="form-group property col-md-12 required"
+          className="col-md-12"
         >
-          <label
-            className="form-control-label"
-            htmlFor="loginField"
-          >
-            Name
-          </label>
           <div
-            className="controls"
+            className="form-group property required"
           >
-            <input
-              className="form-control"
-              disabled={undefined}
-              id="loginField"
-              onChange={[Function]}
-              placeholder={undefined}
-              type="text"
-              value="login"
-            />
+            <label
+              className="form-control-label"
+              htmlFor="loginField"
+            >
+              Name
+            </label>
+            <div
+              className="controls"
+            >
+              <input
+                className="form-control"
+                disabled={undefined}
+                id="loginField"
+                onChange={[Function]}
+                placeholder={undefined}
+                type="text"
+                value="login"
+              />
+            </div>
           </div>
         </div>
         <div
-          className="form-group property col-md-12 has-success required"
+          className="col-md-12"
         >
-          <label
-            className="form-control-label"
-            htmlFor="passField"
-          >
-            Password
-          </label>
           <div
-            className="controls"
+            className="form-group property has-success required"
           >
-            <input
-              className="form-control"
-              disabled={undefined}
-              id="passField"
-              onChange={[Function]}
-              placeholder={undefined}
-              type="password"
-              value="password"
-            />
+            <label
+              className="form-control-label"
+              htmlFor="passField"
+            >
+              Password
+            </label>
+            <div
+              className="controls"
+            >
+              <input
+                className="form-control"
+                disabled={undefined}
+                id="passField"
+                onChange={[Function]}
+                placeholder={undefined}
+                type="password"
+                value="password"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -91,49 +99,57 @@ exports[`pass in group 1`] = `
         className="row"
       >
         <div
-          className="form-group property col-md-12 required"
+          className="col-md-12"
         >
-          <label
-            className="form-control-label"
-            htmlFor="loginField"
-          >
-            Name
-          </label>
           <div
-            className="controls"
+            className="form-group property required"
           >
-            <input
-              className="form-control"
-              disabled={undefined}
-              id="loginField"
-              onChange={[Function]}
-              placeholder={undefined}
-              type="text"
-              value="login"
-            />
+            <label
+              className="form-control-label"
+              htmlFor="loginField"
+            >
+              Name
+            </label>
+            <div
+              className="controls"
+            >
+              <input
+                className="form-control"
+                disabled={undefined}
+                id="loginField"
+                onChange={[Function]}
+                placeholder={undefined}
+                type="text"
+                value="login"
+              />
+            </div>
           </div>
         </div>
         <div
-          className="form-group property col-md-12 has-success required"
+          className="col-md-12"
         >
-          <label
-            className="form-control-label"
-            htmlFor="passField"
-          >
-            Password
-          </label>
           <div
-            className="controls"
+            className="form-group property has-success required"
           >
-            <input
-              className="form-control"
-              disabled={undefined}
-              id="passField"
-              onChange={[Function]}
-              placeholder={undefined}
-              type="password"
-              value="password"
-            />
+            <label
+              className="form-control-label"
+              htmlFor="passField"
+            >
+              Password
+            </label>
+            <div
+              className="controls"
+            >
+              <input
+                className="form-control"
+                disabled={undefined}
+                id="passField"
+                onChange={[Function]}
+                placeholder={undefined}
+                type="password"
+                value="password"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -147,26 +163,30 @@ exports[`simple property set 1`] = `
   className="property-set row"
 >
   <div
-    className="form-group property col-lg-12 required"
+    className="col-lg-12"
   >
-    <label
-      className="form-control-label"
-      htmlFor="numberField"
-    >
-      numberField
-    </label>
     <div
-      className="controls"
+      className="form-group property required"
     >
-      <input
-        className="form-control"
-        disabled={undefined}
-        id="numberField"
-        onChange={[Function]}
-        placeholder={undefined}
-        type="text"
-        value=""
-      />
+      <label
+        className="form-control-label"
+        htmlFor="numberField"
+      >
+        numberField
+      </label>
+      <div
+        className="controls"
+      >
+        <input
+          className="form-control"
+          disabled={undefined}
+          id="numberField"
+          onChange={[Function]}
+          placeholder={undefined}
+          type="text"
+          value=""
+        />
+      </div>
     </div>
   </div>
 </div>
