@@ -5,27 +5,22 @@ exports[`property Boolean 1`] = `
   className="col-lg-12"
 >
   <div
-    className="form-group property required"
+    className="form-check property required"
   >
+    <input
+      checked={true}
+      className="form-check-input"
+      disabled={undefined}
+      id="testNameField"
+      onChange={[Function]}
+      type="checkbox"
+    />
     <label
-      className="form-control-label"
+      className="form-check-label"
       htmlFor="testNameField"
     >
-      Boolean
+      testNameField
     </label>
-    <div
-      className="controls"
-    >
-      <input
-        className="form-control"
-        disabled={undefined}
-        id="testNameField"
-        onChange={[Function]}
-        placeholder={undefined}
-        type="text"
-        value="true"
-      />
-    </div>
   </div>
 </div>
 `;

@@ -22,7 +22,7 @@ it('simple property', () => {
 });
 
 it('property Boolean', () => {
-    const itemMeta = {"displayName":"Boolean"};
+    const itemMeta = {"type":"Boolean"};
     const item = "/agree";
 
 
