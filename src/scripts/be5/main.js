@@ -1,6 +1,6 @@
 import ReactDOM         from 'react-dom';
 import React            from 'react';
-import App              from './components/application';
+import App              from './components/Application';
 import './be5init';
 
 import 'react-datetime/css/react-datetime.css';
