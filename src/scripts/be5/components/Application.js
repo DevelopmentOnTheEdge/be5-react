@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
 import bus from '../core/bus';
 import SideBar from './sideBar';
 import Document from './document';
 import SplitPane from './splitPane';
 import Alert from 'react-s-alert';
 
-export default React.createClass({
-  displayName: 'Application',
+class Application extends Component
+{
+  constructor(props) {
+    super(props);
 
-  componentDidMount: function() {
+    this.refresh = this.refresh.bind(this);
+  }
+
+  componentDidMount() {
     bus.listen('LoggedOut', this.refresh);
     bus.listen('LoggedIn', this.refresh);
     bus.listen('LanguageChanged', this.refresh);
@@ -27,8 +32,9 @@ export default React.createClass({
         });
       }
     });
-  },
-  render: function() {
+  }
+
+  render() {
     return (
       <div>
         <Alert stack={{limit: 10}}/>
@@ -39,9 +45,11 @@ export default React.createClass({
       </div>
     );
 
-  },
+  }
 
-  refresh: function() {
+  refresh() {
     this.refs.sideBar.refresh();
-  },
-});
+  }
+}
+
+export default Application;
