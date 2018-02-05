@@ -6,6 +6,7 @@ import {HtmlResult}     from '../components/forms/form';
 import StaticPage       from '../components/staticPage';
 import ErrorPane        from "../components/errorPane";
 import formsCollections from './formsCollections.js';
+import Table            from "../components/tables/table";
 
 
 export default {
@@ -83,6 +84,15 @@ export default {
               return;
             case 'finished':
               changeDocument(documentName, {component: HtmlResult, value: json});
+              return;
+            case 'table':
+              //Object.assign({}, attributes.details, json.meta)}
+              changeDocument(documentName, {component: Table, value: {
+                data: {
+                  attributes: attributes.details
+                },
+                meta: json.meta
+              }});
               return;
             default:
               bus.fire("alert", {
