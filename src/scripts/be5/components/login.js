@@ -2,8 +2,6 @@ import React          from 'react';
 import ReactDOM       from 'react-dom';
 import be5            from '../be5';
 import ext            from '../core/ext';
-import bus            from '../core/bus';
-//import $              from 'jquery';
 import BootstrapModal from './bootstrapModal';
 
 import '../../../css/login.css';

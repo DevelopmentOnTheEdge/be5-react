@@ -34,6 +34,7 @@ export default function(type = 'dialog', param1 = undefined, param2 = undefined)
       be5.url.set(redirectUrl);
     }else {
       be5.url.clear();
+      window.history.back();
     }
   };
 
@@ -41,7 +42,8 @@ export default function(type = 'dialog', param1 = undefined, param2 = undefined)
     if(redirectUrl){
       be5.url.set(redirectUrl);
     }else{
-      bus.fire('CallDefaultAction');
+      //bus.fire('CallDefaultAction');
+      window.history.back();
     }
 
     bus.fire('LoggedIn');
