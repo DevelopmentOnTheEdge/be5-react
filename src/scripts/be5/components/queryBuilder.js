@@ -1,5 +1,4 @@
 import be5            from '../be5';
-import changeDocument from '../core/changeDocument';
 import React          from 'react';
 //import brace from 'brace';
 import AceEditor from 'react-ace';
@@ -17,7 +16,7 @@ class QueryBuilder extends React.Component
 {
   constructor(props) {
     super(props);
-    this.state = {code: "select * from users"}
+    this.state = {code: "select * from users"};
 
     this.updateCode = this.updateCode.bind(this);
   }
