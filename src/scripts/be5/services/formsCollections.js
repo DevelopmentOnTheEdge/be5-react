@@ -1,10 +1,12 @@
-import SubmitOnChangeForm from '../components/forms/submitOnChangeForm';
+import SubmitOnChangeForm from '../components/forms/SubmitOnChangeForm';
+import ModalForm          from '../components/forms/ModalForm';
 import Form               from '../components/forms/form';
 
 
 const formsCollections = {
   types: {
     form: Form,
+    modal: ModalForm,
     submitOnChange: SubmitOnChangeForm,
   },
 

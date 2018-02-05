@@ -33,7 +33,6 @@ class BootstrapModal extends React.Component
   render() {
     let confirmButton = null;
     let cancelButton = null;
-    let restoreButton = null;
 
     if (this.props.confirm) {
       confirmButton = (
@@ -47,13 +46,6 @@ class BootstrapModal extends React.Component
       );
     }
 
-    // Attempt to introduce a button to restore password
-    // if (this.props.restore) {
-    //   restoreButton = (
-    //     <Button color="default" onClick={this._restore}>{this.props.restore}</Button>
-    //   );
-    // }
-
     return (
       <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
         <ModalHeader toggle={this.toggle}>{this.props.title}</ModalHeader>
@@ -61,18 +53,13 @@ class BootstrapModal extends React.Component
           {this.props.children}
         </ModalBody>
         <ModalFooter>
-          {restoreButton}{' '}
           {cancelButton}{' '}
           {confirmButton}
         </ModalFooter>
       </Modal>
-
     );
   }
 
- // _restore() {
- //    this.props.onRestore && this.props.onRestore();
- //  }
 }
 
 export default BootstrapModal;
