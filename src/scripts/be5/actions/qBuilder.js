@@ -6,7 +6,7 @@ import QueryBuilder from '../components/queryBuilder';
 export default function(documentName, params)
 {
   const requestParams = {
-    params: params,
+    values: be5.net.paramString(params),
     _ts_: new Date().getTime()
   };
 
