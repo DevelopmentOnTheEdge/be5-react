@@ -5,7 +5,7 @@ import {shallow, mount, render} from 'enzyme';
 
 import be5            from '../../../src/scripts/be5/be5';
 import changeDocument from '../../../src/scripts/be5/core/changeDocument';
-import App            from '../../../src/scripts/be5/components/application';
+import App            from '../../../src/scripts/be5/components/Application';
 import SplitPane            from '../../../src/scripts/be5/components/splitPane';
 import SideBar            from '../../../src/scripts/be5/components/sideBar';
 import Document            from '../../../src/scripts/be5/components/document';
