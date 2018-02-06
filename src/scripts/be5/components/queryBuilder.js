@@ -1,9 +1,7 @@
 import React          from 'react';
 //import brace from 'brace';
 import be5            from '../be5';
-import changeDocument from '../core/changeDocument';
 import Document       from './document';
-import StaticPage     from './staticPage';
 import Tables         from '../services/tables';
 import AceEditor from 'react-ace';
 import SplitPane from 'react-split-pane';
@@ -30,20 +28,24 @@ class QueryBuilder extends React.Component
     this.update(this.props.value);
   }
 
+  componentWillReceiveProps(nextProps){
+    this.update(nextProps.value);
+  }
+
   updateCode(newSql){
     this.setState({
       sql: newSql,
     });
 
-    be5.net.request('queryBuilder', { sql: newSql, _ts_: new Date().getTime() }, json => {
-      this.setState({
-        finalSql: json.included[0].attributes.finalSql,
-      });
+    be5.net.request('queryBuilder', { sql: newSql, _ts_: new Date().getTime(), values: this.props.value.params }, json => {
       this.update(json);
     });
 	}
 
 	update(json){
+    this.setState({
+      finalSql: json.included[0].attributes.finalSql,
+    });
     Tables.performData(json, 'queryBuilder-table');
   }
 
