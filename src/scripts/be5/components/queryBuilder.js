@@ -1,9 +1,11 @@
-import be5            from '../be5';
 import React          from 'react';
 //import brace from 'brace';
-import AceEditor from 'react-ace';
+import be5            from '../be5';
+import changeDocument from '../core/changeDocument';
 import Document       from './document';
+import StaticPage     from './staticPage';
 import Tables         from '../services/tables';
+import AceEditor from 'react-ace';
 import SplitPane from 'react-split-pane';
 
 import '../../../css/qBuilder.css';
@@ -16,34 +18,44 @@ class QueryBuilder extends React.Component
 {
   constructor(props) {
     super(props);
-    this.state = {code: "select * from users"};
+    this.state = {
+      sql: this.props.value.included[0].attributes.sql,
+      finalSql: this.props.value.included[0].attributes.finalSql
+    };
 
     this.updateCode = this.updateCode.bind(this);
   }
+
   componentDidMount(){
-    be5.net.request('queryBuilder', { sql: this.state.code, _ts_: new Date().getTime() }, json => {
-      Tables.performData(json, 'queryBuilder-table');
-    });
+    this.update(this.props.value);
   }
 
-  updateCode(newCode){
-    be5.net.request('queryBuilder', { sql: newCode, _ts_: new Date().getTime() }, json => {
-      Tables.performData(json, 'queryBuilder-table');
+  updateCode(newSql){
+    this.setState({
+      sql: newSql,
     });
-		this.setState({
-			code: newCode,
-		});
+
+    be5.net.request('queryBuilder', { sql: newSql, _ts_: new Date().getTime() }, json => {
+      this.setState({
+        finalSql: json.included[0].attributes.finalSql,
+      });
+      this.update(json);
+    });
 	}
+
+	update(json){
+    Tables.performData(json, 'queryBuilder-table');
+  }
 
   render() {
 
     return (
       <div className="queryBuilder">
         <h1>Query Builder</h1>
-        <SplitPane split="horizontal" defaultSize={500} >
+        <SplitPane split="horizontal" defaultSize={300} >
 
           <AceEditor
-            value={this.state.code}
+            value={this.state.sql}
             mode="mysql"
             theme="xcode"
             fontSize={13}
@@ -60,7 +72,12 @@ class QueryBuilder extends React.Component
               tabSize: 2,
             }}
           />
-          <Document documentName={"queryBuilder-table"} onChange={()=>{}}/>
+          <div>
+            <br/>
+            <Document documentName={"queryBuilder-table"} onChange={()=>{}}/>
+            <h2>Final sql</h2>
+            <pre>{this.state.finalSql}</pre>
+          </div>
         </SplitPane>
 
       </div>
