@@ -66,7 +66,6 @@ const Form = React.createClass({
 
   apply() {
     const attributes = this.state.data.attributes;
-    console.log(this.props.value.hashParams);
     be5.net.request('form/apply', this.getRequestParams(
       Object.assign({}, JSON.parse(this.props.value.hashParams), attributes.bean.values) ), data => {
       formService.performOperationResult(data, this.props.value.hashParams, this.props.value.documentName, this.props.onChange, true)

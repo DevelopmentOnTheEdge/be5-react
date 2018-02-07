@@ -1,7 +1,6 @@
 import be5              from '../be5';
 import bus              from '../core/bus';
 import Preconditions    from '../preconditions';
-import _                from 'underscore';
 import changeDocument   from '../core/changeDocument';
 import {HtmlResult}     from '../components/forms/form';
 import StaticPage       from '../components/staticPage';
@@ -26,7 +25,7 @@ export default {
     };
 
     be5.net.request('form', requestParams, data => {
-      this.performOperationResult(data, params.values || '{}', documentName, onChange, false);
+      this.performOperationResult(data, '{}', documentName, onChange, false);//todo test and delete hashParams
     }, (data)=> {
       bus.fire("alert", {msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error'});
       // changeDocument(documentName, {
