@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import be5 from '../be5';
 import bus from '../core/bus';
-
+import documentState from '../core/documentState';
 
 class Document extends Component {
 
@@ -28,7 +28,13 @@ class Document extends Component {
     });
   }
 
+  componentWillUnmount(){
+    bus.replaceListeners(this.props.documentName, data => {})
+  }
+
   render() {
+    documentState.set(this.props.documentName, this.state.value);
+
     const loadingItem = null;//this.state.loading
       //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
 

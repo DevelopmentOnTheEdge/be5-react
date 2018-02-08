@@ -1,11 +1,11 @@
 import React                from 'react';
 import PropTypes            from 'prop-types';
 import be5                  from '../../be5';
-import formService                from '../../services/forms';
+import formService          from '../../services/forms';
 import PropertySet          from '../properties/propertySet';
 import JsonPointer          from 'json-pointer';
 import _                    from 'underscore';
-import Document from "../document";
+import Document             from "../document";
 
 
 const Form = React.createClass({
@@ -20,7 +20,19 @@ const Form = React.createClass({
   },
 
   componentDidMount() {
-    for (var key in this.refs) {
+    if(this.props.value.documentName === be5.documentName)
+    {
+      //const attr = this.props.value.data.attributes;
+      //const formUrl = '#!' + be5.url.create('form', [attr.entity, attr.query, attr.operation], attr.parameters);
+
+      if('#!' + this.props.value.links.self !== window.location.hash)
+      {
+        console.error(window.location.hash + " -> " + this.props.value.links.self);
+        be5.url.set(this.props.value.links.self);
+      }
+    }
+
+    for (let key in this.refs) {
       if(this.refs[key].onFormDidMount)
         this.refs[key].onFormDidMount();
     }

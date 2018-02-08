@@ -74,10 +74,21 @@ export default {
               }
               else
               {
-                if (documentName === be5.documentName) {
-                  be5.url.set(attributes.details);
+                if (documentName === be5.documentName)
+                {
+                  //be5.url.set(attributes.details);
+
+                  if(document.location.hash !== '#!' + attributes.details) {
+                    console.log("hash" + window.location.hash + " -> " + attributes.details);
+                    document.location.hash = '#!' + attributes.details;
+                  }else{
+                    console.log("process" + window.location.hash + " -> " + attributes.details);
+                    be5.url.process(documentName, '#!' + attributes.details);
+                  }
                 }
-                else {
+                else
+                {
+                  console.log("process" + window.location.hash + " -> " + attributes.details);
                   be5.url.process(documentName, '#!' + attributes.details);
                 }
               }
