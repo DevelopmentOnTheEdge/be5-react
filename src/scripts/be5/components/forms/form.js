@@ -20,16 +20,10 @@ const Form = React.createClass({
   },
 
   componentDidMount() {
-    if(this.props.value.documentName === be5.documentName)
+    if(this.props.value.documentName === be5.documentName
+      && document.location.hash !== '#!' + this.props.value.links.self)
     {
-      //const attr = this.props.value.data.attributes;
-      //const formUrl = '#!' + be5.url.create('form', [attr.entity, attr.query, attr.operation], attr.parameters);
-
-      if('#!' + this.props.value.links.self !== window.location.hash)
-      {
-        console.error(window.location.hash + " -> " + this.props.value.links.self);
-        be5.url.set(this.props.value.links.self);
-      }
+      document.location.hash = '#!' + this.props.value.links.self;
     }
 
     for (let key in this.refs) {

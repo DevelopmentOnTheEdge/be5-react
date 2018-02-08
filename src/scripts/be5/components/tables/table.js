@@ -224,25 +224,9 @@ class TableBox extends Component {
   }
 
   onOperationClick(name) {
-    const attributes = this.props.value.data.attributes;
+    const attr = this.props.value.data.attributes;
 
-    formAction(this.props.operationDocumentName, attributes.category, attributes.page, name,
-      attributes.parameters, this.props.onChange);
-
-    // if(this.props.operationDocumentName === be5.documentName)
-    // {
-    //   be5.url.set(be5.url.create('form', [attributes.category, attributes.page, name], attributes.parameters));
-    // }
-    // else
-    // {
-    //   formAction(this.props.operationDocumentName, attributes.category, attributes.page, name,
-    //     attributes.parameters, this.props.onChange);
-    //   // be5.url.process(
-    //   //     this.props.operationDocumentName,
-    //   //     "#!" + be5.url.create('form', [this.props.category, this.props.page, name], this.props.parameters)
-    //   // );
-    //
-    // }
+    formAction(this.props.operationDocumentName, attr.category, attr.page, name, attr.parameters, this.props.onChange);
   }
 
   onSelectionChange() {

@@ -1,23 +1,21 @@
 import be5 from './be5';
 import bus from './core/bus';
-//import documentState from './core/documentState';
-
+import documentState from './core/documentState';
 
 const hashChange = function()
 {
-  console.log(be5.documentName + " - " + document.location.hash);
+  const state = documentState.get(be5.documentName);
 
-  be5.url.process(be5.documentName, document.location.hash);
+  if(state.links !== undefined && "#!" + state.links.self === document.location.hash
+      && state.links.self.startsWith('form'))
+  {
+    //console.log('skip - form already opened');
+  }
+  else
+  {
+    be5.url.process(be5.documentName, document.location.hash);
+  }
 };
-// const hashChange = function()
-// {
-//   const state = documentState.get(be5.documentName);
-//   if(state.links === undefined || "#!" + documentState.get(be5.documentName).links.self !== document.location.hash)
-//   {
-//     console.log(state.links === undefined ? "()" : state.links.self + " -> " + document.location.hash);
-//     be5.url.process(be5.documentName, document.location.hash);
-//   }
-// };
 
 window.addEventListener("hashchange", hashChange, false);
 
