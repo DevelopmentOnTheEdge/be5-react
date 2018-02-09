@@ -76,12 +76,11 @@ class Document extends Component {
 }
 
 Document.defaultProps = {
-  documentName: 'MainDocument',
   onChange: () => {}
 };
 
 Document.propTypes = {
-  documentName: PropTypes.string,
+  documentName: PropTypes.string.isRequired,
   onChange: PropTypes.func,
 };
 

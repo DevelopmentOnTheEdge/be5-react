@@ -128,7 +128,8 @@ const be5 = {
   
   messages: messages.en,
   mainDocumentName: 'MainDocument',
-  
+  mainModalDocumentName: 'MainModalDocument',
+
   appInfo: {},
   
   load: {

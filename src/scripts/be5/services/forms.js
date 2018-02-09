@@ -141,11 +141,20 @@ export default {
     const formComponentName = json.data.attributes.layout.type || 'form';
     const formComponent = formsCollections.getForm(formComponentName);
 
-    if(formComponent === undefined){
-      changeDocument(documentName, { component: StaticPage,
-        value: StaticPage.createValue(be5.messages.formComponentNotFound + formComponentName, '')});
-    }else{
-      changeDocument(documentName, { component: formComponent, value: Object.assign({}, json, {documentName: documentName, hashParams: hashParams}) });
+    if(formComponentName === 'modal')
+    {
+      bus.fire("mainModalToggle");
+      changeDocument(be5.mainModalDocumentName, { component: formComponent,
+        value: Object.assign({}, json, {documentName: be5.mainModalDocumentName, hashParams: hashParams}) });
+    }
+    else
+    {
+      if(formComponent === undefined){
+        changeDocument(documentName, { component: StaticPage,
+          value: StaticPage.createValue(be5.messages.formComponentNotFound + formComponentName, '')});
+      }else{
+        changeDocument(documentName, { component: formComponent, value: Object.assign({}, json, {documentName: documentName, hashParams: hashParams}) });
+      }
     }
   },
 

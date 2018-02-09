@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import bus from '../core/bus';
+import be5 from '../be5';
 import SideBar from './sideBar';
 import Document from './document';
 import SplitPane from './splitPane';
-import Alert from 'react-s-alert';
+import Be5Components from "./Be5Components";
+
 
 class Application extends Component
 {
@@ -18,29 +20,15 @@ class Application extends Component
     bus.listen('LoggedIn', this.refresh);
     bus.listen('LanguageChanged', this.refresh);
     bus.listen('RoleChanged', this.refresh);
-    bus.listen("alert", data => {
-      console.log(data);
-      if (data.type === 'error') {
-        Alert.error(data.msg, {
-          position: 'top-right',
-          timeout: 5000
-        });
-      } else {
-        Alert.success(data.msg, {
-          position: 'top-right',
-          timeout: 5000
-        });
-      }
-    });
   }
 
   render() {
     return (
       <div>
-        <Alert stack={{limit: 10}}/>
+        <Be5Components/>
         <SplitPane split="vertical" defaultSize={280} >
           <SideBar ref="sideBar"/>
-          <Document ref="document" onChange={()=>{}}/>
+          <Document ref="document" documentName={be5.mainDocumentName} />
         </SplitPane>
       </div>
     );

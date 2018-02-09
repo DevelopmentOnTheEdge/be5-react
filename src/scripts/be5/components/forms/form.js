@@ -162,7 +162,7 @@ const Form = React.createClass({
       <div className="row">
         <div className={'formBox ' + (attributes.layout.formBoxCssClasses || 'col-12 max-width-970 formBoxDefault')}>
           <h1 className="form-component__title">{attributes.title}</h1>
-          <form className="" onSubmit={this._applyOnSubmit}>
+          <form onSubmit={this._applyOnSubmit}>
             <PropertySet bean={attributes.bean} onChange={this._onFieldChange} localization={be5.messages.property}/>
             {this._createFormActions()}
           </form>
