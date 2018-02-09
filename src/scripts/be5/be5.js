@@ -127,7 +127,7 @@ const be5 = {
   },
   
   messages: messages.en,
-  documentName: 'MainDocument',
+  mainDocumentName: 'MainDocument',
   
   appInfo: {},
   
@@ -235,7 +235,7 @@ const be5 = {
       if(document.location.hash !== url){
         document.location.hash = url;
       }else{
-        be5.url.process(be5.documentName, url);
+        be5.url.process(be5.mainDocumentName, url);
       }
     },
     

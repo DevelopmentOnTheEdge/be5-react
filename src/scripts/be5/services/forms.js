@@ -75,7 +75,7 @@ export default {
               }
               else
               {
-                if (documentName === be5.documentName)
+                if (documentName === be5.mainDocumentName)
                 {
                   be5.url.set(attributes.details);
                 }
@@ -151,7 +151,7 @@ export default {
 
   changeLocationHash(json)
   {
-    if(json.documentName === be5.documentName && document.location.hash !== '#!' + json.links.self)
+    if(json.documentName === be5.mainDocumentName && document.location.hash !== '#!' + json.links.self)
     {
       document.location.hash = '#!' + json.links.self;
     }

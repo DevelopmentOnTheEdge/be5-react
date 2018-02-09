@@ -4,7 +4,7 @@ import documentState from './core/documentState';
 
 const hashChange = function()
 {
-  const state = documentState.get(be5.documentName);
+  const state = documentState.get(be5.mainDocumentName);
 
   if(state.links !== undefined && "#!" + state.links.self === document.location.hash
       && state.links.self.startsWith('form'))
@@ -13,7 +13,7 @@ const hashChange = function()
   }
   else
   {
-    be5.url.process(be5.documentName, document.location.hash);
+    be5.url.process(be5.mainDocumentName, document.location.hash);
   }
 };
 
@@ -32,5 +32,5 @@ bus.listen('CallDefaultAction', () => {
 
 be5.net.request('languageSelector', {}, function(data) {
   be5.locale.set(data.selected, data.messages);
-  be5.url.process(be5.documentName, document.location.hash);
+  be5.url.process(be5.mainDocumentName, document.location.hash);
 });

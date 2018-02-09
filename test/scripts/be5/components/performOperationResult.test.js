@@ -54,7 +54,7 @@ test('performOperationResult redirect main', () => {
     "links":{"self":"form/categories/Doc categories/Edit"},
     "meta":{"_ts_":"1503244989281"}
   };
-  formService.performOperationResult(res, "", be5.documentName, mockFunc);
+  formService.performOperationResult(res, "", be5.mainDocumentName, mockFunc);
 
   expect(be5.url.set.mock.calls.length).toBe(1);
   expect(mockFunc.mock.calls.length).toBe(1);
