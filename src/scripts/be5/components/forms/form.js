@@ -115,7 +115,7 @@ const Form = React.createClass({
       return null;
     }
     return (
-      <div className="formActions">
+      <div>
         {this._createOkAction()}
         {' '}
         {this._createCancelAction()}
@@ -164,7 +164,9 @@ const Form = React.createClass({
           <h1 className="form-component__title">{attributes.title}</h1>
           <form onSubmit={this._applyOnSubmit}>
             <PropertySet bean={attributes.bean} onChange={this._onFieldChange} localization={be5.messages.property}/>
-            {this._createFormActions()}
+            <div className="formActions">
+              {this._createFormActions()}
+            </div>
           </form>
           <br/>
         </div>

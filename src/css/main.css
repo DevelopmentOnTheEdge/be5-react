@@ -17,9 +17,8 @@
 #document-content___MainDocument {
     padding: 15px;
 }
-.document-content {
-    position: relative;
-    margin-bottom: 15px;
+.document-content + .document-content {
+    margin-top: 15px;
 }
 .alert .document-content {
     margin-bottom: 0;
