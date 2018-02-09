@@ -20,11 +20,7 @@ const Form = React.createClass({
   },
 
   componentDidMount() {
-    if(this.props.value.documentName === be5.documentName
-      && document.location.hash !== '#!' + this.props.value.links.self)
-    {
-      document.location.hash = '#!' + this.props.value.links.self;
-    }
+    formService.changeLocationHash(this.props.value);
 
     for (let key in this.refs) {
       if(this.refs[key].onFormDidMount)
@@ -60,6 +56,7 @@ const Form = React.createClass({
       operation: attributes.operation,
       selectedRows: attributes.selectedRows,
       values: JSON.stringify(values),
+      operationParams: JSON.stringify(attributes.operationParams),
       _ts_: new Date().getTime()
     }
   },
@@ -195,6 +192,11 @@ export const HtmlResult = React.createClass({
     }),
   },
 
+  componentDidMount() {
+    console.log(this.props.value);
+    formService.changeLocationHash(this.props.value);
+  },
+
   render() {
     const back = () => { history.back(); };
     const attributes = this.props.value.data.attributes;
@@ -217,7 +219,6 @@ export const HtmlResult = React.createClass({
   }
   
 });
-
 
 export default Form;
 

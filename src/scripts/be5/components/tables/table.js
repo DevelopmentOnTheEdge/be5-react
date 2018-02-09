@@ -110,7 +110,7 @@ class QuickColumns extends Component {
       props.firstRow
         .map( (col, idx) => {
           if(col.options.quick)
-            return {columnId: idx, visible: col.options.quick.visible == 'true'};
+            return {columnId: idx, visible: col.options.quick.visible === 'true'};
           else return null;
         })
         .filter((col) => {return col !== null})
@@ -127,7 +127,7 @@ class QuickColumns extends Component {
   }
 
   render() {
-    if(this.state.quickColumns.length == 0){
+    if(this.state.quickColumns.length === 0){
       return (<div/>)
     }
     if(this.state.table){
@@ -226,6 +226,8 @@ class TableBox extends Component {
   onOperationClick(name) {
     const attr = this.props.value.data.attributes;
 
+    //console.log(be5.url.create('form', [attr.category, attr.page, name], attr.parameters));
+
     formAction(this.props.operationDocumentName, attr.category, attr.page, name, attr.parameters, this.props.onChange);
   }
 
@@ -287,13 +289,13 @@ class TableBox extends Component {
     const lengths = [5,10,20,50,100,500,1000];
     const pageLength = attributes.length;
 
-    if (lengths.indexOf(pageLength) == -1) {
+    if (lengths.indexOf(pageLength) === -1) {
       lengths.push(pageLength);
       lengths.sort(function(a,b) {return a-b;});
     }
 
     let language = null;
-    if(be5.locale.value != 'en'){
+    if(be5.locale.value !== 'en'){
       language = be5.messages.dataTables;
     }
 

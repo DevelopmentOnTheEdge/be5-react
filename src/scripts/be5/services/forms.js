@@ -19,13 +19,14 @@ export default {
       entity: params.entity,
       query: params.query,
       operation: params.operation,
-      values: params.values || '',
+      values: params.values || '{}',
+      operationParams: params.operationParams || '{}',
       selectedRows: params.selectedRows || '',
       _ts_: new Date().getTime()
     };
 
     be5.net.request('form', requestParams, data => {
-      this.performOperationResult(data, '{}', documentName, onChange, false);//todo test and delete hashParams
+      this.performOperationResult(data, '{}', documentName, onChange, false);//todo test and delete second param
     }, (data)=> {
       bus.fire("alert", {msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error'});
       // changeDocument(documentName, {
@@ -85,7 +86,7 @@ export default {
               }
               return;
             case 'finished':
-              changeDocument(documentName, {component: HtmlResult, value: json});
+              changeDocument(documentName, {component: HtmlResult, value: Object.assign({}, json, {documentName: documentName})});
               return;
             case 'table':
               //Object.assign({}, attributes.details, json.meta)}
@@ -145,6 +146,14 @@ export default {
         value: StaticPage.createValue(be5.messages.formComponentNotFound + formComponentName, '')});
     }else{
       changeDocument(documentName, { component: formComponent, value: Object.assign({}, json, {documentName: documentName, hashParams: hashParams}) });
+    }
+  },
+
+  changeLocationHash(json)
+  {
+    if(json.documentName === be5.documentName && document.location.hash !== '#!' + json.links.self)
+    {
+      document.location.hash = '#!' + json.links.self;
     }
   }
 

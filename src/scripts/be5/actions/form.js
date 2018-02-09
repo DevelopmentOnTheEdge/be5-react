@@ -14,7 +14,8 @@ export default function(documentName, entity, query, operation, operationParams,
     entity: entity,
     query: query || 'All records',
     operation: operation,
-    values: be5.net.paramString(operationParams),
+    values: {},
+    operationParams: be5.net.paramString(operationParams),
     selectedRows: selectedRows
   };
 
