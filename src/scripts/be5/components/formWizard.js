@@ -25,7 +25,7 @@ class FormWizard extends Component {
 
   componentDidMount(){
     this.setState(this.getPrevNextBtnState(this.props.startAtStep));
-    be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
+    be5.url.process(this.props.frontendParams.documentName, this.props.steps[this.state.compState].url);
   }
 
   // update the header nav states via classes so they can be styled via css
@@ -89,7 +89,7 @@ class FormWizard extends Component {
       this.setState({compState: next});
     }
 
-    be5.url.process(this.props.documentName, this.props.steps[next].url);
+    be5.url.process(this.props.frontendParams.documentName, this.props.steps[next].url);
 
     this.checkNavState(next);
   }
