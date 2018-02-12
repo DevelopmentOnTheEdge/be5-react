@@ -1,8 +1,9 @@
 import React          from 'react';
 import PropTypes      from 'prop-types';
 import be5            from '../be5';
-import Document       from '../components/document';
+import formService          from '../services/forms';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
+
 
 class ErrorPane extends React.Component
 {
@@ -10,6 +11,10 @@ class ErrorPane extends React.Component
     super();
     this.state = {helpCollapse: false};
     this.helpCollapseToggle = this.helpCollapseToggle.bind(this);
+  }
+
+  componentDidMount() {
+    formService.changeLocationHash(this.props);
   }
 
   helpCollapseToggle() {
