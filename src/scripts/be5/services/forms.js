@@ -61,8 +61,12 @@ export default {
           this.performForm(json, frontendParams);
           return;
         case 'operationResult':
-          if (onChange) onChange();
           const attributes = json.data.attributes;
+
+          if (onChange && attributes.status !== 'table')
+          {
+            onChange();
+          }
 
           if (attributes.status === 'error') {
             bus.fire("alert", {msg: attributes.message, type: 'error'});
@@ -156,7 +160,7 @@ export default {
 
     if(formComponentName === 'modal')
     {
-      bus.fire("mainModalToggle");
+      bus.fire("mainModalOpen");
 
       changeDocument(be5.mainModalDocumentName, { component: formComponent, value: json, frontendParams: frontendParams });
     }
