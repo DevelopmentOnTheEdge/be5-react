@@ -17,10 +17,11 @@ loaders.push({
 });
 
 module.exports = {
-    entry: {
-        reactHotLoader: 'react-hot-loader/patch',
-        be5app: './src/scripts/be5/main.js'
-    },
+    entry: [
+        'babel-polyfill',
+        'react-hot-loader/patch',
+        './src/scripts/be5/mainDev.js'
+    ],
     devtool: process.env.WEBPACK_DEVTOOL || 'eval-source-map',
     output: {
         publicPath: '/',
@@ -66,12 +67,7 @@ module.exports = {
         }),
         new DashboardPlugin(),
         new HtmlWebpackPlugin({
-            chunks: ['be5app'],
-            template: './src/template-dev.html',
-            files: {
-                css: ['style.css'],
-                js: [ "bundle.js"],
-            }
+            template: './src/template-dev.html'
         }),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|ru/),
     ],
