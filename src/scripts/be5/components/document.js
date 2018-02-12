@@ -12,7 +12,7 @@ class Document extends Component {
   }
 
   componentDidMount() {
-    bus.replaceListeners(this.props.documentName, data => {
+    bus.replaceListeners(this.props.frontendParams.documentName, data => {
       if(this.state.value.meta !== undefined && !Number.isInteger(Number.parseInt(this.state.value.meta._ts_))){
         console.error("meta._ts_ mast be string of Integer " + this.state.value.meta._ts_);
       }
@@ -29,11 +29,11 @@ class Document extends Component {
   }
 
   componentWillUnmount(){
-    bus.replaceListeners(this.props.documentName, data => {})
+    bus.replaceListeners(this.props.frontendParams.documentName, data => {})
   }
 
   render() {
-    documentState.set(this.props.documentName, this.state.value);
+    documentState.set(this.props.frontendParams.documentName, this.state);
 
     const loadingItem = null;//this.state.loading
       //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
@@ -52,8 +52,8 @@ class Document extends Component {
         contentItem = (
           <DocumentContent
                 value={this.state.value}
-                onChange={this.props.onChange}
-                operationDocumentName={this.props.operationDocumentName || this.props.documentName}
+                frontendParams={Object.assign({}, this.props.frontendParams, this.state.frontendParams)}
+                //onChange={this.props.onChange}
           />
         )
       }
@@ -66,7 +66,7 @@ class Document extends Component {
     }
 
     return (
-      <div className='document-content' id={'document-content___' + this.props.documentName}>
+      <div className='document-content' id={'document-content___' + this.props.frontendParams.documentName}>
         {loadingItem}
         {contentItem}
       </div>
@@ -80,7 +80,7 @@ Document.defaultProps = {
 };
 
 Document.propTypes = {
-  documentName: PropTypes.string.isRequired,
+  frontendParams: PropTypes.object.isRequired,
   onChange: PropTypes.func,
 };
 

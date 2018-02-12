@@ -13,10 +13,16 @@ class ModalForm extends Form
     super(props);
 
     this.toggle = this.toggle.bind(this);
+    this.applyAndClose = this.applyAndClose.bind(this);
   }
 
   componentDidMount(){
-    super.componentDidMount();
+    this.initForm();
+  }
+
+  applyAndClose(){
+    super.apply();
+    this.toggle();
   }
 
   toggle() {
@@ -34,10 +40,12 @@ class ModalForm extends Form
           </form>
         </ModalBody>
         <div className="col-12">
-          <Document documentName={this.props.value.documentName +"_errors"} onChange={this.onChange} />
+          <Document frontendParams={{documentName: this.props.frontendParams.documentName +"_errors"}} onChange={this.onChange} />
         </div>
         <ModalFooter>
-          {this._createFormActions()}
+          <button type="button" className="btn btn-primary" onClick={this.applyAndClose} disabled={!this.state.allFieldsFilled}>
+            {be5.messages.Submit}
+          </button>
         </ModalFooter>
       </div>
     );

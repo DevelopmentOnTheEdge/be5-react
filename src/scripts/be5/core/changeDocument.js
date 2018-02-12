@@ -1,6 +1,7 @@
 import bus from './bus';
+import Preconditions    from '../preconditions';
 
 export default (documentName, value) => {
-  //console.log(documentName, value);
+  Preconditions.passed(documentName);
   bus.fire(documentName, value);
 }

@@ -6,8 +6,8 @@ const hashChange = function()
 {
   const state = documentState.get(be5.mainDocumentName);
 
-  if(state.links !== undefined && "#!" + state.links.self === document.location.hash
-      && state.links.self.startsWith('form'))
+  if(state.value.links !== undefined && "#!" + state.value.links.self === document.location.hash
+      && state.value.links.self.startsWith('form'))
   {
     //console.log('skip - form already opened');
   }

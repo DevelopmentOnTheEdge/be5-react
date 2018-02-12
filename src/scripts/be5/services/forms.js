@@ -10,10 +10,17 @@ import Table            from "../components/tables/table";
 
 
 export default {
-  load(params, documentName, onChange) {
+  load(params, frontendParams, onChange) {
     Preconditions.passed(params.entity);
     Preconditions.passed(params.query);
     Preconditions.passed(params.operation);
+
+    //todo check for Edit operation with reloadOnChange
+    const selectedRows = (params === undefined || params.selectedRows === undefined)
+      ? be5.tableState.selectedRows.join() : params.selectedRows;
+    if(params !== undefined && params.selectedRows !== undefined){
+      delete params.selectedRows;
+    }
 
     const requestParams = {
       entity: params.entity,
@@ -21,12 +28,12 @@ export default {
       operation: params.operation,
       values: params.values || '{}',
       operationParams: params.operationParams || '{}',
-      selectedRows: params.selectedRows || '',
+      selectedRows: selectedRows || '',
       _ts_: new Date().getTime()
     };
 
     be5.net.request('form', requestParams, data => {
-      this.performOperationResult(data, '{}', documentName, onChange, false);//todo test and delete second param
+      this.performOperationResult(data, frontendParams, onChange, false);//todo test and delete second param
     }, (data)=> {
       bus.fire("alert", {msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error'});
       // changeDocument(documentName, {
@@ -38,7 +45,10 @@ export default {
 
   },
 
-  performOperationResult(json, hashParams, documentName, onChange, reloadOrApply){
+  performOperationResult(json, frontendParams, onChange, reloadOrApply)
+  {
+    const documentName = frontendParams.documentName;
+
     //console.log("forms perform: " + documentName);
     Preconditions.passed(documentName);
 
@@ -48,7 +58,7 @@ export default {
 
       switch (json.data.type) {
         case 'form':
-          this.performForm(json, hashParams, documentName);
+          this.performForm(json, frontendParams);
           return;
         case 'operationResult':
           if (onChange) onChange();
@@ -86,16 +96,18 @@ export default {
               }
               return;
             case 'finished':
-              changeDocument(documentName, {component: HtmlResult, value: Object.assign({}, json, {documentName: documentName})});
+              changeDocument(documentName, {component: HtmlResult, value: json, frontendParams: frontendParams});
               return;
             case 'table':
               //Object.assign({}, attributes.details, json.meta)}
-              changeDocument(documentName, {component: Table, value: {
+              //console.log(frontendParams.parentDocumentName, attributes.details);
+              const tableJson = {
                 data: {
                   attributes: attributes.details
                 },
                 meta: json.meta
-              }});
+              };
+              changeDocument(frontendParams.parentDocumentName, {component: Table, value: tableJson, frontendParams: frontendParams});
               return;
             default:
               bus.fire("alert", {
@@ -121,8 +133,9 @@ export default {
     }
   },
 
-  performForm(json, hashParams, documentName)
+  performForm(json, frontendParams)
   {
+    const documentName = frontendParams.documentName;
     let operationResult = json.data.attributes.operationResult;
 
     if(operationResult.status === 'error' )
@@ -144,8 +157,8 @@ export default {
     if(formComponentName === 'modal')
     {
       bus.fire("mainModalToggle");
-      changeDocument(be5.mainModalDocumentName, { component: formComponent,
-        value: Object.assign({}, json, {documentName: be5.mainModalDocumentName, hashParams: hashParams}) });
+
+      changeDocument(be5.mainModalDocumentName, { component: formComponent, value: json, frontendParams: frontendParams });
     }
     else
     {
@@ -153,16 +166,16 @@ export default {
         changeDocument(documentName, { component: StaticPage,
           value: StaticPage.createValue(be5.messages.formComponentNotFound + formComponentName, '')});
       }else{
-        changeDocument(documentName, { component: formComponent, value: Object.assign({}, json, {documentName: documentName, hashParams: hashParams}) });
+        changeDocument(documentName, { component: formComponent, value: json, frontendParams: frontendParams });
       }
     }
   },
 
   changeLocationHash(json)
   {
-    if(json.documentName === be5.mainDocumentName && document.location.hash !== '#!' + json.links.self)
+    if(json.frontendParams.documentName === be5.mainDocumentName && document.location.hash !== '#!' + json.value.links.self)
     {
-      document.location.hash = '#!' + json.links.self;
+      document.location.hash = '#!' + json.value.links.self;
     }
   }
 

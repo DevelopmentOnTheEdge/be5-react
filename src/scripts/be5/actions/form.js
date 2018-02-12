@@ -1,23 +1,16 @@
 import React          from 'react';
 import be5            from '../be5';
-import Forms          from '../services/forms';
+import formService          from '../services/forms';
 
-export default function(documentName, entity, query, operation, operationParams, onChange) {
-
-  const selectedRows = (operationParams === undefined || operationParams.selectedRows === undefined)
-    ? be5.tableState.selectedRows.join() : operationParams.selectedRows;
-  if(operationParams !== undefined && operationParams.selectedRows !== undefined){
-    delete operationParams.selectedRows;
-  }
+export default function(documentName, entity, query, operation, operationParams) {
 
   const params = {
     entity: entity,
     query: query || 'All records',
     operation: operation,
     values: {},
-    operationParams: be5.net.paramString(operationParams),
-    selectedRows: selectedRows
+    operationParams: be5.net.paramString(operationParams)
   };
 
-  Forms.load(params, documentName, onChange);
+  formService.load(params, {documentName: documentName});
 };

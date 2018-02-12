@@ -46,7 +46,7 @@ class Be5Components extends Component
       <div>
         <Alert stack={{limit: 10}}/>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <Document ref="document" documentName={be5.mainModalDocumentName} />
+          <Document ref="document" frontendParams={{documentName: be5.mainModalDocumentName}} />
         </Modal>
       </div>
     );

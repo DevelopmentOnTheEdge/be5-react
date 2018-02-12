@@ -28,7 +28,7 @@ class Application extends Component
         <Be5Components/>
         <SplitPane split="vertical" defaultSize={280} >
           <SideBar ref="sideBar"/>
-          <Document ref="document" documentName={be5.mainDocumentName} />
+          <Document ref="document" frontendParams={{documentName: be5.mainDocumentName}} />
         </SplitPane>
       </div>
     );

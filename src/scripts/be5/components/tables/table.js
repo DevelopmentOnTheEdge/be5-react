@@ -6,7 +6,7 @@ import utils           from '../../utils';
 import $               from 'jquery';
 import Action          from '../action';
 import _               from 'underscore';
-import formAction      from '../../actions/form';
+import formService           from '../../services/forms';
 import numberFormatter from 'number-format.js';
 
 //import reloadImg from '../../../images/reload.png';
@@ -228,7 +228,20 @@ class TableBox extends Component {
 
     //console.log(be5.url.create('form', [attr.category, attr.page, name], attr.parameters));
 
-    formAction(this.props.operationDocumentName, attr.category, attr.page, name, attr.parameters, this.props.onChange);
+    //formAction(this.props.operationDocumentName, attr.category, attr.page, name, attr.parameters, this.props.onChange);
+
+    const params = {
+      entity: attr.category,
+      query: attr.page || 'All records',
+      operation: name,
+      values: {},
+      operationParams: be5.net.paramString(attr.parameters)
+    };
+
+    formService.load(params, {
+      documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
+      parentDocumentName: this.props.frontendParams.documentName
+    }, this.props.onChange);
   }
 
   onSelectionChange() {
@@ -532,8 +545,10 @@ class Table extends Component
         <TableBox
           ref="tableBox"
           value={value}
-          operationDocumentName={this.props.operationDocumentName}
-          onChange={this.props.onChange}
+          frontendParams={this.props.frontendParams}
+          // operationDocumentName={this.props.operationDocumentName}
+          // documentName={this.props.documentName}
+          //onChange={this.props.onChange}
         />
       );
     }
@@ -563,8 +578,8 @@ class Table extends Component
 
 }
 
-Table.propTypes = {
-  onChange: PropTypes.func.isRequired
-};
+// Table.propTypes = {
+//   onChange: PropTypes.func.isRequired
+// };
 
 export default Table;

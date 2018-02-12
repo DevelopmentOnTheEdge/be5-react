@@ -5,7 +5,7 @@ import Document       from '../document';
 import Table          from './table';
 import Tables         from '../../services/tables';
 import changeDocument from '../../core/changeDocument';
-import formAction     from '../../actions/form';
+import formService           from '../../services/forms';
 import {HtmlResult}   from '../../components/forms/form';
 import StaticPage     from '../../components/staticPage';
 import { Collapse, Button } from 'reactstrap';
@@ -35,26 +35,32 @@ class TableForm extends React.Component
   }
 
   updateDocuments(){
-    const attributes = this.props.value.data.attributes;
+    const attr = this.props.value.data.attributes;
     changeDocument("table", { component: Table, value: this.props.value });
-    if(this.state.tableInfo === undefined && attributes.layout.tableInfo !== undefined)
+    if(this.state.tableInfo === undefined && attr.layout.tableInfo !== undefined)
     {
-      be5.url.process("table-form-info", "#!static/" + attributes.layout.tableInfo);
-      this.setState({tableInfo: attributes.layout.tableInfo});
+      be5.url.process("table-form-info", "#!static/" + attr.layout.tableInfo);
+      this.setState({tableInfo: attr.layout.tableInfo});
     }
 
-    if(attributes.layout.defaultOperation !== undefined){
+    if(attr.layout.defaultOperation !== undefined){
       //console.log("attributes.layout.defaultOperation: " + attributes.layout.defaultOperation);
       //TODO вместо замены старой формы на StaticPage.createValue('', ''), делать все поля READ_ONLY и кнопку disabled
       //changeDocument("form", { component: StaticPage, value: StaticPage.createValue('', '')}); - баг форма пропадает, ошибки обновления
-      formAction("form",
-        attributes.category, attributes.page, attributes.layout.defaultOperation,
-        attributes.parameters, attributes.onChange
-      );
+
+      const params = {
+        entity: attr.category,
+        query: attr.page || 'All records',
+        operation: attr.layout.defaultOperation,
+        values: {},
+        operationParams: be5.net.paramString(attr.parameters)
+      };
+
+      formService.load(params, {documentName: "form", parentDocumentName: "table"}, this.props.onChange);
     }else{
         changeDocument("form", {
           component: StaticPage,
-          value: StaticPage.createValue('', attributes.layout.textInFormDocument || "")
+          value: StaticPage.createValue('', attr.layout.textInFormDocument || "")
         });
     }
 
@@ -81,7 +87,7 @@ class TableForm extends React.Component
           </Button>
           <Collapse isOpen={this.state.helpCollapse}>
             <div className="alert alert-success" role="alert">
-              <Document documentName={"table-form-info"} />
+              <Document frontendParams={{documentName: "table-form-info"}} />
             </div>
           </Collapse>
         </div>
@@ -94,9 +100,9 @@ class TableForm extends React.Component
   render() {
     return (
       <div className="table-form">
-        <Document documentName={"table"} operationDocumentName={"form"} onChange={this.onChange}/>
+        <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} onChange={this.onChange}/>
         {this.tableInfo()}
-        <Document documentName={"form"} onChange={this.onChange} />
+        <Document frontendParams={{documentName: "form"}} onChange={this.onChange} />
       </div>
     );
   }

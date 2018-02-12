@@ -6,33 +6,22 @@ import StaticPage          from '../components/staticPage';
 import ErrorPane           from "../components/errorPane";
 import TablesCollections   from './tablesCollections';
 
-
-const createDefaultOptions = function() {
-  return {};
-};
+// const createDefaultOptions = function() {
+//   return {};
+// };
 
 export default {
   load(params, performData, documentName) {
     Preconditions.passed(params.entity);
     Preconditions.passed(params.query);
     
-    const options = _.extend(createDefaultOptions(), params.options);
+//    const options = _.extend(createDefaultOptions(), params.options);
     const requestParams = {
       entity: params.entity, query: params.query, values: be5.net.paramString(params.params),
       _ts_: new Date().getTime()
     };
     
     be5.net.request('document', requestParams, data => {
-      // data.time = Date.now();
-      // if (data.type === 'table') {
-      //   data.value.type = 'table';
-      //   data.value.requestParams = requestParams;
-      // } else {
-      //   data.value.embedded = true;
-      // }
-      // data.value = _.extend({}, data.value, options);
-      // data = documentUtils.createDocument(data);
-
       performData(data, documentName);
     }, (data)=> {
       changeDocument(documentName, { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)});

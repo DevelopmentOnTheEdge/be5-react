@@ -20,8 +20,12 @@ const Form = React.createClass({
   },
 
   componentDidMount() {
-    formService.changeLocationHash(this.props.value);
+    formService.changeLocationHash(this.props);
 
+    this.initForm();
+  },
+
+  initForm() {
     for (let key in this.refs) {
       if(this.refs[key].onFormDidMount)
         this.refs[key].onFormDidMount();
@@ -63,15 +67,13 @@ const Form = React.createClass({
 
   _reload(values) {
     formService.load(this.getRequestParams(
-      Object.assign({}, JSON.parse(this.props.value.hashParams), values)
-    ), this.props.value.documentName);
+      values//Object.assign({}, JSON.parse(this.props.value.hashParams), values)
+    ), this.props.frontendParams);
   },
 
   apply() {
-    const attributes = this.state.data.attributes;
-    be5.net.request('form/apply', this.getRequestParams(
-      Object.assign({}, JSON.parse(this.props.value.hashParams), attributes.bean.values) ), data => {
-      formService.performOperationResult(data, this.props.value.hashParams, this.props.value.documentName, this.props.onChange, true)
+    be5.net.request('form/apply', this.getRequestParams(this.state.data.attributes.bean.values), data => {
+      formService.performOperationResult(data, this.props.frontendParams, this.props.onChange, true)
     });
   },
   
@@ -171,7 +173,7 @@ const Form = React.createClass({
           <br/>
         </div>
         <div className="col-12">
-          <Document documentName={this.props.value.documentName +"_errors"} onChange={this.onChange} />
+          <Document frontendParams={{documentName: this.props.frontendParams.documentName + "_errors"}} onChange={this.onChange} />
         </div>
       </div>
     );
@@ -196,7 +198,7 @@ export const HtmlResult = React.createClass({
 
   componentDidMount() {
     console.log(this.props.value);
-    formService.changeLocationHash(this.props.value);
+    formService.changeLocationHash(this.props);
   },
 
   render() {
