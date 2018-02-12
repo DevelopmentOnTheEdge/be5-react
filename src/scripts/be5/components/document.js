@@ -53,7 +53,7 @@ class Document extends Component {
           <DocumentContent
                 value={this.state.value}
                 frontendParams={Object.assign({}, this.props.frontendParams, this.state.frontendParams)}
-                //onChange={this.props.onChange}
+                onChange={this.props.onChange}
           />
         )
       }

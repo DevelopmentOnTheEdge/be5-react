@@ -546,9 +546,7 @@ class Table extends Component
           ref="tableBox"
           value={value}
           frontendParams={this.props.frontendParams}
-          // operationDocumentName={this.props.operationDocumentName}
-          // documentName={this.props.documentName}
-          //onChange={this.props.onChange}
+          onChange={this.props.onChange}
         />
       );
     }
