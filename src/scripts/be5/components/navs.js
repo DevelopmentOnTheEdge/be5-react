@@ -54,7 +54,7 @@ class Navs extends React.Component {
           {this.renderSteps()}
         </Nav>
         <div className="tab-content">
-          <Document documentName={this.props.documentName} />
+          <Document frontendParams={{documentName: this.props.documentName}} />
         </div>
      </div>
     );

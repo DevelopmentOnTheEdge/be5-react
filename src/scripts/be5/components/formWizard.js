@@ -311,7 +311,7 @@ class FormWizard extends Component {
               : <span></span>
           }
 
-        <Document documentName={this.props.documentName} />
+        <Document frontendParams={{documentName: this.props.documentName}} />
 
         <br/>
         <div style={this.props.showNavigation ? {} : this.hidden} className="footer-buttons">

@@ -6,7 +6,7 @@ import formService    from '../../../../src/scripts/be5/services/forms';
 
 test('performOperationResult finished', () => {
   const component = renderer.create(
-    <Document documentName="test"/>
+    <Document frontendParams={{documentName: "test"}}/>
   );
   const mockFunc = jest.fn();
   const res = {

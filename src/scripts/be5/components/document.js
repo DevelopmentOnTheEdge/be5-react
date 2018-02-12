@@ -80,7 +80,11 @@ Document.defaultProps = {
 };
 
 Document.propTypes = {
-  frontendParams: PropTypes.object.isRequired,
+  frontendParams: PropTypes.shape({
+    documentName: PropTypes.string.isRequired,
+    operationDocumentName: PropTypes.string,
+    parentDocumentName: PropTypes.string,
+  }),
   onChange: PropTypes.func,
 };
 

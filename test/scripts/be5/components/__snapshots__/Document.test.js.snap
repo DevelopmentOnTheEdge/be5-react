@@ -17,7 +17,6 @@ exports[`Form 1`] = `
         SelectCompany
       </h1>
       <form
-        className=""
         onSubmit={[Function]}
       >
         <div
@@ -54,15 +53,17 @@ exports[`Form 1`] = `
         <div
           className="formActions"
         >
-          <button
-            className="btn btn-primary"
-            disabled={true}
-            onClick={[Function]}
-            type="button"
-          >
-            Submit
-          </button>
-           
+          <div>
+            <button
+              className="btn btn-primary"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              Submit
+            </button>
+             
+          </div>
         </div>
       </form>
       <br />
@@ -72,7 +73,7 @@ exports[`Form 1`] = `
     >
       <div
         className="document-content"
-        id="document-content___undefined_errors"
+        id="document-content___MainDocument_errors"
       />
     </div>
   </div>

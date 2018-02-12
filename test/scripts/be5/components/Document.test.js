@@ -9,7 +9,7 @@ import be5            from '../../../../src/scripts/be5/be5';
 
 test('text', () => {
     const component = renderer.create(
-        <Document />
+        <Document frontendParams={{documentName: "MainDocument"}}/>
     );
 
     expect(component.toJSON()).toMatchSnapshot();
@@ -20,7 +20,7 @@ test('text', () => {
 
 test('StaticPage', () => {
     const component = renderer.create(
-        <Document />
+      <Document frontendParams={{documentName: "MainDocument"}}/>
     );
 
     changeDocument('MainDocument', { component: StaticPage,
@@ -30,7 +30,7 @@ test('StaticPage', () => {
 
 test('Form', () => {
     const  component = renderer.create(
-      <Document />
+      <Document frontendParams={{documentName: "MainDocument"}}/>
     );
 
     changeDocument('MainDocument', { component: Form,
@@ -75,7 +75,7 @@ test('Form', () => {
 
 test('Table', () => {
   const  component = renderer.create(
-    <Document />
+    <Document frontendParams={{documentName: "MainDocument"}}/>
   );
 
   changeDocument('MainDocument', { component: Table,

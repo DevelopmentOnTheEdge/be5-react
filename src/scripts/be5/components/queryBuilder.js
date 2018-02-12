@@ -76,7 +76,7 @@ class QueryBuilder extends React.Component
           />
           <div>
             <br/>
-            <Document documentName={"queryBuilder-table"} onChange={()=>{}}/>
+            <Document frontendParams={{documentName: "queryBuilder-table"}} />
             <h2>Final sql</h2>
             <pre>{this.state.finalSql}</pre>
           </div>
