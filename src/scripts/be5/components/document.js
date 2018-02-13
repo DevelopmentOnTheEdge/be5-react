@@ -4,11 +4,17 @@ import be5 from '../be5';
 import bus from '../core/bus';
 import documentState from '../core/documentState';
 
+import reloadImg from '../../../images/reload.png';
+
+
 class Document extends Component {
 
   constructor(props) {
     super(props);
     this.state = { value: "" };
+
+    this.reload = this.reload.bind(this);
+    this.refresh = this.refresh.bind(this);
   }
 
   componentDidMount() {
@@ -32,6 +38,17 @@ class Document extends Component {
     bus.replaceListeners(this.props.frontendParams.documentName, data => {})
   }
 
+  reload() {
+    if(this.state.value.links.self !== undefined)
+    {
+      be5.url.process(this.props.frontendParams.documentName, "#!" + this.state.value.links.self);
+    }
+  }
+
+  refresh() {
+    this.refs.documentContent.refresh();
+  }
+
   render() {
     documentState.set(this.props.frontendParams.documentName, this.state);
 
@@ -50,11 +67,17 @@ class Document extends Component {
       }else if (this.state.component !== null) {
         const DocumentContent = this.state.component;
         contentItem = (
-          <DocumentContent
-                value={this.state.value}
-                frontendParams={Object.assign({}, this.props.frontendParams, this.state.frontendParams)}
-                onChange={this.props.onChange}
-          />
+          <div>
+            <span onClick={this.refresh} className={"document-reload float-right"}>
+              <img src={reloadImg} alt={be5.messages.reload} title={be5.messages.reload}/>
+            </span>
+            <DocumentContent
+                  ref="documentContent"
+                  value={this.state.value}
+                  frontendParams={Object.assign({}, this.props.frontendParams, this.state.frontendParams)}
+                  onChange={this.props.onChange}
+            />
+          </div>
         )
       }
     }else{
