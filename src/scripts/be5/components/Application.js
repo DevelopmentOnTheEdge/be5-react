@@ -25,7 +25,7 @@ class Application extends Component
   render() {
     return (
       <div>
-        <Be5Components/>
+        <Be5Components ref="be5Components"/>
         <SplitPane split="vertical" defaultSize={280} >
           <SideBar ref="sideBar"/>
           <Document ref="document" frontendParams={{documentName: be5.mainDocumentName}} />
@@ -37,6 +37,7 @@ class Application extends Component
 
   refresh() {
     this.refs.sideBar.refresh();
+    this.refs.be5Components.refresh();
   }
 }
 

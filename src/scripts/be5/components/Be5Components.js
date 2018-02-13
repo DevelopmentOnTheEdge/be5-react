@@ -66,6 +66,10 @@ class Be5Components extends Component
 
   }
 
+  refresh(){
+
+  }
+
 }
 
 export default Be5Components;
