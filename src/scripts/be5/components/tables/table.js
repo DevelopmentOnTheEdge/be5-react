@@ -561,18 +561,11 @@ class Table extends Component
     );
   }
 
-  // componentWillUpdate() {
-  //   if(this.state.runReload != "")this.setState({ runReload: "" });
-  // },
-//todo move to document
-//<span onClick={this._reload} className={reloadClass}>
-//          <img src={reloadImg} alt={be5.messages.reload} title={be5.messages.reload}/>
-//        </span>
-//   _reload() {
-//     const value = this.props.value;
-//     this.setState({ runReload: "active" });
-//     Tables.load({ entity: value.category, query: value.page || 'All records', params: value.parameters, options: { embedded: false } }, changeDocument);
-//   }
+  refresh() {
+    if(this.props.value.links.self !== undefined) {
+      be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.links.self);
+    }
+  }
 
 }
 

@@ -1,6 +1,6 @@
 import React          from 'react';
 import PropTypes      from 'prop-types';
-
+import be5 from '../be5';
 
 class StaticPage extends React.Component
 {
@@ -13,6 +13,12 @@ class StaticPage extends React.Component
       {title}
       <div className='staticPage__text' dangerouslySetInnerHTML={ {__html: attributes.content} } />
     </div>;
+  }
+
+  refresh() {
+    if(this.props.value.links.self !== undefined) {
+      be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.links.self);
+    }
   }
 
   static createValue(title, text)
