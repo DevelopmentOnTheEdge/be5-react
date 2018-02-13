@@ -73,7 +73,7 @@ const Form = React.createClass({
 
   apply() {
     be5.net.request('form/apply', this.getRequestParams(this.state.data.attributes.bean.values), data => {
-      formService.performOperationResult(data, this.props.frontendParams, this.props.onChange, true)
+      formService.performOperationResult(data, this.props.frontendParams, true)
     });
   },
   
@@ -149,12 +149,11 @@ const Form = React.createClass({
   _allFieldsFilled() {
     const attributes = this.state.data.attributes;
     return attributes.bean.order.every(field => {
-      let filled = attributes.bean.meta[field].hasOwnProperty('canBeNull') ||
-                        JsonPointer.get(attributes.bean, "/values" + field) != '';
       // if(be5.debug && !filled){
       //   console.log(field);
       // }
-      return filled;
+      return attributes.bean.meta[field].hasOwnProperty('canBeNull') ||
+        JsonPointer.get(attributes.bean, "/values" + field) !== '';
     });
   },
 

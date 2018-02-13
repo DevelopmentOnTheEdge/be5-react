@@ -8,6 +8,6 @@ export default function(documentName, entity, query, params) {
     query: query || 'All records',
     params: params
   };
-  Tables.load(paramsObject, Tables.performData, documentName);
+  Tables.load(paramsObject, documentName);
 
 };

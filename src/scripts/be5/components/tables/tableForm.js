@@ -3,10 +3,8 @@ import PropTypes      from 'prop-types';
 import be5            from '../../be5';
 import Document       from '../document';
 import Table          from './table';
-import Tables         from '../../services/tables';
 import changeDocument from '../../core/changeDocument';
 import formService           from '../../services/forms';
-import {HtmlResult}   from '../../components/forms/form';
 import StaticPage     from '../../components/staticPage';
 import { Collapse, Button } from 'reactstrap';
 
@@ -16,7 +14,6 @@ class TableForm extends React.Component
   constructor(){
     super();
     this.state = {helpCollapse: false};
-    this.onChange = this.onChange.bind(this);
     this.tableInfo = this.tableInfo.bind(this);
     this.helpCollapseToggle = this.helpCollapseToggle.bind(this);
   }
@@ -56,7 +53,7 @@ class TableForm extends React.Component
         operationParams: be5.net.paramString(attr.parameters)
       };
 
-      formService.load(params, {documentName: "form", parentDocumentName: "table"}, this.props.onChange);
+      formService.load(params, {documentName: "form", parentDocumentName: "table"});
     }else{
         changeDocument("form", {
           component: StaticPage,
@@ -65,17 +62,17 @@ class TableForm extends React.Component
     }
 
   }
-
-  onChange(){
-    const value = this.props.value;
-    Tables.load({
-      entity: value.data.attributes.category,
-      query: value.data.attributes.page,
-      params: value.data.attributes.parameters},
-      (data, documentName) =>{
-        changeDocument(documentName, { component: Table, value: data });
-      }, "table");
-  }
+  //
+  // onChange(){
+  //   const value = this.props.value;
+  //   Tables.load({
+  //     entity: value.data.attributes.category,
+  //     query: value.data.attributes.page,
+  //     params: value.data.attributes.parameters},
+  //     (data, documentName) =>{
+  //       changeDocument(documentName, { component: Table, value: data });
+  //     }, "table");
+  // }
 
   tableInfo(){
     const attributes = this.props.value.data.attributes;
@@ -105,6 +102,12 @@ class TableForm extends React.Component
         <Document frontendParams={{documentName: "form"}} onChange={this.onChange} />
       </div>
     );
+  }
+
+  refresh() {
+    if(this.props.value.links.self !== undefined) {
+      be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.links.self);
+    }
   }
 
 }

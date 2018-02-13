@@ -129,6 +129,7 @@ const be5 = {
   messages: messages.en,
   mainDocumentName: 'MainDocument',
   mainModalDocumentName: 'MainModalDocument',
+  documentRefreshSuffix: "_refresh",
 
   appInfo: {},
   

@@ -1,6 +1,12 @@
 import be5 from './be5';
 import bus from './core/bus';
 import documentState from './core/documentState';
+import tablesCollections from './services/tablesCollections';
+import TableForm    from './components/tables/tableForm';
+import TableFormRow from './components/tables/tableFormRow';
+import FormTable    from './components/tables/formTable';
+import Table        from './components/tables/table';
+
 
 const hashChange = function()
 {
@@ -34,3 +40,8 @@ be5.net.request('languageSelector', {}, function(data) {
   be5.locale.set(data.selected, data.messages);
   be5.url.process(be5.mainDocumentName, document.location.hash);
 });
+
+tablesCollections.registerTable('tableForm', TableForm);
+tablesCollections.registerTable('tableFormRow', TableFormRow);
+tablesCollections.registerTable('formTable', FormTable);
+tablesCollections.registerTable('table', Table);

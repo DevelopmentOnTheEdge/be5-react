@@ -10,7 +10,7 @@ import Table            from "../components/tables/table";
 
 
 export default {
-  load(params, frontendParams, onChange) {
+  load(params, frontendParams) {
     Preconditions.passed(params.entity);
     Preconditions.passed(params.query);
     Preconditions.passed(params.operation);
@@ -33,7 +33,7 @@ export default {
     };
 
     be5.net.request('form', requestParams, data => {
-      this.performOperationResult(data, frontendParams, onChange, false);//todo test and delete second param
+      this.performOperationResult(data, frontendParams, false);//todo test and delete second param
     }, (data)=> {
       bus.fire("alert", {msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error'});
       // changeDocument(documentName, {
@@ -45,7 +45,7 @@ export default {
 
   },
 
-  performOperationResult(json, frontendParams, onChange, reloadOrApply)
+  performOperationResult(json, frontendParams, reloadOrApply)
   {
     const documentName = frontendParams.documentName;
 
@@ -63,9 +63,10 @@ export default {
         case 'operationResult':
           const attributes = json.data.attributes;
 
-          if (onChange && attributes.status !== 'table')
+          if (attributes.status !== 'table' && frontendParams.documentName !== frontendParams.parentDocumentName)
           {
-            onChange();
+            console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
+            bus.fire(frontendParams.parentDocumentName + be5.documentRefreshSuffix)
           }
 
           if (attributes.status === 'error') {
@@ -111,7 +112,7 @@ export default {
                 },
                 meta: json.meta
               };
-              changeDocument(frontendParams.parentDocumentName, {component: Table, value: tableJson, frontendParams: frontendParams});
+              changeDocument(frontendParams.parentDocumentName, {component: Table, value: tableJson});
               return;
             default:
               bus.fire("alert", {

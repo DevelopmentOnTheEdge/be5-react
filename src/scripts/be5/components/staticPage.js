@@ -1,6 +1,6 @@
 import React          from 'react';
 import PropTypes      from 'prop-types';
-import be5 from '../be5';
+import be5            from '../be5';
 
 class StaticPage extends React.Component
 {
@@ -18,6 +18,8 @@ class StaticPage extends React.Component
   refresh() {
     if(this.props.value.links.self !== undefined) {
       be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.links.self);
+    }else{
+      console.info("staticPage without links.self");
     }
   }
 
@@ -32,7 +34,8 @@ class StaticPage extends React.Component
           content: text
         }
       },
-      meta: {_ts_: date}
+      meta: {_ts_: date},
+      links: {}
     }
   }
 

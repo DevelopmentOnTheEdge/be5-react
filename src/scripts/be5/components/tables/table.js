@@ -4,12 +4,11 @@ import ReactDOM        from 'react-dom';
 import be5             from '../../be5';
 import utils           from '../../utils';
 import $               from 'jquery';
-import Action          from '../action';
 import _               from 'underscore';
-import formService           from '../../services/forms';
+import formService     from '../../services/forms';
+import tableService    from '../../services/tables';
 import numberFormatter from 'number-format.js';
 
-//import reloadImg from '../../../images/reload.png';
 
 class OperationBox extends Component {
   constructor(props) {
@@ -546,7 +545,6 @@ class Table extends Component
           ref="tableBox"
           value={value}
           frontendParams={this.props.frontendParams}
-          onChange={this.props.onChange}
         />
       );
     }
@@ -562,15 +560,20 @@ class Table extends Component
   }
 
   refresh() {
-    if(this.props.value.links.self !== undefined) {
-      be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.links.self);
-    }
+    const attr = this.props.value.data.attributes;
+    const params = {
+        entity: attr.category,
+        query: attr.page,
+        params: attr.parameters
+    };
+
+    tableService.refresh(params, this.props.frontendParams.documentName);
   }
 
 }
 
 // Table.propTypes = {
-//   onChange: PropTypes.func.isRequired
+//   : PropTypes.func.isRequired
 // };
 
 export default Table;

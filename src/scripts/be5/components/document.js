@@ -7,8 +7,8 @@ import documentState from '../core/documentState';
 import reloadImg from '../../../images/reload.png';
 
 
-class Document extends Component {
-
+class Document extends Component
+{
   constructor(props) {
     super(props);
     this.state = { value: "" };
@@ -32,10 +32,15 @@ class Document extends Component {
       // if(!data.loading)this.setState({ loading: false });
       // if(!data.error)this.setState({ error: null });
     });
+
+    bus.replaceListeners(this.props.frontendParams.documentName + be5.documentRefreshSuffix, () => {
+      this.refresh();
+    });
   }
 
   componentWillUnmount(){
-    bus.replaceListeners(this.props.frontendParams.documentName, data => {})
+    bus.replaceListeners(this.props.frontendParams.documentName, data => {});
+    bus.replaceListeners(this.props.frontendParams.documentName + be5.documentRefreshSuffix, data => {});
   }
 
   reload() {
@@ -46,6 +51,7 @@ class Document extends Component {
   }
 
   refresh() {
+    console.log("refresh() ", JSON.stringify(this.props.frontendParams), JSON.stringify(this.state.frontendParams));
     this.refs.documentContent.refresh();
   }
 
@@ -69,13 +75,13 @@ class Document extends Component {
         contentItem = (
           <div>
             <span onClick={this.refresh} className={"document-reload float-right"}>
-              <img src={reloadImg} alt={be5.messages.reload} title={be5.messages.reload}/>
+              <img src={reloadImg} alt={be5.messages.reload}
+                   title={be5.messages.reload + " " + this.props.frontendParams.documentName}/>
             </span>
             <DocumentContent
                   ref="documentContent"
                   value={this.state.value}
                   frontendParams={Object.assign({}, this.props.frontendParams, this.state.frontendParams)}
-                  onChange={this.props.onChange}
             />
           </div>
         )
