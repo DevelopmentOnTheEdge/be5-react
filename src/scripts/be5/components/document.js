@@ -51,7 +51,7 @@ class Document extends Component
   }
 
   refresh() {
-    console.log("refresh() ", JSON.stringify(this.props.frontendParams), JSON.stringify(this.state.frontendParams));
+    //console.log("refresh() ", JSON.stringify(this.props.frontendParams), JSON.stringify(this.state.frontendParams));
     this.refs.documentContent.refresh();
   }
 

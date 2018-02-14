@@ -15,9 +15,12 @@ export default {
     Preconditions.passed(params.query);
     Preconditions.passed(params.operation);
 
-    const selectedRows = (params.operationParams === undefined || params.operationParams.selectedRows === undefined)
-      ? be5.tableState.selectedRows.join() : params.operationParams.selectedRows;
-    if(params.operationParams !== undefined && params.operationParams.selectedRows !== undefined){
+    let selectedRows = params.selectedRows;
+    if (!selectedRows) {
+      selectedRows = (params.operationParams === undefined || params.operationParams.selectedRows === undefined)
+        ? be5.tableState.selectedRows.join() : params.operationParams.selectedRows;
+    }
+    if (params.operationParams !== undefined && params.operationParams.selectedRows !== undefined) {
       delete params.operationParams.selectedRows;
     }
 
@@ -132,7 +135,6 @@ export default {
       const error = json.errors[0];
       bus.fire("alert", {msg: error.status + " "+ error.title, type: 'error'});
 
-      console.log(reloadOrApply);
       changeDocument(reloadOrApply ? documentName + "_errors" : documentName, {component: ErrorPane, value: json});
     }
   },
@@ -147,7 +149,8 @@ export default {
       bus.fire("alert", {msg: operationResult.message, type: 'error'});
       if(json.data.attributes.errorModel)
       {
-        changeDocument(documentName + "_errors", {component: ErrorPane, value: json.data.attributes.errorModel});
+        const errorJson = {errors: [json.data.attributes.errorModel], meta: json.meta, links: {}};
+        changeDocument(documentName + "_errors", {component: ErrorPane, value: errorJson});
       }
     }
     else

@@ -21,6 +21,14 @@ class ErrorPane extends React.Component
     this.setState({ helpCollapse: !this.state.helpCollapse });
   }
 
+  refresh() {
+    if(this.props.value.links.self !== undefined) {
+      be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.links.self);
+    }else{
+      console.info("errorPane without links.self, most likely error on the execute operation");
+    }
+  }
+
   render() {
     const error = this.props.value.errors ? this.props.value.errors[0] : this.props.value;
     return <div className='errorPane'>
@@ -68,18 +76,14 @@ class ErrorPane extends React.Component
 //   value: ''
 // };
 
-// ErrorPane.propTypes =  {
-//   value: PropTypes.shape({
-//     data: PropTypes.shape({
-//       attributes: PropTypes.shape({
-//         title   : PropTypes.string.isRequired,
-//         content: PropTypes.string.isRequired,
-//       }),
-//       meta: PropTypes.shape({
-//         _ts_: PropTypes.isRequired,
-//       })
-//     })
-//   }),
-// };
+ErrorPane.propTypes =  {
+  value: PropTypes.shape({
+    errors: PropTypes.array.isRequired,
+    meta: PropTypes.shape({
+      _ts_: PropTypes.isRequired,
+    }),
+    links: PropTypes.object.isRequired,
+  }),
+};
 
 export default ErrorPane;
