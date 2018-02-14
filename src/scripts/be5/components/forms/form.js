@@ -40,41 +40,33 @@ const Form = React.createClass({
   },
   
   getFormValues() {
-    return this._getRawFormValues().filter(field => field.value != null);
-  },
-  
-  refresh() {
-    this._reload(this.state.data.attributes.bean.values);
-  },
-  
-  _reloadOnChange(controlName) {
-    const attributes = this.state.data.attributes;
-    this._reload(Object.assign({}, attributes.bean.values, { '_reloadcontrol_': controlName }));
+    return this._getRawFormValues().filter(field => field.value !== null);
   },
 
-  getRequestParams(values){
+  getParams(values){
     const attributes = this.state.data.attributes;
     return {
       entity: attributes.entity,
       query: attributes.query,
       operation: attributes.operation,
+      operationParams: attributes.operationParams,
       selectedRows: attributes.selectedRows,
-      values: JSON.stringify(values),
-      operationParams: JSON.stringify(attributes.operationParams),
-      _ts_: new Date().getTime()
-    }
+      values: values,
+    };
   },
 
-  _reload(values) {
-    formService.load(this.getRequestParams(
-      values//Object.assign({}, JSON.parse(this.props.value.hashParams), values)
-    ), this.props.frontendParams);
+  refresh() {
+    formService.load(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
+  },
+  
+  _reloadOnChange(controlName) {
+    const values = Object.assign({}, this.state.data.attributes.bean.values, { '_reloadcontrol_': controlName });
+
+    formService.load(this.getParams(values), this.props.frontendParams);
   },
 
   apply() {
-    be5.net.request('form/apply', this.getRequestParams(this.state.data.attributes.bean.values), data => {
-      formService.performOperationResult(data, this.props.frontendParams, true)
-    });
+    formService.apply(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
   },
   
   // cancel() {

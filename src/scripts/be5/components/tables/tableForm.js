@@ -50,7 +50,7 @@ class TableForm extends React.Component
         query: attr.page || 'All records',
         operation: attr.layout.defaultOperation,
         values: {},
-        operationParams: be5.net.paramString(attr.parameters)
+        operationParams: attr.parameters
       };
 
       formService.load(params, {documentName: "form", parentDocumentName: "table"});

@@ -18,7 +18,7 @@ test('performOperationResult finished', () => {
     meta: {"_ts_":"1503244989281"}
   };
 
-  formService.performOperationResult(res, {documentName: "test"});
+  formService._performOperationResult(res, {documentName: "test"});
 
   expect(component.toJSON()).toMatchSnapshot();
   //expect(mockFunc.mock.calls.length).toBe(1);
@@ -36,7 +36,7 @@ test('performOperationResult redirect', () => {
     "links":{"self":"form/categories/Doc categories/Edit"},
     "meta":{"_ts_":"1503244989281"}
   };
-  formService.performOperationResult(res, {documentName: "test"});
+  formService._performOperationResult(res, {documentName: "test"});
 
   expect(be5.url.process.mock.calls.length).toBe(1);
   //expect(mockFunc.mock.calls.length).toBe(1);
@@ -54,7 +54,7 @@ test('performOperationResult redirect main', () => {
     "links":{"self":"form/categories/Doc categories/Edit"},
     "meta":{"_ts_":"1503244989281"}
   };
-  formService.performOperationResult(res, {documentName: be5.mainDocumentName});
+  formService._performOperationResult(res, {documentName: be5.mainDocumentName});
 
   expect(be5.url.set.mock.calls.length).toBe(1);
   //expect(mockFunc.mock.calls.length).toBe(1);

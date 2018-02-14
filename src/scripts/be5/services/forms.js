@@ -9,8 +9,17 @@ import formsCollections from './formsCollections.js';
 import Table            from "../components/tables/table";
 
 
-export default {
+export default
+{
+  apply(params, frontendParams) {
+    this._send('form/apply', params, frontendParams);
+  },
+
   load(params, frontendParams) {
+    this._send('form', params, frontendParams);
+  },
+
+  _send(action, params, frontendParams){
     Preconditions.passed(params.entity);
     Preconditions.passed(params.query);
     Preconditions.passed(params.operation);
@@ -28,26 +37,20 @@ export default {
       entity: params.entity,
       query: params.query,
       operation: params.operation,
-      values: params.values || '{}',
-      operationParams: be5.net.paramString(params.operationParams) || '{}',
+      values: be5.net.paramString(params.values),
+      operationParams: be5.net.paramString(params.operationParams),
       selectedRows: selectedRows || '',
       _ts_: new Date().getTime()
     };
 
-    be5.net.request('form', requestParams, data => {
-      this.performOperationResult(data, frontendParams, false);//todo test and delete second param
-    }, (data)=> {
+    be5.net.request(action, requestParams, data => {
+      this._performOperationResult(data, frontendParams, action === 'form/apply');
+    },(data)=> {
       bus.fire("alert", {msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error'});
-      // changeDocument(documentName, {
-      //
-      //   error: true,
-      //   value: be5.messages.errorServerQueryException.replace('$message', data.value.code)
-      // });
     });
-
   },
 
-  performOperationResult(json, frontendParams, reloadOrApply)
+  _performOperationResult(json, frontendParams, isApply)
   {
     const documentName = frontendParams.documentName;
 
@@ -56,11 +59,11 @@ export default {
 
     if(json.data !== undefined)
     {
-      if(reloadOrApply)changeDocument(documentName + "_errors", { value: "" } );
+      if(isApply)changeDocument(documentName + "_errors", { value: "" } );
 
       switch (json.data.type) {
         case 'form':
-          this.performForm(json, frontendParams);
+          this._performForm(json, frontendParams);
           return;
         case 'operationResult':
           const attributes = json.data.attributes;
@@ -135,11 +138,11 @@ export default {
       const error = json.errors[0];
       bus.fire("alert", {msg: error.status + " "+ error.title, type: 'error'});
 
-      changeDocument(reloadOrApply ? documentName + "_errors" : documentName, {component: ErrorPane, value: json});
+      changeDocument(isApply ? documentName + "_errors" : documentName, {component: ErrorPane, value: json});
     }
   },
 
-  performForm(json, frontendParams)
+  _performForm(json, frontendParams)
   {
     const documentName = frontendParams.documentName;
     let operationResult = json.data.attributes.operationResult;

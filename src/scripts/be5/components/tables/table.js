@@ -234,7 +234,7 @@ class TableBox extends Component {
       query: attr.page || 'All records',
       operation: name,
       values: {},
-      operationParams: be5.net.paramString(attr.parameters)
+      operationParams: attr.parameters
     };
 
     formService.load(params, {

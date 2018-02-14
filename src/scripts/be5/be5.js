@@ -347,7 +347,7 @@ const be5 = {
     
     paramString(params) {
       if(typeof(params) !== 'object') {
-        return '';
+        return '{}';
       }
       return JSON.stringify(params);
     },

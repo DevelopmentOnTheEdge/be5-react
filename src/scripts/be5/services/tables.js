@@ -7,23 +7,26 @@ import Table               from "../components/tables/table";
 import TablesCollections   from './tablesCollections';
 
 
-class Tables {
+class Tables
+{
   static load(params, documentName) {
-    Tables._load(params, Tables.performData, documentName);
+    Tables._send(params, Tables.performData, documentName);
   }
 
   static refresh(params, documentName) {
-    Tables._load(params, (data, documentName) => {
+    Tables._send(params, (data, documentName) => {
       changeDocument(documentName, { component: Table, value: data });
     }, documentName);
   }
 
-  static _load(params, performData, documentName) {
+  static _send(params, performData, documentName) {
     Preconditions.passed(params.entity);
     Preconditions.passed(params.query);
 
     const requestParams = {
-      entity: params.entity, query: params.query, values: be5.net.paramString(params.params),
+      entity: params.entity,
+      query: params.query,
+      values: be5.net.paramString(params.params),
       _ts_: new Date().getTime()
     };
 
