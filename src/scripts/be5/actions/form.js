@@ -9,7 +9,7 @@ export default function(documentName, entity, query, operation, operationParams)
     query: query || 'All records',
     operation: operation,
     values: {},
-    operationParams: be5.net.paramString(operationParams)
+    operationParams: operationParams
   };
 
   formService.load(params, {documentName: documentName});

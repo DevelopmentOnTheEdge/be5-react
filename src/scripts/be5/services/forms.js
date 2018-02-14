@@ -15,11 +15,10 @@ export default {
     Preconditions.passed(params.query);
     Preconditions.passed(params.operation);
 
-    //todo check for Edit operation with reloadOnChange
-    const selectedRows = (params === undefined || params.selectedRows === undefined)
-      ? be5.tableState.selectedRows.join() : params.selectedRows;
-    if(params !== undefined && params.selectedRows !== undefined){
-      delete params.selectedRows;
+    const selectedRows = (params.operationParams === undefined || params.operationParams.selectedRows === undefined)
+      ? be5.tableState.selectedRows.join() : params.operationParams.selectedRows;
+    if(params.operationParams !== undefined && params.operationParams.selectedRows !== undefined){
+      delete params.operationParams.selectedRows;
     }
 
     const requestParams = {
@@ -27,7 +26,7 @@ export default {
       query: params.query,
       operation: params.operation,
       values: params.values || '{}',
-      operationParams: params.operationParams || '{}',
+      operationParams: be5.net.paramString(params.operationParams) || '{}',
       selectedRows: selectedRows || '',
       _ts_: new Date().getTime()
     };
