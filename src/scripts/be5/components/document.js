@@ -27,7 +27,11 @@ class Document extends Component
         if(!data.component){
           data.component = undefined
         }
-        this.setState(data);
+        this.setState({value: data.value, component: data.component});
+        if(data.frontendParams && data.frontendParams.parentDocumentName)
+        {
+          this.setState({frontendParams: {parentDocumentName: data.frontendParams.parentDocumentName}});
+        }
       }
       // if(!data.loading)this.setState({ loading: false });
       // if(!data.error)this.setState({ error: null });
