@@ -89,7 +89,7 @@ class FormWizard extends Component {
       this.setState({compState: next});
     }
 
-    be5.url.process(this.props.frontendParams.documentName, this.props.steps[next].url);
+    be5.url.process(this.props.documentName, this.props.steps[next].url);
 
     this.checkNavState(next);
   }
