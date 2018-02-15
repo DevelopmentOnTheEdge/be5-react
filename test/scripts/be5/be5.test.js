@@ -28,6 +28,13 @@ test('snapshot', () => {
 
 });
 
+test('be5 locale test', () => {
+  expect(be5.locale.msg('settings')).toBe('Settings');
+
+  be5.locale.addMessages('en', {'test':'Test message'});
+
+  expect(be5.locale.msg('test')).toBe('Test message');
+});
 
 // test('test mount', () => {
 //     mount(<App />);
