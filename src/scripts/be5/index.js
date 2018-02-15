@@ -17,7 +17,7 @@ export { default as http } from './core/http.js';
 
 // components
 export { default as action }           from './components/action.js';
-export { default as Application }      from './components/application.js';
+export { default as Application }      from './components/Application.js';
 export { default as Be5Menu }          from './components/be5Menu/be5Menu.js';
 export { default as Be5MenuHolder }    from './components/be5Menu/be5MenuHolder.js';
 export { default as Be5MenuItem }      from './components/be5Menu/be5MenuItem.js';
@@ -37,7 +37,7 @@ export { default as Navs }       from './components/navs.js';
 
 // forms
 export { default as Form }               from './components/forms/form.js';
-export { default as SubmitOnChangeForm } from './components/forms/submitOnChangeForm.js';
+export { default as SubmitOnChangeForm } from './components/forms/SubmitOnChangeForm.js';
 
 // tables
 export { default as Table }           from './components/tables/table.js';
