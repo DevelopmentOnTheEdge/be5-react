@@ -1,5 +1,6 @@
 import React           from 'react';
 import be5             from '../../be5';
+import classNames      from 'classnames';
 import Form            from './Form';
 import PropertyInput   from '../../components/properties/PropertyInput';
 
@@ -21,7 +22,7 @@ class SubmitOnChangeForm extends Form
   render() {
     const attributes = this.state.data.attributes;
     return (
-        <div className={'submit-onchange-form' + (attributes.cssClass)}>
+        <div className={classNames('submit-onchange-form', attributes.cssClass)}>
           <PropertyInput id={0} bean={attributes.bean} localization={be5.messages.property} onChange={this._onFieldChangeAndSubmit} />
           <div className="col-12">
             {this._getErrorPane()}

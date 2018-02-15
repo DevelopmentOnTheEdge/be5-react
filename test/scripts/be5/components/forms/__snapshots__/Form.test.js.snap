@@ -152,7 +152,7 @@ exports[`ModalForm 1`] = `
 
 exports[`SubmitOnChangeForm 1`] = `
 <div
-  className="submit-onchange-formundefined"
+  className="submit-onchange-form"
 >
   <input
     className="form-control"
