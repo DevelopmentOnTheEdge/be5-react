@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test 1`] = `
+<div
+  className="navs-component"
+>
+  <ul
+    className="nav nav-tabs"
+  >
+    <li
+      className="nav-item"
+    >
+      <a
+        className="nav-link active"
+        href="#"
+        onClick={[Function]}
+      >
+        Companies
+      </a>
+    </li>
+    <li
+      className="nav-item"
+    >
+      <a
+        className="nav-link"
+        href="#"
+        onClick={[Function]}
+      >
+        EgissoDocs
+      </a>
+    </li>
+  </ul>
+  <div
+    className="tab-content"
+  >
+    <div
+      className="document-content"
+      id="document-content___navs"
+    >
+      <h1>
+        Unknown action: companies
+      </h1>
+    </div>
+  </div>
+</div>
+`;

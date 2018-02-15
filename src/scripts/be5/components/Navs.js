@@ -5,8 +5,8 @@ import Document             from './Document';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 
 
-class Navs extends React.Component {
-
+class Navs extends React.Component
+{
   constructor(props) {
     super(props);
 
@@ -22,12 +22,12 @@ class Navs extends React.Component {
   }
 
   refresh() {
-    be5.url.process(this.props.frontendParams.documentName, this.props.steps[this.state.compState].url);
+    be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
   }
   
   setNavState(id) {
     this.setState({compState: id});
-    be5.url.process(this.props.frontendParams.documentName, this.props.steps[id].url);
+    be5.url.process(this.props.documentName, this.props.steps[id].url);
   }
   
   renderSteps(){
