@@ -1,6 +1,6 @@
 import React from 'react';
-import Be5MenuHolder from './be5MenuHolder';
-import Action from '../../services/action';
+import Be5MenuHolder from './Be5MenuHolder';
+import actions        from '../../services/actions';
 
 export default React.createClass({
   displayName: 'Be5Menu',
@@ -79,7 +79,7 @@ export default React.createClass({
       }
       
       if (!item.children || item.children.length === 0) {
-        const { href, target } = Action.parse(item.action);
+        const { href, target } = actions.parse(item.action);
         const liClass = inDropdown ? '' : 'nav-item';
         const aClass = inDropdown ? 'dropdown-item' : 'nav-link';
         return <li className={liClass} key={target+href}><a className={aClass} href={href} target={target}>{item.title}</a></li>;

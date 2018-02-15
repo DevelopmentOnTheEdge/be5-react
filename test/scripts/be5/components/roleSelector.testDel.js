@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import RoleSelector from '../../../../src/scripts/be5/components/roleSelector.js';
+import RoleSelector from '../../../../src/scripts/be5/components/RoleSelector.js';
 import be5 from '../../../../src/scripts/be5/be5';
 import {shallow} from 'enzyme';
 

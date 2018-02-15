@@ -1,6 +1,6 @@
 import React  from 'react';
 import be5    from '../../be5';
-import Action from '../../services/action';
+import actions from '../../services/actions';
 
 const MenuNode = React.createClass({
   displayName: 'MenuNode',
@@ -21,7 +21,7 @@ const MenuNode = React.createClass({
     var hasAction = this.props.data.action != null;
     if (hasAction) {
       classes += ' menuItemWithRef';
-      const action = Action.parse(this.props.data.action);
+      const action = actions.parse(this.props.data.action);
       href = action.href;
       target = action.target;
     } else {

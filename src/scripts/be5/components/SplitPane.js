@@ -1,7 +1,6 @@
 // Based on https://github.com/tomkp/react-split-pane
 import React from 'react';
 import ReactDOM from 'react-dom';
-import be5 from '../be5';
 
 import '../../../css/splitPane.css';
 

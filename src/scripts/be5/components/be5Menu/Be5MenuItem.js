@@ -1,7 +1,7 @@
 import React from 'react';
-import Be5MenuHolder from './be5MenuHolder';
+import Be5MenuHolder from './Be5MenuHolder';
 import Const from '../../constants';
-import Action from '../../services/action';
+import actions from '../../services/actions';
 
 export default React.createClass({
   displayName: 'Be5MenuItem',
@@ -25,7 +25,7 @@ export default React.createClass({
     if (!this.state.available) {
       return ( <span></span> );
     }
-    const { href, target } = Action.parse(Be5MenuHolder.getMenu().find(this._getCoordinates()).action);
+    const { href, target } = actions.parse(Be5MenuHolder.getMenu().find(this._getCoordinates()).action);
     return (
       <a className="menu-item" href={href} target={target}>{this.state.title}</a>
     );

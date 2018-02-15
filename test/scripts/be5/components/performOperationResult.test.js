@@ -1,8 +1,8 @@
 import React          from 'react';
 import renderer       from 'react-test-renderer';
-import Document       from '../../../../src/scripts/be5/components/document';
+import Document       from '../../../../src/scripts/be5/components/Document';
 import be5            from '../../../../src/scripts/be5/be5';
-import formService    from '../../../../src/scripts/be5/services/forms';
+import formService    from '../../../../src/scripts/be5/services/Forms';
 
 test('performOperationResult finished', () => {
   const component = renderer.create(

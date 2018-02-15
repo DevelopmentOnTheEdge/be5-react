@@ -2,10 +2,10 @@ import React          from 'react';
 import PropTypes      from 'prop-types';
 import be5            from '../../be5';
 import Document       from '../Document';
-import Table          from './table';
+import Table          from './Table';
 import changeDocument from '../../core/changeDocument';
 import formService           from '../../services/forms';
-import StaticPage     from '../../components/staticPage';
+import StaticPage     from '../../components/StaticPage';
 import { Collapse, Button } from 'reactstrap';
 
 
@@ -23,7 +23,6 @@ class TableForm extends React.Component
   }
 
   componentDidUpdate(){
-    //console.log("TableForm componentDidUpdate");
     this.updateDocuments();
   }
 
@@ -62,17 +61,6 @@ class TableForm extends React.Component
     }
 
   }
-  //
-  // onChange(){
-  //   const value = this.props.value;
-  //   Tables.load({
-  //     entity: value.data.attributes.category,
-  //     query: value.data.attributes.page,
-  //     params: value.data.attributes.parameters},
-  //     (data, documentName) =>{
-  //       changeDocument(documentName, { component: Table, value: data });
-  //     }, "table");
-  // }
 
   tableInfo(){
     const attributes = this.props.value.data.attributes;

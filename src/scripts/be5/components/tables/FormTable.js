@@ -1,6 +1,6 @@
 import React          from 'react';
 import Document       from '../Document';
-import TableForm          from './tableForm';
+import TableForm          from './TableForm';
 
 class FormTable extends TableForm {
 

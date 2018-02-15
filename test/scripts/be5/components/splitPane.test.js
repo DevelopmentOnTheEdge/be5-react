@@ -1,6 +1,6 @@
 import React    from 'react';
 import renderer from 'react-test-renderer';
-import SplitPane     from  '../../../../src/scripts/be5/components/splitPane';
+import SplitPane     from  '../../../../src/scripts/be5/components/SplitPane';
 import be5 from '../../../../src/scripts/be5/be5';
 
 it('snapshot menu', () => {

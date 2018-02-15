@@ -1,6 +1,5 @@
 import React          from 'react';
-import be5            from '../be5';
-import formService          from '../services/forms';
+import formService    from '../services/forms';
 
 export default function(documentName, entity, query, operation, operationParams) {
 

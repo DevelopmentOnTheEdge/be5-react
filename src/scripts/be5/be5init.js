@@ -2,10 +2,10 @@ import be5 from './be5';
 import bus from './core/bus';
 import documentState from './core/documentState';
 import tablesCollections from './services/tablesCollections';
-import TableForm    from './components/tables/tableForm';
-import TableFormRow from './components/tables/tableFormRow';
-import FormTable    from './components/tables/formTable';
-import Table        from './components/tables/table';
+import TableForm    from './components/tables/TableForm';
+import TableFormRow from './components/tables/TableFormRow';
+import FormTable    from './components/tables/FormTable';
+import Table        from './components/tables/Table';
 
 
 const hashChange = function()

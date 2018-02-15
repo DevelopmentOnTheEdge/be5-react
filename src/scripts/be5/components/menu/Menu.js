@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import MenuFooter  from './menuFooter';
+import MenuFooter  from './MenuFooter';
 import MenuBody    from './MenuBody';
 import MenuSearchField from './MenuSearchField';
 import '../../../../css/menu.css';

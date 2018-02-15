@@ -1,6 +1,6 @@
 import React    from 'react';
 import renderer from 'react-test-renderer';
-import SideBar     from  '../../../../src/scripts/be5/components/sideBar';
+import SideBar     from  '../../../../src/scripts/be5/components/SideBar';
 import be5 from '../../../../src/scripts/be5/be5';
 
 it('snapshot sideBar', () => {

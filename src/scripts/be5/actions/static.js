@@ -1,7 +1,7 @@
 import React          from 'react';
 import be5            from '../be5';
 import changeDocument from '../core/changeDocument';
-import StaticPage from '../components/staticPage';
+import StaticPage     from '../components/StaticPage';
 
 export default function(documentName, page)
 {

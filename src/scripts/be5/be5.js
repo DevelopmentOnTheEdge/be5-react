@@ -15,7 +15,7 @@ import staticAction from './actions/static.js';
 import tableAction from './actions/table.js';
 import qBuilder from './actions/qBuilder.js';
 
-import "./components/staticPage";
+import "./components/StaticPage";
 
 //todo move to messages.js
 var messages = {

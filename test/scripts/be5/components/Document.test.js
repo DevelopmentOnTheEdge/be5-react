@@ -2,9 +2,9 @@ import React          from 'react';
 import renderer       from 'react-test-renderer';
 import Document       from '../../../../src/scripts/be5/components/Document';
 import Form           from '../../../../src/scripts/be5/components/forms/Form';
-import Table           from '../../../../src/scripts/be5/components/tables/table';
+import Table           from '../../../../src/scripts/be5/components/tables/Table';
 import changeDocument from '../../../../src/scripts/be5/core/changeDocument';
-import StaticPage     from '../../../../src/scripts/be5/components/staticPage';
+import StaticPage     from '../../../../src/scripts/be5/components/StaticPage';
 import be5            from '../../../../src/scripts/be5/be5';
 
 test('text', () => {

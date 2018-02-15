@@ -3,10 +3,10 @@ import bus              from '../core/bus';
 import Preconditions    from '../preconditions';
 import changeDocument   from '../core/changeDocument';
 import {HtmlResult}     from '../components/forms/Form';
-import StaticPage       from '../components/staticPage';
+import StaticPage       from '../components/StaticPage';
 import ErrorPane        from "../components/ErrorPane";
 import formsCollections from './formsCollections.js';
-import Table            from "../components/tables/table";
+import Table            from "../components/tables/Table";
 
 
 export default

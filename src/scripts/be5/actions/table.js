@@ -1,6 +1,7 @@
 import React          from 'react';
 import Tables         from '../services/tables';
 
+
 export default function(documentName, entity, query, params) {
 
   const paramsObject = {

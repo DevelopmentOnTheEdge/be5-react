@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import bus from '../core/bus';
 import be5 from '../be5';
-import SideBar from './sideBar';
+import SideBar from './SideBar';
 import Document from './Document';
-import SplitPane from './splitPane';
+import SplitPane from './SplitPane';
 import Be5Components from "./Be5Components";
 
 
