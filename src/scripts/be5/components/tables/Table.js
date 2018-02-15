@@ -397,8 +397,8 @@ class Table extends Component
 
 }
 
-// Table.propTypes = {
-//   : PropTypes.func.isRequired
-// };
+Table.propTypes = {
+  value: PropTypes.object.isRequired
+};
 
 export default Table;

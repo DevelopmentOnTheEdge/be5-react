@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table 1`] = `
+<div
+  className="table-component"
+>
+  <h1
+    className="table-component__title"
+  >
+    Организации: Общие сведения
+  </h1>
+  <div>
+    <div
+      className="operationList"
+    >
+      <button
+        className="btn btn-secondary btn-secondary-old btn-sm"
+        onClick={[Function]}
+      >
+        Редактировать
+      </button>
+       
+      <button
+        className="btn btn-secondary btn-secondary-old btn-sm"
+        onClick={[Function]}
+      >
+        Добавить
+      </button>
+    </div>
+    <div
+      id="quickColumns"
+    >
+      <span>
+        Другие колонки:
+      </span>
+      <span>
+        <input
+          checked={false}
+          id="quick0"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <label
+          className="rowIndex"
+          htmlFor="quick0"
+        >
+          Наименование
+           
+        </label>
+      </span>
+    </div>
+    <div
+      className="scroll"
+    >
+      <div />
+    </div>
+  </div>
+</div>
+`;

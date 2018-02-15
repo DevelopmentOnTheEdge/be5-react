@@ -12,7 +12,7 @@ const Form = React.createClass({
   propTypes: {
     value: React.PropTypes.object.isRequired
   },
-  
+
   displayName: 'Form',
   
   getInitialState() {
@@ -164,7 +164,7 @@ const Form = React.createClass({
           <br/>
         </div>
         <div className="col-12">
-          <Document frontendParams={{documentName: this.props.frontendParams.documentName + "_errors"}} onChange={this.onChange} />
+          <Document frontendParams={{documentName: this.props.frontendParams.documentName + "_errors"}} />
         </div>
       </div>
     );
@@ -218,6 +218,10 @@ export const HtmlResult = React.createClass({
   }
   
 });
+
+// Form.propTypes = {
+//   value: PropTypes.object.isRequired
+// };
 
 export default Form;
 

@@ -85,9 +85,9 @@ class TableForm extends React.Component
   render() {
     return (
       <div className="table-form">
-        <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} onChange={this.onChange}/>
+        <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} />
         {this.tableInfo()}
-        <Document frontendParams={{documentName: "form"}} onChange={this.onChange} />
+        <Document frontendParams={{documentName: "form"}} />
       </div>
     );
   }

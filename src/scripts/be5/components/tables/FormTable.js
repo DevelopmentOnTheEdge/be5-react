@@ -6,9 +6,9 @@ class FormTable extends TableForm {
 
   render() {
     return (<div className="form-table">
-      <Document frontendParams={{documentName: "form"}} onChange={this.onChange} />
+      <Document frontendParams={{documentName: "form"}} />
       {this.tableInfo()}
-      <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} onChange={this.onChange}/>
+      <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} />
      </div>);
      //notShowTitle, h2Title..
   }

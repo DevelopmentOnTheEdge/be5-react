@@ -6,10 +6,10 @@ import {shallow, mount, render} from 'enzyme';
 import be5            from '../../../src/scripts/be5/be5';
 import changeDocument from '../../../src/scripts/be5/core/changeDocument';
 import App            from '../../../src/scripts/be5/components/Application';
-import SplitPane            from '../../../src/scripts/be5/components/splitPane';
-import SideBar            from '../../../src/scripts/be5/components/sideBar';
-import Document            from '../../../src/scripts/be5/components/document';
-import StaticPage            from '../../../src/scripts/be5/components/staticPage';
+import SplitPane            from '../../../src/scripts/be5/components/SplitPane';
+import SideBar            from '../../../src/scripts/be5/components/SideBar';
+import Document            from '../../../src/scripts/be5/components/Document';
+import StaticPage            from '../../../src/scripts/be5/components/StaticPage';
 import ActionFrom            from '../../../src/scripts/be5/actions/form';
 import AlertContainer from 'react-alert'
 

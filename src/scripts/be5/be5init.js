@@ -1,12 +1,25 @@
 import be5 from './be5';
 import bus from './core/bus';
-import documentState from './core/documentState';
-import tablesCollections from './services/tablesCollections';
-import TableForm    from './components/tables/TableForm';
-import TableFormRow from './components/tables/TableFormRow';
-import FormTable    from './components/tables/FormTable';
-import Table        from './components/tables/Table';
+import documentState      from './core/documentState';
+import tablesCollections  from './services/tablesCollections';
+import formsCollections   from './services/formsCollections';
+import TableForm          from './components/tables/TableForm';
+import TableFormRow       from './components/tables/TableFormRow';
+import FormTable          from './components/tables/FormTable';
+import Table              from './components/tables/Table';
+import SubmitOnChangeForm from './components/forms/SubmitOnChangeForm';
+import ModalForm          from './components/forms/ModalForm';
+import Form               from './components/forms/Form';
 
+
+tablesCollections.registerTable('tableForm', TableForm);
+tablesCollections.registerTable('tableFormRow', TableFormRow);
+tablesCollections.registerTable('formTable', FormTable);
+tablesCollections.registerTable('table', Table);
+
+formsCollections.registerForm('form', Form);
+formsCollections.registerForm('modal', ModalForm);
+formsCollections.registerForm('submitOnChange', SubmitOnChangeForm);
 
 const hashChange = function()
 {
@@ -40,8 +53,3 @@ be5.net.request('languageSelector', {}, function(data) {
   be5.locale.set(data.selected, data.messages);
   be5.url.process(be5.mainDocumentName, document.location.hash);
 });
-
-tablesCollections.registerTable('tableForm', TableForm);
-tablesCollections.registerTable('tableFormRow', TableFormRow);
-tablesCollections.registerTable('formTable', FormTable);
-tablesCollections.registerTable('table', Table);

@@ -9,10 +9,10 @@ class TableFormRow extends TableForm {
       <div className="row">
         {this.tableInfo()}
         <div className="col-lg-6">
-          <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} onChange={this.onChange}/>
+          <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} />
         </div>
         <div className="col-lg-6">
-          <Document frontendParams={{documentName: "form"}} onChange={this.onChange} />
+          <Document frontendParams={{documentName: "form"}} />
         </div>
       </div>
     );

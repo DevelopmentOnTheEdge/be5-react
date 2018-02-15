@@ -34,7 +34,7 @@ class ModalForm extends Form
           </form>
         </ModalBody>
         <div className="col-12">
-          <Document frontendParams={{documentName: this.props.frontendParams.documentName +"_errors"}} onChange={this.onChange} />
+          <Document frontendParams={{documentName: this.props.frontendParams.documentName +"_errors"}} />
         </div>
         <ModalFooter>
           {this._createOkAction()}

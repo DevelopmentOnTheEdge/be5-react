@@ -3,9 +3,10 @@ import renderer from 'react-test-renderer';
 import StaticPage from '../../../../src/scripts/be5/components/StaticPage';
 
 test('snapshot', () => {
-    const pageContent = StaticPage.createValue("Test", 'test content');
-    const tree = renderer.create(
-        <StaticPage value={pageContent} />
-    ).toJSON();
-    expect(tree).toMatchSnapshot();
+  const pageContent = StaticPage.createValue("Test", 'test content');
+
+  const tree = renderer.create(
+      <StaticPage value={pageContent} />
+  ).toJSON();
+  expect(tree).toMatchSnapshot();
 });
