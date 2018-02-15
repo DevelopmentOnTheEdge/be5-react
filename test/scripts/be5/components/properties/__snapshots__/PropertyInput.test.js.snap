@@ -68,13 +68,6 @@ exports[`multiSelect 1`] = `
           }
         }
       >
-        <style
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "input#undefined::-ms-clear {display: none;}",
-            }
-          }
-        />
         <input
           aria-activedescendant="react-select-5--value"
           aria-describedby={undefined}
@@ -251,13 +244,6 @@ exports[`select 1`] = `
           }
         }
       >
-        <style
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "input#undefined::-ms-clear {display: none;}",
-            }
-          }
-        />
         <input
           aria-activedescendant="react-select-2--value"
           aria-describedby={undefined}
@@ -361,13 +347,6 @@ exports[`select 2`] = `
           }
         }
       >
-        <style
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "input#undefined::-ms-clear {display: none;}",
-            }
-          }
-        />
         <input
           aria-activedescendant="react-select-3--value"
           aria-describedby={undefined}
@@ -471,13 +450,6 @@ exports[`select 3`] = `
           }
         }
       >
-        <style
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "input#undefined::-ms-clear {display: none;}",
-            }
-          }
-        />
         <input
           aria-activedescendant="react-select-4--value"
           aria-describedby={undefined}
