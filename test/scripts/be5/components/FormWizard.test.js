@@ -6,8 +6,8 @@ import be5            from '../../../../src/scripts/be5/be5';
 
 test('test', () => {
   const steps = [
-    {title: "Companies", url: '#!companies'},
-    {title: "EgissoDocs", url: '#!egissoDocs'},
+    {title: "Companies", url: '#!text/A'},
+    {title: "EgissoDocs", url: '#!text/B'},
   ];
 
   const component = renderer.create(

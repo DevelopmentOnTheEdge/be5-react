@@ -7,13 +7,14 @@ import utils    from './utils';
 import bus      from './core/bus';
 import changeDocument from './core/changeDocument';
 
-import loading from './actions/loading.js';
+import loadingAction from './actions/loading.js';
 import formAction from './actions/form.js';
 import loginAction from './actions/login.js';
 import logoutAction from './actions/logout.js';
 import staticAction from './actions/static.js';
 import tableAction from './actions/table.js';
-import qBuilder from './actions/qBuilder.js';
+import qBuilderAction from './actions/qBuilder.js';
+import textAction from './actions/text.js';
 
 import "./components/StaticPage";
 
@@ -133,19 +134,19 @@ const be5 = {
 
   appInfo: {},
   
-  load: {
-    css(url) {
-      var link = document.createElement("link");
-      link.type = "text/css";
-      link.rel = "stylesheet";
-      if(be5.isRemoteUrl(url)){
-        link.href = url;
-      }else{
-        link.href = '/' + url;
-      }
-      document.getElementsByTagName("head")[0].appendChild(link);
-    }
-  },
+  // load: {
+  //   css(url) {
+  //     var link = document.createElement("link");
+  //     link.type = "text/css";
+  //     link.rel = "stylesheet";
+  //     if(be5.isRemoteUrl(url)){
+  //       link.href = url;
+  //     }else{
+  //       link.href = '/' + url;
+  //     }
+  //     document.getElementsByTagName("head")[0].appendChild(link);
+  //   }
+  // },
   
   locale: {
     set(loc, addMessages) {
@@ -487,13 +488,14 @@ const be5 = {
   },
 
   actions: {
-    loading: loading,
+    loading: loadingAction,
     login: loginAction,
     logout: logoutAction,
     form: formAction,
     table: tableAction,
     static: staticAction,
-    qBuilder: qBuilder
+    qBuilder: qBuilderAction,
+    text: textAction
   },
 
   getAction(actionName) {

@@ -38,7 +38,7 @@ class LanguageList extends Component {
     const selected = this.props.data.selected;
     const onLanguageClick = this.props.onLanguageClick;
     const languageNodes = this.props.data.languages.map((language) =>
-        <Language key={language} code={language} selected={language == selected} onLanguageClick={onLanguageClick}/>
+        <Language key={language} code={language} selected={language === selected} onLanguageClick={onLanguageClick}/>
     );
     return (
       <div className={"languageList"}>{languageNodes}</div>

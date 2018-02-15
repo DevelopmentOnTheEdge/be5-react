@@ -7,7 +7,7 @@ it('snapshot menu', () => {
   be5.locale.set = () => {};
 
   be5.net.request = function (path, attr, callback) {
-    callback({"languages":["RU"],"messages":{"no":"нет","yes":"да","fio":"Ф.И.О."},"selected":"RU"})
+    callback({"languages":["en"],"messages":{"no":"нет","yes":"да","fio":"Ф.И.О."},"selected":"en"})
   };
 
   const component = renderer.create(

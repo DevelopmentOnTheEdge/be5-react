@@ -10,7 +10,7 @@ exports[`snapshot menu 1`] = `
     <div
       className="language selectedLanguage"
     >
-      RU
+      en
     </div>
   </div>
 </div>

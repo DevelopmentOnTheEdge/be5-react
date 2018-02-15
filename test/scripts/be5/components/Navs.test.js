@@ -5,8 +5,8 @@ import Navs     from '../../../../src/scripts/be5/components/Navs';
 
 test('test', () => {
   const steps = [
-    {title: "Companies", url: '#!companies'},
-    {title: "EgissoDocs", url: '#!egissoDocs'},
+    {title: "Companies", url: '#!text/A'},
+    {title: "EgissoDocs", url: '#!text/B'},
   ];
 
   const component = renderer.create(
