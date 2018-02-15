@@ -64,15 +64,14 @@ export default
         case 'operationResult':
           const attributes = json.data.attributes;
 
-          if (attributes.status !== 'table' && frontendParams.documentName !== frontendParams.parentDocumentName)
-          {
-            console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
-            bus.fire(frontendParams.parentDocumentName + be5.documentRefreshSuffix)
-          }
-
           if (attributes.status === 'error') {
             bus.fire("alert", {msg: attributes.message, type: 'error'});
             return;
+          }
+
+          if (attributes.status !== 'table' && frontendParams.documentName !== frontendParams.parentDocumentName) {
+            console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
+            bus.fire(frontendParams.parentDocumentName + be5.documentRefreshSuffix)
           }
 
           switch (attributes.status) {
