@@ -4,6 +4,7 @@ import ReactShallowRenderer from 'react-test-renderer/shallow';
 import {shallow, mount, render} from 'enzyme';
 
 import be5            from '../../../src/scripts/be5/be5';
+import bus            from '../../../src/scripts/be5/core/bus';
 import changeDocument from '../../../src/scripts/be5/core/changeDocument';
 import App            from '../../../src/scripts/be5/components/Application';
 import SplitPane            from '../../../src/scripts/be5/components/SplitPane';
@@ -20,6 +21,8 @@ test('snapshot', () => {
     <App />
   );
   expect(component.toJSON()).toMatchSnapshot();
+
+  bus.fire("LoggedIn");
   // changeDocument('MainDocument', { component: StaticPage, value: "test" });
   // expect(component.toJSON()).toMatchSnapshot();
 

@@ -108,17 +108,12 @@ class Document extends Component
 
 }
 
-Document.defaultProps = {
-  onChange: () => {}
-};
-
 Document.propTypes = {
   frontendParams: PropTypes.shape({
     documentName: PropTypes.string.isRequired,
     operationDocumentName: PropTypes.string,
     parentDocumentName: PropTypes.string,
-  }),
-  onChange: PropTypes.func,
+  })
 };
 
 export default Document;
