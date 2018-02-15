@@ -43,7 +43,8 @@ test('Form', () => {
   };
 
   const  component = renderer.create(
-    <Form value={json}/>
+    <Form value={json} frontendParams={{documentName: 'test'}} />
   );
+
   expect(component.toJSON()).toMatchSnapshot();
 });

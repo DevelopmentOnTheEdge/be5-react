@@ -10,7 +10,8 @@ import ErrorPane            from "../ErrorPane";
 
 const Form = React.createClass({
   propTypes: {
-    value: React.PropTypes.object.isRequired
+    value: React.PropTypes.object.isRequired,
+    frontendParams: React.PropTypes.object.isRequired
   },
 
   displayName: 'Form',
