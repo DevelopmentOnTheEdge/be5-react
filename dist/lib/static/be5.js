@@ -17078,7 +17078,7 @@ var FormWizard = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.setState(this.getPrevNextBtnState(this.props.startAtStep));
-      _be2.default.url.process(this.props.frontendParams.documentName, this.props.steps[this.state.compState].url);
+      _be2.default.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
     }
 
     // update the header nav states via classes so they can be styled via css
