@@ -14,16 +14,14 @@ export { default as createStore } from './core/createStore.js';
 export { default as documentUtils } from './core/documentUtils.js';
 export { default as ext } from './core/ext.js';
 export { default as http } from './core/http.js';
-export { default as loadDocument } from './core/loadDocument.js';
 
 // components
 export { default as action }           from './components/action.js';
 export { default as Application }      from './components/application.js';
-export { default as Be5Menu }          from './components/be5Menu.js';
-export { default as Be5MenuHolder }    from './components/be5MenuHolder.js';
-export { default as Be5MenuItem }      from './components/be5MenuItem.js';
+export { default as Be5Menu }          from './components/be5Menu/be5Menu.js';
+export { default as Be5MenuHolder }    from './components/be5Menu/be5MenuHolder.js';
+export { default as Be5MenuItem }      from './components/be5Menu/be5MenuItem.js';
 export { default as BootstrapModal }   from './components/bootstrapModal.js';
-export { default as CustomServlet }    from './components/customServlet.js';
 export { default as Document }         from './components/document.js';
 export { default as LanguageSelector } from './components/languageSelector.js';
 export { default as Login }            from './components/login.js';
