@@ -69,3 +69,102 @@ exports[`Form 1`] = `
   />
 </div>
 `;
+
+exports[`ModalForm 1`] = `
+<div>
+  <div
+    className="modal-header"
+  >
+    <h5
+      className="modal-title"
+    >
+      SelectCompany
+    </h5>
+    <button
+      aria-label="Close"
+      className="close"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+  </div>
+  <div
+    className="modal-body"
+  >
+    <form
+      onSubmit={[Function]}
+    >
+      <div
+        className="property-set row"
+      >
+        <div
+          className="col-lg-12"
+        >
+          <div
+            className="form-group property required"
+          >
+            <label
+              className="form-control-label"
+              htmlFor="companyIDField"
+            >
+              companyID
+            </label>
+            <div
+              className="controls"
+            >
+              <input
+                className="form-control"
+                disabled={undefined}
+                id="companyIDField"
+                onChange={[Function]}
+                placeholder={undefined}
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div
+    className="col-12"
+  />
+  <div
+    className="modal-footer"
+  >
+    <button
+      className="btn btn-primary"
+      disabled={true}
+      onClick={[Function]}
+      type="button"
+    >
+      Submit
+    </button>
+  </div>
+</div>
+`;
+
+exports[`SubmitOnChangeForm 1`] = `
+<div
+  className="submit-onchange-formundefined"
+>
+  <input
+    className="form-control"
+    disabled={undefined}
+    id="companyIDField"
+    onChange={[Function]}
+    placeholder={undefined}
+    type="text"
+    value=""
+  />
+  <div
+    className="col-12"
+  />
+</div>
+`;

@@ -1,5 +1,113 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`FormTable 1`] = `
+<div
+  className="form-table"
+>
+  <div
+    className="document-content"
+    id="document-content___form"
+  >
+    <div>
+      <span
+        className="document-reload float-right"
+        onClick={[Function]}
+      >
+        <img
+          alt="reload"
+          src={Object {}}
+          title="reload form"
+        />
+      </span>
+      <div
+        className="staticPage"
+      >
+        <div
+          className="staticPage__text"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="document-content"
+    id="document-content___table"
+  >
+    <div>
+      <span
+        className="document-reload float-right"
+        onClick={[Function]}
+      >
+        <img
+          alt="reload"
+          src={Object {}}
+          title="reload table"
+        />
+      </span>
+      <div
+        className="table-component"
+      >
+        <h1
+          className="table-component__title"
+        >
+          Организации: Общие сведения
+        </h1>
+        <div>
+          <div
+            className="operationList"
+          >
+            <button
+              className="btn btn-secondary btn-secondary-old btn-sm"
+              onClick={[Function]}
+            >
+              Редактировать
+            </button>
+             
+            <button
+              className="btn btn-secondary btn-secondary-old btn-sm"
+              onClick={[Function]}
+            >
+              Добавить
+            </button>
+          </div>
+          <div
+            id="quickColumns"
+          >
+            <span>
+              Другие колонки:
+            </span>
+            <span>
+              <input
+                checked={false}
+                id="quick0"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <label
+                className="rowIndex"
+                htmlFor="quick0"
+              >
+                Наименование
+                 
+              </label>
+            </span>
+          </div>
+          <div
+            className="scroll"
+          >
+            <div />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Table 1`] = `
 <div
   className="table-component"
@@ -53,6 +161,230 @@ exports[`Table 1`] = `
       className="scroll"
     >
       <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TableForm 1`] = `
+<div
+  className="table-form"
+>
+  <div
+    className="document-content"
+    id="document-content___table"
+  >
+    <div>
+      <span
+        className="document-reload float-right"
+        onClick={[Function]}
+      >
+        <img
+          alt="reload"
+          src={Object {}}
+          title="reload table"
+        />
+      </span>
+      <div
+        className="table-component"
+      >
+        <h1
+          className="table-component__title"
+        >
+          Организации: Общие сведения
+        </h1>
+        <div>
+          <div
+            className="operationList"
+          >
+            <button
+              className="btn btn-secondary btn-secondary-old btn-sm"
+              onClick={[Function]}
+            >
+              Редактировать
+            </button>
+             
+            <button
+              className="btn btn-secondary btn-secondary-old btn-sm"
+              onClick={[Function]}
+            >
+              Добавить
+            </button>
+          </div>
+          <div
+            id="quickColumns"
+          >
+            <span>
+              Другие колонки:
+            </span>
+            <span>
+              <input
+                checked={false}
+                id="quick0"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <label
+                className="rowIndex"
+                htmlFor="quick0"
+              >
+                Наименование
+                 
+              </label>
+            </span>
+          </div>
+          <div
+            className="scroll"
+          >
+            <div />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="document-content"
+    id="document-content___form"
+  >
+    <div>
+      <span
+        className="document-reload float-right"
+        onClick={[Function]}
+      >
+        <img
+          alt="reload"
+          src={Object {}}
+          title="reload form"
+        />
+      </span>
+      <div
+        className="staticPage"
+      >
+        <div
+          className="staticPage__text"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TableFormRow 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="col-lg-6"
+  >
+    <div
+      className="document-content"
+      id="document-content___table"
+    >
+      <div>
+        <span
+          className="document-reload float-right"
+          onClick={[Function]}
+        >
+          <img
+            alt="reload"
+            src={Object {}}
+            title="reload table"
+          />
+        </span>
+        <div
+          className="table-component"
+        >
+          <h1
+            className="table-component__title"
+          >
+            Организации: Общие сведения
+          </h1>
+          <div>
+            <div
+              className="operationList"
+            >
+              <button
+                className="btn btn-secondary btn-secondary-old btn-sm"
+                onClick={[Function]}
+              >
+                Редактировать
+              </button>
+               
+              <button
+                className="btn btn-secondary btn-secondary-old btn-sm"
+                onClick={[Function]}
+              >
+                Добавить
+              </button>
+            </div>
+            <div
+              id="quickColumns"
+            >
+              <span>
+                Другие колонки:
+              </span>
+              <span>
+                <input
+                  checked={false}
+                  id="quick0"
+                  onChange={[Function]}
+                  type="checkbox"
+                />
+                <label
+                  className="rowIndex"
+                  htmlFor="quick0"
+                >
+                  Наименование
+                   
+                </label>
+              </span>
+            </div>
+            <div
+              className="scroll"
+            >
+              <div />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="col-lg-6"
+  >
+    <div
+      className="document-content"
+      id="document-content___form"
+    >
+      <div>
+        <span
+          className="document-reload float-right"
+          onClick={[Function]}
+        >
+          <img
+            alt="reload"
+            src={Object {}}
+            title="reload form"
+          />
+        </span>
+        <div
+          className="staticPage"
+        >
+          <div
+            className="staticPage__text"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "",
+              }
+            }
+          />
+        </div>
+      </div>
     </div>
   </div>
 </div>
