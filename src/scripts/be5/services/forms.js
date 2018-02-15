@@ -2,9 +2,9 @@ import be5              from '../be5';
 import bus              from '../core/bus';
 import Preconditions    from '../preconditions';
 import changeDocument   from '../core/changeDocument';
-import {HtmlResult}     from '../components/forms/form';
+import {HtmlResult}     from '../components/forms/Form';
 import StaticPage       from '../components/staticPage';
-import ErrorPane        from "../components/errorPane";
+import ErrorPane        from "../components/ErrorPane";
 import formsCollections from './formsCollections.js';
 import Table            from "../components/tables/table";
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes            from 'prop-types';
 import be5                  from '../be5';
-import Document             from './document';
+import Document             from './Document';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 
 

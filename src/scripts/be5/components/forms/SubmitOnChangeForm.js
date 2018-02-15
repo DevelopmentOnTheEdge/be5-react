@@ -1,7 +1,7 @@
 import React           from 'react';
 import be5             from '../../be5';
-import Form            from './form.js';
-import PropertyInput   from '../../components/properties/propertyInput';
+import Form            from './Form';
+import PropertyInput   from '../../components/properties/PropertyInput';
 
 
 class SubmitOnChangeForm extends Form

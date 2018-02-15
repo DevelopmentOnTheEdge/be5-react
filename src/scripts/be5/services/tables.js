@@ -2,7 +2,7 @@ import be5                 from '../be5';
 import changeDocument      from '../core/changeDocument';
 import Preconditions       from '../preconditions';
 import StaticPage          from '../components/staticPage';
-import ErrorPane           from "../components/errorPane";
+import ErrorPane           from "../components/ErrorPane";
 import Table               from "../components/tables/table";
 import TablesCollections   from './tablesCollections';
 

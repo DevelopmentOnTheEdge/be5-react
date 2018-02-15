@@ -1,6 +1,6 @@
 import SubmitOnChangeForm from '../components/forms/SubmitOnChangeForm';
 import ModalForm          from '../components/forms/ModalForm';
-import Form               from '../components/forms/form';
+import Form               from '../components/forms/Form';
 
 
 const formsCollections = {

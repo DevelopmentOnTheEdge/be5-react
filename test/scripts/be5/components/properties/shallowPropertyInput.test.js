@@ -1,5 +1,5 @@
 import React from 'react';
-import PropertyInput from '../../../../../src/scripts/be5/components/properties/propertyInput';
+import PropertyInput from '../../../../../src/scripts/be5/components/properties/PropertyInput';
 import {shallow} from 'enzyme';
 import VirtualizedSelect    from 'react-virtualized-select';
 

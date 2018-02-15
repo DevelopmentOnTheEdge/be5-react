@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import bus from '../core/bus';
 import be5 from '../be5';
-import Document from './document';
+import Document from './Document';
 import Alert from 'react-s-alert';
 import { Modal } from 'reactstrap';
 

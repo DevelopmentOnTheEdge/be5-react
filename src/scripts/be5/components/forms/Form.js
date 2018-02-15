@@ -2,10 +2,10 @@ import React                from 'react';
 import PropTypes            from 'prop-types';
 import be5                  from '../../be5';
 import formService          from '../../services/forms';
-import PropertySet          from '../properties/propertySet';
+import PropertySet          from '../properties/PropertySet';
 import JsonPointer          from 'json-pointer';
 import _                    from 'underscore';
-import Document             from "../document";
+import Document             from "../Document";
 
 
 const Form = React.createClass({

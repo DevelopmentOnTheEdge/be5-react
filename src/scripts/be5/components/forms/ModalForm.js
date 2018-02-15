@@ -1,9 +1,9 @@
 import React           from 'react';
 import be5             from '../../be5';
 import bus             from '../../core/bus';
-import Form            from './form.js';
-import PropertySet     from '../properties/propertySet';
-import Document        from "../document";
+import Form            from './Form';
+import PropertySet     from '../properties/PropertySet';
+import Document        from "../Document";
 import { ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import PropertyInput from '../../../../../src/scripts/be5/components/properties/propertyInput';
+import PropertyInput from '../../../../../src/scripts/be5/components/properties/PropertyInput';
 import renderer from 'react-test-renderer';
 /*
     contained values for input

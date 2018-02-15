@@ -4,7 +4,6 @@ import ReactDOM        from 'react-dom';
 import be5             from '../../be5';
 import utils           from '../../utils';
 import $               from 'jquery';
-import _               from 'underscore';
 import formService     from '../../services/forms';
 import tableService    from '../../services/tables';
 import numberFormatter from 'number-format.js';

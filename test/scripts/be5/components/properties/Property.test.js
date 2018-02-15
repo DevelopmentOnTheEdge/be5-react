@@ -1,5 +1,5 @@
 import React from 'react';
-import Property from '../../../../../src/scripts/be5/components/properties/property';
+import Property from '../../../../../src/scripts/be5/components/properties/Property';
 import renderer from 'react-test-renderer';
 import {shallow} from 'enzyme';
 

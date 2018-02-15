@@ -1,5 +1,5 @@
 import React from 'react';
-import Action from '../../../../src/scripts/be5/components/action';
+import Action from '../../../../src/scripts/be5/services/action';
 
 test('test call', () => {
     const link = {'name':'call','arg':'table/test'};

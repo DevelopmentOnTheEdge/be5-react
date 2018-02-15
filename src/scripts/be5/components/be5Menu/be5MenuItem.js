@@ -1,7 +1,7 @@
 import React from 'react';
 import Be5MenuHolder from './be5MenuHolder';
 import Const from '../../constants';
-import Action from '../action';
+import Action from '../../services/action';
 
 export default React.createClass({
   displayName: 'Be5MenuItem',
