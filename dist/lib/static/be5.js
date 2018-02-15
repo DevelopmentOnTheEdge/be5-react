@@ -17179,7 +17179,7 @@ var FormWizard = function (_Component) {
         this.setState({ compState: next });
       }
 
-      _be2.default.url.process(this.props.frontendParams.documentName, this.props.steps[next].url);
+      _be2.default.url.process(this.props.documentName, this.props.steps[next].url);
 
       this.checkNavState(next);
     }
