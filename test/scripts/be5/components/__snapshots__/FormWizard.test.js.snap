@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test 1`] = `
+<div
+  className="formWizard"
+  onKeyDown={[Function]}
+>
+  <ol
+    className="progtrckr clearfix"
+  >
+    <li
+      className="progtrckr-doing"
+      onClick={[Function]}
+      value={0}
+    >
+      <em>
+        1
+      </em>
+      <span
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "Companies",
+          }
+        }
+      />
+    </li>
+    <li
+      className="progtrckr-todo"
+      onClick={[Function]}
+      value={1}
+    >
+      <em>
+        2
+      </em>
+      <span
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "EgissoDocs",
+          }
+        }
+      />
+    </li>
+  </ol>
+  <div
+    className="document-content"
+    id="document-content___FormWizard"
+  >
+    <h1>
+      Unknown action: companies
+    </h1>
+  </div>
+  <br />
+  <div
+    className="footer-buttons"
+    style={Object {}}
+  >
+    <button
+      className="btn btn-next btn-primary pull-left disabled"
+      id="prev-button"
+      onClick={[Function]}
+    >
+      Previous
+    </button>
+     
+    <button
+      className="btn btn-prev btn-primary pull-right"
+      id="next-button"
+      onClick={[Function]}
+    >
+      Next
+    </button>
+  </div>
+</div>
+`;
