@@ -4,7 +4,6 @@ import Preconditions    from '../preconditions';
 import changeDocument   from '../core/changeDocument';
 import {HtmlResult}     from '../components/forms/Form';
 import StaticPage       from '../components/StaticPage';
-import ErrorPane        from "../components/ErrorPane";
 import formsCollections from './formsCollections.js';
 import Table            from "../components/tables/Table";
 
@@ -44,23 +43,20 @@ export default
     };
 
     be5.net.request(action, requestParams, data => {
-      this._performOperationResult(data, frontendParams, action === 'form/apply');
+      this._performOperationResult(data, frontendParams);
     },(data)=> {
       bus.fire("alert", {msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error'});
     });
   },
 
-  _performOperationResult(json, frontendParams, isApply)
+  _performOperationResult(json, frontendParams)
   {
     const documentName = frontendParams.documentName;
 
-    //console.log("forms perform: " + documentName);
     Preconditions.passed(documentName);
 
     if(json.data !== undefined)
     {
-      if(isApply)changeDocument(documentName + "_errors", { value: "" } );
-
       switch (json.data.type) {
         case 'form':
           this._performForm(json, frontendParams);
@@ -143,8 +139,6 @@ export default
     }else{
       const error = json.errors[0];
       bus.fire("alert", {msg: error.status + " "+ error.title, type: 'error'});
-
-      changeDocument(isApply ? documentName + "_errors" : documentName, {component: ErrorPane, value: json});
     }
   },
 
@@ -153,18 +147,9 @@ export default
     const documentName = frontendParams.documentName;
     let operationResult = json.data.attributes.operationResult;
 
-    if(operationResult.status === 'error' )
+    if(operationResult.status === 'error')
     {
       bus.fire("alert", {msg: operationResult.message, type: 'error'});
-      if(json.data.attributes.errorModel)
-      {
-        const errorJson = {errors: [json.data.attributes.errorModel], meta: json.meta, links: {}};
-        changeDocument(documentName + "_errors", {component: ErrorPane, value: errorJson});
-      }
-    }
-    else
-    {
-      changeDocument(documentName + "_errors", {value: ""});
     }
 
     const formComponentName = json.data.attributes.layout.type || 'form';

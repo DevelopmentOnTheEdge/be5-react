@@ -5,7 +5,7 @@ import formService          from '../../services/forms';
 import PropertySet          from '../properties/PropertySet';
 import JsonPointer          from 'json-pointer';
 import _                    from 'underscore';
-import Document             from "../Document";
+import ErrorPane            from "../ErrorPane";
 
 
 const Form = React.createClass({
@@ -149,8 +149,19 @@ const Form = React.createClass({
     });
   },
 
+  _getErrorPane(){
+    const errorModel = this.state.data.attributes.errorModel;
+
+    if(errorModel){
+      return <ErrorPane value={{errors: [errorModel], meta: this.state.meta, links: {}}}/>
+    }else{
+      return null;
+    }
+  },
+
   render() {
     const attributes = this.state.data.attributes;
+
     return (
       <div className="row">
         <div className={'formBox ' + (attributes.layout.formBoxCssClasses || 'col-12 max-width-970 formBoxDefault')}>
@@ -164,7 +175,7 @@ const Form = React.createClass({
           <br/>
         </div>
         <div className="col-12">
-          <Document frontendParams={{documentName: this.props.frontendParams.documentName + "_errors"}} />
+          {this._getErrorPane()}
         </div>
       </div>
     );

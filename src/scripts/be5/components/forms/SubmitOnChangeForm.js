@@ -23,6 +23,9 @@ class SubmitOnChangeForm extends Form
     return (
         <div className={'submit-onchange-form' + (attributes.cssClass)}>
           <PropertyInput id={0} bean={attributes.bean} localization={be5.messages.property} onChange={this._onFieldChangeAndSubmit} />
+          <div className="col-12">
+            {this._getErrorPane()}
+          </div>
         </div>
     );
   }
