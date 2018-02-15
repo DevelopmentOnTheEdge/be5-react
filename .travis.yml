@@ -2,7 +2,8 @@ language: node_js
 node_js:
   - 6
 script:
-  - npm run build-min
+  - npm run build
+  - npm run lib
   - npm test
 after_success:
   - npm run-script coveralls
