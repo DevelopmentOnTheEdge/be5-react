@@ -7,19 +7,19 @@ import Table               from "../components/tables/table";
 import TablesCollections   from './tablesCollections';
 
 
-class Tables
+export default
 {
-  static load(params, documentName) {
-    Tables._send(params, Tables.performData, documentName);
-  }
+  load(params, documentName) {
+    this._send(params, this._performData, documentName);
+  },
 
-  static refresh(params, documentName) {
-    Tables._send(params, (data, documentName) => {
+  refresh(params, documentName) {
+    this._send(params, (data, documentName) => {
       changeDocument(documentName, { component: Table, value: data });
     }, documentName);
-  }
+  },
 
-  static _send(params, performData, documentName) {
+  _send(params, performData, documentName) {
     Preconditions.passed(params.entity);
     Preconditions.passed(params.query);
 
@@ -35,9 +35,9 @@ class Tables
     }, (data)=> {
       changeDocument(documentName, { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)});
     });
-  }
+  },
 
-  static performData(json, documentName)
+  _performData(json, documentName)
   {
     if(json.data !== undefined){
       const tableComponentName = json.data.attributes.layout.type || 'table';
@@ -54,9 +54,3 @@ class Tables
     }
   }
 }
-
-export default {
-  load: Tables.load,
-
-  refresh: Tables.refresh
-};

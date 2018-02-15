@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import PropTypes       from 'prop-types';
 import ReactDOM        from 'react-dom';
 import be5             from '../../be5';
 import utils           from '../../utils';
@@ -8,158 +8,9 @@ import _               from 'underscore';
 import formService     from '../../services/forms';
 import tableService    from '../../services/tables';
 import numberFormatter from 'number-format.js';
+import OperationBox    from './OperationBox';
+import QuickColumns    from './QuickColumns';
 
-
-class OperationBox extends Component {
-  constructor(props) {
-    super(props);
-  };
-
-  onClick(name, e) {
-    if (!$(ReactDOM.findDOMNode(this.refs[name])).hasClass('disabled')) {
-      const operation = this.props.operations.find(operation => operation.name === name);
-      if (!operation.requiresConfirmation || confirm(operation.title + "?")) {
-        this.props.onOperationClick(name);
-      }
-    }
-    e.preventDefault();
-  }
-
-  refreshEnablement() {
-    this.props.operations.forEach(operation => {
-      let visible = false;
-      switch (operation.visibleWhen) {
-        case 'always':
-          visible = true;
-          break;
-        case 'oneSelected':
-          visible = (be5.tableState.selectedRows.length === 1);
-          break;
-        case 'anySelected':
-          visible = (be5.tableState.selectedRows.length !== 0);
-          break;
-        case 'hasRecords':
-          visible = this.props.hasRows;
-          break;
-      }
-      if (visible) {
-        $(ReactDOM.findDOMNode(this.refs[operation.name])).addClass('enabled');
-        $(ReactDOM.findDOMNode(this.refs[operation.name])).removeClass('disabled');
-      } else {
-        $(ReactDOM.findDOMNode(this.refs[operation.name])).addClass('disabled');
-        $(ReactDOM.findDOMNode(this.refs[operation.name])).removeClass('enabled');
-      }
-    });
-  }
-
-  render() {
-    const splitWithSpaces = (elements) => {
-      const out = [];
-      _(elements).each(e => {
-        if (out.length !== 0) {
-          out.push(' ');
-        }
-        out.push(e);
-      });
-      return out;
-    };
-    const operations = this.props.operations.map(operation => {
-//      if (operation.isClientSide) {
-//        const action = Action.parse(operation.action);
-//        const attrs = {
-//          key: operation.name,
-//          ref: operation.name,
-//          href: action.href,
-//          target: action.target,
-//          className: 'btn btn-secondary'
-//        };
-//        return React.createElement('a', attrs, operation.title);
-//      }
-      return (
-        <button key={operation.name} ref={operation.name} onClick={this.onClick.bind(this, operation.name)} className={'btn btn-secondary btn-secondary-old btn-sm'}>
-          {operation.title}
-        </button>
-      );
-    });
-
-    if(this.props.operations.length === 0){
-      return (
-        <div/>
-      );
-    }
-    return (
-      <div className={'operationList'}>{splitWithSpaces(operations)}</div>
-    );
-  }
-}
-
-class QuickColumns extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = this.createStateFromProps(this.props);
-  };
-
-  componentWillReceiveProps(nextProps){
-    this.setState(this.createStateFromProps(nextProps));
-  }
-
-  createStateFromProps(props){
-    return {quickColumns:
-      props.firstRow
-        .map( (col, idx) => {
-          if(col.options.quick)
-            return {columnId: idx, visible: col.options.quick.visible === 'true'};
-          else return null;
-        })
-        .filter((col) => {return col !== null})
-    };
-  }
-
-  setTable(_table){
-    this.setState({table: _table});
-  }
-
-  quickHandleChange(idx) {
-    this.state.quickColumns[idx].visible = !this.state.quickColumns[idx].visible;
-    this.forceUpdate();
-  }
-
-  render() {
-    if(this.state.quickColumns.length === 0){
-      return (<div/>)
-    }
-    if(this.state.table){
-      const dataTable = $(this.state.table).find('table').dataTable();
-      const columnsCount = dataTable.fnSettings().aoColumns.length ;
-      this.state.quickColumns.forEach((col) => {
-        const columnId = col.columnId + (this.props.selectable ? 1 : 0);
-        if(columnId < columnsCount){
-          const dtColumn = dataTable.api().column( columnId );
-          if(dtColumn.visible)dtColumn.visible( col.visible );
-        }
-      });
-    }
-
-    const checks = this.state.quickColumns.map(function(cell, idx) {
-      const column = this.props.columns[cell.columnId];
-      const title = column.replace(/<br\s*[\/]?>/gi, " ");
-      return (
-        <span key={idx}>
-            <input id={"quick" + idx} type="checkbox" checked={cell.visible} onChange={() => this.quickHandleChange(idx)} />
-            <label htmlFor={"quick" + idx} className="rowIndex">{title} </label>
-        </span>
-      );
-    }.bind(this));
-
-    return (
-      <div id="quickColumns">
-        <span>Другие колонки:</span>
-        {checks}
-      </div>
-    )
-  }
-}
 
 const formatCell = (data, options, isColumn) =>
 {
@@ -207,7 +58,6 @@ class TableBox extends Component {
       this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
 
     this._refreshEnablementIfNeeded();
-    //this._loadCountIfNeeded();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -218,16 +68,10 @@ class TableBox extends Component {
   componentDidUpdate() {
     if(this.refs.table)
       this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
-
-    //this._loadCountIfNeeded();
   }
 
   onOperationClick(name) {
     const attr = this.props.value.data.attributes;
-
-    //console.log(be5.url.create('form', [attr.category, attr.page, name], attr.parameters));
-
-    //formAction(this.props.operationDocumentName, attr.category, attr.page, name, attr.parameters, this.props.onChange);
 
     const params = {
       entity: attr.category,
@@ -240,7 +84,7 @@ class TableBox extends Component {
     formService.load(params, {
       documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
       parentDocumentName: this.props.frontendParams.documentName
-    }, this.props.onChange);
+    });
   }
 
   onSelectionChange() {
@@ -477,24 +321,6 @@ class TableBox extends Component {
       </div>
     );
   }
-
-  // _loadCountIfNeeded() {
-  //   if (attributes.embedded) { // FIXME actually this should work even if the component is embedded
-  //     return;
-  //   }
-  //
-  //   if (attributes.value.type === 'table' && !attributes.totalNumberOfRows && attributes.totalNumberOfRows != 0) {
-  //     be5.net.request('document/count', attributes.value.requestParams, res => {
-  //       const documentState = {
-  //         time: Date.now(),
-  //         type: 'table',
-  //         value: _.extend({}, attributes.value, {totalNumberOfRows: res.value})
-  //       };
-  //
-  //       changeDocument(documentState);
-  //     });
-  //   }
-  // },
 
   _refreshEnablementIfNeeded() {
     if (this.refs !== undefined && this.refs.operations !== undefined) {

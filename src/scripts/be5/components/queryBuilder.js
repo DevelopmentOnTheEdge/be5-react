@@ -46,7 +46,7 @@ class QueryBuilder extends React.Component
     this.setState({
       finalSql: json.included[0].attributes.finalSql,
     });
-    Tables.performData(json, 'queryBuilder-table');
+    Tables._performData(json, 'queryBuilder-table');
   }
 
   render() {
