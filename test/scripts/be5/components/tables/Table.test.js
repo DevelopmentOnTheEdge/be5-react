@@ -4,9 +4,20 @@ import Table          from '../../../../../src/scripts/be5/components/tables/Tab
 import TableForm      from '../../../../../src/scripts/be5/components/tables/TableForm';
 import FormTable      from '../../../../../src/scripts/be5/components/tables/FormTable';
 import TableFormRow   from '../../../../../src/scripts/be5/components/tables/TableFormRow';
+import {shallow, mount, render} from 'enzyme';
+
+import $               from 'jquery';
+import dt from 'datatables.net';
+dt(window, $);
+
+test('test datatables', () => {
+
+  const wrapper = mount( <Table value={json}/> );
+
+});
 
 test('Table', () => {
-  const  component = renderer.create(
+  const component = renderer.create(
     <Table value={json}/>
   );
 
@@ -14,7 +25,7 @@ test('Table', () => {
 });
 
 test('TableForm', () => {
-  const  component = renderer.create(
+  const component = renderer.create(
     <TableForm value={json}/>
   );
 
@@ -22,7 +33,7 @@ test('TableForm', () => {
 });
 
 test('FormTable', () => {
-  const  component = renderer.create(
+  const component = renderer.create(
     <FormTable value={json}/>
   );
 
@@ -30,7 +41,7 @@ test('FormTable', () => {
 });
 
 test('TableFormRow', () => {
-  const  component = renderer.create(
+  const component = renderer.create(
     <TableFormRow value={json}/>
   );
 
