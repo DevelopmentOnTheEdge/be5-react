@@ -5,7 +5,7 @@ import be5 from '../../../../src/scripts/be5/be5';
 import {shallow, mount} from 'enzyme';
 
 
-it('render', () => {
+test('render', () => {
     be5.net.request = function (path, attr, callback) {
       callback({"availableRoles":["Guest", "Administrator"],"selectedRoles":["Guest"]})
     };
