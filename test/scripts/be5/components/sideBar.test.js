@@ -1,10 +1,9 @@
 import React    from 'react';
 import renderer from 'react-test-renderer';
 import SideBar     from  '../../../../src/scripts/be5/components/SideBar';
-import testUtils      from '../testUtils'
+import '../mockBe5Request'
 
 it('snapshot sideBar', () => {
-  testUtils.mockBe5();
 
   const component = renderer.create(
     <SideBar />

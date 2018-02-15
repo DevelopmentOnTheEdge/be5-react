@@ -3,10 +3,9 @@ import renderer from 'react-test-renderer';
 import {shallow, mount, render} from 'enzyme';
 import bus            from '../../../../src/scripts/be5/core/bus';
 import App            from '../../../../src/scripts/be5/components/Application';
-import testUtils      from '../testUtils'
+import '../mockBe5Request'
 
 test('snapshot', () => {
-  testUtils.mockBe5();
 
   const component = renderer.create(
     <App />
