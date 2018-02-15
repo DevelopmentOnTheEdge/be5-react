@@ -106,11 +106,14 @@ export default
               }
               return;
             case 'finished':
-              changeDocument(documentName, {component: HtmlResult, value: json, frontendParams: frontendParams});
+              if(documentName === be5.mainModalDocumentName) {
+                bus.fire("alert", {msg: json.data.attributes.message, type: 'success'});
+                bus.fire("mainModalToggle");
+              }else{
+                changeDocument(documentName, {component: HtmlResult, value: json, frontendParams: frontendParams});
+              }
               return;
             case 'table':
-              //Object.assign({}, attributes.details, json.meta)}
-              //console.log(frontendParams.parentDocumentName, attributes.details);
               const tableJson = {
                 data: {
                   attributes: attributes.details
@@ -118,6 +121,9 @@ export default
                 meta: json.meta
               };
               changeDocument(frontendParams.parentDocumentName, {component: Table, value: tableJson});
+              if(documentName === be5.mainModalDocumentName) {
+                bus.fire("mainModalToggle");
+              }
               return;
             default:
               bus.fire("alert", {

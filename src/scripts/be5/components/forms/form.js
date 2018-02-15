@@ -192,6 +192,10 @@ export const HtmlResult = React.createClass({
     formService.changeLocationHash(this.props);
   },
 
+  refresh() {
+    console.info("HtmlResult not support refresh");
+  },
+
   render() {
     const back = () => { history.back(); };
     const attributes = this.props.value.data.attributes;

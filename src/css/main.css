@@ -34,6 +34,9 @@ a.menuItemWithRef {
   text-transform: none;
   font-size: 1.1em;
 }
+.s-alert-box {
+    z-index: 1500;
+}
 /*******************************************************/
 /* egisso colors                                       */
 /*******************************************************/
