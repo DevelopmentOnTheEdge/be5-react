@@ -22,6 +22,7 @@ export { default as Be5MenuHolder }    from './components/be5Menu/Be5MenuHolder.
 export { default as Be5MenuItem }      from './components/be5Menu/Be5MenuItem.js';
 export { default as BootstrapModal }   from './components/BootstrapModal.js';
 export { default as Document }         from './components/Document.js';
+export { default as HelpInfo }         from './components/HelpInfo.js';
 export { default as LanguageSelector } from './components/LanguageSelector.js';
 export { default as Login }            from './components/Login.js';
 export { default as RoleSelector }     from './components/RoleSelector.js';

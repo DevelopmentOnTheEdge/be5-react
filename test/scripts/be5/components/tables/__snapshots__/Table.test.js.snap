@@ -7,32 +7,7 @@ exports[`FormTable 1`] = `
   <div
     className="document-content"
     id="document-content___form"
-  >
-    <div>
-      <span
-        className="document-reload float-right"
-        onClick={[Function]}
-      >
-        <img
-          alt="reload"
-          src={Object {}}
-          title="reload form"
-        />
-      </span>
-      <div
-        className="staticPage"
-      >
-        <div
-          className="staticPage__text"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "",
-            }
-          }
-        />
-      </div>
-    </div>
-  </div>
+  />
   <div
     className="document-content"
     id="document-content___table"
@@ -245,32 +220,7 @@ exports[`TableForm 1`] = `
   <div
     className="document-content"
     id="document-content___form"
-  >
-    <div>
-      <span
-        className="document-reload float-right"
-        onClick={[Function]}
-      >
-        <img
-          alt="reload"
-          src={Object {}}
-          title="reload form"
-        />
-      </span>
-      <div
-        className="staticPage"
-      >
-        <div
-          className="staticPage__text"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "",
-            }
-          }
-        />
-      </div>
-    </div>
-  </div>
+  />
 </div>
 `;
 
@@ -360,32 +310,7 @@ exports[`TableFormRow 1`] = `
     <div
       className="document-content"
       id="document-content___form"
-    >
-      <div>
-        <span
-          className="document-reload float-right"
-          onClick={[Function]}
-        >
-          <img
-            alt="reload"
-            src={Object {}}
-            title="reload form"
-          />
-        </span>
-        <div
-          className="staticPage"
-        >
-          <div
-            className="staticPage__text"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "",
-              }
-            }
-          />
-        </div>
-      </div>
-    </div>
+    />
   </div>
 </div>
 `;

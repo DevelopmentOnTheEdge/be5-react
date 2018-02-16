@@ -16,7 +16,9 @@ exports[`performOperationResult finished 1`] = `
         title="reload test"
       />
     </span>
-    <div>
+    <div
+      className="finishedResult"
+    >
       <div
         dangerouslySetInnerHTML={
           Object {

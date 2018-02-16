@@ -7,7 +7,7 @@ import Table            from './Table';
 import changeDocument   from '../../core/changeDocument';
 import formService      from '../../services/forms';
 import StaticPage       from '../../components/StaticPage';
-import { Collapse, Button } from 'reactstrap';
+import HelpInfo         from '../../components/HelpInfo';
 
 
 class TableForm extends React.Component
@@ -15,12 +15,6 @@ class TableForm extends React.Component
   constructor(){
     super();
     this.state = {helpCollapse: false};
-    this.tableInfo = this.tableInfo.bind(this);
-    this.helpCollapseToggle = this.helpCollapseToggle.bind(this);
-  }
-
-  helpCollapseToggle() {
-    this.setState({ helpCollapse: !this.state.helpCollapse });
   }
 
   componentDidUpdate(){
@@ -32,62 +26,39 @@ class TableForm extends React.Component
   }
 
   updateDocuments(){
-    const attr = this.props.value.data.attributes;
+
     changeDocument("table", { component: Table, value: this.props.value });
-    if(this.state.tableInfo === undefined && attr.layout.tableInfo !== undefined)
-    {
-      be5.url.process("table-form-info", "#!static/" + attr.layout.tableInfo);
-      this.setState({tableInfo: attr.layout.tableInfo});
-    }
 
-    if(attr.layout.defaultOperation !== undefined){
-      //console.log("attributes.layout.defaultOperation: " + attributes.layout.defaultOperation);
-      //TODO вместо замены старой формы на StaticPage.createValue('', ''), делать все поля READ_ONLY и кнопку disabled
-      //changeDocument("form", { component: StaticPage, value: StaticPage.createValue('', '')}); - баг форма пропадает, ошибки обновления
+    //unused
+    // const attr = this.props.value.data.attributes;
+    // if(attr.layout.defaultOperation !== undefined){
+    //   //console.log("attributes.layout.defaultOperation: " + attributes.layout.defaultOperation);
+    //   //TODO вместо замены старой формы на StaticPage.createValue('', ''), делать все поля READ_ONLY и кнопку disabled
+    //   //changeDocument("form", { component: StaticPage, value: StaticPage.createValue('', '')}); - баг форма пропадает, ошибки обновления
+    //
+    //   const params = {
+    //     entity: attr.category,
+    //     query: attr.page || 'All records',
+    //     operation: attr.layout.defaultOperation,
+    //     values: {},
+    //     operationParams: attr.parameters
+    //   };
+    //
+    //   formService.load(params, {documentName: "form", parentDocumentName: "table"});
+    // }else{
+    //   changeDocument("form", {
+    //     component: StaticPage,
+    //     value: StaticPage.createValue('', attr.layout.textInFormDocument || "")
+    //   });
+    // }
 
-      const params = {
-        entity: attr.category,
-        query: attr.page || 'All records',
-        operation: attr.layout.defaultOperation,
-        values: {},
-        operationParams: attr.parameters
-      };
-
-      formService.load(params, {documentName: "form", parentDocumentName: "table"});
-    }else{
-        changeDocument("form", {
-          component: StaticPage,
-          value: StaticPage.createValue('', attr.layout.textInFormDocument || "")
-        });
-    }
-
-  }
-
-  tableInfo(){
-    const attributes = this.props.value.data.attributes;
-    if(attributes.layout.tableInfo !== undefined) {
-      return (
-        <div className="clearfix max-width-970">
-          <Button color="info" className="btn-sm" onClick={this.helpCollapseToggle} style={{ marginBottom: '1rem' }}>
-            {be5.messages.helpInfo}
-          </Button>
-          <Collapse isOpen={this.state.helpCollapse}>
-            <div className="alert alert-success" role="alert">
-              <Document frontendParams={{documentName: "table-form-info"}} />
-            </div>
-          </Collapse>
-        </div>
-      )
-    } else {
-      return null;
-    }
   }
 
   render() {
     return (
       <div className="table-form">
         <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} />
-        {this.tableInfo()}
+        <HelpInfo value={this.props.value.data.attributes.layout.helpInfo} />
         <Document frontendParams={{documentName: "form"}} />
       </div>
     );

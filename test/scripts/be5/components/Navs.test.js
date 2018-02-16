@@ -1,6 +1,7 @@
 import React          from 'react';
 import renderer       from 'react-test-renderer';
 import Navs     from '../../../../src/scripts/be5/components/Navs';
+import '../../../../src/scripts/be5/actions/text'
 
 
 test('test', () => {

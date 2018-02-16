@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot 1`] = `
+<div
+  className="helpInfo clearfix"
+>
+  <button
+    className="btn-sm btn btn-info"
+    onClick={[Function]}
+    type="button"
+  >
+    Help
+  </button>
+  <div
+    className="collapse"
+    style={Object {}}
+  >
+    <div
+      className="alert alert-success max-width-970"
+      role="alert"
+    >
+      <div
+        className="document-content"
+        id="document-content___helpInfo"
+      >
+        <h1>
+          Test text
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
+`;

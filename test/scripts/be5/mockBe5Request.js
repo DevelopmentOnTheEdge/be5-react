@@ -28,4 +28,13 @@ be5.net.request = function (path, attr, callback) {
     return;
   }
 
+  if (path === 'static/welcome.be') {
+    callback({"data":{"attributes":{
+      "content":"<h1>Добро пожаловать</h1>\n<a class=\"\" href=\"#!login\">Вход</a>","title":""},"type":"static"},
+      "links":{"self":"static/welcome.be"},
+      "meta":{"_ts_":"1518775214702"}});
+    return;
+  }
+
+
 };
