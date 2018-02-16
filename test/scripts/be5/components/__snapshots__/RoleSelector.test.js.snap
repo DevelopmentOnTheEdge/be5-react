@@ -27,24 +27,6 @@ exports[`render 1`] = `
         className="role"
       >
         <input
-          checked={true}
-          id="Guest-checkbox"
-          onChange={[Function]}
-          type="checkbox"
-        />
-        <label
-          htmlFor="Guest-checkbox"
-        >
-          <span
-            className="checkBox"
-          />
-          Guest
-        </label>
-      </div>
-      <div
-        className="role"
-      >
-        <input
           checked={false}
           id="Administrator-checkbox"
           onChange={[Function]}
@@ -60,6 +42,24 @@ exports[`render 1`] = `
         </label>
       </div>
       <div
+        className="role"
+      >
+        <input
+          checked={true}
+          id="Manager-checkbox"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <label
+          htmlFor="Manager-checkbox"
+        >
+          <span
+            className="checkBox"
+          />
+          Manager
+        </label>
+      </div>
+      <div
         className="dropdown-divider"
         onClick={[Function]}
         tabIndex="-1"
@@ -71,7 +71,7 @@ exports[`render 1`] = `
         Выбрать:
          
         <button
-          className="btn btn-primary btn-sm"
+          className="enable-all btn btn-primary btn-sm"
           onClick={[Function]}
           type="button"
         >
@@ -79,7 +79,7 @@ exports[`render 1`] = `
         </button>
          
         <button
-          className="btn btn-secondary btn-sm"
+          className="disable-all btn btn-secondary btn-sm"
           onClick={[Function]}
           type="button"
         >

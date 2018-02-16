@@ -69,7 +69,9 @@ export default
             return;
           }
 
-          if (attributes.status !== 'table' && frontendParams.documentName !== frontendParams.parentDocumentName) {
+          if (attributes.status !== 'table' && frontendParams.parentDocumentName !== undefined
+                                            && frontendParams.parentDocumentName !== frontendParams.documentName)
+          {
             console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
             bus.fire(frontendParams.parentDocumentName + be5.documentRefreshSuffix)
           }

@@ -200,7 +200,6 @@ export const HtmlResult = React.createClass({
   },
 
   componentDidMount() {
-    console.log(this.props.value);
     formService.changeLocationHash(this.props);
   },
 

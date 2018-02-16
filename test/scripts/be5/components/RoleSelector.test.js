@@ -7,7 +7,7 @@ import {shallow, mount} from 'enzyme';
 
 test('render', () => {
     be5.net.request = function (path, attr, callback) {
-      callback({"availableRoles":["Guest", "Administrator"],"selectedRoles":["Guest"]})
+      callback({"availableRoles":["Administrator", "Manager"],"selectedRoles":["Manager"]})
     };
 
     const component = renderer.create(
@@ -16,18 +16,35 @@ test('render', () => {
     expect(component.toJSON()).toMatchSnapshot();
 });
 
-//it('calls', () => {
-//    const handle = be5.net.request = jest.fn();
-//
-//    const wrapper = mount(
-//        <RoleBox />
-//    );
-//    //wrapper.find(Role).last().simulate('click')
-//    expect(wrapper.find('.roleBox').length).toEqual(1);
-//    expect(wrapper.find('input').length).toEqual(1);
-//    //wrapper.find('#Administrator-checkbox').simulate('click');
-//
-//    expect(handle.mock.calls.length).toBe(1);
-////    expect(handle.mock.calls[0]).toEqual(["/testName", "My new value"]);
-//
-//});
+test('calls', () => {
+  const handle = jest.fn();
+
+  be5.net.request = function (path, attr, callback) {
+    handle(path, attr, callback);
+    callback({"availableRoles":["Administrator", "Manager"],"selectedRoles":["Manager"]})
+  };
+
+  const wrapper = mount(
+    <RoleBox />
+  );
+  expect(handle.mock.calls.length).toBe(1);
+  expect(handle.mock.calls[0]).toEqual(["roleSelector", {}, expect.any(Function)]);
+
+  expect(wrapper.find('input[type="checkbox"]').length).toEqual(2);
+  expect(wrapper.find('#Administrator-checkbox').props().checked).toEqual(false);
+  expect(wrapper.find('#Manager-checkbox').props().checked).toEqual(true);
+
+  wrapper.find('input[type="checkbox"]').first().simulate('change');
+
+  expect(handle.mock.calls[1]).toEqual(
+    ["roleSelector/select", {"roles": "Manager,Administrator"}, expect.any(Function)]);
+
+  wrapper.find('.enable-all').simulate('click');
+  expect(handle.mock.calls[2]).toEqual(
+    ["roleSelector/select", {"roles": "Administrator,Manager"}, expect.any(Function)]);
+
+  wrapper.find('.disable-all').simulate('click');
+  expect(handle.mock.calls[3]).toEqual(
+    ["roleSelector/select", {"roles": ""}, expect.any(Function)]);
+
+});

@@ -67,8 +67,8 @@ class RoleBox extends Component {
 
             <div className="roleBox_add-actions">
               Выбрать:{' '}
-              <Button onClick={this.handleSelectAll} color="primary" size="sm">Всё</Button>{' '}
-              <Button onClick={this.handleClear} color="secondary" size="sm">Ничего</Button>
+              <Button onClick={this.handleSelectAll} color="primary" className="enable-all" size="sm">Всё</Button>{' '}
+              <Button onClick={this.handleClear} color="secondary" className="disable-all" size="sm">Ничего</Button>
             </div>
           </DropdownMenu>
         </UncontrolledDropdown>
