@@ -104,7 +104,7 @@ export default
               return;
             case 'finished':
               if(documentName === be5.mainModalDocumentName) {
-                bus.fire("alert", {msg: json.data.attributes.message, type: 'success'});
+                bus.fire("alert", {msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success'});
                 bus.fire("mainModalToggle");
               }else{
                 changeDocument(documentName, {component: FinishedResult, value: json, frontendParams: frontendParams});
@@ -159,7 +159,8 @@ export default
     {
       bus.fire("mainModalOpen");
 
-      changeDocument(be5.mainModalDocumentName, { component: formComponent, value: json, frontendParams: frontendParams });
+      changeDocument(be5.mainModalDocumentName,
+        { component: formsCollection.getForm('modal'), value: json, frontendParams: frontendParams });
     }
     else
     {
