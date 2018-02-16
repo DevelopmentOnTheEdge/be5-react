@@ -20,11 +20,11 @@ test('be5.url', () =>
   be5.url.clear();
   be5.url.set('text/Test');
 
-  expect(be5.url.create('form', ['users','All records'], {'user_name':'Guest'}))
-    .toBe('form/users/All records/user_name=Guest');
+  expect(be5.url.create('form', ['users','All records', 'Insert'], {'user_name':'Guest'}))
+    .toBe('form/users/All records/Insert/user_name=Guest');
 
-  expect(be5.url.parse('form/users/All records/user_name=Guest'))
-    .toEqual({ positional:['form', 'users','All records'], named: {'user_name':'Guest'} });
+  expect(be5.url.parse('form/users/All records/Insert/user_name=Guest'))
+    .toEqual({ positional:['form', 'users','All records', 'Insert'], named: {'user_name':'Guest'} });
 
   const action = jest.fn();
 
