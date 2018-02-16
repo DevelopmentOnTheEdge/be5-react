@@ -25,7 +25,11 @@ class StaticPage extends React.Component
 
   static createValue(title, text)
   {
-    const date = new Date().getTime();
+    return StaticPage.createValue(title, text, {_ts_: new Date().getTime()}, {});
+  }
+
+  static createValue(title, text, meta, links)
+  {
     return {
       data: {
         type: 'staticPage',
@@ -34,8 +38,8 @@ class StaticPage extends React.Component
           content: text
         }
       },
-      meta: {_ts_: date},
-      links: {}
+      meta: meta,
+      links: links
     }
   }
 
