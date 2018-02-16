@@ -4,7 +4,9 @@ import classNames           from 'classnames';
 import be5                  from '../be5';
 import Document             from './Document';
 
-class FormWizard extends Component {
+
+class FormWizard extends Component
+{
   constructor(props) {
     super(props);
 
@@ -24,6 +26,10 @@ class FormWizard extends Component {
   }
 
   componentDidMount(){
+    this.refresh()
+  }
+
+  refresh() {
     this.setState(this.getPrevNextBtnState(this.props.startAtStep));
     be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
   }
