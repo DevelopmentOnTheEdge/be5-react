@@ -6,19 +6,50 @@ import formService    from '../../../../src/scripts/be5/services/forms';
 
 test('load', () => {
   be5.net.request = jest.fn();
-  const params = {
+  let params = {
     entity: 'users',
     query: 'All records',
     operation: 'Insert',
     values: {},
-    operationParams: {'user_name':'Guest'}
+    operationParams: {'user_name':'Guest',selectedRows: '12'}
   };
   formService.load(params, {documentName: 'testDoc',parentDocumentName: 'parentTestDoc'});
 
   expect(be5.net.request.mock.calls.length).toBe(1);
-  expect(be5.net.request.mock.calls[0][0]).toEqual("form");
-  expect(be5.net.request.mock.calls[0][1].entity).toEqual("users");
-  expect(be5.net.request.mock.calls[0][1].operationParams).toEqual('{"user_name":"Guest"}');
+  expect(be5.net.request.mock.calls[0]).toEqual([
+    "form", {
+      "_ts_": expect.any(Number),
+      "entity": "users",
+      "operation": "Insert",
+      "operationParams": '{"user_name":"Guest"}',
+      "query": "All records",
+      "selectedRows": "12",
+      "values": "{}"},
+    expect.any(Function),
+    expect.any(Function)
+  ]);
+
+  params = {
+    entity: 'users',
+    query: 'All records',
+    operation: 'Insert',
+    values: {},
+    operationParams: {'user_name':'Guest'},
+    selectedRows: ''
+  };
+  formService.load(params, {documentName: 'testDoc',parentDocumentName: 'parentTestDoc'});
+  expect(be5.net.request.mock.calls[1]).toEqual([
+    "form", {
+      "_ts_": expect.any(Number),
+      "entity": "users",
+      "operation": "Insert",
+      "operationParams": '{"user_name":"Guest"}',
+      "query": "All records",
+      "selectedRows": "",
+      "values": "{}"},
+    expect.any(Function),
+    expect.any(Function)
+  ]);
 
 });
 

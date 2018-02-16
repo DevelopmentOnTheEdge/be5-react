@@ -17,4 +17,15 @@ be5.net.request = function (path, attr, callback) {
     callback({"availableRoles":[],"selectedRoles":[]});
     return;
   }
+
+  if (path === 'appInfo') {
+    callback({"URL":"http://localhost:8200/","title":"Test App"});
+    return;
+  }
+
+  if (path === 'menu/defaultAction') {
+    callback({"arg":"static/welcome.be","name":"call"});
+    return;
+  }
+
 };
