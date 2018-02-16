@@ -145,7 +145,6 @@ export default
 
   _performForm(json, frontendParams)
   {
-    const documentName = frontendParams.documentName;
     let operationResult = json.data.attributes.operationResult;
 
     if(operationResult.status === 'error')
@@ -156,7 +155,7 @@ export default
     const formComponentName = json.data.attributes.layout.type || 'form';
     const formComponent = formsCollection.getForm(formComponentName);
 
-    if(formComponentName === 'modal')
+    if(formComponentName === 'modal' || frontendParams.documentName === be5.mainModalDocumentName)
     {
       bus.fire("mainModalOpen");
 
@@ -165,10 +164,10 @@ export default
     else
     {
       if(formComponent === undefined){
-        changeDocument(documentName, { component: StaticPage,
+        changeDocument(frontendParams.documentName, { component: StaticPage,
           value: StaticPage.createValue(be5.messages.formComponentNotFound + formComponentName, '')});
       }else{
-        changeDocument(documentName, { component: formComponent, value: json, frontendParams: frontendParams });
+        changeDocument(frontendParams.documentName, { component: formComponent, value: json, frontendParams: frontendParams });
       }
     }
   },
