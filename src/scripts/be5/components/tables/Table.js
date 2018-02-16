@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
-import PropTypes       from 'prop-types';
-import ReactDOM        from 'react-dom';
-import be5             from '../../be5';
-import utils           from '../../utils';
-import $               from 'jquery';
-import formService     from '../../services/forms';
-import tableService    from '../../services/tables';
-import numberFormatter from 'number-format.js';
-import OperationBox    from './OperationBox';
-import QuickColumns    from './QuickColumns';
+import PropTypes          from 'prop-types';
+import ReactDOM           from 'react-dom';
+import be5                from '../../be5';
+import tablesCollections  from '../../services/tablesCollections';
+import utils              from '../../utils';
+import $                  from 'jquery';
+import formService        from '../../services/forms';
+import tableService       from '../../services/tables';
+import numberFormatter    from 'number-format.js';
+import OperationBox       from './OperationBox';
+import QuickColumns       from './QuickColumns';
 
 
 const formatCell = (data, options, isColumn) =>
@@ -400,5 +401,7 @@ class Table extends Component
 Table.propTypes = {
   value: PropTypes.object.isRequired
 };
+
+tablesCollections.registerTable('table', Table);
 
 export default Table;

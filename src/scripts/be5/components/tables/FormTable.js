@@ -1,6 +1,8 @@
 import React          from 'react';
 import Document       from '../Document';
 import TableForm          from './TableForm';
+import tablesCollections  from '../../services/tablesCollections';
+
 
 class FormTable extends TableForm {
 
@@ -14,5 +16,7 @@ class FormTable extends TableForm {
   }
 
 }
+
+tablesCollections.registerTable('formTable', FormTable);
 
 export default FormTable;

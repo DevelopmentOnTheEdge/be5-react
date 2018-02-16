@@ -7,7 +7,7 @@ import changeDocument from '../../core/changeDocument';
 import formService           from '../../services/forms';
 import StaticPage     from '../../components/StaticPage';
 import { Collapse, Button } from 'reactstrap';
-
+import tablesCollections  from '../../services/tablesCollections';
 
 class TableForm extends React.Component
 {
@@ -99,5 +99,7 @@ class TableForm extends React.Component
   }
 
 }
+
+tablesCollections.registerTable('tableForm', TableForm);
 
 export default TableForm;

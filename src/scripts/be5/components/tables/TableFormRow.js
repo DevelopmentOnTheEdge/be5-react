@@ -1,6 +1,8 @@
 import React          from 'react';
 import Document       from '../Document';
 import TableForm          from './TableForm';
+import tablesCollections  from '../../services/tablesCollections';
+
 
 class TableFormRow extends TableForm {
 
@@ -19,5 +21,7 @@ class TableFormRow extends TableForm {
   }
 
 }
+
+tablesCollections.registerTable('tableFormRow', TableFormRow);
 
 export default TableFormRow;

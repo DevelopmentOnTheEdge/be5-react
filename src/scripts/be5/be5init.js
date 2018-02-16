@@ -1,25 +1,16 @@
 import be5 from './be5';
 import bus from './core/bus';
 import documentState      from './core/documentState';
-import tablesCollections  from './services/tablesCollections';
-import formsCollections   from './services/formsCollections';
-import TableForm          from './components/tables/TableForm';
-import TableFormRow       from './components/tables/TableFormRow';
-import FormTable          from './components/tables/FormTable';
-import Table              from './components/tables/Table';
-import SubmitOnChangeForm from './components/forms/SubmitOnChangeForm';
-import ModalForm          from './components/forms/ModalForm';
-import Form               from './components/forms/Form';
 
+import './components/tables/TableForm';
+import './components/tables/TableFormRow';
+import './components/tables/FormTable';
+import './components/tables/Table';
 
-tablesCollections.registerTable('tableForm', TableForm);
-tablesCollections.registerTable('tableFormRow', TableFormRow);
-tablesCollections.registerTable('formTable', FormTable);
-tablesCollections.registerTable('table', Table);
+import './components/forms/SubmitOnChangeForm';
+import './components/forms/ModalForm';
+import './components/forms/Form';
 
-formsCollections.registerForm('form', Form);
-formsCollections.registerForm('modal', ModalForm);
-formsCollections.registerForm('submitOnChange', SubmitOnChangeForm);
 
 const hashChange = function()
 {

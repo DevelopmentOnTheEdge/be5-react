@@ -1,8 +1,9 @@
-import React           from 'react';
-import be5             from '../../be5';
-import classNames      from 'classnames';
-import Form            from './Form';
-import PropertyInput   from '../../components/properties/PropertyInput';
+import React            from 'react';
+import be5              from '../../be5';
+import formsCollections from '../../services/formsCollections';
+import classNames       from 'classnames';
+import Form             from './Form';
+import PropertyInput    from '../../components/properties/PropertyInput';
 
 
 class SubmitOnChangeForm extends Form
@@ -32,5 +33,7 @@ class SubmitOnChangeForm extends Form
   }
 
 }
+
+formsCollections.registerForm('submitOnChange', SubmitOnChangeForm);
 
 export default SubmitOnChangeForm;
