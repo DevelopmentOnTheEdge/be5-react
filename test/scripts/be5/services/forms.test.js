@@ -2,7 +2,8 @@ import React          from 'react';
 import renderer       from 'react-test-renderer';
 import Document       from '../../../../src/scripts/be5/components/Document';
 import be5            from '../../../../src/scripts/be5/be5';
-import formService    from '../../../../src/scripts/be5/services/forms';
+import forms          from '../../../../src/scripts/be5/services/forms';
+
 
 test('load', () => {
   be5.net.request = jest.fn();
@@ -13,7 +14,7 @@ test('load', () => {
     values: {},
     operationParams: {'user_name':'Guest',selectedRows: '12'}
   };
-  formService.load(params, {documentName: 'testDoc',parentDocumentName: 'parentTestDoc'});
+  forms.load(params, {documentName: 'testDoc',parentDocumentName: 'parentTestDoc'});
 
   expect(be5.net.request.mock.calls.length).toBe(1);
   expect(be5.net.request.mock.calls[0]).toEqual([
@@ -37,7 +38,7 @@ test('load', () => {
     operationParams: {'user_name':'Guest'},
     selectedRows: ''
   };
-  formService.load(params, {documentName: 'testDoc',parentDocumentName: 'parentTestDoc'});
+  forms.load(params, {documentName: 'testDoc',parentDocumentName: 'parentTestDoc'});
   expect(be5.net.request.mock.calls[1]).toEqual([
     "form", {
       "_ts_": expect.any(Number),
@@ -67,7 +68,7 @@ test('performOperationResult finished', () => {
     meta: {"_ts_":"1503244989281"}
   };
 
-  formService._performOperationResult(res, {documentName: "test"});
+  forms._performOperationResult(res, {documentName: "test"});
 
   expect(component.toJSON()).toMatchSnapshot();
   //expect(mockFunc.mock.calls.length).toBe(1);
@@ -85,7 +86,7 @@ test('performOperationResult redirect', () => {
     "links":{"self":"form/categories/Doc categories/Edit"},
     "meta":{"_ts_":"1503244989281"}
   };
-  formService._performOperationResult(res, {documentName: "test"});
+  forms._performOperationResult(res, {documentName: "test"});
 
   expect(be5.url.process.mock.calls.length).toBe(1);
   //expect(mockFunc.mock.calls.length).toBe(1);
@@ -103,7 +104,7 @@ test('performOperationResult redirect main', () => {
     "links":{"self":"form/categories/Doc categories/Edit"},
     "meta":{"_ts_":"1503244989281"}
   };
-  formService._performOperationResult(res, {documentName: be5.mainDocumentName});
+  forms._performOperationResult(res, {documentName: be5.mainDocumentName});
 
   expect(be5.url.set.mock.calls.length).toBe(1);
   //expect(mockFunc.mock.calls.length).toBe(1);

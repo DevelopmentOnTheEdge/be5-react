@@ -5,8 +5,8 @@ import be5                from '../../be5';
 import tablesCollection   from '../../services/tablesCollection';
 import utils              from '../../utils';
 import $                  from 'jquery';
-import formService        from '../../services/forms';
-import tableService       from '../../services/tables';
+import forms              from '../../services/forms';
+import tables             from '../../services/tables';
 import numberFormatter    from 'number-format.js';
 import OperationBox       from './OperationBox';
 import QuickColumns       from './QuickColumns';
@@ -81,7 +81,7 @@ class TableBox extends Component {
       operationParams: attr.parameters
     };
 
-    formService.load(params, {
+    forms.load(params, {
       documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
       parentDocumentName: this.props.frontendParams.documentName
     });
@@ -393,7 +393,7 @@ class Table extends Component
         params: attr.parameters
     };
 
-    tableService.refresh(params, this.props.frontendParams.documentName);
+    tables.refresh(params, this.props.frontendParams.documentName);
   }
 
 }

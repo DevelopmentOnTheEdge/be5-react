@@ -1,7 +1,7 @@
 import React                from 'react';
 import PropTypes            from 'prop-types';
 import be5                  from '../../be5';
-import formService          from '../../services/forms';
+import forms                from '../../services/forms';
 import formsCollection      from '../../services/formsCollection';
 import PropertySet          from '../properties/PropertySet';
 import JsonPointer          from 'json-pointer';
@@ -21,7 +21,7 @@ const Form = React.createClass({
   },
 
   componentDidMount() {
-    formService.changeLocationHash(this.props);
+    forms.changeLocationHash(this.props);
 
     this.initForm();
   },
@@ -57,17 +57,17 @@ const Form = React.createClass({
   },
 
   refresh() {
-    formService.load(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
+    forms.load(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
   },
   
   _reloadOnChange(controlName) {
     const values = Object.assign({}, this.state.data.attributes.bean.values, { '_reloadcontrol_': controlName });
 
-    formService.load(this.getParams(values), this.props.frontendParams);
+    forms.load(this.getParams(values), this.props.frontendParams);
   },
 
   apply() {
-    formService.apply(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
+    forms.apply(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
   },
   
   // cancel() {

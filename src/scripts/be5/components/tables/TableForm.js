@@ -5,7 +5,7 @@ import tablesCollection from '../../services/tablesCollection';
 import Document         from '../Document';
 import Table            from './Table';
 import changeDocument   from '../../core/changeDocument';
-import formService      from '../../services/forms';
+import forms            from '../../services/forms';
 import StaticPage       from '../../components/StaticPage';
 import HelpInfo         from '../../components/HelpInfo';
 
@@ -44,7 +44,7 @@ class TableForm extends React.Component
     //     operationParams: attr.parameters
     //   };
     //
-    //   formService.load(params, {documentName: "form", parentDocumentName: "table"});
+    //   forms.load(params, {documentName: "form", parentDocumentName: "table"});
     // }else{
     //   changeDocument("form", {
     //     component: StaticPage,
