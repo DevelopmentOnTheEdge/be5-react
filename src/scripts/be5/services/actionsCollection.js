@@ -1,14 +1,14 @@
-const tablesCollections = {
+const actionsCollection = {
   types: {},
 
-  getTable(actionName) {
+  getAction(actionName) {
     return this.types[actionName];
   },
 
-  registerTable(actionName, fn) {
+  registerAction(actionName, fn) {
     //console.log("registerTable: " + actionName, fn)
     this.types[actionName] = fn;
   }
 };
 
-export default tablesCollections;
+export default actionsCollection;

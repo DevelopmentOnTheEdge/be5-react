@@ -4,7 +4,7 @@ import Preconditions    from '../preconditions';
 import changeDocument   from '../core/changeDocument';
 import FinishedResult   from '../components/forms/FinishedResult';
 import StaticPage       from '../components/StaticPage';
-import formsCollections from './formsCollections.js';
+import formsCollection from './formsCollection.js';
 import Table            from "../components/tables/Table";
 
 
@@ -154,7 +154,7 @@ export default
     }
 
     const formComponentName = json.data.attributes.layout.type || 'form';
-    const formComponent = formsCollections.getForm(formComponentName);
+    const formComponent = formsCollection.getForm(formComponentName);
 
     if(formComponentName === 'modal')
     {

@@ -70,7 +70,8 @@ export { default as tableAction } from './actions/table.js';
 // services
 export { default as action }            from './services/actions.js';
 export { default as forms }             from './services/forms.js';
-export { default as formsCollections }  from './services/formsCollections.js';
-export { default as tables }            from './services/tables.js';
-export { default as tablesCollections } from './services/tablesCollections.js';
+export { default as tables }            from './services/tables.js'
+export { default as formsCollection }  from './services/formsCollection.js';
+export { default as tablesCollection } from './services/tablesCollection.js';
+export { default as actionsCollection } from './services/actionsCollection.js';
 

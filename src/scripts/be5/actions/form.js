@@ -1,7 +1,9 @@
 import React          from 'react';
 import formService    from '../services/forms';
+import actionsCollection from '../services/actionsCollection'
 
-export default function(documentName, entity, query, operation, operationParams) {
+
+const action = function(documentName, entity, query, operation, operationParams) {
 
   const params = {
     entity: entity,
@@ -13,3 +15,7 @@ export default function(documentName, entity, query, operation, operationParams)
 
   formService.load(params, {documentName: documentName});
 };
+
+actionsCollection.registerAction("form", action);
+
+export default action;

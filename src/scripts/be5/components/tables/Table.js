@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes          from 'prop-types';
 import ReactDOM           from 'react-dom';
 import be5                from '../../be5';
-import tablesCollections  from '../../services/tablesCollections';
+import tablesCollection   from '../../services/tablesCollection';
 import utils              from '../../utils';
 import $                  from 'jquery';
 import formService        from '../../services/forms';
@@ -402,6 +402,6 @@ Table.propTypes = {
   value: PropTypes.object.isRequired
 };
 
-tablesCollections.registerTable('table', Table);
+tablesCollection.registerTable('table', Table);
 
 export default Table;

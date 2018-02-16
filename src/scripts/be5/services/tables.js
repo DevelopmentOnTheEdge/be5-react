@@ -4,7 +4,7 @@ import Preconditions       from '../preconditions';
 import StaticPage          from '../components/StaticPage';
 import ErrorPane           from "../components/ErrorPane";
 import Table               from "../components/tables/Table";
-import TablesCollections   from './tablesCollections';
+import tablesCollection   from './tablesCollection';
 
 
 export default
@@ -41,7 +41,7 @@ export default
   {
     if(json.data !== undefined){
       const tableComponentName = json.data.attributes.layout.type || 'table';
-      const tableComponent = TablesCollections.getTable(tableComponentName);
+      const tableComponent = tablesCollection.getTable(tableComponentName);
 
       if(tableComponent === undefined){
         changeDocument(documentName, { component: StaticPage,

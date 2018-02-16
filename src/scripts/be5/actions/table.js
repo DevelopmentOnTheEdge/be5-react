@@ -1,8 +1,9 @@
 import React          from 'react';
 import Tables         from '../services/tables';
+import actionsCollection from '../services/actionsCollection'
 
 
-export default function(documentName, entity, query, params) {
+const action = function(documentName, entity, query, params) {
 
   const paramsObject = {
     entity: entity,
@@ -12,3 +13,7 @@ export default function(documentName, entity, query, params) {
   Tables.load(paramsObject, documentName);
 
 };
+
+actionsCollection.registerAction("table", action);
+
+export default action;

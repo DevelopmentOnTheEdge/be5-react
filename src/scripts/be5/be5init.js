@@ -2,6 +2,15 @@ import be5 from './be5';
 import bus from './core/bus';
 import documentState      from './core/documentState';
 
+import './actions/loading.js';
+import './actions/form.js';
+import './actions/login.js';
+import './actions/logout.js';
+import './actions/static.js';
+import './actions/table.js';
+import './actions/qBuilder.js';
+import './actions/text.js';
+
 import './components/tables/TableForm';
 import './components/tables/TableFormRow';
 import './components/tables/FormTable';

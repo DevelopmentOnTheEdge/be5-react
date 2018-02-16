@@ -3,8 +3,10 @@ import ReactDOM       from 'react-dom';
 import be5            from '../be5';
 import bus            from '../core/bus';
 import Login          from '../components/Login';
+import actionsCollection from '../services/actionsCollection'
 
-export default function(type = 'dialog', param1 = undefined, param2 = undefined) {
+
+const action = function(type = 'dialog', param1 = undefined, param2 = undefined) {
   let redirectUrl = undefined;
 
   if (type === 'dialog' && param1) {
@@ -62,3 +64,7 @@ export default function(type = 'dialog', param1 = undefined, param2 = undefined)
       return;
   }
 };
+
+actionsCollection.registerAction("login", action);
+
+export default action;

@@ -2,8 +2,10 @@ import React          from 'react';
 import be5            from '../be5';
 import changeDocument from '../core/changeDocument';
 import QueryBuilder   from '../components/QueryBuilder';
+import actionsCollection from '../services/actionsCollection'
 
-export default function(documentName, params)
+
+const action = function(documentName, params)
 {
   const requestParams = {
     values: be5.net.paramString(params),
@@ -14,3 +16,7 @@ export default function(documentName, params)
     changeDocument(documentName, { component: QueryBuilder, value: Object.assign({}, data, {params: be5.net.paramString(params)}) })
   });
 };
+
+actionsCollection.registerAction("qBuilder", action);
+
+export default action;

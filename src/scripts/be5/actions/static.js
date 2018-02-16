@@ -2,8 +2,10 @@ import React          from 'react';
 import be5            from '../be5';
 import changeDocument from '../core/changeDocument';
 import StaticPage     from '../components/StaticPage';
+import actionsCollection from '../services/actionsCollection'
 
-export default function(documentName, page)
+
+const action = function(documentName, page)
 {
   const requestParams = {
     _ts_: new Date().getTime()
@@ -13,3 +15,7 @@ export default function(documentName, page)
     changeDocument(documentName, { component: StaticPage, value: data })
   });
 };
+
+actionsCollection.registerAction("static", action);
+
+export default action;

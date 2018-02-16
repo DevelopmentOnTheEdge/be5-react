@@ -7,15 +7,8 @@ import utils    from './utils';
 import messages from './messages';
 import bus      from './core/bus';
 import changeDocument from './core/changeDocument';
+import actionsCollection from './services/actionsCollection'
 
-import loadingAction from './actions/loading.js';
-import formAction from './actions/form.js';
-import loginAction from './actions/login.js';
-import logoutAction from './actions/logout.js';
-import staticAction from './actions/static.js';
-import tableAction from './actions/table.js';
-import qBuilderAction from './actions/qBuilder.js';
-import textAction from './actions/text.js';
 
 const be5 = {
   debug: true,
@@ -31,7 +24,7 @@ const be5 = {
   documentRefreshSuffix: "_refresh",
 
   appInfo: {},
-  
+
   // load: {
   //   css(url) {
   //     var link = document.createElement("link");
@@ -45,7 +38,7 @@ const be5 = {
   //     document.getElementsByTagName("head")[0].appendChild(link);
   //   }
   // },
-  
+
   locale: {
     set(loc, addMessages) {
       if(!loc) return;
@@ -222,7 +215,7 @@ const be5 = {
       if (hasHashParam)positional.push(hashParams);
 
       const actionName = urlParts[0];
-      const action = be5.getAction(actionName);
+      const action = actionsCollection.getAction(actionName);
 
       if(action !== undefined){
         //console.log("process", documentName, url);
@@ -385,25 +378,6 @@ const be5 = {
     return url.substr(0, prefix.length) === prefix;
   },
 
-  actions: {
-    loading: loadingAction,
-    login: loginAction,
-    logout: logoutAction,
-    form: formAction,
-    table: tableAction,
-    static: staticAction,
-    qBuilder: qBuilderAction,
-    text: textAction
-  },
-
-  getAction(actionName) {
-    return be5.actions[actionName];
-  },
-  
-  registerAction(actionName, fn) {
-    be5.actions[actionName] = fn;
-  }
 };
-
 
 export default be5;

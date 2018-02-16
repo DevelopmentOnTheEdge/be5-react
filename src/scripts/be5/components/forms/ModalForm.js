@@ -2,7 +2,7 @@ import React            from 'react';
 import be5              from '../../be5';
 import bus              from '../../core/bus';
 import Form             from './Form';
-import formsCollections from '../../services/formsCollections';
+import formsCollection  from '../../services/formsCollection';
 import PropertySet      from '../properties/PropertySet';
 import Document         from "../Document";
 import { ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -46,6 +46,6 @@ class ModalForm extends Form
 
 }
 
-formsCollections.registerForm('modal', ModalForm);
+formsCollection.registerForm('modal', ModalForm);
 
 export default ModalForm;

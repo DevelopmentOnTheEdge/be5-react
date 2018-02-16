@@ -2,7 +2,7 @@ import React                from 'react';
 import PropTypes            from 'prop-types';
 import be5                  from '../../be5';
 import formService          from '../../services/forms';
-import formsCollections     from '../../services/formsCollections';
+import formsCollection      from '../../services/formsCollection';
 import PropertySet          from '../properties/PropertySet';
 import JsonPointer          from 'json-pointer';
 import _                    from 'underscore';
@@ -188,7 +188,7 @@ const Form = React.createClass({
 //   value: PropTypes.object.isRequired
 // };
 
-formsCollections.registerForm('form', Form);
+formsCollection.registerForm('form', Form);
 
 export default Form;
 
