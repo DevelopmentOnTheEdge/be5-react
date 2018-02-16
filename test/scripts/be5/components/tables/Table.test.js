@@ -1,5 +1,7 @@
 import React          from 'react';
 import renderer       from 'react-test-renderer';
+import be5            from '../../../../../src/scripts/be5/be5';
+import forms          from '../../../../../src/scripts/be5/services/forms';
 import Table          from '../../../../../src/scripts/be5/components/tables/Table';
 import TableForm      from '../../../../../src/scripts/be5/components/tables/TableForm';
 import FormTable      from '../../../../../src/scripts/be5/components/tables/FormTable';
@@ -10,11 +12,28 @@ import $               from 'jquery';
 import dt from 'datatables.net';
 dt(window, $);
 
+
 test('test datatables', () => {
+  const handle = forms.load = jest.fn();
 
-  const wrapper = mount( <Table value={json}/> );
+  const wrapper = mount( <Table value={json} frontendParams={{documentName: 'test'}}/> );
 
+  wrapper.find('.btn').last().simulate('click');
+
+  expect(handle.mock.calls[0]).toEqual([
+    {"entity": "companies", "operation": "Insert", "operationParams": {}, "query": "Общие сведения", "values": {}},
+    {"documentName": "test", "parentDocumentName": "test"}]);
+
+  be5.tableState.selectedRows = [12];
+  wrapper.instance().refs.tableBox.onSelectionChange();
+
+  wrapper.find('.btn').first().simulate('click');
+
+  expect(handle.mock.calls[1]).toEqual([
+    {"entity": "companies", "operation": "Edit", "operationParams": {}, "query": "Общие сведения", "values": {}},
+    {"documentName": "test", "parentDocumentName": "test"}]);
 });
+
 
 test('Table', () => {
   const component = renderer.create(
@@ -56,9 +75,7 @@ const json = {
         "Наименование"
       ],
       "hasAggregate": false,
-      "layout": {
-        "type": "tableForm"
-      },
+      "layout": {},
       "length": 1,
       "operations": [
         {
