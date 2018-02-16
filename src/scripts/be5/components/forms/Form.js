@@ -184,52 +184,6 @@ const Form = React.createClass({
   }
 });
 
-export const HtmlResult = React.createClass({
-  
-  displayName: 'HtmlResult',
-  
-  propTypes: {
-    value: PropTypes.shape({
-      data: PropTypes.shape({
-        attributes: PropTypes.object.isRequired,
-        meta: PropTypes.shape({
-          _ts_: PropTypes.isRequired
-        })
-      })
-    }),
-  },
-
-  componentDidMount() {
-    formService.changeLocationHash(this.props);
-  },
-
-  refresh() {
-    console.info("HtmlResult not support refresh");
-  },
-
-  render() {
-    const back = () => { history.back(); };
-    const attributes = this.props.value.data.attributes;
-
-    let message = attributes.message;
-    if(attributes.status === 'finished' && attributes.message === undefined){
-        message = be5.messages.successfullyCompleted;
-    }
-
-    return (
-      <div>
-        <div dangerouslySetInnerHTML={{__html: message}}/>
-      </div>
-    );
-//    <div className="linkBack">
-//              <button className="btn btn-secondary btn-sm" onClick={back}>
-//                {be5.messages.back}
-//              </button>
-//            </div>
-  }
-  
-});
-
 // Form.propTypes = {
 //   value: PropTypes.object.isRequired
 // };

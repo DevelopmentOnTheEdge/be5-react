@@ -6,8 +6,7 @@ import SubmitOnChangeForm           from '../../../../../src/scripts/be5/compone
 
 
 test('Form', () => {
-
-  const  component = renderer.create(
+  const component = renderer.create(
     <Form value={json} frontendParams={{documentName: 'test'}} />
   );
 
@@ -15,8 +14,7 @@ test('Form', () => {
 });
 
 test('ModalForm', () => {
-
-  const  component = renderer.create(
+  const component = renderer.create(
     <ModalForm value={json} frontendParams={{documentName: 'test'}} />
   );
 
@@ -24,8 +22,7 @@ test('ModalForm', () => {
 });
 
 test('SubmitOnChangeForm', () => {
-
-  const  component = renderer.create(
+  const component = renderer.create(
     <SubmitOnChangeForm value={json} frontendParams={{documentName: 'test'}} />
   );
 

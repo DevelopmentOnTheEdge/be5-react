@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot 1`] = `
+<div
+  className="finishedResult"
+>
+  <div
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "Successfully completed.",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`snapshot custom message 1`] = `
+<div
+  className="finishedResult"
+>
+  <div
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "Test message.",
+      }
+    }
+  />
+</div>
+`;

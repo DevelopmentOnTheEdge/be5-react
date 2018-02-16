@@ -2,7 +2,7 @@ import be5              from '../be5';
 import bus              from '../core/bus';
 import Preconditions    from '../preconditions';
 import changeDocument   from '../core/changeDocument';
-import {HtmlResult}     from '../components/forms/Form';
+import FinishedResult   from '../components/forms/FinishedResult';
 import StaticPage       from '../components/StaticPage';
 import formsCollections from './formsCollections.js';
 import Table            from "../components/tables/Table";
@@ -107,7 +107,7 @@ export default
                 bus.fire("alert", {msg: json.data.attributes.message, type: 'success'});
                 bus.fire("mainModalToggle");
               }else{
-                changeDocument(documentName, {component: HtmlResult, value: json, frontendParams: frontendParams});
+                changeDocument(documentName, {component: FinishedResult, value: json, frontendParams: frontendParams});
               }
               return;
             case 'table':
