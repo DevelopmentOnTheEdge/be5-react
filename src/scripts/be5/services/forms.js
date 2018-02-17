@@ -4,7 +4,8 @@ import Preconditions    from '../preconditions';
 import changeDocument   from '../core/changeDocument';
 import FinishedResult   from '../components/forms/FinishedResult';
 import StaticPage       from '../components/StaticPage';
-import formsCollection from './formsCollection.js';
+import ErrorPane        from '../components/ErrorPane';
+import formsCollection  from './formsCollection.js';
 import Table            from "../components/tables/Table";
 
 
@@ -140,6 +141,8 @@ export default
     }else{
       const error = json.errors[0];
       bus.fire("alert", {msg: error.status + " "+ error.title, type: 'error'});
+
+      changeDocument(documentName, {component: ErrorPane, value: json});
     }
   },
 
