@@ -9,10 +9,7 @@ export { default as settings } from './settings.js';
 // core
 export { default as bus } from './core/bus.js';
 export { default as changeDocument } from './core/changeDocument.js';
-export { default as createSimpleStore } from './core/createSimpleStore.js';
-export { default as createStore } from './core/createStore.js';
 export { default as documentUtils } from './core/documentUtils.js';
-export { default as ext } from './core/ext.js';
 export { default as http } from './core/http.js';
 
 // components
@@ -49,9 +46,8 @@ export { default as TableFormRow }    from './components/tables/TableFormRow.js'
 export { default as Menu }            from './components/menu/Menu.js';
 export { default as MenuBody }        from './components/menu/MenuBody.js';
 export { default as MenuSearchField } from './components/menu/MenuSearchField.js';
-export { default as menuFooter }      from './components/menu/MenuFooter.js';
-export { default as menuHeader }      from './components/menu/MenuHeader.js';
-export { default as menuNode }        from './components/menu/MenuNode.js';
+export { default as MenuFooter }      from './components/menu/MenuFooter.js';
+export { default as MenuNode }        from './components/menu/MenuNode.js';
 
 // properties
 export { default as Property }        from './components/properties/Property.js';

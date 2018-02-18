@@ -1,0 +1,68 @@
+{
+  "simpleTable": {
+    "data": {
+      "attributes": {
+        "category": "companies",
+        "columns": [
+          "Наименование"
+        ],
+        "hasAggregate": false,
+        "layout": {},
+        "length": 1,
+        "operations": [
+          {
+            "clientSide": false,
+            "isClientSide": false,
+            "name": "Edit",
+            "requiresConfirmation": false,
+            "title": "Редактировать",
+            "visibleWhen": "oneSelected"
+          },
+          {
+            "clientSide": false,
+            "isClientSide": false,
+            "name": "Insert",
+            "requiresConfirmation": false,
+            "title": "Добавить",
+            "visibleWhen": "always"
+          }
+        ],
+        "page": "Общие сведения",
+        "parameters": {},
+        "rows": [
+          {
+            "cells": [
+              {
+                "content": "adfd",
+                "options": {
+                  "quick": {
+                    "visible": "false"
+                  }
+                }
+              }
+            ],
+            "id": "19"
+          }
+        ],
+        "selectable": true,
+        "title": "Организации: Общие сведения",
+        "totalNumberOfRows": 1
+      },
+      "type": "table"
+    },
+    "links": {
+      "self": "table/companies/Общие сведения"
+    },
+    "meta": {
+      "_ts_": "1507198487234"
+    }
+  },
+  "tableNotFound": {
+    "errors":[{
+      "code":"Be5Exception: Query not found: testtable.Test 1D2\n ",
+      "status":"404",
+      "title":"Query not found: testtable.Test 1D2"}],
+    "links":{"self":"table/testtable/Test 1D2"},
+    "meta":{"_ts_":"1518951836031"}
+  }
+}

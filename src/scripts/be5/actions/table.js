@@ -1,5 +1,5 @@
-import React          from 'react';
-import Tables         from '../services/tables';
+import React             from 'react';
+import tables            from '../services/tables';
 import actionsCollection from '../services/actionsCollection'
 
 
@@ -10,7 +10,7 @@ const action = function(documentName, entity, query, params) {
     query: query || 'All records',
     params: params
   };
-  Tables.load(paramsObject, documentName);
+  tables.load(paramsObject, documentName);
 
 };
 

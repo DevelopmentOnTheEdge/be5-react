@@ -14,8 +14,12 @@ export default
   },
 
   refresh(params, documentName) {
-    this._send(params, (data, documentName) => {
-      changeDocument(documentName, { component: Table, value: data });
+    this._send(params, (json, documentName) => {
+      if(json.data !== undefined){
+        changeDocument(documentName, { component: Table, value: json });
+      }else{
+        changeDocument(documentName, { component: ErrorPane, value: json });
+      }
     }, documentName);
   },
 
@@ -30,8 +34,8 @@ export default
       _ts_: new Date().getTime()
     };
 
-    be5.net.request('document', requestParams, data => {
-      performData(data, documentName);
+    be5.net.request('document', requestParams, json => {
+      performData(json, documentName);
     }, (data)=> {
       changeDocument(documentName, { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)});
     });
