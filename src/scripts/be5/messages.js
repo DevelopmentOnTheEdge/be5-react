@@ -21,14 +21,8 @@ export default {
 
     filter: 'Filter...',
 
-    LogoutSuccessful: 'Logout successful',
-    Name: 'Name',
-    Password: 'Password',
-    Login: 'Login',
     Submit: 'Submit',
 
-    loginError: 'Incorrect login or password',
-    checkYourEmail: 'Check your email for further instructions',
     property : {
       locale: 'en',
       clearAllText: 'Clear all',
@@ -39,7 +33,7 @@ export default {
       loadingPlaceholder: 'Loading...'
     },
 
-    formComponentNotFound:  'Form type not found: ',
+    formComponentNotFound:  'Form component not found: ',
     tableComponentNotFound: 'Table component not found: ',
     helpInfo: "Help",
     details: "Details",
@@ -69,14 +63,8 @@ export default {
 
     filter: 'Фильтр...',
 
-    LogoutSuccessful: 'Выход из системы - успешно',
-    Name: 'Логин',
-    Password: 'Пароль',
-    Login: 'Авторизация',
     Submit: 'Выполнить',
 
-    loginError: 'Неверный логин или пароль',
-    checkYourEmail: 'Дальнейшие инструкции высланы на Ваш электронный адрес',
     property: {
       locale: 'ru',
       clearAllText: 'Очистить всё',
