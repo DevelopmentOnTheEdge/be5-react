@@ -77,16 +77,6 @@ exports[`snapshot 1`] = `
           id="document-content___queryBuilder-table"
         >
           <div>
-            <span
-              className="document-reload float-right"
-              onClick={[Function]}
-            >
-              <img
-                alt="reload"
-                src={Object {}}
-                title="reload queryBuilder-table"
-              />
-            </span>
             <div
               className="table-component"
             >

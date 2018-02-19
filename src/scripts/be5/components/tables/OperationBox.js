@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM        from 'react-dom';
 import be5             from '../../be5';
-import $               from 'jquery';
-import _               from 'underscore';
 
 
 class OperationBox extends Component

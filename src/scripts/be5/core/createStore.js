@@ -1,4 +1,3 @@
-import _ from 'underscore';
 
 //unused
 // function createStore() {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import be5        from '../../be5';
 import MenuNode   from './MenuNode';
-import _          from 'underscore';
 
 
 class MenuBody extends Component

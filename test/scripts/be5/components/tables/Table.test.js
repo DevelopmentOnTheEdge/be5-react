@@ -9,7 +9,6 @@ import TableFormRow   from '../../../../../src/scripts/be5/components/tables/Tab
 import {shallow, mount, render} from 'enzyme';
 import testData       from '../../testData.json'
 
-import $               from 'jquery';
 import dt from 'datatables.net';
 dt(window, $);
 
