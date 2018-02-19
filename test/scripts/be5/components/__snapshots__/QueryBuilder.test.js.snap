@@ -30,7 +30,7 @@ exports[`snapshot 1`] = `
     }
   >
     <div
-      className="Pane horizontal Pane1"
+      className="Pane horizontal Pane1  "
       style={
         Object {
           "display": "flex",
@@ -61,7 +61,7 @@ exports[`snapshot 1`] = `
       style={Object {}}
     />
     <div
-      className="Pane horizontal Pane2"
+      className="Pane horizontal Pane2  "
       style={
         Object {
           "flex": 1,

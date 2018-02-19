@@ -1,72 +1,144 @@
 // @create-index
-//
-// export { default as be5 } from './be5.js';
-// export { default as be5init } from './be5init.js';
-// export { default as constants } from './constants.js';
-// export { default as preconditions } from './preconditions.js';
-// export { default as settings } from './settings.js';
-//
-// // core
-// export { default as bus } from './core/bus.js';
-// export { default as changeDocument } from './core/changeDocument.js';
-// export { default as documentUtils } from './core/documentUtils.js';
-// export { default as http } from './core/http.js';
-//
-// // components
-// export { default as Application }      from './components/Application.js';
-// export { default as Be5Menu }          from './components/be5Menu/Be5Menu.js';
-// export { default as Be5MenuHolder }    from './components/be5Menu/Be5MenuHolder.js';
-// export { default as Be5MenuItem }      from './components/be5Menu/Be5MenuItem.js';
-// export { default as Document }         from './components/Document.js';
-// export { default as HelpInfo }         from './components/HelpInfo.js';
-// export { default as LanguageSelector } from './components/LanguageSelector.js';
-// export { default as RoleSelector }     from './components/RoleSelector.js';
-// export { default as SideBar }          from './components/SideBar.js';
-// export { default as Sorter }           from './components/Sorter.js';
-// export { default as SplitPane }        from './components/SplitPane.js';
-// export { default as StaticPage }       from './components/StaticPage.js';
-// export { default as ErrorPane }        from './components/ErrorPane.js';
-// export { default as TreeMenu }         from './components/TreeMenu.js';
-// export { default as FormWizard }       from './components/FormWizard.js';
-// export { default as Navs }             from './components/Navs.js';
-//
-// // forms
-// export { default as Form }               from './components/forms/Form.js';
-// export { default as SubmitOnChangeForm } from './components/forms/SubmitOnChangeForm.js';
-//
-// // tables
-// export { default as Table }           from './components/tables/Table.js';
-// export { default as QuickColumns }    from './components/tables/QuickColumns.js';
-// export { default as OperationBox }    from './components/tables/OperationBox.js';
-// export { default as FormTable }       from './components/tables/FormTable.js';
-// export { default as TableForm }       from './components/tables/TableForm.js';
-// export { default as TableFormRow }    from './components/tables/TableFormRow.js';
-//
-// // menu
-// export { default as Menu }            from './components/menu/Menu.js';
-// export { default as MenuBody }        from './components/menu/MenuBody.js';
-// export { default as MenuSearchField } from './components/menu/MenuSearchField.js';
-// export { default as MenuFooter }      from './components/menu/MenuFooter.js';
-// export { default as MenuNode }        from './components/menu/MenuNode.js';
-//
-// // properties
-// export { default as Property }        from './components/properties/Property.js';
-// export { default as Properties }      from './components/properties/Properties.js';
-// export { default as PropertyInput }   from './components/properties/PropertyInput.js';
-// export { default as PropertySet }     from './components/properties/PropertySet.js';
-//
-// // actions
-// export { default as formAction } from './actions/form.js';
-// export { default as loginAction } from './actions/login.js';
-// export { default as logoutAction } from './actions/logout.js';
-// export { default as staticAction } from './actions/static.js';
-// export { default as tableAction } from './actions/table.js';
-//
-// // services
-// export { default as action }            from './services/actions.js';
-// export { default as forms }             from './services/forms.js';
-// export { default as tables }            from './services/tables.js'
-// export { default as formsCollection }  from './services/formsCollection.js';
-// export { default as tablesCollection } from './services/tablesCollection.js';
-export { default as actionsCollection } from './services/actionsCollection.js';
+import be5 from './be5.js';
+import be5init from './be5init.js';
+//import be5styles from './be5styles.js';
+import constants from './constants.js';
+import preconditions from './preconditions.js';
+import settings from './settings.js';
 
+// core
+import bus from './core/bus.js';
+import changeDocument from './core/changeDocument.js';
+import documentUtils from './core/documentUtils.js';
+import http from './core/http.js';
+
+// components
+import Application      from './components/Application.js';
+import Be5Menu          from './components/be5Menu/Be5Menu.js';
+import Be5MenuHolder    from './components/be5Menu/Be5MenuHolder.js';
+import Be5MenuItem      from './components/be5Menu/Be5MenuItem.js';
+import Document         from './components/Document.js';
+import HelpInfo         from './components/HelpInfo.js';
+import LanguageSelector from './components/LanguageSelector.js';
+import RoleSelector     from './components/RoleSelector.js';
+import SideBar          from './components/SideBar.js';
+import Sorter           from './components/Sorter.js';
+import SplitPane        from './components/SplitPane.js';
+import StaticPage       from './components/StaticPage.js';
+import ErrorPane        from './components/ErrorPane.js';
+import TreeMenu         from './components/TreeMenu.js';
+import FormWizard       from './components/FormWizard.js';
+import Navs             from './components/Navs.js';
+
+// forms
+import Form               from './components/forms/Form.js';
+import SubmitOnChangeForm from './components/forms/SubmitOnChangeForm.js';
+
+// tables
+import Table           from './components/tables/Table.js';
+import QuickColumns    from './components/tables/QuickColumns.js';
+import OperationBox    from './components/tables/OperationBox.js';
+import FormTable       from './components/tables/FormTable.js';
+import TableForm       from './components/tables/TableForm.js';
+import TableFormRow    from './components/tables/TableFormRow.js';
+
+// menu
+import Menu            from './components/menu/Menu.js';
+import MenuBody        from './components/menu/MenuBody.js';
+import MenuSearchField from './components/menu/MenuSearchField.js';
+import MenuFooter      from './components/menu/MenuFooter.js';
+import MenuNode        from './components/menu/MenuNode.js';
+
+// properties
+import Property        from './components/properties/Property.js';
+import Properties      from './components/properties/Properties.js';
+import PropertyInput   from './components/properties/PropertyInput.js';
+import PropertySet     from './components/properties/PropertySet.js';
+
+// actions
+import formAction from './actions/form.js';
+import loginAction from './actions/login.js';
+import logoutAction from './actions/logout.js';
+import staticAction from './actions/static.js';
+import tableAction from './actions/table.js';
+
+// services
+import action            from './services/actions.js';
+import forms             from './services/forms.js';
+import tables            from './services/tables.js'
+import formsCollection  from './services/formsCollection.js';
+import tablesCollection from './services/tablesCollection.js';
+import actionsCollection from './services/actionsCollection.js';
+
+
+export {
+  be5 ,
+  be5init ,
+  constants ,
+  preconditions ,
+  settings ,
+
+  // core
+  bus ,
+  changeDocument ,
+  documentUtils ,
+  http ,
+
+  // components
+  Application      ,
+  Be5Menu          ,
+  Be5MenuHolder    ,
+  Be5MenuItem      ,
+  Document         ,
+  HelpInfo         ,
+  LanguageSelector ,
+  RoleSelector     ,
+  SideBar          ,
+  Sorter           ,
+  SplitPane        ,
+  StaticPage       ,
+  ErrorPane        ,
+  TreeMenu         ,
+  FormWizard       ,
+  Navs             ,
+
+  // forms
+  Form               ,
+  SubmitOnChangeForm ,
+
+  // tables
+  Table           ,
+  QuickColumns    ,
+  OperationBox    ,
+  FormTable       ,
+  TableForm       ,
+  TableFormRow    ,
+
+  // menu
+  Menu            ,
+  MenuBody        ,
+  MenuSearchField ,
+  MenuFooter      ,
+  MenuNode        ,
+
+  // properties
+  Property        ,
+  Properties      ,
+  PropertyInput   ,
+  PropertySet     ,
+
+  // actions
+  formAction ,
+  loginAction ,
+  logoutAction ,
+  staticAction ,
+  tableAction ,
+
+  // services
+  action            ,
+  forms             ,
+  tables            ,
+  formsCollection  ,
+  tablesCollection ,
+  actionsCollection
+}

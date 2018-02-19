@@ -1,53 +1,42 @@
 import nodeResolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import babel   from 'rollup-plugin-babel'
-import cjs     from 'rollup-plugin-commonjs'
-import globals from 'rollup-plugin-node-globals'
+import babel    from 'rollup-plugin-babel'
+import commonjs from 'rollup-plugin-commonjs'
+//import globals from 'rollup-plugin-node-globals'
 import replace from 'rollup-plugin-replace'
 import resolve from 'rollup-plugin-node-resolve'
 import image   from 'rollup-plugin-image';
 import postcss from 'rollup-plugin-postcss'
-import inject  from 'rollup-plugin-inject'
+//import inject  from 'rollup-plugin-inject'
+
+const external = Object.keys(require('./package.json').dependencies || {});
+
+const file = 'dist/lib/be5-react.js';
 
 export default {
   input: 'src/scripts/be5/index.js',
+  external: external,
   output: {
-    file: 'dist/be5-react.js',
+    file: file,
     format: 'iife'
   },
+  name: file,
   plugins: [
-    // nodeResolve(),
-    // commonjs(),
-    postcss({
-      extract: true
-    }),
+    nodeResolve(),
+    postcss({ extract: true }),
     babel({
       babelrc: false,
       exclude: 'node_modules/**',
       presets: [ [ 'es2015', { modules: false } ], 'react' ],
       plugins: [ 'external-helpers' ]
     }),
-    cjs({
-      exclude: 'node_modules/process-es6/**',
-      include: [
-        'node_modules/create-react-class/**',
-        'node_modules/fbjs/**',
-        'node_modules/object-assign/**',
-        'node_modules/react/**',
-        'node_modules/react-dom/**',
-        'node_modules/prop-types/**'
-      ]
+    commonjs({
+      include: 'node_modules/**'
     }),
-    inject({
-      include: '**/*.js',
-      exclude: 'node_modules/**',
-      jQuery: 'jquery',
-    }),
-    globals(),
     replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
     resolve({
+      jsnext: true,
+      main: true,
       browser: true,
-      main: true
     }),
     image()
   ],
