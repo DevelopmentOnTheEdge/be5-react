@@ -33,11 +33,10 @@ export default {
       presets: [ [ 'es2015', { modules: false } ], 'react' ],
       plugins: [ 'external-helpers' ]
     }),
-    commonjs({
-      include: 'node_modules/**'
-    }),
+    commonjs(),
     replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
     resolve({
+      module: true,
       jsnext: true,
       main: true,
       browser: true,

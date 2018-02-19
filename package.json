@@ -2,7 +2,7 @@
   "name": "be5-react",
   "version": "0.1.50",
   "description": "React client UI for be5 server api",
-  "main": "dist/lib/be5-react.es.js",
+  "main": "dist/lib/static/be5.js",
   "scripts": {
     "start": "ws -d dist/uncompressed",
     "dev": "webpack-dev-server --host 127.0.0.1 --progress --profile --colors",
@@ -16,7 +16,8 @@
     "libBabel": "babel src -d dist/lib --presets es2015 --plugins syntax-dynamic-import",
     "libOld": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.lib",
     "up": "npm version patch && npm publish",
-    "lib": "rollup -c rollup.config.js"
+    "lib": "rollup -c rollup.config.js",
+    "dev2": "rollup -c -w rollup.config.js"
   },
   "dependencies": {
     "bootstrap": "^4.0.0-beta",

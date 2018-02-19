@@ -38,6 +38,7 @@ let config = {
         libraryTarget: 'umd',
         umdNamedDefine: true
     },
+    devtool: 'inline-source-map',
     resolve: {
         extensions: ['.js', '.jsx']
     },
