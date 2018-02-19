@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 
-class QuickColumns extends Component
+class QuickColumns extends React.Component
 {
   constructor(props) {
     super(props);

@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import LanguageSelector from './LanguageSelector';
 import RoleSelector     from './RoleSelector';
 import Menu             from './menu/Menu';
 
-class SideBar extends Component {
+class SideBar extends React.Component {
   constructor(props) {
     super(props);
   }

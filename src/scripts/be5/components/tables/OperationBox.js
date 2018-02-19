@@ -3,7 +3,7 @@ import ReactDOM        from 'react-dom';
 import be5             from '../../be5';
 
 
-class OperationBox extends Component
+class OperationBox extends React.Component
 {
   constructor(props) {
     super(props);

@@ -45,7 +45,7 @@ const formatCell = (data, options, isColumn) =>
   return data;
 };
 
-class TableBox extends Component {
+class TableBox extends React.Component {
   constructor(props) {
     super(props);
 
@@ -329,7 +329,7 @@ class TableBox extends Component {
 }
 
 //todo add register new component and move to condo, add base types
-class ListTableBox extends Component
+class ListTableBox extends React.Component
 {
   render(){
     const list = this.props.value.data.attributes.rows.map( (col, idx) => {
@@ -344,7 +344,7 @@ class ListTableBox extends Component
   }
 }
 
-class Table extends Component
+class Table extends React.Component
 {
   constructor(props) {
     super(props);

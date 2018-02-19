@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import be5        from '../../be5';
 import MenuNode   from './MenuNode';
 
 
-class MenuBody extends Component
+class MenuBody extends React.Component
 {
   constructor(props) {
     super(props);

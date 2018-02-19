@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Button, Card, CardBody, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalFooter, ModalHeader, Nav, NavItem, NavLink, UncontrolledDropdown } from 'reactstrap';
 import ReactDOM from 'react-dom';
 import AceEditor from 'react-ace';
@@ -1762,8 +1762,8 @@ var format_min = createCommonjsModule(function (module) {
 !function(a,b){"function"==typeof undefined&&undefined.amd?undefined([],b):module.exports=b();}(commonjsGlobal,function(){return function(a,b){if(!a||isNaN(+b))return b;var c,d,e,f,g,h,i,j,k,l,m=a.length,n=a.search(/[0-9\-\+#]/),o=n>0?a.substring(0,n):"",p=a.split("").reverse().join(""),q=p.search(/[0-9\-\+#]/),r=m-q,s=a.substring(r,r+1),t=r+("."===s||","===s?1:0),u=q>0?a.substring(t,m):"";if(a=a.substring(n,t), b="-"===a.charAt(0)?-b:+b, c=b<0?b=-b:0, d=a.match(/[^\d\-\+#]/g), e=d&&d[d.length-1]||".", f=d&&d[1]&&d[0]||",", a=a.split(e), b=b.toFixed(a[1]&&a[1].length), b=+b+"", h=a[1]&&a[1].lastIndexOf("0"), j=b.split("."), (!j[1]||j[1]&&j[1].length<=h)&&(b=(+b).toFixed(h+1)), k=a[0].split(f), a[0]=k.join(""), g=a[0]&&a[0].indexOf("0"), g>-1)for(;j[0].length<a[0].length-g;)j[0]="0"+j[0];else 0===+j[0]&&(j[0]="");if(b=b.split("."), b[0]=j[0], i=k[1]&&k[k.length-1].length){for(l=b[0], p="", r=l.length%i, m=l.length, t=0;t<m;t++)p+=l.charAt(t), !((t-r+1)%i)&&t<m-i&&(p+=f);b[0]=p;}return b[1]=a[1]&&b[1]?e+b[1]:"", d=b.join(""), "0"!==d&&""!==d||(c=!1), o+((c?"-":"")+d)+u}});
 });
 
-var OperationBox = function (_Component) {
-  inherits(OperationBox, _Component);
+var OperationBox = function (_React$Component) {
+  inherits(OperationBox, _React$Component);
 
   function OperationBox(props) {
     classCallCheck(this, OperationBox);
@@ -1858,10 +1858,10 @@ var OperationBox = function (_Component) {
     }
   }]);
   return OperationBox;
-}(Component);
+}(React.Component);
 
-var QuickColumns = function (_Component) {
-  inherits(QuickColumns, _Component);
+var QuickColumns = function (_React$Component) {
+  inherits(QuickColumns, _React$Component);
 
   function QuickColumns(props) {
     classCallCheck(this, QuickColumns);
@@ -1951,7 +1951,7 @@ var QuickColumns = function (_Component) {
     }
   }]);
   return QuickColumns;
-}(Component);
+}(React.Component);
 
 var formatCell = function formatCell(data, options, isColumn) {
   if (!Array.isArray(data)) {
@@ -1987,8 +1987,8 @@ var formatCell = function formatCell(data, options, isColumn) {
   return data;
 };
 
-var TableBox = function (_Component) {
-  inherits(TableBox, _Component);
+var TableBox = function (_React$Component) {
+  inherits(TableBox, _React$Component);
 
   function TableBox(props) {
     classCallCheck(this, TableBox);
@@ -2279,13 +2279,13 @@ var TableBox = function (_Component) {
     }
   }]);
   return TableBox;
-}(Component);
+}(React.Component);
 
 //todo add register new component and move to condo, add base types
 
 
-var ListTableBox = function (_Component2) {
-  inherits(ListTableBox, _Component2);
+var ListTableBox = function (_React$Component2) {
+  inherits(ListTableBox, _React$Component2);
 
   function ListTableBox() {
     classCallCheck(this, ListTableBox);
@@ -2307,10 +2307,10 @@ var ListTableBox = function (_Component2) {
     }
   }]);
   return ListTableBox;
-}(Component);
+}(React.Component);
 
-var Table = function (_Component3) {
-  inherits(Table, _Component3);
+var Table = function (_React$Component3) {
+  inherits(Table, _React$Component3);
 
   function Table(props) {
     classCallCheck(this, Table);
@@ -2365,7 +2365,7 @@ var Table = function (_Component3) {
     }
   }]);
   return Table;
-}(Component);
+}(React.Component);
 
 Table.propTypes = {
   value: propTypes.object.isRequired
@@ -2668,8 +2668,8 @@ actionsCollection.registerAction("table", action$10);
 
 var img = new Image();img.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAATdEVYdFRpdGxlAE9wdGljYWwgRHJpdmU+Z7oMAAAC+ElEQVQ4jZWS329TZRjHP+ft6dJ2djNxHcgyunb+KIyNwfRG0mZgNgfeAJNBUBO8NEswITPEGHIy1I1lcTEzhn/Aq5mIFwp2yGSMzAsCyMIAp7hWOXjD+LGW03bnPe/rxSyZ7spv8tw9z+f75Ps8htaasvr7+81Apfm6oY1dGrpAV4BhY5AV2vjME4ZjKHUSjBxKHTt69MNpszw8ODj4TCBUMdbasnnH5pYt1NREEEIgpbs2l8u1/TAxvjebyeT27z8YXrh3j7MT4wFgmwkwPPzx8z6/L713zxuxeKyRUqmI4+RRSiGEIBQKsa/7ALZ9J1xfv56qcBg0rwCYAArxxVsH346tqV3L4uJDrv58lfn52+TyeZ6qrGTjxk0kXkwQiUT4r8yhTwd2xmPxjnXPruP+/QXOpE9zx7YnQQwIrUOFUnHwwtRk4vbvv9HVuZNAIAiAUmoZYCh9+NUdHRSLRWZvXMe27XMlx+2yLEueGP7kXE/3gUQ81rjKWUq5DNAY64PBEK5b4uatWwiMjyzLkgCuK8OPHj3kwYOFVQDXdSlnUCeEgVIKx3mMlFx/0uR575765usvtdaJ5WtrtC7XPxlIzysUS8VqIUyqq5/mcc5uBs4DHD92/DKwYZX9yhCl532fyWQONcYbadrQRCabtXq+6pka2zfmrXiwwJIsngB2a60mPJf3hoaGcgCmWpKnr1y5fKghGqW5uYX5zHy7d809+8HM+wM+7d2U2teKxkol21/e1NTEj5MT78zOzl4CTgKYQvhPzc39cn7q4lR7Kpliz+5utrRu3X5x+sL2u3f/4oVolOS2JNFoA/l8HtP0I6UXKG9naK3p6+urEaa+1NnxWkPb1jaCwRB+vx8hfCilcN0lCgWH9Hia6Z+mb5ii4qWRkZHCEwDAkSO9zyl8n9dGartSqSSRSC1V4Socx2Hu1zmuzczwx5/Zb02j4s3R0dHFf22wUr2HezsNLXuVMuo1ug7Ia80Zhf6ubk1d2rIstbJ/FeD/6m8m/lj+PIxQ9QAAAABJRU5ErkJggg==';
 
-var Document = function (_Component) {
-  inherits(Document, _Component);
+var Document = function (_React$Component) {
+  inherits(Document, _React$Component);
 
   function Document(props) {
     classCallCheck(this, Document);
@@ -2786,7 +2786,7 @@ var Document = function (_Component) {
     }
   }]);
   return Document;
-}(Component);
+}(React.Component);
 
 Document.propTypes = {
   frontendParams: propTypes.shape({
@@ -7527,8 +7527,8 @@ var action$14 = function action(documentName, text) {
 
 actionsCollection.registerAction("text", action$14);
 
-var HelpInfo = function (_Component) {
-  inherits(HelpInfo, _Component);
+var HelpInfo = function (_React$Component) {
+  inherits(HelpInfo, _React$Component);
 
   function HelpInfo(props) {
     classCallCheck(this, HelpInfo);
@@ -7589,7 +7589,7 @@ var HelpInfo = function (_Component) {
     }
   }]);
   return HelpInfo;
-}(Component);
+}(React.Component);
 
 HelpInfo.propTypes = {
   value: propTypes.string,
@@ -8555,8 +8555,8 @@ MaskedInput.defaultProps = {
   value: ''
 };
 
-var Property = function (_Component) {
-  inherits(Property, _Component);
+var Property = function (_React$Component) {
+  inherits(Property, _React$Component);
 
   function Property(props) {
     classCallCheck(this, Property);
@@ -8961,7 +8961,7 @@ var Property = function (_Component) {
     }
   }]);
   return Property;
-}(Component);
+}(React.Component);
 
 Property.defaultProps = {
   localization: {
@@ -9220,8 +9220,8 @@ api.compile = function compile (refTokens) {
     return '/' + refTokens.map(api.escape).join('/');
 };
 
-var PropertySet = function (_Component) {
-  inherits(PropertySet, _Component);
+var PropertySet = function (_React$Component) {
+  inherits(PropertySet, _React$Component);
 
   function PropertySet() {
     classCallCheck(this, PropertySet);
@@ -9332,7 +9332,7 @@ var PropertySet = function (_Component) {
     }
   }]);
   return PropertySet;
-}(Component);
+}(React.Component);
 
 PropertySet.defaultProps = {
   localization: {}
@@ -9531,8 +9531,8 @@ var Form = React.createClass({
 
 formsCollection.registerForm('form', Form);
 
-var PropertyInput = function (_Component) {
-  inherits(PropertyInput, _Component);
+var PropertyInput = function (_React$Component) {
+  inherits(PropertyInput, _React$Component);
 
   function PropertyInput(props) {
     classCallCheck(this, PropertyInput);
@@ -9751,7 +9751,7 @@ var PropertyInput = function (_Component) {
     }
   }]);
   return PropertyInput;
-}(Component);
+}(React.Component);
 
 PropertyInput.defaultProps = {
   localization: {
@@ -9965,8 +9965,8 @@ var http = {
   post: be5.net.requestJson
 };
 
-var Language = function (_Component) {
-  inherits(Language, _Component);
+var Language = function (_React$Component) {
+  inherits(Language, _React$Component);
 
   function Language(props) {
     classCallCheck(this, Language);
@@ -9996,14 +9996,14 @@ var Language = function (_Component) {
     }
   }]);
   return Language;
-}(Component);
+}(React.Component);
 
 Language.propTypes = {
   onLanguageClick: propTypes.func.isRequired
 };
 
-var LanguageList = function (_Component2) {
-  inherits(LanguageList, _Component2);
+var LanguageList = function (_React$Component2) {
+  inherits(LanguageList, _React$Component2);
 
   function LanguageList(props) {
     classCallCheck(this, LanguageList);
@@ -10026,10 +10026,10 @@ var LanguageList = function (_Component2) {
     }
   }]);
   return LanguageList;
-}(Component);
+}(React.Component);
 
-var LanguageBox = function (_Component3) {
-  inherits(LanguageBox, _Component3);
+var LanguageBox = function (_React$Component3) {
+  inherits(LanguageBox, _React$Component3);
 
   function LanguageBox(props) {
     classCallCheck(this, LanguageBox);
@@ -10072,10 +10072,10 @@ var LanguageBox = function (_Component3) {
     }
   }]);
   return LanguageBox;
-}(Component);
+}(React.Component);
 
-var Role = function (_Component) {
-  inherits(Role, _Component);
+var Role = function (_React$Component) {
+  inherits(Role, _React$Component);
 
   function Role() {
     classCallCheck(this, Role);
@@ -10104,14 +10104,14 @@ var Role = function (_Component) {
     }
   }]);
   return Role;
-}(Component);
+}(React.Component);
 
 Role.propTypes = {
   onChange: propTypes.func.isRequired
 };
 
-var RoleBox = function (_Component2) {
-  inherits(RoleBox, _Component2);
+var RoleBox = function (_React$Component2) {
+  inherits(RoleBox, _React$Component2);
 
   function RoleBox(props) {
     classCallCheck(this, RoleBox);
@@ -10236,7 +10236,7 @@ var RoleBox = function (_Component2) {
     }
   }]);
   return RoleBox;
-}(Component);
+}(React.Component);
 
 var img$1 = new Image();img$1.src = 'data:image/png;base64,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';
 
@@ -10377,8 +10377,8 @@ var MenuNode = React.createClass({
   }
 });
 
-var MenuBody = function (_Component) {
-  inherits(MenuBody, _Component);
+var MenuBody = function (_React$Component) {
+  inherits(MenuBody, _React$Component);
 
   function MenuBody(props) {
     classCallCheck(this, MenuBody);
@@ -10450,10 +10450,10 @@ var MenuBody = function (_Component) {
     }
   }]);
   return MenuBody;
-}(Component);
+}(React.Component);
 
-var MenuSearchField = function (_Component) {
-  inherits(MenuSearchField, _Component);
+var MenuSearchField = function (_React$Component) {
+  inherits(MenuSearchField, _React$Component);
 
   function MenuSearchField(props) {
     classCallCheck(this, MenuSearchField);
@@ -10479,14 +10479,14 @@ var MenuSearchField = function (_Component) {
     }
   }]);
   return MenuSearchField;
-}(Component);
+}(React.Component);
 
 MenuSearchField.propTypes = {
   onChange: propTypes.func.isRequired
 };
 
-var Menu = function (_Component) {
-  inherits(Menu, _Component);
+var Menu = function (_React$Component) {
+  inherits(Menu, _React$Component);
 
   function Menu(props) {
     classCallCheck(this, Menu);
@@ -10523,10 +10523,10 @@ var Menu = function (_Component) {
     }
   }]);
   return Menu;
-}(Component);
+}(React.Component);
 
-var SideBar = function (_Component) {
-  inherits(SideBar, _Component);
+var SideBar = function (_React$Component) {
+  inherits(SideBar, _React$Component);
 
   function SideBar(props) {
     classCallCheck(this, SideBar);
@@ -10555,7 +10555,7 @@ var SideBar = function (_Component) {
     }
   }]);
   return SideBar;
-}(Component);
+}(React.Component);
 
 // Based on https://github.com/tomkp/react-split-pane
 var Pane$1 = React.createClass({
@@ -11677,8 +11677,8 @@ unwrapExports(SAlert);
 
 var reactSAlert = SAlert;
 
-var Be5Components = function (_Component) {
-  inherits(Be5Components, _Component);
+var Be5Components = function (_React$Component) {
+  inherits(Be5Components, _React$Component);
 
   function Be5Components(props) {
     classCallCheck(this, Be5Components);
@@ -11758,10 +11758,10 @@ var Be5Components = function (_Component) {
     value: function refresh() {}
   }]);
   return Be5Components;
-}(Component);
+}(React.Component);
 
-var Application = function (_Component) {
-  inherits(Application, _Component);
+var Application = function (_React$Component) {
+  inherits(Application, _React$Component);
 
   function Application(props) {
     classCallCheck(this, Application);
@@ -11804,7 +11804,7 @@ var Application = function (_Component) {
     }
   }]);
   return Application;
-}(Component);
+}(React.Component);
 
 var listeners$1 = [];
 
@@ -12217,8 +12217,8 @@ var TreeMenu = React.createClass({
   }
 });
 
-var FormWizard = function (_Component) {
-  inherits(FormWizard, _Component);
+var FormWizard = function (_React$Component) {
+  inherits(FormWizard, _React$Component);
 
   function FormWizard(props) {
     classCallCheck(this, FormWizard);
@@ -12606,7 +12606,7 @@ var FormWizard = function (_Component) {
     }
   }]);
   return FormWizard;
-}(Component);
+}(React.Component);
 
 FormWizard.defaultProps = {
   showSteps: true,
@@ -12742,8 +12742,8 @@ Navs.propTypes = {
   documentName: propTypes.string
 };
 
-var Properties = function (_Component) {
-  inherits(Properties, _Component);
+var Properties = function (_React$Component) {
+  inherits(Properties, _React$Component);
 
   function Properties() {
     classCallCheck(this, Properties);
@@ -12787,7 +12787,7 @@ var Properties = function (_Component) {
     }
   }]);
   return Properties;
-}(Component);
+}(React.Component);
 
 Properties.defaultProps = {
   className: "row",

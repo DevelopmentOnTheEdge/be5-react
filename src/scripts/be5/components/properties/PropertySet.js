@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes            from 'prop-types';
 import Property             from './Property';
 import JsonPointer          from 'json-pointer';
 
-class PropertySet extends Component {
+class PropertySet extends React.Component {
 
   _createGroup(curGroup, curGroupId, curGroupName) {
     return (

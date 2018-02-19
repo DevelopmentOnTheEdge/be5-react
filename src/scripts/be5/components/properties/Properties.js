@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes            from 'prop-types';
 import Property             from './Property';
 import JsonPointer          from 'json-pointer';
 
-class Properties extends Component {
+class Properties extends React.Component {
 
   static get(path, bean, localization){
     const itemName = path.substring(path.lastIndexOf("/")+1);

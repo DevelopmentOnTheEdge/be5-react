@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes            from 'prop-types';
 import classNames           from 'classnames';
 import Datetime             from 'react-datetime';
@@ -8,7 +8,7 @@ import VirtualizedSelect    from 'react-virtualized-select'
 import JsonPointer          from 'json-pointer';
 
 
-class PropertyInput extends Component {
+class PropertyInput extends React.Component {
 
   constructor(props) {
     super(props);

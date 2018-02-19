@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes            from 'prop-types';
 import be5        from '../../be5';
 
 
-class MenuSearchField extends Component
+class MenuSearchField extends React.Component
 {
   constructor(props) {
     super(props);

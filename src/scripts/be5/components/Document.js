@@ -7,7 +7,7 @@ import documentState from '../core/documentState';
 import reloadImg from '../../../images/reload.png';
 
 
-class Document extends Component
+class Document extends React.Component
 {
   constructor(props) {
     super(props);

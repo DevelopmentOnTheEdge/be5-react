@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import bus from '../core/bus';
 import be5 from '../be5';
 import SideBar from './SideBar';
@@ -7,7 +7,7 @@ import SplitPane from './SplitPane';
 import Be5Components from "./Be5Components";
 
 
-class Application extends Component
+class Application extends React.Component
 {
   constructor(props) {
     super(props);
