@@ -10,14 +10,14 @@ import postcss from 'rollup-plugin-postcss'
 
 const external = Object.keys(require('./package.json').dependencies || {});
 
-const file = 'dist/lib/be5-react.js';
+const file = 'dist/lib/be5-react.es.js';
 
 export default {
   input: 'src/scripts/be5/index.js',
   external: external,
   output: {
     file: file,
-    format: 'iife'
+    format: 'es'
   },
   name: file,
   plugins: [

@@ -1,17 +1,14 @@
-this['dist/lib/be5-react'] = this['dist/lib/be5-react'] || {};
-this['dist/lib/be5-react'].js = (function (exports,React,reactstrap,ReactDOM,AceEditor,classNames,Datetime,moment,Select,VirtualizedSelect,NumericInput,CKEditor) {
-'use strict';
-
-var React__default = 'default' in React ? React['default'] : React;
-ReactDOM = ReactDOM && ReactDOM.hasOwnProperty('default') ? ReactDOM['default'] : ReactDOM;
-AceEditor = AceEditor && AceEditor.hasOwnProperty('default') ? AceEditor['default'] : AceEditor;
-classNames = classNames && classNames.hasOwnProperty('default') ? classNames['default'] : classNames;
-Datetime = Datetime && Datetime.hasOwnProperty('default') ? Datetime['default'] : Datetime;
-moment = moment && moment.hasOwnProperty('default') ? moment['default'] : moment;
-var Select__default = 'default' in Select ? Select['default'] : Select;
-VirtualizedSelect = VirtualizedSelect && VirtualizedSelect.hasOwnProperty('default') ? VirtualizedSelect['default'] : VirtualizedSelect;
-NumericInput = NumericInput && NumericInput.hasOwnProperty('default') ? NumericInput['default'] : NumericInput;
-CKEditor = CKEditor && CKEditor.hasOwnProperty('default') ? CKEditor['default'] : CKEditor;
+import React, { Component } from 'react';
+import { Button, Card, CardBody, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalFooter, ModalHeader, Nav, NavItem, NavLink, UncontrolledDropdown } from 'reactstrap';
+import ReactDOM from 'react-dom';
+import AceEditor from 'react-ace';
+import classNames from 'classnames';
+import Datetime from 'react-datetime';
+import moment from 'moment';
+import Select, { Creatable } from 'react-select';
+import VirtualizedSelect from 'react-virtualized-select';
+import NumericInput from 'react-numeric-input';
+import CKEditor from 'react-ckeditor-component';
 
 var settings = {};
 
@@ -29,89 +26,89 @@ var utils = {
 };
 
 var messages = {
-  en: {
-    errorCannotConnect: 'Cannot connect to server',
-    errorServerQueryException: 'Error during server query: $message',
-    errorInvalidErrorResponse: 'Server returned unknown error',
-    errorNoData: 'Error communicating with server: no data received',
-    errorUnknownAction: 'Unknown action: $action',
-    errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
+    en: {
+        errorCannotConnect: 'Cannot connect to server',
+        errorServerQueryException: 'Error during server query: $message',
+        errorInvalidErrorResponse: 'Server returned unknown error',
+        errorNoData: 'Error communicating with server: no data received',
+        errorUnknownAction: 'Unknown action: $action',
+        errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
 
-    welcome: 'Hello!',
-    loading: 'Page is loading...',
-    settings: 'Settings',
-    emptyTable: 'Nothing found',
-    roles: 'Roles',
-    back: 'Back',
-    error: 'Error:',
-    cancel: 'Cancel',
-    reload: 'reload',
-    All: 'All',
-    successfullyCompleted: 'Successfully completed.',
+        welcome: 'Hello!',
+        loading: 'Page is loading...',
+        settings: 'Settings',
+        emptyTable: 'Nothing found',
+        roles: 'Roles',
+        back: 'Back',
+        error: 'Error:',
+        cancel: 'Cancel',
+        reload: 'reload',
+        All: 'All',
+        successfullyCompleted: 'Successfully completed.',
 
-    filter: 'Filter...',
+        filter: 'Filter...',
 
-    Submit: 'Submit',
+        Submit: 'Submit',
 
-    property: {
-      locale: 'en',
-      clearAllText: 'Clear all',
-      clearValueText: 'Clear value',
-      noResultsText: 'No results found',
-      searchPromptText: 'Type to search',
-      placeholder: 'Select ...',
-      loadingPlaceholder: 'Loading...'
+        property: {
+            locale: 'en',
+            clearAllText: 'Clear all',
+            clearValueText: 'Clear value',
+            noResultsText: 'No results found',
+            searchPromptText: 'Type to search',
+            placeholder: 'Select ...',
+            loadingPlaceholder: 'Loading...'
+        },
+
+        formComponentNotFound: 'Form component not found: ',
+        tableComponentNotFound: 'Table component not found: ',
+        helpInfo: "Help",
+        details: "Details",
+
+        NotFound: "Not Found"
     },
 
-    formComponentNotFound: 'Form component not found: ',
-    tableComponentNotFound: 'Table component not found: ',
-    helpInfo: "Help",
-    details: "Details",
+    ru: {
+        errorCannotConnect: 'Не могу подключиться к серверу',
+        errorServerQueryException: 'Ошибка сервера: $message',
+        errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
+        errorNoData: 'Ошибка связи с сервером: ответ не получен',
+        errorUnknownAction: 'Неизвестная операция: $action',
+        errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
 
-    NotFound: "Not Found"
-  },
+        welcome: 'Добро пожаловать!',
+        loading: 'Загрузка...',
+        settings: 'Настройки',
+        emptyTable: 'Нет данных',
+        roles: 'Роли',
+        back: 'Назад',
+        error: 'Ошибка:',
+        cancel: 'Отмена',
+        reload: 'Перезагрузить',
+        All: 'Все',
+        successfullyCompleted: 'Успешно выполнено.',
 
-  ru: {
-    errorCannotConnect: 'Не могу подключиться к серверу',
-    errorServerQueryException: 'Ошибка сервера: $message',
-    errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
-    errorNoData: 'Ошибка связи с сервером: ответ не получен',
-    errorUnknownAction: 'Неизвестная операция: $action',
-    errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
+        filter: 'Фильтр...',
 
-    welcome: 'Добро пожаловать!',
-    loading: 'Загрузка...',
-    settings: 'Настройки',
-    emptyTable: 'Нет данных',
-    roles: 'Роли',
-    back: 'Назад',
-    error: 'Ошибка:',
-    cancel: 'Отмена',
-    reload: 'Перезагрузить',
-    All: 'Все',
-    successfullyCompleted: 'Успешно выполнено.',
+        Submit: 'Выполнить',
 
-    filter: 'Фильтр...',
+        property: {
+            locale: 'ru',
+            clearAllText: 'Очистить всё',
+            clearValueText: 'Очистить',
+            noResultsText: 'Нет результатов',
+            searchPromptText: 'Начните вводить для поиска',
+            placeholder: 'Выберите...',
+            loadingPlaceholder: 'Загрузка...'
+        },
 
-    Submit: 'Выполнить',
+        formComponentNotFound: 'Компонент формы не найден: ',
+        tableComponentNotFound: 'Компонент таблицы не найден: ',
+        helpInfo: "Справка",
+        details: "Подробнее",
 
-    property: {
-      locale: 'ru',
-      clearAllText: 'Очистить всё',
-      clearValueText: 'Очистить',
-      noResultsText: 'Нет результатов',
-      searchPromptText: 'Начните вводить для поиска',
-      placeholder: 'Выберите...',
-      loadingPlaceholder: 'Загрузка...'
-    },
-
-    formComponentNotFound: 'Компонент формы не найден: ',
-    tableComponentNotFound: 'Компонент таблицы не найден: ',
-    helpInfo: "Справка",
-    details: "Подробнее",
-
-    NotFound: "Не найдено"
-  }
+        NotFound: "Не найдено"
+    }
 };
 
 var listeners = function () {
@@ -704,11 +701,11 @@ var Loading = function (_React$Component) {
   createClass(Loading, [{
     key: 'render',
     value: function render() {
-      return React__default.createElement('div', { className: 'document-loader' });
+      return React.createElement('div', { className: 'document-loader' });
     }
   }]);
   return Loading;
-}(React__default.Component);
+}(React.Component);
 
 actionsCollection.registerAction("loading", action);
 
@@ -1478,10 +1475,10 @@ var FinishedResult = function (_React$Component) {
         message = be5.messages.successfullyCompleted;
       }
 
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'finishedResult' },
-        React__default.createElement('div', { dangerouslySetInnerHTML: { __html: message } })
+        React.createElement('div', { dangerouslySetInnerHTML: { __html: message } })
       );
       //    <div className="linkBack">
       //              <button className="btn btn-secondary btn-sm" onClick={back}>
@@ -1491,7 +1488,7 @@ var FinishedResult = function (_React$Component) {
     }
   }]);
   return FinishedResult;
-}(React__default.Component);
+}(React.Component);
 
 FinishedResult.propTypes = {
   value: propTypes.shape({
@@ -1517,17 +1514,17 @@ var StaticPage = function (_React$Component) {
     value: function render() {
       var attributes = this.props.value.data.attributes;
 
-      var title = attributes.title ? React__default.createElement(
+      var title = attributes.title ? React.createElement(
         'h1',
         { className: 'staticPage__title' },
         attributes.title
       ) : null;
 
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'staticPage' },
         title,
-        React__default.createElement('div', { className: 'staticPage__text', dangerouslySetInnerHTML: { __html: attributes.content } })
+        React.createElement('div', { className: 'staticPage__text', dangerouslySetInnerHTML: { __html: attributes.content } })
       );
     }
   }, {
@@ -1561,7 +1558,7 @@ var StaticPage = function (_React$Component) {
     }
   }]);
   return StaticPage;
-}(React__default.Component);
+}(React.Component);
 
 // StaticPage.defaultProps = {
 //   value: ''
@@ -1617,36 +1614,36 @@ var ErrorPane = function (_React$Component) {
     key: 'render',
     value: function render() {
       var error = this.props.value.errors ? this.props.value.errors[0] : this.props.value;
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'errorPane' },
-        React__default.createElement(
+        React.createElement(
           'h1',
           { className: 'errorPane__title' },
           error.status,
           ' - ',
           error.title
         ),
-        React__default.createElement('br', null),
-        error.code !== undefined ? React__default.createElement('pre', { className: 'errorPane__code', dangerouslySetInnerHTML: { __html: error.code } }) : null,
-        error.detail !== undefined ? React__default.createElement(
+        React.createElement('br', null),
+        error.code !== undefined ? React.createElement('pre', { className: 'errorPane__code', dangerouslySetInnerHTML: { __html: error.code } }) : null,
+        error.detail !== undefined ? React.createElement(
           'div',
           null,
-          React__default.createElement(
-            reactstrap.Button,
+          React.createElement(
+            Button,
             { color: 'info', className: 'btn-sm', onClick: this.helpCollapseToggle, style: { marginBottom: '1rem' } },
             be5.messages.details
           ),
-          React__default.createElement(
-            reactstrap.Collapse,
+          React.createElement(
+            Collapse,
             { isOpen: this.state.helpCollapse },
-            React__default.createElement(
-              reactstrap.Card,
+            React.createElement(
+              Card,
               null,
-              React__default.createElement(
-                reactstrap.CardBody,
+              React.createElement(
+                CardBody,
                 null,
-                React__default.createElement(
+                React.createElement(
                   'pre',
                   { className: 'errorPane__detail' },
                   error.detail
@@ -1675,7 +1672,7 @@ var ErrorPane = function (_React$Component) {
 
   }]);
   return ErrorPane;
-}(React__default.Component);
+}(React.Component);
 
 // StaticPage.defaultProps = {
 //   value: ''
@@ -1843,7 +1840,7 @@ var OperationBox = function (_Component) {
         //        };
         //        return React.createElement('a', attrs, operation.title);
         //      }
-        return React__default.createElement(
+        return React.createElement(
           'button',
           { key: operation.name, ref: operation.name, onClick: _this3.onClick.bind(_this3, operation.name), className: 'btn btn-secondary btn-secondary-old btn-sm' },
           operation.title
@@ -1851,9 +1848,9 @@ var OperationBox = function (_Component) {
       });
 
       if (this.props.operations.length === 0) {
-        return React__default.createElement('div', null);
+        return React.createElement('div', null);
       }
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'operationList' },
         splitWithSpaces(operations)
@@ -1861,7 +1858,7 @@ var OperationBox = function (_Component) {
     }
   }]);
   return OperationBox;
-}(React.Component);
+}(Component);
 
 var QuickColumns = function (_Component) {
   inherits(QuickColumns, _Component);
@@ -1907,7 +1904,7 @@ var QuickColumns = function (_Component) {
       var _this2 = this;
 
       if (this.state.quickColumns.length === 0) {
-        return React__default.createElement('div', null);
+        return React.createElement('div', null);
       }
       if (this.state.table) {
         var dataTable = $(this.state.table).find('table').dataTable();
@@ -1926,13 +1923,13 @@ var QuickColumns = function (_Component) {
 
         var column = this.props.columns[cell.columnId];
         var title = column.replace(/<br\s*[\/]?>/gi, " ");
-        return React__default.createElement(
+        return React.createElement(
           'span',
           { key: idx },
-          React__default.createElement('input', { id: "quick" + idx, type: 'checkbox', checked: cell.visible, onChange: function onChange() {
+          React.createElement('input', { id: "quick" + idx, type: 'checkbox', checked: cell.visible, onChange: function onChange() {
               return _this3.quickHandleChange(idx);
             } }),
-          React__default.createElement(
+          React.createElement(
             'label',
             { htmlFor: "quick" + idx, className: 'rowIndex' },
             title,
@@ -1941,10 +1938,10 @@ var QuickColumns = function (_Component) {
         );
       }.bind(this));
 
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { id: 'quickColumns' },
-        React__default.createElement(
+        React.createElement(
           'span',
           null,
           '\u0414\u0440\u0443\u0433\u0438\u0435 \u043A\u043E\u043B\u043E\u043D\u043A\u0438:'
@@ -1954,7 +1951,7 @@ var QuickColumns = function (_Component) {
     }
   }]);
   return QuickColumns;
-}(React.Component);
+}(Component);
 
 var formatCell = function formatCell(data, options, isColumn) {
   if (!Array.isArray(data)) {
@@ -2253,23 +2250,23 @@ var TableBox = function (_Component) {
     value: function render() {
       var attributes = this.props.value.data.attributes;
       if (attributes.columns.length === 0) {
-        return React__default.createElement(
+        return React.createElement(
           'div',
           null,
-          React__default.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick, hasRows: attributes.rows.length !== 0 }),
+          React.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick, hasRows: attributes.rows.length !== 0 }),
           be5.messages.emptyTable
         );
       }
 
-      return React__default.createElement(
+      return React.createElement(
         'div',
         null,
-        React__default.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick, hasRows: attributes.rows.length !== 0 }),
-        React__default.createElement(QuickColumns, { ref: 'quickColumns', columns: attributes.columns, firstRow: attributes.rows[0].cells, table: this.refs.table, selectable: attributes.selectable }),
-        React__default.createElement(
+        React.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick, hasRows: attributes.rows.length !== 0 }),
+        React.createElement(QuickColumns, { ref: 'quickColumns', columns: attributes.columns, firstRow: attributes.rows[0].cells, table: this.refs.table, selectable: attributes.selectable }),
+        React.createElement(
           'div',
           { className: 'scroll' },
-          React__default.createElement('div', { ref: 'table' })
+          React.createElement('div', { ref: 'table' })
         )
       );
     }
@@ -2282,7 +2279,7 @@ var TableBox = function (_Component) {
     }
   }]);
   return TableBox;
-}(React.Component);
+}(Component);
 
 //todo add register new component and move to condo, add base types
 
@@ -2299,10 +2296,10 @@ var ListTableBox = function (_Component2) {
     key: 'render',
     value: function render() {
       var list = this.props.value.data.attributes.rows.map(function (col, idx) {
-        return React__default.createElement('li', { key: idx, dangerouslySetInnerHTML: { __html: col.cells[0].content } });
+        return React.createElement('li', { key: idx, dangerouslySetInnerHTML: { __html: col.cells[0].content } });
       });
 
-      return React__default.createElement(
+      return React.createElement(
         'ul',
         { className: 'listTableBox' },
         list
@@ -2310,7 +2307,7 @@ var ListTableBox = function (_Component2) {
     }
   }]);
   return ListTableBox;
-}(React.Component);
+}(Component);
 
 var Table = function (_Component3) {
   inherits(Table, _Component3);
@@ -2332,9 +2329,9 @@ var Table = function (_Component3) {
       var table = null;
 
       if (value.data.attributes.parameters && value.data.attributes.parameters.displayType === 'list') {
-        table = React__default.createElement(ListTableBox, { ref: 'tableBox', value: value });
+        table = React.createElement(ListTableBox, { ref: 'tableBox', value: value });
       } else {
-        table = React__default.createElement(TableBox, {
+        table = React.createElement(TableBox, {
           ref: 'tableBox',
           value: value,
           frontendParams: this.props.frontendParams
@@ -2343,10 +2340,10 @@ var Table = function (_Component3) {
 
       var TitleTag = 'h' + (value.data.attributes.parameters && value.data.attributes.parameters.titleLevel || 1);
 
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'table-component' },
-        React__default.createElement(
+        React.createElement(
           TitleTag,
           { className: 'table-component__title' },
           value.data.attributes.title
@@ -2368,7 +2365,7 @@ var Table = function (_Component3) {
     }
   }]);
   return Table;
-}(React.Component);
+}(Component);
 
 Table.propTypes = {
   value: propTypes.object.isRequired
@@ -2740,10 +2737,10 @@ var Document = function (_Component) {
       //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
 
       var devRole = false; //todo
-      var devTools = React__default.createElement(
+      var devTools = React.createElement(
         'span',
         { onClick: this.refresh, className: "document-reload float-right" },
-        React__default.createElement('img', { src: img, alt: be5.messages.reload,
+        React.createElement('img', { src: img, alt: be5.messages.reload,
           title: be5.messages.reload + " " + this.props.frontendParams.documentName })
       );
 
@@ -2752,18 +2749,18 @@ var Document = function (_Component) {
 
       if (this.state.component) {
         if (this.state.component === 'text') {
-          contentItem = React__default.createElement(
+          contentItem = React.createElement(
             'h1',
             null,
             this.state.value
           );
         } else if (this.state.component !== null) {
           var DocumentContent = this.state.component;
-          contentItem = React__default.createElement(
+          contentItem = React.createElement(
             'div',
             null,
             devRole ? devTools : null,
-            React__default.createElement(DocumentContent, {
+            React.createElement(DocumentContent, {
               ref: 'documentContent',
               value: this.state.value,
               frontendParams: Object.assign({}, this.props.frontendParams, this.state.frontendParams)
@@ -2772,7 +2769,7 @@ var Document = function (_Component) {
         }
       } else {
         if (this.state.value) {
-          contentItem = React__default.createElement(
+          contentItem = React.createElement(
             'h1',
             null,
             this.state.value
@@ -2780,7 +2777,7 @@ var Document = function (_Component) {
         }
       }
 
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'document-content', id: 'document-content___' + this.props.frontendParams.documentName },
         loadingItem,
@@ -2789,7 +2786,7 @@ var Document = function (_Component) {
     }
   }]);
   return Document;
-}(React.Component);
+}(Component);
 
 Document.propTypes = {
   frontendParams: propTypes.shape({
@@ -6515,7 +6512,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 
 
-var _react2 = _interopRequireDefault(React__default);
+var _react2 = _interopRequireDefault(React);
 
 
 
@@ -6621,7 +6618,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 
 
-var _react2 = _interopRequireDefault(React__default);
+var _react2 = _interopRequireDefault(React);
 
 
 
@@ -6741,7 +6738,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 
 
-var _react2 = _interopRequireDefault(React__default);
+var _react2 = _interopRequireDefault(React);
 
 
 
@@ -7458,18 +7455,18 @@ var QueryBuilder = function (_React$Component) {
     key: 'render',
     value: function render() {
 
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'queryBuilder' },
-        React__default.createElement(
+        React.createElement(
           'h1',
           null,
           'Query Builder'
         ),
-        React__default.createElement(
+        React.createElement(
           reactSplitPane,
           { split: 'horizontal', defaultSize: 300 },
-          React__default.createElement(AceEditor, {
+          React.createElement(AceEditor, {
             value: this.state.sql,
             mode: 'mysql',
             theme: 'xcode',
@@ -7487,17 +7484,17 @@ var QueryBuilder = function (_React$Component) {
               tabSize: 2
             }
           }),
-          React__default.createElement(
+          React.createElement(
             'div',
             null,
-            React__default.createElement('br', null),
-            React__default.createElement(Document, { frontendParams: { documentName: "queryBuilder-table" } }),
-            React__default.createElement(
+            React.createElement('br', null),
+            React.createElement(Document, { frontendParams: { documentName: "queryBuilder-table" } }),
+            React.createElement(
               'h2',
               null,
               'Final sql'
             ),
-            React__default.createElement(
+            React.createElement(
               'pre',
               null,
               this.state.finalSql
@@ -7509,7 +7506,7 @@ var QueryBuilder = function (_React$Component) {
     }
   }]);
   return QueryBuilder;
-}(React__default.Component);
+}(React.Component);
 
 var action$12 = function action(documentName, params) {
   var requestParams = {
@@ -7567,22 +7564,22 @@ var HelpInfo = function (_Component) {
     key: 'render',
     value: function render() {
       if (this.props.value) {
-        return React__default.createElement(
+        return React.createElement(
           'div',
           { className: 'helpInfo clearfix' },
-          React__default.createElement(
-            reactstrap.Button,
+          React.createElement(
+            Button,
             { color: 'info', className: classNames('btn-sm', this.props.className),
               onClick: this.helpCollapseToggle },
             be5.messages.helpInfo
           ),
-          React__default.createElement(
-            reactstrap.Collapse,
+          React.createElement(
+            Collapse,
             { isOpen: this.state.isOpen, tag: this.props.tag },
-            React__default.createElement(
+            React.createElement(
               'div',
               { className: 'alert alert-success max-width-970', role: 'alert' },
-              React__default.createElement(Document, { frontendParams: { documentName: this.props.documentName } })
+              React.createElement(Document, { frontendParams: { documentName: this.props.documentName } })
             )
           )
         );
@@ -7592,7 +7589,7 @@ var HelpInfo = function (_Component) {
     }
   }]);
   return HelpInfo;
-}(React.Component);
+}(Component);
 
 HelpInfo.propTypes = {
   value: propTypes.string,
@@ -7662,12 +7659,12 @@ var TableForm = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'table-form' },
-        React__default.createElement(Document, { frontendParams: { documentName: "table", operationDocumentName: "form" } }),
-        React__default.createElement(HelpInfo, { value: this.props.value.data.attributes.layout.helpInfo }),
-        React__default.createElement(Document, { frontendParams: { documentName: "form" } })
+        React.createElement(Document, { frontendParams: { documentName: "table", operationDocumentName: "form" } }),
+        React.createElement(HelpInfo, { value: this.props.value.data.attributes.layout.helpInfo }),
+        React.createElement(Document, { frontendParams: { documentName: "form" } })
       );
     }
   }, {
@@ -7679,7 +7676,7 @@ var TableForm = function (_React$Component) {
     }
   }]);
   return TableForm;
-}(React__default.Component);
+}(React.Component);
 
 tablesCollection.registerTable('tableForm', TableForm);
 
@@ -7694,18 +7691,18 @@ var TableFormRow = function (_TableForm) {
   createClass(TableFormRow, [{
     key: 'render',
     value: function render() {
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'row' },
-        React__default.createElement(
+        React.createElement(
           'div',
           { className: 'col-lg-6' },
-          React__default.createElement(Document, { frontendParams: { documentName: "table", operationDocumentName: "form" } })
+          React.createElement(Document, { frontendParams: { documentName: "table", operationDocumentName: "form" } })
         ),
-        React__default.createElement(
+        React.createElement(
           'div',
           { className: 'col-lg-6' },
-          React__default.createElement(Document, { frontendParams: { documentName: "form" } })
+          React.createElement(Document, { frontendParams: { documentName: "form" } })
         )
       );
     }
@@ -7726,11 +7723,11 @@ var FormTable = function (_TableForm) {
   createClass(FormTable, [{
     key: 'render',
     value: function render() {
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'form-table' },
-        React__default.createElement(Document, { frontendParams: { documentName: "form" } }),
-        React__default.createElement(Document, { frontendParams: { documentName: "table", operationDocumentName: "form" } })
+        React.createElement(Document, { frontendParams: { documentName: "form" } }),
+        React.createElement(Document, { frontendParams: { documentName: "table", operationDocumentName: "form" } })
       );
     }
   }]);
@@ -8541,11 +8538,11 @@ var MaskedInput = function (_React$Component) {
 
 
     var inputProps = _extends$1({}, cleanedProps, eventHandlers, { ref: ref, maxLength: maxLength, value: value, size: size, placeholder: placeholder });
-    return React__default.createElement('input', inputProps);
+    return React.createElement('input', inputProps);
   };
 
   return MaskedInput;
-}(React__default.Component);
+}(React.Component);
 
 MaskedInput.propTypes = {
   mask: propTypes.string.isRequired,
@@ -8633,13 +8630,13 @@ var Property = function (_Component) {
 
       var valueControl = Property.getControl(this.props, this.handleChange, this.handleChangeMulti, this.numericHandleChange, this.onDateChange);
 
-      var label = React__default.createElement(
+      var label = React.createElement(
         'label',
         { htmlFor: id, className: meta.type === "Boolean" ? 'form-check-label' : 'form-control-label' },
         meta.displayName || id
       );
 
-      var messageElement = meta.message ? React__default.createElement(
+      var messageElement = meta.message ? React.createElement(
         'span',
         { className: this.props.messageClassName || "form-control-feedback" },
         meta.message
@@ -8658,10 +8655,10 @@ var Property = function (_Component) {
       var classes = classNames(classNameForm, hasStatusClasses, { 'required': !meta.canBeNull });
 
       if (meta.type === "Boolean") {
-        return React__default.createElement(
+        return React.createElement(
           'div',
           { className: outerClasses },
-          React__default.createElement(
+          React.createElement(
             'div',
             { className: classes },
             valueControl,
@@ -8670,20 +8667,20 @@ var Property = function (_Component) {
           )
         );
       } else if (meta.labelField) {
-        return React__default.createElement(
+        return React.createElement(
           'div',
           { className: classNames('form-group property property-label', meta.cssClasses || 'col-lg-12', hasStatusClasses) },
           valueControl
         );
       } else {
-        return React__default.createElement(
+        return React.createElement(
           'div',
           { className: outerClasses },
-          React__default.createElement(
+          React.createElement(
             'div',
             { className: classes },
             label,
-            React__default.createElement(
+            React.createElement(
               'div',
               { className: 'controls' },
               valueControl,
@@ -8740,7 +8737,7 @@ var Property = function (_Component) {
 
       var controls = {
         Boolean: function Boolean() {
-          return React__default.createElement('input', { type: 'checkbox', id: id, key: id, checked: value === true || value === "true", onChange: handle,
+          return React.createElement('input', { type: 'checkbox', id: id, key: id, checked: value === true || value === "true", onChange: handle,
             className: props.controlClassName || 'form-check-input', disabled: meta.readOnly });
         },
         select: function select() {
@@ -8770,16 +8767,16 @@ var Property = function (_Component) {
           };
 
           if (extraAttrsMap.inputType === "Creatable") {
-            return React__default.createElement(Select.Creatable, selectProps);
+            return React.createElement(Creatable, selectProps);
           }
 
           if (extraAttrsMap.inputType === "VirtualizedSelect") {
-            return React__default.createElement(VirtualizedSelect, _extends({}, selectProps, { clearable: true, searchable: true, labelKey: 'label', valueKey: 'value' }));
+            return React.createElement(VirtualizedSelect, _extends({}, selectProps, { clearable: true, searchable: true, labelKey: 'label', valueKey: 'value' }));
           }
-          return React__default.createElement(Select__default, selectProps);
+          return React.createElement(Select, selectProps);
         },
         Date: function Date() {
-          return React__default.createElement(Datetime, { dateFormat: 'DD.MM.YYYY', value: moment(value === undefined ? "" : value),
+          return React.createElement(Datetime, { dateFormat: 'DD.MM.YYYY', value: moment(value === undefined ? "" : value),
             onChange: function onChange(v) {
               return onDateChange(v);
             }, id: id, key: id,
@@ -8795,28 +8792,28 @@ var Property = function (_Component) {
 
 
         textArea: function textArea() {
-          return React__default.createElement('textarea', { placeholder: meta.placeholder, id: id, rows: meta.rows || 3, cols: meta.columns, value: value === undefined ? "" : value,
+          return React.createElement('textarea', { placeholder: meta.placeholder, id: id, rows: meta.rows || 3, cols: meta.columns, value: value === undefined ? "" : value,
             onChange: handle, className: props.controlClassName || "form-control", disabled: meta.readOnly });
         },
         maskTest: function maskTest() {
-          return React__default.createElement(MaskedInput, { mask: Property.getMaskInput(meta.validationRules), onChange: handle, className: props.controlClassName || "form-control" });
+          return React.createElement(MaskedInput, { mask: Property.getMaskInput(meta.validationRules), onChange: handle, className: props.controlClassName || "form-control" });
         },
         textInput: function textInput() {
-          return React__default.createElement('input', { type: 'text', placeholder: meta.placeholder, id: id, key: id, value: value === undefined ? "" : value,
+          return React.createElement('input', { type: 'text', placeholder: meta.placeholder, id: id, key: id, value: value === undefined ? "" : value,
             onChange: handle, className: props.controlClassName || "form-control", disabled: meta.readOnly });
         },
         numberInput: function numberInput() {
           var numericProps = Property.getNumericProps(meta);
-          return React__default.createElement(NumericInput, _extends({}, numericProps, { placeholder: meta.placeholder, id: id, key: id, value: value,
+          return React.createElement(NumericInput, _extends({}, numericProps, { placeholder: meta.placeholder, id: id, key: id, value: value,
             onChange: numericHandleChange, style: false,
             className: props.controlClassName || "form-control", disabled: meta.readOnly }));
         },
         passwordField: function passwordField() {
-          return React__default.createElement('input', { type: 'password', placeholder: meta.placeholder, id: id, key: id, value: value === undefined ? "" : value,
+          return React.createElement('input', { type: 'password', placeholder: meta.placeholder, id: id, key: id, value: value === undefined ? "" : value,
             onChange: handle, className: props.controlClassName || "form-control", disabled: meta.readOnly });
         },
         file: function file() {
-          return React__default.createElement('input', { type: 'file', placeholder: meta.placeholder, id: id, key: id,
+          return React.createElement('input', { type: 'file', placeholder: meta.placeholder, id: id, key: id,
             className: props.controlClassName || "form-control", disabled: meta.readOnly,
             multiple: meta.multipleSelectionList,
             onChange: function onChange(e) {
@@ -8830,7 +8827,7 @@ var Property = function (_Component) {
         },
 
         WYSIWYG: function WYSIWYG() {
-          return React__default.createElement(CKEditor, { activeClass: 'p10', content: value,
+          return React.createElement(CKEditor, { activeClass: 'p10', content: value,
             events: {
               "change": function change(evt) {
                 handle({ value: evt.editor.getData() });
@@ -8841,9 +8838,9 @@ var Property = function (_Component) {
         },
         labelField: function labelField() {
           if (meta.rawValue) {
-            return React__default.createElement('div', { dangerouslySetInnerHTML: { __html: value } });
+            return React.createElement('div', { dangerouslySetInnerHTML: { __html: value } });
           } else {
-            return React__default.createElement(
+            return React.createElement(
               'label',
               { className: 'form-control-label' },
               value
@@ -8964,7 +8961,7 @@ var Property = function (_Component) {
     }
   }]);
   return Property;
-}(React.Component);
+}(Component);
 
 Property.defaultProps = {
   localization: {
@@ -9234,18 +9231,18 @@ var PropertySet = function (_Component) {
   createClass(PropertySet, [{
     key: '_createGroup',
     value: function _createGroup(curGroup, curGroupId, curGroupName) {
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'property-group col-12', key: curGroupId, ref: curGroupId },
-        React__default.createElement(
+        React.createElement(
           'div',
           { className: 'property-groop-box' },
-          React__default.createElement(
+          React.createElement(
             'h3',
             null,
             curGroupName
           ),
-          React__default.createElement(
+          React.createElement(
             'div',
             { className: 'row' },
             curGroup
@@ -9307,7 +9304,7 @@ var PropertySet = function (_Component) {
             curGroupName = newGroupName;
             curGroupId = newGroupId;
           }
-          var field = React__default.createElement(Property, _extends({}, itemProps, { onChange: this.props.onChange }));
+          var field = React.createElement(Property, _extends({}, itemProps, { onChange: this.props.onChange }));
           curGroup.push(field);
         }
       } catch (err) {
@@ -9327,7 +9324,7 @@ var PropertySet = function (_Component) {
 
       finishGroup();
 
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'property-set row' },
         fields
@@ -9335,7 +9332,7 @@ var PropertySet = function (_Component) {
     }
   }]);
   return PropertySet;
-}(React.Component);
+}(Component);
 
 PropertySet.defaultProps = {
   localization: {}
@@ -9347,10 +9344,10 @@ PropertySet.propTypes = {
   localization: propTypes.object
 };
 
-var Form = React__default.createClass({
+var Form = React.createClass({
   propTypes: {
-    value: React__default.PropTypes.object.isRequired,
-    frontendParams: React__default.PropTypes.object.isRequired
+    value: React.PropTypes.object.isRequired,
+    frontendParams: React.PropTypes.object.isRequired
   },
 
   displayName: 'Form',
@@ -9445,7 +9442,7 @@ var Form = React__default.createClass({
     if (this.state.hideActions === true) {
       return null;
     }
-    return React__default.createElement(
+    return React.createElement(
       'div',
       null,
       this._createOkAction(),
@@ -9454,7 +9451,7 @@ var Form = React__default.createClass({
     );
   },
   _createOkAction: function _createOkAction() {
-    return React__default.createElement(
+    return React.createElement(
       'button',
       { type: 'button', className: 'btn btn-primary', onClick: this.apply, disabled: !this.state.allFieldsFilled },
       be5.messages.Submit
@@ -9466,7 +9463,7 @@ var Form = React__default.createClass({
       return null;
     }
 
-    return React__default.createElement(
+    return React.createElement(
       'button',
       { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
           return history.back();
@@ -9487,7 +9484,7 @@ var Form = React__default.createClass({
     var errorModel = this.state.data.attributes.errorModel;
 
     if (errorModel) {
-      return React__default.createElement(ErrorPane, { value: { errors: [errorModel], meta: this.state.meta, links: {} } });
+      return React.createElement(ErrorPane, { value: { errors: [errorModel], meta: this.state.meta, links: {} } });
     } else {
       return null;
     }
@@ -9495,30 +9492,30 @@ var Form = React__default.createClass({
   render: function render() {
     var attributes = this.state.data.attributes;
 
-    return React__default.createElement(
+    return React.createElement(
       'div',
       { className: 'row' },
-      React__default.createElement(
+      React.createElement(
         'div',
         { className: 'formBox ' + (attributes.layout.formBoxCssClasses || 'col-12 max-width-970 formBoxDefault') },
-        React__default.createElement(
+        React.createElement(
           'h1',
           { className: 'form-component__title' },
           attributes.title
         ),
-        React__default.createElement(
+        React.createElement(
           'form',
           { onSubmit: this._applyOnSubmit },
-          React__default.createElement(PropertySet, { bean: attributes.bean, onChange: this._onFieldChange, localization: be5.messages.property }),
-          React__default.createElement(
+          React.createElement(PropertySet, { bean: attributes.bean, onChange: this._onFieldChange, localization: be5.messages.property }),
+          React.createElement(
             'div',
             { className: 'formActions' },
             this._createFormActions()
           )
         ),
-        React__default.createElement('br', null)
+        React.createElement('br', null)
       ),
-      React__default.createElement(
+      React.createElement(
         'div',
         { className: 'col-12' },
         this._getErrorPane()
@@ -9610,7 +9607,7 @@ var PropertyInput = function (_Component) {
 
       var controls = {
         Boolean: function Boolean() {
-          return React__default.createElement('input', { type: 'checkbox', id: id, key: id, value: value, checked: value === undefined ? "" : value, onChange: handle,
+          return React.createElement('input', { type: 'checkbox', id: id, key: id, value: value, checked: value === undefined ? "" : value, onChange: handle,
             className: attr.controlClassName || 'form-check-input', disabled: meta.readOnly });
         },
         select: function select() {
@@ -9625,7 +9622,7 @@ var PropertyInput = function (_Component) {
           } else {
             strValue = "" + value;
           }
-          return React__default.createElement(VirtualizedSelect, { ref: id, name: id, value: strValue, options: options,
+          return React.createElement(VirtualizedSelect, { ref: id, name: id, value: strValue, options: options,
             disabled: meta.readOnly, onChange: handle,
             multi: meta.multipleSelectionList, matchPos: 'any',
             clearable: true,
@@ -9653,7 +9650,7 @@ var PropertyInput = function (_Component) {
           //        }
         },
         Date: function Date() {
-          return React__default.createElement(Datetime, { dateFormat: 'DD.MM.YYYY', value: moment(value === undefined ? "" : value),
+          return React.createElement(Datetime, { dateFormat: 'DD.MM.YYYY', value: moment(value === undefined ? "" : value),
             onChange: function onChange(v) {
               return onDateChange(v);
             }, id: id, key: id,
@@ -9667,22 +9664,22 @@ var PropertyInput = function (_Component) {
         //        readOnly: () => this.createStatic(value)
         //      },
         textArea: function textArea() {
-          return React__default.createElement('textarea', { placeholder: meta.placeholder, id: id, rows: meta.rows || 3, cols: meta.columns, value: value === undefined ? "" : value,
+          return React.createElement('textarea', { placeholder: meta.placeholder, id: id, rows: meta.rows || 3, cols: meta.columns, value: value === undefined ? "" : value,
             onChange: handle, className: attr.controlClassName || "form-control", disabled: meta.readOnly });
         },
         textInput: function textInput() {
-          return React__default.createElement('input', { type: 'text', placeholder: meta.placeholder, id: id, key: id, value: value === undefined ? "" : value,
+          return React.createElement('input', { type: 'text', placeholder: meta.placeholder, id: id, key: id, value: value === undefined ? "" : value,
             onChange: handle, className: attr.controlClassName || "form-control", disabled: meta.readOnly });
         },
         passwordField: function passwordField() {
-          return React__default.createElement('input', { type: 'password', placeholder: meta.placeholder, id: id, key: id, value: value === undefined ? "" : value,
+          return React.createElement('input', { type: 'password', placeholder: meta.placeholder, id: id, key: id, value: value === undefined ? "" : value,
             onChange: handle, className: attr.controlClassName || "form-control", disabled: meta.readOnly });
         },
         labelField: function labelField() {
           if (meta.rawValue) {
-            return React__default.createElement('div', { dangerouslySetInnerHTML: { __html: value } });
+            return React.createElement('div', { dangerouslySetInnerHTML: { __html: value } });
           } else {
-            return React__default.createElement(
+            return React.createElement(
               'div',
               null,
               value
@@ -9754,7 +9751,7 @@ var PropertyInput = function (_Component) {
     }
   }]);
   return PropertyInput;
-}(React.Component);
+}(Component);
 
 PropertyInput.defaultProps = {
   localization: {
@@ -9800,11 +9797,11 @@ var SubmitOnChangeForm = function (_Form) {
     key: 'render',
     value: function render() {
       var attributes = this.state.data.attributes;
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: classNames('submit-onchange-form', attributes.cssClass) },
-        React__default.createElement(PropertyInput, { id: 0, bean: attributes.bean, localization: be5.messages.property, onChange: this._onFieldChangeAndSubmit }),
-        React__default.createElement(
+        React.createElement(PropertyInput, { id: 0, bean: attributes.bean, localization: be5.messages.property, onChange: this._onFieldChangeAndSubmit }),
+        React.createElement(
           'div',
           { className: 'col-12' },
           this._getErrorPane()
@@ -9834,32 +9831,32 @@ var ModalForm = function (_Form) {
     key: 'render',
     value: function render() {
       var attributes = this.state.data.attributes;
-      return React__default.createElement(
+      return React.createElement(
         'div',
         null,
-        React__default.createElement(
-          reactstrap.ModalHeader,
+        React.createElement(
+          ModalHeader,
           { tag: 'h5', toggle: function toggle() {
               return bus.fire("mainModalClose");
             } },
           attributes.title
         ),
-        React__default.createElement(
-          reactstrap.ModalBody,
+        React.createElement(
+          ModalBody,
           null,
-          React__default.createElement(
+          React.createElement(
             'form',
             { onSubmit: this._applyOnSubmit },
-            React__default.createElement(PropertySet, { bean: attributes.bean, onChange: this._onFieldChange, localization: be5.messages.property })
+            React.createElement(PropertySet, { bean: attributes.bean, onChange: this._onFieldChange, localization: be5.messages.property })
           )
         ),
-        React__default.createElement(
+        React.createElement(
           'div',
           { className: 'col-12' },
           this._getErrorPane()
         ),
-        React__default.createElement(
-          reactstrap.ModalFooter,
+        React.createElement(
+          ModalFooter,
           null,
           this._createOkAction()
         )
@@ -9985,13 +9982,13 @@ var Language = function (_Component) {
     key: 'render',
     value: function render() {
       if (this.props.selected) {
-        return React__default.createElement(
+        return React.createElement(
           'div',
           { className: "language selectedLanguage" },
           this.props.code
         );
       }
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: "language", onClick: this.onClick },
         this.props.code
@@ -9999,7 +9996,7 @@ var Language = function (_Component) {
     }
   }]);
   return Language;
-}(React.Component);
+}(Component);
 
 Language.propTypes = {
   onLanguageClick: propTypes.func.isRequired
@@ -10019,9 +10016,9 @@ var LanguageList = function (_Component2) {
       var selected = this.props.data.selected;
       var onLanguageClick = this.props.onLanguageClick;
       var languageNodes = this.props.data.languages.map(function (language) {
-        return React__default.createElement(Language, { key: language, code: language, selected: language === selected, onLanguageClick: onLanguageClick });
+        return React.createElement(Language, { key: language, code: language, selected: language === selected, onLanguageClick: onLanguageClick });
       });
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: "languageList" },
         languageNodes
@@ -10029,7 +10026,7 @@ var LanguageList = function (_Component2) {
     }
   }]);
   return LanguageList;
-}(React.Component);
+}(Component);
 
 var LanguageBox = function (_Component3) {
   inherits(LanguageBox, _Component3);
@@ -10067,15 +10064,15 @@ var LanguageBox = function (_Component3) {
   }, {
     key: 'render',
     value: function render() {
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: "languageBox" },
-        React__default.createElement(LanguageList, { data: this.state.data, onLanguageClick: this.changeLanguage })
+        React.createElement(LanguageList, { data: this.state.data, onLanguageClick: this.changeLanguage })
       );
     }
   }]);
   return LanguageBox;
-}(React.Component);
+}(Component);
 
 var Role = function (_Component) {
   inherits(Role, _Component);
@@ -10091,23 +10088,23 @@ var Role = function (_Component) {
       var _this2 = this;
 
       var id = this.props.name + "-checkbox";
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: "role" },
-        React__default.createElement('input', { type: 'checkbox', id: id, checked: this.props.state, onChange: function onChange() {
+        React.createElement('input', { type: 'checkbox', id: id, checked: this.props.state, onChange: function onChange() {
             return _this2.props.onChange();
           } }),
-        React__default.createElement(
+        React.createElement(
           'label',
           { htmlFor: id },
-          React__default.createElement('span', { className: "checkBox" }),
+          React.createElement('span', { className: "checkBox" }),
           this.props.name
         )
       );
     }
   }]);
   return Role;
-}(React.Component);
+}(Component);
 
 Role.propTypes = {
   onChange: propTypes.func.isRequired
@@ -10148,51 +10145,51 @@ var RoleBox = function (_Component2) {
       var _this4 = this;
 
       if (this.state.availableRoles.length < 1) {
-        return React__default.createElement('div', { className: 'roleBox' });
+        return React.createElement('div', { className: 'roleBox' });
       }
       var selectedRoles = this.state.selectedRoles;
       var roleNodes = this.state.availableRoles.map(function (role) {
-        return React__default.createElement(Role, { key: role, ref: role, name: role, state: selectedRoles.indexOf(role) !== -1, onChange: function onChange() {
+        return React.createElement(Role, { key: role, ref: role, name: role, state: selectedRoles.indexOf(role) !== -1, onChange: function onChange() {
             return _this4._onRoleChange(role);
           } });
       });
 
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'roleBox' },
-        React__default.createElement(
-          reactstrap.UncontrolledDropdown,
+        React.createElement(
+          UncontrolledDropdown,
           { size: 'sm' },
-          React__default.createElement(
-            reactstrap.DropdownToggle,
+          React.createElement(
+            DropdownToggle,
             { caret: true },
             be5.messages.roles
           ),
-          React__default.createElement(
-            reactstrap.DropdownMenu,
+          React.createElement(
+            DropdownMenu,
             null,
             roleNodes,
-            React__default.createElement(reactstrap.DropdownItem, { divider: true }),
-            React__default.createElement(
+            React.createElement(DropdownItem, { divider: true }),
+            React.createElement(
               'div',
               { className: 'roleBox_add-actions' },
               '\u0412\u044B\u0431\u0440\u0430\u0442\u044C:',
               ' ',
-              React__default.createElement(
-                reactstrap.Button,
+              React.createElement(
+                Button,
                 { onClick: this.handleSelectAll, color: 'primary', className: 'enable-all', size: 'sm' },
                 '\u0412\u0441\u0451'
               ),
               ' ',
-              React__default.createElement(
-                reactstrap.Button,
+              React.createElement(
+                Button,
                 { onClick: this.handleClear, color: 'secondary', className: 'disable-all', size: 'sm' },
                 '\u041D\u0438\u0447\u0435\u0433\u043E'
               )
             )
           )
         ),
-        React__default.createElement(
+        React.createElement(
           'div',
           { className: 'roleBox_username' },
           this.state.username
@@ -10239,18 +10236,18 @@ var RoleBox = function (_Component2) {
     }
   }]);
   return RoleBox;
-}(React.Component);
+}(Component);
 
 var img$1 = new Image();img$1.src = 'data:image/png;base64,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';
 
-var MenuFooter = React__default.createClass({
+var MenuFooter = React.createClass({
   displayName: 'MenuFooter',
 
   render: function render() {
-    return React__default.createElement(
+    return React.createElement(
       'div',
       { className: 'menuFooter' },
-      React__default.createElement('img', { src: img$1 })
+      React.createElement('img', { src: img$1 })
     );
   }
 });
@@ -10284,7 +10281,7 @@ var actions = {
   }
 };
 
-var MenuNode = React__default.createClass({
+var MenuNode = React.createClass({
   displayName: 'MenuNode',
 
   getInitialState: function getInitialState() {
@@ -10315,7 +10312,7 @@ var MenuNode = React__default.createClass({
 
     if (!hasChildren) {
       var key = 'menu node ' + this.props.data.title;
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'menuNode', key: key },
         this._getHead(),
@@ -10326,14 +10323,14 @@ var MenuNode = React__default.createClass({
     var nextLevel = this.props.level + 1;
     var children = this.props.data.children.map(function (child) {
       var childKey = 'li ' + child.title;
-      return React__default.createElement(
+      return React.createElement(
         'li',
         { key: childKey },
-        React__default.createElement(MenuNode, { key: child.title, data: child, level: nextLevel })
+        React.createElement(MenuNode, { key: child.title, data: child, level: nextLevel })
       );
     });
 
-    return React__default.DOM.div({ className: 'menuNode', key: 'menu node ' + this.props.data.title }, this._getHead(), this._getOperations(), React__default.DOM.ul({ key: 'ul ' + this.props.data.title }, children));
+    return React.DOM.div({ className: 'menuNode', key: 'menu node ' + this.props.data.title }, this._getHead(), this._getOperations(), React.DOM.ul({ key: 'ul ' + this.props.data.title }, children));
   },
   _onClick: function _onClick(event) {
     if (/^#/.test(this.state.href)) {
@@ -10342,10 +10339,10 @@ var MenuNode = React__default.createClass({
   },
   _getHead: function _getHead() {
     if (this.state.hasAction) {
-      return React__default.DOM.a({ href: this.state.href, className: this.state.classes, target: this.state.target,
+      return React.DOM.a({ href: this.state.href, className: this.state.classes, target: this.state.target,
         onClick: this._onClick, key: 'a ' + this.props.data.title }, this.props.data.title);
     } else {
-      return React__default.createElement(
+      return React.createElement(
         'span',
         { className: this.state.classes },
         this.props.data.title
@@ -10357,7 +10354,7 @@ var MenuNode = React__default.createClass({
 
     if (!hasOperations) {
       var key = 'operations ' + this.props.data.title;
-      return React__default.createElement('div', { key: key });
+      return React.createElement('div', { key: key });
     }
 
     return this.props.data.operations.map(function (operation) {
@@ -10365,10 +10362,10 @@ var MenuNode = React__default.createClass({
       var title = operation.title == 'Insert' ? '+' : operation.title;
       var opBoxKey = 'operation box ' + title;
       var opKey = 'operation a ' + title;
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'menuOperationBox', key: opBoxKey },
-        React__default.createElement(
+        React.createElement(
           'a',
           { href: href, className: 'menuOperation', key: opKey },
           '[',
@@ -10413,9 +10410,9 @@ var MenuBody = function (_Component) {
     value: function render() {
       var filteredRoot = this._getFilteredRoot();
       var rootNodes = filteredRoot.map(function (node) {
-        return React__default.createElement(MenuNode, { key: JSON.stringify(node), data: node, level: 1 });
+        return React.createElement(MenuNode, { key: JSON.stringify(node), data: node, level: 1 });
       });
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'menu' },
         rootNodes
@@ -10453,7 +10450,7 @@ var MenuBody = function (_Component) {
     }
   }]);
   return MenuBody;
-}(React.Component);
+}(Component);
 
 var MenuSearchField = function (_Component) {
   inherits(MenuSearchField, _Component);
@@ -10472,7 +10469,7 @@ var MenuSearchField = function (_Component) {
   createClass(MenuSearchField, [{
     key: 'render',
     value: function render() {
-      return React__default.createElement('input', { type: 'text', className: 'searchField form-control', onChange: this._handleChange, value: this.state.value, placeholder: be5.messages.filter });
+      return React.createElement('input', { type: 'text', className: 'searchField form-control', onChange: this._handleChange, value: this.state.value, placeholder: be5.messages.filter });
     }
   }, {
     key: '_handleChange',
@@ -10482,7 +10479,7 @@ var MenuSearchField = function (_Component) {
     }
   }]);
   return MenuSearchField;
-}(React.Component);
+}(Component);
 
 MenuSearchField.propTypes = {
   onChange: propTypes.func.isRequired
@@ -10505,12 +10502,12 @@ var Menu = function (_Component) {
   createClass(Menu, [{
     key: 'render',
     value: function render() {
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'menuContainer' },
-        React__default.createElement(MenuSearchField, { ref: 'searchfield', onChange: this._handleQueryChange }),
-        React__default.createElement(MenuBody, { ref: 'menubody' }),
-        React__default.createElement(MenuFooter, null)
+        React.createElement(MenuSearchField, { ref: 'searchfield', onChange: this._handleQueryChange }),
+        React.createElement(MenuBody, { ref: 'menubody' }),
+        React.createElement(MenuFooter, null)
       );
     }
   }, {
@@ -10526,7 +10523,7 @@ var Menu = function (_Component) {
     }
   }]);
   return Menu;
-}(React.Component);
+}(Component);
 
 var SideBar = function (_Component) {
   inherits(SideBar, _Component);
@@ -10539,13 +10536,13 @@ var SideBar = function (_Component) {
   createClass(SideBar, [{
     key: 'render',
     value: function render() {
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: "side" },
-        React__default.createElement(RoleBox, { ref: 'roleSelector' }),
-        React__default.createElement(Menu, { ref: 'menu' }),
-        React__default.createElement('hr', null),
-        React__default.createElement(LanguageBox, { ref: 'languageSelector' })
+        React.createElement(RoleBox, { ref: 'roleSelector' }),
+        React.createElement(Menu, { ref: 'menu' }),
+        React.createElement('hr', null),
+        React.createElement(LanguageBox, { ref: 'languageSelector' })
       );
     }
   }, {
@@ -10558,10 +10555,10 @@ var SideBar = function (_Component) {
     }
   }]);
   return SideBar;
-}(React.Component);
+}(Component);
 
 // Based on https://github.com/tomkp/react-split-pane
-var Pane$1 = React__default.createClass({
+var Pane$1 = React.createClass({
   displayName: "SplitPane-Pane",
 
   getInitialState: function getInitialState() {
@@ -10591,25 +10588,25 @@ var Pane$1 = React__default.createClass({
       }
       style.flex = 'none';
     }
-    return React__default.DOM.div({ className: classes.join(' '), style: style }, this.props.children);
+    return React.DOM.div({ className: classes.join(' '), style: style }, this.props.children);
   }
 });
 
-var Resizer$1 = React__default.createClass({ displayName: "SplitPane-Resizer",
+var Resizer$1 = React.createClass({ displayName: "SplitPane-Resizer",
   handleDown: function handleDown(event) {
     this.props.down(event);
   },
   render: function render() {
     var split = this.props.split;
     var classes = ['Resizer', split];
-    return React__default.DOM.span({ className: classes.join(' '), onMouseDown: this.handleDown });
+    return React.DOM.span({ className: classes.join(' '), onMouseDown: this.handleDown });
   }
 });
 
-var SplitPane$3 = React__default.createClass({ displayName: "SplitPane",
+var SplitPane$3 = React.createClass({ displayName: "SplitPane",
   propTypes: {
-    minSize: React__default.PropTypes.number,
-    split: React__default.PropTypes.string
+    minSize: React.PropTypes.number,
+    split: React.PropTypes.string
   },
 
   getInitialState: function getInitialState() {
@@ -10724,13 +10721,13 @@ var SplitPane$3 = React__default.createClass({ displayName: "SplitPane",
     var children = this.props.children;
     var child0 = children[0];
     var child1 = children[1];
-    elements.push(React__default.createElement(Pane$1, { ref: "pane1", key: "pane1", split: split, classes: "pane1" }, child0));
-    elements.push(React__default.createElement(Resizer$1, { ref: "resizer", key: "resizer", down: this.down, split: split }));
-    elements.push(React__default.createElement(Pane$1, { ref: "pane2", key: "pane2", split: split, classes: "pane2" }, child1));
+    elements.push(React.createElement(Pane$1, { ref: "pane1", key: "pane1", split: split, classes: "pane1" }, child0));
+    elements.push(React.createElement(Resizer$1, { ref: "resizer", key: "resizer", down: this.down, split: split }));
+    elements.push(React.createElement(Pane$1, { ref: "pane2", key: "pane2", split: split, classes: "pane2" }, child1));
 
     var classes = ['SplitPane', split];
 
-    return React__default.DOM.div({ className: classes.join(' '), style: style, ref: "splitPane" }, elements);
+    return React.DOM.div({ className: classes.join(' '), style: style, ref: "splitPane" }, elements);
   }
 });
 
@@ -10898,7 +10895,7 @@ var SAlertContentTmpl = createCommonjsModule(function (module, exports) {
     if (typeof undefined === "function" && undefined.amd) {
         undefined(['exports', 'react', 'prop-types'], factory);
     } else {
-        factory(exports, React__default, propTypes);
+        factory(exports, React, propTypes);
     }
 })(commonjsGlobal, function (exports, _react, _propTypes) {
     Object.defineProperty(exports, "__esModule", {
@@ -11011,7 +11008,7 @@ var SAlertContent = createCommonjsModule(function (module, exports) {
     if (typeof undefined === "function" && undefined.amd) {
         undefined(['exports', 'react', 'react-dom', 'prop-types', './s-alert-parts/s-alert-tools', './s-alert-parts/s-alert-store', './SAlertContentTmpl'], factory);
     } else {
-        factory(exports, React__default, ReactDOM, propTypes, sAlertTools, sAlertStore, SAlertContentTmpl);
+        factory(exports, React, ReactDOM, propTypes, sAlertTools, sAlertStore, SAlertContentTmpl);
     }
 })(commonjsGlobal, function (exports, _react, _reactDom, _propTypes, _sAlertTools, _sAlertStore, _SAlertContentTmpl) {
     Object.defineProperty(exports, "__esModule", {
@@ -11225,7 +11222,7 @@ var sAlertDataPrep = createCommonjsModule(function (module, exports) {
     if (typeof undefined === "function" && undefined.amd) {
         undefined(['exports', 'react', 'react-dom', '../SAlertContent', './s-alert-store', './s-alert-tools'], factory);
     } else {
-        factory(exports, React__default, ReactDOM, SAlertContent, sAlertStore, sAlertTools);
+        factory(exports, React, ReactDOM, SAlertContent, sAlertStore, sAlertTools);
     }
 })(commonjsGlobal, function (exports, _react, _reactDom, _SAlertContent, _sAlertStore, _sAlertTools) {
     Object.defineProperty(exports, "__esModule", {
@@ -11386,7 +11383,7 @@ var SAlert = createCommonjsModule(function (module, exports) {
     if (typeof undefined === "function" && undefined.amd) {
         undefined(['exports', 'react', './SAlertContent', 'prop-types', './s-alert-parts/s-alert-store', './s-alert-parts/s-alert-tools', './s-alert-parts/s-alert-data-prep'], factory);
     } else {
-        factory(exports, React__default, SAlertContent, propTypes, sAlertStore, sAlertTools, sAlertDataPrep);
+        factory(exports, React, SAlertContent, propTypes, sAlertStore, sAlertTools, sAlertDataPrep);
     }
 })(commonjsGlobal, function (exports, _react, _SAlertContent, _propTypes, _sAlertStore, _sAlertTools, _sAlertDataPrep) {
     Object.defineProperty(exports, "__esModule", {
@@ -11745,14 +11742,14 @@ var Be5Components = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      return React__default.createElement(
+      return React.createElement(
         'div',
         null,
-        React__default.createElement(reactSAlert, { stack: { limit: 10 } }),
-        React__default.createElement(
-          reactstrap.Modal,
+        React.createElement(reactSAlert, { stack: { limit: 10 } }),
+        React.createElement(
+          Modal,
           { isOpen: this.state.modal, toggle: this.close, className: this.props.className },
-          React__default.createElement(Document, { ref: 'document', frontendParams: { documentName: be5.mainModalDocumentName } })
+          React.createElement(Document, { ref: 'document', frontendParams: { documentName: be5.mainModalDocumentName } })
         )
       );
     }
@@ -11761,7 +11758,7 @@ var Be5Components = function (_Component) {
     value: function refresh() {}
   }]);
   return Be5Components;
-}(React.Component);
+}(Component);
 
 var Application = function (_Component) {
   inherits(Application, _Component);
@@ -11787,15 +11784,15 @@ var Application = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      return React__default.createElement(
+      return React.createElement(
         'div',
         null,
-        React__default.createElement(Be5Components, { ref: 'be5Components' }),
-        React__default.createElement(
+        React.createElement(Be5Components, { ref: 'be5Components' }),
+        React.createElement(
           SplitPane$3,
           { split: 'vertical', defaultSize: 280 },
-          React__default.createElement(SideBar, { ref: 'sideBar' }),
-          React__default.createElement(Document, { ref: 'document', frontendParams: { documentName: be5.mainDocumentName } })
+          React.createElement(SideBar, { ref: 'sideBar' }),
+          React.createElement(Document, { ref: 'document', frontendParams: { documentName: be5.mainDocumentName } })
         )
       );
     }
@@ -11807,7 +11804,7 @@ var Application = function (_Component) {
     }
   }]);
   return Application;
-}(React.Component);
+}(Component);
 
 var listeners$1 = [];
 
@@ -11874,14 +11871,14 @@ var Be5MenuHolder = {
   reload: load
 };
 
-var Be5Menu = React__default.createClass({
+var Be5Menu = React.createClass({
   displayName: 'Be5Menu',
 
   propTypes: {
     // true => default menu
     // false => user lists all possible items using Be5MenuItem
-    show: React__default.PropTypes.bool.isRequired,
-    branding: React__default.PropTypes.string
+    show: React.PropTypes.bool.isRequired,
+    branding: React.PropTypes.string
   },
 
   getInitialState: function getInitialState() {
@@ -11901,29 +11898,29 @@ var Be5Menu = React__default.createClass({
   },
   render: function render() {
     if (!this.props.show) {
-      return React__default.createElement('span', null);
+      return React.createElement('span', null);
     }
 
-    var rootMenuItems = this.state.loaded ? this._renderMenuItems(this.state.menu.root, false) : React__default.createElement(
+    var rootMenuItems = this.state.loaded ? this._renderMenuItems(this.state.menu.root, false) : React.createElement(
       'li',
       null,
       'Loading...'
     );
-    var branding = this.props.branding ? React__default.createElement(
+    var branding = this.props.branding ? React.createElement(
       'a',
       { className: 'navbar-brand', href: '#' },
       this.props.branding
     ) : undefined;
     var rightButtons = this._renderRightButtons();
 
-    return React__default.createElement(
+    return React.createElement(
       'nav',
       { className: 'navbar navbar-light bg-faded' },
-      React__default.createElement(
+      React.createElement(
         'div',
         { className: 'container' },
         branding,
-        React__default.createElement(
+        React.createElement(
           'ul',
           { className: 'nav navbar-nav' },
           rootMenuItems
@@ -11937,26 +11934,26 @@ var Be5Menu = React__default.createClass({
       return undefined;
     }
     if (!this.state.menu.loggedIn) {
-      return React__default.createElement(
+      return React.createElement(
         'form',
         { className: 'form-inline pull-right' },
-        React__default.createElement(
+        React.createElement(
           'a',
           { className: 'btn btn-secondary', role: 'button', href: '#!login' },
           'Sign in'
         ),
         ' ',
-        React__default.createElement(
+        React.createElement(
           'a',
           { className: 'btn btn-primary', role: 'button', href: '#!register' },
           'Sign up'
         )
       );
     }
-    return React__default.createElement(
+    return React.createElement(
       'form',
       { className: 'form-inline pull-right' },
-      React__default.createElement(
+      React.createElement(
         'a',
         { className: 'btn btn-secondary', role: 'button', href: '#!logout' },
         'Log out'
@@ -11978,10 +11975,10 @@ var Be5Menu = React__default.createClass({
 
         var liClass = inDropdown ? '' : 'nav-item';
         var aClass = inDropdown ? 'dropdown-item' : 'nav-link';
-        return React__default.createElement(
+        return React.createElement(
           'li',
           { className: liClass, key: target + href },
-          React__default.createElement(
+          React.createElement(
             'a',
             { className: aClass, href: href, target: target },
             item.title
@@ -11991,15 +11988,15 @@ var Be5Menu = React__default.createClass({
 
       var dropdownMenuItems = _this._renderMenuItems(item.children, true);
 
-      return React__default.createElement(
+      return React.createElement(
         'li',
         { className: 'nav-item dropdown', key: item.title },
-        React__default.createElement(
+        React.createElement(
           'a',
           { className: 'nav-link dropdown-toggle', href: '#', 'data-toggle': 'dropdown', 'aria-haspopup': 'true', 'aria-expanded': 'false', role: 'button' },
           item.title
         ),
-        React__default.createElement(
+        React.createElement(
           'ul',
           { className: 'dropdown-menu' },
           dropdownMenuItems
@@ -12015,13 +12012,13 @@ var Be5Menu = React__default.createClass({
   }
 });
 
-var Be5MenuItem = React__default.createClass({
+var Be5MenuItem = React.createClass({
   displayName: 'Be5MenuItem',
 
   propTypes: {
-    entity: React__default.PropTypes.string,
-    view: React__default.PropTypes.string,
-    op: React__default.PropTypes.string
+    entity: React.PropTypes.string,
+    view: React.PropTypes.string,
+    op: React.PropTypes.string
   },
 
   getInitialState: function getInitialState() {
@@ -12033,14 +12030,14 @@ var Be5MenuItem = React__default.createClass({
   },
   render: function render() {
     if (!this.state.available) {
-      return React__default.createElement('span', null);
+      return React.createElement('span', null);
     }
 
     var _actions$parse = actions.parse(Be5MenuHolder.getMenu().find(this._getCoordinates()).action),
         href = _actions$parse.href,
         target = _actions$parse.target;
 
-    return React__default.createElement(
+    return React.createElement(
       'a',
       { className: 'menu-item', href: href, target: target },
       this.state.title
@@ -12076,49 +12073,49 @@ var Be5MenuItem = React__default.createClass({
   }
 });
 
-var Sorter = React__default.createClass({
+var Sorter = React.createClass({
   displayName: 'Sorter',
 
   propTypes: {
     /**
      * An array of columns with name and title.
      */
-    columns: React__default.PropTypes.array.isRequired,
+    columns: React.PropTypes.array.isRequired,
 
     /**
      * A callback to call when the user clicks a sorting button.
      */
-    onSelect: React__default.PropTypes.func.isRequired,
+    onSelect: React.PropTypes.func.isRequired,
 
     /**
      * A name of the soring column, or undefined.
      */
-    sortingColumnName: React__default.PropTypes.string,
+    sortingColumnName: React.PropTypes.string,
 
     /**
      * A way to sort, or undefined.
      */
-    sortingOrder: React__default.PropTypes.oneOf(['asc', 'desc'])
+    sortingOrder: React.PropTypes.oneOf(['asc', 'desc'])
   },
 
   render: function render() {
     if (this.props.columns.length === 0) {
-      return React__default.createElement('div', null);
+      return React.createElement('div', null);
     }
 
-    return React__default.createElement(
+    return React.createElement(
       'form',
       { className: 'form-inline' },
-      React__default.createElement(
+      React.createElement(
         'div',
         { className: 'form-group' },
-        React__default.createElement(
+        React.createElement(
           'label',
           null,
           'Sort by'
         ),
         ' ',
-        React__default.createElement(
+        React.createElement(
           'div',
           { className: 'btn-group btn-group-sm', role: 'group', 'aria-label': 'Sorting' },
           this.props.columns.map(this._renderColumn)
@@ -12140,12 +12137,12 @@ var Sorter = React__default.createClass({
       'fa-sort-asc': selected && asc,
       'fa-sort-desc': selected && !asc
     });
-    return React__default.createElement(
+    return React.createElement(
       'button',
       { type: 'button', className: klass, onClick: this._onSelect.bind(this, column) },
       column.title,
       ' ',
-      React__default.createElement('span', { className: iconClass })
+      React.createElement('span', { className: iconClass })
     );
   },
   _onSelect: function _onSelect(column) {
@@ -12153,7 +12150,7 @@ var Sorter = React__default.createClass({
   }
 });
 
-var TreeMenu = React__default.createClass({
+var TreeMenu = React.createClass({
   displayName: 'TreeMenu',
 
   propTypes: {
@@ -12161,24 +12158,24 @@ var TreeMenu = React__default.createClass({
      * Example:
      * [{ name: 'Menu', id: 1, children: [{ name: 'Child', id: 2 }] }]
      */
-    rootItems: React__default.PropTypes.array.isRequired,
+    rootItems: React.PropTypes.array.isRequired,
     /*
      * A node will be passed to the function.
      */
-    onItemSelect: React__default.PropTypes.func.isRequired,
+    onItemSelect: React.PropTypes.func.isRequired,
     /*
      * An item that should be highligted.
      */
-    activeItemId: React__default.PropTypes.string.isRequired
+    activeItemId: React.PropTypes.string.isRequired
   },
 
   render: function render() {
     var _this = this;
 
-    return React__default.createElement(
+    return React.createElement(
       'div',
       { className: 'tree-menu' },
-      React__default.createElement(
+      React.createElement(
         'ul',
         { className: 'tree-menu-node-children' },
         this.props.rootItems.map(function (node) {
@@ -12190,22 +12187,22 @@ var TreeMenu = React__default.createClass({
   _renderNode: function _renderNode(node) {
     var _this2 = this;
 
-    return React__default.createElement(
+    return React.createElement(
       'li',
       { className: 'tree-menu-node', key: node.name },
-      React__default.createElement(
+      React.createElement(
         'div',
         { className: 'tree-menu-node-title' },
-        React__default.createElement(
+        React.createElement(
           'a',
           { role: 'button', className: 'tree-menu-node-link' + (node.id === this.props.activeItemId ? ' active' : ''), href: 'javascript:void(0);', onClick: this._handleClick.bind(this, node) },
           node.name
         )
       ),
-      node.children ? React__default.createElement(
+      node.children ? React.createElement(
         'div',
         { className: 'tree-menu-node-children-container' },
-        React__default.createElement(
+        React.createElement(
           'ul',
           { className: 'tree-menu-node-children' },
           node.children.map(function (node) {
@@ -12524,17 +12521,17 @@ var FormWizard = function (_Component) {
       var _this2 = this;
 
       return this.props.steps.map(function (s, i) {
-        return React__default.createElement(
+        return React.createElement(
           'li',
           { className: _this2.getClassName("progtrckr", i), onClick: function onClick() {
               return _this2.jumpToStep(i);
             }, key: i, value: i },
-          React__default.createElement(
+          React.createElement(
             'em',
             null,
             i + 1
           ),
-          React__default.createElement('span', { dangerouslySetInnerHTML: { __html: _this2.props.steps[i].title } })
+          React.createElement('span', { dangerouslySetInnerHTML: { __html: _this2.props.steps[i].title } })
         )
         //{this.props.steps[i].name}
         ;
@@ -12566,22 +12563,22 @@ var FormWizard = function (_Component) {
       //compToRender = React.cloneElement(componentPointer, cloneExtensions);
       //{compToRender}
 
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'formWizard', onKeyDown: function onKeyDown(evt) {
             _this3.handleKeyDown(evt);
           } },
-        this.props.showSteps ? React__default.createElement(
+        this.props.showSteps ? React.createElement(
           'ol',
           { className: 'progtrckr clearfix' },
           this.renderSteps()
-        ) : React__default.createElement('span', null),
-        React__default.createElement(Document, { frontendParams: { documentName: this.props.documentName } }),
-        React__default.createElement('br', null),
-        React__default.createElement(
+        ) : React.createElement('span', null),
+        React.createElement(Document, { frontendParams: { documentName: this.props.documentName } }),
+        React.createElement('br', null),
+        React.createElement(
           'div',
           { style: this.props.showNavigation ? {} : this.hidden, className: 'footer-buttons' },
-          React__default.createElement(
+          React.createElement(
             'button',
             {
               className: classNames(props.backButtonCls, { disabled: !this.state.showPreviousBtn }),
@@ -12593,7 +12590,7 @@ var FormWizard = function (_Component) {
             this.props.backButtonText
           ),
           ' ',
-          React__default.createElement(
+          React.createElement(
             'button',
             {
               className: classNames(props.nextButtonCls, { disabled: !this.state.showNextBtn }),
@@ -12609,7 +12606,7 @@ var FormWizard = function (_Component) {
     }
   }]);
   return FormWizard;
-}(React.Component);
+}(Component);
 
 FormWizard.defaultProps = {
   showSteps: true,
@@ -12681,11 +12678,11 @@ var Navs = function (_React$Component) {
       var _this2 = this;
 
       return this.props.steps.map(function (s, i) {
-        return React__default.createElement(
-          reactstrap.NavItem,
+        return React.createElement(
+          NavItem,
           { key: "NavItem" + i },
-          React__default.createElement(
-            reactstrap.NavLink,
+          React.createElement(
+            NavLink,
             { href: '#', active: i === _this2.state.compState, onClick: function onClick() {
                 return _this2.setNavState(i);
               },
@@ -12706,24 +12703,24 @@ var Navs = function (_React$Component) {
         tag: this.props.tag
       };
 
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: 'navs-component' },
-        React__default.createElement(
-          reactstrap.Nav,
+        React.createElement(
+          Nav,
           navProps,
           this.renderSteps()
         ),
-        React__default.createElement(
+        React.createElement(
           'div',
           { className: 'tab-content' },
-          React__default.createElement(Document, { frontendParams: { documentName: this.props.documentName } })
+          React.createElement(Document, { frontendParams: { documentName: this.props.documentName } })
         )
       );
     }
   }]);
   return Navs;
-}(React__default.Component);
+}(React.Component);
 
 Navs.defaultProps = {
   startAtStep: 0,
@@ -12760,13 +12757,13 @@ var Properties = function (_Component) {
 
       var fields = this.props.bean.order.map(function (path, i) {
         if (_this2.props.ids === undefined || _this2.props.ids.includes(i)) {
-          return React__default.createElement(Property, _extends({}, Properties.get(path, _this2.props.bean, _this2.props.localization), { onChange: _this2.props.onChange }));
+          return React.createElement(Property, _extends({}, Properties.get(path, _this2.props.bean, _this2.props.localization), { onChange: _this2.props.onChange }));
         } else {
           return null;
         }
       });
 
-      return React__default.createElement(
+      return React.createElement(
         'div',
         { className: this.props.className },
         fields
@@ -12790,7 +12787,7 @@ var Properties = function (_Component) {
     }
   }]);
   return Properties;
-}(React.Component);
+}(Component);
 
 Properties.defaultProps = {
   className: "row",
@@ -12816,61 +12813,5 @@ Properties.propTypes = {
 // actions
 // services
 
-exports.be5 = be5;
-exports.be5init = be5init;
-exports.constants = Const;
-exports.preconditions = Preconditions;
-exports.settings = settings;
-exports.bus = bus;
-exports.changeDocument = changeDocument;
-exports.documentUtils = documentUtils;
-exports.http = http;
-exports.Application = Application;
-exports.Be5Menu = Be5Menu;
-exports.Be5MenuHolder = Be5MenuHolder;
-exports.Be5MenuItem = Be5MenuItem;
-exports.Document = Document;
-exports.HelpInfo = HelpInfo;
-exports.LanguageSelector = LanguageBox;
-exports.RoleSelector = RoleBox;
-exports.SideBar = SideBar;
-exports.Sorter = Sorter;
-exports.SplitPane = SplitPane$3;
-exports.StaticPage = StaticPage;
-exports.ErrorPane = ErrorPane;
-exports.TreeMenu = TreeMenu;
-exports.FormWizard = FormWizard;
-exports.Navs = Navs;
-exports.Form = Form;
-exports.SubmitOnChangeForm = SubmitOnChangeForm;
-exports.Table = Table;
-exports.QuickColumns = QuickColumns;
-exports.OperationBox = OperationBox;
-exports.FormTable = FormTable;
-exports.TableForm = TableForm;
-exports.TableFormRow = TableFormRow;
-exports.Menu = Menu;
-exports.MenuBody = MenuBody;
-exports.MenuSearchField = MenuSearchField;
-exports.MenuFooter = MenuFooter;
-exports.MenuNode = MenuNode;
-exports.Property = Property;
-exports.Properties = Properties;
-exports.PropertyInput = PropertyInput;
-exports.PropertySet = PropertySet;
-exports.formAction = action$2;
-exports.loginAction = action$4;
-exports.logoutAction = action$6;
-exports.staticAction = action$8;
-exports.tableAction = action$10;
-exports.action = actions;
-exports.forms = forms;
-exports.tables = Tables;
-exports.formsCollection = formsCollection;
-exports.tablesCollection = tablesCollection;
-exports.actionsCollection = actionsCollection;
-
-return exports;
-
-}({},React,reactstrap,ReactDOM,AceEditor,classNames,Datetime,moment,Select,VirtualizedSelect,NumericInput,CKEditor));
-//# sourceMappingURL=be5-react.js.map
+export { be5, be5init, Const as constants, Preconditions as preconditions, settings, bus, changeDocument, documentUtils, http, Application, Be5Menu, Be5MenuHolder, Be5MenuItem, Document, HelpInfo, LanguageBox as LanguageSelector, RoleBox as RoleSelector, SideBar, Sorter, SplitPane$3 as SplitPane, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, Form, SubmitOnChangeForm, Table, QuickColumns, OperationBox, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, Property, Properties, PropertyInput, PropertySet, action$2 as formAction, action$4 as loginAction, action$6 as logoutAction, action$8 as staticAction, action$10 as tableAction, actions as action, forms, Tables as tables, formsCollection, tablesCollection, actionsCollection };
+//# sourceMappingURL=be5-react.es.js.map
