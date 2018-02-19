@@ -10,6 +10,7 @@ import './actions/static.js';
 import './actions/table.js';
 import './actions/qBuilder.js';
 import './actions/text.js';
+import './actions/login.js';
 
 import './components/tables/TableForm';
 import './components/tables/TableFormRow';
@@ -23,6 +24,8 @@ import './components/forms/Form';
 
 const hashChange = function()
 {
+  bus.fire("mainModalClose");
+
   const state = documentState.get(be5.mainDocumentName);
 
   if(state.value.links !== undefined && "#!" + state.value.links.self === document.location.hash

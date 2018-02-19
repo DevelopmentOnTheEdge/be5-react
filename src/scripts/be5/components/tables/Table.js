@@ -250,16 +250,16 @@ class TableBox extends Component {
       }
     }
 
-    const hideControls = () => {
-      if ( $(_this.refs.table).find('.paging_simple_numbers span .paginate_button')
-        && $(_this.refs.table).find('.paging_simple_numbers span .paginate_button').length > 1) {
-        $(_this.refs.table).find('.dataTables_length').show();
-        $(_this.refs.table).find('.paging_simple_numbers').show()
-      } else {
-        $(_this.refs.table).find('.dataTables_length').hide();
-        $(_this.refs.table).find('.paging_simple_numbers').hide()
-      }
-    };
+    // const hideControls = () => {
+    //   if ( $(_this.refs.table).find('.paging_simple_numbers span .paginate_button')
+    //     && $(_this.refs.table).find('.paging_simple_numbers span .paginate_button').length > 1) {
+    //     $(_this.refs.table).find('.dataTables_length').show();
+    //     $(_this.refs.table).find('.paging_simple_numbers').show()
+    //   } else {
+    //     $(_this.refs.table).find('.dataTables_length').hide();
+    //     $(_this.refs.table).find('.paging_simple_numbers').hide()
+    //   }
+    // };
 
     let drawGrouping;
 

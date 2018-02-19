@@ -4,7 +4,8 @@ import Preconditions    from '../preconditions';
 import changeDocument   from '../core/changeDocument';
 import FinishedResult   from '../components/forms/FinishedResult';
 import StaticPage       from '../components/StaticPage';
-import formsCollection from './formsCollection.js';
+import ErrorPane        from '../components/ErrorPane';
+import formsCollection  from './formsCollection.js';
 import Table            from "../components/tables/Table";
 
 
@@ -43,13 +44,13 @@ export default
     };
 
     be5.net.request(action, requestParams, data => {
-      this._performOperationResult(data, frontendParams);
+      this._performOperationResult(data, frontendParams, params);
     },(data)=> {
       bus.fire("alert", {msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error'});
     });
   },
 
-  _performOperationResult(json, frontendParams)
+  _performOperationResult(json, frontendParams, applyParams)
   {
     const documentName = frontendParams.documentName;
 
@@ -69,6 +70,10 @@ export default
             return;
           }
 
+          if(frontendParams.onSuccess){
+            frontendParams.onSuccess(json, applyParams);
+          }
+
           if (attributes.status !== 'table' && frontendParams.parentDocumentName !== undefined
                                             && frontendParams.parentDocumentName !== frontendParams.documentName)
           {
@@ -79,10 +84,15 @@ export default
           switch (attributes.status) {
             case 'redirect':
               bus.fire("alert", {msg: be5.messages.successfullyCompleted, type: 'success'});
-              if(attributes.details === 'refreshAll')
+              if(attributes.details === 'refreshAll' || attributes.details === 'refreshAllAndGoBack')
               {
-                be5.url.set("");
+                if(attributes.details === 'refreshAll'){
+                  be5.url.set("");
+                }else{
+                  window.history.back();
+                }
                 bus.fire('LoggedIn');
+                if(documentName === be5.mainModalDocumentName)bus.fire("mainModalClose");
               }
               else if(attributes.details.startsWith("http://")
                       || attributes.details.startsWith("https://")
@@ -105,7 +115,7 @@ export default
             case 'finished':
               if(documentName === be5.mainModalDocumentName) {
                 bus.fire("alert", {msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success'});
-                bus.fire("mainModalToggle");
+                bus.fire("mainModalClose");
               }else{
                 changeDocument(documentName, {component: FinishedResult, value: json, frontendParams: frontendParams});
               }
@@ -119,7 +129,7 @@ export default
               };
               changeDocument(frontendParams.parentDocumentName, {component: Table, value: tableJson});
               if(documentName === be5.mainModalDocumentName) {
-                bus.fire("mainModalToggle");
+                bus.fire("mainModalClose");
               }
               return;
             default:
@@ -140,6 +150,8 @@ export default
     }else{
       const error = json.errors[0];
       bus.fire("alert", {msg: error.status + " "+ error.title, type: 'error'});
+
+      changeDocument(documentName, {component: ErrorPane, value: json, frontendParams: frontendParams});
     }
   },
 
@@ -179,6 +191,19 @@ export default
     {
       document.location.hash = '#!' + json.value.links.self;
     }
+  },
+
+  getOperationParams(url, values = {})
+  {
+    const attr = be5.url.parse(url);
+
+    return {
+      entity: attr.positional[1],
+      query: attr.positional[2],
+      operation: attr.positional[3],
+      values: values,
+      operationParams: attr.named
+    };
   }
 
 };

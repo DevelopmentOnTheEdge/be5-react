@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot 1`] = `
+<div
+  className="queryBuilder"
+>
+  <h1>
+    Query Builder
+  </h1>
+  <div
+    className="SplitPane  horizontal "
+    style={
+      Object {
+        "MozUserSelect": "text",
+        "WebkitUserSelect": "text",
+        "bottom": 0,
+        "display": "flex",
+        "flex": 1,
+        "flexDirection": "column",
+        "height": "100%",
+        "minHeight": "100%",
+        "msUserSelect": "text",
+        "outline": "none",
+        "overflow": "hidden",
+        "position": "absolute",
+        "top": 0,
+        "userSelect": "text",
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      className="Pane horizontal Pane1"
+      style={
+        Object {
+          "display": "flex",
+          "flex": "none",
+          "height": 300,
+          "outline": "none",
+          "position": "relative",
+        }
+      }
+    >
+      <div
+        id="UNIQUE_ID_OF_DIV"
+        style={
+          Object {
+            "height": "100%",
+            "width": "100%",
+          }
+        }
+      />
+    </div>
+    <span
+      className="Resizer horizontal "
+      onClick={[Function]}
+      onDoubleClick={[Function]}
+      onMouseDown={[Function]}
+      onTouchEnd={[Function]}
+      onTouchStart={[Function]}
+      style={Object {}}
+    />
+    <div
+      className="Pane horizontal Pane2"
+      style={
+        Object {
+          "flex": 1,
+          "outline": "none",
+          "position": "relative",
+        }
+      }
+    >
+      <div>
+        <br />
+        <div
+          className="document-content"
+          id="document-content___queryBuilder-table"
+        >
+          <div>
+            <span
+              className="document-reload float-right"
+              onClick={[Function]}
+            >
+              <img
+                alt="reload"
+                src={Object {}}
+                title="reload queryBuilder-table"
+              />
+            </span>
+            <div
+              className="table-component"
+            >
+              <h1
+                className="table-component__title"
+              >
+                Организации: Общие сведения
+              </h1>
+              <div>
+                <div
+                  className="operationList"
+                >
+                  <button
+                    className="btn btn-secondary btn-secondary-old btn-sm"
+                    onClick={[Function]}
+                  >
+                    Редактировать
+                  </button>
+                   
+                  <button
+                    className="btn btn-secondary btn-secondary-old btn-sm"
+                    onClick={[Function]}
+                  >
+                    Добавить
+                  </button>
+                </div>
+                <div
+                  id="quickColumns"
+                >
+                  <span>
+                    Другие колонки:
+                  </span>
+                  <span>
+                    <input
+                      checked={false}
+                      id="quick0"
+                      onChange={[Function]}
+                      type="checkbox"
+                    />
+                    <label
+                      className="rowIndex"
+                      htmlFor="quick0"
+                    >
+                      Наименование
+                       
+                    </label>
+                  </span>
+                </div>
+                <div
+                  className="scroll"
+                >
+                  <div />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h2>
+          Final sql
+        </h2>
+        <pre>
+          SELECT * FROM users
+        </pre>
+      </div>
+    </div>
+  </div>
+</div>
+`;

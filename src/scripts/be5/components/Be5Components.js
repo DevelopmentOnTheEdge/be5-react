@@ -14,24 +14,29 @@ class Be5Components extends Component
       modal: false
     };
 
-    this.toggle = this.toggle.bind(this);
+    //this.toggle = this.toggle.bind(this);
     this.open = this.open.bind(this);
+    this.close = this.close.bind(this);
 
     this.onChange = this.onChange.bind(this);
   }
 
-  toggle() {
-    this.setState({
-      modal: !this.state.modal
-    });
-  }
+  // toggle() {
+  //   this.setState({
+  //     modal: !this.state.modal
+  //   });
+  // }
 
   open() {
     this.setState({ modal: true });
   }
 
+  close() {
+    this.setState({ modal: false });
+  }
+
   componentDidMount() {
-    bus.listen("mainModalToggle", this.toggle );
+    bus.listen("mainModalClose", this.close );
     bus.listen("mainModalOpen", this.open );
 
     bus.listen("alert", data => {
@@ -58,7 +63,7 @@ class Be5Components extends Component
     return (
       <div>
         <Alert stack={{limit: 10}}/>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+        <Modal isOpen={this.state.modal} toggle={this.close} className={this.props.className}>
           <Document ref="document" frontendParams={{documentName: be5.mainModalDocumentName}}/>
         </Modal>
       </div>

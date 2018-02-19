@@ -16,6 +16,7 @@ class Application extends Component
   }
 
   componentDidMount() {
+    //TODO refactoring to "RefreshAll"
     bus.listen('LoggedOut', this.refresh);
     bus.listen('LoggedIn', this.refresh);
     bus.listen('LanguageChanged', this.refresh);
