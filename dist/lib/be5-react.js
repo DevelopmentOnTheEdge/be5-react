@@ -1,22 +1,19 @@
-'use strict';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('reactstrap'), require('react-dom'), require('react-ace'), require('classnames'), require('react-datetime'), require('moment'), require('react-select'), require('react-virtualized-select'), require('react-numeric-input'), require('react-ckeditor-component')) :
+	typeof define === 'function' && define.amd ? define(['exports', 'react', 'reactstrap', 'react-dom', 'react-ace', 'classnames', 'react-datetime', 'moment', 'react-select', 'react-virtualized-select', 'react-numeric-input', 'react-ckeditor-component'], factory) :
+	(factory((global['dist/lib/be5-react'] = global['dist/lib/be5-react'] || {}, global['dist/lib/be5-react'].es = global['dist/lib/be5-react'].es || {}, global['dist/lib/be5-react'].es.js = {}),global.React,global.reactstrap,global.ReactDOM,global.AceEditor,global.classNames,global.Datetime,global.moment,global.Select,global.VirtualizedSelect,global.NumericInput,global.CKEditor));
+}(this, (function (exports,React,reactstrap,ReactDOM,AceEditor,classNames,Datetime,moment,Select,VirtualizedSelect,NumericInput,CKEditor) { 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var React = require('react');
-var React__default = _interopDefault(React);
-var reactstrap = require('reactstrap');
-var ReactDOM = _interopDefault(require('react-dom'));
-var AceEditor = _interopDefault(require('react-ace'));
-var classNames = _interopDefault(require('classnames'));
-var Datetime = _interopDefault(require('react-datetime'));
-var moment = _interopDefault(require('moment'));
-var Select = require('react-select');
-var Select__default = _interopDefault(Select);
-var VirtualizedSelect = _interopDefault(require('react-virtualized-select'));
-var NumericInput = _interopDefault(require('react-numeric-input'));
-var CKEditor = _interopDefault(require('react-ckeditor-component'));
+var React__default = 'default' in React ? React['default'] : React;
+ReactDOM = ReactDOM && ReactDOM.hasOwnProperty('default') ? ReactDOM['default'] : ReactDOM;
+AceEditor = AceEditor && AceEditor.hasOwnProperty('default') ? AceEditor['default'] : AceEditor;
+classNames = classNames && classNames.hasOwnProperty('default') ? classNames['default'] : classNames;
+Datetime = Datetime && Datetime.hasOwnProperty('default') ? Datetime['default'] : Datetime;
+moment = moment && moment.hasOwnProperty('default') ? moment['default'] : moment;
+var Select__default = 'default' in Select ? Select['default'] : Select;
+VirtualizedSelect = VirtualizedSelect && VirtualizedSelect.hasOwnProperty('default') ? VirtualizedSelect['default'] : VirtualizedSelect;
+NumericInput = NumericInput && NumericInput.hasOwnProperty('default') ? NumericInput['default'] : NumericInput;
+CKEditor = CKEditor && CKEditor.hasOwnProperty('default') ? CKEditor['default'] : CKEditor;
 
 var settings = {};
 
@@ -12874,4 +12871,8 @@ exports.tables = Tables;
 exports.formsCollection = formsCollection;
 exports.tablesCollection = tablesCollection;
 exports.actionsCollection = actionsCollection;
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+})));
 //# sourceMappingURL=be5-react.js.map

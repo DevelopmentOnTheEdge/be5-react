@@ -21,7 +21,7 @@ export default {
   output: [
     {
       file: pkg.main,
-      format: 'cjs'
+      format: 'umd'
     },
     {
       file: pkg.module,
