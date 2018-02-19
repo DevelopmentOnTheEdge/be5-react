@@ -65,6 +65,14 @@ class Document extends Component
     const loadingItem = null;//this.state.loading
       //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
 
+    const devRole = false;//todo
+    const devTools = (
+      <span onClick={this.refresh} className={"document-reload float-right"}>
+        <img src={reloadImg} alt={be5.messages.reload}
+             title={be5.messages.reload + " " + this.props.frontendParams.documentName}/>
+      </span>
+    );
+
     let contentItem = null;
     if(this.state.value)be5.ui.setTitle(this.state.value.title);
 
@@ -78,10 +86,7 @@ class Document extends Component
         const DocumentContent = this.state.component;
         contentItem = (
           <div>
-            <span onClick={this.refresh} className={"document-reload float-right"}>
-              <img src={reloadImg} alt={be5.messages.reload}
-                   title={be5.messages.reload + " " + this.props.frontendParams.documentName}/>
-            </span>
+            {devRole ? devTools : null}
             <DocumentContent
                   ref="documentContent"
                   value={this.state.value}
