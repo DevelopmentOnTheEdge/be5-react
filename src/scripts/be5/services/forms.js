@@ -185,11 +185,12 @@ export default
     }
   },
 
-  changeLocationHash(json)
+  changeLocationHash(props)
   {
-    if(json.frontendParams.documentName === be5.mainDocumentName && document.location.hash !== '#!' + json.value.links.self)
+    if(props.frontendParams && props.frontendParams.documentName === be5.mainDocumentName
+                            && document.location.hash !== '#!' + props.value.links.self)
     {
-      document.location.hash = '#!' + json.value.links.self;
+      document.location.hash = '#!' + props.value.links.self;
     }
   },
 
