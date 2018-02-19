@@ -35,7 +35,8 @@ let config = {
         filename: fileName,
         library:  '[name]',
         chunkFilename : 'static/be5-[name]-[id].js',
-        libraryTarget: 'umd'
+        libraryTarget: 'umd',
+        umdNamedDefine: true
     },
     resolve: {
         extensions: ['.js', '.jsx']
