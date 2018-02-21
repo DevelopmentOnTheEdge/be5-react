@@ -4,7 +4,8 @@ import commonjs from 'rollup-plugin-commonjs'
 //import globals from 'rollup-plugin-node-globals'
 import replace from 'rollup-plugin-replace'
 import resolve from 'rollup-plugin-node-resolve'
-import image   from 'rollup-plugin-image';
+//import image   from 'rollup-plugin-image';
+import imageBase64 from 'rollup-plugin-image-base64';
 import postcss from 'rollup-plugin-postcss'
 //import inject  from 'rollup-plugin-inject'
 
@@ -41,7 +42,7 @@ export default {
       main: true,
       browser: true,
     }),
-    image()
+    imageBase64()
   ],
   sourcemap: true
 }
