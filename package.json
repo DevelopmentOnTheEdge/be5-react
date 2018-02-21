@@ -14,9 +14,9 @@
     "coveralls": "npm run-script coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "create-index": "create-index ./src/scripts/be5/ -r",
     "libBabel": "babel src -d dist/lib --presets es2015 --plugins syntax-dynamic-import",
-    "libOld": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.lib",
+    "lib": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.lib",
     "up": "npm version patch && npm publish",
-    "lib": "rollup -c rollup.config.js"
+    "libNew": "rollup -c rollup.config.js"
   },
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
