@@ -1,6 +1,6 @@
 {
   "name": "be5-react",
-  "version": "0.1.51",
+  "version": "0.1.48",
   "description": "React client UI for be5 server api",
   "main": "dist/lib/static/be5.js",
   "scripts": {
@@ -14,10 +14,9 @@
     "coveralls": "npm run-script coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "create-index": "create-index ./src/scripts/be5/ -r",
     "libBabel": "babel src -d dist/lib --presets es2015 --plugins syntax-dynamic-import",
-    "libOld": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.lib",
+    "lib": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.lib",
     "up": "npm version patch && npm publish",
-    "lib": "rollup -c rollup.config.js",
-    "dev2": "rollup -c -w rollup.config.js"
+    "libNew": "rollup -c rollup.config.js"
   },
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
@@ -89,7 +88,6 @@
     "rollup-plugin-inject": "^2.0.0",
     "rollup-plugin-node-globals": "1.1.0",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-peer-deps-external": "^2.0.0",
     "rollup-plugin-postcss": "^1.2.8",
     "rollup-plugin-replace": "2.0.0",
     "rollup-plugin-uglify": "2.0.1",
