@@ -6,7 +6,7 @@ import { Collapse, Button } from 'reactstrap';
 import classnames           from 'classnames';
 
 
-class HelpInfo extends Component
+class HelpInfo extends React.Component
 {
   constructor(props){
     super();

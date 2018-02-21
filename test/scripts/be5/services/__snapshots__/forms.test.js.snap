@@ -6,16 +6,6 @@ exports[`performOperationResult finished 1`] = `
   id="document-content___test"
 >
   <div>
-    <span
-      className="document-reload float-right"
-      onClick={[Function]}
-    >
-      <img
-        alt="reload"
-        src={Object {}}
-        title="reload test"
-      />
-    </span>
     <div
       className="finishedResult"
     >

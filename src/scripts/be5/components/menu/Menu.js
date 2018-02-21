@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import MenuFooter  from './MenuFooter';
 import MenuBody    from './MenuBody';
 import MenuSearchField from './MenuSearchField';
-import '../../../../css/menu.css';
 
 
-class Menu extends Component{
+class Menu extends React.Component{
   constructor(props) {
     super(props);
     this.state = {};

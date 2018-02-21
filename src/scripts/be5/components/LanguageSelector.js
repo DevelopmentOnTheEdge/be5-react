@@ -1,10 +1,9 @@
 import PropTypes            from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import be5 from '../be5';
- 
-import '../../../css/languageSelector.css';
 
-class Language extends Component {
+
+class Language extends React.Component {
   constructor(props) {
     super(props);
   };
@@ -29,7 +28,7 @@ Language.propTypes = {
   onLanguageClick: PropTypes.func.isRequired
 };
 
-class LanguageList extends Component {
+class LanguageList extends React.Component {
   constructor(props) {
     super(props);
   };
@@ -46,7 +45,7 @@ class LanguageList extends Component {
   }
 }
 
- class LanguageBox extends Component {
+ class LanguageBox extends React.Component {
   constructor(props) {
     super(props);
 

@@ -2,7 +2,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import '../../../css/splitPane.css';
 
 var Pane = React.createClass({
   displayName: "SplitPane-Pane",

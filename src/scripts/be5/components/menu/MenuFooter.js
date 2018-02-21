@@ -1,6 +1,5 @@
 import React from 'react';
 
-import '../../../../css/menuFooter.css';
 import logoBe from '../../../../images/logo-be.png';
 
 export default React.createClass({

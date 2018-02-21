@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import $                  from 'jquery';
 
 
-class QuickColumns extends Component
+class QuickColumns extends React.Component
 {
   constructor(props) {
     super(props);

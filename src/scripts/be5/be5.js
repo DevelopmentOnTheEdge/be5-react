@@ -1,6 +1,4 @@
 import React    from 'react';
-import $        from 'jquery';
-import _        from 'underscore';
 import Settings from './settings';
 import Const    from './constants';
 import utils    from './utils';
@@ -17,7 +15,7 @@ const be5 = {
     URL_PREFIX : '/api/',
     APPLICATION_PREFIX : '/',
   },
-  
+
   messages: messages.en,
   mainDocumentName: 'MainDocument',
   mainModalDocumentName: 'MainModalDocument',
@@ -74,12 +72,12 @@ const be5 = {
         bus.fire('LanguageChanged');
       }
     },
-    
+
     msg(key) {
       var value = be5.messages[key];
       return value === undefined ? key : value;
     },
-    
+
     addMessages(loc, msgs) {
       for(var key in msgs) {
         messages[loc][key] = msgs[key];
@@ -90,12 +88,12 @@ const be5 = {
         }
       }
     },
-    
+
     get() {
       return be5.locale.value;
     }
   },
-  
+
   ui: {
     //documentTypes: {},
     /*
@@ -105,11 +103,11 @@ const be5 = {
 //    registerDocumentType(type, creator) {
 //      be5.ui.documentTypes[type] = creator;
 //    },
-    
+
 //    createDocument(type, props) {
 //      return be5.ui.documentTypes[type](props);
 //    },
-    
+
     setTitle(docTitle) {
       let titleComponents = [docTitle, be5.appInfo.title];
       document.title = titleComponents.filter(function(c) {
@@ -132,24 +130,24 @@ const be5 = {
         be5.url.process(be5.mainDocumentName, url);
       }
     },
-    
+
     empty() {
       let url = document.location.hash;
       return url === '' || url === '#' || url === '!' || url === '#!';
     },
-    
+
     clear() {
       document.location.hash = '';
     },
-    
+
     // escapeComponent(hashUriComponent) {
     //   return encodeURIComponent(hashUriComponent);
     // },
-    
+
     create(action, positional = [], named = {}) {
       return be5.url.form([action].concat(positional), named);
     },
-    
+
     form(positional, named = {}) {
       const res = [];
       for(let i=0; i<positional.length; i++) {
@@ -160,12 +158,12 @@ const be5 = {
       }
       return res.join('/');
     },
-    
+
     parse(url) {
       const segments = url.split('/');
       const positional = [];
       const named = [];
-      
+
       for (let i = 0; i < segments.length; i++) {
         const s = segments[i];
         if (s.indexOf('=') === -1) {
@@ -174,10 +172,10 @@ const be5 = {
           named.push(s.split('='));
         }
       }
-      
+
       return { positional: positional, named: _.object(named) };
     },
-    
+
     process(documentName, url) {
       if (url === '' || url === '#' || url === '#!') {
         bus.fire('CallDefaultAction');
@@ -232,31 +230,31 @@ const be5 = {
     url(path) {
       return be5.def.URL_PREFIX + path;
     },
-    
+
     resourceUrl(resource) {
       return '/be5/' + resource;
     },
-    
+
     paramString(params) {
       if(typeof(params) !== 'object') {
         return '{}';
       }
       return JSON.stringify(params);
     },
-    
+
     request(path, params, success, failure) {
       return be5.net.requestUrl(be5.net.url(path), 'json', params, success, failure);
     },
-    
+
     // transforms parameters!
     requestJson(path, params, success, failure) {
       return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'json', be5.net.transform(params), success, failure);
     },
-    
+
     requestHtml(path, success, failure) {
       return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'html', {}, success, failure);
     },
-    
+
     transform(params) {
       const copy = {};
       for (let key in params) {
@@ -268,7 +266,7 @@ const be5 = {
       }
       return copy;
     },
-    
+
     requestUrl(url, type, params, success, failureFunc) {
       let result = null;
       const failure = function(data) {

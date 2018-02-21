@@ -4,7 +4,6 @@ import ReactDOM           from 'react-dom';
 import be5                from '../../be5';
 import tablesCollection   from '../../services/tablesCollection';
 import utils              from '../../utils';
-import $                  from 'jquery';
 import forms              from '../../services/forms';
 import tables             from '../../services/tables';
 import numberFormatter    from 'number-format.js';
@@ -46,7 +45,7 @@ const formatCell = (data, options, isColumn) =>
   return data;
 };
 
-class TableBox extends Component {
+class TableBox extends React.Component {
   constructor(props) {
     super(props);
 
@@ -330,7 +329,7 @@ class TableBox extends Component {
 }
 
 //todo add register new component and move to condo, add base types
-class ListTableBox extends Component
+class ListTableBox extends React.Component
 {
   render(){
     const list = this.props.value.data.attributes.rows.map( (col, idx) => {
@@ -345,7 +344,7 @@ class ListTableBox extends Component
   }
 }
 
-class Table extends Component
+class Table extends React.Component
 {
   constructor(props) {
     super(props);

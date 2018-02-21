@@ -1,13 +1,11 @@
 import be5 from '../be5';
 import bus from '../core/bus';
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes            from 'prop-types';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button} from 'reactstrap';
 
-import '../../../css/roleSelector.css';
 
-
-class Role extends Component
+class Role extends React.Component
 {
   render() {
     const id = this.props.name + "-checkbox";
@@ -24,7 +22,7 @@ Role.propTypes = {
   onChange: PropTypes.func.isRequired
 };
 
-class RoleBox extends Component {
+class RoleBox extends React.Component {
   constructor(props) {
     super(props);
 

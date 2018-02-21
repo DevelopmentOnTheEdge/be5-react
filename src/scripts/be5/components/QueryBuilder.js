@@ -6,8 +6,6 @@ import Tables         from '../services/tables';
 import AceEditor from 'react-ace';
 import SplitPane from 'react-split-pane';
 
-import '../../../css/qBuilder.css';
-
 import 'brace/mode/mysql';
 import 'brace/theme/xcode';
 

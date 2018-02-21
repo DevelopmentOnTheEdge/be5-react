@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes            from 'prop-types';
 import classNames           from 'classnames';
 import be5                  from '../be5';
 import Document             from './Document';
 
 
-class FormWizard extends Component
+class FormWizard extends React.Component
 {
   constructor(props) {
     super(props);

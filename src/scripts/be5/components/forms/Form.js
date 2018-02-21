@@ -5,7 +5,6 @@ import forms                from '../../services/forms';
 import formsCollection      from '../../services/formsCollection';
 import PropertySet          from '../properties/PropertySet';
 import JsonPointer          from 'json-pointer';
-import _                    from 'underscore';
 import ErrorPane            from "../ErrorPane";
 
 const Form = React.createClass({

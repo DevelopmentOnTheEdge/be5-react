@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes            from 'prop-types';
 import classNames           from 'classnames';
 import Datetime             from 'react-datetime';
@@ -10,7 +10,7 @@ import CKEditor             from 'react-ckeditor-component';
 import MaskedInput          from 'react-maskedinput';
 
 
-class Property extends Component {
+class Property extends React.Component {
 
   constructor(props) {
     super(props);

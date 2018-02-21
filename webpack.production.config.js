@@ -35,8 +35,10 @@ let config = {
         filename: fileName,
         library:  '[name]',
         chunkFilename : 'static/be5-[name]-[id].js',
-        libraryTarget: 'umd'
+        libraryTarget: 'umd',
+        umdNamedDefine: true
     },
+    devtool: 'inline-source-map',
     resolve: {
         extensions: ['.js', '.jsx']
     },
