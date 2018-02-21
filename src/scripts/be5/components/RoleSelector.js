@@ -4,8 +4,6 @@ import React from 'react';
 import PropTypes            from 'prop-types';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button} from 'reactstrap';
 
-import '../../../css/roleSelector.css';
-
 
 class Role extends React.Component
 {

@@ -3,7 +3,6 @@ import React from 'react';
 import MenuFooter  from './MenuFooter';
 import MenuBody    from './MenuBody';
 import MenuSearchField from './MenuSearchField';
-import '../../../../css/menu.css';
 
 
 class Menu extends React.Component{
