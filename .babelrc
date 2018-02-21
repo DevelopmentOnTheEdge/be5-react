@@ -1,9 +1,18 @@
 {
-  "presets": ["es2015", "react"],
+  "presets": [
+    ["es2015", {"modules": false}],
+    "react"
+  ],
   "plugins": ["react-hot-loader/babel"],
   "env": {
+    "lib-dir": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    },
+    "webpack": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    },
     "test": {
-      "plugins": ["babel-plugin-dynamic-import-node", "transform-es2015-modules-commonjs"]
+      "plugins": ["transform-es2015-modules-commonjs"]
     }
   }
 }
