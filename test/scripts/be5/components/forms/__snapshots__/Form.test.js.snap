@@ -53,8 +53,7 @@ exports[`Form 1`] = `
           <button
             className="btn btn-primary"
             disabled={true}
-            onClick={[Function]}
-            type="button"
+            type="submit"
           >
             Submit
           </button>
@@ -93,11 +92,11 @@ exports[`ModalForm 1`] = `
       </span>
     </button>
   </div>
-  <div
-    className="modal-body"
+  <form
+    onSubmit={[Function]}
   >
-    <form
-      onSubmit={[Function]}
+    <div
+      className="modal-body"
     >
       <div
         className="property-set row"
@@ -130,23 +129,22 @@ exports[`ModalForm 1`] = `
           </div>
         </div>
       </div>
-    </form>
-  </div>
-  <div
-    className="col-12"
-  />
-  <div
-    className="modal-footer"
-  >
-    <button
-      className="btn btn-primary"
-      disabled={true}
-      onClick={[Function]}
-      type="button"
+    </div>
+    <div
+      className="col-12"
+    />
+    <div
+      className="modal-footer"
     >
-      Submit
-    </button>
-  </div>
+      <button
+        className="btn btn-primary"
+        disabled={true}
+        type="submit"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
 </div>
 `;
 

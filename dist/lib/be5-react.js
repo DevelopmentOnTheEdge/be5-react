@@ -32,89 +32,89 @@ var utils = {
 };
 
 var messages = {
-    en: {
-        errorCannotConnect: 'Cannot connect to server',
-        errorServerQueryException: 'Error during server query: $message',
-        errorInvalidErrorResponse: 'Server returned unknown error',
-        errorNoData: 'Error communicating with server: no data received',
-        errorUnknownAction: 'Unknown action: $action',
-        errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
+  en: {
+    errorCannotConnect: 'Cannot connect to server',
+    errorServerQueryException: 'Error during server query: $message',
+    errorInvalidErrorResponse: 'Server returned unknown error',
+    errorNoData: 'Error communicating with server: no data received',
+    errorUnknownAction: 'Unknown action: $action',
+    errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
 
-        welcome: 'Hello!',
-        loading: 'Page is loading...',
-        settings: 'Settings',
-        emptyTable: 'Nothing found',
-        roles: 'Roles',
-        back: 'Back',
-        error: 'Error:',
-        cancel: 'Cancel',
-        reload: 'reload',
-        All: 'All',
-        successfullyCompleted: 'Successfully completed.',
+    welcome: 'Hello!',
+    loading: 'Page is loading...',
+    settings: 'Settings',
+    emptyTable: 'Nothing found',
+    roles: 'Roles',
+    back: 'Back',
+    error: 'Error:',
+    cancel: 'Cancel',
+    reload: 'reload',
+    All: 'All',
+    successfullyCompleted: 'Successfully completed.',
 
-        filter: 'Filter...',
+    filter: 'Filter...',
 
-        Submit: 'Submit',
+    Submit: 'Submit',
 
-        property: {
-            locale: 'en',
-            clearAllText: 'Clear all',
-            clearValueText: 'Clear value',
-            noResultsText: 'No results found',
-            searchPromptText: 'Type to search',
-            placeholder: 'Select ...',
-            loadingPlaceholder: 'Loading...'
-        },
-
-        formComponentNotFound: 'Form component not found: ',
-        tableComponentNotFound: 'Table component not found: ',
-        helpInfo: "Help",
-        details: "Details",
-
-        NotFound: "Not Found"
+    property: {
+      locale: 'en',
+      clearAllText: 'Clear all',
+      clearValueText: 'Clear value',
+      noResultsText: 'No results found',
+      searchPromptText: 'Type to search',
+      placeholder: 'Select ...',
+      loadingPlaceholder: 'Loading...'
     },
 
-    ru: {
-        errorCannotConnect: 'Не могу подключиться к серверу',
-        errorServerQueryException: 'Ошибка сервера: $message',
-        errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
-        errorNoData: 'Ошибка связи с сервером: ответ не получен',
-        errorUnknownAction: 'Неизвестная операция: $action',
-        errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
+    formComponentNotFound: 'Form component not found: ',
+    tableComponentNotFound: 'Table component not found: ',
+    helpInfo: "Help",
+    details: "Details",
 
-        welcome: 'Добро пожаловать!',
-        loading: 'Загрузка...',
-        settings: 'Настройки',
-        emptyTable: 'Нет данных',
-        roles: 'Роли',
-        back: 'Назад',
-        error: 'Ошибка:',
-        cancel: 'Отмена',
-        reload: 'Перезагрузить',
-        All: 'Все',
-        successfullyCompleted: 'Успешно выполнено.',
+    NotFound: "Not Found"
+  },
 
-        filter: 'Фильтр...',
+  ru: {
+    errorCannotConnect: 'Не могу подключиться к серверу',
+    errorServerQueryException: 'Ошибка сервера: $message',
+    errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
+    errorNoData: 'Ошибка связи с сервером: ответ не получен',
+    errorUnknownAction: 'Неизвестная операция: $action',
+    errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
 
-        Submit: 'Выполнить',
+    welcome: 'Добро пожаловать!',
+    loading: 'Загрузка...',
+    settings: 'Настройки',
+    emptyTable: 'Нет данных',
+    roles: 'Роли',
+    back: 'Назад',
+    error: 'Ошибка:',
+    cancel: 'Отмена',
+    reload: 'Перезагрузить',
+    All: 'Все',
+    successfullyCompleted: 'Успешно выполнено.',
 
-        property: {
-            locale: 'ru',
-            clearAllText: 'Очистить всё',
-            clearValueText: 'Очистить',
-            noResultsText: 'Нет результатов',
-            searchPromptText: 'Начните вводить для поиска',
-            placeholder: 'Выберите...',
-            loadingPlaceholder: 'Загрузка...'
-        },
+    filter: 'Фильтр...',
 
-        formComponentNotFound: 'Компонент формы не найден: ',
-        tableComponentNotFound: 'Компонент таблицы не найден: ',
-        helpInfo: "Справка",
-        details: "Подробнее",
+    Submit: 'Выполнить',
 
-        NotFound: "Не найдено"
-    }
+    property: {
+      locale: 'ru',
+      clearAllText: 'Очистить всё',
+      clearValueText: 'Очистить',
+      noResultsText: 'Нет результатов',
+      searchPromptText: 'Начните вводить для поиска',
+      placeholder: 'Выберите...',
+      loadingPlaceholder: 'Загрузка...'
+    },
+
+    formComponentNotFound: 'Компонент формы не найден: ',
+    tableComponentNotFound: 'Компонент таблицы не найден: ',
+    helpInfo: "Справка",
+    details: "Подробнее",
+
+    NotFound: "Не найдено"
+  }
 };
 
 var listeners = function () {
@@ -3298,7 +3298,7 @@ var Form = React.createClass({
   _createOkAction: function _createOkAction() {
     return React.createElement(
       'button',
-      { type: 'button', className: 'btn btn-primary', onClick: this.apply, disabled: !this.state.allFieldsFilled },
+      { type: 'submit', className: 'btn btn-primary', disabled: !this.state.allFieldsFilled },
       be5.messages.Submit
     );
   },
@@ -3687,23 +3687,23 @@ var ModalForm = function (_Form) {
           attributes.title
         ),
         React.createElement(
-          ModalBody,
-          null,
+          'form',
+          { onSubmit: this._applyOnSubmit },
           React.createElement(
-            'form',
-            { onSubmit: this._applyOnSubmit },
+            ModalBody,
+            null,
             React.createElement(PropertySet, { bean: attributes.bean, onChange: this._onFieldChange, localization: be5.messages.property })
+          ),
+          React.createElement(
+            'div',
+            { className: 'col-12' },
+            this._getErrorPane()
+          ),
+          React.createElement(
+            ModalFooter,
+            null,
+            this._createOkAction()
           )
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-12' },
-          this._getErrorPane()
-        ),
-        React.createElement(
-          ModalFooter,
-          null,
-          this._createOkAction()
         )
       );
     }
