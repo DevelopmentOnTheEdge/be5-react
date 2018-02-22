@@ -4,7 +4,6 @@ import bus              from '../../core/bus';
 import Form             from './Form';
 import formsCollection  from '../../services/formsCollection';
 import PropertySet      from '../properties/PropertySet';
-import Document         from "../Document";
 import { ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 
@@ -18,18 +17,18 @@ class ModalForm extends Form
     const attributes = this.state.data.attributes;
     return (
       <div>
-        <ModalHeader tag='h5' toggle={() => bus.fire("mainModalClose")}>{attributes.title}</ModalHeader>
-        <ModalBody>
-          <form onSubmit={this._applyOnSubmit}>
+        <ModalHeader tag='h5' toggle={() => bus.fire("mainModalClose")} >{attributes.title}</ModalHeader>
+        <form onSubmit={this._applyOnSubmit}>
+          <ModalBody>
             <PropertySet bean={attributes.bean} onChange={this._onFieldChange} localization={be5.messages.property}/>
-          </form>
-        </ModalBody>
-        <div className="col-12">
-          {this._getErrorPane()}
-        </div>
-        <ModalFooter>
-          {this._createOkAction()}
-        </ModalFooter>
+          </ModalBody>
+          <div className="col-12">
+            {this._getErrorPane()}
+          </div>
+          <ModalFooter>
+            {this._createOkAction()}
+          </ModalFooter>
+        </form>
       </div>
     );
   }

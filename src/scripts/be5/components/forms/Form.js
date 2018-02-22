@@ -119,7 +119,7 @@ const Form = React.createClass({
   
   _createOkAction() {
     return (
-      <button type="button" className="btn btn-primary" onClick={this.apply} disabled={!this.state.allFieldsFilled}>
+      <button type="submit" className="btn btn-primary" disabled={!this.state.allFieldsFilled}>
         {be5.messages.Submit}
       </button>
     );
