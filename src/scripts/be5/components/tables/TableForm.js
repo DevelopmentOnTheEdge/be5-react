@@ -26,32 +26,8 @@ class TableForm extends React.Component
   }
 
   updateDocuments(){
-
+    changeDocument("form", { value: "" } );
     changeDocument("table", { component: Table, value: this.props.value });
-
-    //unused
-    // const attr = this.props.value.data.attributes;
-    // if(attr.layout.defaultOperation !== undefined){
-    //   //console.log("attributes.layout.defaultOperation: " + attributes.layout.defaultOperation);
-    //   //TODO вместо замены старой формы на StaticPage.createValue('', ''), делать все поля READ_ONLY и кнопку disabled
-    //   //changeDocument("form", { component: StaticPage, value: StaticPage.createValue('', '')}); - баг форма пропадает, ошибки обновления
-    //
-    //   const params = {
-    //     entity: attr.category,
-    //     query: attr.page || 'All records',
-    //     operation: attr.layout.defaultOperation,
-    //     values: {},
-    //     operationParams: attr.parameters
-    //   };
-    //
-    //   forms.load(params, {documentName: "form", parentDocumentName: "table"});
-    // }else{
-    //   changeDocument("form", {
-    //     component: StaticPage,
-    //     value: StaticPage.createValue('', attr.layout.textInFormDocument || "")
-    //   });
-    // }
-
   }
 
   render() {
