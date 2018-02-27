@@ -99,5 +99,17 @@
     "meta": {
       "_ts_": "1507198229686"
     }
+  },
+  "redirectResult": {
+    "data":{
+      "attributes":{
+        "details":"form/categories/Doc categories/Edit/selectedRows=31",
+        "message":"REDIRECTED",
+        "status":"redirect"
+      },
+      "type":"operationResult"
+    },
+    "links":{"self":"form/categories/Doc categories/Edit/selectedRows=31"},
+    "meta":{"_ts_":"1519735607947"}
   }
 }

@@ -11,15 +11,15 @@ import Table            from "../components/tables/Table";
 
 export default
 {
-  apply(params, frontendParams) {
-    this._send('form/apply', params, frontendParams);
-  },
-
   load(params, frontendParams) {
     this._send('form', params, frontendParams);
   },
 
-  _send(action, params, frontendParams){
+  apply(params, frontendParams) {
+    this._send('form/apply', params, frontendParams);
+  },
+
+  _send(action, params, frontendParams) {
     Preconditions.passed(params.entity);
     Preconditions.passed(params.query);
     Preconditions.passed(params.operation);
@@ -108,7 +108,14 @@ export default
                 }
                 else
                 {
-                  be5.url.process(documentName, '#!' + attributes.details);
+                  if(be5.url.parse(attributes.details).positional[0] === 'form')
+                  {
+                    this.load(this.getOperationParams(attributes.details, {}), frontendParams);
+                  }
+                  else
+                  {
+                    be5.url.process(documentName, '#!' + attributes.details);
+                  }
                 }
               }
               return;

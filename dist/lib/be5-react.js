@@ -1637,11 +1637,11 @@ Table.propTypes = {
 tablesCollection.registerTable('table', Table);
 
 var forms = {
-  apply: function apply(params, frontendParams) {
-    this._send('form/apply', params, frontendParams);
-  },
   load: function load(params, frontendParams) {
     this._send('form', params, frontendParams);
+  },
+  apply: function apply(params, frontendParams) {
+    this._send('form/apply', params, frontendParams);
   },
   _send: function _send(action, params, frontendParams) {
     var _this = this;
@@ -1718,7 +1718,11 @@ var forms = {
                 if (documentName === be5.mainDocumentName) {
                   be5.url.set(attributes.details);
                 } else {
-                  be5.url.process(documentName, '#!' + attributes.details);
+                  if (be5.url.parse(attributes.details).positional[0] === 'form') {
+                    this.load(this.getOperationParams(attributes.details, {}), frontendParams);
+                  } else {
+                    be5.url.process(documentName, '#!' + attributes.details);
+                  }
                 }
               }
               return;
