@@ -27,10 +27,17 @@ class Document extends React.Component
         if(!data.component){
           data.component = undefined
         }
+
         this.setState({value: data.value, component: data.component});
+
         if(data.frontendParams && data.frontendParams.parentDocumentName)
         {
           this.setState({frontendParams: {parentDocumentName: data.frontendParams.parentDocumentName}});
+        }
+
+        if(data.frontendParams && data.frontendParams.onSuccess)
+        {
+          this.setState({frontendParams: {onSuccess: data.frontendParams.onSuccess}});
         }
       }
       // if(!data.loading)this.setState({ loading: false });
