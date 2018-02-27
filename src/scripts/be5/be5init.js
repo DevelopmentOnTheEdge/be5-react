@@ -2,15 +2,16 @@ import be5 from './be5';
 import bus from './core/bus';
 import documentState      from './core/documentState';
 
-import './actions/loading.js';
-import './actions/form.js';
-import './actions/login.js';
-import './actions/logout.js';
-import './actions/static.js';
-import './actions/table.js';
-import './actions/qBuilder.js';
-import './actions/text.js';
-import './actions/login.js';
+import './actions/loading';
+import './actions/form';
+import './actions/login';
+import './actions/logout';
+import './actions/static';
+import './actions/table';
+import './actions/qBuilder';
+import './actions/text';
+import './actions/login';
+
 
 import './components/tables/TableForm';
 import './components/tables/TableFormRow';

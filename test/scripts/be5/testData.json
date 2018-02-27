@@ -64,5 +64,40 @@
       "title":"Query not found: testtable.Test 1D2"}],
     "links":{"self":"table/testtable/Test 1D2"},
     "meta":{"_ts_":"1518951836031"}
+  },
+  "simpleForm": {
+    "data": {
+      "attributes": {
+        "bean": {
+          "values": {
+            "companyID": ""
+          },
+          "meta": {
+            "/companyID": {
+              "displayName": "companyID"
+            }
+          },
+          "order": [
+            "/companyID"
+          ]
+        },
+        "entity": "companies",
+        "layout": {},
+        "operation": "SelectCompany",
+        "operationResult": {
+          "status": "open"
+        },
+        "query": "Selection view SelectCompany",
+        "selectedRows": "",
+        "title": "SelectCompany"
+      },
+      "type": "form"
+    },
+    "links": {
+      "self": "form/companies/Selection view SelectCompany/SelectCompany"
+    },
+    "meta": {
+      "_ts_": "1507198229686"
+    }
   }
 }

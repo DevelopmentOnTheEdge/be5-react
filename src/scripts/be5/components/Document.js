@@ -28,17 +28,16 @@ class Document extends React.Component
           data.component = undefined
         }
 
-        this.setState({value: data.value, component: data.component});
+        const frontendParams = {
+          parentDocumentName: data.frontendParams ? data.frontendParams.parentDocumentName : undefined,
+          onSuccess: data.frontendParams ? data.frontendParams.onSuccess : undefined,
+        };
 
-        if(data.frontendParams && data.frontendParams.parentDocumentName)
-        {
-          this.setState({frontendParams: {parentDocumentName: data.frontendParams.parentDocumentName}});
-        }
-
-        if(data.frontendParams && data.frontendParams.onSuccess)
-        {
-          this.setState({frontendParams: {onSuccess: data.frontendParams.onSuccess}});
-        }
+        this.setState({
+          value: data.value,
+          component: data.component,
+          frontendParams: frontendParams
+        });
       }
       // if(!data.loading)this.setState({ loading: false });
       // if(!data.error)this.setState({ error: null });
@@ -125,6 +124,7 @@ Document.propTypes = {
     documentName: PropTypes.string.isRequired,
     operationDocumentName: PropTypes.string,
     parentDocumentName: PropTypes.string,
+    onSuccess: PropTypes.function
   })
 };
 

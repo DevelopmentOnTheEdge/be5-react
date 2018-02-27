@@ -1830,67 +1830,6 @@ var action$4 = function action() {
 
 actionsCollection.registerAction("login", action$4);
 
-
-
-// const action = function(type = 'dialog', param1 = undefined, param2 = undefined) {
-//   let redirectUrl = undefined;
-//
-//   if (type === 'dialog' && param1) {
-//     redirectUrl = decodeURIComponent(param1);
-//   }
-//
-//   const confirm = (username, password, onSuccess, loginError) => {
-//     be5.net.request(
-//       'login',
-//       { username : username, password : password },
-//       data => {
-//         if (data.type === 'ok') {
-//           onSuccess();
-//         }
-//         else {
-//           loginError('Not okay');
-//         }
-//       },
-//       data => {
-//         loginError('Incorrect name or password')
-//       }
-//     );
-//   };
-//
-//   const goBack = () => {
-//     if (redirectUrl) {
-//       be5.url.set(redirectUrl);
-//     }else {
-//       be5.url.clear();
-//       window.history.back();
-//     }
-//   };
-//
-//   const redirectAndRefresh = () => {
-//     if(redirectUrl){
-//       be5.url.set(redirectUrl);
-//     }else{
-//       //bus.fire('CallDefaultAction');
-//       window.history.back();
-//     }
-//
-//     bus.fire('LoggedIn');
-//   };
-//
-//   switch (type) {
-//     case 'auto':
-//       const username = param1 || '';
-//       const password = param2 || '';
-//       confirm(username, password);
-//       return;
-//     default:
-//       const parameters = { onConfirm: confirm, onCancel: goBack, onSuccess: redirectAndRefresh };
-//       const loginComponent = ReactDOM.render(React.createElement(Login, parameters), document.getElementById('login'));
-//       loginComponent.show();
-//       return;
-//   }
-// };
-
 var action$6 = function action() {
   forms.load(forms.getOperationParams('form/users/All records/Logout'), {
     documentName: be5.mainDocumentName, onSuccess: function onSuccess(result, applyParams) {
@@ -1959,10 +1898,17 @@ var Document = function (_React$Component) {
           if (!data.component) {
             data.component = undefined;
           }
-          _this2.setState({ value: data.value, component: data.component });
-          if (data.frontendParams && data.frontendParams.parentDocumentName) {
-            _this2.setState({ frontendParams: { parentDocumentName: data.frontendParams.parentDocumentName } });
-          }
+
+          var frontendParams = {
+            parentDocumentName: data.frontendParams ? data.frontendParams.parentDocumentName : undefined,
+            onSuccess: data.frontendParams ? data.frontendParams.onSuccess : undefined
+          };
+
+          _this2.setState({
+            value: data.value,
+            component: data.component,
+            frontendParams: frontendParams
+          });
         }
         // if(!data.loading)this.setState({ loading: false });
         // if(!data.error)this.setState({ error: null });
@@ -2055,7 +2001,8 @@ Document.propTypes = {
   frontendParams: PropTypes.shape({
     documentName: PropTypes.string.isRequired,
     operationDocumentName: PropTypes.string,
-    parentDocumentName: PropTypes.string
+    parentDocumentName: PropTypes.string,
+    onSuccess: PropTypes.function
   })
 };
 
