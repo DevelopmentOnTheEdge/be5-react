@@ -9,7 +9,7 @@ class PropertySet extends React.Component {
     return (
       <div className='property-group col-12' key={curGroupId} ref={curGroupId}>
         <div className='property-groop-box'>
-          <h3>{curGroupName}</h3>
+          <h4 className='property-group__title'>{curGroupName}</h4>
           <div className="row">
             {curGroup}
           </div>

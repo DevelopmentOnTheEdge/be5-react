@@ -17,7 +17,7 @@
   border-top: none;
 }
 
-.property-group h3 {
+.property-group__title {
   top: -1em;
   position: absolute;
   background-color: white;
