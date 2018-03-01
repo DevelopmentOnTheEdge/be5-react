@@ -9,6 +9,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+
 loaders.push({
     test: /\.scss$/,
     loader: ExtractTextPlugin.extract({fallback: 'style-loader', use : 'css-loader?sourceMap&localIdentName=[local]___[hash:base64:5]!sass-loader?outputStyle=expanded'}),
@@ -20,9 +21,6 @@ let outPath = 'dist/uncompressed';
 if (env.min) {
     fileName = 'static/[name].min.js';
     outPath = 'dist/compressed';
-}else if (env.lib) {
-    fileName = 'static/[name].js';
-    outPath = 'dist/lib';
 }
 
 let config = {
@@ -76,37 +74,6 @@ if (env.min) {
             'NODE_ENV': JSON.stringify('production')
         }
     }));
-}
-
-if (env.lib) {
-  config.entry.be5 = './src/scripts/be5/index.js';
-  config.externals = [
-    'beanexplorer-react',
-    'bootstrap',
-    'bundle-loader',
-    'brace',
-    'classnames',
-    'datatables',
-    'jquery',
-    'moment',
-    'react',
-    'react-ace',
-    'react-addons-css-transition-group',
-    'react-addons-transition-group',
-    'react-alert',
-    'react-ckeditor-component',
-    'react-codemirror',
-    'react-datetime',
-    'react-dom',
-    'react-numeric-input',
-    'react-select',
-    'react-virtualized',
-    'react-virtualized-select',
-    'react-codemirror',
-    'reactstrap',
-    'tether',
-    'underscore',
-  ];
 }
 
 module.exports = config;
