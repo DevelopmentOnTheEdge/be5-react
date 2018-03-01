@@ -17,7 +17,7 @@ exports[`snapshot 1`] = `
     dangerouslySetInnerHTML={
       Object {
         "__html": "Be5Exception: Query not found: testtable.Test 1D2
-       ",
+ ",
       }
     }
   />

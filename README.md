@@ -1,7 +1,9 @@
 # be5-react
-[![NPM version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Coveralls Status][coveralls-image]][coveralls-url]
+
+[![NPM Version](https://img.shields.io/npm/v/be5-react.svg?branch=master)](https://www.npmjs.com/package/be5-react) 
+[![Build Status](https://travis-ci.org/DevelopmentOnTheEdge/be5-react.svg?branch=master)](https://travis-ci.org/DevelopmentOnTheEdge/be5-react) 
+[![Coverage Status](https://coveralls.io/repos/github/DevelopmentOnTheEdge/be5-react/badge.svg?branch=master)](https://coveralls.io/github/DevelopmentOnTheEdge/be5-react?branch=master) 
+[![jest](https://facebook.github.io/jest/img/jest-badge.svg)](https://github.com/facebook/jest)
 
 > React client UI for be5 server api
 
@@ -34,13 +36,3 @@ $ npm test
 $ npm run watch
 $ npm run coverage
 ```
-
-
-[npm-url]: https://npmjs.org/package/be5-react
-[npm-image]: https://img.shields.io/npm/v/be5-react.svg?style=flat-square
-
-[travis-url]: https://travis-ci.org/DevelopmentOnTheEdge/be5-react
-[travis-image]: https://img.shields.io/travis/DevelopmentOnTheEdge/be5-react/master.svg?style=flat-square
-
-[coveralls-url]: https://coveralls.io/github/DevelopmentOnTheEdge/be5-react
-[coveralls-image]: https://img.shields.io/coveralls/DevelopmentOnTheEdge/be5-react/master.svg?style=flat-square

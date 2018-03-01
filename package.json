@@ -67,7 +67,7 @@
     "extract-text-webpack-plugin": "2.1.2",
     "file-loader": "0.10.0",
     "html-webpack-plugin": "2.26.0",
-    "jest": "20.0.4",
+    "jest": "22.4.2",
     "json-server": "0.10.1",
     "local-web-server": "1.2.7",
     "node-sass": "4.3.0",
