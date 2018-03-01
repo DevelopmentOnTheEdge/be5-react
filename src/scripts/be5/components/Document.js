@@ -11,33 +11,27 @@ class Document extends React.Component
 {
   constructor(props) {
     super(props);
-    this.state = { value: "" };
+    this.state = { value: "", frontendParams: props.frontendParams };
 
     this.reload = this.reload.bind(this);
     this.refresh = this.refresh.bind(this);
   }
 
   componentDidMount() {
-    bus.replaceListeners(this.props.frontendParams.documentName, data => {
-      if(this.state.value.meta !== undefined && !Number.isInteger(Number.parseInt(this.state.value.meta._ts_))){
+    bus.replaceListeners(this.props.frontendParams.documentName, data =>
+    {
+      if(this.state.value.meta !== undefined && !Number.isInteger(Number.parseInt(this.state.value.meta._ts_)))
+      {
         console.error("meta._ts_ mast be string of Integer " + this.state.value.meta._ts_);
       }
-      if(this.state.value.meta === undefined || data.value.meta === undefined ||
-         data.value.meta._ts_ > this.state.value.meta._ts_){
-        if(!data.component){
-          data.component = undefined
-        }
 
-        const frontendParams = {
-          parentDocumentName: data.frontendParams ? data.frontendParams.parentDocumentName : undefined,
-          onSuccess: data.frontendParams ? data.frontendParams.onSuccess : undefined,
-        };
-
-        this.setState({
-          value: data.value,
-          component: data.component,
-          frontendParams: frontendParams
-        });
+      if(this.state.value.meta === undefined || data.value.meta === undefined
+          || data.value.meta._ts_ > this.state.value.meta._ts_)
+      {
+        this.setState(Object.assign(
+          {value: undefined, frontendParams: undefined, component: undefined},
+          data
+        ));
       }
       // if(!data.loading)this.setState({ loading: false });
       // if(!data.error)this.setState({ error: null });
@@ -96,7 +90,7 @@ class Document extends React.Component
             <DocumentContent
                   ref="documentContent"
                   value={this.state.value}
-                  frontendParams={Object.assign({}, this.props.frontendParams, this.state.frontendParams)}
+                  frontendParams={this.getComponentFrontendParams()}
             />
           </div>
         )
@@ -117,6 +111,9 @@ class Document extends React.Component
     );
   }
 
+  getComponentFrontendParams() {
+    return Object.assign({}, this.state.frontendParams, this.props.frontendParams);
+  }
 }
 
 Document.propTypes = {

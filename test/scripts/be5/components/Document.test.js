@@ -20,7 +20,9 @@ test('frontendParams init state, props', () => {
   const wrapper = mount( <Document frontendParams={{documentName: "test"}}/> );
 
   expect(wrapper.props()).toEqual({"frontendParams": {"documentName": "test"}});
-  expect(wrapper.state()).toEqual({"value": ""});
+  expect(wrapper.state()).toEqual({"frontendParams": {"documentName": "test"}, "value": ""});
+
+  expect(wrapper.instance().getComponentFrontendParams()).toEqual({"documentName": "test"});
 });
 
 test('frontendParams state', () => {
@@ -33,19 +35,41 @@ test('frontendParams state', () => {
     onSuccess: onSuccess
   }});
 
-  expect(wrapper.state()).toEqual({
-    "component": undefined,
-    "frontendParams": {"onSuccess": onSuccess, "parentDocumentName": "parentDoc"},
-    "value": "Text"
+  expect(wrapper.instance().getComponentFrontendParams()).toEqual({
+    "documentName": "test", "parentDocumentName": "parentDoc", "onSuccess": onSuccess
   });
 
   changeDocument("test", {value: "Text"});
 
-  expect(wrapper.state()).toEqual({
-    "component": undefined,
-    "frontendParams": {"onSuccess": undefined, "parentDocumentName": undefined},
-    "value": "Text"
+  expect(wrapper.instance().getComponentFrontendParams()).toEqual({
+    "documentName": "test"
   });
 
 });
 
+test('frontendParams state with value in props', () => {
+  const propsOnSuccess = function onSuccess(json, applyParams){};
+
+  const wrapper = mount( <Document frontendParams={{documentName: "test", parentDocumentName: "propsParentDoc", onSuccess: propsOnSuccess}}/> );
+
+  changeDocument("test", {value: "Text"});
+
+  expect(wrapper.instance().getComponentFrontendParams()).toEqual({
+    "documentName": "test", "parentDocumentName": "propsParentDoc", "onSuccess": propsOnSuccess
+  });
+});
+
+test('others props value', () => {
+  const wrapper = mount( <Document frontendParams={{documentName: "test", operationDocumentName: "form", parentDocumentName: "propsParentDoc"}} /> );
+
+  expect(wrapper.instance().getComponentFrontendParams()).toEqual({
+    "documentName": "test", "operationDocumentName": "form", "parentDocumentName": "propsParentDoc"
+  });
+
+  changeDocument("test", {value: "Text", frontendParams: {test: "test"}});
+
+  expect(wrapper.state().value).toEqual("Text");
+  expect(wrapper.instance().getComponentFrontendParams()).toEqual({
+    "documentName": "test", "operationDocumentName": "form", "parentDocumentName": "propsParentDoc", "test": "test"
+  });
+});
