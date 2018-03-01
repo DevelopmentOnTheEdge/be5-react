@@ -34,6 +34,5 @@ export default {
       browser: true,
     }),
     imageBase64()
-  ],
-  sourcemap: true
+  ]
 }

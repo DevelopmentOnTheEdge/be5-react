@@ -3,7 +3,7 @@ import be5             from '../../be5';
 import bus             from '../../core/bus';
 import Form            from './Form';
 import formsCollection from '../../services/formsCollection';
-import {PropertySet}   from 'beanexplorer-react';
+import PropertySet     from 'beanexplorer-react';
 import { ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 

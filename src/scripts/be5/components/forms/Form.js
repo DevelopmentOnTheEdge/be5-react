@@ -3,7 +3,7 @@ import PropTypes       from 'prop-types';
 import be5             from '../../be5';
 import forms           from '../../services/forms';
 import formsCollection from '../../services/formsCollection';
-import {PropertySet}   from 'beanexplorer-react';
+import PropertySet     from 'beanexplorer-react';
 import JsonPointer     from 'json-pointer';
 import ErrorPane       from "../ErrorPane";
 
