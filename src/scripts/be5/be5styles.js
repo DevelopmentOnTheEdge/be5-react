@@ -12,7 +12,7 @@ import '../../css/splitPane.css';
 import '../../css/form.css';
 import '../../css/table.css';
 import '../../css/formWizard.css';
-import '../../css/propertySet.css';
+import 'beanexplorer-react/src/propertySet.css';
 import '../../css/errorPane.css';
 import '../../css/qBuilder.css';
 import '../../css/roleSelector.css';

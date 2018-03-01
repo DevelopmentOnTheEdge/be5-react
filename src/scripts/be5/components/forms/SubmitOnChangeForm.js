@@ -1,9 +1,9 @@
-import React            from 'react';
-import be5              from '../../be5';
-import formsCollection  from '../../services/formsCollection';
-import classNames       from 'classnames';
-import Form             from './Form';
-import PropertyInput    from '../../components/properties/PropertyInput';
+import React           from 'react';
+import be5             from '../../be5';
+import formsCollection from '../../services/formsCollection';
+import classNames      from 'classnames';
+import Form            from './Form';
+import {PropertyInput} from 'beanexplorer-react';
 
 
 class SubmitOnChangeForm extends Form
