@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`text 1`] = `
+exports[`snapshot 1`] = `
 <div
   className="document-content"
   id="document-content___MainDocument"
 />
 `;
 
-exports[`text 2`] = `
+exports[`snapshot 2`] = `
 <div
   className="document-content"
   id="document-content___MainDocument"
