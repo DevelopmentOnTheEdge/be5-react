@@ -1882,7 +1882,7 @@ var Document = function (_React$Component) {
 
     var _this = possibleConstructorReturn(this, (Document.__proto__ || Object.getPrototypeOf(Document)).call(this, props));
 
-    _this.state = { value: "" };
+    _this.state = { value: "", frontendParams: props.frontendParams };
 
     _this.reload = _this.reload.bind(_this);
     _this.refresh = _this.refresh.bind(_this);
@@ -1898,21 +1898,9 @@ var Document = function (_React$Component) {
         if (_this2.state.value.meta !== undefined && !Number.isInteger(Number.parseInt(_this2.state.value.meta._ts_))) {
           console.error("meta._ts_ mast be string of Integer " + _this2.state.value.meta._ts_);
         }
+
         if (_this2.state.value.meta === undefined || data.value.meta === undefined || data.value.meta._ts_ > _this2.state.value.meta._ts_) {
-          if (!data.component) {
-            data.component = undefined;
-          }
-
-          var frontendParams = {
-            parentDocumentName: data.frontendParams ? data.frontendParams.parentDocumentName : undefined,
-            onSuccess: data.frontendParams ? data.frontendParams.onSuccess : undefined
-          };
-
-          _this2.setState({
-            value: data.value,
-            component: data.component,
-            frontendParams: frontendParams
-          });
+          _this2.setState(Object.assign({ value: undefined, frontendParams: undefined, component: undefined }, data));
         }
         // if(!data.loading)this.setState({ loading: false });
         // if(!data.error)this.setState({ error: null });
@@ -1976,7 +1964,7 @@ var Document = function (_React$Component) {
             React.createElement(DocumentContent, {
               ref: 'documentContent',
               value: this.state.value,
-              frontendParams: Object.assign({}, this.props.frontendParams, this.state.frontendParams)
+              frontendParams: this.getComponentFrontendParams()
             })
           );
         }
@@ -1996,6 +1984,11 @@ var Document = function (_React$Component) {
         loadingItem,
         contentItem
       );
+    }
+  }, {
+    key: 'getComponentFrontendParams',
+    value: function getComponentFrontendParams() {
+      return Object.assign({}, this.state.frontendParams, this.props.frontendParams);
     }
   }]);
   return Document;
@@ -3011,8 +3004,8 @@ var PropertySet = function (_React$Component) {
           'div',
           { className: 'property-groop-box' },
           React.createElement(
-            'h3',
-            null,
+            'h4',
+            { className: 'property-group__title' },
             curGroupName
           ),
           React.createElement(
