@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.org/DevelopmentOnTheEdge/be5-react.svg?branch=master)](https://travis-ci.org/DevelopmentOnTheEdge/be5-react) 
 [![Coverage Status](https://coveralls.io/repos/github/DevelopmentOnTheEdge/be5-react/badge.svg?branch=master)](https://coveralls.io/github/DevelopmentOnTheEdge/be5-react?branch=master) 
 [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
+<a href="https://david-dm.org/DevelopmentOnTheEdge/beanexplorer-react"><img src="https://david-dm.org/DevelopmentOnTheEdge/beanexplorer-react.svg" alt="Dependency Status"></a>
 
 > React client UI for be5 server api
 
