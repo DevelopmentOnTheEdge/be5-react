@@ -52,12 +52,6 @@ import MenuSearchField from './components/menu/MenuSearchField.js';
 import MenuFooter      from './components/menu/MenuFooter.js';
 import MenuNode        from './components/menu/MenuNode.js';
 
-// properties
-import Property        from './components/properties/Property.js';
-import Properties      from './components/properties/Properties.js';
-import PropertyInput   from './components/properties/PropertyInput.js';
-import PropertySet     from './components/properties/PropertySet.js';
-
 // actions
 import formAction      from './actions/form.js';
 import loadingAction   from './actions/loading.js';
@@ -129,12 +123,6 @@ export {
   MenuSearchField ,
   MenuFooter      ,
   MenuNode        ,
-
-  // properties
-  Property        ,
-  Properties      ,
-  PropertyInput   ,
-  PropertySet     ,
 
   // actions
   formAction,
