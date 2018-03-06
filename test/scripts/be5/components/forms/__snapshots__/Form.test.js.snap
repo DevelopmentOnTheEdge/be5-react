@@ -26,7 +26,7 @@ exports[`Form 1`] = `
           >
             <label
               className="form-control-label"
-              htmlFor="companyIDField"
+              htmlFor="companyIDPropertyInput"
             >
               companyID
             </label>
@@ -109,7 +109,7 @@ exports[`ModalForm 1`] = `
           >
             <label
               className="form-control-label"
-              htmlFor="companyIDField"
+              htmlFor="companyIDPropertyInput"
             >
               companyID
             </label>
