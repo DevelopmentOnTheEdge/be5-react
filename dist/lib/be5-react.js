@@ -2551,30 +2551,13 @@ var Form = React.createClass({
   displayName: 'Form',
 
   getInitialState: function getInitialState() {
-    return _.extend({}, this.props.value, { allFieldsFilled: false });
+    return this.props.value;
   },
   componentDidMount: function componentDidMount() {
     forms.changeLocationHash(this.props);
-
-    this.initForm();
-  },
-  initForm: function initForm() {
-    for (var key in this.refs) {
-      if (this.refs[key].onFormDidMount) this.refs[key].onFormDidMount();
-    }
-    this.setState({ allFieldsFilled: this._allFieldsFilled() });
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    var _this = this;
-
-    this.setState(nextProps.value, function () {
-      _this.setState({ allFieldsFilled: _this._allFieldsFilled() });
-    });
-  },
-  getFormValues: function getFormValues() {
-    return this._getRawFormValues().filter(function (field) {
-      return field.value !== null;
-    });
+    this.setState(nextProps.value);
   },
   getParams: function getParams(values) {
     var attributes = this.state.data.attributes;
@@ -2623,16 +2606,14 @@ var Form = React.createClass({
     });
   },
   _onFieldChange: function _onFieldChange(name, value) {
-    var _this2 = this;
+    var _this = this;
 
     var attributes = this.state.data.attributes;
     JsonPointer.set(attributes.bean, "/values" + name, value);
 
     this.forceUpdate(function () {
-      _this2.setState({ allFieldsFilled: _this2._allFieldsFilled() });
-
-      if (attributes.bean.meta[name].hasOwnProperty('reloadOnChange') || attributes.bean.meta[name].hasOwnProperty('autoRefresh')) {
-        _this2._reloadOnChange(name);
+      if (attributes.bean.meta[name].reloadOnChange === true || attributes.bean.meta[name].autoRefresh === true) {
+        _this._reloadOnChange(name);
       }
     });
   },
@@ -2651,7 +2632,7 @@ var Form = React.createClass({
   _createOkAction: function _createOkAction() {
     return React.createElement(
       'button',
-      { type: 'submit', className: 'btn btn-primary', disabled: !this.state.allFieldsFilled },
+      { type: 'submit', className: 'btn btn-primary' },
       be5.messages.Submit
     );
   },
@@ -2668,15 +2649,6 @@ var Form = React.createClass({
         } },
       be5.messages.cancel
     );
-  },
-  _allFieldsFilled: function _allFieldsFilled() {
-    var attributes = this.state.data.attributes;
-    return attributes.bean.order.every(function (field) {
-      // if(be5.debug && !filled){
-      //   console.log(field);
-      // }
-      return attributes.bean.meta[field].hasOwnProperty('canBeNull') || JsonPointer.get(attributes.bean, "/values" + field) !== '';
-    });
   },
   _getErrorPane: function _getErrorPane() {
     var errorModel = this.state.data.attributes.errorModel;
@@ -2737,7 +2709,7 @@ var SubmitOnChangeForm = function (_Form) {
 
     var _this = possibleConstructorReturn(this, (SubmitOnChangeForm.__proto__ || Object.getPrototypeOf(SubmitOnChangeForm)).call(this, props));
 
-    _this.state = Object.assign({}, _this.props.value, { allFieldsFilled: false });
+    _this.state = _this.props.value; //Object.assign({}, this.props.value, { allFieldsFilled: false });
 
     _this._onFieldChangeAndSubmit = _this._onFieldChangeAndSubmit.bind(_this);
     return _this;
@@ -2779,12 +2751,12 @@ var ModalForm = function (_Form) {
   }
 
   createClass(ModalForm, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.initForm();
-    }
-  }, {
     key: 'render',
+
+    // componentDidMount(){
+    //   this.initForm();
+    // }
+
     value: function render() {
       var attributes = this.state.data.attributes;
       return React.createElement(
