@@ -9,9 +9,9 @@ import { ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 class ModalForm extends Form
 {
-  componentDidMount(){
-    this.initForm();
-  }
+  // componentDidMount(){
+  //   this.initForm();
+  // }
 
   render() {
     const attributes = this.state.data.attributes;

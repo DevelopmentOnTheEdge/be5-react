@@ -17,31 +17,15 @@ const Form = React.createClass({
   displayName: 'Form',
   
   getInitialState() {
-    return _.extend({}, this.props.value, { allFieldsFilled: false });
+    return this.props.value;
   },
 
   componentDidMount() {
     forms.changeLocationHash(this.props);
-
-    this.initForm();
-  },
-
-  initForm() {
-    for (let key in this.refs) {
-      if(this.refs[key].onFormDidMount)
-        this.refs[key].onFormDidMount();
-    }
-    this.setState({ allFieldsFilled: this._allFieldsFilled() });
   },
 
   componentWillReceiveProps(nextProps) {
-    this.setState(nextProps.value, () => {
-      this.setState({ allFieldsFilled: this._allFieldsFilled() });
-    });
-  },
-  
-  getFormValues() {
-    return this._getRawFormValues().filter(field => field.value !== null);
+    this.setState(nextProps.value);
   },
 
   getParams(values){
@@ -96,10 +80,8 @@ const Form = React.createClass({
     JsonPointer.set(attributes.bean, "/values" + name, value);
 
     this.forceUpdate(() => {
-      this.setState({ allFieldsFilled: this._allFieldsFilled() });
-      
-      if (attributes.bean.meta[name].hasOwnProperty('reloadOnChange') ||
-          attributes.bean.meta[name].hasOwnProperty('autoRefresh') ) {
+      if (attributes.bean.meta[name].reloadOnChange === true ||
+          attributes.bean.meta[name].autoRefresh === true ) {
         this._reloadOnChange(name);
       }
     });
@@ -120,7 +102,7 @@ const Form = React.createClass({
   
   _createOkAction() {
     return (
-      <button type="submit" className="btn btn-primary" disabled={!this.state.allFieldsFilled}>
+      <button type="submit" className="btn btn-primary" >
         {be5.messages.Submit}
       </button>
     );
@@ -137,17 +119,6 @@ const Form = React.createClass({
         {be5.messages.cancel}
       </button>
     );
-  },
-  
-  _allFieldsFilled() {
-    const attributes = this.state.data.attributes;
-    return attributes.bean.order.every(field => {
-      // if(be5.debug && !filled){
-      //   console.log(field);
-      // }
-      return attributes.bean.meta[field].hasOwnProperty('canBeNull') ||
-        JsonPointer.get(attributes.bean, "/values" + field) !== '';
-    });
   },
 
   _getErrorPane(){

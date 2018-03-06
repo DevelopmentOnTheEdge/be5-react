@@ -16,7 +16,7 @@ exports[`Form 1`] = `
       onSubmit={[Function]}
     >
       <div
-        className="property-set row"
+        className="property-set form-row"
       >
         <div
           className="col-lg-12"
@@ -36,9 +36,10 @@ exports[`Form 1`] = `
               <input
                 className="form-control"
                 disabled={undefined}
-                id="companyIDField"
+                id="companyIDPropertyInput"
                 onChange={[Function]}
                 placeholder={undefined}
+                required={true}
                 type="text"
                 value=""
               />
@@ -52,7 +53,6 @@ exports[`Form 1`] = `
         <div>
           <button
             className="btn btn-primary"
-            disabled={true}
             type="submit"
           >
             Submit
@@ -99,7 +99,7 @@ exports[`ModalForm 1`] = `
       className="modal-body"
     >
       <div
-        className="property-set row"
+        className="property-set form-row"
       >
         <div
           className="col-lg-12"
@@ -119,9 +119,10 @@ exports[`ModalForm 1`] = `
               <input
                 className="form-control"
                 disabled={undefined}
-                id="companyIDField"
+                id="companyIDPropertyInput"
                 onChange={[Function]}
                 placeholder={undefined}
+                required={true}
                 type="text"
                 value=""
               />
@@ -138,7 +139,6 @@ exports[`ModalForm 1`] = `
     >
       <button
         className="btn btn-primary"
-        disabled={true}
         type="submit"
       >
         Submit
@@ -155,9 +155,10 @@ exports[`SubmitOnChangeForm 1`] = `
   <input
     className="form-control"
     disabled={undefined}
-    id="companyIDField"
+    id="companyIDPropertyInput"
     onChange={[Function]}
     placeholder={undefined}
+    required={true}
     type="text"
     value=""
   />
