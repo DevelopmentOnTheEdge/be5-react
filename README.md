@@ -2,9 +2,8 @@
 
 [![NPM Version](https://img.shields.io/npm/v/be5-react.svg?branch=master)](https://www.npmjs.com/package/be5-react) 
 [![Build Status](https://travis-ci.org/DevelopmentOnTheEdge/be5-react.svg?branch=master)](https://travis-ci.org/DevelopmentOnTheEdge/be5-react) 
-[![Coverage Status](https://coveralls.io/repos/github/DevelopmentOnTheEdge/be5-react/badge.svg?branch=master)](https://coveralls.io/github/DevelopmentOnTheEdge/be5-react?branch=master) 
-[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
 [![dependencies Status](https://david-dm.org/DevelopmentOnTheEdge/be5-react/status.svg)](https://david-dm.org/DevelopmentOnTheEdge/be5-react)
+[![Coverage Status](https://coveralls.io/repos/github/DevelopmentOnTheEdge/be5-react/badge.svg?branch=master)](https://coveralls.io/github/DevelopmentOnTheEdge/be5-react?branch=master) 
 
 > React client UI for be5 server api
 
