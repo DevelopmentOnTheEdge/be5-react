@@ -25,7 +25,7 @@ const Form = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    this.setState(nextProps.value);
+    this.setState(Object.assign({}, nextProps.value, {wasValidated: false}));
   },
 
   getParams(values){
@@ -99,10 +99,10 @@ const Form = React.createClass({
       </div>
     );
   },
-  
+
   _createOkAction() {
     return (
-      <button type="submit" className="btn btn-primary" >
+      <button type="submit" className="btn btn-primary" onClick={() => this.setState({wasValidated: true})}>
         {be5.messages.Submit}
       </button>
     );
@@ -138,7 +138,7 @@ const Form = React.createClass({
       <div className="row">
         <div className={'formBox ' + (attributes.layout.formBoxCssClasses || 'col-12 max-width-970 formBoxDefault')}>
           <h1 className="form-component__title">{attributes.title}</h1>
-          <form onSubmit={this._applyOnSubmit}>
+          <form onSubmit={this._applyOnSubmit} className={this.state.wasValidated ? 'was-validated' : ''}>
             <PropertySet bean={attributes.bean} onChange={this._onFieldChange} localization={be5.messages.property}/>
             <div className="formActions">
               {this._createFormActions()}
