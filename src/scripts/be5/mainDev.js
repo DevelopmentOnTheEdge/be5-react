@@ -5,11 +5,6 @@ import { AppContainer } from 'react-hot-loader'
 import be5init from './be5init';
 import './be5styles';
 
-// ReactDOM.render(
-//   <App/>,
-//   document.getElementById('app')
-// );
-
 const render = Component => {
   ReactDOM.render(
     <AppContainer>
