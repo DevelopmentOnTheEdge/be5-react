@@ -13,6 +13,7 @@ exports[`Form 1`] = `
       SelectCompany
     </h1>
     <form
+      className=""
       onSubmit={[Function]}
     >
       <div
@@ -37,7 +38,9 @@ exports[`Form 1`] = `
                 className="form-control"
                 disabled={undefined}
                 id="companyIDPropertyInput"
+                maxLength={undefined}
                 onChange={[Function]}
+                pattern={undefined}
                 placeholder={undefined}
                 required={true}
                 type="text"
@@ -53,6 +56,7 @@ exports[`Form 1`] = `
         <div>
           <button
             className="btn btn-primary"
+            onClick={[Function]}
             type="submit"
           >
             Submit
@@ -120,7 +124,9 @@ exports[`ModalForm 1`] = `
                 className="form-control"
                 disabled={undefined}
                 id="companyIDPropertyInput"
+                maxLength={undefined}
                 onChange={[Function]}
+                pattern={undefined}
                 placeholder={undefined}
                 required={true}
                 type="text"
@@ -139,6 +145,7 @@ exports[`ModalForm 1`] = `
     >
       <button
         className="btn btn-primary"
+        onClick={[Function]}
         type="submit"
       >
         Submit
@@ -156,7 +163,9 @@ exports[`SubmitOnChangeForm 1`] = `
     className="form-control"
     disabled={undefined}
     id="companyIDPropertyInput"
+    maxLength={undefined}
     onChange={[Function]}
+    pattern={undefined}
     placeholder={undefined}
     required={true}
     type="text"
