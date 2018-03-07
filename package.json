@@ -4,8 +4,8 @@
   "description": "React client UI for be5 server api",
   "main": "dist/lib/be5-react.js",
   "scripts": {
-    "start": "ws -d dist/uncompressed",
-    "dev": "webpack-dev-server --host 127.0.0.1 --progress --profile --colors",
+    "dev": "ws -d dist/uncompressed",
+    "start": "webpack-dev-server --host 127.0.0.1 --progress --profile --colors",
     "build": "webpack --config webpack.production.config.js --progress --profile --colors --env.build",
     "build-min": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.min",
     "test": "jest",
