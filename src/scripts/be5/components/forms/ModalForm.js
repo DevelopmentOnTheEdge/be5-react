@@ -20,7 +20,11 @@ class ModalForm extends Form
         <ModalHeader tag='h5' toggle={() => bus.fire("mainModalClose")} >{attributes.title}</ModalHeader>
         <form onSubmit={this._applyOnSubmit}>
           <ModalBody>
-            <PropertySet bean={attributes.bean} onChange={this._onFieldChange} localization={be5.messages.property}/>
+            <PropertySet
+              bean={attributes.bean}
+              onChange={this._onFieldChange}
+              localization={be5.messages.property}
+            />
           </ModalBody>
           <div className="col-12">
             {this._getErrorPane()}

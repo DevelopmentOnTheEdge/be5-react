@@ -24,7 +24,12 @@ class SubmitOnChangeForm extends Form
     const attributes = this.state.data.attributes;
     return (
         <div className={classNames('submit-onchange-form', attributes.cssClass)}>
-          <PropertyInput id={0} bean={attributes.bean} localization={be5.messages.property} onChange={this._onFieldChangeAndSubmit} />
+          <PropertyInput
+            id={0}
+            bean={attributes.bean}
+            localization={be5.messages.property}
+            onChange={this._onFieldChangeAndSubmit}
+          />
           <div className="col-12">
             {this._getErrorPane()}
           </div>

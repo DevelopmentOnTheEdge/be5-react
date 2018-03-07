@@ -129,7 +129,11 @@ class Form extends React.Component
         <div className={'formBox ' + (attributes.layout.formBoxCssClasses || 'col-12 max-width-970 formBoxDefault')}>
           <h1 className="form-component__title">{attributes.title}</h1>
           <form onSubmit={this._applyOnSubmit} className={this.state.wasValidated ? 'was-validated' : ''}>
-            <PropertySet bean={attributes.bean} onChange={this._onFieldChange} localization={be5.messages.property}/>
+            <PropertySet
+              bean={attributes.bean}
+              onChange={this._onFieldChange}
+              localization={be5.messages.property}
+            />
             <div className="formActions">
               {this._createFormActions()}
             </div>
