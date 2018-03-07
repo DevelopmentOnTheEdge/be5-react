@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+npm run lib
 npm run build
 npm run build-min
-npm run lib
+git add .
+npm run coverage
