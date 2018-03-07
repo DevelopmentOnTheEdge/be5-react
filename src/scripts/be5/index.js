@@ -35,6 +35,7 @@ import Navs             from './components/Navs.js';
 import Form               from './components/forms/Form.js';
 import SubmitOnChangeForm from './components/forms/SubmitOnChangeForm.js';
 import ModalForm          from './components/forms/ModalForm.js';
+import InlineForm         from './components/forms/InlineForm.js';
 import FinishedResult     from './components/forms/FinishedResult.js';
 
 // tables
@@ -85,44 +86,45 @@ export {
   http,
 
   // components
-  Application      ,
-  Be5Components    ,
-  Be5Menu          ,
-  Be5MenuHolder    ,
-  Be5MenuItem      ,
-  Document         ,
-  HelpInfo         ,
-  LanguageSelector ,
-  RoleSelector     ,
-  SideBar          ,
-  Sorter           ,
-  SplitPane        ,
-  StaticPage       ,
-  ErrorPane        ,
-  TreeMenu         ,
-  FormWizard       ,
-  Navs             ,
+  Application,
+  Be5Components,
+  Be5Menu,
+  Be5MenuHolder,
+  Be5MenuItem,
+  Document,
+  HelpInfo,
+  LanguageSelector,
+  RoleSelector,
+  SideBar,
+  Sorter,
+  SplitPane,
+  StaticPage,
+  ErrorPane,
+  TreeMenu,
+  FormWizard,
+  Navs,
 
   // forms
   Form,
   SubmitOnChangeForm,
   ModalForm,
+  InlineForm,
   FinishedResult,
 
   // tables
-  Table           ,
-  QuickColumns    ,
-  OperationBox    ,
-  FormTable       ,
-  TableForm       ,
-  TableFormRow    ,
+  Table,
+  QuickColumns,
+  OperationBox,
+  FormTable,
+  TableForm,
+  TableFormRow,
 
   // menu
-  Menu            ,
-  MenuBody        ,
-  MenuSearchField ,
-  MenuFooter      ,
-  MenuNode        ,
+  Menu,
+  MenuBody,
+  MenuSearchField,
+  MenuFooter,
+  MenuNode,
 
   // actions
   formAction,

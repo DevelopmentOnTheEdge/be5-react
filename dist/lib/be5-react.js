@@ -2542,166 +2542,192 @@ var FormTable = function (_TableForm) {
 
 tablesCollection.registerTable('formTable', FormTable);
 
-var Form = React.createClass({
-  propTypes: {
-    value: React.PropTypes.object.isRequired,
-    frontendParams: React.PropTypes.object.isRequired
-  },
+var Form = function (_React$Component) {
+  inherits(Form, _React$Component);
 
-  displayName: 'Form',
+  function Form(props) {
+    classCallCheck(this, Form);
 
-  getInitialState: function getInitialState() {
-    return this.props.value;
-  },
-  componentDidMount: function componentDidMount() {
-    forms.changeLocationHash(this.props);
-  },
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    this.setState(Object.assign({}, nextProps.value, { wasValidated: false }));
-  },
-  getParams: function getParams(values) {
-    var attributes = this.state.data.attributes;
-    return {
-      entity: attributes.entity,
-      query: attributes.query,
-      operation: attributes.operation,
-      operationParams: attributes.operationParams,
-      selectedRows: attributes.selectedRows,
-      values: values
-    };
-  },
-  refresh: function refresh() {
-    forms.load(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
-  },
-  _reloadOnChange: function _reloadOnChange(controlName) {
-    var values = Object.assign({}, this.state.data.attributes.bean.values, { '_reloadcontrol_': controlName });
+    var _this = possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
 
-    forms.load(this.getParams(values), this.props.frontendParams);
-  },
-  apply: function apply() {
-    forms.apply(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
-  },
+    _this.state = _this.props.value;
 
-
-  // cancel() {
-  //   be5.url.set(be5.url.create('table', [this.state.entity, this.state.query], this.state.parameters));
-  // },
-
-  _applyOnSubmit: function _applyOnSubmit(e) {
-    // Hitting <enter> in any textbox in Chrome triggers the form submit,
-    // even when there is no submit button.
-    // That's why I explicitly define the cancellation.
-    e.preventDefault();
-    this.apply();
-  },
-  _getRawFormValues: function _getRawFormValues() {
-    var attributes = this.state.data.attributes;
-    return attributes.bean.map(function (field) {
-      return { name: field.name, value: field.value, required: !field.canBeNull };
-    });
-  },
-  _getRequredValues: function _getRequredValues() {
-    return this._getRawFormValues().filter(function (field) {
-      return field.required;
-    });
-  },
-  _onFieldChange: function _onFieldChange(name, value) {
-    var _this = this;
-
-    var attributes = this.state.data.attributes;
-    JsonPointer.set(attributes.bean, "/values" + name, value);
-
-    this.forceUpdate(function () {
-      if (attributes.bean.meta[name].reloadOnChange === true || attributes.bean.meta[name].autoRefresh === true) {
-        _this._reloadOnChange(name);
-      }
-    });
-  },
-  _createFormActions: function _createFormActions() {
-    if (this.state.hideActions === true) {
-      return null;
-    }
-    return React.createElement(
-      'div',
-      null,
-      this._createOkAction(),
-      ' ',
-      this._createCancelAction()
-    );
-  },
-  _createOkAction: function _createOkAction() {
-    var _this2 = this;
-
-    return React.createElement(
-      'button',
-      { type: 'submit', className: 'btn btn-primary', onClick: function onClick() {
-          return _this2.setState({ wasValidated: true });
-        } },
-      be5.messages.Submit
-    );
-  },
-  _createCancelAction: function _createCancelAction() {
-    //const attributes = this.state.data.attributes;
-    if (!this.props.value.showCancel) {
-      return null;
-    }
-
-    return React.createElement(
-      'button',
-      { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
-          return history.back();
-        } },
-      be5.messages.cancel
-    );
-  },
-  _getErrorPane: function _getErrorPane() {
-    var errorModel = this.state.data.attributes.errorModel;
-
-    if (errorModel) {
-      return React.createElement(ErrorPane, { value: { errors: [errorModel], meta: this.state.meta, links: {} } });
-    } else {
-      return null;
-    }
-  },
-  render: function render() {
-    var attributes = this.state.data.attributes;
-
-    return React.createElement(
-      'div',
-      { className: 'row' },
-      React.createElement(
-        'div',
-        { className: 'formBox ' + (attributes.layout.formBoxCssClasses || 'col-12 max-width-970 formBoxDefault') },
-        React.createElement(
-          'h1',
-          { className: 'form-component__title' },
-          attributes.title
-        ),
-        React.createElement(
-          'form',
-          { onSubmit: this._applyOnSubmit, className: this.state.wasValidated ? 'was-validated' : '' },
-          React.createElement(PropertySet, { bean: attributes.bean, onChange: this._onFieldChange, localization: be5.messages.property }),
-          React.createElement(
-            'div',
-            { className: 'formActions' },
-            this._createFormActions()
-          )
-        ),
-        React.createElement('br', null)
-      ),
-      React.createElement(
-        'div',
-        { className: 'col-12' },
-        this._getErrorPane()
-      )
-    );
-    //<button onClick={this.refresh}>refresh</button>
+    _this._onFieldChange = _this._onFieldChange.bind(_this);
+    _this._applyOnSubmit = _this._applyOnSubmit.bind(_this);
+    _this.apply = _this.apply.bind(_this);
+    return _this;
   }
-});
 
-// Form.propTypes = {
-//   value: PropTypes.object.isRequired
-// };
+  createClass(Form, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      forms.changeLocationHash(this.props);
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      this.setState(Object.assign({}, nextProps.value, { wasValidated: false }));
+    }
+  }, {
+    key: 'getParams',
+    value: function getParams(values) {
+      var attributes = this.state.data.attributes;
+      return {
+        entity: attributes.entity,
+        query: attributes.query,
+        operation: attributes.operation,
+        operationParams: attributes.operationParams,
+        selectedRows: attributes.selectedRows,
+        values: values
+      };
+    }
+  }, {
+    key: 'refresh',
+    value: function refresh() {
+      forms.load(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
+    }
+  }, {
+    key: '_reloadOnChange',
+    value: function _reloadOnChange(controlName) {
+      var values = Object.assign({}, this.state.data.attributes.bean.values, { '_reloadcontrol_': controlName });
+
+      forms.load(this.getParams(values), this.props.frontendParams);
+    }
+  }, {
+    key: 'apply',
+    value: function apply() {
+      forms.apply(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
+    }
+
+    // cancel() {
+    //   be5.url.set(be5.url.create('table', [this.state.entity, this.state.query], this.state.parameters));
+    // },
+
+  }, {
+    key: '_applyOnSubmit',
+    value: function _applyOnSubmit(e) {
+      // Hitting <enter> in any textbox in Chrome triggers the form submit,
+      // even when there is no submit button.
+      // That's why I explicitly define the cancellation.
+      e.preventDefault();
+      this.apply();
+    }
+  }, {
+    key: '_onFieldChange',
+    value: function _onFieldChange(name, value) {
+      var _this2 = this;
+
+      var attributes = this.state.data.attributes;
+      JsonPointer.set(attributes.bean, "/values" + name, value);
+
+      this.forceUpdate(function () {
+        if (attributes.bean.meta[name].reloadOnChange === true || attributes.bean.meta[name].autoRefresh === true) {
+          _this2._reloadOnChange(name);
+        }
+      });
+    }
+  }, {
+    key: '_createFormActions',
+    value: function _createFormActions() {
+      if (this.state.hideActions === true) {
+        return null;
+      }
+      return React.createElement(
+        'div',
+        null,
+        this._createOkAction(),
+        ' ',
+        this._createCancelAction()
+      );
+    }
+  }, {
+    key: '_createOkAction',
+    value: function _createOkAction(addCssClasses) {
+      var _this3 = this;
+
+      return React.createElement(
+        'button',
+        { type: 'submit', className: classNames("btn btn-primary", addCssClasses), onClick: function onClick() {
+            return _this3.setState({ wasValidated: true });
+          } },
+        be5.messages.Submit
+      );
+    }
+  }, {
+    key: '_createCancelAction',
+    value: function _createCancelAction() {
+      //const attributes = this.state.data.attributes;
+      if (!this.props.value.showCancel) {
+        return null;
+      }
+
+      return React.createElement(
+        'button',
+        { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
+            return history.back();
+          } },
+        be5.messages.cancel
+      );
+    }
+  }, {
+    key: '_getErrorPane',
+    value: function _getErrorPane() {
+      var errorModel = this.state.data.attributes.errorModel;
+
+      if (errorModel) {
+        return React.createElement(ErrorPane, { value: { errors: [errorModel], meta: this.state.meta, links: {} } });
+      } else {
+        return null;
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var attributes = this.state.data.attributes;
+
+      return React.createElement(
+        'div',
+        { className: 'row' },
+        React.createElement(
+          'div',
+          { className: 'formBox ' + (attributes.layout.formBoxCssClasses || 'col-12 max-width-970 formBoxDefault') },
+          React.createElement(
+            'h1',
+            { className: 'form-component__title' },
+            attributes.title
+          ),
+          React.createElement(
+            'form',
+            { onSubmit: this._applyOnSubmit, className: this.state.wasValidated ? 'was-validated' : '' },
+            React.createElement(PropertySet, {
+              bean: attributes.bean,
+              onChange: this._onFieldChange,
+              localization: be5.messages.property
+            }),
+            React.createElement(
+              'div',
+              { className: 'formActions' },
+              this._createFormActions()
+            )
+          ),
+          React.createElement('br', null)
+        ),
+        React.createElement(
+          'div',
+          { className: 'col-12' },
+          this._getErrorPane()
+        )
+      );
+      //<button onClick={this.refresh}>refresh</button>
+    }
+  }]);
+  return Form;
+}(React.Component);
+
+Form.propTypes = {
+  value: PropTypes.object.isRequired,
+  frontendParams: PropTypes.object.isRequired
+};
 
 formsCollection.registerForm('form', Form);
 
@@ -2732,7 +2758,12 @@ var SubmitOnChangeForm = function (_Form) {
       return React.createElement(
         'div',
         { className: classNames('submit-onchange-form', attributes.cssClass) },
-        React.createElement(PropertyInput, { id: 0, bean: attributes.bean, localization: be5.messages.property, onChange: this._onFieldChangeAndSubmit }),
+        React.createElement(PropertyInput, {
+          id: 0,
+          bean: attributes.bean,
+          localization: be5.messages.property,
+          onChange: this._onFieldChangeAndSubmit
+        }),
         React.createElement(
           'div',
           { className: 'col-12' },
@@ -2775,11 +2806,18 @@ var ModalForm = function (_Form) {
         ),
         React.createElement(
           'form',
-          { onSubmit: this._applyOnSubmit },
+          {
+            onSubmit: this._applyOnSubmit,
+            className: this.state.wasValidated ? 'was-validated' : ''
+          },
           React.createElement(
             ModalBody,
             null,
-            React.createElement(PropertySet, { bean: attributes.bean, onChange: this._onFieldChange, localization: be5.messages.property })
+            React.createElement(PropertySet, {
+              bean: attributes.bean,
+              onChange: this._onFieldChange,
+              localization: be5.messages.property
+            })
           ),
           React.createElement(
             'div',
@@ -2799,6 +2837,42 @@ var ModalForm = function (_Form) {
 }(Form);
 
 formsCollection.registerForm('modal', ModalForm);
+
+var InlineForm = function (_Form) {
+  inherits(InlineForm, _Form);
+
+  function InlineForm() {
+    classCallCheck(this, InlineForm);
+    return possibleConstructorReturn(this, (InlineForm.__proto__ || Object.getPrototypeOf(InlineForm)).apply(this, arguments));
+  }
+
+  createClass(InlineForm, [{
+    key: 'render',
+    value: function render() {
+      var attributes = this.state.data.attributes;
+
+      return React.createElement(
+        'form',
+        {
+          onSubmit: this._applyOnSubmit,
+          className: classNames('form-inline', attributes.cssClass, this.state.wasValidated ? 'was-validated' : '')
+        },
+        React.createElement(PropertySet, {
+          bean: attributes.bean,
+          onChange: this._onFieldChange,
+          localization: be5.messages.property,
+          inline: true,
+          rowClass: 'd-flex'
+        }),
+        this._createOkAction('mb-2'),
+        this._getErrorPane()
+      );
+    }
+  }]);
+  return InlineForm;
+}(Form);
+
+formsCollection.registerForm('inline', InlineForm);
 
 var be5init = {
   init: function init() {
@@ -4738,4 +4812,4 @@ Navs.propTypes = {
 // actions
 // services
 
-export { be5, be5init, Const as constants, Preconditions as preconditions, settings, bus, changeDocument, documentUtils, http, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, Document, HelpInfo, LanguageBox as LanguageSelector, RoleBox as RoleSelector, SideBar, Sorter, SplitPane$1 as SplitPane, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, Form, SubmitOnChangeForm, ModalForm, FinishedResult, Table, QuickColumns, OperationBox, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, action$2 as formAction, action as loadingAction, action$4 as loginAction, action$6 as logoutAction, action$12 as qBuilderAction, action$8 as staticAction, action$10 as tableAction, action$14 as textAction, actions as action, forms, Tables as tables, formsCollection, tablesCollection, actionsCollection };
+export { be5, be5init, Const as constants, Preconditions as preconditions, settings, bus, changeDocument, documentUtils, http, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, Document, HelpInfo, LanguageBox as LanguageSelector, RoleBox as RoleSelector, SideBar, Sorter, SplitPane$1 as SplitPane, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, Form, SubmitOnChangeForm, ModalForm, InlineForm, FinishedResult, Table, QuickColumns, OperationBox, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, action$2 as formAction, action as loadingAction, action$4 as loginAction, action$6 as logoutAction, action$12 as qBuilderAction, action$8 as staticAction, action$10 as tableAction, action$14 as textAction, actions as action, forms, Tables as tables, formsCollection, tablesCollection, actionsCollection };

@@ -20,6 +20,7 @@ import './components/tables/Table';
 
 import './components/forms/SubmitOnChangeForm';
 import './components/forms/ModalForm';
+import './components/forms/InlineForm';
 import './components/forms/Form';
 
 

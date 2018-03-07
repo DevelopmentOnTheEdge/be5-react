@@ -1,5 +1,6 @@
 import React           from 'react';
 import PropTypes       from 'prop-types';
+import classNames      from 'classnames';
 import be5             from '../../be5';
 import forms           from '../../services/forms';
 import formsCollection from '../../services/formsCollection';
@@ -90,9 +91,9 @@ class Form extends React.Component
     );
   }
 
-  _createOkAction() {
+  _createOkAction(addCssClasses) {
     return (
-      <button type="submit" className="btn btn-primary" onClick={() => this.setState({wasValidated: true})}>
+      <button type="submit" className={classNames("btn btn-primary", addCssClasses)} onClick={() => this.setState({wasValidated: true})}>
         {be5.messages.Submit}
       </button>
     );

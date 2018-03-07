@@ -18,7 +18,10 @@ class ModalForm extends Form
     return (
       <div>
         <ModalHeader tag='h5' toggle={() => bus.fire("mainModalClose")} >{attributes.title}</ModalHeader>
-        <form onSubmit={this._applyOnSubmit}>
+        <form
+          onSubmit={this._applyOnSubmit}
+          className={this.state.wasValidated ? 'was-validated' : ''}
+        >
           <ModalBody>
             <PropertySet
               bean={attributes.bean}

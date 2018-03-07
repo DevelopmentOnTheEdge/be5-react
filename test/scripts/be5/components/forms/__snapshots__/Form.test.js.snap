@@ -73,6 +73,37 @@ exports[`Form 1`] = `
 </div>
 `;
 
+exports[`InlineForm 1`] = `
+<form
+  className="form-inline"
+  onSubmit={[Function]}
+>
+  <div
+    className="property-set d-flex"
+  >
+    <input
+      className="form-control mb-2 mr-sm-2"
+      disabled={undefined}
+      id="companyIDPropertyInput"
+      maxLength={undefined}
+      onChange={[Function]}
+      pattern={undefined}
+      placeholder={undefined}
+      required={true}
+      type="text"
+      value=""
+    />
+  </div>
+  <button
+    className="btn btn-primary mb-2"
+    onClick={[Function]}
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;
+
 exports[`ModalForm 1`] = `
 <div>
   <div
@@ -97,6 +128,7 @@ exports[`ModalForm 1`] = `
     </button>
   </div>
   <form
+    className=""
     onSubmit={[Function]}
   >
     <div
