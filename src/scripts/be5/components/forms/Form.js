@@ -8,25 +8,24 @@ import JsonPointer     from 'json-pointer';
 import ErrorPane       from "../ErrorPane";
 
 
-const Form = React.createClass({
-  propTypes: {
-    value: React.PropTypes.object.isRequired,
-    frontendParams: React.PropTypes.object.isRequired
-  },
+class Form extends React.Component
+{
+  constructor(props) {
+    super(props);
+    this.state = this.props.value;
 
-  displayName: 'Form',
-  
-  getInitialState() {
-    return this.props.value;
-  },
+    this._onFieldChange = this._onFieldChange.bind(this);
+    this._applyOnSubmit = this._applyOnSubmit.bind(this);
+    this.apply = this.apply.bind(this);
+  }
 
   componentDidMount() {
     forms.changeLocationHash(this.props);
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     this.setState(Object.assign({}, nextProps.value, {wasValidated: false}));
-  },
+  }
 
   getParams(values){
     const attributes = this.state.data.attributes;
@@ -38,21 +37,21 @@ const Form = React.createClass({
       selectedRows: attributes.selectedRows,
       values: values,
     };
-  },
+  }
 
   refresh() {
     forms.load(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
-  },
+  }
   
   _reloadOnChange(controlName) {
     const values = Object.assign({}, this.state.data.attributes.bean.values, { '_reloadcontrol_': controlName });
 
     forms.load(this.getParams(values), this.props.frontendParams);
-  },
+  }
 
   apply() {
     forms.apply(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
-  },
+  }
   
   // cancel() {
   //   be5.url.set(be5.url.create('table', [this.state.entity, this.state.query], this.state.parameters));
@@ -64,17 +63,8 @@ const Form = React.createClass({
     // That's why I explicitly define the cancellation.
     e.preventDefault();
     this.apply();
-  },
-  
-  _getRawFormValues() {
-    const attributes = this.state.data.attributes;
-    return attributes.bean.map(field => ({ name: field.name, value: field.value, required: !field.canBeNull }))
-  },
-  
-  _getRequredValues() {
-    return this._getRawFormValues().filter(field => field.required);
-  },
-  
+  }
+
   _onFieldChange(name, value) {
     const attributes = this.state.data.attributes;
     JsonPointer.set(attributes.bean, "/values" + name, value);
@@ -85,7 +75,7 @@ const Form = React.createClass({
         this._reloadOnChange(name);
       }
     });
-  },
+  }
 
   _createFormActions() {
     if (this.state.hideActions === true) {
@@ -98,7 +88,7 @@ const Form = React.createClass({
         {this._createCancelAction()}
       </div>
     );
-  },
+  }
 
   _createOkAction() {
     return (
@@ -106,7 +96,7 @@ const Form = React.createClass({
         {be5.messages.Submit}
       </button>
     );
-  },
+  }
   
   _createCancelAction() {
     //const attributes = this.state.data.attributes;
@@ -119,7 +109,7 @@ const Form = React.createClass({
         {be5.messages.cancel}
       </button>
     );
-  },
+  }
 
   _getErrorPane(){
     const errorModel = this.state.data.attributes.errorModel;
@@ -129,7 +119,7 @@ const Form = React.createClass({
     }else{
       return null;
     }
-  },
+  }
 
   render() {
     const attributes = this.state.data.attributes;
@@ -153,11 +143,12 @@ const Form = React.createClass({
     );
     //<button onClick={this.refresh}>refresh</button>
   }
-});
+}
 
-// Form.propTypes = {
-//   value: PropTypes.object.isRequired
-// };
+Form.propTypes = {
+  value: PropTypes.object.isRequired,
+  frontendParams: PropTypes.object.isRequired
+};
 
 formsCollection.registerForm('form', Form);
 

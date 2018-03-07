@@ -4,6 +4,9 @@ import Form           from '../../../../../src/scripts/be5/components/forms/Form
 import ModalForm           from '../../../../../src/scripts/be5/components/forms/ModalForm';
 import SubmitOnChangeForm           from '../../../../../src/scripts/be5/components/forms/SubmitOnChangeForm';
 import testData       from '../../testData.json'
+import forms from '../../../../../src/scripts/be5/services/forms';
+import {shallow, mount} from 'enzyme';
+
 
 test('Form', () => {
   const component = renderer.create(
@@ -27,4 +30,28 @@ test('SubmitOnChangeForm', () => {
   );
 
   expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('submit form', () => {
+  const handle = forms.apply = jest.fn();
+
+  const wrapper = mount(
+    <Form value={testData.simpleForm} frontendParams={{documentName: 'test'}} />
+  );
+
+  wrapper.find('input').simulate('change', {target: {value: 'newValue'}});
+
+  wrapper.instance()._applyOnSubmit({ preventDefault: () => {} });
+
+  expect(handle.mock.calls[0]).toEqual([
+      {
+        "entity": "companies",
+        "operation": "SelectCompany",
+        "operationParams": undefined,
+        "query": "Selection view SelectCompany",
+        "selectedRows": "",
+        "values": {"companyID": "newValue"}
+      },
+      {"documentName": "test"}
+  ]);
 });
