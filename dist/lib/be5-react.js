@@ -2557,7 +2557,7 @@ var Form = React.createClass({
     forms.changeLocationHash(this.props);
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    this.setState(nextProps.value);
+    this.setState(Object.assign({}, nextProps.value, { wasValidated: false }));
   },
   getParams: function getParams(values) {
     var attributes = this.state.data.attributes;
@@ -2630,9 +2630,13 @@ var Form = React.createClass({
     );
   },
   _createOkAction: function _createOkAction() {
+    var _this2 = this;
+
     return React.createElement(
       'button',
-      { type: 'submit', className: 'btn btn-primary' },
+      { type: 'submit', className: 'btn btn-primary', onClick: function onClick() {
+          return _this2.setState({ wasValidated: true });
+        } },
       be5.messages.Submit
     );
   },
@@ -2675,7 +2679,7 @@ var Form = React.createClass({
         ),
         React.createElement(
           'form',
-          { onSubmit: this._applyOnSubmit },
+          { onSubmit: this._applyOnSubmit, className: this.state.wasValidated ? 'was-validated' : '' },
           React.createElement(PropertySet, { bean: attributes.bean, onChange: this._onFieldChange, localization: be5.messages.property }),
           React.createElement(
             'div',

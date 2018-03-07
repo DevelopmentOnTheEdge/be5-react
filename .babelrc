@@ -1,16 +1,10 @@
 {
   "presets": [
-    ["es2015", {"modules": false}],
+    ["env", {"modules": false}],
     "react"
   ],
   "plugins": ["react-hot-loader/babel"],
   "env": {
-    "lib-dir": {
-      "plugins": ["transform-es2015-modules-commonjs"]
-    },
-    "webpack": {
-      "plugins": ["transform-es2015-modules-commonjs"]
-    },
     "test": {
       "plugins": ["transform-es2015-modules-commonjs"]
     }

@@ -25,10 +25,10 @@ if (env.min) {
 
 let config = {
     entry: {
-        be5: './src/scripts/be5/main.js'
+        'be5-react': ['babel-polyfill', './src/scripts/be5/main.js']
     },
     output: {
-        publicPath: '/',
+        publicPath: './',
         path: path.join(__dirname, outPath),
         filename: fileName,
         library:  '[name]',
@@ -54,7 +54,7 @@ let config = {
         //new BundleAnalyzerPlugin(),
         new OptimizeCssAssetsPlugin(),
         new HtmlWebpackPlugin({
-            chunks: ['be5'],
+            chunks: ['be5-react'],
             favicon: './src/images/favicon.ico',
             template: './src/template.html',
             files: {
