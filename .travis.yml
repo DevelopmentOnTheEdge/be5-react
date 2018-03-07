@@ -6,6 +6,7 @@ cache:
   directories:
     - node_modules
 script:
+  - npm update
   - npm run build
   - npm run lib
   - npm test
