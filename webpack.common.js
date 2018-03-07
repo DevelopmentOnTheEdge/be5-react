@@ -6,8 +6,7 @@ module.exports = {
       use: [{
         loader: 'babel-loader',
         options: {
-          presets: [['env', {modules: false}]],
-          plugins: ['syntax-dynamic-import']
+          presets: [['env', {modules: false}]]
         }
       }]
     },
