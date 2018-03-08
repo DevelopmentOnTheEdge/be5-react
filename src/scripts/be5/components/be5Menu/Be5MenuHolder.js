@@ -9,6 +9,7 @@ var tree = {};
 
 const menu = {
   find: function(coords) {
+    console.log(actions, coords);
     return _(actions).findWhere(coords);
   },
   getRaw: function() {

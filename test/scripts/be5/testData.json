@@ -57,7 +57,7 @@
       "_ts_": "1507198487234"
     }
   },
-  "tableNotFound": {
+  "jsonApiError": {
     "errors":[{
       "code":"Be5Exception: Query not found: testtable.Test 1D2\n ",
       "status":"404",

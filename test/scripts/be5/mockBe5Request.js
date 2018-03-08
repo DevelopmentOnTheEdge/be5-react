@@ -4,7 +4,12 @@ be5.locale.set = () => {};
 
 be5.net.request = function (path, attr, callback) {
   if (path === 'menu') {
-    callback({"loggedIn":true,"root":[{"action":{"arg":"static/welcome.be","name":"call"},"default":false,"title":"Добро пожаловать"},{"children":[{"action":{"arg":"login","name":"call"},"default":false,"title":"Вход"}],"default":false,"id":{"entity":"users"},"title":"Пользователи"},{"children":[{"action":{"arg":"table/welfareGroups/Муниципальные услуги","name":"call"},"default":false,"title":"Муниципальные услуги"}],"default":false,"id":{"entity":"_welfareGroups_"},"title":"Услуги"}]});
+    callback({"loggedIn":true,"root":[{"action":{"arg":"static/welcome.be","name":"call"},"default":false,"title":"Добро пожаловать"},{"children":[{"action":{"arg":"login","name":"call"},"default":false,"title":"Вход"}],"default":false,"id":{"entity":"users"},"title":"Пользователи"},{"children":[{"action":{"arg":"table/users/TestQuery","name":"call"},"default":false,"title":"Test query"}],"default":false,"id":{"entity":"_welfareGroups_"},"title":"Услуги"}]});
+    return;
+  }
+
+  if (path === 'menu/withIds') {
+    callback({"loggedIn":true,"root":[{"action":{"arg":"static/welcome.be","name":"call"},"default":true,"id":{"entity":"_welcome_","query":"All records"},"title":"Добро пожаловать"},{"children":[{"action":{"arg":"table/testtable/Test 1D","name":"call"},"default":false,"id":{"entity":"testtable","query":"Test 1D"},"title":"Test 1D"},{"action":{"arg":"table/testtable/Test 1D unknown","name":"call"},"default":false,"id":{"entity":"testtable","query":"Test 1D unknown"},"title":"Test 1D unknown"}],"default":false,"id":{"entity":"testtable"},"title":"Test table"},{"action":{"arg":"table/users/All records","name":"call"},"default":false,"id":{"entity":"users","query":"All records"},"operations":[{"action":{"arg":"form/users/All records/Insert","name":"call"},"id":{"entity":"users","operation":"Insert"},"title":"Добавить"}],"title":"Пользователи"},{"action":{"arg":"logout","name":"call"},"default":false,"id":{"entity":"_logout_","query":"All records"},"title":"Выход"}]});
     return;
   }
 

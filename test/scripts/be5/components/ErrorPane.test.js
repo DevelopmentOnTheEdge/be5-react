@@ -6,7 +6,7 @@ import testData       from '../testData.json'
 
 test('snapshot', () => {
   const component = renderer.create(
-    <ErrorPane value={testData.tableNotFound} frontendParams={{documentName: 'test'}}/>
+    <ErrorPane value={testData.jsonApiError} frontendParams={{documentName: 'test'}}/>
   );
 
   expect(component.toJSON()).toMatchSnapshot();

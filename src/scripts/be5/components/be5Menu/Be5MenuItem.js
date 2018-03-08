@@ -26,6 +26,7 @@ export default React.createClass({
       return ( <span></span> );
     }
     const { href, target } = actions.parse(Be5MenuHolder.getMenu().find(this._getCoordinates()).action);
+    console.log(href, target);
     return (
       <a className="menu-item" href={href} target={target}>{this.state.title}</a>
     );

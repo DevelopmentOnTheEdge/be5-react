@@ -110,11 +110,11 @@ exports[`snapshot 1`] = `
                   >
                     <a
                       className="menuItem menuItemWithRef"
-                      href="#!table/welfareGroups/Муниципальные услуги"
+                      href="#!table/users/TestQuery"
                       onClick={[Function]}
                       target=""
                     >
-                      Муниципальные услуги
+                      Test query
                     </a>
                     <div />
                   </div>

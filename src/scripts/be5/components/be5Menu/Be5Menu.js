@@ -1,6 +1,23 @@
 import React from 'react';
 import Be5MenuHolder from './Be5MenuHolder';
+import be5 from '../../be5';
+import RoleSelector from '../../components/RoleSelector';
 import actions        from '../../services/actions';
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap';
+import RoleBox from "../RoleSelector";
+
 
 export default React.createClass({
   displayName: 'Be5Menu',
@@ -13,7 +30,7 @@ export default React.createClass({
   },
   
   getInitialState() {
-    return { loaded: false };
+    return { loaded: false, isOpen: false };
   },
   
   componentDidMount() {
@@ -29,6 +46,12 @@ export default React.createClass({
       menu: menu.getRaw()
     });
   },
+
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  },
   
   render() {
     if (!this.props.show) {
@@ -36,19 +59,22 @@ export default React.createClass({
     }
     
     const rootMenuItems = this.state.loaded ? this._renderMenuItems(this.state.menu.root, false) : <li>Loading...</li>;
-    const branding = this.props.branding ? <a className="navbar-brand" href="#">{this.props.branding}</a> : undefined;
+    const branding = this.props.branding ?  <NavbarBrand href="#">{this.props.branding}</NavbarBrand> : undefined;
     const rightButtons = this._renderRightButtons();
-    
+
     return (
-      <nav className="navbar navbar-light bg-faded">
+      <Navbar color="dark" dark expand="md">
         <div className="container">
           {branding}
-          <ul className="nav navbar-nav">
-            {rootMenuItems}
-          </ul>
-          {rightButtons}
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav className="" navbar>
+              {rootMenuItems}
+            </Nav>
+            {rightButtons}
+          </Collapse>
         </div>
-      </nav>
+      </Navbar>
     );
   },
   
@@ -58,20 +84,34 @@ export default React.createClass({
     }
     if (!this.state.menu.loggedIn){
       return (
-        <form className="form-inline pull-right">
+        <form className="form-inline ml-auto">
           <a className="btn btn-secondary" role="button" href="#!login">Sign in</a>
           {' '}
           <a className="btn btn-primary" role="button" href="#!register">Sign up</a>
         </form>
       );
     }
+    //<RoleSelector/>
     return (
-      <form className="form-inline pull-right">
-        <a className="btn btn-secondary" role="button" href="#!logout">Log out</a>
+      <form className="form-inline ml-auto">
+        <a className="btn btn-secondary" role="button" href="#!logout">{be5.messages.logout}</a>
       </form>
     );
   },
-  
+
+  _renderDropdownMenuItems(items) {
+    return _(items).map(item => {
+      if (item.default) {
+        return undefined;
+      }
+      const { href, target } = actions.parse(item.action);
+
+      return (
+        <DropdownItem href={href} key={target+href}>{item.title}</DropdownItem>
+      )
+    });
+  },
+
   _renderMenuItems(items, inDropdown) {
     return _(items).map(item => {
       if (item.default) {
@@ -80,25 +120,32 @@ export default React.createClass({
       
       if (!item.children || item.children.length === 0) {
         const { href, target } = actions.parse(item.action);
-        const liClass = inDropdown ? '' : 'nav-item';
-        const aClass = inDropdown ? 'dropdown-item' : 'nav-link';
-        return <li className={liClass} key={target+href}><a className={aClass} href={href} target={target}>{item.title}</a></li>;
+        // const liClass = inDropdown ? '' : 'nav-item';
+        // const aClass = inDropdown ? 'dropdown-item' : 'nav-link';
+        // return <li className={liClass} key={target+href}><a className={aClass} href={href} target={target}>{item.title}</a></li>;
+        return (
+          <NavItem key={target+href}>
+            <NavLink href={href}>{item.title}</NavLink>
+          </NavItem>
+        )
       }
       
-      const dropdownMenuItems = this._renderMenuItems(item.children, true);
-      
+      const dropdownMenuItems = this._renderDropdownMenuItems(item.children, true);
+
       return (
-        <li className="nav-item dropdown" key={item.title}>
-          <a className="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+        <UncontrolledDropdown nav inNavbar key={item.title}>
+          <DropdownToggle nav caret>
             {item.title}
-          </a>
-          <ul className="dropdown-menu">
+          </DropdownToggle>
+          <DropdownMenu >
             {dropdownMenuItems}
-          </ul>
-        </li>
+          </DropdownMenu>
+        </UncontrolledDropdown>
       );
     });
   },
+
+
   
   /* public */
   refresh() {

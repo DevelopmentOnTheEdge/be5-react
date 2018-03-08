@@ -70,7 +70,7 @@ test('_performData error', () => {
   const handle = jest.fn();
   bus.replaceListeners("testDoc", handle);
 
-  tables._performData(testData.tableNotFound, "testDoc");
+  tables._performData(testData.jsonApiError, "testDoc");
 
-  expect(handle.mock.calls[0]).toEqual([{ component: ErrorPane, value: testData.tableNotFound }]);
+  expect(handle.mock.calls[0]).toEqual([{ component: ErrorPane, value: testData.jsonApiError }]);
 });
