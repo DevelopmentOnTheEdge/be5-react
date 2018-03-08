@@ -25,25 +25,27 @@ import './components/forms/Form';
 
 
 export default {
-  init(){
-    const hashChange = function()
+
+  hashChange()
+  {
+    bus.fire("mainModalClose");
+
+    const state = documentState.get(be5.mainDocumentName);
+
+    if(state.value.links !== undefined && "#!" + state.value.links.self === document.location.hash
+      && state.value.links.self.startsWith('form'))
     {
-      bus.fire("mainModalClose");
+      //console.log('skip - form already opened');
+    }
+    else
+    {
+      be5.url.process(be5.mainDocumentName, document.location.hash);
+    }
+  },
 
-      const state = documentState.get(be5.mainDocumentName);
-
-      if(state.value.links !== undefined && "#!" + state.value.links.self === document.location.hash
-        && state.value.links.self.startsWith('form'))
-      {
-        //console.log('skip - form already opened');
-      }
-      else
-      {
-        be5.url.process(be5.mainDocumentName, document.location.hash);
-      }
-    };
-
-    window.addEventListener("hashchange", hashChange, false);
+  init()
+  {
+    window.addEventListener("hashchange", this.hashChange, false);
 
     be5.net.request("appInfo", {}, function(data) {
       be5.appInfo = data;
