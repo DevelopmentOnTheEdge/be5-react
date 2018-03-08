@@ -11,7 +11,15 @@ import {shallow, mount} from 'enzyme';
 
 test('Form', () => {
   const component = renderer.create(
-    <Form value={testData.simpleForm} frontendParams={{documentName: 'test'}} />
+    <Form value={testData.emptyForm} frontendParams={{documentName: 'test'}} />
+  );
+
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('Form errorOnApply', () => {
+  const component = renderer.create(
+    <Form value={testData.errorOnApply} frontendParams={{documentName: 'test'}} />
   );
 
   expect(component.toJSON()).toMatchSnapshot();
@@ -19,7 +27,7 @@ test('Form', () => {
 
 test('ModalForm', () => {
   const component = renderer.create(
-    <ModalForm value={testData.simpleForm} frontendParams={{documentName: 'test'}} />
+    <ModalForm value={testData.emptyForm} frontendParams={{documentName: 'test'}} />
   );
 
   expect(component.toJSON()).toMatchSnapshot();
@@ -27,7 +35,7 @@ test('ModalForm', () => {
 
 test('InlineForm', () => {
   const component = renderer.create(
-    <InlineForm value={testData.simpleForm} frontendParams={{documentName: 'test'}} />
+    <InlineForm value={testData.emptyForm} frontendParams={{documentName: 'test'}} />
   );
 
   expect(component.toJSON()).toMatchSnapshot();
@@ -62,5 +70,49 @@ test('submit form', () => {
         "values": {"companyID": "newValue"}
       },
       {"documentName": "test"}
+  ]);
+});
+
+test('reloadOnChange', () => {
+  const handle = forms.load = jest.fn();
+
+  const wrapper = mount(
+    <Form value={testData.reloadOnChangeForm} frontendParams={{documentName: 'test'}} />
+  );
+
+  wrapper.find('input').simulate('change', {target: {value: 'newValue'}});
+
+  expect(handle.mock.calls[0]).toEqual([
+    {
+      "entity": "companies",
+      "operation": "SelectCompany",
+      "operationParams": undefined,
+      "query": "Selection view SelectCompany",
+      "selectedRows": "",
+      "values": {"_reloadcontrol_": "/companyID", "companyID": "newValue"}
+    },
+    {"documentName": "test"}
+  ]);
+});
+
+test('reloadOnChange', () => {
+  const handle = forms.apply = jest.fn();
+
+  const wrapper = mount(
+    <SubmitOnChangeForm value={testData.reloadOnChangeForm} frontendParams={{documentName: 'test'}} />
+  );
+
+  wrapper.find('input').simulate('change', {target: {value: 'newValue'}});
+
+  expect(handle.mock.calls[0]).toEqual([
+    {
+      "entity": "companies",
+      "operation": "SelectCompany",
+      "operationParams": undefined,
+      "query": "Selection view SelectCompany",
+      "selectedRows": "",
+      "values": {"companyID": "newValue"}
+    },
+    {"documentName": "test"}
   ]);
 });

@@ -1,8 +1,10 @@
 import React          from 'react';
 import renderer       from 'react-test-renderer';
 import Document       from '../../../../src/scripts/be5/components/Document';
+import '../../../../src/scripts/be5/components/forms/Form';
 import be5            from '../../../../src/scripts/be5/be5';
 import forms          from '../../../../src/scripts/be5/services/forms';
+import testData       from '../testData.json'
 
 
 test('load', () => {
@@ -38,9 +40,9 @@ test('load', () => {
     operationParams: {'user_name':'Guest'},
     selectedRows: ''
   };
-  forms.load(params, {documentName: 'testDoc',parentDocumentName: 'parentTestDoc'});
+  forms.apply(params, {documentName: 'testDoc',parentDocumentName: 'parentTestDoc'});
   expect(be5.net.request.mock.calls[1]).toEqual([
-    "form", {
+    "form/apply", {
       "_ts_": expect.any(Number),
       "entity": "users",
       "operation": "Insert",
@@ -88,7 +90,7 @@ test('performOperationResult redirect', () => {
   };
   forms._performOperationResult(res, {documentName: "test"});
 
-  expect(be5.url.process.mock.calls.length).toBe(1);
+  expect(be5.url.process.mock.calls[0]).toEqual(["test", "#!static/welcome.be"]);
   //expect(mockFunc.mock.calls.length).toBe(1);
 });
 
@@ -109,3 +111,26 @@ test('performOperationResult redirect be5.mainDocumentName', () => {
   expect(be5.url.set.mock.calls.length).toBe(1);
   //expect(mockFunc.mock.calls.length).toBe(1);
 });
+
+test('load and _performForm test', () => {
+  const component = renderer.create(
+    <Document frontendParams={{documentName: "test"}}/>
+  );
+  //be5.url.set = jest.fn();
+  be5.net.request = (action, requestParams, data) => {data(testData.emptyForm, {documentName: 'test'})};
+
+  let params = {
+    entity: 'users',
+    query: 'All records',
+    operation: 'Insert',
+    values: {},
+    operationParams: {'user_name':'Guest',selectedRows: '12'}
+  };
+  forms.load(params, {documentName: "test"});
+  //forms._performOperationResult(testData.emptyForm, {documentName: 'test'});
+
+  //expect(be5.url.set.mock.calls.length).toBe(1);
+  //expect(mockFunc.mock.calls.length).toBe(1);
+  expect(component.toJSON()).toMatchSnapshot();
+});
+

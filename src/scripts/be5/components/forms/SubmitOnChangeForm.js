@@ -10,13 +10,13 @@ class SubmitOnChangeForm extends Form
 {
   constructor(props) {
     super(props);
-    this.state = this.props.value;//Object.assign({}, this.props.value, { allFieldsFilled: false });
+    this.state = this.props.value;
 
     this._onFieldChangeAndSubmit = this._onFieldChangeAndSubmit.bind(this);
   }
 
   _onFieldChangeAndSubmit(name, value) {
-    super._onFieldChange(name, value);
+    super._setValue(name, value);
     super.apply();
   }
 

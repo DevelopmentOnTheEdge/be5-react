@@ -100,6 +100,86 @@
       "_ts_": "1507198229686"
     }
   },
+  "reloadOnChangeForm": {
+    "data": {
+      "attributes": {
+        "bean": {
+          "values": {
+            "companyID": ""
+          },
+          "meta": {
+            "/companyID": {
+              "displayName": "companyID",
+              "reloadOnChange": true
+            }
+          },
+          "order": [
+            "/companyID"
+          ]
+        },
+        "entity": "companies",
+        "layout": {},
+        "operation": "SelectCompany",
+        "operationResult": {
+          "status": "open"
+        },
+        "query": "Selection view SelectCompany",
+        "selectedRows": "",
+        "title": "SelectCompany"
+      },
+      "type": "form"
+    },
+    "links": {
+      "self": "form/companies/Selection view SelectCompany/SelectCompany"
+    },
+    "meta": {
+      "_ts_": "1507198229686"
+    }
+  },
+  "emptyForm": {
+    "data": {
+      "attributes": {
+        "bean": {
+          "values": {},
+          "meta": {},
+          "order": []
+        },
+        "entity": "companies",
+        "layout": {},
+        "operation": "SelectCompany",
+        "operationResult": {
+          "status": "open"
+        },
+        "query": "Selection view SelectCompany",
+        "selectedRows": "",
+        "title": "SelectCompany"
+      },
+      "type": "form"
+    },
+    "links": {
+      "self": "form/companies/Selection view SelectCompany/SelectCompany"
+    },
+    "meta": {
+      "_ts_": "1507198229686"
+    }
+  },
+  "errorOnApply": {
+    "data":{
+      "attributes":{"bean":{"values":{},"meta":{},"order":[]},
+      "entity":"testtable",
+        "errorModel":{"code":"Be5Exception: Internal error occured during operation... ","status":"500","title":"Internal error occured during operation testtable.TestOperation"},
+        "layout":{},
+        "operation":"TestOperation",
+        "operationParams":{},
+        "operationResult":{"message":"Internal error occured during operation testtable.TestOperation","status":"error"},
+        "query":"Test 1D",
+        "selectedRows":"",
+        "title":"Тестовая операция"},
+      "type":"form"
+    },
+    "links":{"self":"form/testtable/Test 1D/TestOperation"},
+    "meta":{"_ts_":"1520488568877"}
+  },
   "redirectResult": {
     "data":{
       "attributes":{

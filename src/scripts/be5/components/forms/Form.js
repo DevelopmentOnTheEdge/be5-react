@@ -16,6 +16,7 @@ class Form extends React.Component
     this.state = this.props.value;
 
     this._onFieldChange = this._onFieldChange.bind(this);
+    this._setValue = this._setValue.bind(this);
     this._applyOnSubmit = this._applyOnSubmit.bind(this);
     this.apply = this.apply.bind(this);
   }
@@ -66,9 +67,13 @@ class Form extends React.Component
     this.apply();
   }
 
+  _setValue(name, value) {
+    JsonPointer.set(this.state.data.attributes.bean, "/values" + name, value);
+  }
+
   _onFieldChange(name, value) {
     const attributes = this.state.data.attributes;
-    JsonPointer.set(attributes.bean, "/values" + name, value);
+    this._setValue(name, value);
 
     this.forceUpdate(() => {
       if (attributes.bean.meta[name].reloadOnChange === true ||

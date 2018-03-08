@@ -18,38 +18,7 @@ exports[`Form 1`] = `
     >
       <div
         className="property-set form-row"
-      >
-        <div
-          className="col-lg-12"
-        >
-          <div
-            className="form-group property required"
-          >
-            <label
-              className="form-control-label"
-              htmlFor="companyIDPropertyInput"
-            >
-              companyID
-            </label>
-            <div
-              className="controls"
-            >
-              <input
-                className="form-control"
-                disabled={undefined}
-                id="companyIDPropertyInput"
-                maxLength={undefined}
-                onChange={[Function]}
-                pattern={undefined}
-                placeholder={undefined}
-                required={true}
-                type="text"
-                value=""
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      />
       <div
         className="formActions"
       >
@@ -73,6 +42,69 @@ exports[`Form 1`] = `
 </div>
 `;
 
+exports[`Form errorOnApply 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="formBox col-12 max-width-970 formBoxDefault"
+  >
+    <h1
+      className="form-component__title"
+    >
+      Тестовая операция
+    </h1>
+    <form
+      className=""
+      onSubmit={[Function]}
+    >
+      <div
+        className="property-set form-row"
+      />
+      <div
+        className="formActions"
+      >
+        <div>
+          <button
+            className="btn btn-primary"
+            onClick={[Function]}
+            type="submit"
+          >
+            Submit
+          </button>
+           
+        </div>
+      </div>
+    </form>
+    <br />
+  </div>
+  <div
+    className="col-12"
+  >
+    <div
+      className="errorPane"
+    >
+      <h1
+        className="errorPane__title"
+      >
+        500
+         - 
+        Internal error occured during operation testtable.TestOperation
+      </h1>
+      <br />
+      <pre
+        className="errorPane__code"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "Be5Exception: Internal error occured during operation... ",
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;
+
 exports[`InlineForm 1`] = `
 <form
   className="form-inline"
@@ -80,20 +112,7 @@ exports[`InlineForm 1`] = `
 >
   <div
     className="property-set d-flex"
-  >
-    <input
-      className="form-control mb-2 mr-sm-2"
-      disabled={undefined}
-      id="companyIDPropertyInput"
-      maxLength={undefined}
-      onChange={[Function]}
-      pattern={undefined}
-      placeholder={undefined}
-      required={true}
-      type="text"
-      value=""
-    />
-  </div>
+  />
   <button
     className="btn btn-primary mb-2"
     onClick={[Function]}
@@ -136,38 +155,7 @@ exports[`ModalForm 1`] = `
     >
       <div
         className="property-set form-row"
-      >
-        <div
-          className="col-lg-12"
-        >
-          <div
-            className="form-group property required"
-          >
-            <label
-              className="form-control-label"
-              htmlFor="companyIDPropertyInput"
-            >
-              companyID
-            </label>
-            <div
-              className="controls"
-            >
-              <input
-                className="form-control"
-                disabled={undefined}
-                id="companyIDPropertyInput"
-                maxLength={undefined}
-                onChange={[Function]}
-                pattern={undefined}
-                placeholder={undefined}
-                required={true}
-                type="text"
-                value=""
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      />
     </div>
     <div
       className="col-12"
