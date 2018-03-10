@@ -118,13 +118,18 @@ const be5 = {
   },
 
   url: {
+
+    get(){
+      return decodeURI(document.location.hash);
+    },
+
     set(url) {
       if (url.substring(0, 1) === '#')
         url = url.substring(1);
       if (url.substring(0, 1) !== '!')
         url = '!' + url;
       url = '#' + url;
-      if(document.location.hash !== url){
+      if(be5.url.get() !== url){
         document.location.hash = url;
       }else{
         be5.url.process(be5.mainDocumentName, url);
@@ -132,7 +137,7 @@ const be5 = {
     },
 
     empty() {
-      let url = document.location.hash;
+      let url = be5.url.get();
       return url === '' || url === '#' || url === '!' || url === '#!';
     },
 

@@ -32,14 +32,14 @@ export default {
 
     const state = documentState.get(be5.mainDocumentName);
 
-    if(state.value.links !== undefined && "#!" + state.value.links.self === document.location.hash
+    if(state.value.links !== undefined && "#!" + state.value.links.self === be5.url.get()
       && state.value.links.self.startsWith('form'))
     {
       //console.log('skip - form already opened');
     }
     else
     {
-      be5.url.process(be5.mainDocumentName, document.location.hash);
+      be5.url.process(be5.mainDocumentName, be5.url.get());
     }
   },
 
@@ -60,7 +60,7 @@ export default {
 
     be5.net.request('languageSelector', {}, function(data) {
       be5.locale.set(data.selected, data.messages);
-      be5.url.process(be5.mainDocumentName, document.location.hash);
+      be5.url.process(be5.mainDocumentName, be5.url.get());
     });
   }
 }
