@@ -180,7 +180,7 @@ exports[`SubmitOnChangeForm 1`] = `
   className="submit-onchange-form"
 >
   <input
-    className="form-control"
+    className="property-input form-control"
     disabled={undefined}
     id="companyIDPropertyInput"
     maxLength={undefined}
