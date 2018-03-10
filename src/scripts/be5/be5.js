@@ -291,10 +291,10 @@ const be5 = {
         },
         crossDomain: true,
         success : function(data, status, xhr) {
-          if (xhr.status == 0) {
+          if (xhr.status === 0) {
             if (xhr.aborted)
               return null;
-            if (data == undefined) {
+            if (data === undefined) {
               data = {
                 type : 'error',
                 value : {
@@ -306,7 +306,7 @@ const be5 = {
             failure(data);
             return;
           }
-          if (data == undefined) {
+          if (data === undefined) {
             data = {
               type : 'error',
               value : {
@@ -339,7 +339,7 @@ const be5 = {
               code : 'CLIENT_ERROR'
             }
           };
-          if (errorThrown && errorThrown.result == 0x80004005)
+          if (errorThrown && errorThrown.result === 0x80004005)
             // Special case for FireFox
             // see http://helpful.knobs-dials.com/index.php/0x80004005_%28NS_ERROR_FAILURE%29_and_other_firefox_errors
             data.value.message = be5.messages.errorCannotConnect;
@@ -347,13 +347,13 @@ const be5 = {
             data.value.message = be5.messages.errorServerQueryException
                 .replace(
                     "$message",
-                    errorThrown == undefined ? status
+                    errorThrown === undefined ? status
                         + (xhr.status >= 500 ? " "
                             + xhr.status
                             + " "
                             + xhr.statusText
                             : "")
-                        : (errorThrown.message == undefined ? errorThrown
+                        : (errorThrown.message === undefined ? errorThrown
                             .toString()
                             : errorThrown.message));
           failure(data);
@@ -367,8 +367,7 @@ const be5 = {
   log: {
     error(data) {
       bus.fire("alert", {msg: data.value.message, type: 'error'}); //, time: 0
-      console.error(data.value.code + "\n\n" + data.value.message);
-      //changeDocument("errors-document", { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)})
+      console.error(data);
     }
   },
 
@@ -376,10 +375,10 @@ const be5 = {
     selectedRows: []
   },
 
-  isRemoteUrl(url) {
-    const prefix = 'http';
-    return url.substr(0, prefix.length) === prefix;
-  },
+  // isRemoteUrl(url) {
+  //   const prefix = 'http';
+  //   return url.substr(0, prefix.length) === prefix;
+  // },
 
 };
 
