@@ -52,6 +52,7 @@ class Form extends React.Component
   }
 
   apply() {
+    this.setState({wasValidated: false});
     forms.apply(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
   }
   
