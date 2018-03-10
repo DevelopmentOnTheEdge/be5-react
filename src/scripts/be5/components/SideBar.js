@@ -13,7 +13,6 @@ class SideBar extends React.Component {
       <div className={"side"}>
         <RoleSelector ref="roleSelector"/>
         <Menu ref="menu"/>
-        <hr/>
         <LanguageSelector ref="languageSelector"/>
       </div>
     );

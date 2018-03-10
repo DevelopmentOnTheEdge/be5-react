@@ -96,6 +96,5 @@ exports[`snapshot sideBar 1`] = `
       />
     </div>
   </div>
-  <hr />
 </div>
 `;
