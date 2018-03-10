@@ -71,6 +71,10 @@ class LanguageList extends React.Component {
   };
   
   render() {
+    if(this.state.data && this.state.data.languages.length <= 1)
+    {
+      return null;
+    }
     return (
       <div className={"languageBox"}>
         <LanguageList data={this.state.data} onLanguageClick={this.changeLanguage}/>

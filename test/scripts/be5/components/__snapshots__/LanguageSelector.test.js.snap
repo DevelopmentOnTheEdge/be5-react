@@ -12,6 +12,12 @@ exports[`snapshot menu 1`] = `
     >
       en
     </div>
+    <div
+      className="language"
+      onClick={[Function]}
+    >
+      ru
+    </div>
   </div>
 </div>
 `;

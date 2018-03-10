@@ -97,18 +97,5 @@ exports[`snapshot sideBar 1`] = `
     </div>
   </div>
   <hr />
-  <div
-    className="languageBox"
-  >
-    <div
-      className="languageList"
-    >
-      <div
-        className="language selectedLanguage"
-      >
-        RU
-      </div>
-    </div>
-  </div>
 </div>
 `;
