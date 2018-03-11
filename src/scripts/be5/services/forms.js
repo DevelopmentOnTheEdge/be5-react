@@ -195,9 +195,9 @@ export default
   changeLocationHash(props)
   {
     if(props.frontendParams && props.frontendParams.documentName === be5.mainDocumentName
-                            && be5.url.get() !== '#!' + props.value.links.self)
+                            && be5.url.get() !== '#!' + props.value.data.links.self)
     {
-      be5.url.set(props.value.links.self)
+      be5.url.set(props.value.data.links.self)
     }
   },
 

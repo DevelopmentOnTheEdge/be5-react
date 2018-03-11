@@ -22,8 +22,8 @@ class ErrorPane extends React.Component
   }
 
   refresh() {
-    if(this.props.value.links.self !== undefined) {
-      be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.links.self);
+    if(this.props.value.data.links.self !== undefined) {
+      be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.data.links.self);
     }else{
       console.info("errorPane without links.self, most likely error on the execute operation");
     }

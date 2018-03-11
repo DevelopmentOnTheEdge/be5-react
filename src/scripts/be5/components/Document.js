@@ -48,9 +48,9 @@ class Document extends React.Component
   }
 
   reload() {
-    if(this.state.value.links.self !== undefined)
+    if(this.state.value.data.links.self !== undefined)
     {
-      be5.url.process(this.props.frontendParams.documentName, "#!" + this.state.value.links.self);
+      be5.url.process(this.props.frontendParams.documentName, "#!" + this.state.value.data.links.self);
     }
   }
 

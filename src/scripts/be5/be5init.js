@@ -32,8 +32,8 @@ export default {
 
     const state = documentState.get(be5.mainDocumentName);
 
-    if(state.value.links !== undefined && "#!" + state.value.links.self === be5.url.get()
-      && state.value.links.self.startsWith('form'))
+    if(state.value.links !== undefined && "#!" + state.value.data.links.self === be5.url.get()
+      && state.value.data.links.self.startsWith('form'))
     {
       //console.log('skip - form already opened');
     }
