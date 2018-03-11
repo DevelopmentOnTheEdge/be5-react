@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, CardBody, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalFooter, ModalHeader, Nav, NavItem, NavLink, UncontrolledDropdown } from 'reactstrap';
+import { Button, Card, CardBody, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalFooter, ModalHeader, Nav, NavItem, NavLink, Navbar, NavbarBrand, NavbarToggler, UncontrolledDropdown } from 'reactstrap';
 import ReactDOM from 'react-dom';
 import numberFormatter from 'number-format.js';
 import AceEditor from 'react-ace';
@@ -26,89 +26,82 @@ var utils = {
 };
 
 var messages = {
-  en: {
-    errorCannotConnect: 'Cannot connect to server',
-    errorServerQueryException: 'Error during server query: $message',
-    errorInvalidErrorResponse: 'Server returned unknown error',
-    errorNoData: 'Error communicating with server: no data received',
-    errorUnknownAction: 'Unknown action: $action',
-    errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
+    en: {
+        errorCannotConnect: 'Cannot connect to server',
+        errorServerQueryException: 'Error during server query: $message',
+        errorInvalidErrorResponse: 'Server returned unknown error',
+        errorNoData: 'Error communicating with server: no data received',
+        errorUnknownAction: 'Unknown action: $action',
+        errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
 
-    welcome: 'Hello!',
-    loading: 'Page is loading...',
-    settings: 'Settings',
-    emptyTable: 'Nothing found',
-    roles: 'Roles',
-    back: 'Back',
-    error: 'Error:',
-    cancel: 'Cancel',
-    reload: 'reload',
-    All: 'All',
-    successfullyCompleted: 'Successfully completed.',
+        welcome: 'Hello!',
+        loading: 'Page is loading...',
+        settings: 'Settings',
+        emptyTable: 'Nothing found',
+        roles: 'Roles',
+        back: 'Back',
+        error: 'Error:',
+        cancel: 'Cancel',
+        logout: 'Logout',
+        reload: 'reload',
+        All: 'All',
+        successfullyCompleted: 'Successfully completed.',
 
-    filter: 'Filter...',
+        filter: 'Filter...',
 
-    Submit: 'Submit',
+        Submit: 'Submit',
 
-    property: {
-      locale: 'en',
-      clearAllText: 'Clear all',
-      clearValueText: 'Clear value',
-      noResultsText: 'No results found',
-      searchPromptText: 'Type to search',
-      placeholder: 'Select ...',
-      loadingPlaceholder: 'Loading...'
+        formComponentNotFound: 'Form component not found: ',
+        tableComponentNotFound: 'Table component not found: ',
+        helpInfo: "Help",
+        details: "Details",
+
+        NotFound: "Not Found"
     },
 
-    formComponentNotFound: 'Form component not found: ',
-    tableComponentNotFound: 'Table component not found: ',
-    helpInfo: "Help",
-    details: "Details",
+    ru: {
+        errorCannotConnect: 'Не могу подключиться к серверу',
+        errorServerQueryException: 'Ошибка сервера: $message',
+        errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
+        errorNoData: 'Ошибка связи с сервером: ответ не получен',
+        errorUnknownAction: 'Неизвестная операция: $action',
+        errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
 
-    NotFound: "Not Found"
-  },
+        welcome: 'Добро пожаловать!',
+        loading: 'Загрузка...',
+        settings: 'Настройки',
+        emptyTable: 'Нет данных',
+        roles: 'Роли',
+        back: 'Назад',
+        error: 'Ошибка:',
+        cancel: 'Отмена',
+        logout: 'Выход',
+        reload: 'Перезагрузить',
+        All: 'Все',
+        successfullyCompleted: 'Успешно выполнено.',
 
-  ru: {
-    errorCannotConnect: 'Не могу подключиться к серверу',
-    errorServerQueryException: 'Ошибка сервера: $message',
-    errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
-    errorNoData: 'Ошибка связи с сервером: ответ не получен',
-    errorUnknownAction: 'Неизвестная операция: $action',
-    errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
+        filter: 'Фильтр...',
 
-    welcome: 'Добро пожаловать!',
-    loading: 'Загрузка...',
-    settings: 'Настройки',
-    emptyTable: 'Нет данных',
-    roles: 'Роли',
-    back: 'Назад',
-    error: 'Ошибка:',
-    cancel: 'Отмена',
-    reload: 'Перезагрузить',
-    All: 'Все',
-    successfullyCompleted: 'Успешно выполнено.',
+        Submit: 'Выполнить',
 
-    filter: 'Фильтр...',
+        property: {
+            locale: 'ru',
+            clearAllText: 'Очистить всё',
+            clearValueText: 'Очистить',
+            noResultsText: 'Нет результатов',
+            searchPromptText: 'Начните вводить для поиска',
+            placeholder: 'Выберите...',
+            loadingPlaceholder: 'Загрузка...',
+            datePatternError: 'Введите дату в формате дд.мм.гггг'
+        },
 
-    Submit: 'Выполнить',
+        formComponentNotFound: 'Компонент формы не найден: ',
+        tableComponentNotFound: 'Компонент таблицы не найден: ',
+        helpInfo: "Справка",
+        details: "Подробнее",
 
-    property: {
-      locale: 'ru',
-      clearAllText: 'Очистить всё',
-      clearValueText: 'Очистить',
-      noResultsText: 'Нет результатов',
-      searchPromptText: 'Начните вводить для поиска',
-      placeholder: 'Выберите...',
-      loadingPlaceholder: 'Загрузка...'
-    },
-
-    formComponentNotFound: 'Компонент формы не найден: ',
-    tableComponentNotFound: 'Компонент таблицы не найден: ',
-    helpInfo: "Справка",
-    details: "Подробнее",
-
-    NotFound: "Не найдено"
-  }
+        NotFound: "Не найдено"
+    }
 };
 
 var listeners = function () {
@@ -414,18 +407,21 @@ var be5 = {
   },
 
   url: {
+    get: function get$$1() {
+      return decodeURI(document.location.hash);
+    },
     set: function set$$1(url) {
       if (url.substring(0, 1) === '#') url = url.substring(1);
       if (url.substring(0, 1) !== '!') url = '!' + url;
       url = '#' + url;
-      if (document.location.hash !== url) {
+      if (be5.url.get() !== url) {
         document.location.hash = url;
       } else {
         be5.url.process(be5.mainDocumentName, url);
       }
     },
     empty: function empty() {
-      var url = document.location.hash;
+      var url = be5.url.get();
       return url === '' || url === '#' || url === '!' || url === '#!';
     },
     clear: function clear() {
@@ -574,9 +570,9 @@ var be5 = {
         },
         crossDomain: true,
         success: function success(data, status, xhr) {
-          if (xhr.status == 0) {
+          if (xhr.status === 0) {
             if (xhr.aborted) return null;
-            if (data == undefined) {
+            if (data === undefined) {
               data = {
                 type: 'error',
                 value: {
@@ -588,7 +584,7 @@ var be5 = {
             failure(data);
             return;
           }
-          if (data == undefined) {
+          if (data === undefined) {
             data = {
               type: 'error',
               value: {
@@ -621,10 +617,10 @@ var be5 = {
               code: 'CLIENT_ERROR'
             }
           };
-          if (errorThrown && errorThrown.result == 0x80004005)
+          if (errorThrown && errorThrown.result === 0x80004005)
             // Special case for FireFox
             // see http://helpful.knobs-dials.com/index.php/0x80004005_%28NS_ERROR_FAILURE%29_and_other_firefox_errors
-            data.value.message = be5.messages.errorCannotConnect;else data.value.message = be5.messages.errorServerQueryException.replace("$message", errorThrown == undefined ? status + (xhr.status >= 500 ? " " + xhr.status + " " + xhr.statusText : "") : errorThrown.message == undefined ? errorThrown.toString() : errorThrown.message);
+            data.value.message = be5.messages.errorCannotConnect;else data.value.message = be5.messages.errorServerQueryException.replace("$message", errorThrown === undefined ? status + (xhr.status >= 500 ? " " + xhr.status + " " + xhr.statusText : "") : errorThrown.message === undefined ? errorThrown.toString() : errorThrown.message);
           failure(data);
         }
       });
@@ -637,19 +633,19 @@ var be5 = {
   log: {
     error: function error(data) {
       bus.fire("alert", { msg: data.value.message, type: 'error' }); //, time: 0
-      console.error(data.value.code + "\n\n" + data.value.message);
-      //changeDocument("errors-document", { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)})
+      console.error(data);
     }
   },
 
   tableState: {
     selectedRows: []
-  },
-
-  isRemoteUrl: function isRemoteUrl(url) {
-    var prefix = 'http';
-    return url.substr(0, prefix.length) === prefix;
   }
+
+  // isRemoteUrl(url) {
+  //   const prefix = 'http';
+  //   return url.substr(0, prefix.length) === prefix;
+  // },
+
 };
 
 var states = [];
@@ -778,8 +774,8 @@ var StaticPage = function (_React$Component) {
   }, {
     key: 'refresh',
     value: function refresh() {
-      if (this.props.value.links.self !== undefined) {
-        be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.links.self);
+      if (this.props.value.data.links.self !== undefined) {
+        be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.data.links.self);
       } else {
         console.info("staticPage without links.self");
       }
@@ -852,8 +848,8 @@ var ErrorPane = function (_React$Component) {
   }, {
     key: 'refresh',
     value: function refresh() {
-      if (this.props.value.links.self !== undefined) {
-        be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.links.self);
+      if (this.props.value.data.links.self !== undefined) {
+        be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.data.links.self);
       } else {
         console.info("errorPane without links.self, most likely error on the execute operation");
       }
@@ -1772,8 +1768,8 @@ var forms = {
     }
   },
   changeLocationHash: function changeLocationHash(props) {
-    if (props.frontendParams && props.frontendParams.documentName === be5.mainDocumentName && document.location.hash !== '#!' + props.value.links.self) {
-      document.location.hash = '#!' + props.value.links.self;
+    if (props.frontendParams && props.frontendParams.documentName === be5.mainDocumentName && be5.url.get() !== '#!' + props.value.data.links.self) {
+      be5.url.set(props.value.data.links.self);
     }
   },
   getOperationParams: function getOperationParams(url) {
@@ -1899,8 +1895,8 @@ var Document = function (_React$Component) {
   }, {
     key: 'reload',
     value: function reload() {
-      if (this.state.value.links.self !== undefined) {
-        be5.url.process(this.props.frontendParams.documentName, "#!" + this.state.value.links.self);
+      if (this.state.value.data.links.self !== undefined) {
+        be5.url.process(this.props.frontendParams.documentName, "#!" + this.state.value.data.links.self);
       }
     }
   }, {
@@ -2476,8 +2472,8 @@ var TableForm = function (_React$Component) {
   }, {
     key: 'refresh',
     value: function refresh() {
-      if (this.props.value.links.self !== undefined) {
-        be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.links.self);
+      if (this.props.value.data.links.self !== undefined) {
+        be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.data.links.self);
       }
     }
   }]);
@@ -2553,6 +2549,7 @@ var Form = function (_React$Component) {
     _this.state = _this.props.value;
 
     _this._onFieldChange = _this._onFieldChange.bind(_this);
+    _this._setValue = _this._setValue.bind(_this);
     _this._applyOnSubmit = _this._applyOnSubmit.bind(_this);
     _this.apply = _this.apply.bind(_this);
     return _this;
@@ -2596,6 +2593,7 @@ var Form = function (_React$Component) {
   }, {
     key: 'apply',
     value: function apply() {
+      this.setState({ wasValidated: false });
       forms.apply(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
     }
 
@@ -2613,12 +2611,17 @@ var Form = function (_React$Component) {
       this.apply();
     }
   }, {
+    key: '_setValue',
+    value: function _setValue(name, value) {
+      JsonPointer.set(this.state.data.attributes.bean, "/values" + name, value);
+    }
+  }, {
     key: '_onFieldChange',
     value: function _onFieldChange(name, value) {
       var _this2 = this;
 
       var attributes = this.state.data.attributes;
-      JsonPointer.set(attributes.bean, "/values" + name, value);
+      this._setValue(name, value);
 
       this.forceUpdate(function () {
         if (attributes.bean.meta[name].reloadOnChange === true || attributes.bean.meta[name].autoRefresh === true) {
@@ -2739,7 +2742,7 @@ var SubmitOnChangeForm = function (_Form) {
 
     var _this = possibleConstructorReturn(this, (SubmitOnChangeForm.__proto__ || Object.getPrototypeOf(SubmitOnChangeForm)).call(this, props));
 
-    _this.state = _this.props.value; //Object.assign({}, this.props.value, { allFieldsFilled: false });
+    _this.state = _this.props.value;
 
     _this._onFieldChangeAndSubmit = _this._onFieldChangeAndSubmit.bind(_this);
     return _this;
@@ -2748,7 +2751,7 @@ var SubmitOnChangeForm = function (_Form) {
   createClass(SubmitOnChangeForm, [{
     key: '_onFieldChangeAndSubmit',
     value: function _onFieldChangeAndSubmit(name, value) {
-      get(SubmitOnChangeForm.prototype.__proto__ || Object.getPrototypeOf(SubmitOnChangeForm.prototype), '_onFieldChange', this).call(this, name, value);
+      get(SubmitOnChangeForm.prototype.__proto__ || Object.getPrototypeOf(SubmitOnChangeForm.prototype), '_setValue', this).call(this, name, value);
       get(SubmitOnChangeForm.prototype.__proto__ || Object.getPrototypeOf(SubmitOnChangeForm.prototype), 'apply', this).call(this);
     }
   }, {
@@ -2875,20 +2878,19 @@ var InlineForm = function (_Form) {
 formsCollection.registerForm('inline', InlineForm);
 
 var be5init = {
+  hashChange: function hashChange() {
+    bus.fire("mainModalClose");
+
+    var state = documentState.get(be5.mainDocumentName);
+
+    if (state.value.links !== undefined && "#!" + state.value.data.links.self === be5.url.get() && state.value.data.links.self.startsWith('form')) {
+      //console.log('skip - form already opened');
+    } else {
+      be5.url.process(be5.mainDocumentName, be5.url.get());
+    }
+  },
   init: function init() {
-    var hashChange = function hashChange() {
-      bus.fire("mainModalClose");
-
-      var state = documentState.get(be5.mainDocumentName);
-
-      if (state.value.links !== undefined && "#!" + state.value.links.self === document.location.hash && state.value.links.self.startsWith('form')) {
-        //console.log('skip - form already opened');
-      } else {
-        be5.url.process(be5.mainDocumentName, document.location.hash);
-      }
-    };
-
-    window.addEventListener("hashchange", hashChange, false);
+    window.addEventListener("hashchange", this.hashChange, false);
 
     be5.net.request("appInfo", {}, function (data) {
       be5.appInfo = data;
@@ -2903,7 +2905,7 @@ var be5init = {
 
     be5.net.request('languageSelector', {}, function (data) {
       be5.locale.set(data.selected, data.messages);
-      be5.url.process(be5.mainDocumentName, document.location.hash);
+      be5.url.process(be5.mainDocumentName, be5.url.get());
     });
   }
 };
@@ -3070,6 +3072,9 @@ var LanguageBox = function (_React$Component3) {
   }, {
     key: 'render',
     value: function render() {
+      if (this.state.data && this.state.data.languages.length <= 1) {
+        return null;
+      }
       return React.createElement(
         'div',
         { className: "languageBox" },
@@ -3547,7 +3552,6 @@ var SideBar = function (_React$Component) {
         { className: "side" },
         React.createElement(RoleBox, { ref: 'roleSelector' }),
         React.createElement(Menu, { ref: 'menu' }),
-        React.createElement('hr', null),
         React.createElement(LanguageBox, { ref: 'languageSelector' })
       );
     }
@@ -3874,6 +3878,7 @@ var tree = {};
 
 var menu = {
   find: function find(coords) {
+    console.log(actions$1, coords);
     return _(actions$1).findWhere(coords);
   },
   getRaw: function getRaw() {
@@ -3942,7 +3947,7 @@ var Be5Menu = React.createClass({
   },
 
   getInitialState: function getInitialState() {
-    return { loaded: false };
+    return { loaded: false, isOpen: false };
   },
   componentDidMount: function componentDidMount() {
     if (this.props.show) {
@@ -3956,6 +3961,11 @@ var Be5Menu = React.createClass({
       menu: menu.getRaw()
     });
   },
+  toggle: function toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  },
   render: function render() {
     if (!this.props.show) {
       return React.createElement('span', null);
@@ -3967,25 +3977,30 @@ var Be5Menu = React.createClass({
       'Loading...'
     );
     var branding = this.props.branding ? React.createElement(
-      'a',
-      { className: 'navbar-brand', href: '#' },
+      NavbarBrand,
+      { href: '#' },
       this.props.branding
     ) : undefined;
     var rightButtons = this._renderRightButtons();
 
     return React.createElement(
-      'nav',
-      { className: 'navbar navbar-light bg-faded' },
+      Navbar,
+      { color: 'dark', dark: true, expand: 'md' },
       React.createElement(
         'div',
         { className: 'container' },
         branding,
+        React.createElement(NavbarToggler, { onClick: this.toggle }),
         React.createElement(
-          'ul',
-          { className: 'nav navbar-nav' },
-          rootMenuItems
-        ),
-        rightButtons
+          Collapse,
+          { isOpen: this.state.isOpen, navbar: true },
+          React.createElement(
+            Nav,
+            { className: '', navbar: true },
+            rootMenuItems
+          ),
+          rightButtons
+        )
       )
     );
   },
@@ -3996,7 +4011,7 @@ var Be5Menu = React.createClass({
     if (!this.state.menu.loggedIn) {
       return React.createElement(
         'form',
-        { className: 'form-inline pull-right' },
+        { className: 'form-inline ml-auto' },
         React.createElement(
           'a',
           { className: 'btn btn-secondary', role: 'button', href: '#!login' },
@@ -4010,15 +4025,33 @@ var Be5Menu = React.createClass({
         )
       );
     }
+    //<RoleSelector/>
     return React.createElement(
       'form',
-      { className: 'form-inline pull-right' },
+      { className: 'form-inline ml-auto' },
       React.createElement(
         'a',
         { className: 'btn btn-secondary', role: 'button', href: '#!logout' },
-        'Log out'
+        be5.messages.logout
       )
     );
+  },
+  _renderDropdownMenuItems: function _renderDropdownMenuItems(items) {
+    return _(items).map(function (item) {
+      if (item.default) {
+        return undefined;
+      }
+
+      var _actions$parse = actions.parse(item.action),
+          href = _actions$parse.href,
+          target = _actions$parse.target;
+
+      return React.createElement(
+        DropdownItem,
+        { href: href, key: target + href },
+        item.title
+      );
+    });
   },
   _renderMenuItems: function _renderMenuItems(items, inDropdown) {
     var _this = this;
@@ -4029,36 +4062,38 @@ var Be5Menu = React.createClass({
       }
 
       if (!item.children || item.children.length === 0) {
-        var _actions$parse = actions.parse(item.action),
-            href = _actions$parse.href,
-            target = _actions$parse.target;
+        var _actions$parse2 = actions.parse(item.action),
+            href = _actions$parse2.href,
+            target = _actions$parse2.target;
+        // const liClass = inDropdown ? '' : 'nav-item';
+        // const aClass = inDropdown ? 'dropdown-item' : 'nav-link';
+        // return <li className={liClass} key={target+href}><a className={aClass} href={href} target={target}>{item.title}</a></li>;
 
-        var liClass = inDropdown ? '' : 'nav-item';
-        var aClass = inDropdown ? 'dropdown-item' : 'nav-link';
+
         return React.createElement(
-          'li',
-          { className: liClass, key: target + href },
+          NavItem,
+          { key: target + href },
           React.createElement(
-            'a',
-            { className: aClass, href: href, target: target },
+            NavLink,
+            { href: href },
             item.title
           )
         );
       }
 
-      var dropdownMenuItems = _this._renderMenuItems(item.children, true);
+      var dropdownMenuItems = _this._renderDropdownMenuItems(item.children, true);
 
       return React.createElement(
-        'li',
-        { className: 'nav-item dropdown', key: item.title },
+        UncontrolledDropdown,
+        { nav: true, inNavbar: true, key: item.title },
         React.createElement(
-          'a',
-          { className: 'nav-link dropdown-toggle', href: '#', 'data-toggle': 'dropdown', 'aria-haspopup': 'true', 'aria-expanded': 'false', role: 'button' },
+          DropdownToggle,
+          { nav: true, caret: true },
           item.title
         ),
         React.createElement(
-          'ul',
-          { className: 'dropdown-menu' },
+          DropdownMenu,
+          null,
           dropdownMenuItems
         )
       );
@@ -4097,6 +4132,7 @@ var Be5MenuItem = React.createClass({
         href = _actions$parse.href,
         target = _actions$parse.target;
 
+    console.log(href, target);
     return React.createElement(
       'a',
       { className: 'menu-item', href: href, target: target },
