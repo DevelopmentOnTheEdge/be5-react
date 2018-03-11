@@ -74,7 +74,8 @@ export default {
       noResultsText: 'Нет результатов',
       searchPromptText: 'Начните вводить для поиска',
       placeholder: 'Выберите...',
-      loadingPlaceholder: 'Загрузка...'
+      loadingPlaceholder: 'Загрузка...',
+      datePatternError: 'Введите дату в формате дд.мм.гггг',
     },
 
     formComponentNotFound:  'Компонент формы не найден: ',
