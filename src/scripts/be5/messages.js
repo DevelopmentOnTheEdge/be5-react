@@ -24,16 +24,6 @@ export default {
 
     Submit: 'Submit',
 
-    property : {
-      locale: 'en',
-      clearAllText: 'Clear all',
-      clearValueText: 'Clear value',
-      noResultsText: 'No results found',
-      searchPromptText: 'Type to search',
-      placeholder: 'Select ...',
-      loadingPlaceholder: 'Loading...'
-    },
-
     formComponentNotFound:  'Form component not found: ',
     tableComponentNotFound: 'Table component not found: ',
     helpInfo: "Help",
