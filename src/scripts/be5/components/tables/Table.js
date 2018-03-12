@@ -10,8 +10,8 @@ import tables             from '../../services/tables';
 import numberFormatter    from 'number-format.js';
 import OperationBox       from './OperationBox';
 import QuickColumns       from './QuickColumns';
-import Document from "../Document";
-import Form from "../forms/Form";
+import Document           from "../Document";
+import formsCollection    from "../../services/formsCollection";
 
 
 const formatCell = (data, options, isColumn) =>
@@ -385,7 +385,7 @@ class Table extends React.Component
       topForm = <Document
         frontendParams={{documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName}}
         value={{data: topFormJson, meta: value.meta}}
-        component={Form}
+        component={formsCollection.getForm(topFormJson.attributes.layout.type)}
       />
     }
 
