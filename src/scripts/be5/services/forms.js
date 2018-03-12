@@ -74,7 +74,7 @@ export default
             frontendParams.onSuccess(json, applyParams);
           }
 
-          if (attributes.status !== 'table' && frontendParams.parentDocumentName !== undefined
+          if (attributes.status !== 'document' && frontendParams.parentDocumentName !== undefined
                                             && frontendParams.parentDocumentName !== frontendParams.documentName)
           {
             console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
@@ -127,13 +127,8 @@ export default
                 changeDocument(documentName, {component: FinishedResult, value: json, frontendParams: frontendParams});
               }
               return;
-            case 'table':
-              const tableJson = {
-                data: {
-                  attributes: attributes.details
-                },
-                meta: json.meta
-              };
+            case 'document':
+              const tableJson = Object.assign({}, attributes.details, {meta: json.meta});
               changeDocument(frontendParams.parentDocumentName, {component: Table, value: tableJson});
               if(documentName === be5.mainModalDocumentName) {
                 bus.fire("mainModalClose");

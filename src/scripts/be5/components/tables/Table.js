@@ -4,11 +4,14 @@ import ReactDOM           from 'react-dom';
 import be5                from '../../be5';
 import tablesCollection   from '../../services/tablesCollection';
 import utils              from '../../utils';
+import documentUtils      from '../../core/documentUtils';
 import forms              from '../../services/forms';
 import tables             from '../../services/tables';
 import numberFormatter    from 'number-format.js';
 import OperationBox       from './OperationBox';
 import QuickColumns       from './QuickColumns';
+import Document from "../Document";
+import Form from "../forms/Form";
 
 
 const formatCell = (data, options, isColumn) =>
@@ -376,8 +379,19 @@ class Table extends React.Component
 
     const TitleTag = `h${(value.data.attributes.parameters && value.data.attributes.parameters.titleLevel) || 1}`;
 
+    const topFormJson = documentUtils.getResourceByID(value.included, "topForm");
+    let topForm;
+    if(topFormJson){
+      topForm = <Document
+        frontendParams={{documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName}}
+        value={{data: topFormJson, meta: value.meta}}
+        component={Form}
+      />
+    }
+
     return (
       <div className="table-component">
+        {topForm}
         <TitleTag className="table-component__title">{value.data.attributes.title}</TitleTag>
         {table}
       </div>

@@ -53,4 +53,11 @@ export default {
   // toRow: toRow,
   // createDocument: createDocument,
   // getSortableColumns: getSortableColumns
+  getResourceByID : function (included, id) {
+    for(let i =0; i < included.length; i++)
+    {
+      if(included[i].id === id)return included[i];
+    }
+    return undefined;
+  }
 };

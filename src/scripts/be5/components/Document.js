@@ -11,7 +11,11 @@ class Document extends React.Component
 {
   constructor(props) {
     super(props);
-    this.state = { value: "", frontendParams: props.frontendParams };
+    this.state = {
+      value: this.props.value || "",
+      frontendParams: props.frontendParams,
+      component: props.component
+    };
 
     this.reload = this.reload.bind(this);
     this.refresh = this.refresh.bind(this);
@@ -122,7 +126,9 @@ Document.propTypes = {
     operationDocumentName: PropTypes.string,
     parentDocumentName: PropTypes.string,
     onSuccess: PropTypes.function
-  })
+  }),
+  value: PropTypes.object,
+  component: PropTypes.func
 };
 
 export default Document;
