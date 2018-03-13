@@ -16,14 +16,7 @@ $h4-font-size:               1.2rem !default;
 $h5-font-size:               1.1rem !default;
 $h6-font-size:               1rem !default;
 
-//$enable-flex: false;
-//$bootstrap-sass-asset-helper: true;
-
 @import "~bootstrap/scss/bootstrap";
-
-//.float-right{
-//  @include float-right();
-//}
 
 .btn-md{
     padding: 0.254rem .6rem 0.39rem;

@@ -52,8 +52,31 @@
 }
 .Select-input > input{
     line-height: 30px;
-    padding: 0px 0 0px;
+    padding: 0;
 }
+
+/*.Select-placeholder, .Select--single > .Select-control .Select-value{
+  line-height: 1.875rem;
+}
+.Select-control, .Select-input{
+  height: 1.875rem;
+  font-size: 0.875rem;
+}
+.Select-clear {
+  font-size: 0.875rem;
+}
+.Select-option {
+  font-size: 0.875rem;
+  padding: 0.25rem 0.625rem;
+}
+.Select--multi .Select-value{
+  margin-top: 0.25rem;
+}
+.Select-input > input{
+  line-height: 1.875rem;
+  padding: 0;
+}*/
+
 /*
 .Select-value-label:hover {
   white-space: inherit;
