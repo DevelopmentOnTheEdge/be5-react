@@ -12,13 +12,23 @@ class Document extends React.Component
   constructor(props) {
     super(props);
     this.state = {
-      value: this.props.value || "",
+      value: props.value || "",
       frontendParams: props.frontendParams,
       component: props.component
     };
 
     this.reload = this.reload.bind(this);
     this.refresh = this.refresh.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.props !== nextProps) {
+      this.setState({
+        value: nextProps.value || "",
+        frontendParams: nextProps.frontendParams,
+        component: nextProps.component
+      });
+    }
   }
 
   componentDidMount() {
