@@ -2,7 +2,10 @@ const tablesCollection = {
   types: {},
 
   getTable(tableName) {
-    return this.types[tableName];
+    if(tableName !== undefined)
+      return this.types[tableName];
+    else
+      return this.types['table']
   },
 
   registerTable(tableName, component) {

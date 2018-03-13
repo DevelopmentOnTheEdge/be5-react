@@ -1,26 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`performOperationResult finished 1`] = `
-<div
-  className="document-content"
-  id="document-content___test"
->
-  <div>
-    <div
-      className="finishedResult"
-    >
-      <div
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "Successfully completed.",
-          }
-        }
-      />
-    </div>
-  </div>
-</div>
-`;
-
 exports[`load and _performForm test 1`] = `
 <div
   className="document-content"
@@ -51,6 +30,7 @@ exports[`load and _performForm test 1`] = `
             <div>
               <button
                 className="btn btn-primary"
+                disabled={undefined}
                 onClick={[Function]}
                 type="submit"
               >
@@ -64,6 +44,27 @@ exports[`load and _performForm test 1`] = `
       </div>
       <div
         className="col-12"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`performOperationResult finished 1`] = `
+<div
+  className="document-content"
+  id="document-content___test"
+>
+  <div>
+    <div
+      className="finishedResult"
+    >
+      <div
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "Successfully completed.",
+          }
+        }
       />
     </div>
   </div>

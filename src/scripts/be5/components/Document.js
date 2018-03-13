@@ -22,7 +22,8 @@ class Document extends React.Component
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props !== nextProps) {
+    if(nextProps.value !== undefined) {
+      console.log(this.props, nextProps);
       this.setState({
         value: nextProps.value || "",
         frontendParams: nextProps.frontendParams,

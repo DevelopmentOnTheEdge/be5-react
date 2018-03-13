@@ -2,7 +2,10 @@ const formsCollection = {
   types: {},
 
   getForm(formName) {
-    return this.types[formName];
+    if(formName !== undefined)
+      return this.types[formName];
+    else
+      return this.types['form'];
   },
 
   registerForm(formName, component) {

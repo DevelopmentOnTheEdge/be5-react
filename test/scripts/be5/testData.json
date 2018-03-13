@@ -48,10 +48,10 @@
         "title": "Организации: Общие сведения",
         "totalNumberOfRows": 1
       },
-      "type": "table"
-    },
-    "links": {
-      "self": "table/companies/Общие сведения"
+      "type": "table",
+      "links": {
+        "self": "table/companies/Общие сведения"
+      }
     },
     "meta": {
       "_ts_": "1507198487234"
@@ -61,8 +61,9 @@
     "errors":[{
       "code":"Be5Exception: Query not found: testtable.Test 1D2\n ",
       "status":"404",
-      "title":"Query not found: testtable.Test 1D2"}],
-    "links":{"self":"table/testtable/Test 1D2"},
+      "title":"Query not found: testtable.Test 1D2",
+      "links":{"self":"table/testtable/Test 1D2"}
+    }],
     "meta":{"_ts_":"1518951836031"}
   },
   "simpleForm": {
@@ -91,10 +92,10 @@
         "selectedRows": "",
         "title": "SelectCompany"
       },
+      "links": {
+        "self": "form/companies/Selection view SelectCompany/SelectCompany"
+      },
       "type": "form"
-    },
-    "links": {
-      "self": "form/companies/Selection view SelectCompany/SelectCompany"
     },
     "meta": {
       "_ts_": "1507198229686"
@@ -127,10 +128,10 @@
         "selectedRows": "",
         "title": "SelectCompany"
       },
+      "links": {
+        "self": "form/companies/Selection view SelectCompany/SelectCompany"
+      },
       "type": "form"
-    },
-    "links": {
-      "self": "form/companies/Selection view SelectCompany/SelectCompany"
     },
     "meta": {
       "_ts_": "1507198229686"
@@ -154,10 +155,10 @@
         "selectedRows": "",
         "title": "SelectCompany"
       },
+      "links": {
+        "self": "form/companies/Selection view SelectCompany/SelectCompany"
+      },
       "type": "form"
-    },
-    "links": {
-      "self": "form/companies/Selection view SelectCompany/SelectCompany"
     },
     "meta": {
       "_ts_": "1507198229686"
@@ -167,7 +168,12 @@
     "data":{
       "attributes":{"bean":{"values":{},"meta":{},"order":[]},
       "entity":"testtable",
-        "errorModel":{"code":"Be5Exception: Internal error occured during operation... ","status":"500","title":"Internal error occured during operation testtable.TestOperation"},
+        "errorModel":{
+          "code":"Be5Exception: Internal error occured during operation... ",
+          "status":"500",
+          "title":"Internal error occured during operation testtable.TestOperation",
+          "links":{"self":"form/testtable/Test 1D/TestOperation"}
+        },
         "layout":{},
         "operation":"TestOperation",
         "operationParams":{},
@@ -175,9 +181,9 @@
         "query":"Test 1D",
         "selectedRows":"",
         "title":"Тестовая операция"},
+      "links":{"self":"form/testtable/Test 1D/TestOperation"},
       "type":"form"
     },
-    "links":{"self":"form/testtable/Test 1D/TestOperation"},
     "meta":{"_ts_":"1520488568877"}
   },
   "redirectResult": {
@@ -187,9 +193,9 @@
         "message":"REDIRECTED",
         "status":"redirect"
       },
+      "links":{"self":"form/categories/Doc categories/Edit/selectedRows=31"},
       "type":"operationResult"
     },
-    "links":{"self":"form/categories/Doc categories/Edit/selectedRows=31"},
     "meta":{"_ts_":"1519735607947"}
   }
 }

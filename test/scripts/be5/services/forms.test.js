@@ -64,10 +64,10 @@ test('performOperationResult finished', () => {
   const res = {
     data: {
       type: "operationResult",
-      attributes: {"status":"finished"}
+      attributes: {"status":"finished"},
+      links: {"self":"form/categories/Doc categories/Edit"},
     },
-    links: {"self":"form/categories/Doc categories/Edit"},
-    meta: {"_ts_":"1503244989281"}
+    meta: {"_ts_":"1503244989281"},
   };
 
   forms._performOperationResult(res, {documentName: "test"});
@@ -83,9 +83,9 @@ test('performOperationResult redirect', () => {
   const res = {
     "data":{
       "type":"operationResult",
-      "attributes":{"details":"static/welcome.be","status":"redirect"}
+      "attributes":{"details":"static/welcome.be","status":"redirect"},
+      "links":{"self":"form/categories/Doc categories/Edit"}
     },
-    "links":{"self":"form/categories/Doc categories/Edit"},
     "meta":{"_ts_":"1503244989281"}
   };
   forms._performOperationResult(res, {documentName: "test"});
@@ -101,9 +101,9 @@ test('performOperationResult redirect be5.mainDocumentName', () => {
   const res = {
     "data":{
       "type":"operationResult",
-      "attributes":{"details":"static/welcome.be","status":"redirect"}
+      "attributes":{"details":"static/welcome.be","status":"redirect"},
+      "links":{"self":"form/categories/Doc categories/Edit"}
     },
-    "links":{"self":"form/categories/Doc categories/Edit"},
     "meta":{"_ts_":"1503244989281"}
   };
   forms._performOperationResult(res, {documentName: be5.mainDocumentName});

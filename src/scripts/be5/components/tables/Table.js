@@ -379,7 +379,7 @@ class Table extends React.Component
 
     const TitleTag = `h${(value.data.attributes.parameters && value.data.attributes.parameters.titleLevel) || 1}`;
 
-    const topFormJson = documentUtils.getResourceByID(value.included, "topForm");
+    const topFormJson = value.included !== undefined ? documentUtils.getResourceByID(value.included, "topForm") : undefined;
     let topForm;
     if(topFormJson){
       topForm = <Document

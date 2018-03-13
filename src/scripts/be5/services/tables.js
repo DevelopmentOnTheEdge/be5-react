@@ -44,7 +44,7 @@ export default
   _performData(json, documentName)
   {
     if(json.data !== undefined){
-      const tableComponentName = json.data.attributes.layout.type || 'table';
+      const tableComponentName = json.data.attributes.layout.type;
       const tableComponent = tablesCollection.getTable(tableComponentName);
 
       if(tableComponent === undefined){
