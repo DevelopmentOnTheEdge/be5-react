@@ -79,38 +79,7 @@ a.menuItemWithRef {
   border-radius: 3px;
 }
 */
-/****** Select ******/
-.Select-placeholder, .Select--single > .Select-control .Select-value{
-  line-height: 30px;
-}
-.Select-control, .Select-input{
-  height: 30px;
-  font-size: 14px;
-}
-.Select-clear {
-  font-size: 14px;
-}
-.Select-option {
-  font-size: 14px;
-  padding: 4px 10px;
-}
-.Select--multi .Select-value{
-  margin-top: 4px;
-}
-.Select-input > input{
-  line-height: 30px;
-  padding: 0px 0 0px;
-}
-/*
-.Select-value-label:hover {
-  white-space: inherit;
-}
-.Select-value-label {
-  white-space: nowrap;
-  overflow: hidden;
-  max-width: 350px;
-}
-*/
+
 /****** error-loader ******/
 .document-loader.error {
   background: #f10000;

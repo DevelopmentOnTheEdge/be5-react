@@ -6,10 +6,10 @@
     }
 }
 .formBox{
-    /*margin-top: 30px;*/
+
 }
 .modal-content .formBox {
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .formBoxBorder {
@@ -32,107 +32,35 @@
     margin-top: 0.5rem;
 }
 
-/*.formBox .formActions {
-    text-align: center;
+/****** Select ******/
+.Select-placeholder, .Select--single > .Select-control .Select-value{
+    line-height: 30px;
 }
-.formBox .formActions button.formAction {
-    display: inline;
-    padding: 8px;
-    margin: 4px;
-    background-color: #DDDDDD;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
+.Select-control, .Select-input{
+    height: 30px;
+    font-size: 14px;
 }
-.formBox .formActions button.formAction:hover {
-    background-color: #AACCCC;
+.Select-clear {
+    font-size: 14px;
 }
-.formBox .formActions button.formAction:active {
-    background-color: #40CCCC;
+.Select-option {
+    font-size: 14px;
+    padding: 4px 10px;
 }
-.formBox {
-    width: 100%;
-    padding: 1em;
-    border-radius: 0.25rem;
-    border: 1px solid rgba(0, 0, 0, 0.125);
-    margin-top: 0.5em;
+.Select--multi .Select-value{
+    margin-top: 4px;
 }
-
-.formBox fieldset {
-    margin: 0 1em 1em;
+.Select-input > input{
+    line-height: 30px;
+    padding: 0px 0 0px;
 }
-.formBox fieldset:first-child {
-    margin-top: 1em;
+/*
+.Select-value-label:hover {
+  white-space: inherit;
 }
-
-.formBox .formField {
-    width: 100%;
-    clear: both;
-    overflow: auto;
-    background-color: #F8F8F8;
-    margin: 4px;
-    padding: 4px;
-    border-radius: 4px;
-    position: relative;
-}
-.formBox .formField:nth-child(odd):not(:hover) {
-    background-color: #E0E0F8;
-}
-.formBox .formField:nth-child(even):not(:hover) {
-    background-color: #E0F8E0;
-}
-.formBox .formField:hover {
-    background-color: #D0D0D0;
-}
-.formBox .formField .formLabel {
-    width: 25%;
-    word-break: break-all;
-    float: left;
-}
-.formBox .formField input, .formBox .formField select, .formBox .formField textarea {
-    width: 70%;
-}
-
-.linkBack {
-    margin-top: 1em;
-}
-
-.formBox label {
-    margin-bottom: 2px;
-}
-
-.formBox [type="checkbox"],
-.formBox [type="radio"]{
-    float: left;
-    top: 3px;
-    position: relative;
-    margin-right: 5px;
-}
-
-.formBox .formGroup {
-    border-top: 1px solid rgba(0, 0, 0, 0.125);
-    padding: 1.4em 0em 1.1em;
-    position: relative;
-}
-
-.formBox .formGroup:first-child{
-    border: none;
-}
-
-.formBox .formGroup h3 {
-    top: -0.8em;
-    position: absolute;
-    background-color: white;
-    padding: 3pt;
-    font-size: 1.3em;
-    margin: 0px 1em 0;
-}
-
-.form-group .form-control-static {
-    min-height: 0;
-    border-radius: 4px;
-    font-weight: bold;
-    padding: 0;
-    margin-bottom: 0;
+.Select-value-label {
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 350px;
 }
 */
