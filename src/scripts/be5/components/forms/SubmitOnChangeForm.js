@@ -23,7 +23,7 @@ class SubmitOnChangeForm extends Form
   render() {
     const attributes = this.state.data.attributes;
     return (
-        <div className={classNames('submit-onchange-form', attributes.cssClass)}>
+        <form className={classNames('submit-onchange-form', attributes.cssClass)}>
           <PropertyInput
             id={0}
             bean={attributes.bean}
@@ -33,7 +33,7 @@ class SubmitOnChangeForm extends Form
           <div className="col-12">
             {this._getErrorPane()}
           </div>
-        </div>
+        </form>
     );
   }
 

@@ -26,7 +26,7 @@ class Form extends React.Component
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(Object.assign({}, nextProps.value, {wasValidated: false}));
+    this.setState(Object.assign({}, nextProps.value, {wasValidated: false, submitted: false}));
   }
 
   getParams(values){
@@ -42,18 +42,33 @@ class Form extends React.Component
   }
 
   refresh() {
-    forms.load(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
+    if(!this.state.submitted)
+    {
+      this.setState({submitted: true}, () => {
+        forms.load(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
+      });
+    }
   }
   
   _reloadOnChange(controlName) {
-    const values = Object.assign({}, this.state.data.attributes.bean.values, { '_reloadcontrol_': controlName });
+    if(!this.state.submitted)
+    {
+      this.setState({submitted: true}, () => {
+        const values = Object.assign({}, this.state.data.attributes.bean.values, {'_reloadcontrol_': controlName});
 
-    forms.load(this.getParams(values), this.props.frontendParams);
+        forms.load(this.getParams(values), this.props.frontendParams);
+      });
+    }
   }
 
   apply() {
     this.setState({wasValidated: false});
-    forms.apply(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
+    if(!this.state.submitted)
+    {
+      this.setState({submitted: true}, () => {
+        forms.apply(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
+      });
+    }
   }
   
   // cancel() {
@@ -69,7 +84,10 @@ class Form extends React.Component
   }
 
   _setValue(name, value) {
-    JsonPointer.set(this.state.data.attributes.bean, "/values" + name, value);
+    if(!this.state.submitted)
+    {
+      JsonPointer.set(this.state.data.attributes.bean, "/values" + name, value);
+    }
   }
 
   _onFieldChange(name, value) {
@@ -99,7 +117,12 @@ class Form extends React.Component
 
   _createOkAction(addCssClasses) {
     return (
-      <button type="submit" className={classNames("btn btn-primary", addCssClasses)} onClick={() => this.setState({wasValidated: true})}>
+      <button
+        type="submit"
+        className={classNames("btn btn-primary", addCssClasses)}
+        onClick={() => this.setState({wasValidated: true})}
+        disabled={this.state.submitted}
+      >
         {be5.messages.Submit}
       </button>
     );
