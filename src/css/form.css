@@ -32,6 +32,14 @@
     margin-top: 0.5rem;
 }
 
+.form-inline {
+  padding: 8px 8px 0;
+  border: 1px solid #d8d8d8;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+
 /****** Select ******/
 .Select-placeholder, .Select--single > .Select-control .Select-value{
     line-height: 30px;
