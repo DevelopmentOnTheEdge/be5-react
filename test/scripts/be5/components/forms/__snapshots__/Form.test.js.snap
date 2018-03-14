@@ -25,8 +25,9 @@ exports[`Form 1`] = `
         <div>
           <button
             className="btn btn-primary"
-            disabled={undefined}
+            disabled={false}
             onClick={[Function]}
+            title=""
             type="submit"
           >
             Submit
@@ -68,8 +69,9 @@ exports[`Form errorOnApply 1`] = `
         <div>
           <button
             className="btn btn-primary"
-            disabled={undefined}
+            disabled={false}
             onClick={[Function]}
+            title=""
             type="submit"
           >
             Submit
@@ -121,8 +123,9 @@ exports[`InlineForm 1`] = `
   </label>
   <button
     className="btn btn-primary mb-2"
-    disabled={undefined}
+    disabled={false}
     onClick={[Function]}
+    title=""
     type="submit"
   >
     Submit
@@ -172,8 +175,9 @@ exports[`ModalForm 1`] = `
     >
       <button
         className="btn btn-primary"
-        disabled={undefined}
+        disabled={false}
         onClick={[Function]}
+        title=""
         type="submit"
       >
         Submit

@@ -30,8 +30,9 @@ exports[`load and _performForm test 1`] = `
             <div>
               <button
                 className="btn btn-primary"
-                disabled={undefined}
+                disabled={false}
                 onClick={[Function]}
+                title=""
                 type="submit"
               >
                 Submit
