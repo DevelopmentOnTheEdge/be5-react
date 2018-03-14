@@ -6,6 +6,7 @@ import forms           from '../../services/forms';
 import PropertySet     from 'beanexplorer-react';
 import JsonPointer     from 'json-pointer';
 import ErrorPane       from "../ErrorPane";
+import Transition      from 'react-transition-group/Transition';
 
 
 class Form extends React.Component
@@ -116,15 +117,19 @@ class Form extends React.Component
 
   _createOkAction(addCssClasses) {
     return (
-      <button
-        type="submit"
-        className={classNames("btn btn-primary", addCssClasses)}
-        onClick={() => this.setState({wasValidated: true})}
-        disabled={this.state.submitted}
-        title={this.state.submitted ? be5.messages.submitted: ""}
-      >
-        {be5.messages.Submit}
-      </button>
+      <Transition in={this.state.submitted} timeout={200}>
+        {(state) => (
+          <button
+            type="submit"
+            className={classNames("btn btn-primary", addCssClasses)}
+            onClick={() => this.setState({wasValidated: true})}
+            title={this.state.submitted ? be5.messages.submitted: ""}
+            disabled={state === 'entered'}
+          >
+          {be5.messages.Submit}
+          </button>
+        )}
+      </Transition>
     );
   }
   
