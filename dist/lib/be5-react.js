@@ -3003,6 +3003,15 @@ var InlineForm = function (_Form) {
           onSubmit: this._applyOnSubmit,
           className: classNames('form-inline', attributes.cssClass, this.state.wasValidated ? 'was-validated' : '')
         },
+        React.createElement(
+          'label',
+          { className: 'mb-2 mr-sm-2' },
+          React.createElement(
+            'strong',
+            null,
+            attributes.title
+          )
+        ),
         properties,
         this._createOkAction('mb-2'),
         this._getErrorPane()
@@ -4918,7 +4927,6 @@ Navs.propTypes = {
   documentName: PropTypes.string
 };
 
-// @create-index
 //import be5styles from './be5styles.js';
 // core
 // components

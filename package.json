@@ -1,6 +1,6 @@
 {
   "name": "be5-react",
-  "version": "0.1.63",
+  "version": "0.1.64",
   "description": "React client UI for be5 server api",
   "main": "dist/lib/be5-react.js",
   "scripts": {

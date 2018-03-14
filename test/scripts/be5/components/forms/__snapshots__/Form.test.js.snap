@@ -112,6 +112,13 @@ exports[`InlineForm 1`] = `
   className="form-inline"
   onSubmit={[Function]}
 >
+  <label
+    className="mb-2 mr-sm-2"
+  >
+    <strong>
+      SelectCompany
+    </strong>
+  </label>
   <button
     className="btn btn-primary mb-2"
     disabled={undefined}
