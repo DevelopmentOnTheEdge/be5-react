@@ -46,7 +46,7 @@ const be5 = {
       be5.messages = {};
       let newMessages = messages[loc];
       let defMessages = messages.en;
-      for(let key in defMessages) {
+      for(let key in newMessages) {
         let msg = newMessages[key];
         if(msg === undefined)
           msg = defMessages[key];
