@@ -1,12 +1,9 @@
 import React            from 'react';
 import PropTypes        from 'prop-types';
 import be5              from '../../be5';
-import tablesCollection from '../../services/tablesCollection';
 import Document         from '../Document';
 import Table            from './Table';
 import changeDocument   from '../../core/changeDocument';
-import forms            from '../../services/forms';
-import StaticPage       from '../../components/StaticPage';
 import HelpInfo         from '../../components/HelpInfo';
 
 
@@ -48,6 +45,6 @@ class TableForm extends React.Component
 
 }
 
-tablesCollection.registerTable('tableForm', TableForm);
+be5.ui.tables.registerTable('tableForm', TableForm);
 
 export default TableForm;

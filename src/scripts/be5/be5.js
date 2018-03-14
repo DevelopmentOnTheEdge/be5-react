@@ -6,6 +6,8 @@ import messages from './messages';
 import bus      from './core/bus';
 import changeDocument from './core/changeDocument';
 import actionsCollection from './services/actionsCollection'
+import tablesCollection from './services/tablesCollection'
+import formsCollection from './services/formsCollection'
 
 
 const be5 = {
@@ -95,18 +97,11 @@ const be5 = {
   },
 
   ui: {
-    //documentTypes: {},
-    /*
-     * Note that creator doesn't create a document,
-     * it creates a description of a component as React's <ComponentName /> does.
-     */
-//    registerDocumentType(type, creator) {
-//      be5.ui.documentTypes[type] = creator;
-//    },
+    actions: actionsCollection,
 
-//    createDocument(type, props) {
-//      return be5.ui.documentTypes[type](props);
-//    },
+    tables:  tablesCollection,
+
+    forms: formsCollection,
 
     setTitle(docTitle) {
       let titleComponents = [docTitle, be5.appInfo.title];

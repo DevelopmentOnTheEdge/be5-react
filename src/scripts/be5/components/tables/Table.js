@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes          from 'prop-types';
 import ReactDOM           from 'react-dom';
 import be5                from '../../be5';
-import tablesCollection   from '../../services/tablesCollection';
 import utils              from '../../utils';
 import documentUtils      from '../../core/documentUtils';
 import forms              from '../../services/forms';
@@ -415,6 +414,6 @@ Table.propTypes = {
   value: PropTypes.object.isRequired
 };
 
-tablesCollection.registerTable('table', Table);
+be5.ui.tables.registerTable('table', Table);
 
 export default Table;

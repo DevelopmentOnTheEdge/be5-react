@@ -3,7 +3,6 @@ import PropTypes       from 'prop-types';
 import classNames      from 'classnames';
 import be5             from '../../be5';
 import forms           from '../../services/forms';
-import formsCollection from '../../services/formsCollection';
 import PropertySet     from 'beanexplorer-react';
 import JsonPointer     from 'json-pointer';
 import ErrorPane       from "../ErrorPane";
@@ -184,7 +183,7 @@ Form.propTypes = {
   frontendParams: PropTypes.object.isRequired
 };
 
-formsCollection.registerForm('form', Form);
+be5.ui.forms.registerForm('form', Form);
 
 export default Form;
 
