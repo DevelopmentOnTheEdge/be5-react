@@ -1,4 +1,3 @@
-// @create-index
 import be5 from './be5.js';
 import be5init from './be5init.js';
 //import be5styles from './be5styles.js';
