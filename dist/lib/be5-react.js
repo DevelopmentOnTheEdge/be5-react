@@ -6,7 +6,7 @@ import numberFormatter from 'number-format.js';
 import AceEditor from 'react-ace';
 import SplitPane from 'react-split-pane';
 import classNames from 'classnames';
-import PropertySet, { PropertyInput } from 'beanexplorer-react';
+import PropertySet, { Property, PropertyInput } from 'beanexplorer-react';
 import JsonPointer from 'json-pointer';
 import Alert from 'react-s-alert';
 
@@ -26,82 +26,82 @@ var utils = {
 };
 
 var messages = {
-    en: {
-        errorCannotConnect: 'Cannot connect to server',
-        errorServerQueryException: 'Error during server query: $message',
-        errorInvalidErrorResponse: 'Server returned unknown error',
-        errorNoData: 'Error communicating with server: no data received',
-        errorUnknownAction: 'Unknown action: $action',
-        errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
+  en: {
+    errorCannotConnect: 'Cannot connect to server',
+    errorServerQueryException: 'Error during server query: $message',
+    errorInvalidErrorResponse: 'Server returned unknown error',
+    errorNoData: 'Error communicating with server: no data received',
+    errorUnknownAction: 'Unknown action: $action',
+    errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
 
-        welcome: 'Hello!',
-        loading: 'Page is loading...',
-        settings: 'Settings',
-        emptyTable: 'Nothing found',
-        roles: 'Roles',
-        back: 'Back',
-        error: 'Error:',
-        cancel: 'Cancel',
-        logout: 'Logout',
-        reload: 'reload',
-        All: 'All',
-        successfullyCompleted: 'Successfully completed.',
+    welcome: 'Hello!',
+    loading: 'Page is loading...',
+    settings: 'Settings',
+    emptyTable: 'Nothing found',
+    roles: 'Roles',
+    back: 'Back',
+    error: 'Error:',
+    cancel: 'Cancel',
+    logout: 'Logout',
+    reload: 'reload',
+    All: 'All',
+    successfullyCompleted: 'Successfully completed.',
 
-        filter: 'Filter...',
+    filter: 'Filter...',
 
-        Submit: 'Submit',
+    Submit: 'Submit',
 
-        formComponentNotFound: 'Form component not found: ',
-        tableComponentNotFound: 'Table component not found: ',
-        helpInfo: "Help",
-        details: "Details",
+    formComponentNotFound: 'Form component not found: ',
+    tableComponentNotFound: 'Table component not found: ',
+    helpInfo: "Help",
+    details: "Details",
 
-        NotFound: "Not Found"
+    NotFound: "Not Found"
+  },
+
+  ru: {
+    errorCannotConnect: 'Не могу подключиться к серверу',
+    errorServerQueryException: 'Ошибка сервера: $message',
+    errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
+    errorNoData: 'Ошибка связи с сервером: ответ не получен',
+    errorUnknownAction: 'Неизвестная операция: $action',
+    errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
+
+    welcome: 'Добро пожаловать!',
+    loading: 'Загрузка...',
+    settings: 'Настройки',
+    emptyTable: 'Нет данных',
+    roles: 'Роли',
+    back: 'Назад',
+    error: 'Ошибка:',
+    cancel: 'Отмена',
+    logout: 'Выход',
+    reload: 'Перезагрузить',
+    All: 'Все',
+    successfullyCompleted: 'Успешно выполнено.',
+
+    filter: 'Фильтр...',
+
+    Submit: 'Выполнить',
+
+    property: {
+      locale: 'ru',
+      clearAllText: 'Очистить всё',
+      clearValueText: 'Очистить',
+      noResultsText: 'Нет результатов',
+      searchPromptText: 'Начните вводить для поиска',
+      placeholder: 'Выберите...',
+      loadingPlaceholder: 'Загрузка...',
+      datePatternError: 'Введите дату в формате дд.мм.гггг'
     },
 
-    ru: {
-        errorCannotConnect: 'Не могу подключиться к серверу',
-        errorServerQueryException: 'Ошибка сервера: $message',
-        errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
-        errorNoData: 'Ошибка связи с сервером: ответ не получен',
-        errorUnknownAction: 'Неизвестная операция: $action',
-        errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
+    formComponentNotFound: 'Компонент формы не найден: ',
+    tableComponentNotFound: 'Компонент таблицы не найден: ',
+    helpInfo: "Справка",
+    details: "Подробнее",
 
-        welcome: 'Добро пожаловать!',
-        loading: 'Загрузка...',
-        settings: 'Настройки',
-        emptyTable: 'Нет данных',
-        roles: 'Роли',
-        back: 'Назад',
-        error: 'Ошибка:',
-        cancel: 'Отмена',
-        logout: 'Выход',
-        reload: 'Перезагрузить',
-        All: 'Все',
-        successfullyCompleted: 'Успешно выполнено.',
-
-        filter: 'Фильтр...',
-
-        Submit: 'Выполнить',
-
-        property: {
-            locale: 'ru',
-            clearAllText: 'Очистить всё',
-            clearValueText: 'Очистить',
-            noResultsText: 'Нет результатов',
-            searchPromptText: 'Начните вводить для поиска',
-            placeholder: 'Выберите...',
-            loadingPlaceholder: 'Загрузка...',
-            datePatternError: 'Введите дату в формате дд.мм.гггг'
-        },
-
-        formComponentNotFound: 'Компонент формы не найден: ',
-        tableComponentNotFound: 'Компонент таблицы не найден: ',
-        helpInfo: "Справка",
-        details: "Подробнее",
-
-        NotFound: "Не найдено"
-    }
+    NotFound: "Не найдено"
+  }
 };
 
 var listeners = function () {
@@ -240,6 +240,20 @@ var createClass = function () {
 
 
 
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
 
 var get = function get(object, property, receiver) {
   if (object === null) object = Function.prototype;
@@ -848,8 +862,8 @@ var ErrorPane = function (_React$Component) {
   }, {
     key: 'refresh',
     value: function refresh() {
-      if (this.props.value.data.links.self !== undefined) {
-        be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.data.links.self);
+      if (this.props.value.errors[0].links.self !== undefined) {
+        be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.errors[0].links.self);
       } else {
         console.info("errorPane without links.self, most likely error on the execute operation");
       }
@@ -927,8 +941,7 @@ ErrorPane.propTypes = {
     errors: PropTypes.array.isRequired,
     meta: PropTypes.shape({
       _ts_: PropTypes.isRequired
-    }),
-    links: PropTypes.object.isRequired
+    })
   })
 };
 
@@ -936,7 +949,7 @@ var formsCollection = {
   types: {},
 
   getForm: function getForm(formName) {
-    return this.types[formName];
+    if (formName !== undefined) return this.types[formName];else return this.types['form'];
   },
   registerForm: function registerForm(formName, component) {
     this.types[formName] = component;
@@ -947,10 +960,73 @@ var tablesCollection = {
   types: {},
 
   getTable: function getTable(tableName) {
-    return this.types[tableName];
+    if (tableName !== undefined) return this.types[tableName];else return this.types['table'];
   },
   registerTable: function registerTable(tableName, component) {
     this.types[tableName] = component;
+  }
+};
+
+// const createIllegalArgumentError = () => ({
+//   name: 'IllegalArgumentError',
+//   message: ''
+// });
+//
+// const getColumnName = function(column) {
+//   return typeof column === 'string' ? column : column.name;
+// };
+//
+// const toRows = function(table) {
+//   if (table.type && table.type === 'table') {
+//     table = table.value;
+//   }
+//
+//   return table.rows.map(row => {
+//     const resultRow = { id: row.id };
+//     for (var i = 0; i < row.cells.length; i++) {
+//       resultRow[getColumnName(table.columns[i])] = row.cells[i];
+//     }
+//     return resultRow;
+//   });
+// };
+//
+// const getSortableColumns = function(table) {
+//   if (table.type && table.type === 'table') {
+//     table = table.value;
+//   }
+//
+//   return table.columns.filter(column => !(column.options && column.options.nosort));
+// };
+//
+// const toRow = function(table) {
+//   const rows = toRows(table);
+//   if (rows.length !== 1) {
+//     throw createIllegalArgumentError();
+//   }
+//   return rows[0];
+// };
+//
+// const createDocument = function(resource) {
+//   return _.extend({
+//     toRow: function() {
+//       return toRow(this);
+//     },
+//     toRows: function() {
+//       return toRows(this);
+//     },
+//   }, resource);
+// };
+
+var documentUtils = {
+  // toRows: toRows,
+  // toRow: toRow,
+  // createDocument: createDocument,
+  // getSortableColumns: getSortableColumns
+  getResourceByID: function getResourceByID(included, id) {
+    for (var i = 0; i < included.length; i++) {
+      if (included[i].id === id) return included[i];
+    }
+    return undefined;
   }
 };
 
@@ -986,7 +1062,7 @@ var Tables = {
   },
   _performData: function _performData(json, documentName) {
     if (json.data !== undefined) {
-      var tableComponentName = json.data.attributes.layout.type || 'table';
+      var tableComponentName = json.data.attributes.layout.type;
       var tableComponent = tablesCollection.getTable(tableComponentName);
 
       if (tableComponent === undefined) {
@@ -1191,6 +1267,154 @@ var QuickColumns = function (_React$Component) {
   }]);
   return QuickColumns;
 }(React.Component);
+
+var img = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAATdEVYdFRpdGxlAE9wdGljYWwgRHJpdmU+Z7oMAAAC+ElEQVQ4jZWS329TZRjHP+ft6dJ2djNxHcgyunb+KIyNwfRG0mZgNgfeAJNBUBO8NEswITPEGHIy1I1lcTEzhn/Aq5mIFwp2yGSMzAsCyMIAp7hWOXjD+LGW03bnPe/rxSyZ7spv8tw9z+f75Ps8htaasvr7+81Apfm6oY1dGrpAV4BhY5AV2vjME4ZjKHUSjBxKHTt69MNpszw8ODj4TCBUMdbasnnH5pYt1NREEEIgpbs2l8u1/TAxvjebyeT27z8YXrh3j7MT4wFgmwkwPPzx8z6/L713zxuxeKyRUqmI4+RRSiGEIBQKsa/7ALZ9J1xfv56qcBg0rwCYAArxxVsH346tqV3L4uJDrv58lfn52+TyeZ6qrGTjxk0kXkwQiUT4r8yhTwd2xmPxjnXPruP+/QXOpE9zx7YnQQwIrUOFUnHwwtRk4vbvv9HVuZNAIAiAUmoZYCh9+NUdHRSLRWZvXMe27XMlx+2yLEueGP7kXE/3gUQ81rjKWUq5DNAY64PBEK5b4uatWwiMjyzLkgCuK8OPHj3kwYOFVQDXdSlnUCeEgVIKx3mMlFx/0uR575765usvtdaJ5WtrtC7XPxlIzysUS8VqIUyqq5/mcc5uBs4DHD92/DKwYZX9yhCl532fyWQONcYbadrQRCabtXq+6pka2zfmrXiwwJIsngB2a60mPJf3hoaGcgCmWpKnr1y5fKghGqW5uYX5zHy7d809+8HM+wM+7d2U2teKxkol21/e1NTEj5MT78zOzl4CTgKYQvhPzc39cn7q4lR7Kpliz+5utrRu3X5x+sL2u3f/4oVolOS2JNFoA/l8HtP0I6UXKG9naK3p6+urEaa+1NnxWkPb1jaCwRB+vx8hfCilcN0lCgWH9Hia6Z+mb5ii4qWRkZHCEwDAkSO9zyl8n9dGartSqSSRSC1V4Socx2Hu1zmuzczwx5/Zb02j4s3R0dHFf22wUr2HezsNLXuVMuo1ug7Ia80Zhf6ubk1d2rIstbJ/FeD/6m8m/lj+PIxQ9QAAAABJRU5ErkJggg==';
+
+var Document = function (_React$Component) {
+  inherits(Document, _React$Component);
+
+  function Document(props) {
+    classCallCheck(this, Document);
+
+    var _this = possibleConstructorReturn(this, (Document.__proto__ || Object.getPrototypeOf(Document)).call(this, props));
+
+    _this.state = {
+      value: props.value || "",
+      frontendParams: props.frontendParams,
+      component: props.component
+    };
+
+    _this.reload = _this.reload.bind(_this);
+    _this.refresh = _this.refresh.bind(_this);
+    return _this;
+  }
+
+  createClass(Document, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.value !== undefined && (this.props.value.meta === undefined || nextProps.value.meta === undefined || nextProps.value.meta._ts_ > this.props.value.meta._ts_)) {
+        this.setState({
+          value: nextProps.value || "",
+          frontendParams: nextProps.frontendParams,
+          component: nextProps.component
+        });
+      }
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      bus.replaceListeners(this.props.frontendParams.documentName, function (data) {
+        if (_this2.state.value.meta !== undefined && !Number.isInteger(Number.parseInt(_this2.state.value.meta._ts_))) {
+          console.error("meta._ts_ mast be string of Integer " + _this2.state.value.meta._ts_);
+        }
+
+        if (_this2.state.value.meta === undefined || data.value.meta === undefined || data.value.meta._ts_ > _this2.state.value.meta._ts_) {
+          _this2.setState(Object.assign({ value: undefined, frontendParams: undefined, component: undefined }, data));
+        }
+        // if(!data.loading)this.setState({ loading: false });
+        // if(!data.error)this.setState({ error: null });
+      });
+
+      bus.replaceListeners(this.props.frontendParams.documentName + be5.documentRefreshSuffix, function () {
+        _this2.refresh();
+      });
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      bus.replaceListeners(this.props.frontendParams.documentName, function (data) {});
+      bus.replaceListeners(this.props.frontendParams.documentName + be5.documentRefreshSuffix, function (data) {});
+    }
+  }, {
+    key: 'reload',
+    value: function reload() {
+      if (this.state.value.data.links.self !== undefined) {
+        be5.url.process(this.props.frontendParams.documentName, "#!" + this.state.value.data.links.self);
+      }
+    }
+  }, {
+    key: 'refresh',
+    value: function refresh() {
+      //console.log("refresh() ", JSON.stringify(this.props.frontendParams), JSON.stringify(this.state.frontendParams));
+      this.refs.documentContent.refresh();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      documentState.set(this.props.frontendParams.documentName, this.state);
+
+      var loadingItem = null; //this.state.loading
+      //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
+
+      var devRole = false; //todo
+      var devTools = React.createElement(
+        'span',
+        { onClick: this.refresh, className: "document-reload float-right" },
+        React.createElement('img', { src: img, alt: be5.messages.reload,
+          title: be5.messages.reload + " " + this.props.frontendParams.documentName })
+      );
+
+      var contentItem = null;
+      if (this.state.value) be5.ui.setTitle(this.state.value.title);
+
+      if (this.state.component) {
+        if (this.state.component === 'text') {
+          contentItem = React.createElement(
+            'h1',
+            null,
+            this.state.value
+          );
+        } else if (this.state.component !== null) {
+          var DocumentContent = this.state.component;
+          contentItem = React.createElement(
+            'div',
+            null,
+            devRole ? devTools : null,
+            React.createElement(DocumentContent, {
+              ref: 'documentContent',
+              value: this.state.value,
+              frontendParams: this.getComponentFrontendParams()
+            })
+          );
+        }
+      } else {
+        if (this.state.value) {
+          contentItem = React.createElement(
+            'h1',
+            null,
+            this.state.value
+          );
+        }
+      }
+
+      return React.createElement(
+        'div',
+        { className: 'document-content', id: 'document-content___' + this.props.frontendParams.documentName },
+        loadingItem,
+        contentItem
+      );
+    }
+  }, {
+    key: 'getComponentFrontendParams',
+    value: function getComponentFrontendParams() {
+      return Object.assign({}, this.state.frontendParams, this.props.frontendParams);
+    }
+  }]);
+  return Document;
+}(React.Component);
+
+Document.propTypes = {
+  frontendParams: PropTypes.shape({
+    documentName: PropTypes.string.isRequired,
+    operationDocumentName: PropTypes.string,
+    parentDocumentName: PropTypes.string,
+    onSuccess: PropTypes.function
+  }),
+  value: PropTypes.object,
+  component: PropTypes.func
+};
 
 var formatCell = function formatCell(data, options, isColumn) {
   if (!Array.isArray(data)) {
@@ -1579,9 +1803,20 @@ var Table = function (_React$Component3) {
 
       var TitleTag = 'h' + (value.data.attributes.parameters && value.data.attributes.parameters.titleLevel || 1);
 
+      var topFormJson = value.included !== undefined ? documentUtils.getResourceByID(value.included, "topForm") : undefined;
+      var topForm = void 0;
+      if (topFormJson) {
+        topForm = React.createElement(Document, {
+          frontendParams: { documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName },
+          value: { data: topFormJson, meta: value.meta },
+          component: formsCollection.getForm(topFormJson.attributes.layout.type)
+        });
+      }
+
       return React.createElement(
         'div',
         { className: 'table-component' },
+        topForm,
         React.createElement(
           TitleTag,
           { className: 'table-component__title' },
@@ -1672,7 +1907,7 @@ var forms = {
             frontendParams.onSuccess(json, applyParams);
           }
 
-          if (attributes.status !== 'table' && frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
+          if (attributes.status !== 'document' && frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
             console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
             bus.fire(frontendParams.parentDocumentName + be5.documentRefreshSuffix);
           }
@@ -1710,13 +1945,8 @@ var forms = {
                 changeDocument(documentName, { component: FinishedResult, value: json, frontendParams: frontendParams });
               }
               return;
-            case 'table':
-              var tableJson = {
-                data: {
-                  attributes: attributes.details
-                },
-                meta: json.meta
-              };
+            case 'document':
+              var tableJson = Object.assign({}, attributes.details, { meta: json.meta });
               changeDocument(frontendParams.parentDocumentName, { component: Table, value: tableJson });
               if (documentName === be5.mainModalDocumentName) {
                 bus.fire("mainModalClose");
@@ -1768,8 +1998,16 @@ var forms = {
     }
   },
   changeLocationHash: function changeLocationHash(props) {
-    if (props.frontendParams && props.frontendParams.documentName === be5.mainDocumentName && be5.url.get() !== '#!' + props.value.data.links.self) {
-      be5.url.set(props.value.data.links.self);
+    var self = void 0;
+    if (props.value.data !== undefined) {
+      self = props.value.data.links.self;
+    } else {
+      self = props.value.errors[0].links.self;
+    }
+
+    if (props.frontendParams && props.frontendParams.documentName === be5.mainDocumentName && be5.url.get() !== '#!' + self) {
+
+      be5.url.set(self);
     }
   },
   getOperationParams: function getOperationParams(url) {
@@ -1847,137 +2085,6 @@ var action$10 = function action(documentName, entity, query, params) {
 };
 
 actionsCollection.registerAction("table", action$10);
-
-var img = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAATdEVYdFRpdGxlAE9wdGljYWwgRHJpdmU+Z7oMAAAC+ElEQVQ4jZWS329TZRjHP+ft6dJ2djNxHcgyunb+KIyNwfRG0mZgNgfeAJNBUBO8NEswITPEGHIy1I1lcTEzhn/Aq5mIFwp2yGSMzAsCyMIAp7hWOXjD+LGW03bnPe/rxSyZ7spv8tw9z+f75Ps8htaasvr7+81Apfm6oY1dGrpAV4BhY5AV2vjME4ZjKHUSjBxKHTt69MNpszw8ODj4TCBUMdbasnnH5pYt1NREEEIgpbs2l8u1/TAxvjebyeT27z8YXrh3j7MT4wFgmwkwPPzx8z6/L713zxuxeKyRUqmI4+RRSiGEIBQKsa/7ALZ9J1xfv56qcBg0rwCYAArxxVsH346tqV3L4uJDrv58lfn52+TyeZ6qrGTjxk0kXkwQiUT4r8yhTwd2xmPxjnXPruP+/QXOpE9zx7YnQQwIrUOFUnHwwtRk4vbvv9HVuZNAIAiAUmoZYCh9+NUdHRSLRWZvXMe27XMlx+2yLEueGP7kXE/3gUQ81rjKWUq5DNAY64PBEK5b4uatWwiMjyzLkgCuK8OPHj3kwYOFVQDXdSlnUCeEgVIKx3mMlFx/0uR575765usvtdaJ5WtrtC7XPxlIzysUS8VqIUyqq5/mcc5uBs4DHD92/DKwYZX9yhCl532fyWQONcYbadrQRCabtXq+6pka2zfmrXiwwJIsngB2a60mPJf3hoaGcgCmWpKnr1y5fKghGqW5uYX5zHy7d809+8HM+wM+7d2U2teKxkol21/e1NTEj5MT78zOzl4CTgKYQvhPzc39cn7q4lR7Kpliz+5utrRu3X5x+sL2u3f/4oVolOS2JNFoA/l8HtP0I6UXKG9naK3p6+urEaa+1NnxWkPb1jaCwRB+vx8hfCilcN0lCgWH9Hia6Z+mb5ii4qWRkZHCEwDAkSO9zyl8n9dGartSqSSRSC1V4Socx2Hu1zmuzczwx5/Zb02j4s3R0dHFf22wUr2HezsNLXuVMuo1ug7Ia80Zhf6ubk1d2rIstbJ/FeD/6m8m/lj+PIxQ9QAAAABJRU5ErkJggg==';
-
-var Document = function (_React$Component) {
-  inherits(Document, _React$Component);
-
-  function Document(props) {
-    classCallCheck(this, Document);
-
-    var _this = possibleConstructorReturn(this, (Document.__proto__ || Object.getPrototypeOf(Document)).call(this, props));
-
-    _this.state = { value: "", frontendParams: props.frontendParams };
-
-    _this.reload = _this.reload.bind(_this);
-    _this.refresh = _this.refresh.bind(_this);
-    return _this;
-  }
-
-  createClass(Document, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      bus.replaceListeners(this.props.frontendParams.documentName, function (data) {
-        if (_this2.state.value.meta !== undefined && !Number.isInteger(Number.parseInt(_this2.state.value.meta._ts_))) {
-          console.error("meta._ts_ mast be string of Integer " + _this2.state.value.meta._ts_);
-        }
-
-        if (_this2.state.value.meta === undefined || data.value.meta === undefined || data.value.meta._ts_ > _this2.state.value.meta._ts_) {
-          _this2.setState(Object.assign({ value: undefined, frontendParams: undefined, component: undefined }, data));
-        }
-        // if(!data.loading)this.setState({ loading: false });
-        // if(!data.error)this.setState({ error: null });
-      });
-
-      bus.replaceListeners(this.props.frontendParams.documentName + be5.documentRefreshSuffix, function () {
-        _this2.refresh();
-      });
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      bus.replaceListeners(this.props.frontendParams.documentName, function (data) {});
-      bus.replaceListeners(this.props.frontendParams.documentName + be5.documentRefreshSuffix, function (data) {});
-    }
-  }, {
-    key: 'reload',
-    value: function reload() {
-      if (this.state.value.data.links.self !== undefined) {
-        be5.url.process(this.props.frontendParams.documentName, "#!" + this.state.value.data.links.self);
-      }
-    }
-  }, {
-    key: 'refresh',
-    value: function refresh() {
-      //console.log("refresh() ", JSON.stringify(this.props.frontendParams), JSON.stringify(this.state.frontendParams));
-      this.refs.documentContent.refresh();
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      documentState.set(this.props.frontendParams.documentName, this.state);
-
-      var loadingItem = null; //this.state.loading
-      //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
-
-      var devRole = false; //todo
-      var devTools = React.createElement(
-        'span',
-        { onClick: this.refresh, className: "document-reload float-right" },
-        React.createElement('img', { src: img, alt: be5.messages.reload,
-          title: be5.messages.reload + " " + this.props.frontendParams.documentName })
-      );
-
-      var contentItem = null;
-      if (this.state.value) be5.ui.setTitle(this.state.value.title);
-
-      if (this.state.component) {
-        if (this.state.component === 'text') {
-          contentItem = React.createElement(
-            'h1',
-            null,
-            this.state.value
-          );
-        } else if (this.state.component !== null) {
-          var DocumentContent = this.state.component;
-          contentItem = React.createElement(
-            'div',
-            null,
-            devRole ? devTools : null,
-            React.createElement(DocumentContent, {
-              ref: 'documentContent',
-              value: this.state.value,
-              frontendParams: this.getComponentFrontendParams()
-            })
-          );
-        }
-      } else {
-        if (this.state.value) {
-          contentItem = React.createElement(
-            'h1',
-            null,
-            this.state.value
-          );
-        }
-      }
-
-      return React.createElement(
-        'div',
-        { className: 'document-content', id: 'document-content___' + this.props.frontendParams.documentName },
-        loadingItem,
-        contentItem
-      );
-    }
-  }, {
-    key: 'getComponentFrontendParams',
-    value: function getComponentFrontendParams() {
-      return Object.assign({}, this.state.frontendParams, this.props.frontendParams);
-    }
-  }]);
-  return Document;
-}(React.Component);
-
-Document.propTypes = {
-  frontendParams: PropTypes.shape({
-    documentName: PropTypes.string.isRequired,
-    operationDocumentName: PropTypes.string,
-    parentDocumentName: PropTypes.string,
-    onSuccess: PropTypes.function
-  })
-};
 
 ace.define("ace/mode/doc_comment_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(acequire, exports, module) {
 var oop = acequire("../lib/oop");
@@ -2563,7 +2670,7 @@ var Form = function (_React$Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      this.setState(Object.assign({}, nextProps.value, { wasValidated: false }));
+      this.setState(Object.assign({}, nextProps.value, { wasValidated: false, submitted: false }));
     }
   }, {
     key: 'getParams',
@@ -2581,20 +2688,38 @@ var Form = function (_React$Component) {
   }, {
     key: 'refresh',
     value: function refresh() {
-      forms.load(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
+      var _this2 = this;
+
+      if (!this.state.submitted) {
+        this.setState({ submitted: true }, function () {
+          forms.load(_this2.getParams(_this2.state.data.attributes.bean.values), _this2.props.frontendParams);
+        });
+      }
     }
   }, {
     key: '_reloadOnChange',
     value: function _reloadOnChange(controlName) {
-      var values = Object.assign({}, this.state.data.attributes.bean.values, { '_reloadcontrol_': controlName });
+      var _this3 = this;
 
-      forms.load(this.getParams(values), this.props.frontendParams);
+      if (!this.state.submitted) {
+        this.setState({ submitted: true }, function () {
+          var values = Object.assign({}, _this3.state.data.attributes.bean.values, { '_reloadcontrol_': controlName });
+
+          forms.load(_this3.getParams(values), _this3.props.frontendParams);
+        });
+      }
     }
   }, {
     key: 'apply',
     value: function apply() {
+      var _this4 = this;
+
       this.setState({ wasValidated: false });
-      forms.apply(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
+      if (!this.state.submitted) {
+        this.setState({ submitted: true }, function () {
+          forms.apply(_this4.getParams(_this4.state.data.attributes.bean.values), _this4.props.frontendParams);
+        });
+      }
     }
 
     // cancel() {
@@ -2613,19 +2738,21 @@ var Form = function (_React$Component) {
   }, {
     key: '_setValue',
     value: function _setValue(name, value) {
-      JsonPointer.set(this.state.data.attributes.bean, "/values" + name, value);
+      if (!this.state.submitted) {
+        JsonPointer.set(this.state.data.attributes.bean, "/values" + name, value);
+      }
     }
   }, {
     key: '_onFieldChange',
     value: function _onFieldChange(name, value) {
-      var _this2 = this;
+      var _this5 = this;
 
       var attributes = this.state.data.attributes;
       this._setValue(name, value);
 
       this.forceUpdate(function () {
         if (attributes.bean.meta[name].reloadOnChange === true || attributes.bean.meta[name].autoRefresh === true) {
-          _this2._reloadOnChange(name);
+          _this5._reloadOnChange(name);
         }
       });
     }
@@ -2646,13 +2773,18 @@ var Form = function (_React$Component) {
   }, {
     key: '_createOkAction',
     value: function _createOkAction(addCssClasses) {
-      var _this3 = this;
+      var _this6 = this;
 
       return React.createElement(
         'button',
-        { type: 'submit', className: classNames("btn btn-primary", addCssClasses), onClick: function onClick() {
-            return _this3.setState({ wasValidated: true });
-          } },
+        {
+          type: 'submit',
+          className: classNames("btn btn-primary", addCssClasses),
+          onClick: function onClick() {
+            return _this6.setState({ wasValidated: true });
+          },
+          disabled: this.state.submitted
+        },
         be5.messages.Submit
       );
     }
@@ -2759,7 +2891,7 @@ var SubmitOnChangeForm = function (_Form) {
     value: function render() {
       var attributes = this.state.data.attributes;
       return React.createElement(
-        'div',
+        'form',
         { className: classNames('submit-onchange-form', attributes.cssClass) },
         React.createElement(PropertyInput, {
           id: 0,
@@ -2853,6 +2985,17 @@ var InlineForm = function (_Form) {
     key: 'render',
     value: function render() {
       var attributes = this.state.data.attributes;
+      var commonProps = {
+        bean: attributes.bean,
+        onChange: this._onFieldChange,
+        localization: be5.messages.property,
+        inline: true,
+        rowClass: "d-flex"
+      };
+
+      var properties = attributes.bean.order.map(function (p) {
+        return React.createElement(Property, _extends({ key: p, path: p }, commonProps));
+      });
 
       return React.createElement(
         'form',
@@ -2860,13 +3003,7 @@ var InlineForm = function (_Form) {
           onSubmit: this._applyOnSubmit,
           className: classNames('form-inline', attributes.cssClass, this.state.wasValidated ? 'was-validated' : '')
         },
-        React.createElement(PropertySet, {
-          bean: attributes.bean,
-          onChange: this._onFieldChange,
-          localization: be5.messages.property,
-          inline: true,
-          rowClass: 'd-flex'
-        }),
+        properties,
         this._createOkAction('mb-2'),
         this._getErrorPane()
       );
@@ -2908,63 +3045,6 @@ var be5init = {
       be5.url.process(be5.mainDocumentName, be5.url.get());
     });
   }
-};
-
-// const createIllegalArgumentError = () => ({
-//   name: 'IllegalArgumentError',
-//   message: ''
-// });
-//
-// const getColumnName = function(column) {
-//   return typeof column === 'string' ? column : column.name;
-// };
-//
-// const toRows = function(table) {
-//   if (table.type && table.type === 'table') {
-//     table = table.value;
-//   }
-//
-//   return table.rows.map(row => {
-//     const resultRow = { id: row.id };
-//     for (var i = 0; i < row.cells.length; i++) {
-//       resultRow[getColumnName(table.columns[i])] = row.cells[i];
-//     }
-//     return resultRow;
-//   });
-// };
-//
-// const getSortableColumns = function(table) {
-//   if (table.type && table.type === 'table') {
-//     table = table.value;
-//   }
-//
-//   return table.columns.filter(column => !(column.options && column.options.nosort));
-// };
-//
-// const toRow = function(table) {
-//   const rows = toRows(table);
-//   if (rows.length !== 1) {
-//     throw createIllegalArgumentError();
-//   }
-//   return rows[0];
-// };
-//
-// const createDocument = function(resource) {
-//   return _.extend({
-//     toRow: function() {
-//       return toRow(this);
-//     },
-//     toRows: function() {
-//       return toRows(this);
-//     },
-//   }, resource);
-// };
-
-var documentUtils = {
-  // toRows: toRows,
-  // toRow: toRow,
-  // createDocument: createDocument,
-  // getSortableColumns: getSortableColumns
 };
 
 var http = {
