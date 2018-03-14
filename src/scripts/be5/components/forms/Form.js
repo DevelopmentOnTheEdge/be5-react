@@ -121,6 +121,7 @@ class Form extends React.Component
         className={classNames("btn btn-primary", addCssClasses)}
         onClick={() => this.setState({wasValidated: true})}
         disabled={this.state.submitted}
+        title={this.state.submitted ? be5.messages.submitted: ""}
       >
         {be5.messages.Submit}
       </button>

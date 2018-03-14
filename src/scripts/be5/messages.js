@@ -23,6 +23,7 @@ export default {
     filter: 'Filter...',
 
     Submit: 'Submit',
+    submitted: 'In progress...',
 
     formComponentNotFound:  'Form component not found: ',
     tableComponentNotFound: 'Table component not found: ',
@@ -56,6 +57,7 @@ export default {
     filter: 'Фильтр...',
 
     Submit: 'Выполнить',
+    submitted: 'Выполняется...',
 
     property: {
       locale: 'ru',

@@ -1,35 +1,35 @@
 @CHARSET "UTF-8";
 
 @media (min-width: 1200px){
-    .formBox.container.formBoxDefault{
-        width: 970px;
-    }
+  .formBox.container.formBoxDefault{
+    width: 970px;
+  }
 }
 .formBox{
 
 }
 .modal-content .formBox {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .formBoxBorder {
-    padding: 1em;
-    border-radius: 0.25rem;
-    border: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 1em;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .formBox form{
-    border: 1px solid #d8d8d8;
-    padding: 15px;
-    border-radius: 3px;
+  border: 1px solid #d8d8d8;
+  padding: 15px;
+  border-radius: 3px;
 }
 .modal-content .formBox form{
-    border: none;
-    padding: 0;
+  border: none;
+  padding: 0;
 }
 
 .formActions {
-    margin-top: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .form-inline {
@@ -42,25 +42,25 @@
 
 /****** Select ******/
 .Select-placeholder, .Select--single > .Select-control .Select-value{
-    line-height: 30px;
+  line-height: 30px;
 }
 .Select-control, .Select-input{
-    height: 30px;
-    font-size: 14px;
+  height: 30px;
+  font-size: 14px;
 }
 .Select-clear {
-    font-size: 14px;
+  font-size: 14px;
 }
 .Select-option {
-    font-size: 14px;
-    padding: 4px 10px;
+  font-size: 14px;
+  padding: 4px 10px;
 }
 .Select--multi .Select-value{
-    margin-top: 4px;
+  margin-top: 4px;
 }
 .Select-input > input{
-    line-height: 30px;
-    padding: 0;
+  line-height: 30px;
+  padding: 0;
 }
 
 /*.Select-placeholder, .Select--single > .Select-control .Select-value{
