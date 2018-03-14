@@ -27,6 +27,9 @@ class InlineForm extends Form
         onSubmit={this._applyOnSubmit}
         className={classNames('form-inline', attributes.cssClass, this.state.wasValidated ? 'was-validated' : '')}
       >
+        <label className="mb-2 mr-sm-2">
+          <strong>{attributes.title}</strong>
+        </label>
         {properties}
         {this._createOkAction('mb-2')}
         {this._getErrorPane()}
