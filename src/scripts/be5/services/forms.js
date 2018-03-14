@@ -77,7 +77,7 @@ export default
           if (attributes.status !== 'document' && frontendParams.parentDocumentName !== undefined
                                             && frontendParams.parentDocumentName !== frontendParams.documentName)
           {
-            console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
+            //console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
             bus.fire(frontendParams.parentDocumentName + be5.documentRefreshSuffix)
           }
 

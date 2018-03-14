@@ -61,11 +61,6 @@ class TableBox extends React.Component {
     this._refreshEnablementIfNeeded();
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return JSON.stringify(nextProps) !== JSON.stringify(this.props)
-      || JSON.stringify(nextState) !== JSON.stringify(this.state);
-  }
-
   componentDidUpdate() {
     if(this.refs.table)
       this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
