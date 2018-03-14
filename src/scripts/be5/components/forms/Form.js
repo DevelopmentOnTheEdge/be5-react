@@ -144,7 +144,7 @@ class Form extends React.Component
     const errorModel = this.state.data.attributes.errorModel;
 
     if(errorModel){
-      return <ErrorPane value={{errors: [errorModel], meta: this.state.meta, links: {}}}/>
+      return <ErrorPane value={{errors: [errorModel], meta: this.state.meta}}/>
     }else{
       return null;
     }
