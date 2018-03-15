@@ -65,6 +65,29 @@
   font-size: 14px;
 }
 
+.Select--sm .Select-placeholder,
+.Select--sm.Select--single > .Select-control .Select-value,
+.Select--sm .Select-input > input{
+  line-height: 23px;
+}
+.Select--sm .Select-control,
+.Select--sm .Select-input{
+  border-radius: 0.2rem;
+  height: 23px;
+}
+.Select--sm .Select-control,
+.Select--sm .Select-input,
+.Select--sm .Select-clear,
+.Select--sm .Select-option {
+  font-size: 0.76562rem;
+}
+.Select--sm .Select-option {
+  padding: 4px 10px;
+}
+.Select--sm.Select--multi .Select-value {
+  margin-top: 3px;
+}
+
 /*.Select-placeholder, .Select--single > .Select-control .Select-value{
   line-height: 1.875rem;
 }

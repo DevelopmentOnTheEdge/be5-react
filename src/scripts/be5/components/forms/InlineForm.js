@@ -26,7 +26,11 @@ class InlineForm extends Form
         onSubmit={this._applyOnSubmit}
         className={classNames('form-inline', attributes.cssClass, this.state.wasValidated ? 'was-validated' : '')}
       >
-        <label className="mb-2 mr-sm-2">
+        <label className={classNames(
+          "mb-2 mr-sm-2",
+          {'col-form-label-sm' : attributes.layout.bsSize === "sm"},
+          {'col-form-label-lg' : attributes.layout.bsSize === "lg"}
+        )}>
           <strong>{attributes.title}</strong>
         </label>
         {properties}
