@@ -192,4 +192,3 @@ Form.propTypes = {
 be5.ui.forms.registerForm('form', Form);
 
 export default Form;
-
