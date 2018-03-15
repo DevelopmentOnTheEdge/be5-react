@@ -1,7 +1,7 @@
 import React            from 'react';
+import be5              from '../../be5';
 import Document         from '../Document';
 import TableForm        from './TableForm';
-import tablesCollection from '../../services/tablesCollection';
 
 
 class FormTable extends TableForm {
@@ -17,6 +17,6 @@ class FormTable extends TableForm {
 
 }
 
-tablesCollection.registerTable('formTable', FormTable);
+be5.ui.tables.registerTable('formTable', FormTable);
 
 export default FormTable;

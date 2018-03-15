@@ -1,7 +1,7 @@
 import React            from 'react';
+import be5              from '../../be5';
 import Document         from '../Document';
 import TableForm        from './TableForm';
-import tablesCollection from '../../services/tablesCollection';
 
 
 class TableFormRow extends TableForm {
@@ -21,6 +21,6 @@ class TableFormRow extends TableForm {
 
 }
 
-tablesCollection.registerTable('tableFormRow', TableFormRow);
+be5.ui.tables.registerTable('tableFormRow', TableFormRow);
 
 export default TableFormRow;
