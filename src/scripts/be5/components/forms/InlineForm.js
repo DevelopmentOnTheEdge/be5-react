@@ -23,6 +23,7 @@ class InlineForm extends Form
 
     return (
       <form
+        id={this.state.meta._ts_}
         onSubmit={this._applyOnSubmit}
         className={classNames('form-inline', attributes.cssClass, this.state.wasValidated ? 'was-validated' : '')}
       >

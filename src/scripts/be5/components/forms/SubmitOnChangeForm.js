@@ -22,7 +22,10 @@ class SubmitOnChangeForm extends Form
   render() {
     const attributes = this.state.data.attributes;
     return (
-        <form className={classNames('submit-onchange-form', attributes.cssClass)}>
+        <form
+          id={this.state.meta._ts_}
+          className={classNames('submit-onchange-form', attributes.cssClass)}
+        >
           <PropertyInput
             id={0}
             bean={attributes.bean}

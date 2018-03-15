@@ -168,7 +168,11 @@ class Form extends React.Component
       <div className="row">
         <div className={'formBox ' + (attributes.layout.formBoxCssClasses || 'col-12 max-width-970 formBoxDefault')}>
           <h1 className="form-component__title">{attributes.title}</h1>
-          <form onSubmit={this._applyOnSubmit} className={this.state.wasValidated ? 'was-validated' : ''}>
+          <form
+            id={this.state.meta._ts_}
+            onSubmit={this._applyOnSubmit}
+            className={this.state.wasValidated ? 'was-validated' : ''}
+          >
             <PropertySet
               bean={attributes.bean}
               onChange={this._onFieldChange}

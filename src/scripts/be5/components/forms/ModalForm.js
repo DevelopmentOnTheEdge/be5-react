@@ -18,6 +18,7 @@ class ModalForm extends Form
       <div>
         <ModalHeader tag='h5' toggle={() => bus.fire("mainModalClose")} >{attributes.title}</ModalHeader>
         <form
+          id={this.state.meta._ts_}
           onSubmit={this._applyOnSubmit}
           className={this.state.wasValidated ? 'was-validated' : ''}
         >
