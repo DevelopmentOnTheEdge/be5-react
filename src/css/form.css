@@ -46,13 +46,8 @@
 }
 .Select-control, .Select-input{
   height: 30px;
-  font-size: 14px;
-}
-.Select-clear {
-  font-size: 14px;
 }
 .Select-option {
-  font-size: 14px;
   padding: 4px 10px;
 }
 .Select--multi .Select-value{
@@ -61,6 +56,13 @@
 .Select-input > input{
   line-height: 30px;
   padding: 0;
+}
+
+.Select-control,
+.Select-input,
+.Select-clear,
+.Select-option {
+  font-size: 14px;
 }
 
 /*.Select-placeholder, .Select--single > .Select-control .Select-value{
