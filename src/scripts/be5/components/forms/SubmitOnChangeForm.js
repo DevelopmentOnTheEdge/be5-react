@@ -28,6 +28,7 @@ class SubmitOnChangeForm extends Form
             bean={attributes.bean}
             localization={be5.messages.property}
             onChange={this._onFieldChangeAndSubmit}
+            bsSize={attributes.layout.bsSize}
           />
           <div className="col-12">
             {this._getErrorPane()}

@@ -26,6 +26,7 @@ class ModalForm extends Form
               bean={attributes.bean}
               onChange={this._onFieldChange}
               localization={be5.messages.property}
+              bsSize={attributes.layout.bsSize}
             />
           </ModalBody>
           <div className="col-12">

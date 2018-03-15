@@ -18,7 +18,7 @@ class InlineForm extends Form
     };
 
     const properties = attributes.bean.order.map(p => (
-      <Property key={p} path={p} {...commonProps} />
+      <Property key={p} path={p} {...commonProps} bsSize={attributes.layout.bsSize}/>
     ));
 
     return (

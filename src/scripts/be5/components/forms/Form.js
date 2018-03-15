@@ -121,7 +121,12 @@ class Form extends React.Component
         {(state) => (
           <button
             type="submit"
-            className={classNames("btn btn-primary", addCssClasses)}
+            className={classNames(
+              "btn btn-primary",
+              {'btn-sm' : this.state.data.attributes.layout.bsSize === 'sm'},
+              {'btn-lg' : this.state.data.attributes.layout.bsSize === 'lg'},
+              addCssClasses
+            )}
             onClick={() => this.setState({wasValidated: true})}
             title={this.state.submitted ? be5.messages.submitted: ""}
             disabled={state === 'entered'}
@@ -168,6 +173,7 @@ class Form extends React.Component
               bean={attributes.bean}
               onChange={this._onFieldChange}
               localization={be5.messages.property}
+              bsSize={attributes.layout.bsSize}
             />
             <div className="formActions">
               {this._createFormActions()}
