@@ -100,19 +100,6 @@ class FormWizard extends React.Component
     this.checkNavState(next);
   }
 
-  // handles keydown on enter being pressed in any Child component input area. in this case it goes to the next (ignore textareas as they should allow line breaks)
-  handleKeyDown(evt) {
-    if (evt.which === 13) {
-      if (!this.props.preventEnterSubmission && evt.target.type !== 'textarea') {
-        this.next();
-      }
-      else if (evt.target.type !== 'textarea') {
-        evt.preventDefault();
-      }
-    }
-  }
-
-  // this utility method lets Child components invoke a direct jump to another step
   jumpToStep(evt) {
     //if (evt.target == undefined) {
       // a child step wants to invoke a jump between steps. in this case 'evt' is the numeric step number and not the JS event
@@ -308,7 +295,7 @@ class FormWizard extends React.Component
 //{compToRender}
 
     return (
-      <div className="formWizard" onKeyDown={(evt) => {this.handleKeyDown(evt)}}>
+      <div className="formWizard" >
           {
               this.props.showSteps
                   ? <ol className="progtrckr clearfix">

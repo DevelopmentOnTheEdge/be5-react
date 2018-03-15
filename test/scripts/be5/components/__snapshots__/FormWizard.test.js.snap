@@ -3,7 +3,6 @@
 exports[`test 1`] = `
 <div
   className="formWizard"
-  onKeyDown={[Function]}
 >
   <ol
     className="progtrckr clearfix"
