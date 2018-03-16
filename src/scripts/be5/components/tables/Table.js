@@ -153,7 +153,7 @@ class TableBox extends React.Component {
     }
 
     const tableConfiguration = {
-      dom: 'rt<"row" <"col-md-6"i><"col-md-6"pl> ><"clear">',
+      dom: 'rt<"row" <"col-md-6"il><"col-md-6"p> ><"clear">',
       processing: true,
       serverSide: true,
       language: language,
