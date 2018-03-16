@@ -109,30 +109,35 @@ table.dataTable {
   border-top-width: 0;
 }
 
-.dataTables_length {
-  margin: 2px 0 2px 10px;
-  float: right;
-}
-
 .page-link {
-  padding: 0.4rem 0.7rem;
+  padding: 0.423rem 0.7rem;
 }
 
 div.dataTables_wrapper div.dataTables_length select {
   width: 120px;
+  border-color: #dee2e6;
 }
 
+.dataTables-nav {
+  margin-top: 14px;
+}
+.dataTables_length {
+  margin: 2px 0 2px 0;
+  float: left;
+}
+div.dataTables_wrapper div.dataTables_paginate {
+  float: left;
+  margin: 0 10px 0 0;
+}
 div.dataTables_wrapper div.dataTables_info {
   padding-top: 0.5rem;
-  padding-right: 10px;
-  display: inline-block;
+  float: right;
 }
+
 .dataTables_length label{
   margin-bottom: 0;
 }
-div.dataTables_wrapper div.dataTables_paginate {
-  float: right;
-}
+
 div.dataTables_wrapper div.dataTables_processing {
   display: none!important;
 }

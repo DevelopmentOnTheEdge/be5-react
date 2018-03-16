@@ -158,7 +158,7 @@ class TableBox extends React.Component {
     }
 
     const tableConfiguration = {
-      dom: 'rt i lp <"row">',
+      dom: 'rt <"dataTables-nav clearfix"pli>',
       processing: true,
       serverSide: true,
       language: language,
@@ -300,8 +300,7 @@ class TableBox extends React.Component {
       _this._refreshEnablementIfNeeded();
     } );
 
-    //fix pagination position
-    tableDiv.parent().css('margin', 0).css('width', tableDiv.width() + 32);
+    $('.dataTables-nav').css('max-width', tableDiv.width() + 2);
 
     this.refs.quickColumns.setTable(this.refs.table);
 
