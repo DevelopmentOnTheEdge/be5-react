@@ -90,14 +90,14 @@ exports[`snapshot 1`] = `
                   className="operationList"
                 >
                   <button
-                    className="btn btn-outline-secondary btn-sm"
+                    className="btn btn-secondary btn-secondary-old btn-sm"
                     onClick={[Function]}
                   >
                     Редактировать
                   </button>
                    
                   <button
-                    className="btn btn-outline-secondary btn-sm"
+                    className="btn btn-secondary btn-secondary-old btn-sm"
                     onClick={[Function]}
                   >
                     Добавить

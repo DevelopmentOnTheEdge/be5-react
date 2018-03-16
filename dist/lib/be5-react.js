@@ -1025,7 +1025,7 @@ var documentUtils = {
   }
 };
 
-var Tables = {
+var tables = {
   load: function load(params, documentName) {
     this._send(params, this._performData, documentName);
   },
@@ -1156,7 +1156,7 @@ var OperationBox = function (_React$Component) {
             key: operation.name,
             ref: operation.name,
             onClick: _this3.onClick.bind(_this3, operation.name),
-            className: 'btn btn-outline-secondary btn-sm'
+            className: 'btn btn-secondary btn-secondary-old btn-sm'
           },
           operation.title
         );
@@ -1526,7 +1526,7 @@ var TableBox = function (_React$Component) {
       var columnIndexShift = 0;
 
       if (hasCheckBoxes) {
-        theadrow.append($("<th>").text("#"));
+        theadrow.append($("<th>").html('<input id="rowCheckboxAll" type="checkbox" class=""/>'));
         tfootrow.append($("<th>").text("#"));
         columnIndexShift = 1;
       }
@@ -1547,7 +1547,7 @@ var TableBox = function (_React$Component) {
         tbody.append(tr);
       });
 
-      var tableDiv = $('<table id="' + this.props.value.meta._ts_ + '" ' + 'class="table table-striped table-bordered table-hover display table-sm" cellspacing="0"/>').append(thead).append(tbody).append(attributes.rows.length > 10 ? tfoot : '').appendTo(node);
+      var tableDiv = $('<table id="' + this.props.value.meta._ts_ + '" ' + 'class="table table-striped table-striped-light table-bordered table-hover display table-sm" cellspacing="0"/>').append(thead).append(tbody).append(attributes.rows.length > 10 ? tfoot : '').appendTo(node);
 
       var lengths = [5, 10, 20, 50, 100, 500, 1000];
       var pageLength = attributes.length;
@@ -1572,7 +1572,7 @@ var TableBox = function (_React$Component) {
       }
 
       var tableConfiguration = {
-        dom: 'rt il p <"row">',
+        dom: 'rt <"dataTables-nav clearfix"pli>',
         processing: true,
         serverSide: true,
         language: language,
@@ -1641,10 +1641,14 @@ var TableBox = function (_React$Component) {
           $('input', row).change(function () {
             var rowId = data[0];
             var checked = this.checked;
-            if (checked && $.inArray(rowId, be5.tableState.selectedRows) == -1) {
+            if (checked && $.inArray(rowId, be5.tableState.selectedRows) === -1) {
               be5.tableState.selectedRows.push(rowId);
-            } else if (!checked && $.inArray(rowId, be5.tableState.selectedRows) != -1) {
+              if (attributes.rows.length === be5.tableState.selectedRows.length) {
+                $('#rowCheckboxAll').prop('checked', true);
+              }
+            } else if (!checked && $.inArray(rowId, be5.tableState.selectedRows) !== -1) {
               be5.tableState.selectedRows.splice($.inArray(rowId, be5.tableState.selectedRows), 1);
+              $('#rowCheckboxAll').prop('checked', false);
             }
             _this.onSelectionChange();
           });
@@ -1702,13 +1706,31 @@ var TableBox = function (_React$Component) {
 
       tableDiv.dataTable(tableConfiguration);
 
+      $('.dataTables_length select').removeClass('form-control-sm');
+
       tableDiv.on('draw.dt', function () {
         be5.tableState.selectedRows = [];
         _this._refreshEnablementIfNeeded();
       });
 
-      //fix pagination position
-      tableDiv.parent().css('margin', 0).css('width', tableDiv.width() + 32);
+      $('.dataTables-nav').css('max-width', tableDiv.width() + 2);
+
+      $('#rowCheckboxAll').click(function (e) {
+        e.stopPropagation();
+
+        if (!$('#rowCheckboxAll').prop('checked')) {
+          $('.rowCheckbox').prop('checked', false);
+          be5.tableState.selectedRows = [];
+        } else {
+          $('.rowCheckbox').prop('checked', true);
+
+          for (var _i = 0; _i < attributes.rows.length; _i++) {
+            be5.tableState.selectedRows.push(attributes.rows[_i].id);
+          }
+        }
+
+        _this.onSelectionChange();
+      });
 
       this.refs.quickColumns.setTable(this.refs.table);
 
@@ -1841,7 +1863,7 @@ var Table = function (_React$Component3) {
         params: attr.parameters
       };
 
-      Tables.refresh(params, this.props.frontendParams.documentName);
+      tables.refresh(params, this.props.frontendParams.documentName);
     }
   }]);
   return Table;
@@ -2087,7 +2109,7 @@ var action$10 = function action(documentName, entity, query, params) {
     query: query || 'All records',
     params: params
   };
-  Tables.load(paramsObject, documentName);
+  tables.load(paramsObject, documentName);
 };
 
 actionsCollection.registerAction("table", action$10);
@@ -2387,7 +2409,7 @@ var QueryBuilder = function (_React$Component) {
       this.setState({
         finalSql: json.included[0].attributes.finalSql
       });
-      Tables._performData(json, 'queryBuilder-table');
+      tables._performData(json, 'queryBuilder-table');
     }
   }, {
     key: 'render',
@@ -2650,6 +2672,477 @@ var FormTable = function (_TableForm) {
 }(TableForm);
 
 be5.ui.tables.registerTable('formTable', FormTable);
+
+var TableBox$1 = function (_React$Component) {
+  inherits(TableBox, _React$Component);
+
+  function TableBox(props) {
+    classCallCheck(this, TableBox);
+
+    var _this = possibleConstructorReturn(this, (TableBox.__proto__ || Object.getPrototypeOf(TableBox)).call(this, props));
+
+    _this.onOperationClick = _this.onOperationClick.bind(_this);
+    return _this;
+  }
+
+  // componentDidMount() {
+  //   if(this.refs.table)
+  //     this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
+  //
+  //   this._refreshEnablementIfNeeded();
+  // }
+
+  // componentWillReceiveProps(nextProps)
+  // {
+  //   $('#table' + this.props.value.meta._ts_).dataTable().fnDestroy();
+  // }
+
+  // componentWillUpdate() {
+  //   if(this.refs.table)
+  //     this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
+  // }
+
+  // componentDidUnMount() {
+  //   $('#table' + this.props.value.meta._ts_).dataTable().fnDestroy();
+  // }
+
+  createClass(TableBox, [{
+    key: 'onOperationClick',
+    value: function onOperationClick(name) {
+      var attr = this.props.value.data.attributes;
+
+      var params = {
+        entity: attr.category,
+        query: attr.page || 'All records',
+        operation: name,
+        values: {},
+        operationParams: attr.parameters
+      };
+
+      forms.load(params, {
+        documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
+        parentDocumentName: this.props.frontendParams.documentName
+      });
+    }
+  }, {
+    key: 'onSelectionChange',
+    value: function onSelectionChange() {
+      this._refreshEnablementIfNeeded();
+
+      if (this.props.hasOwnProperty('callbacks') && this.props.callbacks !== undefined && this.props.callbacks.hasOwnProperty('onSelectionChange')) {
+        this.props.callbacks.onSelectionChange(be5.tableState.selectedRows);
+      }
+    }
+    //
+    // applyTableStyle(node) {
+    //   const attributes = this.props.value.data.attributes;
+    //   if (attributes.columns.length === 0) return;
+    //
+    //   //$(node).empty();
+    //   be5.tableState.selectedRows = [];
+    //
+    //   const _this = this;
+    //
+    //   const hasCheckBoxes = attributes.selectable;
+    //   const editable = attributes.operations.filter((op) => op.name === 'Edit').length === 1;
+    //
+    //   let columnIndexShift = hasCheckBoxes ? 1 : 0;
+    //
+    //   const tableDiv = $('#table' + this.props.value.meta._ts_);
+    //
+    //   let lengths = [5,10,20,50,100,500,1000];
+    //   const pageLength = attributes.length;
+    //
+    //   if (lengths.indexOf(pageLength) === -1) {
+    //     lengths.push(pageLength);
+    //     lengths.sort(function(a,b) {return a-b;});
+    //   }
+    //
+    //   const lengthsTitles = lengths.map(x => x + ' записей');
+    //
+    //   lengths = [lengths, lengthsTitles];
+    //
+    //   let language = null;
+    //   if(be5.locale.value !== 'en'){
+    //     language = be5.messages.dataTables || {};
+    //     language.lengthMenu = "_MENU_";
+    //   }
+    //
+    //   const tableConfiguration = {
+    //     dom: 'rt il p <"row">',
+    //     processing: true,
+    //     serverSide: true,
+    //     language: language,
+    //     searching: false,
+    //     autoWidth: false,
+    //     aaSorting: [],
+    //     ajax: {
+    //       url: utils.getBaseUrl() + be5.net.url('document/moreRows'),
+    //       data: {
+    //         entity: attributes.category,
+    //         query: attributes.page,
+    //         values: be5.net.paramString(attributes.parameters),
+    //         selectable: attributes.selectable,
+    //         totalNumberOfRows: attributes.totalNumberOfRows
+    //       },
+    //       dataSrc: function(d){
+    //         if(d.type === "error"){
+    //           be5.log.error(d.value.code + "\n" + d.value.message);
+    //         }else{
+    //           for(let i=0; i < d.data.length; i++){
+    //             for(let j=0; j < d.data[0].length - columnIndexShift; j++){
+    //               d.data[i][j + columnIndexShift] = formatCell(d.data[i][j + columnIndexShift].content, d.data[i][j + columnIndexShift].options)
+    //             }
+    //           }
+    //         }
+    //         return d.data;
+    //       }
+    //     },
+    //     lengthMenu: lengths,
+    //     pageLength: pageLength,
+    //     // This both tells
+    //     // that the first bunch of data is already loaded (so no request is required), and
+    //     // which is the total length of the result.
+    //     // See https://datatables.net/reference/option/deferLoading
+    //     deferLoading: attributes.totalNumberOfRows,
+    //     columnDefs: [
+    //       {
+    //         render: (data, type, row, meta) => {
+    //           if (!hasCheckBoxes) {
+    //             return row[0]; // default behavior
+    //           }
+    //           const val = row[0];
+    //           const id = "row-" + val + "-checkbox";
+    //           let display = meta.row+1;
+    //           if(editable) {
+    //             display = '<a href="#!'+be5.url.create('form', [attributes.category, attributes.page, 'Edit'], {selectedRows: val})+'">'+display+'</a>';
+    //           }
+    //           // Pure HTML! Have no idea how to convert some react.js to string.
+    //           return '\
+    //               <input id="{id}" type="checkbox" class="rowCheckbox"></input>\
+    //               <label for="{id}" class="rowIndex"><span class="checkBox" ></span>{val}</label>'
+    //             .replace('{id}', id)
+    //             .replace('{id}', id)
+    //             .replace('{val}', display);
+    //         },
+    //         targets: 0
+    //       }, {
+    //         render: (data, type, row) => {
+    //           if (type === 'display') {
+    //             const container = $('<div/>').html(formatCell(data));
+    //             //be5.ui.convertLinks(container);
+    //             return container.html();
+    //           }
+    //           return data;
+    //         },
+    //         targets: "_all"
+    //       }
+    //     ],
+    //     createdRow(row, data, index) { // see http://datatables.net/examples/advanced_init/row_callback.html
+    //       $('input', row).change(function() {
+    //         const rowId = data[0];
+    //         const checked = this.checked;
+    //         if (checked && $.inArray(rowId, be5.tableState.selectedRows) == -1) {
+    //           be5.tableState.selectedRows.push(rowId);
+    //         } else if (!checked && $.inArray(rowId, be5.tableState.selectedRows) != -1) {
+    //           be5.tableState.selectedRows.splice($.inArray(rowId, be5.tableState.selectedRows), 1);
+    //         }
+    //         _this.onSelectionChange();
+    //       });
+    //     }
+    //   };
+    //
+    //   let groupingColumn = null;
+    //   const nColumns = attributes.rows[0].cells.length;
+    //   for (let i = 0; i < nColumns; i++) {
+    //     const column = attributes.rows[0].cells[i];
+    //     if (typeof column === 'object') {
+    //       if ('options' in column) {
+    //         if ('grouping' in column.options) {
+    //           groupingColumn = i;
+    //         }
+    //       }
+    //     }
+    //   }
+    //
+    //   let drawGrouping;
+    //
+    //   if (groupingColumn !== null) {
+    //     const resultGroupingColumn = columnIndexShift + groupingColumn;
+    //     tableConfiguration.columnDefs.push({ visible: false, targets: resultGroupingColumn });
+    //     drawGrouping = (api) => {
+    //       const rows = api.rows({ page:'current' }).nodes();
+    //       let last = null;
+    //
+    //       api.column(resultGroupingColumn, { page: 'current' }).data().each(function(group, i) {
+    //         if (last !== group) {
+    //           $(rows).eq(i).before('<tr class="table-group"><td colspan="' + nColumns + '">' + group + '</td></tr>');
+    //           last = group;
+    //         }
+    //       });
+    //     };
+    //   }
+    //
+    //   tableConfiguration.drawCallback = (settings) => {
+    //     if(this.refs && this.refs.table)
+    //     {
+    //       const dataTable = $(this.refs.table).find('table').dataTable();
+    //       if (groupingColumn !== null) drawGrouping(dataTable.api());
+    //     }
+    //   };
+    //
+    //   tableDiv.dataTable(tableConfiguration);
+    //
+    //   tableDiv.on( 'draw.dt', function () {
+    //     be5.tableState.selectedRows = [];
+    //     _this._refreshEnablementIfNeeded();
+    //   } );
+    //
+    //   //fix pagination position
+    //   tableDiv.parent().css('margin', 0).css('width', tableDiv.width() + 32);
+    //
+    //   this.refs.quickColumns.setTable(this.refs.table);
+    //
+    //   this.onSelectionChange();
+    // }
+
+  }, {
+    key: 'render',
+    value: function render() {
+      var attributes = this.props.value.data.attributes;
+      if (attributes.columns.length === 0) {
+        return React.createElement(
+          'div',
+          null,
+          React.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick, hasRows: attributes.rows.length !== 0 }),
+          be5.messages.emptyTable
+        );
+      }
+
+      var hasCheckBoxes = attributes.selectable;
+
+      var theadrow = [];
+
+      if (hasCheckBoxes) {
+        theadrow.push(React.createElement(
+          'th',
+          { key: -1 },
+          '#'
+        ));
+      }
+
+      attributes.columns.forEach(function (column, idx) {
+        var title = (typeof column === 'undefined' ? 'undefined' : _typeof(column)) === 'object' ? column.title : column;
+
+        theadrow.push(React.createElement(
+          'th',
+          { key: idx },
+          title
+        )); //formatCell(title, 'th', true)
+      });
+
+      var trs = [];
+
+      attributes.rows.forEach(function (row, rowId, rows) {
+        var tr = [];
+
+        if (hasCheckBoxes) {
+          tr.push(React.createElement(
+            'td',
+            { key: -1 },
+            row.id
+          ));
+        }
+
+        row.cells.forEach(function (cell, idx) {
+          tr.push(React.createElement(
+            'td',
+            { key: idx },
+            cell.content
+          )); //formatCell(cell.content, cell.options)
+        });
+
+        trs.push(React.createElement(
+          'tr',
+          { key: rowId },
+          tr
+        ));
+      });
+
+      return React.createElement(
+        'div',
+        null,
+        React.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick, hasRows: attributes.rows.length !== 0 }),
+        React.createElement(QuickColumns, { ref: 'quickColumns', columns: attributes.columns, firstRow: attributes.rows[0].cells, table: this.refs.table, selectable: attributes.selectable }),
+        React.createElement(
+          'div',
+          { className: 'scroll' },
+          React.createElement(
+            'table',
+            {
+              id: "table" + this.props.value.meta._ts_,
+              className: 'table table-striped table-bordered table-hover display table-sm',
+              cellSpacing: '0'
+            },
+            React.createElement(
+              'thead',
+              null,
+              React.createElement(
+                'tr',
+                null,
+                theadrow
+              )
+            ),
+            React.createElement(
+              'tbody',
+              null,
+              trs
+            )
+          )
+        )
+      );
+    }
+
+    // _refreshEnablementIfNeeded() {
+    //   if (this.refs !== undefined && this.refs.operations !== undefined) {
+    //     this.refs.operations.refreshEnablement();
+    //   }
+    // }
+
+  }], [{
+    key: 'formatReactCell',
+    value: function formatReactCell(data, options, isColumn) {
+      if (!Array.isArray(data)) {
+        if (data === '') {
+          if (options && options.blankNulls && options.blankNulls.value) return options.blankNulls.value;
+        }
+      } else {
+        data = data.map(function (row) {
+          return row.join(', ');
+        }).join('<br/>');
+      }
+
+      if (options) {
+        if (options.format) {
+          data = numberFormatter(options.format.mask, data);
+        }
+        if (!isColumn && options.link) {
+          data = $('<a>', {
+            text: data,
+            href: "#!" + options.link.url
+          });
+        }
+        if (options.css || options === 'th') {
+          var wrap = $('<div>');
+          if (options.css && options.css.class) wrap.addClass(options.css.class);
+          if (options === 'th') wrap.addClass("ta-center td-strong");
+          data = wrap.html(data);
+        }
+      }
+      if (data instanceof $) {
+        data = $('<div>').append($(data).clone()).html();
+      }
+      return data;
+    }
+  }]);
+  return TableBox;
+}(React.Component);
+
+//todo add register new component and move to condo, add base types
+// class ListTableBox extends React.Component
+// {
+//   render(){
+//     const list = this.props.value.data.attributes.rows.map( (col, idx) => {
+//       return <li key={idx} dangerouslySetInnerHTML={ {__html: col.cells[0].content}}/>;
+//     });
+//
+//     return (
+//       <ul className="listTableBox">
+//         {list}
+//       </ul>
+//     );
+//   }
+// }
+
+var ReactTable = function (_React$Component2) {
+  inherits(ReactTable, _React$Component2);
+
+  function ReactTable(props) {
+    classCallCheck(this, ReactTable);
+
+    var _this2 = possibleConstructorReturn(this, (ReactTable.__proto__ || Object.getPrototypeOf(ReactTable)).call(this, props));
+
+    _this2.state = { runReload: "" };
+    return _this2;
+  }
+
+  createClass(ReactTable, [{
+    key: 'render',
+    value: function render() {
+      var value = this.props.value;
+      //const reloadClass = "table-reload float-xs-right " + this.state.runReload;
+      var table = null;
+
+      // if(value.data.attributes.parameters && value.data.attributes.parameters.displayType === 'list')
+      // {
+      //   table = (
+      //     <ListTableBox ref="tableBox" value={value} />
+      //   )
+      // }
+      // else
+      {
+        table = React.createElement(TableBox$1, {
+          ref: 'tableBox',
+          value: value,
+          frontendParams: this.props.frontendParams
+        });
+      }
+
+      var TitleTag = 'h' + (value.data.attributes.parameters && value.data.attributes.parameters.titleLevel || 1);
+
+      var topFormJson = value.included !== undefined ? documentUtils.getResourceByID(value.included, "topForm") : undefined;
+      var topForm = void 0;
+      if (topFormJson) {
+        topForm = React.createElement(Document, {
+          frontendParams: { documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName },
+          value: { data: topFormJson, meta: value.meta },
+          component: formsCollection.getForm(topFormJson.attributes.layout.type)
+        });
+      }
+
+      return React.createElement(
+        'div',
+        { className: 'table-component' },
+        topForm,
+        React.createElement(
+          TitleTag,
+          { className: 'table-component__title' },
+          value.data.attributes.title
+        ),
+        table
+      );
+    }
+  }, {
+    key: 'refresh',
+    value: function refresh() {
+      var attr = this.props.value.data.attributes;
+      var params = {
+        entity: attr.category,
+        query: attr.page,
+        params: attr.parameters
+      };
+
+      tables.refresh(params, this.props.frontendParams.documentName);
+    }
+  }]);
+  return ReactTable;
+}(React.Component);
+
+ReactTable.propTypes = {
+  value: PropTypes.object.isRequired
+};
+
+be5.ui.tables.registerTable('rTable', ReactTable);
 
 function unwrapExports (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
@@ -5390,4 +5883,4 @@ Navs.propTypes = {
 // actions
 // services
 
-export { be5, be5init, Const as constants, Preconditions as preconditions, settings, bus, changeDocument, documentUtils, http, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, Document, HelpInfo, LanguageBox as LanguageSelector, RoleBox as RoleSelector, SideBar, Sorter, SplitPane$1 as SplitPane, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, Form, SubmitOnChangeForm, ModalForm, InlineForm, FinishedResult, Table, QuickColumns, OperationBox, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, action$2 as formAction, action as loadingAction, action$4 as loginAction, action$6 as logoutAction, action$12 as qBuilderAction, action$8 as staticAction, action$10 as tableAction, action$14 as textAction, actions as action, forms, Tables as tables, formsCollection, tablesCollection, actionsCollection };
+export { be5, be5init, Const as constants, Preconditions as preconditions, settings, bus, changeDocument, documentUtils, http, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, Document, HelpInfo, LanguageBox as LanguageSelector, RoleBox as RoleSelector, SideBar, Sorter, SplitPane$1 as SplitPane, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, Form, SubmitOnChangeForm, ModalForm, InlineForm, FinishedResult, Table, QuickColumns, OperationBox, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, action$2 as formAction, action as loadingAction, action$4 as loginAction, action$6 as logoutAction, action$12 as qBuilderAction, action$8 as staticAction, action$10 as tableAction, action$14 as textAction, actions as action, forms, tables, formsCollection, tablesCollection, actionsCollection };
