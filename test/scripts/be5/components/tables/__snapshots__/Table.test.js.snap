@@ -26,14 +26,14 @@ exports[`FormTable 1`] = `
             className="operationList"
           >
             <button
-              className="btn btn-secondary btn-secondary-old btn-sm"
+              className="btn btn-outline-secondary btn-sm"
               onClick={[Function]}
             >
               Редактировать
             </button>
              
             <button
-              className="btn btn-secondary btn-secondary-old btn-sm"
+              className="btn btn-outline-secondary btn-sm"
               onClick={[Function]}
             >
               Добавить
@@ -64,7 +64,9 @@ exports[`FormTable 1`] = `
           <div
             className="scroll"
           >
-            <div />
+            <div
+              className="row"
+            />
           </div>
         </div>
       </div>
@@ -87,14 +89,14 @@ exports[`Table 1`] = `
       className="operationList"
     >
       <button
-        className="btn btn-secondary btn-secondary-old btn-sm"
+        className="btn btn-outline-secondary btn-sm"
         onClick={[Function]}
       >
         Редактировать
       </button>
        
       <button
-        className="btn btn-secondary btn-secondary-old btn-sm"
+        className="btn btn-outline-secondary btn-sm"
         onClick={[Function]}
       >
         Добавить
@@ -125,7 +127,9 @@ exports[`Table 1`] = `
     <div
       className="scroll"
     >
-      <div />
+      <div
+        className="row"
+      />
     </div>
   </div>
 </div>
@@ -153,14 +157,14 @@ exports[`TableForm 1`] = `
             className="operationList"
           >
             <button
-              className="btn btn-secondary btn-secondary-old btn-sm"
+              className="btn btn-outline-secondary btn-sm"
               onClick={[Function]}
             >
               Редактировать
             </button>
              
             <button
-              className="btn btn-secondary btn-secondary-old btn-sm"
+              className="btn btn-outline-secondary btn-sm"
               onClick={[Function]}
             >
               Добавить
@@ -191,7 +195,9 @@ exports[`TableForm 1`] = `
           <div
             className="scroll"
           >
-            <div />
+            <div
+              className="row"
+            />
           </div>
         </div>
       </div>
@@ -229,14 +235,14 @@ exports[`TableFormRow 1`] = `
               className="operationList"
             >
               <button
-                className="btn btn-secondary btn-secondary-old btn-sm"
+                className="btn btn-outline-secondary btn-sm"
                 onClick={[Function]}
               >
                 Редактировать
               </button>
                
               <button
-                className="btn btn-secondary btn-secondary-old btn-sm"
+                className="btn btn-outline-secondary btn-sm"
                 onClick={[Function]}
               >
                 Добавить
@@ -267,7 +273,9 @@ exports[`TableFormRow 1`] = `
             <div
               className="scroll"
             >
-              <div />
+              <div
+                className="row"
+              />
             </div>
           </div>
         </div>

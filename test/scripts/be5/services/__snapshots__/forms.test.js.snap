@@ -19,6 +19,7 @@ exports[`load and _performForm test 1`] = `
         </h1>
         <form
           className=""
+          id="1507198229686"
           onSubmit={[Function]}
         >
           <div

@@ -14,6 +14,7 @@ exports[`Form 1`] = `
     </h1>
     <form
       className=""
+      id="1507198229686"
       onSubmit={[Function]}
     >
       <div
@@ -58,6 +59,7 @@ exports[`Form errorOnApply 1`] = `
     </h1>
     <form
       className=""
+      id="1520488568877"
       onSubmit={[Function]}
     >
       <div
@@ -112,6 +114,7 @@ exports[`Form errorOnApply 1`] = `
 exports[`InlineForm 1`] = `
 <form
   className="form-inline"
+  id="1507198229686"
   onSubmit={[Function]}
 >
   <label
@@ -158,6 +161,7 @@ exports[`ModalForm 1`] = `
   </div>
   <form
     className=""
+    id="1507198229686"
     onSubmit={[Function]}
   >
     <div
@@ -190,6 +194,7 @@ exports[`ModalForm 1`] = `
 exports[`SubmitOnChangeForm 1`] = `
 <form
   className="submit-onchange-form"
+  id="1507198229686"
 >
   <input
     className="property-input form-control"

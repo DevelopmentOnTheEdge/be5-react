@@ -90,14 +90,14 @@ exports[`snapshot 1`] = `
                   className="operationList"
                 >
                   <button
-                    className="btn btn-secondary btn-secondary-old btn-sm"
+                    className="btn btn-outline-secondary btn-sm"
                     onClick={[Function]}
                   >
                     Редактировать
                   </button>
                    
                   <button
-                    className="btn btn-secondary btn-secondary-old btn-sm"
+                    className="btn btn-outline-secondary btn-sm"
                     onClick={[Function]}
                   >
                     Добавить
@@ -128,7 +128,9 @@ exports[`snapshot 1`] = `
                 <div
                   className="scroll"
                 >
-                  <div />
+                  <div
+                    className="row"
+                  />
                 </div>
               </div>
             </div>

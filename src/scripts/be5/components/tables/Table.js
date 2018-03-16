@@ -153,7 +153,7 @@ class TableBox extends React.Component {
 
     let language = null;
     if(be5.locale.value !== 'en'){
-      language = be5.messages.dataTables;
+      language = be5.messages.dataTables || {};
       language.lengthMenu = "_MENU_";
     }
 
