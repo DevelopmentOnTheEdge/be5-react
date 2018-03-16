@@ -110,11 +110,14 @@ table.dataTable {
 }
 
 .dataTables_length {
-  margin: 7px 0;
-  text-align: right;
-  display: inline-block;
-  padding-right: 10px;
+  margin: 2px 0 2px 10px;
+  float: right;
 }
+
+.page-link {
+  padding: 0.4rem 0.7rem;
+}
+
 div.dataTables_wrapper div.dataTables_length select {
   width: 120px;
 }

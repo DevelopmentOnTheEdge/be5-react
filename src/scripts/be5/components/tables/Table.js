@@ -158,7 +158,7 @@ class TableBox extends React.Component {
     }
 
     const tableConfiguration = {
-      dom: 'rt il p <"row">',
+      dom: 'rt i lp <"row">',
       processing: true,
       serverSide: true,
       language: language,
@@ -292,6 +292,8 @@ class TableBox extends React.Component {
     };
 
     tableDiv.dataTable(tableConfiguration);
+
+    $('.dataTables_length select').removeClass('form-control-sm');
 
     tableDiv.on( 'draw.dt', function () {
       be5.tableState.selectedRows = [];
