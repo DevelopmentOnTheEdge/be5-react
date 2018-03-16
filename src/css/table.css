@@ -130,7 +130,7 @@ div.dataTables_wrapper div.dataTables_paginate {
   margin: 0 10px 0 0;
 }
 div.dataTables_wrapper div.dataTables_info {
-  padding-top: 0.5rem;
+  padding-top: 0.33rem;
   float: right;
 }
 
@@ -149,6 +149,21 @@ table.dataTable.table-sm .sorting:before, table.dataTable.table-sm .sorting_asc:
 table.dataTable.table-sm .sorting:after, table.dataTable.table-sm .sorting_asc:after, table.dataTable.table-sm .sorting_desc:after {
   top: 4px;
 }
+
+
+.dataTables_length select.form-control {
+  padding: 0.15rem 0.5rem 0.2rem;
+  font-size: 13px;
+  line-height: 1.5;
+  height: auto!important;
+}
+
+.page-link {
+  padding: 0.2rem 0.5rem;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 /*table.dataTable tfoot th, table.dataTable thead th{*/
     /*font-size: 13px;*/
 /*}*/
