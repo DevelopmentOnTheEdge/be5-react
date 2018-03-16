@@ -111,7 +111,7 @@ class TableBox extends React.Component {
     let columnIndexShift = 0;
 
     if (hasCheckBoxes) {
-      theadrow.append($("<th>").text("#"));
+      theadrow.append($("<th>").html('<input id="rowCheckboxAll" type="checkbox" class=""/>'));
       tfootrow.append($("<th>").text("#"));
       columnIndexShift = 1;
     }
@@ -231,10 +231,14 @@ class TableBox extends React.Component {
         $('input', row).change(function() {
           const rowId = data[0];
           const checked = this.checked;
-          if (checked && $.inArray(rowId, be5.tableState.selectedRows) == -1) {
+          if (checked && $.inArray(rowId, be5.tableState.selectedRows) === -1) {
             be5.tableState.selectedRows.push(rowId);
-          } else if (!checked && $.inArray(rowId, be5.tableState.selectedRows) != -1) {
+            if(attributes.rows.length === be5.tableState.selectedRows.length){
+              $('#rowCheckboxAll').prop('checked', true);
+            }
+          } else if (!checked && $.inArray(rowId, be5.tableState.selectedRows) !== -1) {
             be5.tableState.selectedRows.splice($.inArray(rowId, be5.tableState.selectedRows), 1);
+            $('#rowCheckboxAll').prop('checked', false);
           }
           _this.onSelectionChange();
         });
@@ -301,6 +305,23 @@ class TableBox extends React.Component {
     } );
 
     $('.dataTables-nav').css('max-width', tableDiv.width() + 2);
+
+    $('#rowCheckboxAll').click(function (e) {
+      e.stopPropagation();
+
+      if (!$('#rowCheckboxAll').prop('checked')) {
+        $('.rowCheckbox').prop('checked', false);
+        be5.tableState.selectedRows = [];
+      }else{
+        $('.rowCheckbox').prop('checked', true);
+
+        for(let i=0; i< attributes.rows.length; i++){
+          be5.tableState.selectedRows.push(attributes.rows[i].id);
+        }
+      }
+
+      _this.onSelectionChange();
+    });
 
     this.refs.quickColumns.setTable(this.refs.table);
 
