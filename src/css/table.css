@@ -30,11 +30,6 @@
   margin-right: 3px;
 }
 
-table.dataTable {
-  width: auto;
-  margin: 0;
-}
-
 .document-reload {
   opacity: 0.7;
   padding: 4px 4px;
@@ -94,6 +89,17 @@ table.dataTable {
 }
 
 /****** table.dataTable ******/
+table.dataTable {
+  width: auto;
+  margin: 0;
+}
+
+@media (min-width: 1200px){
+  table.dataTable {
+    min-width: 650px;
+  }
+}
+
 .dataTables_wrapper .dataTables_info {
   padding: 0.7em 0 0;
 }

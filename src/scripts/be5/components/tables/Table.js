@@ -298,6 +298,9 @@ class TableBox extends React.Component {
       _this._refreshEnablementIfNeeded();
     } );
 
+    //fix pagination position
+    tableDiv.parent().css('margin', 0).css('width', tableDiv.width() + 32);
+
     this.refs.quickColumns.setTable(this.refs.table);
 
     this.onSelectionChange();
