@@ -74,7 +74,7 @@ class OperationBox extends React.Component
           key={operation.name}
           ref={operation.name}
           onClick={this.onClick.bind(this, operation.name)}
-          className={'btn btn-outline-secondary btn-sm'}
+          className={'btn btn-secondary btn-secondary-old btn-sm'}
         >
           {operation.title}
         </button>
