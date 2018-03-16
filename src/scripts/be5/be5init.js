@@ -17,6 +17,7 @@ import './components/tables/TableForm';
 import './components/tables/TableFormRow';
 import './components/tables/FormTable';
 import './components/tables/Table';
+import './components/tables/ReactTable';
 
 import './components/forms/SubmitOnChangeForm';
 import './components/forms/ModalForm';
