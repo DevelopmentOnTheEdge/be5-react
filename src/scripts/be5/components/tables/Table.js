@@ -139,7 +139,7 @@ class TableBox extends React.Component {
       .append( ( attributes.rows.length > 10 ? tfoot : ''))
       .appendTo(node);
 
-    const lengths = [5,10,20,50,100,500,1000];
+    let lengths = [5,10,20,50,100,500,1000];
     const pageLength = attributes.length;
 
     if (lengths.indexOf(pageLength) === -1) {
@@ -147,13 +147,18 @@ class TableBox extends React.Component {
       lengths.sort(function(a,b) {return a-b;});
     }
 
+    const lengthsTitles = lengths.map(x => x + ' записей');
+
+    lengths = [lengths, lengthsTitles];
+
     let language = null;
     if(be5.locale.value !== 'en'){
       language = be5.messages.dataTables;
+      language.lengthMenu = "_MENU_";
     }
 
     const tableConfiguration = {
-      dom: 'rt<"row" <"col-md-6"il><"col-md-6"p> ><"clear">',
+      dom: 'rt il p <"row">',
       processing: true,
       serverSide: true,
       language: language,

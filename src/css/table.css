@@ -109,6 +109,10 @@ table.dataTable {
   display: inline-block;
   padding-right: 10px;
 }
+div.dataTables_wrapper div.dataTables_length select {
+  width: 120px;
+}
+
 div.dataTables_wrapper div.dataTables_info {
   padding-top: 0.5rem;
   padding-right: 10px;
@@ -116,6 +120,12 @@ div.dataTables_wrapper div.dataTables_info {
 }
 .dataTables_length label{
   margin-bottom: 0;
+}
+div.dataTables_wrapper div.dataTables_paginate {
+  float: right;
+}
+div.dataTables_wrapper div.dataTables_processing {
+  display: none!important;
 }
 table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after,
 table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before {
