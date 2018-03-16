@@ -132,7 +132,8 @@ class TableBox extends React.Component {
       tbody.append(tr);
     });
 
-    const tableDiv = $('<table class="display compact" cellspacing="0"/>')
+    const tableDiv = $('<table id="' + this.props.value.meta._ts_ + '" '
+                            + 'class="table table-striped table-bordered table-hover display table-sm" cellspacing="0"/>')
       .append(thead)
       .append(tbody)
       .append( ( attributes.rows.length > 10 ? tfoot : ''))
@@ -152,6 +153,7 @@ class TableBox extends React.Component {
     }
 
     const tableConfiguration = {
+      dom: 'rt<"row" <"col-md-6"i><"col-md-6"pl> ><"clear">',
       processing: true,
       serverSide: true,
       language: language,
@@ -312,7 +314,7 @@ class TableBox extends React.Component {
         <OperationBox ref="operations" operations={attributes.operations} onOperationClick={this.onOperationClick} hasRows={attributes.rows.length !== 0}/>
         <QuickColumns ref="quickColumns" columns={attributes.columns} firstRow={attributes.rows[0].cells} table={this.refs.table} selectable={attributes.selectable}/>
         <div className="scroll">
-          <div ref="table"/>
+          <div ref="table" className="row"/>
         </div>
       </div>
     );
