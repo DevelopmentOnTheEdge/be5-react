@@ -133,7 +133,7 @@ class TableBox extends React.Component {
     });
 
     const tableDiv = $('<table id="' + this.props.value.meta._ts_ + '" '
-                            + 'class="table table-striped table-bordered table-hover display table-sm" cellspacing="0"/>')
+          + 'class="table table-striped table-striped-light table-bordered table-hover display table-sm" cellspacing="0"/>')
       .append(thead)
       .append(tbody)
       .append( ( attributes.rows.length > 10 ? tfoot : ''))
