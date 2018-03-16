@@ -55,45 +55,54 @@ table.dataTable {
   padding: 0;
   margin-bottom: 10px;
 }
+.btn-outline-secondary {
+  color: #363b40;
+}
+
 .operationList a {
   margin-bottom: 4px;
 }
-.operationBtn {
-  display: inline-block;
-  padding: 8px;
-  margin: 4px;
-  background-color: #DDDDDD;
-  cursor: pointer;
-  border-radius: 4px;
-  color: black;
-  text-decoration: none;
-}
-.operationBtn:hover {
-  background-color: #AACCCC;
-}
-.operationBtn:active {
-  background-color: #40CCCC;
-}
-.operationBtn.disabled {
-  color: gray;
-  cursor: default;
-}
-.operationBtn.disabled:hover {
-  background-color: #DDDDDD;
-}
-.operationBtn.disabled:active {
-  background-color: #DDDDDD;
-}
+/*.operationBtn {*/
+  /*display: inline-block;*/
+  /*padding: 8px;*/
+  /*margin: 4px;*/
+  /*background-color: #DDDDDD;*/
+  /*cursor: pointer;*/
+  /*border-radius: 4px;*/
+  /*color: black;*/
+  /*text-decoration: none;*/
+/*}*/
+/*.operationBtn:hover {*/
+  /*background-color: #AACCCC;*/
+/*}*/
+/*.operationBtn:active {*/
+  /*background-color: #40CCCC;*/
+/*}*/
+/*.operationBtn.disabled {*/
+  /*color: gray;*/
+  /*cursor: default;*/
+/*}*/
+/*.operationBtn.disabled:hover {*/
+  /*background-color: #DDDDDD;*/
+/*}*/
+/*.operationBtn.disabled:active {*/
+  /*background-color: #DDDDDD;*/
+/*}*/
 
 #quickColumns {
   margin: 0.7em 0;
 }
 
 /****** table.dataTable ******/
-
 .dataTables_wrapper .dataTables_info {
   padding: 0.7em 0 0;
 }
+
+.table-bordered thead th, .table-bordered thead td {
+  border-bottom-width: 1px;
+  border-top-width: 0;
+}
+
 .dataTables_length {
   margin: 7px 0;
   text-align: right;
@@ -111,6 +120,10 @@ div.dataTables_wrapper div.dataTables_info {
 table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after,
 table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before {
   font-size: 0.75rem;
+}
+table.dataTable.table-sm .sorting:before, table.dataTable.table-sm .sorting_asc:before, table.dataTable.table-sm .sorting_desc:before,
+table.dataTable.table-sm .sorting:after, table.dataTable.table-sm .sorting_asc:after, table.dataTable.table-sm .sorting_desc:after {
+  top: 4px;
 }
 /*table.dataTable tfoot th, table.dataTable thead th{*/
     /*font-size: 13px;*/
