@@ -23,7 +23,6 @@ import LanguageSelector from './components/LanguageSelector.js';
 import RoleSelector     from './components/RoleSelector.js';
 import SideBar          from './components/SideBar.js';
 import Sorter           from './components/Sorter.js';
-import SplitPane        from './components/SplitPane.js';
 import StaticPage       from './components/StaticPage.js';
 import ErrorPane        from './components/ErrorPane.js';
 import TreeMenu         from './components/TreeMenu.js';
@@ -96,7 +95,6 @@ export {
   RoleSelector,
   SideBar,
   Sorter,
-  SplitPane,
   StaticPage,
   ErrorPane,
   TreeMenu,

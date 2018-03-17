@@ -8,28 +8,31 @@ exports[`snapshot 1`] = `
     />
   </div>
   <div
-    className="SplitPane vertical"
+    className="SplitPane main-split-pane vertical "
     style={
       Object {
+        "MozUserSelect": "text",
+        "WebkitUserSelect": "text",
         "display": "flex",
         "flex": 1,
         "flexDirection": "row",
         "height": "100%",
         "left": 0,
+        "msUserSelect": "text",
         "outline": "none",
         "overflow": "hidden",
         "position": "absolute",
         "right": 0,
+        "userSelect": "text",
       }
     }
   >
     <div
-      className="Pane vertical pane1"
+      className="Pane vertical Pane1  "
       style={
         Object {
           "flex": "none",
           "outline": "none",
-          "overflow": "auto",
           "position": "relative",
           "width": 280,
         }
@@ -133,16 +136,20 @@ exports[`snapshot 1`] = `
       </div>
     </div>
     <span
-      className="Resizer vertical"
+      className="Resizer vertical "
+      onClick={[Function]}
+      onDoubleClick={[Function]}
       onMouseDown={[Function]}
+      onTouchEnd={[Function]}
+      onTouchStart={[Function]}
+      style={Object {}}
     />
     <div
-      className="Pane vertical pane2"
+      className="Pane vertical Pane2  "
       style={
         Object {
           "flex": 1,
           "outline": "none",
-          "overflow": "auto",
           "position": "relative",
         }
       }

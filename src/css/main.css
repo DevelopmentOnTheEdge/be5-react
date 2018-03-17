@@ -1,19 +1,20 @@
 /*******************************************************/
 /* colors                        */
 /*******************************************************/
-.Pane1 {
+.main-split-pane > .Pane1 {
   overflow: auto;
-}
-
-.Pane2 {
-  overflow: auto;
-}
-.Pane.vertical.pane1 {
-  background: #f8f8f8;
-}
-.side {
   padding: 15px;
 }
+/*.Pane2 {*/
+  /*overflow: auto;*/
+/*}*/
+.main-split-pane > .Pane1 {
+  background: #f8f8f8;
+}
+.main-split-pane > .Resizer {
+  opacity: 0.11;
+}
+
 #document-content___MainDocument {
   padding: 15px;
 }
