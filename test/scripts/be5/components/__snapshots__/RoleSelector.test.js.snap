@@ -1,11 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`render 1`] = `
-<div
-  className="roleBox"
+<form
+  className="roleBox form-inline"
+  id="roleBox"
 >
   <div
-    className="btn-group-sm dropdown"
+    className="mr-sm-2 dropdown"
     onKeyDown={[Function]}
   >
     <button
@@ -88,8 +89,8 @@ exports[`render 1`] = `
       </div>
     </div>
   </div>
-  <div
-    className="roleBox_username"
+  <label
+    className="form-control-label"
   />
-</div>
+</form>
 `;

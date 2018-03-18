@@ -24,7 +24,7 @@ class SubmitOnChangeForm extends Form
     return (
         <form
           id={this.state.meta._ts_}
-          className={classNames('submit-onchange-form', attributes.cssClass)}
+          className={classNames('submit-onchange-form', attributes.layout.formCssClass)}
         >
           <PropertyInput
             id={0}

@@ -25,7 +25,7 @@ class InlineForm extends Form
       <form
         id={this.state.meta._ts_}
         onSubmit={this._applyOnSubmit}
-        className={classNames('form-inline', attributes.cssClass, this.state.wasValidated ? 'was-validated' : '')}
+        className={classNames('form-inline', attributes.layout.formCssClass || 'form-inline-bordered', this.state.wasValidated ? 'was-validated' : '')}
       >
         <label className={classNames(
           "mb-2 mr-sm-2",

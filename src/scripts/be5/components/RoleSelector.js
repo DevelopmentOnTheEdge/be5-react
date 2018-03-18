@@ -1,5 +1,6 @@
 import be5 from '../be5';
 import bus from '../core/bus';
+import classNames      from 'classnames';
 import React from 'react';
 import PropTypes            from 'prop-types';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button} from 'reactstrap';
@@ -55,8 +56,8 @@ class RoleBox extends React.Component {
     );
 
     return (
-      <div className={'roleBox'}>
-        <UncontrolledDropdown size="sm">
+      <form id="roleBox" className={classNames("roleBox form-inline", this.props.className)}>
+        <UncontrolledDropdown size={this.props.size} className="mr-sm-2">
           <DropdownToggle caret>{be5.messages.roles}</DropdownToggle>
 
           <DropdownMenu>
@@ -70,10 +71,8 @@ class RoleBox extends React.Component {
             </div>
           </DropdownMenu>
         </UncontrolledDropdown>
-        <div className="roleBox_username">
-          {this.state.username}
-        </div>
-      </div>
+        <label className="form-control-label">{this.state.username}</label>
+      </form>
     );
   }
 
@@ -98,6 +97,7 @@ class RoleBox extends React.Component {
      this._changeRoles(roles.join(","));
   }
 
+  //todo refactoring, remove username from roleSelector/select, save state in redux...
   _changeRoles(roles) {
     be5.net.request('roleSelector/select', { roles: roles }, data => {
       this.setState(data);
@@ -106,5 +106,11 @@ class RoleBox extends React.Component {
 
   }
 }
+
+Document.propTypes = {
+  size: PropTypes.string,
+  className: PropTypes.string
+};
+
 
 export default RoleBox;

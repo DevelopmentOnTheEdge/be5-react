@@ -11,7 +11,7 @@ class SideBar extends React.Component {
   render() {
     return (
       <div className={"side"}>
-        <RoleSelector ref="roleSelector"/>
+        <RoleSelector ref="roleSelector" size="sm"/>
         <Menu ref="menu"/>
         <LanguageSelector ref="languageSelector"/>
       </div>
