@@ -18,6 +18,5 @@ import '../../css/qBuilder.css';
 import '../../css/roleSelector.css';
 import '../../css/menu.css';
 import '../../css/menuFooter.css';
-import '../../css/splitPane.css';
 import '../../css/languageSelector.css';
 import '../../css/main.css';
