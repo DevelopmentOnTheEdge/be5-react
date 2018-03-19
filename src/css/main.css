@@ -1,13 +1,12 @@
 /*******************************************************/
 /* colors                        */
 /*******************************************************/
-.main-split-pane > .Pane1 {
+.Pane {
   overflow: auto;
+}
+.main-split-pane > .Pane1 {
   padding: 15px;
 }
-/*.Pane2 {*/
-  /*overflow: auto;*/
-/*}*/
 .main-split-pane > .Pane1 {
   background: #f8f8f8;
 }
