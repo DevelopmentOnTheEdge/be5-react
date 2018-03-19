@@ -67,6 +67,11 @@ export default {
       searchPromptText: 'Начните вводить для поиска',
       placeholder: 'Выберите...',
       loadingPlaceholder: 'Загрузка...',
+      stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
+      numberTypeMismatch: 'Введите число.',
+      simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
+      rangeOverflow: 'Значение должно быть больше или равно {0}.',
+      rangeUnderflow: 'Значение должно быть меньше или равно {0}.',
       datePatternError: 'Введите дату в формате дд.мм.гггг',
     },
 
