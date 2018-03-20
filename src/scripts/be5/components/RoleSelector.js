@@ -6,18 +6,21 @@ import PropTypes            from 'prop-types';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button} from 'reactstrap';
 
 
-class Role extends React.Component
-{
-  render() {
-    const id = this.props.name + "-checkbox";
-    return (
-      <div className={"role"}>
-        <input type="checkbox" id={id} checked={this.props.state} onChange={() => this.props.onChange()} />
-        <label htmlFor={id}><span className={"checkBox"}/>{this.props.name}</label>
-      </div>
-    )
-  }
-}
+const Role = (props) => {
+  const id = props.name + "-checkbox";
+
+  return (
+    <div className={"role"}>
+      <input
+        type="checkbox"
+        id={id}
+        checked={props.state}
+        onChange={props.onChange}
+      />
+      <label htmlFor={id}><span className={"checkBox"}/>{props.name}</label>
+    </div>
+  );
+};
 
 Role.propTypes = {
   onChange: PropTypes.func.isRequired
@@ -52,7 +55,7 @@ class RoleBox extends React.Component {
     }
     const selectedRoles = this.state.selectedRoles;
     const roleNodes = this.state.availableRoles.map((role) =>
-      <Role key={role} ref={role} name={role} state={selectedRoles.indexOf(role) !== -1} onChange={() => this._onRoleChange(role)}/>
+      <Role key={role} name={role} state={selectedRoles.indexOf(role) !== -1} onChange={() => this._onRoleChange(role)}/>
     );
 
     return (

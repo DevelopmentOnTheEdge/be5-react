@@ -4324,59 +4324,48 @@ var LanguageBox = function (_React$Component3) {
   return LanguageBox;
 }(React.Component);
 
-var Role = function (_React$Component) {
-  inherits(Role, _React$Component);
+var Role = function Role(props) {
+  var id = props.name + "-checkbox";
 
-  function Role() {
-    classCallCheck(this, Role);
-    return possibleConstructorReturn(this, (Role.__proto__ || Object.getPrototypeOf(Role)).apply(this, arguments));
-  }
-
-  createClass(Role, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var id = this.props.name + "-checkbox";
-      return React.createElement(
-        'div',
-        { className: "role" },
-        React.createElement('input', { type: 'checkbox', id: id, checked: this.props.state, onChange: function onChange() {
-            return _this2.props.onChange();
-          } }),
-        React.createElement(
-          'label',
-          { htmlFor: id },
-          React.createElement('span', { className: "checkBox" }),
-          this.props.name
-        )
-      );
-    }
-  }]);
-  return Role;
-}(React.Component);
+  return React.createElement(
+    'div',
+    { className: "role" },
+    React.createElement('input', {
+      type: 'checkbox',
+      id: id,
+      checked: props.state,
+      onChange: props.onChange
+    }),
+    React.createElement(
+      'label',
+      { htmlFor: id },
+      React.createElement('span', { className: "checkBox" }),
+      props.name
+    )
+  );
+};
 
 Role.propTypes = {
   onChange: PropTypes.func.isRequired
 };
 
-var RoleBox = function (_React$Component2) {
-  inherits(RoleBox, _React$Component2);
+var RoleBox = function (_React$Component) {
+  inherits(RoleBox, _React$Component);
 
   function RoleBox(props) {
     classCallCheck(this, RoleBox);
 
-    var _this3 = possibleConstructorReturn(this, (RoleBox.__proto__ || Object.getPrototypeOf(RoleBox)).call(this, props));
+    var _this = possibleConstructorReturn(this, (RoleBox.__proto__ || Object.getPrototypeOf(RoleBox)).call(this, props));
 
-    _this3.state = {
+    _this.state = {
       availableRoles: ["Unknown"], selectedRoles: ["Unknown"]
     };
 
-    _this3._onRoleChange = _this3._onRoleChange.bind(_this3);
-    _this3._changeRoles = _this3._changeRoles.bind(_this3);
-    _this3.handleSelectAll = _this3.handleSelectAll.bind(_this3);
-    _this3.handleClear = _this3.handleClear.bind(_this3);
-    return _this3;
+    _this._onRoleChange = _this._onRoleChange.bind(_this);
+    _this._changeRoles = _this._changeRoles.bind(_this);
+    _this.handleSelectAll = _this.handleSelectAll.bind(_this);
+    _this.handleClear = _this.handleClear.bind(_this);
+    return _this;
   }
 
   createClass(RoleBox, [{
@@ -4392,15 +4381,15 @@ var RoleBox = function (_React$Component2) {
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var _this2 = this;
 
       if (this.state.availableRoles.length < 1) {
         return React.createElement('div', { className: 'roleBox' });
       }
       var selectedRoles = this.state.selectedRoles;
       var roleNodes = this.state.availableRoles.map(function (role) {
-        return React.createElement(Role, { key: role, ref: role, name: role, state: selectedRoles.indexOf(role) !== -1, onChange: function onChange() {
-            return _this4._onRoleChange(role);
+        return React.createElement(Role, { key: role, name: role, state: selectedRoles.indexOf(role) !== -1, onChange: function onChange() {
+            return _this2._onRoleChange(role);
           } });
       });
 
@@ -4454,10 +4443,10 @@ var RoleBox = function (_React$Component2) {
   }, {
     key: 'refresh',
     value: function refresh() {
-      var _this5 = this;
+      var _this3 = this;
 
       be5.net.request('roleSelector', {}, function (data) {
-        return _this5.setState(data);
+        return _this3.setState(data);
       });
     }
   }, {
@@ -4480,10 +4469,10 @@ var RoleBox = function (_React$Component2) {
   }, {
     key: '_changeRoles',
     value: function _changeRoles(roles) {
-      var _this6 = this;
+      var _this4 = this;
 
       be5.net.request('roleSelector/select', { roles: roles }, function (data) {
-        _this6.setState(data);
+        _this4.setState(data);
         bus.fire('RoleChanged', {});
       });
     }
@@ -4951,7 +4940,7 @@ var tree = {};
 
 var menu = {
   find: function find(coords) {
-    console.log(actions$1, coords);
+    //console.log(actions, coords);
     return _(actions$1).findWhere(coords);
   },
   getRaw: function getRaw() {
