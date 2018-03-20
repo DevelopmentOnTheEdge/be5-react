@@ -1,6 +1,4 @@
 import React    from 'react';
-import Settings from './settings';
-import Const    from './constants';
 import utils    from './utils';
 import messages from './messages';
 import bus      from './core/bus';
@@ -68,10 +66,10 @@ const be5 = {
       if(dataTablesLocal !== 'en'){
         $.getJSON( "//cdn.datatables.net/plug-ins/1.10.13/i18n/" + dataTablesLocal + ".json", function( data ) {
           be5.messages['dataTables'] = data;
-          bus.fire('LanguageChanged');
+          bus.fire('RefreshAll');
         });
       }else{
-        bus.fire('LanguageChanged');
+        bus.fire('RefreshAll');
       }
     },
 

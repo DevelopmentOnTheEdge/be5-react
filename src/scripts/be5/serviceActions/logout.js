@@ -10,8 +10,6 @@ const action = function() {
     documentName: be5.mainDocumentName, onSuccess: function (result, applyParams) {
       //not used document.cookie = 'be_auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 
-      bus.fire('LoggedOut');
-      bus.fire('CallDefaultAction');
     }
 
   });

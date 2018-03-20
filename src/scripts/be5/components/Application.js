@@ -16,17 +16,13 @@ class Application extends React.Component
   }
 
   componentDidMount() {
-    //TODO refactoring to "RefreshAll"
-    bus.listen('LoggedOut', this.refresh);
-    bus.listen('LoggedIn', this.refresh);
-    bus.listen('LanguageChanged', this.refresh);
-    bus.listen('RoleChanged', this.refresh);
+    bus.listen('RefreshAll', this.refresh);
   }
 
   render() {
     return (
       <div>
-        <Be5Components ref="be5Components"/>
+        <Be5Components/>
         <SplitPane split="vertical" defaultSize={280} className="main-split-pane">
           <SideBar ref="sideBar"/>
           <Document ref="document" frontendParams={{documentName: be5.mainDocumentName}} />
@@ -38,7 +34,6 @@ class Application extends React.Component
 
   refresh() {
     this.refs.sideBar.refresh();
-    this.refs.be5Components.refresh();
   }
 }
 

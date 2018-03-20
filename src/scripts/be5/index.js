@@ -1,9 +1,8 @@
 import be5 from './be5.js';
 import be5init from './be5init.js';
 //import be5styles from './be5styles.js';
-import constants from './constants.js';
+//import constants from './constants/index.js';
 import preconditions from './preconditions.js';
-import settings from './settings.js';
 
 // core
 import bus from './core/bus.js';
@@ -13,14 +12,13 @@ import http from './core/http.js';
 
 // components
 import Application      from './components/Application.js';
-import Be5Components    from './components/Be5Components.js';
 import Be5Menu          from './components/be5Menu/Be5Menu.js';
 import Be5MenuHolder    from './components/be5Menu/Be5MenuHolder.js';
 import Be5MenuItem      from './components/be5Menu/Be5MenuItem.js';
 import Document         from './components/Document.js';
 import HelpInfo         from './components/HelpInfo.js';
 import LanguageSelector from './components/LanguageSelector.js';
-import RoleSelector     from './components/RoleSelector.js';
+import RoleBox          from './components/RoleBox.js';
 import SideBar          from './components/SideBar.js';
 import Sorter           from './components/Sorter.js';
 import StaticPage       from './components/StaticPage.js';
@@ -28,6 +26,9 @@ import ErrorPane        from './components/ErrorPane.js';
 import TreeMenu         from './components/TreeMenu.js';
 import FormWizard       from './components/FormWizard.js';
 import Navs             from './components/Navs.js';
+import Be5Components    from './components/Be5Components.js';
+
+import RoleSelector     from './containers/RoleSelector.js';
 
 // forms
 import Form               from './components/forms/Form.js';
@@ -73,9 +74,8 @@ import actionsCollection from './services/actionsCollection.js';
 export {
   be5,
   be5init,
-  constants,
+  //constants,
   preconditions,
-  settings,
 
   // core
   bus,
@@ -90,6 +90,7 @@ export {
   Be5MenuHolder,
   Be5MenuItem,
   Document,
+  RoleBox,
   HelpInfo,
   LanguageSelector,
   RoleSelector,

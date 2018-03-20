@@ -2,6 +2,7 @@ import ReactDOM         from 'react-dom';
 import React            from 'react';
 import {createStore, applyMiddleware, compose} from 'redux';
 import { Provider }     from 'react-redux'
+import thunkMiddleware  from 'redux-thunk';
 import { createLogger } from 'redux-logger'
 import { AppContainer } from 'react-hot-loader'
 import App              from './components/Application';
@@ -29,7 +30,10 @@ else {
    * when in development.
    */
   const enhancer = compose(
-    applyMiddleware(logger),
+    applyMiddleware(
+      thunkMiddleware,
+      logger
+    ),
     window.devToolsExtension ? window.devToolsExtension() : f => f
   );
 
@@ -50,7 +54,7 @@ const render = Component => {
 };
 
 render(App);
-be5init.init();
+be5init.init(store);
 
 // Webpack Hot Module Replacement API
 if (module.hot) {

@@ -15,17 +15,13 @@ class ApplicationWithBe5Menu extends React.Component
   }
 
   componentDidMount() {
-    //TODO refactoring to "RefreshAll"
-    bus.listen('LoggedOut', this.refresh);
-    bus.listen('LoggedIn', this.refresh);
-    bus.listen('LanguageChanged', this.refresh);
-    bus.listen('RoleChanged', this.refresh);
+    bus.listen('RefreshAll', this.refresh);
   }
 
   render() {
     return (
       <div>
-        <Be5Components ref="be5Components"/>
+        <Be5Components/>
         <Be5Menu ref="menu" show={true}/>
         <div className="container">
           <div className="row">
@@ -39,7 +35,6 @@ class ApplicationWithBe5Menu extends React.Component
 
   refresh() {
     this.refs.menu.refresh();
-    this.refs.be5Components.refresh();
   }
 }
 

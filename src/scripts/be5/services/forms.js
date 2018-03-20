@@ -91,7 +91,7 @@ export default
                 }else{
                   window.history.back();
                 }
-                bus.fire('LoggedIn');
+                bus.fire('RefreshAll');
                 if(documentName === be5.mainModalDocumentName)bus.fire("mainModalClose");
               }
               else if(attributes.details.startsWith("http://")

@@ -1,9 +1,10 @@
-import React from 'react';
-import bus from '../core/bus';
-import be5 from '../be5';
-import Document from './Document';
-import Alert from 'react-s-alert';
-import { Modal } from 'reactstrap';
+import React           from 'react';
+import { connect }     from 'react-redux'
+import bus             from '../core/bus';
+import be5             from '../be5';
+import Document        from './Document';
+import Alert           from 'react-s-alert';
+import { Modal }       from 'reactstrap';
 
 
 class Be5Components extends React.Component
@@ -14,18 +15,9 @@ class Be5Components extends React.Component
       modal: false
     };
 
-    //this.toggle = this.toggle.bind(this);
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
-
-    this.onChange = this.onChange.bind(this);
   }
-
-  // toggle() {
-  //   this.setState({
-  //     modal: !this.state.modal
-  //   });
-  // }
 
   open() {
     this.setState({ modal: true });
@@ -54,11 +46,6 @@ class Be5Components extends React.Component
     });
   }
 
-  onChange(){
-    //todo
-    console.log(this.props, this.state);
-  }
-
   render() {
     return (
       <div>
@@ -68,10 +55,6 @@ class Be5Components extends React.Component
         </Modal>
       </div>
     );
-
-  }
-
-  refresh(){
 
   }
 

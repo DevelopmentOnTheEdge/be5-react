@@ -1,7 +1,8 @@
 import React from 'react';
 import LanguageSelector from './LanguageSelector';
-import RoleSelector     from './RoleSelector';
+import RoleSelector     from '../containers/RoleSelector';
 import Menu             from './menu/Menu';
+
 
 class SideBar extends React.Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class SideBar extends React.Component {
   render() {
     return (
       <div className={"side"}>
-        <RoleSelector ref="roleSelector" size="sm"/>
+        <RoleSelector size="sm"/>
         <Menu ref="menu"/>
         <LanguageSelector ref="languageSelector"/>
       </div>
@@ -19,13 +20,10 @@ class SideBar extends React.Component {
   };
 
   refresh() {
-    this.setState({});
     if(this.refs.menu)
       this.refs.menu.refresh();
-    if(this.refs.languageSelector)
-      this.refs.languageSelector.refresh();
-    if(this.refs.roleSelector)
-      this.refs.roleSelector.refresh();
+    // if(this.refs.languageSelector)
+    //   this.refs.languageSelector.refresh();
   };
 }
 

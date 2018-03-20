@@ -1,6 +1,7 @@
 import be5 from './be5';
 import bus from './core/bus';
 import documentState      from './core/documentState';
+import { userActions } from './actions'
 
 import './serviceActions/loading';
 import './serviceActions/form';
@@ -44,7 +45,7 @@ export default {
     }
   },
 
-  init()
+  init(store)
   {
     window.addEventListener("hashchange", this.hashChange, false);
 
@@ -59,9 +60,14 @@ export default {
       });
     });
 
-    be5.net.request('languageSelector', {}, function(data) {
-      be5.locale.set(data.selected, data.messages);
-      be5.url.process(be5.mainDocumentName, be5.url.get());
-    });
+    // be5.net.request('languageSelector', {}, function(data) {
+    //   be5.locale.set(data.selected, data.messages);
+    //   be5.url.process(be5.mainDocumentName, be5.url.get());
+    // });
+
+    const updateUser = () => {
+      store.dispatch(userActions.updateUserInfo());
+    };
+    bus.listen('RefreshAll', updateUser);
   }
 }
