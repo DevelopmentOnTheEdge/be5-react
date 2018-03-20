@@ -130,7 +130,7 @@ div.dataTables_wrapper div.dataTables_length select {
 }
 div.dataTables_wrapper div.dataTables_paginate {
   float: left;
-  margin: 0 10px 0 0;
+  margin: 0 4px 0 0;
 }
 div.dataTables_wrapper div.dataTables_info {
   padding-top: 0.33rem;
@@ -153,12 +153,11 @@ table.dataTable.table-sm .sorting:after, table.dataTable.table-sm .sorting_asc:a
   top: 4px;
 }
 
-
 .dataTables_length select.form-control {
-  padding: 0.1875rem 0.5rem 0.25rem;
+  padding: 0.18rem 0.3rem;
   font-size: 13px;
   line-height: 1.5;
-  height: auto!important;
+  height: calc(1.59rem + 2px)!important;
 }
 
 .page-link {
