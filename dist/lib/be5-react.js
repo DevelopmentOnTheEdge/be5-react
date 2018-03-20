@@ -94,6 +94,11 @@ var messages = {
       searchPromptText: 'Начните вводить для поиска',
       placeholder: 'Выберите...',
       loadingPlaceholder: 'Загрузка...',
+      stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
+      numberTypeMismatch: 'Введите число.',
+      simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
+      rangeOverflow: 'Значение должно быть меньше или равно {0}.',
+      rangeUnderflow: 'Значение должно быть больше или равно {0}.',
       datePatternError: 'Введите дату в формате дд.мм.гггг'
     },
 
@@ -1270,7 +1275,7 @@ var QuickColumns = function (_React$Component) {
 
 var img = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAATdEVYdFRpdGxlAE9wdGljYWwgRHJpdmU+Z7oMAAAC+ElEQVQ4jZWS329TZRjHP+ft6dJ2djNxHcgyunb+KIyNwfRG0mZgNgfeAJNBUBO8NEswITPEGHIy1I1lcTEzhn/Aq5mIFwp2yGSMzAsCyMIAp7hWOXjD+LGW03bnPe/rxSyZ7spv8tw9z+f75Ps8htaasvr7+81Apfm6oY1dGrpAV4BhY5AV2vjME4ZjKHUSjBxKHTt69MNpszw8ODj4TCBUMdbasnnH5pYt1NREEEIgpbs2l8u1/TAxvjebyeT27z8YXrh3j7MT4wFgmwkwPPzx8z6/L713zxuxeKyRUqmI4+RRSiGEIBQKsa/7ALZ9J1xfv56qcBg0rwCYAArxxVsH346tqV3L4uJDrv58lfn52+TyeZ6qrGTjxk0kXkwQiUT4r8yhTwd2xmPxjnXPruP+/QXOpE9zx7YnQQwIrUOFUnHwwtRk4vbvv9HVuZNAIAiAUmoZYCh9+NUdHRSLRWZvXMe27XMlx+2yLEueGP7kXE/3gUQ81rjKWUq5DNAY64PBEK5b4uatWwiMjyzLkgCuK8OPHj3kwYOFVQDXdSlnUCeEgVIKx3mMlFx/0uR575765usvtdaJ5WtrtC7XPxlIzysUS8VqIUyqq5/mcc5uBs4DHD92/DKwYZX9yhCl532fyWQONcYbadrQRCabtXq+6pka2zfmrXiwwJIsngB2a60mPJf3hoaGcgCmWpKnr1y5fKghGqW5uYX5zHy7d809+8HM+wM+7d2U2teKxkol21/e1NTEj5MT78zOzl4CTgKYQvhPzc39cn7q4lR7Kpliz+5utrRu3X5x+sL2u3f/4oVolOS2JNFoA/l8HtP0I6UXKG9naK3p6+urEaa+1NnxWkPb1jaCwRB+vx8hfCilcN0lCgWH9Hia6Z+mb5ii4qWRkZHCEwDAkSO9zyl8n9dGartSqSSRSC1V4Socx2Hu1zmuzczwx5/Zb02j4s3R0dHFf22wUr2HezsNLXuVMuo1ug7Ia80Zhf6ubk1d2rIstbJ/FeD/6m8m/lj+PIxQ9QAAAABJRU5ErkJggg==';
 
-var Document = function (_React$Component) {
+var Document$1 = function (_React$Component) {
   inherits(Document, _React$Component);
 
   function Document(props) {
@@ -1405,7 +1410,7 @@ var Document = function (_React$Component) {
   return Document;
 }(React.Component);
 
-Document.propTypes = {
+Document$1.propTypes = {
   frontendParams: PropTypes.shape({
     documentName: PropTypes.string.isRequired,
     operationDocumentName: PropTypes.string,
@@ -1713,7 +1718,7 @@ var TableBox = function (_React$Component) {
         _this._refreshEnablementIfNeeded();
       });
 
-      $('.dataTables-nav').css('max-width', tableDiv.width() + 2);
+      $('.dataTables-nav').css('max-width', Math.max(650, tableDiv.width() + 2));
 
       $('#rowCheckboxAll').click(function (e) {
         e.stopPropagation();
@@ -1834,7 +1839,7 @@ var Table = function (_React$Component3) {
       var topFormJson = value.included !== undefined ? documentUtils.getResourceByID(value.included, "topForm") : undefined;
       var topForm = void 0;
       if (topFormJson) {
-        topForm = React.createElement(Document, {
+        topForm = React.createElement(Document$1, {
           frontendParams: { documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName },
           value: { data: topFormJson, meta: value.meta },
           component: formsCollection.getForm(topFormJson.attributes.layout.type)
@@ -2448,7 +2453,7 @@ var QueryBuilder = function (_React$Component) {
             'div',
             null,
             React.createElement('br', null),
-            React.createElement(Document, { frontendParams: { documentName: "queryBuilder-table" } }),
+            React.createElement(Document$1, { frontendParams: { documentName: "queryBuilder-table" } }),
             React.createElement(
               'h2',
               null,
@@ -2539,7 +2544,7 @@ var HelpInfo = function (_React$Component) {
             React.createElement(
               'div',
               { className: 'alert alert-success max-width-970', role: 'alert' },
-              React.createElement(Document, { frontendParams: { documentName: this.props.documentName } })
+              React.createElement(Document$1, { frontendParams: { documentName: this.props.documentName } })
             )
           )
         );
@@ -2599,9 +2604,9 @@ var TableForm = function (_React$Component) {
       return React.createElement(
         'div',
         { className: 'table-form' },
-        React.createElement(Document, { frontendParams: { documentName: "table", operationDocumentName: "form" } }),
+        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" } }),
         React.createElement(HelpInfo, { value: this.props.value.data.attributes.layout.helpInfo }),
-        React.createElement(Document, { frontendParams: { documentName: "form" } })
+        React.createElement(Document$1, { frontendParams: { documentName: "form" } })
       );
     }
   }, {
@@ -2634,12 +2639,12 @@ var TableFormRow = function (_TableForm) {
         React.createElement(
           'div',
           { className: 'col-lg-6' },
-          React.createElement(Document, { frontendParams: { documentName: "table", operationDocumentName: "form" } })
+          React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" } })
         ),
         React.createElement(
           'div',
           { className: 'col-lg-6' },
-          React.createElement(Document, { frontendParams: { documentName: "form" } })
+          React.createElement(Document$1, { frontendParams: { documentName: "form" } })
         )
       );
     }
@@ -2663,8 +2668,8 @@ var FormTable = function (_TableForm) {
       return React.createElement(
         'div',
         { className: 'form-table' },
-        React.createElement(Document, { frontendParams: { documentName: "form" } }),
-        React.createElement(Document, { frontendParams: { documentName: "table", operationDocumentName: "form" } })
+        React.createElement(Document$1, { frontendParams: { documentName: "form" } }),
+        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" } })
       );
     }
   }]);
@@ -3103,7 +3108,7 @@ var ReactTable = function (_React$Component2) {
       var topFormJson = value.included !== undefined ? documentUtils.getResourceByID(value.included, "topForm") : undefined;
       var topForm = void 0;
       if (topFormJson) {
-        topForm = React.createElement(Document, {
+        topForm = React.createElement(Document$1, {
           frontendParams: { documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName },
           value: { data: topFormJson, meta: value.meta },
           component: formsCollection.getForm(topFormJson.attributes.layout.type)
@@ -4032,7 +4037,7 @@ var SubmitOnChangeForm = function (_Form) {
         'form',
         {
           id: this.state.meta._ts_,
-          className: classNames('submit-onchange-form', attributes.cssClass)
+          className: classNames('submit-onchange-form', attributes.layout.formCssClass)
         },
         React.createElement(PropertyInput, {
           id: 0,
@@ -4146,7 +4151,7 @@ var InlineForm = function (_Form) {
         {
           id: this.state.meta._ts_,
           onSubmit: this._applyOnSubmit,
-          className: classNames('form-inline', attributes.cssClass, this.state.wasValidated ? 'was-validated' : '')
+          className: classNames('form-inline', attributes.layout.formCssClass || 'form-inline-bordered', this.state.wasValidated ? 'was-validated' : '')
         },
         React.createElement(
           'label',
@@ -4400,11 +4405,11 @@ var RoleBox = function (_React$Component2) {
       });
 
       return React.createElement(
-        'div',
-        { className: 'roleBox' },
+        'form',
+        { id: 'roleBox', className: classNames("roleBox form-inline", this.props.className) },
         React.createElement(
           UncontrolledDropdown,
-          { size: 'sm' },
+          { size: this.props.size, className: 'mr-sm-2' },
           React.createElement(
             DropdownToggle,
             { caret: true },
@@ -4435,8 +4440,8 @@ var RoleBox = function (_React$Component2) {
           )
         ),
         React.createElement(
-          'div',
-          { className: 'roleBox_username' },
+          'label',
+          { className: 'form-control-label' },
           this.state.username
         )
       );
@@ -4469,6 +4474,9 @@ var RoleBox = function (_React$Component2) {
 
       this._changeRoles(roles.join(","));
     }
+
+    //todo refactoring, remove username from roleSelector/select, save state in redux...
+
   }, {
     key: '_changeRoles',
     value: function _changeRoles(roles) {
@@ -4482,6 +4490,11 @@ var RoleBox = function (_React$Component2) {
   }]);
   return RoleBox;
 }(React.Component);
+
+Document.propTypes = {
+  size: PropTypes.string,
+  className: PropTypes.string
+};
 
 var img$1 = 'data:image/png;base64,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';
 
@@ -4784,7 +4797,7 @@ var SideBar = function (_React$Component) {
       return React.createElement(
         'div',
         { className: "side" },
-        React.createElement(RoleBox, { ref: 'roleSelector' }),
+        React.createElement(RoleBox, { ref: 'roleSelector', size: 'sm' }),
         React.createElement(Menu, { ref: 'menu' }),
         React.createElement(LanguageBox, { ref: 'languageSelector' })
       );
@@ -4800,180 +4813,6 @@ var SideBar = function (_React$Component) {
   }]);
   return SideBar;
 }(React.Component);
-
-// Based on https://github.com/tomkp/react-split-pane
-var Pane = React.createClass({
-  displayName: "SplitPane-Pane",
-
-  getInitialState: function getInitialState() {
-    return {};
-  },
-  render: function render() {
-    var split = this.props.split;
-    var classes = ['Pane', split, this.props.classes];
-
-    var style = {
-      flex: 1,
-      position: 'relative',
-      outline: 'none',
-      overflow: 'auto'
-    };
-
-    if (this.state.hide) {
-      style['display'] = 'none';
-    }
-
-    if (this.state.size) {
-      if (split === 'horizontal') {
-        style.height = this.state.size;
-        style.display = 'flex';
-      } else {
-        style.width = this.state.size;
-      }
-      style.flex = 'none';
-    }
-    return React.DOM.div({ className: classes.join(' '), style: style }, this.props.children);
-  }
-});
-
-var Resizer = React.createClass({ displayName: "SplitPane-Resizer",
-  handleDown: function handleDown(event) {
-    this.props.down(event);
-  },
-  render: function render() {
-    var split = this.props.split;
-    var classes = ['Resizer', split];
-    return React.DOM.span({ className: classes.join(' '), onMouseDown: this.handleDown });
-  }
-});
-
-var SplitPane$1 = React.createClass({ displayName: "SplitPane",
-  propTypes: {
-    minSize: React.PropTypes.number,
-    split: React.PropTypes.string
-  },
-
-  getInitialState: function getInitialState() {
-    return {
-      active: false
-    };
-  },
-  getDefaultProps: function getDefaultProps() {
-    return {
-      minSize: 0
-    };
-  },
-  componentDidMount: function componentDidMount() {
-    document.addEventListener('mouseup', this.up);
-    document.addEventListener('mousemove', this.move);
-    var ref = this.refs.pane1;
-    if (ref) {
-      if (this.props.defaultSize) {
-        ref.setState({ size: this.props.defaultSize });
-        if (this.props.defaultSize < 32) {
-          ref.setState({ hide: true });
-        }
-      }
-    }
-  },
-  componentWillUnmount: function componentWillUnmount() {
-    document.removeEventListener('mouseup', this.up);
-    document.removeEventListener('mousemove', this.move);
-  },
-  down: function down(event) {
-    var position = this.props.split === 'vertical' ? event.clientX : event.clientY;
-    this.setState({
-      active: true,
-      position: position
-    });
-    event.preventDefault();
-  },
-  move: function move(event) {
-    if (this.state.active) {
-      var ref = this.refs.pane1;
-      if (ref) {
-        var node = ReactDOM.findDOMNode(ref);
-        if (window.getComputedStyle) {
-          var styles = window.getComputedStyle(node);
-          var rect = node.getBoundingClientRect();
-          var width = rect.right - rect.left;
-          var height = rect.bottom - rect.top;
-          var current = this.props.split === 'vertical' ? event.clientX : event.clientY;
-          var size = this.props.split === 'vertical' ? width : height;
-          var position = this.state.position;
-          var newSize = size - (position - current);
-          this.setState({
-            position: current
-          });
-          if (newSize < 32) {
-            ref.setState({ hide: true });
-          } else {
-            ref.setState({ hide: false });
-          }
-          if (newSize >= this.props.minSize) {
-            ref.setState({
-              size: newSize
-            });
-          }
-        }
-        event.preventDefault();
-      }
-    }
-  },
-  up: function up() {
-    this.setState({
-      active: false
-    });
-  },
-  merge: function merge(into, obj) {
-    for (var attr in obj) {
-      into[attr] = obj[attr];
-    }
-  },
-  render: function render() {
-    var split = this.props.split || 'vertical';
-
-    var style = {
-      display: 'flex',
-      flex: 1,
-      position: 'relative',
-      outline: 'none',
-      overflow: 'hidden'
-    };
-
-    if (split === 'horizontal') {
-      this.merge(style, {
-        flexDirection: 'column',
-        height: '100%',
-        minHeight: '100%',
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        width: '100%'
-      });
-    } else {
-      this.merge(style, {
-        flexDirection: 'row',
-        height: '100%',
-        position: 'absolute',
-        left: 0,
-        right: 0
-      });
-    }
-
-    var elements = [];
-    var children = this.props.children;
-    var child0 = children[0];
-    var child1 = children[1];
-    elements.push(React.createElement(Pane, { ref: "pane1", key: "pane1", split: split, classes: "pane1" }, child0));
-    elements.push(React.createElement(Resizer, { ref: "resizer", key: "resizer", down: this.down, split: split }));
-    elements.push(React.createElement(Pane, { ref: "pane2", key: "pane2", split: split, classes: "pane2" }, child1));
-
-    var classes = ['SplitPane', split];
-
-    return React.DOM.div({ className: classes.join(' '), style: style, ref: "splitPane" }, elements);
-  }
-});
 
 var Be5Components = function (_React$Component) {
   inherits(Be5Components, _React$Component);
@@ -5047,7 +4886,7 @@ var Be5Components = function (_React$Component) {
         React.createElement(
           Modal,
           { isOpen: this.state.modal, toggle: this.close, className: this.props.className },
-          React.createElement(Document, { ref: 'document', frontendParams: { documentName: be5.mainModalDocumentName } })
+          React.createElement(Document$1, { ref: 'document', frontendParams: { documentName: be5.mainModalDocumentName } })
         )
       );
     }
@@ -5087,10 +4926,10 @@ var Application = function (_React$Component) {
         null,
         React.createElement(Be5Components, { ref: 'be5Components' }),
         React.createElement(
-          SplitPane$1,
-          { split: 'vertical', defaultSize: 280 },
+          SplitPane,
+          { split: 'vertical', defaultSize: 280, className: 'main-split-pane' },
           React.createElement(SideBar, { ref: 'sideBar' }),
-          React.createElement(Document, { ref: 'document', frontendParams: { documentName: be5.mainDocumentName } })
+          React.createElement(Document$1, { ref: 'document', frontendParams: { documentName: be5.mainDocumentName } })
         )
       );
     }
@@ -5707,7 +5546,7 @@ var FormWizard = function (_React$Component) {
           { className: 'progtrckr clearfix' },
           this.renderSteps()
         ) : React.createElement('span', null),
-        React.createElement(Document, { frontendParams: { documentName: props.documentName } }),
+        React.createElement(Document$1, { frontendParams: { documentName: props.documentName } }),
         React.createElement('br', null),
         React.createElement(
           'div',
@@ -5846,7 +5685,7 @@ var Navs = function (_React$Component) {
         React.createElement(
           'div',
           { className: 'tab-content' },
-          React.createElement(Document, { frontendParams: { documentName: this.props.documentName } })
+          React.createElement(Document$1, { frontendParams: { documentName: this.props.documentName } })
         )
       );
     }
@@ -5883,4 +5722,4 @@ Navs.propTypes = {
 // actions
 // services
 
-export { be5, be5init, Const as constants, Preconditions as preconditions, settings, bus, changeDocument, documentUtils, http, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, Document, HelpInfo, LanguageBox as LanguageSelector, RoleBox as RoleSelector, SideBar, Sorter, SplitPane$1 as SplitPane, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, Form, SubmitOnChangeForm, ModalForm, InlineForm, FinishedResult, Table, QuickColumns, OperationBox, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, action$2 as formAction, action as loadingAction, action$4 as loginAction, action$6 as logoutAction, action$12 as qBuilderAction, action$8 as staticAction, action$10 as tableAction, action$14 as textAction, actions as action, forms, tables, formsCollection, tablesCollection, actionsCollection };
+export { be5, be5init, Const as constants, Preconditions as preconditions, settings, bus, changeDocument, documentUtils, http, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, Document$1 as Document, HelpInfo, LanguageBox as LanguageSelector, RoleBox as RoleSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, Form, SubmitOnChangeForm, ModalForm, InlineForm, FinishedResult, Table, QuickColumns, OperationBox, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, action$2 as formAction, action as loadingAction, action$4 as loginAction, action$6 as logoutAction, action$12 as qBuilderAction, action$8 as staticAction, action$10 as tableAction, action$14 as textAction, actions as action, forms, tables, formsCollection, tablesCollection, actionsCollection };
