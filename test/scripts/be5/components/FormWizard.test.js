@@ -2,7 +2,7 @@ import React          from 'react';
 import renderer       from 'react-test-renderer';
 import FormWizard     from '../../../../src/scripts/be5/components/FormWizard';
 import be5            from '../../../../src/scripts/be5/be5';
-import '../../../../src/scripts/be5/actions/text'
+import '../../../../src/scripts/be5/serviceActions/text'
 
 
 test('test', () => {

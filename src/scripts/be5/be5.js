@@ -60,7 +60,7 @@ const be5 = {
         }
       }
 
-      var dataTablesLocal = 'en';
+      let dataTablesLocal = 'en';
       switch(be5.locale.value){
         case "ru": dataTablesLocal = 'Russian'; break;
         case "ja": dataTablesLocal = 'Japanese'; break;
@@ -76,16 +76,16 @@ const be5 = {
     },
 
     msg(key) {
-      var value = be5.messages[key];
+      const value = be5.messages[key];
       return value === undefined ? key : value;
     },
 
     addMessages(loc, msgs) {
-      for(var key in msgs) {
+      for(let key in msgs) {
         messages[loc][key] = msgs[key];
       }
       if(loc === be5.locale.value) {
-        for(var key in msgs) {
+        for(let key in msgs) {
           be5.messages[key] = msgs[key];
         }
       }
