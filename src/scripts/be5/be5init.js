@@ -65,9 +65,8 @@ export default {
     //   be5.url.process(be5.mainDocumentName, be5.url.get());
     // });
 
-    const updateUser = () => {
+    bus.listen('RefreshAll', () => {
       store.dispatch(userActions.updateUserInfo());
-    };
-    bus.listen('RefreshAll', updateUser);
+    });
   }
 }
