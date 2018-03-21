@@ -1,6 +1,6 @@
 import React from 'react';
 import LanguageSelector from './LanguageSelector';
-import RoleSelector     from '../containers/RoleSelector';
+import UserControl      from '../containers/UserControl';
 import Menu             from './menu/Menu';
 
 
@@ -12,7 +12,7 @@ class SideBar extends React.Component {
   render() {
     return (
       <div className={"side"}>
-        <RoleSelector size="sm"/>
+        <UserControl size="sm"/>
         <Menu ref="menu"/>
         <LanguageSelector ref="languageSelector"/>
       </div>

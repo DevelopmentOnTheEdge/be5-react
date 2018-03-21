@@ -1,6 +1,13 @@
 export const userSelectors = {
-  getUserRoles: getUserRoles
+  getUser,
+  getUserRoles
 };
+
+function getUser(state) {
+  return {
+    user: state.user
+  };
+}
 
 function getUserRoles(state) {
   return {
