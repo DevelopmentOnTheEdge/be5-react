@@ -152,6 +152,5 @@ export {
 };
 
 export default connect(
-  userSelectors.getCurrentRoles,
-  () => {}
+  userSelectors.getCurrentRoles
 )(Document)

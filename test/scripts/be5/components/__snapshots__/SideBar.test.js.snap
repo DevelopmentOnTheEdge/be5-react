@@ -5,9 +5,6 @@ exports[`snapshot sideBar 1`] = `
   className="side"
 >
   <div
-    className="roleBox"
-  />
-  <div
     className="menuContainer"
   >
     <input

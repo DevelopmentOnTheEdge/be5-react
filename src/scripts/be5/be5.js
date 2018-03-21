@@ -244,26 +244,26 @@ const be5 = {
       return be5.net.requestUrl(be5.net.url(path), 'json', params, success, failure);
     },
 
-    // transforms parameters!
-    requestJson(path, params, success, failure) {
-      return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'json', be5.net.transform(params), success, failure);
-    },
+    // // transforms parameters!
+    // requestJson(path, params, success, failure) {
+    //   return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'json', be5.net.transform(params), success, failure);
+    // },
+    //
+    // requestHtml(path, success, failure) {
+    //   return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'html', {}, success, failure);
+    // },
 
-    requestHtml(path, success, failure) {
-      return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'html', {}, success, failure);
-    },
-
-    transform(params) {
-      const copy = {};
-      for (let key in params) {
-      if (typeof params[key] === 'object') {
-        copy[key] = be5.net.paramString(params[key]);
-      } else {
-        copy[key] = params[key];
-      }
-      }
-      return copy;
-    },
+    // transform(params) {
+    //   const copy = {};
+    //   for (let key in params) {
+    //   if (typeof params[key] === 'object') {
+    //     copy[key] = be5.net.paramString(params[key]);
+    //   } else {
+    //     copy[key] = params[key];
+    //   }
+    //   }
+    //   return copy;
+    // },
 
     requestUrl(url, type, params, success, failureFunc) {
       let result = null;

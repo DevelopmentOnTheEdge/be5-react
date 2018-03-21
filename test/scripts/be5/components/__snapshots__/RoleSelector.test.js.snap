@@ -1,96 +1,88 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`render 1`] = `
-<form
-  className="roleBox form-inline"
-  id="roleBox"
+<div
+  className="roleBox mr-sm-2 dropdown"
+  onKeyDown={[Function]}
 >
-  <div
-    className="mr-sm-2 dropdown"
-    onKeyDown={[Function]}
+  <button
+    aria-expanded={false}
+    aria-haspopup={true}
+    className="dropdown-toggle btn btn-secondary"
+    onClick={[Function]}
+    type="button"
   >
-    <button
-      aria-expanded={false}
-      aria-haspopup={true}
-      className="dropdown-toggle btn btn-secondary"
-      onClick={[Function]}
-      type="button"
-    >
-      Roles
-    </button>
+    Roles
+  </button>
+  <div
+    aria-hidden={true}
+    className="dropdown-menu"
+    role="menu"
+    tabIndex="-1"
+  >
     <div
-      aria-hidden={true}
-      className="dropdown-menu"
-      role="menu"
-      tabIndex="-1"
+      className="role"
     >
-      <div
-        className="role"
-      >
-        <input
-          checked={false}
-          id="Administrator-checkbox"
-          onChange={[Function]}
-          type="checkbox"
-        />
-        <label
-          htmlFor="Administrator-checkbox"
-        >
-          <span
-            className="checkBox"
-          />
-          Administrator
-        </label>
-      </div>
-      <div
-        className="role"
-      >
-        <input
-          checked={true}
-          id="Manager-checkbox"
-          onChange={[Function]}
-          type="checkbox"
-        />
-        <label
-          htmlFor="Manager-checkbox"
-        >
-          <span
-            className="checkBox"
-          />
-          Manager
-        </label>
-      </div>
-      <div
-        className="dropdown-divider"
-        onClick={[Function]}
-        tabIndex="-1"
-        type={undefined}
+      <input
+        checked={false}
+        id="Administrator-checkbox"
+        onChange={[Function]}
+        type="checkbox"
       />
-      <div
-        className="roleBox_add-actions"
+      <label
+        htmlFor="Administrator-checkbox"
       >
-        Выбрать:
-         
-        <button
-          className="enable-all btn btn-primary btn-sm"
-          onClick={[Function]}
-          type="button"
-        >
-          Всё
-        </button>
-         
-        <button
-          className="disable-all btn btn-secondary btn-sm"
-          onClick={[Function]}
-          type="button"
-        >
-          Ничего
-        </button>
-      </div>
+        <span
+          className="checkBox"
+        />
+        Administrator
+      </label>
+    </div>
+    <div
+      className="role"
+    >
+      <input
+        checked={true}
+        id="Manager-checkbox"
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <label
+        htmlFor="Manager-checkbox"
+      >
+        <span
+          className="checkBox"
+        />
+        Manager
+      </label>
+    </div>
+    <div
+      className="dropdown-divider"
+      onClick={[Function]}
+      tabIndex="-1"
+      type={undefined}
+    />
+    <div
+      className="roleBox_add-actions"
+    >
+      Выбрать:
+       
+      <button
+        className="enable-all btn btn-primary btn-sm"
+        onClick={[Function]}
+        type="button"
+      >
+        Всё
+      </button>
+       
+      <button
+        className="disable-all btn btn-secondary btn-sm"
+        onClick={[Function]}
+        type="button"
+      >
+        Ничего
+      </button>
     </div>
   </div>
-  <label
-    className="form-control-label"
-  />
-</form>
+</div>
 `;

@@ -4,11 +4,15 @@ import {shallow, mount, render} from 'enzyme';
 import bus            from '../../../../src/scripts/be5/core/bus';
 import App            from '../../../../src/scripts/be5/components/Application';
 import '../mockBe5Request'
+import testUtils      from "../testUtils";
+import { Provider }   from 'react-redux';
 
 test('snapshot', () => {
 
   const component = renderer.create(
-    <App />
+    <Provider store={testUtils.getStore()}>
+      <App />
+    </Provider>
   );
   expect(component.toJSON()).toMatchSnapshot();
 

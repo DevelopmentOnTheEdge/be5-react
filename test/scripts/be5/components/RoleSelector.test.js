@@ -1,15 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import RoleSelector, {RoleBox} from '../../../../src/scripts/be5/containers/RoleSelector';
-import be5 from '../../../../src/scripts/be5/be5';
 import {shallow, mount} from 'enzyme';
 
 
 test('render', () => {
-// be5.net.request = function (path, attr, callback) {
-//   callback({"availableRoles":["Administrator", "Manager"],"currentRoles":["Manager"]})
-// };
-//
   const component = renderer.create(
     <RoleBox availableRoles={["Administrator", "Manager"]} currentRoles={["Manager"]}
              toggleRoles={()=>{}} />

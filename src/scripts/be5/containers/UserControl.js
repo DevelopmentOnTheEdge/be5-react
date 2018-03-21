@@ -31,6 +31,5 @@ export {
 };
 
 export default connect(
-  userSelectors.getUser,
-  () => {}
+  userSelectors.getUser
 )(UserControlBox)

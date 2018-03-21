@@ -42,9 +42,6 @@ exports[`snapshot 1`] = `
         className="side"
       >
         <div
-          className="roleBox"
-        />
-        <div
           className="menuContainer"
         >
           <input

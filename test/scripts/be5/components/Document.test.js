@@ -3,11 +3,15 @@ import renderer       from 'react-test-renderer';
 import {Document}       from '../../../../src/scripts/be5/containers/Document';
 import changeDocument from '../../../../src/scripts/be5/core/changeDocument';
 import {shallow, mount} from 'enzyme';
+import testUtils      from "../testUtils";
+import { Provider }   from 'react-redux';
 
 
 test('snapshot', () => {
   const component = renderer.create(
-    <Document frontendParams={{documentName: "MainDocument"}}/>
+    <Provider store={testUtils.getStore()}>
+      <Document frontendParams={{documentName: "MainDocument"}}/>
+    </Provider>
   );
 
   expect(component.toJSON()).toMatchSnapshot();

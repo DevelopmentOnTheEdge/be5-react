@@ -2,6 +2,8 @@ import React          from 'react';
 import renderer       from 'react-test-renderer';
 import QueryBuilder   from '../../../../src/scripts/be5/components/QueryBuilder';
 import {shallow, mount, render} from 'enzyme';
+import testUtils      from "../testUtils";
+import { Provider }   from 'react-redux';
 import testData       from '../testData.json'
 
 
@@ -14,7 +16,9 @@ test('snapshot', () => {
   });
 
   const component = renderer.create(
-    <QueryBuilder value={json}/>
+    <Provider store={testUtils.getStore()}>
+      <QueryBuilder value={json}/>
+    </Provider>
   );
 
   expect(component.toJSON()).toMatchSnapshot();

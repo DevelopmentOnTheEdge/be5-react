@@ -8,7 +8,6 @@ import preconditions from './preconditions.js';
 import bus from './core/bus.js';
 import changeDocument from './core/changeDocument.js';
 import documentUtils from './core/documentUtils.js';
-import http from './core/http.js';
 
 // components
 import Application      from './components/Application.js';
@@ -81,7 +80,6 @@ export {
   bus,
   changeDocument,
   documentUtils,
-  http,
 
   // components
   Application,
