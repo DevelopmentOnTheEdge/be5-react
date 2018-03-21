@@ -1,11 +1,11 @@
-import be5 from "../be5";
-import { userConstants } from '../constants';
-import bus from "../core/bus";
+import be5 from "../../be5";
+import { userConstants } from '../constants/index';
+import bus from "../../core/bus";
 
 
 export const userActions = {
   updateUserInfo,
-  toggleRoles: toggleRoles
+  toggleRoles
 };
 
 function updateUserInfo() {

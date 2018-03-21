@@ -6,7 +6,7 @@ import thunkMiddleware  from 'redux-thunk';
 import { createLogger } from 'redux-logger'
 import { AppContainer } from 'react-hot-loader'
 import App              from './components/Application';
-import rootReducer      from './reducers'
+import rootReducer      from './store/reducers'
 import be5init          from './be5init';
 import './be5styles';
 

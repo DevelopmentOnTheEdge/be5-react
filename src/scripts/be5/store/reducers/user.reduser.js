@@ -1,4 +1,4 @@
-import { userConstants } from '../constants';
+import { userConstants } from '../constants/index';
 
 const initialState = {
   "availableRoles":["Guest"],

@@ -1,17 +1,17 @@
 import be5 from './be5';
 import bus from './core/bus';
 import documentState      from './core/documentState';
-import { userActions } from './actions'
+import { userActions } from './store/actions'
 
-import './serviceActions/loading';
-import './serviceActions/form';
-import './serviceActions/login';
-import './serviceActions/logout';
-import './serviceActions/static';
-import './serviceActions/table';
-import './serviceActions/qBuilder';
-import './serviceActions/text';
-import './serviceActions/login';
+import './actions/loading';
+import './actions/form';
+import './actions/login';
+import './actions/logout';
+import './actions/static';
+import './actions/table';
+import './actions/qBuilder';
+import './actions/text';
+import './actions/login';
 
 
 import './components/tables/TableForm';

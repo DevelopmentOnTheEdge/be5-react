@@ -53,14 +53,14 @@ import MenuFooter      from './components/menu/MenuFooter.js';
 import MenuNode        from './components/menu/MenuNode.js';
 
 // actions
-import formAction      from './serviceActions/form.js';
-import loadingAction   from './serviceActions/loading.js';
-import loginAction     from './serviceActions/login.js';
-import logoutAction    from './serviceActions/logout.js';
-import qBuilderAction  from './serviceActions/qBuilder.js';
-import staticAction    from './serviceActions/static.js';
-import tableAction     from './serviceActions/table.js';
-import textAction      from './serviceActions/text.js';
+import formAction      from './actions/form.js';
+import loadingAction   from './actions/loading.js';
+import loginAction     from './actions/login.js';
+import logoutAction    from './actions/logout.js';
+import qBuilderAction  from './actions/qBuilder.js';
+import staticAction    from './actions/static.js';
+import tableAction     from './actions/table.js';
+import textAction      from './actions/text.js';
 
 // services
 import action            from './services/actions.js';
