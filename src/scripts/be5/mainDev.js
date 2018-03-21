@@ -11,34 +11,16 @@ import be5init          from './be5init';
 import './be5styles';
 
 const logger = createLogger();
-const initialState = {};
 
-/**
- * This variable is "true" if the application
- * is running in production.
- */
-const isProduction = process.env.NODE_ENV === 'production';
+const enhancer = compose(
+  applyMiddleware(
+    thunkMiddleware,
+    logger
+  ),
+  window.devToolsExtension ? window.devToolsExtension() : f => f
+);
 
-let store;
-
-if (isProduction) {
-  store = createStore(rootReducer, initialState);
-}
-else {
-  /**
-   * Only use the DevTools component
-   * when in development.
-   */
-  const enhancer = compose(
-    applyMiddleware(
-      thunkMiddleware,
-      logger
-    ),
-    window.devToolsExtension ? window.devToolsExtension() : f => f
-  );
-
-  store = createStore(rootReducer, initialState, enhancer);
-}
+const store = createStore(rootReducer, {}, enhancer);
 
 const render = Component => {
   ReactDOM.render(

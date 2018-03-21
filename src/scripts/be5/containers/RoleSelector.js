@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleRoles: name => dispatch(userActions.toggleRoles(name))
+  toggleRoles: roles => dispatch(userActions.toggleRoles(roles))
 });
 
 export default connect(
