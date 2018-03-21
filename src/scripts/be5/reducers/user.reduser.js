@@ -1,6 +1,13 @@
 import { userConstants } from '../constants';
 
-export default function users(state = {}, action)
+const initialState = {
+  "availableRoles":["Guest"],
+  "loggedIn":false,
+  "selectedRoles":["Guest"],
+  "userName":"Guest"
+};
+
+export default function users(state = initialState, action)
 {
   switch (action.type) {
     case userConstants.UPDATE_USER_INFO:

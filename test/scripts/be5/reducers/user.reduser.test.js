@@ -6,7 +6,12 @@ describe('user reducer', () => {
   it('should handle initial state', () => {
     expect(
       user(undefined, {})
-    ).toEqual({})
+    ).toEqual({
+      "availableRoles":["Guest"],
+      "loggedIn":false,
+      "selectedRoles":["Guest"],
+      "userName":"Guest"
+    })
   });
 
   it('UPDATE_USER_INFO', () => {
