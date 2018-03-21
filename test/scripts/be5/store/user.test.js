@@ -6,6 +6,9 @@ import {userSelectors}  from '../../../../src/scripts/be5/store/selectors'
 test('test', () => {
   const store = createStore(rootReducer);
 
-  expect(userSelectors.getUserRoles(store.getState()))
-    .toEqual({"availableRoles": ["Guest"], "selectedRoles": ["Guest"]})
+  expect(userSelectors.getUser(store.getState()))
+    .toEqual({"user": {"availableRoles": ["Guest"], "currentRoles": ["Guest"], "loggedIn": false, "userName": "Guest"}});
+
+  expect(userSelectors.getCurrentRoles(store.getState()))
+    .toEqual({"currentRoles": ["Guest"]})
 });

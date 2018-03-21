@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import be5 from '../be5';
 import bus from '../core/bus';
 import documentState from '../core/documentState';
+import { connect }    from 'react-redux'
+import { userSelectors } from '../store/selectors/index'
 
 import reloadImg from '../../../images/reload.png';
 
@@ -145,4 +147,11 @@ Document.propTypes = {
   component: PropTypes.func
 };
 
-export default Document;
+export {
+  Document
+};
+
+export default connect(
+  userSelectors.getCurrentRoles,
+  () => {}
+)(Document)

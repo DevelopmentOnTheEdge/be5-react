@@ -1,6 +1,6 @@
 import React          from 'react';
 import renderer       from 'react-test-renderer';
-import Document       from '../../../../src/scripts/be5/components/Document';
+import {Document}       from '../../../../src/scripts/be5/containers/Document';
 import changeDocument from '../../../../src/scripts/be5/core/changeDocument';
 import {shallow, mount} from 'enzyme';
 

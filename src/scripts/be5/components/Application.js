@@ -2,7 +2,7 @@ import React         from 'react';
 import bus           from '../core/bus';
 import be5           from '../be5';
 import SideBar       from './SideBar';
-import Document      from './Document';
+import Document      from '../containers/Document';
 import SplitPane     from 'react-split-pane';
 import Be5Components from "./Be5Components";
 

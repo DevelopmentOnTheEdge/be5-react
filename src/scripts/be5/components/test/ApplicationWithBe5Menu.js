@@ -2,7 +2,7 @@ import React from 'react';
 import bus from '../../core/bus';
 import be5 from '../../be5';
 import Be5Menu from '../be5Menu/Be5Menu';
-import Document from '../Document';
+import Document from '../../containers/Document';
 import Be5Components from "../Be5Components";
 
 

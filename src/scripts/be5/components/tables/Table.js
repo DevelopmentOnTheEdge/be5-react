@@ -9,7 +9,7 @@ import tables             from '../../services/tables';
 import numberFormatter    from 'number-format.js';
 import OperationBox       from './OperationBox';
 import QuickColumns       from './QuickColumns';
-import Document           from "../Document";
+import Document           from "../../containers/Document";
 import formsCollection    from "../../services/formsCollection";
 
 

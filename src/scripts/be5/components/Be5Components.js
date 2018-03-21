@@ -2,7 +2,7 @@ import React           from 'react';
 import { connect }     from 'react-redux'
 import bus             from '../core/bus';
 import be5             from '../be5';
-import Document        from './Document';
+import Document        from '../containers/Document';
 import Alert           from 'react-s-alert';
 import { Modal }       from 'reactstrap';
 

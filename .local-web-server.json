@@ -26,7 +26,7 @@
       "route": "/api/roleSelector",
       "response": {
         "type": "application/json",
-        "body": {"availableRoles":["Administrator"],"selectedRoles":["Administrator"]}
+        "body": {"availableRoles":["Administrator"],"currentRoles":["Administrator"]}
       }
     },
     {

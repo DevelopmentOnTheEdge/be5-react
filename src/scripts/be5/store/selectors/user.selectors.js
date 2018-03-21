@@ -1,6 +1,6 @@
 export const userSelectors = {
   getUser,
-  getUserRoles
+  getCurrentRoles
 };
 
 function getUser(state) {
@@ -9,9 +9,8 @@ function getUser(state) {
   };
 }
 
-function getUserRoles(state) {
+function getCurrentRoles(state) {
   return {
-    availableRoles: state.user.availableRoles,
-    selectedRoles: state.user.selectedRoles
+    currentRoles: state.user.currentRoles
   };
 }

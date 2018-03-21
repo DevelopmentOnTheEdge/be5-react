@@ -1,6 +1,6 @@
 import React          from 'react';
 import renderer       from 'react-test-renderer';
-import Document       from '../../../../src/scripts/be5/components/Document';
+import Document       from '../../../../src/scripts/be5/containers/Document';
 import '../../../../src/scripts/be5/components/forms/Form';
 import be5            from '../../../../src/scripts/be5/be5';
 import forms          from '../../../../src/scripts/be5/services/forms';

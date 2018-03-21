@@ -1,7 +1,7 @@
 import be5 from './be5.js';
 import be5init from './be5init.js';
 //import be5styles from './be5styles.js';
-//import constants from './constants/index.js';
+import * as constants from './store/constants/index.js';
 import preconditions from './preconditions.js';
 
 // core
@@ -15,10 +15,8 @@ import Application      from './components/Application.js';
 import Be5Menu          from './components/be5Menu/Be5Menu.js';
 import Be5MenuHolder    from './components/be5Menu/Be5MenuHolder.js';
 import Be5MenuItem      from './components/be5Menu/Be5MenuItem.js';
-import Document         from './components/Document.js';
 import HelpInfo         from './components/HelpInfo.js';
 import LanguageSelector from './components/LanguageSelector.js';
-import RoleBox          from './components/RoleBox.js';
 import SideBar          from './components/SideBar.js';
 import Sorter           from './components/Sorter.js';
 import StaticPage       from './components/StaticPage.js';
@@ -28,7 +26,9 @@ import FormWizard       from './components/FormWizard.js';
 import Navs             from './components/Navs.js';
 import Be5Components    from './components/Be5Components.js';
 
+import Document         from './containers/Document.js';
 import RoleSelector     from './containers/RoleSelector.js';
+import UserControl      from './containers/UserControl.js';
 
 // forms
 import Form               from './components/forms/Form.js';
@@ -74,7 +74,7 @@ import actionsCollection from './services/actionsCollection.js';
 export {
   be5,
   be5init,
-  //constants,
+  constants,
   preconditions,
 
   // core
@@ -89,11 +89,8 @@ export {
   Be5Menu,
   Be5MenuHolder,
   Be5MenuItem,
-  Document,
-  RoleBox,
   HelpInfo,
   LanguageSelector,
-  RoleSelector,
   SideBar,
   Sorter,
   StaticPage,
@@ -101,6 +98,11 @@ export {
   TreeMenu,
   FormWizard,
   Navs,
+
+  // containers
+  Document,
+  RoleSelector,
+  UserControl,
 
   // forms
   Form,

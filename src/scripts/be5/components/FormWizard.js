@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes            from 'prop-types';
 import classNames           from 'classnames';
 import be5                  from '../be5';
-import Document             from './Document';
+import Document             from '../containers/Document';
 
 
 class FormWizard extends React.Component

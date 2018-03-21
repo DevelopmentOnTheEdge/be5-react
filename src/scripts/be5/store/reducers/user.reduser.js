@@ -3,7 +3,7 @@ import { userConstants } from '../constants/index';
 const initialState = {
   "availableRoles":["Guest"],
   "loggedIn":false,
-  "selectedRoles":["Guest"],
+  "currentRoles":["Guest"],
   "userName":"Guest"
 };
 
@@ -13,7 +13,7 @@ export default function users(state = initialState, action)
     case userConstants.UPDATE_USER_INFO:
       return action.user;
     case userConstants.SELECT_ROLES:
-      return Object.assign({}, state, {selectedRoles: action.selectedRoles});
+      return Object.assign({}, state, {currentRoles: action.currentRoles});
     default:
       return state
   }

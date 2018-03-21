@@ -1,6 +1,6 @@
 import React            from 'react';
 import be5              from '../../be5';
-import Document         from '../Document';
+import Document         from '../../containers/Document';
 import TableForm        from './TableForm';
 
 

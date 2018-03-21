@@ -19,7 +19,7 @@ be5.net.request = function (path, attr, callback) {
   }
 
   if (path === 'roleSelector') {
-    callback({"availableRoles":[],"selectedRoles":[]});
+    callback({"availableRoles":[],"currentRoles":[]});
     return;
   }
 

@@ -9,7 +9,7 @@ describe('user reducer', () => {
     ).toEqual({
       "availableRoles":["Guest"],
       "loggedIn":false,
-      "selectedRoles":["Guest"],
+      "currentRoles":["Guest"],
       "userName":"Guest"
     })
   });
@@ -21,14 +21,14 @@ describe('user reducer', () => {
         user: {
           "availableRoles":["Administrator","SystemDeveloper"],
           "loggedIn":true,
-          "selectedRoles":["Administrator","SystemDeveloper"],
+          "currentRoles":["Administrator","SystemDeveloper"],
           "userName":"Administrator"
         }
       })
     ).toEqual({
       "availableRoles":["Administrator","SystemDeveloper"],
       "loggedIn":true,
-      "selectedRoles":["Administrator","SystemDeveloper"],
+      "currentRoles":["Administrator","SystemDeveloper"],
       "userName":"Administrator"
     });
   });
@@ -38,16 +38,16 @@ describe('user reducer', () => {
       user({
         "availableRoles":["Administrator","SystemDeveloper"],
         "loggedIn":true,
-        "selectedRoles":["Administrator","SystemDeveloper"],
+        "currentRoles":["Administrator","SystemDeveloper"],
         "userName":"Administrator"
       }, {
         type: userConstants.SELECT_ROLES,
-        selectedRoles: ["Administrator"]
+        currentRoles: ["Administrator"]
       })
     ).toEqual({
       "availableRoles":["Administrator","SystemDeveloper"],
       "loggedIn":true,
-      "selectedRoles":["Administrator"],
+      "currentRoles":["Administrator"],
       "userName":"Administrator"
     });
   });

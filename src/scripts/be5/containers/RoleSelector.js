@@ -32,7 +32,7 @@ const RoleBox = (props) => {
 
   function onRoleChange(name)
   {
-    let roles = [...props.selectedRoles];
+    let roles = [...props.currentRoles];
     let containRoleIndex = roles.indexOf(name);
 
     if ( containRoleIndex !== -1) {
@@ -58,7 +58,7 @@ const RoleBox = (props) => {
   }
 
   const roleNodes = props.availableRoles.map((role) =>
-    <Role key={role} name={role} checked={props.selectedRoles.indexOf(role) !== -1} onChange={() => onRoleChange(role)}/>
+    <Role key={role} name={role} checked={props.currentRoles.indexOf(role) !== -1} onChange={() => onRoleChange(role)}/>
   );
 
   return (
@@ -82,8 +82,9 @@ const RoleBox = (props) => {
 RoleBox.propTypes = {
   size: PropTypes.string,
   className: PropTypes.string,
-  selectedRoles: PropTypes.array,
+  currentRoles: PropTypes.array,
   availableRoles: PropTypes.array,
+  toggleRoles: PropTypes.func.isRequired
 };
 
 
@@ -91,11 +92,16 @@ export {
   RoleBox
 };
 
+const mapStateToProps = state => ({
+  availableRoles: state.user.availableRoles || [],
+  currentRoles: state.user.currentRoles || []
+});
+
 const mapDispatchToProps = dispatch => ({
   toggleRoles: roles => dispatch(userActions.toggleRoles(roles))
 });
 
 export default connect(
-  userSelectors.getUserRoles,
+  mapStateToProps,
   mapDispatchToProps
 )(RoleBox)

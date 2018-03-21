@@ -1,7 +1,7 @@
 import './mockBe5Request'
 import React          from 'react';
 import renderer       from 'react-test-renderer';
-import Document       from '../../../src/scripts/be5/components/Document';
+import Document       from '../../../src/scripts/be5/containers/Document';
 import '../../../src/scripts/be5/index';
 import '../../../src/scripts/be5/be5styles';
 import be5init from '../../../src/scripts/be5/be5init';

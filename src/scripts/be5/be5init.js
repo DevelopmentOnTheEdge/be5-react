@@ -33,6 +33,7 @@ export default {
     bus.fire("mainModalClose");
 
     const state = documentState.get(be5.mainDocumentName);
+    console.log(state);
 
     if(state.value.links !== undefined && "#!" + state.value.data.links.self === be5.url.get()
       && state.value.data.links.self.startsWith('form'))
