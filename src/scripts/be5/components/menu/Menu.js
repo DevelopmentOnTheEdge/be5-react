@@ -1,6 +1,5 @@
 import React from 'react';
-
-import MenuFooter  from './MenuFooter';
+import bus           from '../../core/bus';
 import MenuBody    from './MenuBody';
 import MenuSearchField from './MenuSearchField';
 
@@ -11,6 +10,13 @@ class Menu extends React.Component{
     this.state = {};
 
     this._handleQueryChange = this._handleQueryChange.bind(this);
+    this.refresh = this.refresh.bind(this);
+  }
+
+  componentDidMount() {
+    //TODO move to init
+    bus.listen('RoleChanged', this.refresh);
+    bus.listen('RefreshAll', this.refresh);
   }
 
   render() {
@@ -18,7 +24,6 @@ class Menu extends React.Component{
       <div className="menuContainer">
         <MenuSearchField ref="searchfield" onChange={this._handleQueryChange}/>
         <MenuBody ref="menubody"/>
-        <MenuFooter/>
       </div>
     );
   };

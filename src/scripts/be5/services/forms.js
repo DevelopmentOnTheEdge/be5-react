@@ -87,7 +87,7 @@ export default
               if(attributes.details === 'refreshAll' || attributes.details === 'refreshAllAndGoBack')
               {
                 if(attributes.details === 'refreshAll'){
-                  be5.url.set("");
+                  bus.fire('CallDefaultAction');
                 }else{
                   window.history.back();
                 }

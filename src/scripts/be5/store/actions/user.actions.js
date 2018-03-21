@@ -26,7 +26,7 @@ function toggleRoles(roles) {
   return dispatch => {
     be5.net.request('userInfo/selectRoles', { roles: roles }, data => {
       dispatch({type: userConstants.SELECT_ROLES, currentRoles: data});
-      bus.fire('RefreshAll');
+      bus.fire('RoleChanged');
     });
   }
 }
