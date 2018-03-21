@@ -8,6 +8,7 @@ import SplitPane from 'react-split-pane';
 
 import 'brace/mode/mysql';
 import 'brace/theme/xcode';
+import 'brace/ext/language_tools';
 
 
 class QueryBuilder extends React.Component
@@ -20,6 +21,7 @@ class QueryBuilder extends React.Component
     };
 
     this.updateCode = this.updateCode.bind(this);
+    this.submit = this.submit.bind(this);
   }
 
   componentDidMount(){
@@ -34,11 +36,13 @@ class QueryBuilder extends React.Component
     this.setState({
       sql: newSql,
     });
+	}
 
-    be5.net.request('queryBuilder', { sql: newSql, _ts_: new Date().getTime(), values: this.props.value.params }, json => {
+  submit(){
+    be5.net.request('queryBuilder', { sql: this.state.sql, _ts_: new Date().getTime(), values: this.props.value.params }, json => {
       this.update(json);
     });
-	}
+  }
 
 	update(json){
     this.setState({
@@ -53,27 +57,37 @@ class QueryBuilder extends React.Component
       <div className="queryBuilder">
         <h1>Query Builder</h1>
         <SplitPane split="horizontal" defaultSize={300} >
-
           <AceEditor
             value={this.state.sql}
             mode="mysql"
             theme="xcode"
             fontSize={13}
             onChange={this.updateCode}
-            name="UNIQUE_ID_OF_DIV"
+            name="queryBuilder_editor"
             width='100%'
             height='100%'
+            enableBasicAutocompletion={false}
+            enableLiveAutocompletion={false}
             editorProps={{
               $blockScrolling: true,
-              enableBasicAutocompletion: true,
-              enableLiveAutocompletion: true,
-              enableSnippets: true,
+              enableSnippets: false,
               showLineNumbers: true,
               tabSize: 2,
             }}
+            commands={[{
+              name: 'Submit',
+              bindKey: {win: 'Alt-Enter', mac: 'Command-Enter'},
+              exec: () => {this.submit()}
+            }]}
           />
           <div>
-            <br/>
+            <button
+              className="btn btn-primary btn-sm mt-2 mb-2"
+              onClick={this.submit}
+              title='Alt-Enter'
+            >
+              Выполнить
+            </button>
             <Document frontendParams={{documentName: "queryBuilder-table"}} />
             <h2>Final sql</h2>
             <pre>{this.state.finalSql}</pre>
@@ -82,7 +96,7 @@ class QueryBuilder extends React.Component
 
       </div>
     );
-    //<button>Выполнить</button>
+    //
   }
 }
 

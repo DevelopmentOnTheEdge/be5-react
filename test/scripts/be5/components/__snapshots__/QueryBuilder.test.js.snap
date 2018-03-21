@@ -42,7 +42,7 @@ exports[`snapshot 1`] = `
       }
     >
       <div
-        id="UNIQUE_ID_OF_DIV"
+        id="queryBuilder_editor"
         style={
           Object {
             "height": "100%",
@@ -71,7 +71,13 @@ exports[`snapshot 1`] = `
       }
     >
       <div>
-        <br />
+        <button
+          className="btn btn-primary btn-sm mt-2 mb-2"
+          onClick={[Function]}
+          title="Alt-Enter"
+        >
+          Выполнить
+        </button>
         <div
           className="document-content"
           id="document-content___queryBuilder-table"
