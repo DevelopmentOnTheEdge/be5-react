@@ -2,8 +2,8 @@ import React          from 'react';
 import renderer       from 'react-test-renderer';
 import Navs     from '../../../../src/scripts/be5/components/Navs';
 import '../../../../src/scripts/be5/actions/text'
-import testUtils      from "../testUtils";
-import { Provider }   from 'react-redux'
+import {TestProvider}      from "../testUtils";
+
 
 test('test', () => {
   const steps = [
@@ -12,9 +12,9 @@ test('test', () => {
   ];
 
   const component = renderer.create(
-    <Provider store={testUtils.getStore()}>
+    <TestProvider>
       <Navs steps={steps} tabs />
-    </Provider>
+    </TestProvider>
   );
 
   expect(component.toJSON()).toMatchSnapshot();

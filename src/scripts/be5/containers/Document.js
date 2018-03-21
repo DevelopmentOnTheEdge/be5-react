@@ -86,7 +86,7 @@ class Document extends React.Component
     const loadingItem = null;//this.state.loading
       //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
 
-    const devRole = this.props.currentRoles.indexOf(be5Const.ROLE_SYSTEM_DEVELOPER) !== -1;
+    const devRole = this.props.currentRoles && this.props.currentRoles.indexOf(be5Const.ROLE_SYSTEM_DEVELOPER) !== -1;
 
     const devTools = (
       <span onClick={this.refresh} className={"document-reload float-right"}>

@@ -1,7 +1,6 @@
 import React          from 'react';
 import renderer       from 'react-test-renderer';
-import testUtils      from "../../testUtils";
-import { Provider }   from 'react-redux';
+import {TestProvider}      from "../../testUtils";
 import be5            from '../../../../../src/scripts/be5/be5';
 import forms          from '../../../../../src/scripts/be5/services/forms';
 import Table          from '../../../../../src/scripts/be5/components/tables/Table';
@@ -39,9 +38,9 @@ test('test datatables', () => {
 
 test('Table', () => {
   const component = renderer.create(
-    <Provider store={testUtils.getStore()}>
+    <TestProvider>
       <Table value={testData.simpleTable}/>
-    </Provider>
+    </TestProvider>
   );
 
   expect(component.toJSON()).toMatchSnapshot();
@@ -49,9 +48,9 @@ test('Table', () => {
 
 test('TableForm', () => {
   const component = renderer.create(
-    <Provider store={testUtils.getStore()}>
+    <TestProvider>
       <TableForm value={testData.simpleTable}/>
-    </Provider>
+    </TestProvider>
   );
 
   expect(component.toJSON()).toMatchSnapshot();
@@ -59,9 +58,9 @@ test('TableForm', () => {
 
 test('FormTable', () => {
   const component = renderer.create(
-    <Provider store={testUtils.getStore()}>
+    <TestProvider>
       <FormTable value={testData.simpleTable}/>
-    </Provider>
+    </TestProvider>
   );
 
   expect(component.toJSON()).toMatchSnapshot();
@@ -69,9 +68,9 @@ test('FormTable', () => {
 
 test('TableFormRow', () => {
   const component = renderer.create(
-    <Provider store={testUtils.getStore()}>
+    <TestProvider>
       <TableFormRow value={testData.simpleTable}/>
-    </Provider>
+    </TestProvider>
   );
 
   expect(component.toJSON()).toMatchSnapshot();

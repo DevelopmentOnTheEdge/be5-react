@@ -2,8 +2,8 @@ import ReactDOM         from 'react-dom';
 import React            from 'react';
 import { createStore, applyMiddleware }  from 'redux'
 import thunkMiddleware  from 'redux-thunk';
-import { createLogger } from 'redux-logger'
-import { Provider }     from 'react-redux'
+import { createLogger } from 'redux-logger';
+import { Provider }     from 'react-redux';
 import App              from './components/Application';
 import rootReducer      from './store/reducers'
 import be5init          from './be5init';

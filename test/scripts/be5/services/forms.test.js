@@ -1,7 +1,6 @@
 import React          from 'react';
 import renderer       from 'react-test-renderer';
-import testUtils      from "../testUtils";
-import { Provider }   from 'react-redux';
+import {TestProvider} from "../testUtils";
 import Document       from '../../../../src/scripts/be5/containers/Document';
 import '../../../../src/scripts/be5/components/forms/Form';
 import be5            from '../../../../src/scripts/be5/be5';
@@ -60,9 +59,9 @@ test('load', () => {
 
 test('performOperationResult finished', () => {
   const component = renderer.create(
-    <Provider store={testUtils.getStore()}>
+    <TestProvider>
       <Document frontendParams={{documentName: "test"}}/>
-    </Provider>
+    </TestProvider>
   );
   //const mockFunc = jest.fn();
   const res = {
@@ -118,9 +117,9 @@ test('performOperationResult redirect be5.mainDocumentName', () => {
 
 test('load and _performForm test', () => {
   const component = renderer.create(
-    <Provider store={testUtils.getStore()}>
+    <TestProvider>
       <Document frontendParams={{documentName: "test"}}/>
-    </Provider>
+    </TestProvider>
   );
   //be5.url.set = jest.fn();
   be5.net.request = (action, requestParams, data) => {data(testData.emptyForm, {documentName: 'test'})};

@@ -1,16 +1,15 @@
 import React    from 'react';
 import renderer from 'react-test-renderer';
-import testUtils      from "../testUtils";
-import { Provider }   from 'react-redux';
+import {TestProvider}      from "../testUtils";
 import SideBar     from  '../../../../src/scripts/be5/components/SideBar';
 import '../mockBe5Request'
 
 it('snapshot sideBar', () => {
 
   const component = renderer.create(
-    <Provider store={testUtils.getStore()}>
+    <TestProvider>
       <SideBar />
-    </Provider>
+    </TestProvider>
   );
 
   expect(component.toJSON()).toMatchSnapshot();
