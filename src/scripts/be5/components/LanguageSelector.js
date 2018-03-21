@@ -45,7 +45,7 @@ class LanguageList extends React.Component {
   }
 }
 
- class LanguageBox extends React.Component {
+class LanguageBox extends React.Component {
   constructor(props) {
     super(props);
 
@@ -53,15 +53,15 @@ class LanguageList extends React.Component {
   };
 
   componentDidMount() {
-    this.refresh();
+    //this.refresh();
   };
   
-  refresh() {
-    be5.net.request('languageSelector', {}, function(data) {
-        be5.locale.set(data.selected, data.messages);
-        this.setState({ data: {selected: data.selected, languages: data.languages} });
-      }.bind(this));
-  };
+  // refresh() {
+  //   be5.net.request('languageSelector', {}, function(data) {
+  //       be5.locale.set(data.selected, data.messages);
+  //       this.setState({ data: {selected: data.selected, languages: data.languages} });
+  //     }.bind(this));
+  // };
   
   changeLanguage(language) {
     be5.net.request('languageSelector/select', { language: language }, function(data) {

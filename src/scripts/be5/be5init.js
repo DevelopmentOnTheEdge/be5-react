@@ -61,10 +61,10 @@ export default {
       });
     });
 
-    // be5.net.request('languageSelector', {}, function(data) {
-    //   be5.locale.set(data.selected, data.messages);
-    //   be5.url.process(be5.mainDocumentName, be5.url.get());
-    // });
+    be5.net.request('languageSelector', {}, function(data) {
+      be5.locale.set(data.selected, data.messages);
+      be5.url.process(be5.mainDocumentName, be5.url.get());
+    });
 
     bus.listen('RefreshAll', () => {
       store.dispatch(userActions.updateUserInfo());
