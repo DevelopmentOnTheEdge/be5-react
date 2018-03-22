@@ -3,7 +3,7 @@ import renderer       from 'react-test-renderer';
 import FormWizard     from '../../../../src/scripts/be5/components/FormWizard';
 import be5            from '../../../../src/scripts/be5/be5';
 import {TestProvider}      from "../testUtils";
-import '../../../../src/scripts/be5/actions/text'
+import '../../../../src/scripts/be5/routes/text'
 
 test('test', () => {
   const steps = [

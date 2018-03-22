@@ -2,10 +2,10 @@ import React          from 'react';
 import be5            from '../be5';
 import changeDocument from '../core/changeDocument';
 import QueryBuilder   from '../components/QueryBuilder';
-import actionsCollection from '../services/actionsCollection'
+import {registerRoute} from '../core/routes'
 
 
-const action = function(documentName, params)
+const route = function(documentName, params)
 {
   const requestParams = {
     values: be5.net.paramString(params),
@@ -17,6 +17,6 @@ const action = function(documentName, params)
   });
 };
 
-actionsCollection.registerAction("qBuilder", action);
+registerRoute("queryBuilder", route);
 
-export default action;
+export default route;

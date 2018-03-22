@@ -4,7 +4,7 @@ import MenuNode   from './MenuNode';
 
 
 const propTypes = {
-  menu: PropTypes.shape({}).isRequired
+  menu: PropTypes.shape({})
 };
 
 class MenuBody extends Component
@@ -17,6 +17,9 @@ class MenuBody extends Component
   }
 
   render() {
+    if(this.props.menu === null){
+      return <p>Loading...</p>
+    }
     const filteredRoot = this._getFilteredRoot();
     const rootNodes = filteredRoot.map(node => (
       <MenuNode key={JSON.stringify(node)} data={node} level={1}/>

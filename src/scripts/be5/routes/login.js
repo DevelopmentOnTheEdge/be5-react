@@ -1,16 +1,16 @@
 import React          from 'react';
 import be5            from '../be5';
 import forms          from '../services/forms';
-import actionsCollection from '../services/actionsCollection'
+import {registerRoute} from '../core/routes'
 
 
-const action = function()
+const route = function()
 {
   forms.load(forms.getOperationParams('form/users/All records/Login'), {
-    documentName: be5.mainModalDocumentName
+    documentName: be5.MAIN_MODAL_DOCUMENT
   });
 };
 
-actionsCollection.registerAction("login", action);
+registerRoute("login", route);
 
-export default action;
+export default route;

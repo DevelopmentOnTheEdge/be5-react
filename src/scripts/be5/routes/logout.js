@@ -2,12 +2,12 @@ import React          from 'react';
 import be5            from '../be5'
 import bus            from '../core/bus';
 import forms          from '../services/forms';
-import actionsCollection from '../services/actionsCollection'
+import {registerRoute} from '../core/routes'
 
 
-const action = function() {
+const route = function() {
   forms.load(forms.getOperationParams('form/users/All records/Logout'), {
-    documentName: be5.mainDocumentName, onSuccess: function (result, applyParams) {
+    documentName: be5.MAIN_DOCUMENT, onSuccess: function (result, applyParams) {
       //not used document.cookie = 'be_auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 
     }
@@ -16,6 +16,6 @@ const action = function() {
 
 };
 
-actionsCollection.registerAction("logout", action);
+registerRoute("logout", route);
 
-export default action;
+export default route;

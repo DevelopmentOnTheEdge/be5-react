@@ -1,9 +1,9 @@
 import React             from 'react';
 import forms             from '../services/forms';
-import actionsCollection from '../services/actionsCollection'
+import {registerRoute} from '../core/routes'
 
 
-const action = function(documentName, entity, query, operation, operationParams) {
+const route = function(documentName, entity, query, operation, operationParams) {
 
   const params = {
     entity: entity,
@@ -16,6 +16,6 @@ const action = function(documentName, entity, query, operation, operationParams)
   forms.load(params, {documentName: documentName});
 };
 
-actionsCollection.registerAction("form", action);
+registerRoute("form", route);
 
-export default action;
+export default route;

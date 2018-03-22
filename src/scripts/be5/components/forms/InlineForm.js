@@ -3,6 +3,7 @@ import classNames      from 'classnames';
 import be5             from '../../be5';
 import Form            from './Form';
 import {Property}      from 'beanexplorer-react';
+import {registerDocument} from '../../core/documents';
 
 
 class InlineForm extends Form
@@ -43,6 +44,6 @@ class InlineForm extends Form
 
 }
 
-be5.ui.forms.registerForm('inline', InlineForm);
+registerDocument('inlineForm', InlineForm);
 
 export default InlineForm;

@@ -25,8 +25,10 @@ export default {
     Submit: 'Submit',
     submitted: 'In progress...',
 
-    formComponentNotFound:  'Form component not found: ',
+    formComponentNotFound:  'Document component not found: ',
     tableComponentNotFound: 'Table component not found: ',
+    componentForTypeNotRegistered:  'Component for type "$type" is not registered.',
+
     helpInfo: "Help",
     details: "Details",
 
@@ -77,6 +79,8 @@ export default {
 
     formComponentNotFound:  'Компонент формы не найден: ',
     tableComponentNotFound: 'Компонент таблицы не найден: ',
+    componentForTypeNotRegistered:  'Компонент для типа "$type" не зарегистрирован.',
+
     helpInfo: "Справка",
     details: "Подробнее",
 

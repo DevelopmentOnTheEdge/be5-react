@@ -2,12 +2,12 @@ import be5 from './be5.js';
 import be5init from './be5init.js';
 //import be5styles from './be5styles.js';
 import * as constants from './constants.js';
-import preconditions from './preconditions.js';
+import preconditions from './utils/preconditions.js';
 
 // core
 import bus from './core/bus.js';
 import changeDocument from './core/changeDocument.js';
-import documentUtils from './core/documentUtils.js';
+import documentUtils from './utils/documentUtils.js';
 
 // components
 import Application      from './components/Application.js';
@@ -53,22 +53,21 @@ import MenuFooter      from './components/menu/MenuFooter.js';
 import MenuNode        from './components/menu/MenuNode.js';
 
 // actions
-import formAction      from './actions/form.js';
-import loadingAction   from './actions/loading.js';
-import loginAction     from './actions/login.js';
-import logoutAction    from './actions/logout.js';
-import qBuilderAction  from './actions/qBuilder.js';
-import staticAction    from './actions/static.js';
-import tableAction     from './actions/table.js';
-import textAction      from './actions/text.js';
+import formAction      from './routes/form.js';
+import loadingAction   from './routes/loading.js';
+import loginAction     from './routes/login.js';
+import logoutAction    from './routes/logout.js';
+import queryBuilderAction  from './routes/queryBuilder.js';
+import staticAction    from './routes/static.js';
+import tableAction     from './routes/table.js';
+import textAction      from './routes/text.js';
 
 // services
 import action            from './services/actions.js';
 import forms             from './services/forms.js';
 import tables            from './services/tables.js'
-import formsCollection  from './services/formsCollection.js';
-import tablesCollection from './services/tablesCollection.js';
-import actionsCollection from './services/actionsCollection.js';
+import * as documents from './core/documents.js';
+import * as routes  from './core/routes.js';
 
 
 export {
@@ -81,6 +80,8 @@ export {
   bus,
   changeDocument,
   documentUtils,
+  documents,
+  routes,
 
   // components
   Application,
@@ -131,7 +132,7 @@ export {
   loadingAction,
   loginAction,
   logoutAction,
-  qBuilderAction,
+  queryBuilderAction,
   staticAction,
   tableAction,
   textAction,
@@ -139,8 +140,5 @@ export {
   // services
   action,
   forms,
-  tables,
-  formsCollection,
-  tablesCollection,
-  actionsCollection
+  tables
 }

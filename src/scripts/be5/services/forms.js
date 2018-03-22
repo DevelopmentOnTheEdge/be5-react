@@ -1,11 +1,11 @@
 import be5              from '../be5';
 import bus              from '../core/bus';
-import Preconditions    from '../preconditions';
+import Preconditions    from '../utils/preconditions';
 import changeDocument   from '../core/changeDocument';
 import FinishedResult   from '../components/forms/FinishedResult';
 import StaticPage       from '../components/StaticPage';
 import ErrorPane        from '../components/ErrorPane';
-import formsCollection  from './formsCollection.js';
+import {getDocument}    from '../core/documents';
 import Table            from "../components/tables/Table";
 
 
@@ -78,7 +78,7 @@ export default
                                             && frontendParams.parentDocumentName !== frontendParams.documentName)
           {
             //console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
-            bus.fire(frontendParams.parentDocumentName + be5.documentRefreshSuffix)
+            bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX)
           }
 
           switch (attributes.status) {
@@ -92,7 +92,7 @@ export default
                   window.history.back();
                 }
                 bus.fire('RefreshAll');
-                if(documentName === be5.mainModalDocumentName)bus.fire("mainModalClose");
+                if(documentName === be5.MAIN_MODAL_DOCUMENT)bus.fire("mainModalClose");
               }
               else if(attributes.details.startsWith("http://")
                       || attributes.details.startsWith("https://")
@@ -102,7 +102,7 @@ export default
               }
               else
               {
-                if (documentName === be5.mainDocumentName)
+                if (documentName === be5.MAIN_DOCUMENT)
                 {
                   be5.url.set(attributes.details);
                 }
@@ -120,7 +120,7 @@ export default
               }
               return;
             case 'finished':
-              if(documentName === be5.mainModalDocumentName) {
+              if(documentName === be5.MAIN_MODAL_DOCUMENT) {
                 bus.fire("alert", {msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success'});
                 bus.fire("mainModalClose");
               }else{
@@ -130,7 +130,7 @@ export default
             case 'document':
               const tableJson = Object.assign({}, attributes.details, {meta: json.meta});
               changeDocument(frontendParams.parentDocumentName, {component: Table, value: tableJson});
-              if(documentName === be5.mainModalDocumentName) {
+              if(documentName === be5.MAIN_MODAL_DOCUMENT) {
                 bus.fire("mainModalClose");
               }
               return;
@@ -167,14 +167,14 @@ export default
     }
 
     const formComponentName = json.data.attributes.layout.type || 'form';
-    const formComponent = formsCollection.getForm(formComponentName);
+    const formComponent = getDocument(formComponentName);
 
-    if(formComponentName === 'modal' || frontendParams.documentName === be5.mainModalDocumentName)
+    if(formComponentName === 'modal' || frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT)
     {
       bus.fire("mainModalOpen");
 
-      changeDocument(be5.mainModalDocumentName,
-        { component: formsCollection.getForm('modal'), value: json, frontendParams: frontendParams });
+      changeDocument(be5.MAIN_MODAL_DOCUMENT,
+        { component: formComponent, value: json, frontendParams: frontendParams });
     }
     else
     {
@@ -196,7 +196,7 @@ export default
       self = props.value.errors[0].links.self;
     }
 
-    if(props.frontendParams && props.frontendParams.documentName === be5.mainDocumentName
+    if(props.frontendParams && props.frontendParams.documentName === be5.MAIN_DOCUMENT
                             && be5.url.get() !== '#!' + self)
     {
 

@@ -3,9 +3,10 @@ import renderer       from 'react-test-renderer';
 import {TestProvider} from "../testUtils";
 import Document       from '../../../../src/scripts/be5/containers/Document';
 import '../../../../src/scripts/be5/components/forms/Form';
+import '../../../../src/scripts/be5/components/forms/FinishedResult';
 import be5            from '../../../../src/scripts/be5/be5';
 import forms          from '../../../../src/scripts/be5/services/forms';
-import testData       from '../testData.json'
+import testData       from '../testData.json';
 
 
 test('load', () => {
@@ -109,7 +110,7 @@ test('performOperationResult redirect be5.mainDocumentName', () => {
     },
     "meta":{"_ts_":"1503244989281"}
   };
-  forms._performOperationResult(res, {documentName: be5.mainDocumentName});
+  forms._performOperationResult(res, {documentName: be5.MAIN_DOCUMENT});
 
   expect(be5.url.set.mock.calls.length).toBe(1);
   //expect(mockFunc.mock.calls.length).toBe(1);

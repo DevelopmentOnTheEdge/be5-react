@@ -25,7 +25,7 @@ class ApplicationWithBe5Menu extends React.Component
         <Be5Menu ref="menu" show={true}/>
         <div className="container">
           <div className="row">
-            <Document ref="document" frontendParams={{documentName: be5.mainDocumentName}} />
+            <Document ref="document" frontendParams={{documentName: be5.MAIN_DOCUMENT}} />
           </div>
         </div>
       </div>

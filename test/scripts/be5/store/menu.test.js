@@ -13,7 +13,7 @@ test('test updateUserInfo', () => {
   const store = testUtils.getStore();
 
   expect(getMenu(store.getState()))
-    .toEqual({"root": [{"title": "Loading..."}]});
+    .toEqual(null);
 
   store.dispatch(fetchMenu());
 

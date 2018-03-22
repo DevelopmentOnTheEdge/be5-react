@@ -1,11 +1,9 @@
 import React    from 'react';
-import {getBaseUrl}    from './utils';
-import messages from './messages';
+import {getBaseUrl}    from './utils/utils';
+import messages from './core/messages';
 import bus      from './core/bus';
 import changeDocument from './core/changeDocument';
-import actionsCollection from './services/actionsCollection'
-import tablesCollection from './services/tablesCollection'
-import formsCollection from './services/formsCollection'
+import {getRoute} from './core/routes'
 
 
 const be5 = {
@@ -17,9 +15,11 @@ const be5 = {
   },
 
   messages: messages.en,
-  mainDocumentName: 'MainDocument',
-  mainModalDocumentName: 'MainModalDocument',
-  documentRefreshSuffix: "_refresh",
+
+  //todo move to constants
+  MAIN_DOCUMENT: 'MainDocument',
+  MAIN_MODAL_DOCUMENT: 'MainModalDocument',
+  DOCUMENT_REFRESH_SUFFIX: "_refresh",
 
   appInfo: {},
 
@@ -95,19 +95,12 @@ const be5 = {
   },
 
   ui: {
-    actions: actionsCollection,
-
-    tables:  tablesCollection,
-
-    forms: formsCollection,
-
     setTitle(docTitle) {
       let titleComponents = [docTitle, be5.appInfo.title];
       document.title = titleComponents.filter(function(c) {
         return typeof(c) === 'string';
       }).join(' - ');
     },
-
   },
 
   url: {
@@ -125,7 +118,7 @@ const be5 = {
       if(be5.url.get() !== url){
         document.location.hash = url;
       }else{
-        be5.url.process(be5.mainDocumentName, url);
+        be5.url.process(be5.MAIN_DOCUMENT, url);
       }
     },
 
@@ -211,7 +204,7 @@ const be5 = {
       if (hasHashParam)positional.push(hashParams);
 
       const actionName = urlParts[0];
-      const action = actionsCollection.getAction(actionName);
+      const action = getRoute(actionName);
 
       if(action !== undefined){
         //console.log("process", documentName, url);

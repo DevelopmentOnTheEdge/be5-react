@@ -1,5 +1,5 @@
 import bus from './bus';
-import Preconditions    from '../preconditions';
+import Preconditions    from '../utils/preconditions';
 
 export default (documentName, value) => {
   Preconditions.passed(documentName);

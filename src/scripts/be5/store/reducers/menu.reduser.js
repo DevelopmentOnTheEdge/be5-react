@@ -1,10 +1,7 @@
 import * as types from '../constants/menu.constants';
 
-const initialState = {
-  root: [ { title: 'Loading...' } ]
-};
 
-export default function users(state = initialState, action)
+export default function users(state = null, action)
 {
   switch (action.type) {
     case types.UPDATE_MENU:

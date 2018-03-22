@@ -2,11 +2,11 @@ import PropTypes  from 'prop-types';
 import React, {Component} from 'react';
 import MenuBody        from './MenuBody';
 import MenuSearchField from './MenuSearchField';
-import {arraysEqual}    from '../../utils';
+import {arraysEqual}    from '../../utils/utils';
 
 
 const propTypes = {
-  menu: PropTypes.shape({}).isRequired,
+  menu: PropTypes.shape({}),
   currentRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchMenu: PropTypes.func.isRequired,
 };
@@ -23,7 +23,7 @@ class Menu extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { currentRoles, fetchMenu } = this.props;
+    const { currentRoles, fetchMenu, menu } = this.props;
     if (!arraysEqual(currentRoles, nextProps.currentRoles)) {
       fetchMenu();
     }

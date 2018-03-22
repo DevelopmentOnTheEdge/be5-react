@@ -1,9 +1,9 @@
 import React             from 'react';
 import tables            from '../services/tables';
-import actionsCollection from '../services/actionsCollection'
+import {registerRoute} from '../core/routes'
 
 
-const action = function(documentName, entity, query, params) {
+const route = function(documentName, entity, query, params) {
 
   const paramsObject = {
     entity: entity,
@@ -14,6 +14,6 @@ const action = function(documentName, entity, query, params) {
 
 };
 
-actionsCollection.registerAction("table", action);
+registerRoute("table", route);
 
-export default action;
+export default route;

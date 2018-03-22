@@ -1,8 +1,9 @@
 import React          from 'react';
 import changeDocument from '../core/changeDocument';
-import actionsCollection from '../services/actionsCollection'
+import {registerRoute} from '../core/routes'
 
-const action = function(documentName, page) {
+
+const route = function(documentName, page) {
   changeDocument(documentName, { component: Loading })
 };
 
@@ -13,6 +14,6 @@ class Loading extends React.Component
   }
 }
 
-actionsCollection.registerAction("loading", action);
+registerRoute("loading", route);
 
-export default action;
+export default route;

@@ -3,15 +3,15 @@ import bus from './core/bus';
 import documentState      from './core/documentState';
 import { updateUserInfo } from './store/actions/user.actions'
 
-import './actions/loading';
-import './actions/form';
-import './actions/login';
-import './actions/logout';
-import './actions/static';
-import './actions/table';
-import './actions/qBuilder';
-import './actions/text';
-import './actions/login';
+import './routes/loading';
+import './routes/form';
+import './routes/login';
+import './routes/logout';
+import './routes/static';
+import './routes/table';
+import './routes/queryBuilder';
+import './routes/text';
+import './routes/login';
 
 
 import './components/tables/TableForm';
@@ -32,7 +32,7 @@ export default {
   {
     bus.fire("mainModalClose");
 
-    const state = documentState.get(be5.mainDocumentName);
+    const state = documentState.get(be5.MAIN_DOCUMENT);
     console.log(state);
 
     if(state.value.links !== undefined && "#!" + state.value.data.links.self === be5.url.get()
@@ -42,7 +42,7 @@ export default {
     }
     else
     {
-      be5.url.process(be5.mainDocumentName, be5.url.get());
+      be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
     }
   },
 
@@ -67,7 +67,7 @@ export default {
 
     be5.net.request('languageSelector', {}, function(data) {
       be5.locale.set(data.selected, data.messages);
-      be5.url.process(be5.mainDocumentName, be5.url.get());
+      be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
     });
   }
 }

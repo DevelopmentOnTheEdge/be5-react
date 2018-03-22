@@ -1,9 +1,6 @@
 import React from 'react';
 import be5               from '../../../src/scripts/be5/be5';
-import actionsCollection from '../../../src/scripts/be5/services/actionsCollection';
-import renderer from 'react-test-renderer';
-import ReactShallowRenderer from 'react-test-renderer/shallow';
-import {shallow, mount, render} from 'enzyme';
+import {getRoute, registerRoute} from '../../../src/scripts/be5/core/routes';
 
 
 test('be5.locale', () => {
@@ -28,8 +25,8 @@ test('be5.url', () =>
 
   const action = jest.fn();
 
-  actionsCollection.registerAction('form', action);
-  expect(actionsCollection.getAction('form')).toBe(action);
+  registerRoute('form', action);
+  expect(getRoute('form')).toBe(action);
 
   be5.url.process('testDoc', '#!form/users/All records/user_name=Guest');
 

@@ -7,6 +7,7 @@ import PropertySet     from 'beanexplorer-react';
 import JsonPointer     from 'json-pointer';
 import ErrorPane       from "../ErrorPane";
 import Transition      from 'react-transition-group/Transition';
+import {registerDocument} from '../../core/documents';
 
 
 class Form extends React.Component
@@ -199,6 +200,6 @@ Form.propTypes = {
   frontendParams: PropTypes.object.isRequired
 };
 
-be5.ui.forms.registerForm('form', Form);
+registerDocument('form', Form);
 
 export default Form;

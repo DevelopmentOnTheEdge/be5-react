@@ -1,6 +1,8 @@
 import React          from 'react';
 import PropTypes      from 'prop-types';
 import be5            from '../be5';
+import {registerDocument} from '../core/documents';
+
 
 class StaticPage extends React.Component
 {
@@ -32,7 +34,7 @@ class StaticPage extends React.Component
   {
     return {
       data: {
-        type: 'staticPage',
+        type: 'static',
         attributes: {
           title: title,
           content: text
@@ -44,10 +46,6 @@ class StaticPage extends React.Component
   }
 
 }
-
-// StaticPage.defaultProps = {
-//   value: ''
-// };
 
 StaticPage.propTypes =  {
   value: PropTypes.shape({
@@ -62,5 +60,7 @@ StaticPage.propTypes =  {
     })
   }),
 };
+
+registerDocument("static", StaticPage);
 
 export default StaticPage;

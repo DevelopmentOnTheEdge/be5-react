@@ -5,6 +5,8 @@ import Document       from '../containers/Document';
 import Tables         from '../services/tables';
 import AceEditor from 'react-ace';
 import SplitPane from 'react-split-pane';
+import {registerDocument} from "../core/documents";
+import {getModelByID} from "../utils/documentUtils";
 
 import 'brace/mode/mysql';
 import 'brace/theme/xcode';
@@ -16,8 +18,8 @@ class QueryBuilder extends React.Component
   constructor(props) {
     super(props);
     this.state = {
-      sql: this.props.value.included[0].attributes.sql,
-      finalSql: this.props.value.included[0].attributes.finalSql
+      sql: this.props.value.data.attributes.sql,
+      finalSql: this.props.value.data.attributes.finalSql
     };
 
     this.updateCode = this.updateCode.bind(this);
@@ -46,9 +48,12 @@ class QueryBuilder extends React.Component
 
 	update(json){
     this.setState({
-      finalSql: json.included[0].attributes.finalSql,
+      finalSql: json.data.attributes.finalSql,
     });
-    Tables._performData(json, 'queryBuilder-table');
+
+    Tables._performData(
+      getModelByID(json.included, json.meta, "queryTable")
+    , 'queryBuilder-table');
   }
 
   render() {
@@ -99,5 +104,7 @@ class QueryBuilder extends React.Component
     //
   }
 }
+
+registerDocument("queryBuilder", QueryBuilder);
 
 export default QueryBuilder;

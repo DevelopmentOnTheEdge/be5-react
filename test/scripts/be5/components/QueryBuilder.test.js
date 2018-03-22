@@ -7,12 +7,17 @@ import testData       from '../testData.json'
 
 
 test('snapshot', () => {
-  const json = Object.assign({}, testData.simpleTable, {
-    included: [{attributes: {
-      finalSql: 'SELECT * FROM users',
-      sql: 'select * from users'
-    }}]
-  });
+  const json = {
+    data: {
+      type: "queryBuilder",
+      attributes: {
+        finalSql: 'SELECT * FROM users',
+        sql: 'select * from users'
+      }
+    },
+    included: [Object.assign({}, testData.simpleTable.data, {id: "queryTable"})],
+    meta: testData.simpleTable.meta
+  };
 
   const component = renderer.create(
     <TestProvider>

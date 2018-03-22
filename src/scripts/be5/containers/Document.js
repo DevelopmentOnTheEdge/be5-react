@@ -6,8 +6,11 @@ import documentState from '../core/documentState';
 import { connect }    from 'react-redux'
 import { getCurrentRoles } from '../store/selectors/user.selectors'
 import {ROLE_SYSTEM_DEVELOPER} from "../constants";
+import {getDocument} from "../core/documents";
 
 import reloadImg from '../../../images/reload.png';
+import StaticPage from "../components/StaticPage";
+import ErrorPane from "../components/ErrorPane";
 
 
 class Document extends React.Component
@@ -58,14 +61,14 @@ class Document extends React.Component
       // if(!data.error)this.setState({ error: null });
     });
 
-    bus.replaceListeners(this.props.frontendParams.documentName + be5.documentRefreshSuffix, () => {
+    bus.replaceListeners(this.props.frontendParams.documentName + be5.DOCUMENT_REFRESH_SUFFIX, () => {
       this.refresh();
     });
   }
 
   componentWillUnmount(){
     bus.replaceListeners(this.props.frontendParams.documentName, data => {});
-    bus.replaceListeners(this.props.frontendParams.documentName + be5.documentRefreshSuffix, data => {});
+    bus.replaceListeners(this.props.frontendParams.documentName + be5.DOCUMENT_REFRESH_SUFFIX, data => {});
   }
 
   reload() {
@@ -98,26 +101,61 @@ class Document extends React.Component
     let contentItem = null;
     if(this.state.value)be5.ui.setTitle(this.state.value.title);
 
-    if(this.state.component){
-      if (this.state.component === 'text')
+    if(this.state.value.data && this.state.value.data.type)
+    {
+      let documentType = this.state.value.data.type;
+
+      if(this.state.value.data.attributes.layout !== undefined &&
+         this.state.value.data.attributes.layout.type !== undefined)
       {
+        documentType = this.state.value.data.attributes.layout.type;
+      }
+
+      if(this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT)
+      {
+        documentType = 'modalForm';
+      }
+
+      const DocumentContent = getDocument(documentType);
+
+      if(DocumentContent === undefined)
+      {
+        const value = StaticPage.createValue(
+          be5.messages.componentForTypeNotRegistered.replace( '$type', documentType), '');
+
         contentItem = (
-           <h1>{this.state.value}</h1>
-        );
-      }else if (this.state.component !== null) {
-        const DocumentContent = this.state.component;
+          <StaticPage
+            ref="documentContent"
+            value={value}
+            frontendParams={this.getComponentFrontendParams()}
+          />
+        )
+      }
+      else
+      {
         contentItem = (
           <div>
             {devRole ? devTools : null}
             <DocumentContent
-                  ref="documentContent"
-                  value={this.state.value}
-                  frontendParams={this.getComponentFrontendParams()}
+              ref="documentContent"
+              value={this.state.value}
+              frontendParams={this.getComponentFrontendParams()}
             />
           </div>
         )
       }
-    }else{
+    }
+    else if(this.state.value.errors)
+    {
+      contentItem = (
+        <ErrorPane
+          ref="documentContent"
+          value={this.state.value}
+          frontendParams={this.getComponentFrontendParams()}
+        />
+      )
+    }
+    else{
       if (this.state.value) {
         contentItem = (
           <h1>{this.state.value}</h1>

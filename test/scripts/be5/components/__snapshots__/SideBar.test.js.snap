@@ -14,20 +14,9 @@ exports[`snapshot sideBar 1`] = `
       type="text"
       value=""
     />
-    <div
-      className="menu"
-    >
-      <div
-        className="menuNode"
-      >
-        <span
-          className="rootMenuItem menuItemWithoutRef"
-        >
-          Loading...
-        </span>
-        <div />
-      </div>
-    </div>
+    <p>
+      Loading...
+    </p>
   </div>
   <div
     className="menuFooter"

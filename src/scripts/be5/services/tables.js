@@ -1,10 +1,10 @@
 import be5                 from '../be5';
 import changeDocument      from '../core/changeDocument';
-import Preconditions       from '../preconditions';
+import Preconditions       from '../utils/preconditions';
 import StaticPage          from '../components/StaticPage';
 import ErrorPane           from "../components/ErrorPane";
 import Table               from "../components/tables/Table";
-import tablesCollection   from './tablesCollection';
+import {getDocument}       from '../core/documents';
 
 
 export default
@@ -44,8 +44,8 @@ export default
   _performData(json, documentName)
   {
     if(json.data !== undefined){
-      const tableComponentName = json.data.attributes.layout.type;
-      const tableComponent = tablesCollection.getTable(tableComponentName);
+      const tableComponentName = json.data.attributes.layout.type || 'table';
+      const tableComponent = getDocument(tableComponentName);
 
       if(tableComponent === undefined){
         changeDocument(documentName, { component: StaticPage,

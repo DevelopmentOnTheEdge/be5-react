@@ -5,6 +5,7 @@ import Document         from '../../containers/Document';
 import Table            from './Table';
 import changeDocument   from '../../core/changeDocument';
 import HelpInfo         from '../../components/HelpInfo';
+import {registerDocument} from '../../core/documents';
 
 
 class TableForm extends React.Component
@@ -45,6 +46,6 @@ class TableForm extends React.Component
 
 }
 
-be5.ui.tables.registerTable('tableForm', TableForm);
+registerDocument('tableForm', TableForm);
 
 export default TableForm;

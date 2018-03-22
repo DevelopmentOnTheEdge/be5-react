@@ -2,10 +2,10 @@ import React          from 'react';
 import be5            from '../be5';
 import changeDocument from '../core/changeDocument';
 import StaticPage     from '../components/StaticPage';
-import actionsCollection from '../services/actionsCollection'
+import {registerRoute} from '../core/routes'
 
 
-const action = function(documentName, page)
+const route = function(documentName, page)
 {
   const requestParams = {
     _ts_: new Date().getTime()
@@ -16,6 +16,6 @@ const action = function(documentName, page)
   });
 };
 
-actionsCollection.registerAction("static", action);
+registerRoute("static", route);
 
-export default action;
+export default route;
