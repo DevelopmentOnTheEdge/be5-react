@@ -4,8 +4,8 @@ import be5 from '../be5';
 import bus from '../core/bus';
 import documentState from '../core/documentState';
 import { connect }    from 'react-redux'
-import { userSelectors } from '../store/selectors/index'
-import {be5Const} from "../store/constants/be5.constants";
+import { getCurrentRoles } from '../store/selectors/user.selectors'
+import {ROLE_SYSTEM_DEVELOPER} from "../constants";
 
 import reloadImg from '../../../images/reload.png';
 
@@ -86,7 +86,7 @@ class Document extends React.Component
     const loadingItem = null;//this.state.loading
       //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
 
-    const devRole = this.props.currentRoles && this.props.currentRoles.indexOf(be5Const.ROLE_SYSTEM_DEVELOPER) !== -1;
+    const devRole = this.props.currentRoles && this.props.currentRoles.indexOf(ROLE_SYSTEM_DEVELOPER) !== -1;
 
     const devTools = (
       <span onClick={this.refresh} className={"document-reload float-right"}>
@@ -153,6 +153,10 @@ export {
   Document
 };
 
+const mapStateToProps = state => ({
+  currentRoles: getCurrentRoles(state)
+});
+
 export default connect(
-  userSelectors.getCurrentRoles
+  mapStateToProps
 )(Document)

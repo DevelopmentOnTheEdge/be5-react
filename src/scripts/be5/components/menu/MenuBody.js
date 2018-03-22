@@ -1,25 +1,19 @@
-import React from 'react';
-import be5        from '../../be5';
+import PropTypes  from 'prop-types';
+import React, {Component} from 'react';
 import MenuNode   from './MenuNode';
 
 
-class MenuBody extends React.Component
+const propTypes = {
+  menu: PropTypes.shape({}).isRequired
+};
+
+class MenuBody extends Component
 {
   constructor(props) {
     super(props);
-    this.state = {root: [ { title: 'Loading...' } ], query: ''};
+    this.state = {query: ''};
 
     this._getFilteredRoot = this._getFilteredRoot.bind(this);
-  }
-
-  componentDidMount() {
-    this.refresh();
-  }
-
-  refresh() {
-    be5.net.request('menu', {}, data => {
-      this.setState(data);
-    });
   }
 
   render() {
@@ -54,8 +48,10 @@ class MenuBody extends React.Component
         .map(node => filterNodeContent(node, query));
     };
 
-    return filterByTitle(this.state.root, this.state.query);
+    return filterByTitle(this.props.menu.root, this.state.query);
   }
 }
+
+MenuBody.propTypes = propTypes;
 
 export default MenuBody;

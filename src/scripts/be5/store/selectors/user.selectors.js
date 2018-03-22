@@ -1,16 +1,7 @@
-export const userSelectors = {
-  getUser,
-  getCurrentRoles
+export const getUser = (state) => {
+  return state.user;
 };
 
-function getUser(state) {
-  return {
-    user: state.user
-  };
-}
-
-function getCurrentRoles(state) {
-  return {
-    currentRoles: state.user.currentRoles
-  };
-}
+export const getCurrentRoles = (state) => {
+  return state.user.currentRoles;
+};

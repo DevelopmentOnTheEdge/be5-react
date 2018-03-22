@@ -21,10 +21,11 @@ const store = createStore(
   applyMiddleware(...middleware)
 );
 
+be5init.init();
+
 ReactDOM.render(
   <Provider store={store}>
     <App/>
   </Provider>,
   document.getElementById('app')
 );
-be5init.init();

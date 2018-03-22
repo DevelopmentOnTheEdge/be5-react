@@ -1,7 +1,7 @@
 import be5 from './be5';
 import bus from './core/bus';
 import documentState      from './core/documentState';
-import { userActions } from './store/actions'
+import { updateUserInfo } from './store/actions/user.actions'
 
 import './actions/loading';
 import './actions/form';
@@ -50,24 +50,24 @@ export default {
   {
     window.addEventListener("hashchange", this.hashChange, false);
 
-    be5.net.request("appInfo", {}, function(data) {
-      be5.appInfo = data;
-      be5.ui.setTitle();
-    });
-
     bus.listen('CallDefaultAction', () => {
       be5.net.request('menu/defaultAction', {}, data => {
         be5.url.set(data.arg)
       });
     });
 
+    bus.listen('RefreshAll', () => {
+      store.dispatch(updateUserInfo());
+    });
+
+    be5.net.request("appInfo", {}, function(data) {
+      be5.appInfo = data;
+      be5.ui.setTitle();
+    });
+
     be5.net.request('languageSelector', {}, function(data) {
       be5.locale.set(data.selected, data.messages);
       be5.url.process(be5.mainDocumentName, be5.url.get());
-    });
-
-    bus.listen('RefreshAll', () => {
-      store.dispatch(userActions.updateUserInfo());
     });
   }
 }

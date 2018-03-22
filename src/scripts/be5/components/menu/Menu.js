@@ -1,41 +1,48 @@
-import React from 'react';
-import bus           from '../../core/bus';
-import MenuBody    from './MenuBody';
+import PropTypes  from 'prop-types';
+import React, {Component} from 'react';
+import MenuBody        from './MenuBody';
 import MenuSearchField from './MenuSearchField';
+import {arraysEqual}    from '../../utils';
 
 
-class Menu extends React.Component{
+const propTypes = {
+  menu: PropTypes.shape({}).isRequired,
+  currentRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
+  fetchMenu: PropTypes.func.isRequired,
+};
+
+class Menu extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
 
     this._handleQueryChange = this._handleQueryChange.bind(this);
-    this.refresh = this.refresh.bind(this);
   }
 
-  componentDidMount() {
-    //TODO move to init
-    bus.listen('RoleChanged', this.refresh);
-    bus.listen('RefreshAll', this.refresh);
+  componentWillMount() {
+    // this.props.fetchMenu();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { currentRoles, fetchMenu } = this.props;
+    if (!arraysEqual(currentRoles, nextProps.currentRoles)) {
+      fetchMenu();
+    }
   }
 
   render() {
     return (
       <div className="menuContainer">
         <MenuSearchField ref="searchfield" onChange={this._handleQueryChange}/>
-        <MenuBody ref="menubody"/>
+        <MenuBody ref="menubody" menu={this.props.menu} />
       </div>
     );
-  };
-
-  refresh() {
-    //this.refs.menuheader.setState({ message: be5.messages.welcome });
-    this.refs.menubody.refresh();
   };
 
   _handleQueryChange(query) {
     this.refs.menubody.setState({ query: query });
   }
 }
+
+Menu.propTypes = propTypes;
 
 export default Menu;

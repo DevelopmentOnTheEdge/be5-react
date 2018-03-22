@@ -35,8 +35,9 @@ const render = Component => {
   )
 };
 
-render(App);
 be5init.init(store);
+
+render(App);
 
 // Webpack Hot Module Replacement API
 if (module.hot) {

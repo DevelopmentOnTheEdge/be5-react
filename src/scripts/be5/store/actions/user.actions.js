@@ -1,32 +1,24 @@
 import be5 from "../../be5";
-import { userConstants } from '../constants/index';
-import bus from "../../core/bus";
+import * as types from '../constants/user.constants';
 
 
-export const userActions = {
-  updateUserInfo,
-  toggleRoles
-};
-
-function updateUserInfo() {
+export const updateUserInfo = () => {
   return dispatch => {
     be5.net.request('userInfo', {}, data => {
-      dispatch({type: userConstants.UPDATE_USER_INFO, user: data});
+      dispatch({type: types.UPDATE_USER_INFO, user: data});
     });
   };
-}
+};
 
 // function logout() {
 //   userService.logout();
 //   return { type: userConstants.LOGOUT };
 // }
 
-function toggleRoles(roles) {
-  //return { type: userConstants.TOGGLE_ROLE, roles };
+export const toggleRoles = (roles) => {
   return dispatch => {
     be5.net.request('userInfo/selectRoles', { roles: roles }, data => {
-      dispatch({type: userConstants.SELECT_ROLES, currentRoles: data});
-      bus.fire('RoleChanged');
+      dispatch({type: types.SELECT_ROLES, currentRoles: data});
     });
   }
-}
+};

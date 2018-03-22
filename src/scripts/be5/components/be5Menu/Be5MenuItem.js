@@ -1,6 +1,6 @@
 import React from 'react';
 import Be5MenuHolder from './Be5MenuHolder';
-import {be5Const} from '../../store/constants';
+import {DEFAULT_VIEW} from '../../constants';
 import actions from '../../services/actions';
 
 export default React.createClass({
@@ -56,7 +56,7 @@ export default React.createClass({
     }
     return {
       entity: this.props.entity,
-      query: this.props.view || be5Const.DEFAULT_VIEW
+      query: this.props.view || DEFAULT_VIEW
     };
   }
 });

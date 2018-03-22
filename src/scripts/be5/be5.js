@@ -1,5 +1,5 @@
 import React    from 'react';
-import utils    from './utils';
+import {getBaseUrl}    from './utils';
 import messages from './messages';
 import bus      from './core/bus';
 import changeDocument from './core/changeDocument';
@@ -274,7 +274,7 @@ const be5 = {
       };
 
       $.ajax({
-        url : utils.getBaseUrl() + url,
+        url : getBaseUrl() + url,
         dataType : type,
         type : 'POST',
         data : params,

@@ -82,12 +82,5 @@ exports[`snapshot menu 1`] = `
       </ul>
     </div>
   </div>
-  <div
-    className="menuFooter"
-  >
-    <img
-      src={Object {}}
-    />
-  </div>
 </div>
 `;

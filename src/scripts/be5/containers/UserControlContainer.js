@@ -1,14 +1,18 @@
-import UserControl       from '../components/UserControl'
-import { connect }       from 'react-redux'
-import { userActions }   from '../store/actions/index'
-import { userSelectors } from '../store/selectors/index'
+import UserControl     from '../components/UserControl'
+import { connect }     from 'react-redux'
+import { toggleRoles } from '../store/actions/user.actions'
+import { getUser }          from '../store/selectors/user.selectors'
 
+
+const mapStateToProps = state => ({
+  user: getUser(state)
+});
 
 const mapDispatchToProps = dispatch => ({
-  toggleRoles: roles => dispatch(userActions.toggleRoles(roles))
+  toggleRoles: roles => dispatch(toggleRoles(roles))
 });
 
 export default connect(
-  userSelectors.getUser,
+  mapStateToProps,
   mapDispatchToProps
 )(UserControl)

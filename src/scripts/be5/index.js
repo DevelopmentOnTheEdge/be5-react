@@ -1,7 +1,7 @@
 import be5 from './be5.js';
 import be5init from './be5init.js';
 //import be5styles from './be5styles.js';
-import * as constants from './store/constants/index.js';
+import * as constants from './constants.js';
 import preconditions from './preconditions.js';
 
 // core

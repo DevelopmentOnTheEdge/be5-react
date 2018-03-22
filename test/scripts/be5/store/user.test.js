@@ -1,5 +1,5 @@
-import {userActions}  from '../../../../src/scripts/be5/store/actions'
-import {userSelectors}  from '../../../../src/scripts/be5/store/selectors'
+import {updateUserInfo, toggleRoles}  from '../../../../src/scripts/be5/store/actions/user.actions'
+import {getUser, getCurrentRoles}  from '../../../../src/scripts/be5/store/selectors/user.selectors'
 import be5 from '../../../../src/scripts/be5/be5';
 import testUtils from "../testUtils";
 
@@ -13,13 +13,13 @@ test('test updateUserInfo', () => {
 
   const store = testUtils.getStore();
 
-  expect(userSelectors.getUser(store.getState()))
-    .toEqual({"user": {"availableRoles": ["Guest"], "currentRoles": ["Guest"], "loggedIn": false, "userName": "Guest"}});
+  expect(getUser(store.getState()))
+    .toEqual({"availableRoles": ["Guest"], "currentRoles": ["Guest"], "loggedIn": false, "userName": "Guest"});
 
-  store.dispatch(userActions.updateUserInfo());
+  store.dispatch(updateUserInfo());
 
-  expect(userSelectors.getUser(store.getState()))
-    .toEqual({"user": newUserState});
+  expect(getUser(store.getState()))
+    .toEqual(newUserState);
 });
 
 test('test toggleRoles', () => {
@@ -28,12 +28,12 @@ test('test toggleRoles', () => {
     callback(["Administrator", "Manager"])
   };
 
-  expect(userSelectors.getCurrentRoles(store.getState()))
-    .toEqual({"currentRoles": ["Guest"]});
+  expect(getCurrentRoles(store.getState()))
+    .toEqual(["Guest"]);
 
-  store.dispatch(userActions.toggleRoles('Administrator,Manager'));
+  store.dispatch(toggleRoles('Administrator,Manager'));
 
-  expect(userSelectors.getCurrentRoles(store.getState()))
-    .toEqual({"currentRoles": ["Administrator", "Manager"]});
+  expect(getCurrentRoles(store.getState()))
+    .toEqual(["Administrator", "Manager"]);
 
 });

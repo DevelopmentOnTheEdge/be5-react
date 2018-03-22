@@ -1,15 +1,15 @@
 import React from 'react';
-import LanguageSelector     from './LanguageSelector';
 import UserControlContainer from '../containers/UserControlContainer';
-import Menu                 from './menu/Menu';
+import MenuContainer        from '../containers/MenuContainer';
 import MenuFooter           from './menu/MenuFooter';
+import LanguageSelector     from './LanguageSelector';
 
 
 const SideBar = () => {
   return (
     <div className={"side"}>
       <UserControlContainer size="sm"/>
-      <Menu/>
+      <MenuContainer/>
       <MenuFooter/>
       <LanguageSelector/>
     </div>

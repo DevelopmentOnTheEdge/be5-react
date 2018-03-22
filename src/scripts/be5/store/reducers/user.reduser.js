@@ -1,4 +1,4 @@
-import { userConstants } from '../constants/index';
+import * as types from '../constants/user.constants';
 
 const initialState = {
   "availableRoles":["Guest"],
@@ -10,9 +10,9 @@ const initialState = {
 export default function users(state = initialState, action)
 {
   switch (action.type) {
-    case userConstants.UPDATE_USER_INFO:
+    case types.UPDATE_USER_INFO:
       return action.user;
-    case userConstants.SELECT_ROLES:
+    case types.SELECT_ROLES:
       return Object.assign({}, state, {currentRoles: action.currentRoles});
     default:
       return state

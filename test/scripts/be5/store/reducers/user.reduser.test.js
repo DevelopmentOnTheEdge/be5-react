@@ -1,4 +1,4 @@
-import { userConstants } from '../../../../../src/scripts/be5/store/constants';
+import * as types from '../../../../../src/scripts/be5/store/constants/user.constants';
 import user from '../../../../../src/scripts/be5/store/reducers/user.reduser'
 
 
@@ -17,7 +17,7 @@ describe('user reducer', () => {
   it('UPDATE_USER_INFO', () => {
     expect(
       user({}, {
-        type: userConstants.UPDATE_USER_INFO,
+        type: types.UPDATE_USER_INFO,
         user: {
           "availableRoles":["Administrator","SystemDeveloper"],
           "loggedIn":true,
@@ -41,7 +41,7 @@ describe('user reducer', () => {
         "currentRoles":["Administrator","SystemDeveloper"],
         "userName":"Administrator"
       }, {
-        type: userConstants.SELECT_ROLES,
+        type: types.SELECT_ROLES,
         currentRoles: ["Administrator"]
       })
     ).toEqual({

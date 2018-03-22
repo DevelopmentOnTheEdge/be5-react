@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes          from 'prop-types';
 import ReactDOM           from 'react-dom';
 import be5                from '../../be5';
-import utils              from '../../utils';
+import {getBaseUrl}       from '../../utils';
 import documentUtils      from '../../core/documentUtils';
 import forms              from '../../services/forms';
 import tables             from '../../services/tables';
@@ -166,7 +166,7 @@ class TableBox extends React.Component {
       autoWidth: false,
       aaSorting: [],
       ajax: {
-        url: utils.getBaseUrl() + be5.net.url('document/moreRows'),
+        url: getBaseUrl() + be5.net.url('document/moreRows'),
         data: {
           entity: attributes.category,
           query: attributes.page,
