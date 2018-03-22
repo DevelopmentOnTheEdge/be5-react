@@ -3,11 +3,14 @@ import be5init from './be5init.js';
 //import be5styles from './be5styles.js';
 import * as constants from './constants.js';
 import preconditions from './utils/preconditions.js';
+import * as documentUtils from './utils/documentUtils.js';
+import * as utils from './utils/utils.js';
 
 // core
 import bus from './core/bus.js';
 import changeDocument from './core/changeDocument.js';
-import documentUtils from './utils/documentUtils.js';
+import * as documents from './core/documents.js';
+import * as routes  from './core/routes.js';
 
 // components
 import Application      from './components/Application.js';
@@ -66,8 +69,6 @@ import textAction      from './routes/text.js';
 import action            from './services/actions.js';
 import forms             from './services/forms.js';
 import tables            from './services/tables.js'
-import * as documents from './core/documents.js';
-import * as routes  from './core/routes.js';
 
 
 export {
@@ -75,11 +76,12 @@ export {
   be5init,
   constants,
   preconditions,
+  utils,
+  documentUtils,
 
   // core
   bus,
   changeDocument,
-  documentUtils,
   documents,
   routes,
 

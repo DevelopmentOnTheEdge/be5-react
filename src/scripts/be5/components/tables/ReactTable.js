@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes          from 'prop-types';
 import be5                from '../../be5';
-import utils              from '../../utils/utils';
 import {getResourceByID}  from '../../utils/documentUtils';
 import forms              from '../../services/forms';
 import tables             from '../../services/tables';

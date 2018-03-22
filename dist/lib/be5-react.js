@@ -1,24 +1,41 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Card, CardBody, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalFooter, ModalHeader, Nav, NavItem, NavLink, Navbar, NavbarBrand, NavbarToggler, UncontrolledDropdown } from 'reactstrap';
 import ReactDOM from 'react-dom';
 import numberFormatter from 'number-format.js';
 import { connect } from 'react-redux';
-import AceEditor from 'react-ace';
-import SplitPane from 'react-split-pane';
 import classNames from 'classnames';
 import PropertySet, { Property, PropertyInput } from 'beanexplorer-react';
 import JsonPointer from 'json-pointer';
+import AceEditor from 'react-ace';
+import SplitPane from 'react-split-pane';
 import Alert from 'react-s-alert';
 
-var utils = {
-  getBaseUrl: function getBaseUrl() {
-    var getUrl = window.location;
-    var baseUrl = getUrl.protocol + "//" + getUrl.host;
-    if (getUrl.pathname.split('/')[1] !== "") baseUrl += "/" + getUrl.pathname.split('/')[1];
-    return baseUrl;
-  }
+var getBaseUrl = function getBaseUrl() {
+  var getUrl = window.location;
+  var baseUrl = getUrl.protocol + "//" + getUrl.host;
+  if (getUrl.pathname.split('/')[1] !== "") baseUrl += "/" + getUrl.pathname.split('/')[1];
+  return baseUrl;
 };
+
+var arraysEqual = function arraysEqual(a, b) {
+  if (a === b) return true;
+  if (a === null || b === null) return false;
+  if (a.length !== b.length) return false;
+
+  a.sort();
+  b.sort();
+
+  for (var i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+};
+
+var utils = Object.freeze({
+	getBaseUrl: getBaseUrl,
+	arraysEqual: arraysEqual
+});
 
 var messages = {
   en: {
@@ -47,8 +64,10 @@ var messages = {
     Submit: 'Submit',
     submitted: 'In progress...',
 
-    formComponentNotFound: 'Form component not found: ',
+    formComponentNotFound: 'Document component not found: ',
     tableComponentNotFound: 'Table component not found: ',
+    componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
+
     helpInfo: "Help",
     details: "Details",
 
@@ -99,6 +118,8 @@ var messages = {
 
     formComponentNotFound: 'Компонент формы не найден: ',
     tableComponentNotFound: 'Компонент таблицы не найден: ',
+    componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
+
     helpInfo: "Справка",
     details: "Подробнее",
 
@@ -185,39 +206,25 @@ var changeDocument = (function (documentName, value) {
   bus.fire(documentName, value);
 });
 
-var actionsCollection = {
-  types: {},
+var routes = {};
 
-  getAction: function getAction(actionName) {
-    return this.types[actionName];
-  },
-  registerAction: function registerAction(actionName, fn) {
-    //console.log("registerTable: " + actionName, fn)
-    this.types[actionName] = fn;
-  }
+var getRoute = function getRoute(actionName) {
+  return routes[actionName];
 };
 
-var tablesCollection = {
-  types: {},
-
-  getTable: function getTable(tableName) {
-    if (tableName !== undefined) return this.types[tableName];else return this.types['table'];
-  },
-  registerTable: function registerTable(tableName, component) {
-    this.types[tableName] = component;
-  }
+var registerRoute = function registerRoute(actionName, fn) {
+  routes[actionName] = fn;
 };
 
-var formsCollection = {
-  types: {},
-
-  getForm: function getForm(formName) {
-    if (formName !== undefined) return this.types[formName];else return this.types['form'];
-  },
-  registerForm: function registerForm(formName, component) {
-    this.types[formName] = component;
-  }
+var getAllRoutes = function getAllRoutes() {
+  return Object.keys(documents);
 };
+
+var routes$1 = Object.freeze({
+	getRoute: getRoute,
+	registerRoute: registerRoute,
+	getAllRoutes: getAllRoutes
+});
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
@@ -375,9 +382,11 @@ var be5 = {
   },
 
   messages: messages.en,
-  mainDocumentName: 'MainDocument',
-  mainModalDocumentName: 'MainModalDocument',
-  documentRefreshSuffix: "_refresh",
+
+  //todo move to constants
+  MAIN_DOCUMENT: 'MainDocument',
+  MAIN_MODAL_DOCUMENT: 'MainModalDocument',
+  DOCUMENT_REFRESH_SUFFIX: "_refresh",
 
   appInfo: {},
 
@@ -451,12 +460,6 @@ var be5 = {
   },
 
   ui: {
-    actions: actionsCollection,
-
-    tables: tablesCollection,
-
-    forms: formsCollection,
-
     setTitle: function setTitle(docTitle) {
       var titleComponents = [docTitle, be5.appInfo.title];
       document.title = titleComponents.filter(function (c) {
@@ -476,7 +479,7 @@ var be5 = {
       if (be5.url.get() !== url) {
         document.location.hash = url;
       } else {
-        be5.url.process(be5.mainDocumentName, url);
+        be5.url.process(be5.MAIN_DOCUMENT, url);
       }
     },
     empty: function empty() {
@@ -561,7 +564,7 @@ var be5 = {
       if (hasHashParam) positional.push(hashParams);
 
       var actionName = urlParts[0];
-      var action = actionsCollection.getAction(actionName);
+      var action = getRoute(actionName);
 
       if (action !== undefined) {
         //console.log("process", documentName, url);
@@ -592,24 +595,27 @@ var be5 = {
     },
 
 
-    // transforms parameters!
-    requestJson: function requestJson(path, params, success, failure) {
-      return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'json', be5.net.transform(params), success, failure);
-    },
-    requestHtml: function requestHtml(path, success, failure) {
-      return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'html', {}, success, failure);
-    },
-    transform: function transform(params) {
-      var copy = {};
-      for (var key in params) {
-        if (_typeof(params[key]) === 'object') {
-          copy[key] = be5.net.paramString(params[key]);
-        } else {
-          copy[key] = params[key];
-        }
-      }
-      return copy;
-    },
+    // // transforms parameters!
+    // requestJson(path, params, success, failure) {
+    //   return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'json', be5.net.transform(params), success, failure);
+    // },
+    //
+    // requestHtml(path, success, failure) {
+    //   return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'html', {}, success, failure);
+    // },
+
+    // transform(params) {
+    //   const copy = {};
+    //   for (let key in params) {
+    //   if (typeof params[key] === 'object') {
+    //     copy[key] = be5.net.paramString(params[key]);
+    //   } else {
+    //     copy[key] = params[key];
+    //   }
+    //   }
+    //   return copy;
+    // },
+
     requestUrl: function requestUrl(url, type, params, _success, failureFunc) {
       var result = null;
       var failure = function failure(data) {
@@ -619,7 +625,7 @@ var be5 = {
       };
 
       $.ajax({
-        url: utils.getBaseUrl() + url,
+        url: getBaseUrl() + url,
         dataType: type,
         type: 'POST',
         data: params,
@@ -727,59 +733,37 @@ var documentState = {
   getAll: getAll
 };
 
-var userConstants = {
-  UPDATE_USER_INFO: 'UPDATE_USER_INFO',
+var UPDATE_USER_INFO = 'UPDATE_USER_INFO';
 
-  //LOGIN_REQUEST: 'USERS_LOGIN_REQUEST',
-  //LOGIN_SUCCESS: 'USERS_LOGIN_SUCCESS',
-  //LOGIN_FAILURE: 'USERS_LOGIN_FAILURE',
+var SELECT_ROLES = 'SELECT_ROLES';
 
-  LOGOUT: 'USERS_LOGOUT',
+//LOGIN_REQUEST: 'USERS_LOGIN_REQUEST',
+//LOGIN_SUCCESS: 'USERS_LOGIN_SUCCESS',
+//LOGIN_FAILURE: 'USERS_LOGIN_FAILURE',
 
-  SELECT_ROLES: 'SELECT_ROLES'
-};
-
-var be5Const = {
-  DEFAULT_VIEW: 'All records'
-};
-
-
-
-var index = Object.freeze({
-	userConstants: userConstants,
-	be5Const: be5Const
-});
-
-var userActions = {
-  updateUserInfo: updateUserInfo,
-  toggleRoles: toggleRoles
-};
-
-function updateUserInfo() {
+var updateUserInfo = function updateUserInfo() {
   return function (dispatch) {
     be5.net.request('userInfo', {}, function (data) {
-      dispatch({ type: userConstants.UPDATE_USER_INFO, user: data });
+      dispatch({ type: UPDATE_USER_INFO, user: data });
     });
   };
-}
+};
 
 // function logout() {
 //   userService.logout();
 //   return { type: userConstants.LOGOUT };
 // }
 
-function toggleRoles(roles) {
-  //return { type: userConstants.TOGGLE_ROLE, roles };
+var toggleRoles = function toggleRoles(roles) {
   return function (dispatch) {
     be5.net.request('userInfo/selectRoles', { roles: roles }, function (data) {
-      dispatch({ type: userConstants.SELECT_ROLES, currentRoles: data });
-      bus.fire('RefreshAll');
+      dispatch({ type: SELECT_ROLES, currentRoles: data });
     });
   };
-}
+};
 
-var action = function action(documentName, page) {
-  changeDocument(documentName, { component: Loading });
+var route = function route(documentName, page) {
+  changeDocument(documentName, {});
 };
 
 var Loading = function (_React$Component) {
@@ -799,7 +783,31 @@ var Loading = function (_React$Component) {
   return Loading;
 }(React.Component);
 
-actionsCollection.registerAction("loading", action);
+registerRoute("loading", route);
+
+var documents$1 = {};
+
+var getDocument = function getDocument(type) {
+  return documents$1[type];
+};
+
+// createDocument(type, props) {
+//   return documents[type](props);
+// };
+
+var registerDocument = function registerDocument(type, component) {
+  documents$1[type] = component;
+};
+
+var getAllDocumentTypes = function getAllDocumentTypes() {
+  return Object.keys(documents$1);
+};
+
+var documents$2 = Object.freeze({
+	getDocument: getDocument,
+	registerDocument: registerDocument,
+	getAllDocumentTypes: getAllDocumentTypes
+});
 
 var FinishedResult = function (_React$Component) {
   inherits(FinishedResult, _React$Component);
@@ -855,6 +863,8 @@ FinishedResult.propTypes = {
   })
 };
 
+registerDocument('operationResult', FinishedResult);
+
 var StaticPage = function (_React$Component) {
   inherits(StaticPage, _React$Component);
 
@@ -900,7 +910,7 @@ var StaticPage = function (_React$Component) {
     value: function createValue(title, text, meta, links) {
       return {
         data: {
-          type: 'staticPage',
+          type: 'static',
           attributes: {
             title: title,
             content: text
@@ -913,10 +923,6 @@ var StaticPage = function (_React$Component) {
   }]);
   return StaticPage;
 }(React.Component);
-
-// StaticPage.defaultProps = {
-//   value: ''
-// };
 
 StaticPage.propTypes = {
   value: PropTypes.shape({
@@ -931,6 +937,8 @@ StaticPage.propTypes = {
     })
   })
 };
+
+registerDocument("static", StaticPage);
 
 var ErrorPane = function (_React$Component) {
   inherits(ErrorPane, _React$Component);
@@ -1041,83 +1049,35 @@ ErrorPane.propTypes = {
   })
 };
 
-// const createIllegalArgumentError = () => ({
-//   name: 'IllegalArgumentError',
-//   message: ''
-// });
-//
-// const getColumnName = function(column) {
-//   return typeof column === 'string' ? column : column.name;
-// };
-//
-// const toRows = function(table) {
-//   if (table.type && table.type === 'table') {
-//     table = table.value;
-//   }
-//
-//   return table.rows.map(row => {
-//     const resultRow = { id: row.id };
-//     for (var i = 0; i < row.cells.length; i++) {
-//       resultRow[getColumnName(table.columns[i])] = row.cells[i];
-//     }
-//     return resultRow;
-//   });
-// };
-//
-// const getSortableColumns = function(table) {
-//   if (table.type && table.type === 'table') {
-//     table = table.value;
-//   }
-//
-//   return table.columns.filter(column => !(column.options && column.options.nosort));
-// };
-//
-// const toRow = function(table) {
-//   const rows = toRows(table);
-//   if (rows.length !== 1) {
-//     throw createIllegalArgumentError();
-//   }
-//   return rows[0];
-// };
-//
-// const createDocument = function(resource) {
-//   return _.extend({
-//     toRow: function() {
-//       return toRow(this);
-//     },
-//     toRows: function() {
-//       return toRows(this);
-//     },
-//   }, resource);
-// };
+var getResourceByID = function getResourceByID(included, id) {
+  for (var i = 0; i < included.length; i++) {
+    if (included[i].id === id) return included[i];
+  }
+  return undefined;
+};
 
-var documentUtils = {
-  // toRows: toRows,
-  // toRow: toRow,
-  // createDocument: createDocument,
-  // getSortableColumns: getSortableColumns
-  getResourceByID: function getResourceByID(included, id) {
-    for (var i = 0; i < included.length; i++) {
-      if (included[i].id === id) return included[i];
-    }
+var getModelByID = function getModelByID(included, meta, id) {
+  var res = getResourceByID(included, id);
+  if (res !== undefined) {
+    return { data: res, included: included, meta: meta };
+  } else {
     return undefined;
   }
 };
 
+var documentUtils = Object.freeze({
+	getResourceByID: getResourceByID,
+	getModelByID: getModelByID
+});
+
 var tables = {
   load: function load(params, documentName) {
-    this._send(params, this._performData, documentName);
+    this._send(params, documentName);
   },
   refresh: function refresh(params, documentName) {
-    this._send(params, function (json, documentName) {
-      if (json.data !== undefined) {
-        changeDocument(documentName, { component: Table, value: json });
-      } else {
-        changeDocument(documentName, { component: ErrorPane, value: json });
-      }
-    }, documentName);
+    this._send(params, documentName);
   },
-  _send: function _send(params, performData, documentName) {
+  _send: function _send(params, documentName) {
     Preconditions.passed(params.entity);
     Preconditions.passed(params.query);
 
@@ -1128,26 +1088,12 @@ var tables = {
       _ts_: new Date().getTime()
     };
 
-    be5.net.request('document', requestParams, function (json) {
-      performData(json, documentName);
+    be5.net.request('document', requestParams, function (data) {
+      changeDocument(documentName, { value: data });
     }, function (data) {
-      changeDocument(documentName, { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message) });
+      changeDocument(documentName, { value: data });
+      //changeDocument(documentName, { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)});
     });
-  },
-  _performData: function _performData(json, documentName) {
-    if (json.data !== undefined) {
-      var tableComponentName = json.data.attributes.layout.type;
-      var tableComponent = tablesCollection.getTable(tableComponentName);
-
-      if (tableComponent === undefined) {
-        changeDocument(documentName, { component: StaticPage,
-          value: StaticPage.createValue(be5.messages.tableComponentNotFound + tableComponentName, '', json.meta, json.links) });
-      } else {
-        changeDocument(documentName, { component: tableComponent, value: json });
-      }
-    } else {
-      changeDocument(documentName, { component: ErrorPane, value: json });
-    }
   }
 };
 
@@ -1347,22 +1293,26 @@ var QuickColumns = function (_React$Component) {
   return QuickColumns;
 }(React.Component);
 
-var userSelectors = {
-  getUser: getUser,
-  getCurrentRoles: getCurrentRoles
+var getUser = function getUser(state) {
+  return state.user;
 };
 
-function getUser(state) {
-  return {
-    user: state.user
-  };
-}
+var getCurrentRoles = function getCurrentRoles(state) {
+  return state.user.currentRoles;
+};
 
-function getCurrentRoles(state) {
-  return {
-    currentRoles: state.user.currentRoles
-  };
-}
+var DEFAULT_VIEW = 'All records';
+
+var ROLE_ADMINISTRATOR = "Administrator";
+var ROLE_SYSTEM_DEVELOPER = "SystemDeveloper";
+var ROLE_GUEST = "Guest";
+
+var constants = Object.freeze({
+	DEFAULT_VIEW: DEFAULT_VIEW,
+	ROLE_ADMINISTRATOR: ROLE_ADMINISTRATOR,
+	ROLE_SYSTEM_DEVELOPER: ROLE_SYSTEM_DEVELOPER,
+	ROLE_GUEST: ROLE_GUEST
+});
 
 var img = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAATdEVYdFRpdGxlAE9wdGljYWwgRHJpdmU+Z7oMAAAC+ElEQVQ4jZWS329TZRjHP+ft6dJ2djNxHcgyunb+KIyNwfRG0mZgNgfeAJNBUBO8NEswITPEGHIy1I1lcTEzhn/Aq5mIFwp2yGSMzAsCyMIAp7hWOXjD+LGW03bnPe/rxSyZ7spv8tw9z+f75Ps8htaasvr7+81Apfm6oY1dGrpAV4BhY5AV2vjME4ZjKHUSjBxKHTt69MNpszw8ODj4TCBUMdbasnnH5pYt1NREEEIgpbs2l8u1/TAxvjebyeT27z8YXrh3j7MT4wFgmwkwPPzx8z6/L713zxuxeKyRUqmI4+RRSiGEIBQKsa/7ALZ9J1xfv56qcBg0rwCYAArxxVsH346tqV3L4uJDrv58lfn52+TyeZ6qrGTjxk0kXkwQiUT4r8yhTwd2xmPxjnXPruP+/QXOpE9zx7YnQQwIrUOFUnHwwtRk4vbvv9HVuZNAIAiAUmoZYCh9+NUdHRSLRWZvXMe27XMlx+2yLEueGP7kXE/3gUQ81rjKWUq5DNAY64PBEK5b4uatWwiMjyzLkgCuK8OPHj3kwYOFVQDXdSlnUCeEgVIKx3mMlFx/0uR575765usvtdaJ5WtrtC7XPxlIzysUS8VqIUyqq5/mcc5uBs4DHD92/DKwYZX9yhCl532fyWQONcYbadrQRCabtXq+6pka2zfmrXiwwJIsngB2a60mPJf3hoaGcgCmWpKnr1y5fKghGqW5uYX5zHy7d809+8HM+wM+7d2U2teKxkol21/e1NTEj5MT78zOzl4CTgKYQvhPzc39cn7q4lR7Kpliz+5utrRu3X5x+sL2u3f/4oVolOS2JNFoA/l8HtP0I6UXKG9naK3p6+urEaa+1NnxWkPb1jaCwRB+vx8hfCilcN0lCgWH9Hia6Z+mb5ii4qWRkZHCEwDAkSO9zyl8n9dGartSqSSRSC1V4Socx2Hu1zmuzczwx5/Zb02j4s3R0dHFf22wUr2HezsNLXuVMuo1ug7Ia80Zhf6ubk1d2rIstbJ/FeD/6m8m/lj+PIxQ9QAAAABJRU5ErkJggg==';
 
@@ -1376,8 +1326,7 @@ var Document = function (_React$Component) {
 
     _this.state = {
       value: props.value || "",
-      frontendParams: props.frontendParams,
-      component: props.component
+      frontendParams: props.frontendParams
     };
 
     _this.reload = _this.reload.bind(_this);
@@ -1391,8 +1340,7 @@ var Document = function (_React$Component) {
       if (nextProps.value !== undefined && (this.props.value.meta === undefined || nextProps.value.meta === undefined || nextProps.value.meta._ts_ > this.props.value.meta._ts_)) {
         this.setState({
           value: nextProps.value || "",
-          frontendParams: nextProps.frontendParams,
-          component: nextProps.component
+          frontendParams: nextProps.frontendParams
         });
       }
     }
@@ -1407,13 +1355,13 @@ var Document = function (_React$Component) {
         }
 
         if (_this2.state.value.meta === undefined || data.value.meta === undefined || data.value.meta._ts_ > _this2.state.value.meta._ts_) {
-          _this2.setState(Object.assign({ value: undefined, frontendParams: undefined, component: undefined }, data));
+          _this2.setState(Object.assign({ value: undefined, frontendParams: undefined }, data));
         }
         // if(!data.loading)this.setState({ loading: false });
         // if(!data.error)this.setState({ error: null });
       });
 
-      bus.replaceListeners(this.props.frontendParams.documentName + be5.documentRefreshSuffix, function () {
+      bus.replaceListeners(this.props.frontendParams.documentName + be5.DOCUMENT_REFRESH_SUFFIX, function () {
         _this2.refresh();
       });
     }
@@ -1421,7 +1369,7 @@ var Document = function (_React$Component) {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       bus.replaceListeners(this.props.frontendParams.documentName, function (data) {});
-      bus.replaceListeners(this.props.frontendParams.documentName + be5.documentRefreshSuffix, function (data) {});
+      bus.replaceListeners(this.props.frontendParams.documentName + be5.DOCUMENT_REFRESH_SUFFIX, function (data) {});
     }
   }, {
     key: 'reload',
@@ -1444,7 +1392,8 @@ var Document = function (_React$Component) {
       var loadingItem = null; //this.state.loading
       //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
 
-      var devRole = false; //todo
+      var devRole = this.props.currentRoles && this.props.currentRoles.indexOf(ROLE_SYSTEM_DEVELOPER) !== -1;
+
       var devTools = React.createElement(
         'span',
         { onClick: this.refresh, className: "document-reload float-right" },
@@ -1455,15 +1404,28 @@ var Document = function (_React$Component) {
       var contentItem = null;
       if (this.state.value) be5.ui.setTitle(this.state.value.title);
 
-      if (this.state.component) {
-        if (this.state.component === 'text') {
-          contentItem = React.createElement(
-            'h1',
-            null,
-            this.state.value
-          );
-        } else if (this.state.component !== null) {
-          var DocumentContent = this.state.component;
+      if (this.state.value.data && this.state.value.data.type) {
+        var documentType = this.state.value.data.type;
+
+        if (this.state.value.data.attributes.layout !== undefined && this.state.value.data.attributes.layout.type !== undefined) {
+          documentType = this.state.value.data.attributes.layout.type;
+        }
+
+        if (this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
+          documentType = 'modalForm';
+        }
+
+        var DocumentContent = getDocument(documentType);
+
+        if (DocumentContent === undefined) {
+          var value = StaticPage.createValue(be5.messages.componentForTypeNotRegistered.replace('$type', documentType), '');
+
+          contentItem = React.createElement(StaticPage, {
+            ref: 'documentContent',
+            value: value,
+            frontendParams: this.getComponentFrontendParams()
+          });
+        } else {
           contentItem = React.createElement(
             'div',
             null,
@@ -1475,6 +1437,12 @@ var Document = function (_React$Component) {
             })
           );
         }
+      } else if (this.state.value.errors) {
+        contentItem = React.createElement(ErrorPane, {
+          ref: 'documentContent',
+          value: this.state.value,
+          frontendParams: this.getComponentFrontendParams()
+        });
       } else {
         if (this.state.value) {
           contentItem = React.createElement(
@@ -1512,7 +1480,13 @@ Document.propTypes = {
   component: PropTypes.func
 };
 
-var Document$1 = connect(userSelectors.getCurrentRoles, function () {})(Document);
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    currentRoles: getCurrentRoles(state)
+  };
+};
+
+var Document$1 = connect(mapStateToProps)(Document);
 
 var formatCell = function formatCell(data, options, isColumn) {
   if (!Array.isArray(data)) {
@@ -1678,7 +1652,7 @@ var TableBox = function (_React$Component) {
         autoWidth: false,
         aaSorting: [],
         ajax: {
-          url: utils.getBaseUrl() + be5.net.url('document/moreRows'),
+          url: getBaseUrl() + be5.net.url('document/moreRows'),
           data: {
             entity: attributes.category,
             query: attributes.page,
@@ -1929,13 +1903,14 @@ var Table = function (_React$Component3) {
 
       var TitleTag = 'h' + (value.data.attributes.parameters && value.data.attributes.parameters.titleLevel || 1);
 
-      var topFormJson = value.included !== undefined ? documentUtils.getResourceByID(value.included, "topForm") : undefined;
+      //todo use getModelByID() instead getResourceByID()
+      var topFormJson = value.included !== undefined ? getResourceByID(value.included, "topForm") : undefined;
       var topForm = void 0;
       if (topFormJson) {
         topForm = React.createElement(Document$1, {
           frontendParams: { documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName },
           value: { data: topFormJson, meta: value.meta },
-          component: formsCollection.getForm(topFormJson.attributes.layout.type)
+          component: documents.getDocument(topFormJson.attributes.layout.type)
         });
       }
 
@@ -1971,7 +1946,7 @@ Table.propTypes = {
   value: PropTypes.object.isRequired
 };
 
-be5.ui.tables.registerTable('table', Table);
+registerDocument('table', Table);
 
 var forms = {
   load: function load(params, frontendParams) {
@@ -2035,7 +2010,7 @@ var forms = {
 
           if (attributes.status !== 'document' && frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
             //console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
-            bus.fire(frontendParams.parentDocumentName + be5.documentRefreshSuffix);
+            bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX);
           }
 
           switch (attributes.status) {
@@ -2043,16 +2018,16 @@ var forms = {
               bus.fire("alert", { msg: be5.messages.successfullyCompleted, type: 'success' });
               if (attributes.details === 'refreshAll' || attributes.details === 'refreshAllAndGoBack') {
                 if (attributes.details === 'refreshAll') {
-                  be5.url.set("");
+                  bus.fire('CallDefaultAction');
                 } else {
                   window.history.back();
                 }
                 bus.fire('RefreshAll');
-                if (documentName === be5.mainModalDocumentName) bus.fire("mainModalClose");
+                if (documentName === be5.MAIN_MODAL_DOCUMENT) bus.fire("mainModalClose");
               } else if (attributes.details.startsWith("http://") || attributes.details.startsWith("https://") || attributes.details.startsWith("ftp://")) {
                 window.location.href = attributes.details;
               } else {
-                if (documentName === be5.mainDocumentName) {
+                if (documentName === be5.MAIN_DOCUMENT) {
                   be5.url.set(attributes.details);
                 } else {
                   if (be5.url.parse(attributes.details).positional[0] === 'form') {
@@ -2064,17 +2039,17 @@ var forms = {
               }
               return;
             case 'finished':
-              if (documentName === be5.mainModalDocumentName) {
+              if (documentName === be5.MAIN_MODAL_DOCUMENT) {
                 bus.fire("alert", { msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success' });
                 bus.fire("mainModalClose");
               } else {
-                changeDocument(documentName, { component: FinishedResult, value: json, frontendParams: frontendParams });
+                changeDocument(documentName, { value: json, frontendParams: frontendParams });
               }
               return;
             case 'document':
               var tableJson = Object.assign({}, attributes.details, { meta: json.meta });
-              changeDocument(frontendParams.parentDocumentName, { component: Table, value: tableJson });
-              if (documentName === be5.mainModalDocumentName) {
+              changeDocument(frontendParams.parentDocumentName, { value: tableJson });
+              if (documentName === be5.MAIN_MODAL_DOCUMENT) {
                 bus.fire("mainModalClose");
               }
               return;
@@ -2097,7 +2072,7 @@ var forms = {
       var error = json.errors[0];
       bus.fire("alert", { msg: error.status + " " + error.title, type: 'error' });
 
-      changeDocument(documentName, { component: ErrorPane, value: json, frontendParams: frontendParams });
+      changeDocument(documentName, { value: json, frontendParams: frontendParams });
     }
   },
   _performForm: function _performForm(json, frontendParams) {
@@ -2107,20 +2082,15 @@ var forms = {
       bus.fire("alert", { msg: operationResult.message, type: 'error' });
     }
 
-    var formComponentName = json.data.attributes.layout.type || 'form';
-    var formComponent = formsCollection.getForm(formComponentName);
+    //const formComponentName = json.data.attributes.layout.type || 'form';
+    //const formComponent = getDocument(formComponentName);
 
-    if (formComponentName === 'modal' || frontendParams.documentName === be5.mainModalDocumentName) {
+    if (frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
       bus.fire("mainModalOpen");
 
-      changeDocument(be5.mainModalDocumentName, { component: formsCollection.getForm('modal'), value: json, frontendParams: frontendParams });
+      changeDocument(be5.MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
     } else {
-      if (formComponent === undefined) {
-        changeDocument(frontendParams.documentName, { component: StaticPage,
-          value: StaticPage.createValue(be5.messages.formComponentNotFound + formComponentName, '') });
-      } else {
-        changeDocument(frontendParams.documentName, { component: formComponent, value: json, frontendParams: frontendParams });
-      }
+      changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
     }
   },
   changeLocationHash: function changeLocationHash(props) {
@@ -2131,7 +2101,7 @@ var forms = {
       self = props.value.errors[0].links.self;
     }
 
-    if (props.frontendParams && props.frontendParams.documentName === be5.mainDocumentName && be5.url.get() !== '#!' + self) {
+    if (props.frontendParams && props.frontendParams.documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
 
       be5.url.set(self);
     }
@@ -2151,7 +2121,7 @@ var forms = {
   }
 };
 
-var action$2 = function action(documentName, entity, query, operation, operationParams) {
+var route$2 = function route(documentName, entity, query, operation, operationParams) {
 
   var params = {
     entity: entity,
@@ -2164,19 +2134,19 @@ var action$2 = function action(documentName, entity, query, operation, operation
   forms.load(params, { documentName: documentName });
 };
 
-actionsCollection.registerAction("form", action$2);
+registerRoute("form", route$2);
 
-var action$4 = function action() {
+var route$4 = function route() {
   forms.load(forms.getOperationParams('form/users/All records/Login'), {
-    documentName: be5.mainModalDocumentName
+    documentName: be5.MAIN_MODAL_DOCUMENT
   });
 };
 
-actionsCollection.registerAction("login", action$4);
+registerRoute("login", route$4);
 
-var action$6 = function action() {
+var route$6 = function route() {
   forms.load(forms.getOperationParams('form/users/All records/Logout'), {
-    documentName: be5.mainDocumentName, onSuccess: function onSuccess(result, applyParams) {
+    documentName: be5.MAIN_DOCUMENT, onSuccess: function onSuccess(result, applyParams) {
       //not used document.cookie = 'be_auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 
     }
@@ -2184,21 +2154,21 @@ var action$6 = function action() {
   });
 };
 
-actionsCollection.registerAction("logout", action$6);
+registerRoute("logout", route$6);
 
-var action$8 = function action(documentName, page) {
+var route$8 = function route(documentName, page) {
   var requestParams = {
     _ts_: new Date().getTime()
   };
 
   be5.net.request('static/' + page, requestParams, function (data) {
-    changeDocument(documentName, { component: StaticPage, value: data });
+    changeDocument(documentName, { value: data });
   });
 };
 
-actionsCollection.registerAction("static", action$8);
+registerRoute("static", route$8);
 
-var action$10 = function action(documentName, entity, query, params) {
+var route$10 = function route(documentName, entity, query, params) {
 
   var paramsObject = {
     entity: entity,
@@ -2208,380 +2178,26 @@ var action$10 = function action(documentName, entity, query, params) {
   tables.load(paramsObject, documentName);
 };
 
-actionsCollection.registerAction("table", action$10);
+registerRoute("table", route$10);
 
-ace.define("ace/mode/doc_comment_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(acequire, exports, module) {
-var oop = acequire("../lib/oop");
-var TextHighlightRules = acequire("./text_highlight_rules").TextHighlightRules;
-
-var DocCommentHighlightRules = function() {
-    this.$rules = {
-        "start" : [ {
-            token : "comment.doc.tag",
-            regex : "@[\\w\\d_]+" // TODO: fix email addresses
-        }, 
-        DocCommentHighlightRules.getTagRule(),
-        {
-            defaultToken : "comment.doc",
-            caseInsensitive: true
-        }]
-    };
-};
-
-oop.inherits(DocCommentHighlightRules, TextHighlightRules);
-
-DocCommentHighlightRules.getTagRule = function(start) {
-    return {
-        token : "comment.doc.tag.storage.type",
-        regex : "\\b(?:TODO|FIXME|XXX|HACK)\\b"
-    };
-};
-
-DocCommentHighlightRules.getStartRule = function(start) {
-    return {
-        token : "comment.doc", // doc comment
-        regex : "\\/\\*(?=\\*)",
-        next  : start
-    };
-};
-
-DocCommentHighlightRules.getEndRule = function (start) {
-    return {
-        token : "comment.doc", // closing comment
-        regex : "\\*\\/",
-        next  : start
-    };
-};
-
-
-exports.DocCommentHighlightRules = DocCommentHighlightRules;
-
-});
-
-ace.define("ace/mode/mysql_highlight_rules",["require","exports","module","ace/lib/oop","ace/lib/lang","ace/mode/doc_comment_highlight_rules","ace/mode/text_highlight_rules"], function(acequire, exports, module) {
-
-var oop = acequire("../lib/oop");
-var lang = acequire("../lib/lang");
-var DocCommentHighlightRules = acequire("./doc_comment_highlight_rules").DocCommentHighlightRules;
-var TextHighlightRules = acequire("./text_highlight_rules").TextHighlightRules;
-
-var MysqlHighlightRules = function() {
-
-    var mySqlKeywords = /*sql*/ "alter|and|as|asc|between|count|create|delete|desc|distinct|drop|from|having|in|insert|into|is|join|like|not|on|or|order|select|set|table|union|update|values|where" + "|accessible|action|add|after|algorithm|all|analyze|asensitive|at|authors|auto_increment|autocommit|avg|avg_row_length|before|binary|binlog|both|btree|cache|call|cascade|cascaded|case|catalog_name|chain|change|changed|character|check|checkpoint|checksum|class_origin|client_statistics|close|coalesce|code|collate|collation|collations|column|columns|comment|commit|committed|completion|concurrent|condition|connection|consistent|constraint|contains|continue|contributors|convert|cross|current_date|current_time|current_timestamp|current_user|cursor|data|database|databases|day_hour|day_microsecond|day_minute|day_second|deallocate|dec|declare|default|delay_key_write|delayed|delimiter|des_key_file|describe|deterministic|dev_pop|dev_samp|deviance|directory|disable|discard|distinctrow|div|dual|dumpfile|each|elseif|enable|enclosed|end|ends|engine|engines|enum|errors|escape|escaped|even|event|events|every|execute|exists|exit|explain|extended|fast|fetch|field|fields|first|flush|for|force|foreign|found_rows|full|fulltext|function|general|global|grant|grants|group|groupby_concat|handler|hash|help|high_priority|hosts|hour_microsecond|hour_minute|hour_second|if|ignore|ignore_server_ids|import|index|index_statistics|infile|inner|innodb|inout|insensitive|insert_method|install|interval|invoker|isolation|iterate|key|keys|kill|language|last|leading|leave|left|level|limit|linear|lines|list|load|local|localtime|localtimestamp|lock|logs|low_priority|master|master_heartbeat_period|master_ssl_verify_server_cert|masters|match|max|max_rows|maxvalue|message_text|middleint|migrate|min|min_rows|minute_microsecond|minute_second|mod|mode|modifies|modify|mutex|mysql_errno|natural|next|no|no_write_to_binlog|offline|offset|one|online|open|optimize|option|optionally|out|outer|outfile|pack_keys|parser|partition|partitions|password|phase|plugin|plugins|prepare|preserve|prev|primary|privileges|procedure|processlist|profile|profiles|purge|query|quick|range|read|read_write|reads|real|rebuild|recover|references|regexp|relaylog|release|remove|rename|reorganize|repair|repeatable|replace|acequire|resignal|restrict|resume|return|returns|revoke|right|rlike|rollback|rollup|row|row_format|rtree|savepoint|schedule|schema|schema_name|schemas|second_microsecond|security|sensitive|separator|serializable|server|session|share|show|signal|slave|slow|smallint|snapshot|soname|spatial|specific|sql|sql_big_result|sql_buffer_result|sql_cache|sql_calc_found_rows|sql_no_cache|sql_small_result|sqlexception|sqlstate|sqlwarning|ssl|start|starting|starts|status|std|stddev|stddev_pop|stddev_samp|storage|straight_join|subclass_origin|sum|suspend|table_name|table_statistics|tables|tablespace|temporary|terminated|to|trailing|transaction|trigger|triggers|truncate|uncommitted|undo|uninstall|unique|unlock|upgrade|usage|use|use_frm|user|user_resources|user_statistics|using|utc_date|utc_time|utc_timestamp|value|variables|varying|view|views|warnings|when|while|with|work|write|xa|xor|year_month|zerofill|begin|do|then|else|loop|repeat";
-    var builtins = "by|bool|boolean|bit|blob|decimal|double|enum|float|long|longblob|longtext|medium|mediumblob|mediumint|mediumtext|time|timestamp|tinyblob|tinyint|tinytext|text|bigint|int|int1|int2|int3|int4|int8|integer|float|float4|float8|double|char|varbinary|varchar|varcharacter|precision|date|datetime|year|unsigned|signed|numeric|ucase|lcase|mid|len|round|rank|now|format|coalesce|ifnull|isnull|nvl";
-    var variable = "charset|clear|connect|edit|ego|exit|go|help|nopager|notee|nowarning|pager|print|prompt|quit|rehash|source|status|system|tee";
-
-    var keywordMapper = this.createKeywordMapper({
-        "support.function": builtins,
-        "keyword": mySqlKeywords,
-        "constant": "false|true|null|unknown|date|time|timestamp|ODBCdotTable|zerolessFloat",
-        "variable.language": variable
-    }, "identifier", true);
-
-    
-    function string(rule) {
-        var start = rule.start;
-        var escapeSeq = rule.escape;
-        return {
-            token: "string.start",
-            regex: start,
-            next: [
-                {token: "constant.language.escape", regex: escapeSeq},
-                {token: "string.end", next: "start", regex: start},
-                {defaultToken: "string"}
-            ]
-        };
-    }
-
-    this.$rules = {
-        "start" : [ {
-            token : "comment", regex : "(?:-- |#).*$"
-        },  
-        string({start: '"', escape: /\\[0'"bnrtZ\\%_]?/}),
-        string({start: "'", escape: /\\[0'"bnrtZ\\%_]?/}),
-        DocCommentHighlightRules.getStartRule("doc-start"),
-        {
-            token : "comment", // multi line comment
-            regex : /\/\*/,
-            next : "comment"
-        }, {
-            token : "constant.numeric", // hex
-            regex : /0[xX][0-9a-fA-F]+|[xX]'[0-9a-fA-F]+'|0[bB][01]+|[bB]'[01]+'/
-        }, {
-            token : "constant.numeric", // float
-            regex : "[+-]?\\d+(?:(?:\\.\\d*)?(?:[eE][+-]?\\d+)?)?\\b"
-        }, {
-            token : keywordMapper,
-            regex : "[a-zA-Z_$][a-zA-Z0-9_$]*\\b"
-        }, {
-            token : "constant.class",
-            regex : "@@?[a-zA-Z_$][a-zA-Z0-9_$]*\\b"
-        }, {
-            token : "constant.buildin",
-            regex : "`[^`]*`"
-        }, {
-            token : "keyword.operator",
-            regex : "\\+|\\-|\\/|\\/\\/|%|<@>|@>|<@|&|\\^|~|<|>|<=|=>|==|!=|<>|="
-        }, {
-            token : "paren.lparen",
-            regex : "[\\(]"
-        }, {
-            token : "paren.rparen",
-            regex : "[\\)]"
-        }, {
-            token : "text",
-            regex : "\\s+"
-        } ],
-        "comment" : [
-            {token : "comment", regex : "\\*\\/", next : "start"},
-            {defaultToken : "comment"}
-        ]
-    };
-
-    this.embedRules(DocCommentHighlightRules, "doc-", [ DocCommentHighlightRules.getEndRule("start") ]);
-    this.normalizeRules();
-};
-
-oop.inherits(MysqlHighlightRules, TextHighlightRules);
-
-exports.MysqlHighlightRules = MysqlHighlightRules;
-});
-
-ace.define("ace/mode/mysql",["require","exports","module","ace/lib/oop","ace/mode/text","ace/mode/mysql_highlight_rules"], function(acequire, exports, module) {
-
-var oop = acequire("../lib/oop");
-var TextMode = acequire("../mode/text").Mode;
-var MysqlHighlightRules = acequire("./mysql_highlight_rules").MysqlHighlightRules;
-
-var Mode = function() {
-    this.HighlightRules = MysqlHighlightRules;
-    this.$behaviour = this.$defaultBehaviour;
-};
-oop.inherits(Mode, TextMode);
-
-(function() {       
-    this.lineCommentStart = ["--", "#"]; // todo space
-    this.blockComment = {start: "/*", end: "*/"};
-
-    this.$id = "ace/mode/mysql";
-}).call(Mode.prototype);
-
-exports.Mode = Mode;
-});
-
-ace.define("ace/theme/xcode",["require","exports","module","ace/lib/dom"], function(acequire, exports, module) {
-
-exports.isDark = false;
-exports.cssClass = "ace-xcode";
-exports.cssText = "\
-.ace-xcode .ace_gutter {\
-background: #e8e8e8;\
-color: #333\
-}\
-.ace-xcode .ace_print-margin {\
-width: 1px;\
-background: #e8e8e8\
-}\
-.ace-xcode {\
-background-color: #FFFFFF;\
-color: #000000\
-}\
-.ace-xcode .ace_cursor {\
-color: #000000\
-}\
-.ace-xcode .ace_marker-layer .ace_selection {\
-background: #B5D5FF\
-}\
-.ace-xcode.ace_multiselect .ace_selection.ace_start {\
-box-shadow: 0 0 3px 0px #FFFFFF;\
-}\
-.ace-xcode .ace_marker-layer .ace_step {\
-background: rgb(198, 219, 174)\
-}\
-.ace-xcode .ace_marker-layer .ace_bracket {\
-margin: -1px 0 0 -1px;\
-border: 1px solid #BFBFBF\
-}\
-.ace-xcode .ace_marker-layer .ace_active-line {\
-background: rgba(0, 0, 0, 0.071)\
-}\
-.ace-xcode .ace_gutter-active-line {\
-background-color: rgba(0, 0, 0, 0.071)\
-}\
-.ace-xcode .ace_marker-layer .ace_selected-word {\
-border: 1px solid #B5D5FF\
-}\
-.ace-xcode .ace_constant.ace_language,\
-.ace-xcode .ace_keyword,\
-.ace-xcode .ace_meta,\
-.ace-xcode .ace_variable.ace_language {\
-color: #C800A4\
-}\
-.ace-xcode .ace_invisible {\
-color: #BFBFBF\
-}\
-.ace-xcode .ace_constant.ace_character,\
-.ace-xcode .ace_constant.ace_other {\
-color: #275A5E\
-}\
-.ace-xcode .ace_constant.ace_numeric {\
-color: #3A00DC\
-}\
-.ace-xcode .ace_entity.ace_other.ace_attribute-name,\
-.ace-xcode .ace_support.ace_constant,\
-.ace-xcode .ace_support.ace_function {\
-color: #450084\
-}\
-.ace-xcode .ace_fold {\
-background-color: #C800A4;\
-border-color: #000000\
-}\
-.ace-xcode .ace_entity.ace_name.ace_tag,\
-.ace-xcode .ace_support.ace_class,\
-.ace-xcode .ace_support.ace_type {\
-color: #790EAD\
-}\
-.ace-xcode .ace_storage {\
-color: #C900A4\
-}\
-.ace-xcode .ace_string {\
-color: #DF0002\
-}\
-.ace-xcode .ace_comment {\
-color: #008E00\
-}\
-.ace-xcode .ace_indent-guide {\
-background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==) right repeat-y\
-}";
-
-var dom = acequire("../lib/dom");
-dom.importCssString(exports.cssText, exports.cssClass);
-});
-
-//import brace from 'brace';
-var QueryBuilder = function (_React$Component) {
-  inherits(QueryBuilder, _React$Component);
-
-  function QueryBuilder(props) {
-    classCallCheck(this, QueryBuilder);
-
-    var _this = possibleConstructorReturn(this, (QueryBuilder.__proto__ || Object.getPrototypeOf(QueryBuilder)).call(this, props));
-
-    _this.state = {
-      sql: _this.props.value.included[0].attributes.sql,
-      finalSql: _this.props.value.included[0].attributes.finalSql
-    };
-
-    _this.updateCode = _this.updateCode.bind(_this);
-    return _this;
-  }
-
-  createClass(QueryBuilder, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.update(this.props.value);
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      this.update(nextProps.value);
-    }
-  }, {
-    key: 'updateCode',
-    value: function updateCode(newSql) {
-      var _this2 = this;
-
-      this.setState({
-        sql: newSql
-      });
-
-      be5.net.request('queryBuilder', { sql: newSql, _ts_: new Date().getTime(), values: this.props.value.params }, function (json) {
-        _this2.update(json);
-      });
-    }
-  }, {
-    key: 'update',
-    value: function update(json) {
-      this.setState({
-        finalSql: json.included[0].attributes.finalSql
-      });
-      tables._performData(json, 'queryBuilder-table');
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-
-      return React.createElement(
-        'div',
-        { className: 'queryBuilder' },
-        React.createElement(
-          'h1',
-          null,
-          'Query Builder'
-        ),
-        React.createElement(
-          SplitPane,
-          { split: 'horizontal', defaultSize: 300 },
-          React.createElement(AceEditor, {
-            value: this.state.sql,
-            mode: 'mysql',
-            theme: 'xcode',
-            fontSize: 13,
-            onChange: this.updateCode,
-            name: 'UNIQUE_ID_OF_DIV',
-            width: '100%',
-            height: '100%',
-            editorProps: {
-              $blockScrolling: true,
-              enableBasicAutocompletion: true,
-              enableLiveAutocompletion: true,
-              enableSnippets: true,
-              showLineNumbers: true,
-              tabSize: 2
-            }
-          }),
-          React.createElement(
-            'div',
-            null,
-            React.createElement('br', null),
-            React.createElement(Document$1, { frontendParams: { documentName: "queryBuilder-table" } }),
-            React.createElement(
-              'h2',
-              null,
-              'Final sql'
-            ),
-            React.createElement(
-              'pre',
-              null,
-              this.state.finalSql
-            )
-          )
-        )
-      );
-      //<button>Выполнить</button>
-    }
-  }]);
-  return QueryBuilder;
-}(React.Component);
-
-var action$12 = function action(documentName, params) {
+var route$12 = function route(documentName, params) {
   var requestParams = {
     values: be5.net.paramString(params),
     _ts_: new Date().getTime()
   };
 
   be5.net.request('queryBuilder', requestParams, function (data) {
-    changeDocument(documentName, { component: QueryBuilder, value: Object.assign({}, data, { params: be5.net.paramString(params) }) });
+    changeDocument(documentName, { value: Object.assign({}, data, { params: be5.net.paramString(params) }) });
   });
 };
 
-actionsCollection.registerAction("qBuilder", action$12);
+registerRoute("queryBuilder", route$12);
 
-var action$14 = function action(documentName, text) {
+var route$14 = function route(documentName, text) {
   changeDocument(documentName, { value: text });
 };
 
-actionsCollection.registerAction("text", action$14);
+registerRoute("text", route$14);
 
 var HelpInfo = function (_React$Component) {
   inherits(HelpInfo, _React$Component);
@@ -2687,7 +2303,7 @@ var TableForm = function (_React$Component) {
     key: 'updateDocuments',
     value: function updateDocuments() {
       changeDocument("form", { value: "" });
-      changeDocument("table", { component: Table, value: this.props.value });
+      changeDocument("table", { value: this.props.value });
     }
   }, {
     key: 'render',
@@ -2711,7 +2327,7 @@ var TableForm = function (_React$Component) {
   return TableForm;
 }(React.Component);
 
-be5.ui.tables.registerTable('tableForm', TableForm);
+registerDocument('tableForm', TableForm);
 
 var TableFormRow = function (_TableForm) {
   inherits(TableFormRow, _TableForm);
@@ -2743,7 +2359,7 @@ var TableFormRow = function (_TableForm) {
   return TableFormRow;
 }(TableForm);
 
-be5.ui.tables.registerTable('tableFormRow', TableFormRow);
+registerDocument('tableFormRow', TableFormRow);
 
 var FormTable = function (_TableForm) {
   inherits(FormTable, _TableForm);
@@ -2767,7 +2383,7 @@ var FormTable = function (_TableForm) {
   return FormTable;
 }(TableForm);
 
-be5.ui.tables.registerTable('formTable', FormTable);
+registerDocument('formTable', FormTable);
 
 var TableBox$1 = function (_React$Component) {
   inherits(TableBox, _React$Component);
@@ -3196,13 +2812,14 @@ var ReactTable = function (_React$Component2) {
 
       var TitleTag = 'h' + (value.data.attributes.parameters && value.data.attributes.parameters.titleLevel || 1);
 
-      var topFormJson = value.included !== undefined ? documentUtils.getResourceByID(value.included, "topForm") : undefined;
+      //todo use getModelByID() instead getResourceByID()
+      var topFormJson = value.included !== undefined ? getResourceByID(value.included, "topForm") : undefined;
       var topForm = void 0;
       if (topFormJson) {
         topForm = React.createElement(Document$1, {
           frontendParams: { documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName },
           value: { data: topFormJson, meta: value.meta },
-          component: formsCollection.getForm(topFormJson.attributes.layout.type)
+          component: documents.getDocument(topFormJson.attributes.layout.type)
         });
       }
 
@@ -3238,7 +2855,7 @@ ReactTable.propTypes = {
   value: PropTypes.object.isRequired
 };
 
-be5.ui.tables.registerTable('rTable', ReactTable);
+registerDocument('rTable', ReactTable);
 
 function unwrapExports (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
@@ -4098,7 +3715,7 @@ Form.propTypes = {
   frontendParams: PropTypes.object.isRequired
 };
 
-be5.ui.forms.registerForm('form', Form);
+registerDocument('form', Form);
 
 var SubmitOnChangeForm = function (_Form) {
   inherits(SubmitOnChangeForm, _Form);
@@ -4148,7 +3765,7 @@ var SubmitOnChangeForm = function (_Form) {
   return SubmitOnChangeForm;
 }(Form);
 
-be5.ui.forms.registerForm('submitOnChange', SubmitOnChangeForm);
+registerDocument('submitOnChange', SubmitOnChangeForm);
 
 var ModalForm = function (_Form) {
   inherits(ModalForm, _Form);
@@ -4211,7 +3828,7 @@ var ModalForm = function (_Form) {
   return ModalForm;
 }(Form);
 
-be5.ui.forms.registerForm('modal', ModalForm);
+registerDocument('modalForm', ModalForm);
 
 var InlineForm = function (_Form) {
   inherits(InlineForm, _Form);
@@ -4262,28 +3879,2346 @@ var InlineForm = function (_Form) {
   return InlineForm;
 }(Form);
 
-be5.ui.forms.registerForm('inline', InlineForm);
+registerDocument('inlineForm', InlineForm);
+
+ace.define("ace/mode/doc_comment_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(acequire, exports, module) {
+var oop = acequire("../lib/oop");
+var TextHighlightRules = acequire("./text_highlight_rules").TextHighlightRules;
+
+var DocCommentHighlightRules = function() {
+    this.$rules = {
+        "start" : [ {
+            token : "comment.doc.tag",
+            regex : "@[\\w\\d_]+" // TODO: fix email addresses
+        }, 
+        DocCommentHighlightRules.getTagRule(),
+        {
+            defaultToken : "comment.doc",
+            caseInsensitive: true
+        }]
+    };
+};
+
+oop.inherits(DocCommentHighlightRules, TextHighlightRules);
+
+DocCommentHighlightRules.getTagRule = function(start) {
+    return {
+        token : "comment.doc.tag.storage.type",
+        regex : "\\b(?:TODO|FIXME|XXX|HACK)\\b"
+    };
+};
+
+DocCommentHighlightRules.getStartRule = function(start) {
+    return {
+        token : "comment.doc", // doc comment
+        regex : "\\/\\*(?=\\*)",
+        next  : start
+    };
+};
+
+DocCommentHighlightRules.getEndRule = function (start) {
+    return {
+        token : "comment.doc", // closing comment
+        regex : "\\*\\/",
+        next  : start
+    };
+};
+
+
+exports.DocCommentHighlightRules = DocCommentHighlightRules;
+
+});
+
+ace.define("ace/mode/mysql_highlight_rules",["require","exports","module","ace/lib/oop","ace/lib/lang","ace/mode/doc_comment_highlight_rules","ace/mode/text_highlight_rules"], function(acequire, exports, module) {
+
+var oop = acequire("../lib/oop");
+var lang = acequire("../lib/lang");
+var DocCommentHighlightRules = acequire("./doc_comment_highlight_rules").DocCommentHighlightRules;
+var TextHighlightRules = acequire("./text_highlight_rules").TextHighlightRules;
+
+var MysqlHighlightRules = function() {
+
+    var mySqlKeywords = /*sql*/ "alter|and|as|asc|between|count|create|delete|desc|distinct|drop|from|having|in|insert|into|is|join|like|not|on|or|order|select|set|table|union|update|values|where" + "|accessible|action|add|after|algorithm|all|analyze|asensitive|at|authors|auto_increment|autocommit|avg|avg_row_length|before|binary|binlog|both|btree|cache|call|cascade|cascaded|case|catalog_name|chain|change|changed|character|check|checkpoint|checksum|class_origin|client_statistics|close|coalesce|code|collate|collation|collations|column|columns|comment|commit|committed|completion|concurrent|condition|connection|consistent|constraint|contains|continue|contributors|convert|cross|current_date|current_time|current_timestamp|current_user|cursor|data|database|databases|day_hour|day_microsecond|day_minute|day_second|deallocate|dec|declare|default|delay_key_write|delayed|delimiter|des_key_file|describe|deterministic|dev_pop|dev_samp|deviance|directory|disable|discard|distinctrow|div|dual|dumpfile|each|elseif|enable|enclosed|end|ends|engine|engines|enum|errors|escape|escaped|even|event|events|every|execute|exists|exit|explain|extended|fast|fetch|field|fields|first|flush|for|force|foreign|found_rows|full|fulltext|function|general|global|grant|grants|group|groupby_concat|handler|hash|help|high_priority|hosts|hour_microsecond|hour_minute|hour_second|if|ignore|ignore_server_ids|import|index|index_statistics|infile|inner|innodb|inout|insensitive|insert_method|install|interval|invoker|isolation|iterate|key|keys|kill|language|last|leading|leave|left|level|limit|linear|lines|list|load|local|localtime|localtimestamp|lock|logs|low_priority|master|master_heartbeat_period|master_ssl_verify_server_cert|masters|match|max|max_rows|maxvalue|message_text|middleint|migrate|min|min_rows|minute_microsecond|minute_second|mod|mode|modifies|modify|mutex|mysql_errno|natural|next|no|no_write_to_binlog|offline|offset|one|online|open|optimize|option|optionally|out|outer|outfile|pack_keys|parser|partition|partitions|password|phase|plugin|plugins|prepare|preserve|prev|primary|privileges|procedure|processlist|profile|profiles|purge|query|quick|range|read|read_write|reads|real|rebuild|recover|references|regexp|relaylog|release|remove|rename|reorganize|repair|repeatable|replace|acequire|resignal|restrict|resume|return|returns|revoke|right|rlike|rollback|rollup|row|row_format|rtree|savepoint|schedule|schema|schema_name|schemas|second_microsecond|security|sensitive|separator|serializable|server|session|share|show|signal|slave|slow|smallint|snapshot|soname|spatial|specific|sql|sql_big_result|sql_buffer_result|sql_cache|sql_calc_found_rows|sql_no_cache|sql_small_result|sqlexception|sqlstate|sqlwarning|ssl|start|starting|starts|status|std|stddev|stddev_pop|stddev_samp|storage|straight_join|subclass_origin|sum|suspend|table_name|table_statistics|tables|tablespace|temporary|terminated|to|trailing|transaction|trigger|triggers|truncate|uncommitted|undo|uninstall|unique|unlock|upgrade|usage|use|use_frm|user|user_resources|user_statistics|using|utc_date|utc_time|utc_timestamp|value|variables|varying|view|views|warnings|when|while|with|work|write|xa|xor|year_month|zerofill|begin|do|then|else|loop|repeat";
+    var builtins = "by|bool|boolean|bit|blob|decimal|double|enum|float|long|longblob|longtext|medium|mediumblob|mediumint|mediumtext|time|timestamp|tinyblob|tinyint|tinytext|text|bigint|int|int1|int2|int3|int4|int8|integer|float|float4|float8|double|char|varbinary|varchar|varcharacter|precision|date|datetime|year|unsigned|signed|numeric|ucase|lcase|mid|len|round|rank|now|format|coalesce|ifnull|isnull|nvl";
+    var variable = "charset|clear|connect|edit|ego|exit|go|help|nopager|notee|nowarning|pager|print|prompt|quit|rehash|source|status|system|tee";
+
+    var keywordMapper = this.createKeywordMapper({
+        "support.function": builtins,
+        "keyword": mySqlKeywords,
+        "constant": "false|true|null|unknown|date|time|timestamp|ODBCdotTable|zerolessFloat",
+        "variable.language": variable
+    }, "identifier", true);
+
+    
+    function string(rule) {
+        var start = rule.start;
+        var escapeSeq = rule.escape;
+        return {
+            token: "string.start",
+            regex: start,
+            next: [
+                {token: "constant.language.escape", regex: escapeSeq},
+                {token: "string.end", next: "start", regex: start},
+                {defaultToken: "string"}
+            ]
+        };
+    }
+
+    this.$rules = {
+        "start" : [ {
+            token : "comment", regex : "(?:-- |#).*$"
+        },  
+        string({start: '"', escape: /\\[0'"bnrtZ\\%_]?/}),
+        string({start: "'", escape: /\\[0'"bnrtZ\\%_]?/}),
+        DocCommentHighlightRules.getStartRule("doc-start"),
+        {
+            token : "comment", // multi line comment
+            regex : /\/\*/,
+            next : "comment"
+        }, {
+            token : "constant.numeric", // hex
+            regex : /0[xX][0-9a-fA-F]+|[xX]'[0-9a-fA-F]+'|0[bB][01]+|[bB]'[01]+'/
+        }, {
+            token : "constant.numeric", // float
+            regex : "[+-]?\\d+(?:(?:\\.\\d*)?(?:[eE][+-]?\\d+)?)?\\b"
+        }, {
+            token : keywordMapper,
+            regex : "[a-zA-Z_$][a-zA-Z0-9_$]*\\b"
+        }, {
+            token : "constant.class",
+            regex : "@@?[a-zA-Z_$][a-zA-Z0-9_$]*\\b"
+        }, {
+            token : "constant.buildin",
+            regex : "`[^`]*`"
+        }, {
+            token : "keyword.operator",
+            regex : "\\+|\\-|\\/|\\/\\/|%|<@>|@>|<@|&|\\^|~|<|>|<=|=>|==|!=|<>|="
+        }, {
+            token : "paren.lparen",
+            regex : "[\\(]"
+        }, {
+            token : "paren.rparen",
+            regex : "[\\)]"
+        }, {
+            token : "text",
+            regex : "\\s+"
+        } ],
+        "comment" : [
+            {token : "comment", regex : "\\*\\/", next : "start"},
+            {defaultToken : "comment"}
+        ]
+    };
+
+    this.embedRules(DocCommentHighlightRules, "doc-", [ DocCommentHighlightRules.getEndRule("start") ]);
+    this.normalizeRules();
+};
+
+oop.inherits(MysqlHighlightRules, TextHighlightRules);
+
+exports.MysqlHighlightRules = MysqlHighlightRules;
+});
+
+ace.define("ace/mode/mysql",["require","exports","module","ace/lib/oop","ace/mode/text","ace/mode/mysql_highlight_rules"], function(acequire, exports, module) {
+
+var oop = acequire("../lib/oop");
+var TextMode = acequire("../mode/text").Mode;
+var MysqlHighlightRules = acequire("./mysql_highlight_rules").MysqlHighlightRules;
+
+var Mode = function() {
+    this.HighlightRules = MysqlHighlightRules;
+    this.$behaviour = this.$defaultBehaviour;
+};
+oop.inherits(Mode, TextMode);
+
+(function() {       
+    this.lineCommentStart = ["--", "#"]; // todo space
+    this.blockComment = {start: "/*", end: "*/"};
+
+    this.$id = "ace/mode/mysql";
+}).call(Mode.prototype);
+
+exports.Mode = Mode;
+});
+
+ace.define("ace/theme/xcode",["require","exports","module","ace/lib/dom"], function(acequire, exports, module) {
+
+exports.isDark = false;
+exports.cssClass = "ace-xcode";
+exports.cssText = "\
+.ace-xcode .ace_gutter {\
+background: #e8e8e8;\
+color: #333\
+}\
+.ace-xcode .ace_print-margin {\
+width: 1px;\
+background: #e8e8e8\
+}\
+.ace-xcode {\
+background-color: #FFFFFF;\
+color: #000000\
+}\
+.ace-xcode .ace_cursor {\
+color: #000000\
+}\
+.ace-xcode .ace_marker-layer .ace_selection {\
+background: #B5D5FF\
+}\
+.ace-xcode.ace_multiselect .ace_selection.ace_start {\
+box-shadow: 0 0 3px 0px #FFFFFF;\
+}\
+.ace-xcode .ace_marker-layer .ace_step {\
+background: rgb(198, 219, 174)\
+}\
+.ace-xcode .ace_marker-layer .ace_bracket {\
+margin: -1px 0 0 -1px;\
+border: 1px solid #BFBFBF\
+}\
+.ace-xcode .ace_marker-layer .ace_active-line {\
+background: rgba(0, 0, 0, 0.071)\
+}\
+.ace-xcode .ace_gutter-active-line {\
+background-color: rgba(0, 0, 0, 0.071)\
+}\
+.ace-xcode .ace_marker-layer .ace_selected-word {\
+border: 1px solid #B5D5FF\
+}\
+.ace-xcode .ace_constant.ace_language,\
+.ace-xcode .ace_keyword,\
+.ace-xcode .ace_meta,\
+.ace-xcode .ace_variable.ace_language {\
+color: #C800A4\
+}\
+.ace-xcode .ace_invisible {\
+color: #BFBFBF\
+}\
+.ace-xcode .ace_constant.ace_character,\
+.ace-xcode .ace_constant.ace_other {\
+color: #275A5E\
+}\
+.ace-xcode .ace_constant.ace_numeric {\
+color: #3A00DC\
+}\
+.ace-xcode .ace_entity.ace_other.ace_attribute-name,\
+.ace-xcode .ace_support.ace_constant,\
+.ace-xcode .ace_support.ace_function {\
+color: #450084\
+}\
+.ace-xcode .ace_fold {\
+background-color: #C800A4;\
+border-color: #000000\
+}\
+.ace-xcode .ace_entity.ace_name.ace_tag,\
+.ace-xcode .ace_support.ace_class,\
+.ace-xcode .ace_support.ace_type {\
+color: #790EAD\
+}\
+.ace-xcode .ace_storage {\
+color: #C900A4\
+}\
+.ace-xcode .ace_string {\
+color: #DF0002\
+}\
+.ace-xcode .ace_comment {\
+color: #008E00\
+}\
+.ace-xcode .ace_indent-guide {\
+background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==) right repeat-y\
+}";
+
+var dom = acequire("../lib/dom");
+dom.importCssString(exports.cssText, exports.cssClass);
+});
+
+ace.define("ace/snippets",["require","exports","module","ace/lib/oop","ace/lib/event_emitter","ace/lib/lang","ace/range","ace/anchor","ace/keyboard/hash_handler","ace/tokenizer","ace/lib/dom","ace/editor"], function(acequire, exports, module) {
+var oop = acequire("./lib/oop");
+var EventEmitter = acequire("./lib/event_emitter").EventEmitter;
+var lang = acequire("./lib/lang");
+var Range = acequire("./range").Range;
+var Anchor = acequire("./anchor").Anchor;
+var HashHandler = acequire("./keyboard/hash_handler").HashHandler;
+var Tokenizer = acequire("./tokenizer").Tokenizer;
+var comparePoints = Range.comparePoints;
+
+var SnippetManager = function() {
+    this.snippetMap = {};
+    this.snippetNameMap = {};
+};
+
+(function() {
+    oop.implement(this, EventEmitter);
+    
+    this.getTokenizer = function() {
+        function TabstopToken(str, _, stack) {
+            str = str.substr(1);
+            if (/^\d+$/.test(str) && !stack.inFormatString)
+                return [{tabstopId: parseInt(str, 10)}];
+            return [{text: str}];
+        }
+        function escape(ch) {
+            return "(?:[^\\\\" + ch + "]|\\\\.)";
+        }
+        SnippetManager.$tokenizer = new Tokenizer({
+            start: [
+                {regex: /:/, onMatch: function(val, state, stack) {
+                    if (stack.length && stack[0].expectIf) {
+                        stack[0].expectIf = false;
+                        stack[0].elseBranch = stack[0];
+                        return [stack[0]];
+                    }
+                    return ":";
+                }},
+                {regex: /\\./, onMatch: function(val, state, stack) {
+                    var ch = val[1];
+                    if (ch == "}" && stack.length) {
+                        val = ch;
+                    }else if ("`$\\".indexOf(ch) != -1) {
+                        val = ch;
+                    } else if (stack.inFormatString) {
+                        if (ch == "n")
+                            val = "\n";
+                        else if (ch == "t")
+                            val = "\n";
+                        else if ("ulULE".indexOf(ch) != -1) {
+                            val = {changeCase: ch, local: ch > "a"};
+                        }
+                    }
+
+                    return [val];
+                }},
+                {regex: /}/, onMatch: function(val, state, stack) {
+                    return [stack.length ? stack.shift() : val];
+                }},
+                {regex: /\$(?:\d+|\w+)/, onMatch: TabstopToken},
+                {regex: /\$\{[\dA-Z_a-z]+/, onMatch: function(str, state, stack) {
+                    var t = TabstopToken(str.substr(1), state, stack);
+                    stack.unshift(t[0]);
+                    return t;
+                }, next: "snippetVar"},
+                {regex: /\n/, token: "newline", merge: false}
+            ],
+            snippetVar: [
+                {regex: "\\|" + escape("\\|") + "*\\|", onMatch: function(val, state, stack) {
+                    stack[0].choices = val.slice(1, -1).split(",");
+                }, next: "start"},
+                {regex: "/(" + escape("/") + "+)/(?:(" + escape("/") + "*)/)(\\w*):?",
+                 onMatch: function(val, state, stack) {
+                    var ts = stack[0];
+                    ts.fmtString = val;
+
+                    val = this.splitRegex.exec(val);
+                    ts.guard = val[1];
+                    ts.fmt = val[2];
+                    ts.flag = val[3];
+                    return "";
+                }, next: "start"},
+                {regex: "`" + escape("`") + "*`", onMatch: function(val, state, stack) {
+                    stack[0].code = val.splice(1, -1);
+                    return "";
+                }, next: "start"},
+                {regex: "\\?", onMatch: function(val, state, stack) {
+                    if (stack[0])
+                        stack[0].expectIf = true;
+                }, next: "start"},
+                {regex: "([^:}\\\\]|\\\\.)*:?", token: "", next: "start"}
+            ],
+            formatString: [
+                {regex: "/(" + escape("/") + "+)/", token: "regex"},
+                {regex: "", onMatch: function(val, state, stack) {
+                    stack.inFormatString = true;
+                }, next: "start"}
+            ]
+        });
+        SnippetManager.prototype.getTokenizer = function() {
+            return SnippetManager.$tokenizer;
+        };
+        return SnippetManager.$tokenizer;
+    };
+
+    this.tokenizeTmSnippet = function(str, startState) {
+        return this.getTokenizer().getLineTokens(str, startState).tokens.map(function(x) {
+            return x.value || x;
+        });
+    };
+
+    this.$getDefaultValue = function(editor, name) {
+        if (/^[A-Z]\d+$/.test(name)) {
+            var i = name.substr(1);
+            return (this.variables[name[0] + "__"] || {})[i];
+        }
+        if (/^\d+$/.test(name)) {
+            return (this.variables.__ || {})[name];
+        }
+        name = name.replace(/^TM_/, "");
+
+        if (!editor)
+            return;
+        var s = editor.session;
+        switch(name) {
+            case "CURRENT_WORD":
+                var r = s.getWordRange();
+            case "SELECTION":
+            case "SELECTED_TEXT":
+                return s.getTextRange(r);
+            case "CURRENT_LINE":
+                return s.getLine(editor.getCursorPosition().row);
+            case "PREV_LINE": // not possible in textmate
+                return s.getLine(editor.getCursorPosition().row - 1);
+            case "LINE_INDEX":
+                return editor.getCursorPosition().column;
+            case "LINE_NUMBER":
+                return editor.getCursorPosition().row + 1;
+            case "SOFT_TABS":
+                return s.getUseSoftTabs() ? "YES" : "NO";
+            case "TAB_SIZE":
+                return s.getTabSize();
+            case "FILENAME":
+            case "FILEPATH":
+                return "";
+            case "FULLNAME":
+                return "Ace";
+        }
+    };
+    this.variables = {};
+    this.getVariableValue = function(editor, varName) {
+        if (this.variables.hasOwnProperty(varName))
+            return this.variables[varName](editor, varName) || "";
+        return this.$getDefaultValue(editor, varName) || "";
+    };
+    this.tmStrFormat = function(str, ch, editor) {
+        var flag = ch.flag || "";
+        var re = ch.guard;
+        re = new RegExp(re, flag.replace(/[^gi]/, ""));
+        var fmtTokens = this.tokenizeTmSnippet(ch.fmt, "formatString");
+        var _self = this;
+        var formatted = str.replace(re, function() {
+            _self.variables.__ = arguments;
+            var fmtParts = _self.resolveVariables(fmtTokens, editor);
+            var gChangeCase = "E";
+            for (var i  = 0; i < fmtParts.length; i++) {
+                var ch = fmtParts[i];
+                if (typeof ch == "object") {
+                    fmtParts[i] = "";
+                    if (ch.changeCase && ch.local) {
+                        var next = fmtParts[i + 1];
+                        if (next && typeof next == "string") {
+                            if (ch.changeCase == "u")
+                                fmtParts[i] = next[0].toUpperCase();
+                            else
+                                fmtParts[i] = next[0].toLowerCase();
+                            fmtParts[i + 1] = next.substr(1);
+                        }
+                    } else if (ch.changeCase) {
+                        gChangeCase = ch.changeCase;
+                    }
+                } else if (gChangeCase == "U") {
+                    fmtParts[i] = ch.toUpperCase();
+                } else if (gChangeCase == "L") {
+                    fmtParts[i] = ch.toLowerCase();
+                }
+            }
+            return fmtParts.join("");
+        });
+        this.variables.__ = null;
+        return formatted;
+    };
+
+    this.resolveVariables = function(snippet, editor) {
+        var result = [];
+        for (var i = 0; i < snippet.length; i++) {
+            var ch = snippet[i];
+            if (typeof ch == "string") {
+                result.push(ch);
+            } else if (typeof ch != "object") {
+                continue;
+            } else if (ch.skip) {
+                gotoNext(ch);
+            } else if (ch.processed < i) {
+                continue;
+            } else if (ch.text) {
+                var value = this.getVariableValue(editor, ch.text);
+                if (value && ch.fmtString)
+                    value = this.tmStrFormat(value, ch);
+                ch.processed = i;
+                if (ch.expectIf == null) {
+                    if (value) {
+                        result.push(value);
+                        gotoNext(ch);
+                    }
+                } else {
+                    if (value) {
+                        ch.skip = ch.elseBranch;
+                    } else
+                        gotoNext(ch);
+                }
+            } else if (ch.tabstopId != null) {
+                result.push(ch);
+            } else if (ch.changeCase != null) {
+                result.push(ch);
+            }
+        }
+        function gotoNext(ch) {
+            var i1 = snippet.indexOf(ch, i + 1);
+            if (i1 != -1)
+                i = i1;
+        }
+        return result;
+    };
+
+    this.insertSnippetForSelection = function(editor, snippetText) {
+        var cursor = editor.getCursorPosition();
+        var line = editor.session.getLine(cursor.row);
+        var tabString = editor.session.getTabString();
+        var indentString = line.match(/^\s*/)[0];
+        
+        if (cursor.column < indentString.length)
+            indentString = indentString.slice(0, cursor.column);
+
+        snippetText = snippetText.replace(/\r/g, "");
+        var tokens = this.tokenizeTmSnippet(snippetText);
+        tokens = this.resolveVariables(tokens, editor);
+        tokens = tokens.map(function(x) {
+            if (x == "\n")
+                return x + indentString;
+            if (typeof x == "string")
+                return x.replace(/\t/g, tabString);
+            return x;
+        });
+        var tabstops = [];
+        tokens.forEach(function(p, i) {
+            if (typeof p != "object")
+                return;
+            var id = p.tabstopId;
+            var ts = tabstops[id];
+            if (!ts) {
+                ts = tabstops[id] = [];
+                ts.index = id;
+                ts.value = "";
+            }
+            if (ts.indexOf(p) !== -1)
+                return;
+            ts.push(p);
+            var i1 = tokens.indexOf(p, i + 1);
+            if (i1 === -1)
+                return;
+
+            var value = tokens.slice(i + 1, i1);
+            var isNested = value.some(function(t) {return typeof t === "object";});
+            if (isNested && !ts.value) {
+                ts.value = value;
+            } else if (value.length && (!ts.value || typeof ts.value !== "string")) {
+                ts.value = value.join("");
+            }
+        });
+        tabstops.forEach(function(ts) {ts.length = 0;});
+        var expanding = {};
+        function copyValue(val) {
+            var copy = [];
+            for (var i = 0; i < val.length; i++) {
+                var p = val[i];
+                if (typeof p == "object") {
+                    if (expanding[p.tabstopId])
+                        continue;
+                    var j = val.lastIndexOf(p, i - 1);
+                    p = copy[j] || {tabstopId: p.tabstopId};
+                }
+                copy[i] = p;
+            }
+            return copy;
+        }
+        for (var i = 0; i < tokens.length; i++) {
+            var p = tokens[i];
+            if (typeof p != "object")
+                continue;
+            var id = p.tabstopId;
+            var i1 = tokens.indexOf(p, i + 1);
+            if (expanding[id]) {
+                if (expanding[id] === p)
+                    expanding[id] = null;
+                continue;
+            }
+            
+            var ts = tabstops[id];
+            var arg = typeof ts.value == "string" ? [ts.value] : copyValue(ts.value);
+            arg.unshift(i + 1, Math.max(0, i1 - i));
+            arg.push(p);
+            expanding[id] = p;
+            tokens.splice.apply(tokens, arg);
+
+            if (ts.indexOf(p) === -1)
+                ts.push(p);
+        }
+        var row = 0, column = 0;
+        var text = "";
+        tokens.forEach(function(t) {
+            if (typeof t === "string") {
+                var lines = t.split("\n");
+                if (lines.length > 1){
+                    column = lines[lines.length - 1].length;
+                    row += lines.length - 1;
+                } else
+                    column += t.length;
+                text += t;
+            } else {
+                if (!t.start)
+                    t.start = {row: row, column: column};
+                else
+                    t.end = {row: row, column: column};
+            }
+        });
+        var range = editor.getSelectionRange();
+        var end = editor.session.replace(range, text);
+
+        var tabstopManager = new TabstopManager(editor);
+        var selectionId = editor.inVirtualSelectionMode && editor.selection.index;
+        tabstopManager.addTabstops(tabstops, range.start, end, selectionId);
+    };
+    
+    this.insertSnippet = function(editor, snippetText) {
+        var self = this;
+        if (editor.inVirtualSelectionMode)
+            return self.insertSnippetForSelection(editor, snippetText);
+        
+        editor.forEachSelection(function() {
+            self.insertSnippetForSelection(editor, snippetText);
+        }, null, {keepOrder: true});
+        
+        if (editor.tabstopManager)
+            editor.tabstopManager.tabNext();
+    };
+
+    this.$getScope = function(editor) {
+        var scope = editor.session.$mode.$id || "";
+        scope = scope.split("/").pop();
+        if (scope === "html" || scope === "php") {
+            if (scope === "php" && !editor.session.$mode.inlinePhp) 
+                scope = "html";
+            var c = editor.getCursorPosition();
+            var state = editor.session.getState(c.row);
+            if (typeof state === "object") {
+                state = state[0];
+            }
+            if (state.substring) {
+                if (state.substring(0, 3) == "js-")
+                    scope = "javascript";
+                else if (state.substring(0, 4) == "css-")
+                    scope = "css";
+                else if (state.substring(0, 4) == "php-")
+                    scope = "php";
+            }
+        }
+        
+        return scope;
+    };
+
+    this.getActiveScopes = function(editor) {
+        var scope = this.$getScope(editor);
+        var scopes = [scope];
+        var snippetMap = this.snippetMap;
+        if (snippetMap[scope] && snippetMap[scope].includeScopes) {
+            scopes.push.apply(scopes, snippetMap[scope].includeScopes);
+        }
+        scopes.push("_");
+        return scopes;
+    };
+
+    this.expandWithTab = function(editor, options) {
+        var self = this;
+        var result = editor.forEachSelection(function() {
+            return self.expandSnippetForSelection(editor, options);
+        }, null, {keepOrder: true});
+        if (result && editor.tabstopManager)
+            editor.tabstopManager.tabNext();
+        return result;
+    };
+    
+    this.expandSnippetForSelection = function(editor, options) {
+        var cursor = editor.getCursorPosition();
+        var line = editor.session.getLine(cursor.row);
+        var before = line.substring(0, cursor.column);
+        var after = line.substr(cursor.column);
+
+        var snippetMap = this.snippetMap;
+        var snippet;
+        this.getActiveScopes(editor).some(function(scope) {
+            var snippets = snippetMap[scope];
+            if (snippets)
+                snippet = this.findMatchingSnippet(snippets, before, after);
+            return !!snippet;
+        }, this);
+        if (!snippet)
+            return false;
+        if (options && options.dryRun)
+            return true;
+        editor.session.doc.removeInLine(cursor.row,
+            cursor.column - snippet.replaceBefore.length,
+            cursor.column + snippet.replaceAfter.length
+        );
+
+        this.variables.M__ = snippet.matchBefore;
+        this.variables.T__ = snippet.matchAfter;
+        this.insertSnippetForSelection(editor, snippet.content);
+
+        this.variables.M__ = this.variables.T__ = null;
+        return true;
+    };
+
+    this.findMatchingSnippet = function(snippetList, before, after) {
+        for (var i = snippetList.length; i--;) {
+            var s = snippetList[i];
+            if (s.startRe && !s.startRe.test(before))
+                continue;
+            if (s.endRe && !s.endRe.test(after))
+                continue;
+            if (!s.startRe && !s.endRe)
+                continue;
+
+            s.matchBefore = s.startRe ? s.startRe.exec(before) : [""];
+            s.matchAfter = s.endRe ? s.endRe.exec(after) : [""];
+            s.replaceBefore = s.triggerRe ? s.triggerRe.exec(before)[0] : "";
+            s.replaceAfter = s.endTriggerRe ? s.endTriggerRe.exec(after)[0] : "";
+            return s;
+        }
+    };
+
+    this.snippetMap = {};
+    this.snippetNameMap = {};
+    this.register = function(snippets, scope) {
+        var snippetMap = this.snippetMap;
+        var snippetNameMap = this.snippetNameMap;
+        var self = this;
+        
+        if (!snippets) 
+            snippets = [];
+        
+        function wrapRegexp(src) {
+            if (src && !/^\^?\(.*\)\$?$|^\\b$/.test(src))
+                src = "(?:" + src + ")";
+
+            return src || "";
+        }
+        function guardedRegexp(re, guard, opening) {
+            re = wrapRegexp(re);
+            guard = wrapRegexp(guard);
+            if (opening) {
+                re = guard + re;
+                if (re && re[re.length - 1] != "$")
+                    re = re + "$";
+            } else {
+                re = re + guard;
+                if (re && re[0] != "^")
+                    re = "^" + re;
+            }
+            return new RegExp(re);
+        }
+
+        function addSnippet(s) {
+            if (!s.scope)
+                s.scope = scope || "_";
+            scope = s.scope;
+            if (!snippetMap[scope]) {
+                snippetMap[scope] = [];
+                snippetNameMap[scope] = {};
+            }
+
+            var map = snippetNameMap[scope];
+            if (s.name) {
+                var old = map[s.name];
+                if (old)
+                    self.unregister(old);
+                map[s.name] = s;
+            }
+            snippetMap[scope].push(s);
+
+            if (s.tabTrigger && !s.trigger) {
+                if (!s.guard && /^\w/.test(s.tabTrigger))
+                    s.guard = "\\b";
+                s.trigger = lang.escapeRegExp(s.tabTrigger);
+            }
+            
+            if (!s.trigger && !s.guard && !s.endTrigger && !s.endGuard)
+                return;
+            
+            s.startRe = guardedRegexp(s.trigger, s.guard, true);
+            s.triggerRe = new RegExp(s.trigger, "", true);
+
+            s.endRe = guardedRegexp(s.endTrigger, s.endGuard, true);
+            s.endTriggerRe = new RegExp(s.endTrigger, "", true);
+        }
+
+        if (snippets && snippets.content)
+            addSnippet(snippets);
+        else if (Array.isArray(snippets))
+            snippets.forEach(addSnippet);
+        
+        this._signal("registerSnippets", {scope: scope});
+    };
+    this.unregister = function(snippets, scope) {
+        var snippetMap = this.snippetMap;
+        var snippetNameMap = this.snippetNameMap;
+
+        function removeSnippet(s) {
+            var nameMap = snippetNameMap[s.scope||scope];
+            if (nameMap && nameMap[s.name]) {
+                delete nameMap[s.name];
+                var map = snippetMap[s.scope||scope];
+                var i = map && map.indexOf(s);
+                if (i >= 0)
+                    map.splice(i, 1);
+            }
+        }
+        if (snippets.content)
+            removeSnippet(snippets);
+        else if (Array.isArray(snippets))
+            snippets.forEach(removeSnippet);
+    };
+    this.parseSnippetFile = function(str) {
+        str = str.replace(/\r/g, "");
+        var list = [], snippet = {};
+        var re = /^#.*|^({[\s\S]*})\s*$|^(\S+) (.*)$|^((?:\n*\t.*)+)/gm;
+        var m;
+        while (m = re.exec(str)) {
+            if (m[1]) {
+                try {
+                    snippet = JSON.parse(m[1]);
+                    list.push(snippet);
+                } catch (e) {}
+            } if (m[4]) {
+                snippet.content = m[4].replace(/^\t/gm, "");
+                list.push(snippet);
+                snippet = {};
+            } else {
+                var key = m[2], val = m[3];
+                if (key == "regex") {
+                    var guardRe = /\/((?:[^\/\\]|\\.)*)|$/g;
+                    snippet.guard = guardRe.exec(val)[1];
+                    snippet.trigger = guardRe.exec(val)[1];
+                    snippet.endTrigger = guardRe.exec(val)[1];
+                    snippet.endGuard = guardRe.exec(val)[1];
+                } else if (key == "snippet") {
+                    snippet.tabTrigger = val.match(/^\S*/)[0];
+                    if (!snippet.name)
+                        snippet.name = val;
+                } else {
+                    snippet[key] = val;
+                }
+            }
+        }
+        return list;
+    };
+    this.getSnippetByName = function(name, editor) {
+        var snippetMap = this.snippetNameMap;
+        var snippet;
+        this.getActiveScopes(editor).some(function(scope) {
+            var snippets = snippetMap[scope];
+            if (snippets)
+                snippet = snippets[name];
+            return !!snippet;
+        }, this);
+        return snippet;
+    };
+
+}).call(SnippetManager.prototype);
+
+
+var TabstopManager = function(editor) {
+    if (editor.tabstopManager)
+        return editor.tabstopManager;
+    editor.tabstopManager = this;
+    this.$onChange = this.onChange.bind(this);
+    this.$onChangeSelection = lang.delayedCall(this.onChangeSelection.bind(this)).schedule;
+    this.$onChangeSession = this.onChangeSession.bind(this);
+    this.$onAfterExec = this.onAfterExec.bind(this);
+    this.attach(editor);
+};
+(function() {
+    this.attach = function(editor) {
+        this.index = 0;
+        this.ranges = [];
+        this.tabstops = [];
+        this.$openTabstops = null;
+        this.selectedTabstop = null;
+
+        this.editor = editor;
+        this.editor.on("change", this.$onChange);
+        this.editor.on("changeSelection", this.$onChangeSelection);
+        this.editor.on("changeSession", this.$onChangeSession);
+        this.editor.commands.on("afterExec", this.$onAfterExec);
+        this.editor.keyBinding.addKeyboardHandler(this.keyboardHandler);
+    };
+    this.detach = function() {
+        this.tabstops.forEach(this.removeTabstopMarkers, this);
+        this.ranges = null;
+        this.tabstops = null;
+        this.selectedTabstop = null;
+        this.editor.removeListener("change", this.$onChange);
+        this.editor.removeListener("changeSelection", this.$onChangeSelection);
+        this.editor.removeListener("changeSession", this.$onChangeSession);
+        this.editor.commands.removeListener("afterExec", this.$onAfterExec);
+        this.editor.keyBinding.removeKeyboardHandler(this.keyboardHandler);
+        this.editor.tabstopManager = null;
+        this.editor = null;
+    };
+
+    this.onChange = function(delta) {
+        var isRemove = delta.action[0] == "r";
+        var start = delta.start;
+        var end = delta.end;
+        var startRow = start.row;
+        var endRow = end.row;
+        var lineDif = endRow - startRow;
+        var colDiff = end.column - start.column;
+
+        if (isRemove) {
+            lineDif = -lineDif;
+            colDiff = -colDiff;
+        }
+        if (!this.$inChange && isRemove) {
+            var ts = this.selectedTabstop;
+            var changedOutside = ts && !ts.some(function(r) {
+                return comparePoints(r.start, start) <= 0 && comparePoints(r.end, end) >= 0;
+            });
+            if (changedOutside)
+                return this.detach();
+        }
+        var ranges = this.ranges;
+        for (var i = 0; i < ranges.length; i++) {
+            var r = ranges[i];
+            if (r.end.row < start.row)
+                continue;
+
+            if (isRemove && comparePoints(start, r.start) < 0 && comparePoints(end, r.end) > 0) {
+                this.removeRange(r);
+                i--;
+                continue;
+            }
+
+            if (r.start.row == startRow && r.start.column > start.column)
+                r.start.column += colDiff;
+            if (r.end.row == startRow && r.end.column >= start.column)
+                r.end.column += colDiff;
+            if (r.start.row >= startRow)
+                r.start.row += lineDif;
+            if (r.end.row >= startRow)
+                r.end.row += lineDif;
+
+            if (comparePoints(r.start, r.end) > 0)
+                this.removeRange(r);
+        }
+        if (!ranges.length)
+            this.detach();
+    };
+    this.updateLinkedFields = function() {
+        var ts = this.selectedTabstop;
+        if (!ts || !ts.hasLinkedRanges)
+            return;
+        this.$inChange = true;
+        var session = this.editor.session;
+        var text = session.getTextRange(ts.firstNonLinked);
+        for (var i = ts.length; i--;) {
+            var range = ts[i];
+            if (!range.linked)
+                continue;
+            var fmt = exports.snippetManager.tmStrFormat(text, range.original);
+            session.replace(range, fmt);
+        }
+        this.$inChange = false;
+    };
+    this.onAfterExec = function(e) {
+        if (e.command && !e.command.readOnly)
+            this.updateLinkedFields();
+    };
+    this.onChangeSelection = function() {
+        if (!this.editor)
+            return;
+        var lead = this.editor.selection.lead;
+        var anchor = this.editor.selection.anchor;
+        var isEmpty = this.editor.selection.isEmpty();
+        for (var i = this.ranges.length; i--;) {
+            if (this.ranges[i].linked)
+                continue;
+            var containsLead = this.ranges[i].contains(lead.row, lead.column);
+            var containsAnchor = isEmpty || this.ranges[i].contains(anchor.row, anchor.column);
+            if (containsLead && containsAnchor)
+                return;
+        }
+        this.detach();
+    };
+    this.onChangeSession = function() {
+        this.detach();
+    };
+    this.tabNext = function(dir) {
+        var max = this.tabstops.length;
+        var index = this.index + (dir || 1);
+        index = Math.min(Math.max(index, 1), max);
+        if (index == max)
+            index = 0;
+        this.selectTabstop(index);
+        if (index === 0)
+            this.detach();
+    };
+    this.selectTabstop = function(index) {
+        this.$openTabstops = null;
+        var ts = this.tabstops[this.index];
+        if (ts)
+            this.addTabstopMarkers(ts);
+        this.index = index;
+        ts = this.tabstops[this.index];
+        if (!ts || !ts.length)
+            return;
+        
+        this.selectedTabstop = ts;
+        if (!this.editor.inVirtualSelectionMode) {        
+            var sel = this.editor.multiSelect;
+            sel.toSingleRange(ts.firstNonLinked.clone());
+            for (var i = ts.length; i--;) {
+                if (ts.hasLinkedRanges && ts[i].linked)
+                    continue;
+                sel.addRange(ts[i].clone(), true);
+            }
+            if (sel.ranges[0])
+                sel.addRange(sel.ranges[0].clone());
+        } else {
+            this.editor.selection.setRange(ts.firstNonLinked);
+        }
+        
+        this.editor.keyBinding.addKeyboardHandler(this.keyboardHandler);
+    };
+    this.addTabstops = function(tabstops, start, end) {
+        if (!this.$openTabstops)
+            this.$openTabstops = [];
+        if (!tabstops[0]) {
+            var p = Range.fromPoints(end, end);
+            moveRelative(p.start, start);
+            moveRelative(p.end, start);
+            tabstops[0] = [p];
+            tabstops[0].index = 0;
+        }
+
+        var i = this.index;
+        var arg = [i + 1, 0];
+        var ranges = this.ranges;
+        tabstops.forEach(function(ts, index) {
+            var dest = this.$openTabstops[index] || ts;
+                
+            for (var i = ts.length; i--;) {
+                var p = ts[i];
+                var range = Range.fromPoints(p.start, p.end || p.start);
+                movePoint(range.start, start);
+                movePoint(range.end, start);
+                range.original = p;
+                range.tabstop = dest;
+                ranges.push(range);
+                if (dest != ts)
+                    dest.unshift(range);
+                else
+                    dest[i] = range;
+                if (p.fmtString) {
+                    range.linked = true;
+                    dest.hasLinkedRanges = true;
+                } else if (!dest.firstNonLinked)
+                    dest.firstNonLinked = range;
+            }
+            if (!dest.firstNonLinked)
+                dest.hasLinkedRanges = false;
+            if (dest === ts) {
+                arg.push(dest);
+                this.$openTabstops[index] = dest;
+            }
+            this.addTabstopMarkers(dest);
+        }, this);
+        
+        if (arg.length > 2) {
+            if (this.tabstops.length)
+                arg.push(arg.splice(2, 1)[0]);
+            this.tabstops.splice.apply(this.tabstops, arg);
+        }
+    };
+
+    this.addTabstopMarkers = function(ts) {
+        var session = this.editor.session;
+        ts.forEach(function(range) {
+            if  (!range.markerId)
+                range.markerId = session.addMarker(range, "ace_snippet-marker", "text");
+        });
+    };
+    this.removeTabstopMarkers = function(ts) {
+        var session = this.editor.session;
+        ts.forEach(function(range) {
+            session.removeMarker(range.markerId);
+            range.markerId = null;
+        });
+    };
+    this.removeRange = function(range) {
+        var i = range.tabstop.indexOf(range);
+        range.tabstop.splice(i, 1);
+        i = this.ranges.indexOf(range);
+        this.ranges.splice(i, 1);
+        this.editor.session.removeMarker(range.markerId);
+        if (!range.tabstop.length) {
+            i = this.tabstops.indexOf(range.tabstop);
+            if (i != -1)
+                this.tabstops.splice(i, 1);
+            if (!this.tabstops.length)
+                this.detach();
+        }
+    };
+
+    this.keyboardHandler = new HashHandler();
+    this.keyboardHandler.bindKeys({
+        "Tab": function(ed) {
+            if (exports.snippetManager && exports.snippetManager.expandWithTab(ed)) {
+                return;
+            }
+
+            ed.tabstopManager.tabNext(1);
+        },
+        "Shift-Tab": function(ed) {
+            ed.tabstopManager.tabNext(-1);
+        },
+        "Esc": function(ed) {
+            ed.tabstopManager.detach();
+        },
+        "Return": function(ed) {
+            return false;
+        }
+    });
+}).call(TabstopManager.prototype);
+
+
+
+var changeTracker = {};
+changeTracker.onChange = Anchor.prototype.onChange;
+changeTracker.setPosition = function(row, column) {
+    this.pos.row = row;
+    this.pos.column = column;
+};
+changeTracker.update = function(pos, delta, $insertRight) {
+    this.$insertRight = $insertRight;
+    this.pos = pos; 
+    this.onChange(delta);
+};
+
+var movePoint = function(point, diff) {
+    if (point.row == 0)
+        point.column += diff.column;
+    point.row += diff.row;
+};
+
+var moveRelative = function(point, start) {
+    if (point.row == start.row)
+        point.column -= start.column;
+    point.row -= start.row;
+};
+
+
+acequire("./lib/dom").importCssString("\
+.ace_snippet-marker {\
+    -moz-box-sizing: border-box;\
+    box-sizing: border-box;\
+    background: rgba(194, 193, 208, 0.09);\
+    border: 1px dotted rgba(211, 208, 235, 0.62);\
+    position: absolute;\
+}");
+
+exports.snippetManager = new SnippetManager();
+
+
+var Editor = acequire("./editor").Editor;
+(function() {
+    this.insertSnippet = function(content, options) {
+        return exports.snippetManager.insertSnippet(this, content, options);
+    };
+    this.expandSnippet = function(options) {
+        return exports.snippetManager.expandWithTab(this, options);
+    };
+}).call(Editor.prototype);
+
+});
+
+ace.define("ace/autocomplete/popup",["require","exports","module","ace/virtual_renderer","ace/editor","ace/range","ace/lib/event","ace/lib/lang","ace/lib/dom"], function(acequire, exports, module) {
+var Renderer = acequire("../virtual_renderer").VirtualRenderer;
+var Editor = acequire("../editor").Editor;
+var Range = acequire("../range").Range;
+var event = acequire("../lib/event");
+var lang = acequire("../lib/lang");
+var dom = acequire("../lib/dom");
+
+var $singleLineEditor = function(el) {
+    var renderer = new Renderer(el);
+
+    renderer.$maxLines = 4;
+
+    var editor = new Editor(renderer);
+
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setHighlightGutterLine(false);
+
+    editor.$mouseHandler.$focusWaitTimout = 0;
+    editor.$highlightTagPending = true;
+
+    return editor;
+};
+
+var AcePopup = function(parentNode) {
+    var el = dom.createElement("div");
+    var popup = new $singleLineEditor(el);
+
+    if (parentNode)
+        parentNode.appendChild(el);
+    el.style.display = "none";
+    popup.renderer.content.style.cursor = "default";
+    popup.renderer.setStyle("ace_autocomplete");
+
+    popup.setOption("displayIndentGuides", false);
+    popup.setOption("dragDelay", 150);
+
+    var noop = function(){};
+
+    popup.focus = noop;
+    popup.$isFocused = true;
+
+    popup.renderer.$cursorLayer.restartTimer = noop;
+    popup.renderer.$cursorLayer.element.style.opacity = 0;
+
+    popup.renderer.$maxLines = 8;
+    popup.renderer.$keepTextAreaAtCursor = false;
+
+    popup.setHighlightActiveLine(false);
+    popup.session.highlight("");
+    popup.session.$searchHighlight.clazz = "ace_highlight-marker";
+
+    popup.on("mousedown", function(e) {
+        var pos = e.getDocumentPosition();
+        popup.selection.moveToPosition(pos);
+        selectionMarker.start.row = selectionMarker.end.row = pos.row;
+        e.stop();
+    });
+
+    var lastMouseEvent;
+    var hoverMarker = new Range(-1,0,-1,Infinity);
+    var selectionMarker = new Range(-1,0,-1,Infinity);
+    selectionMarker.id = popup.session.addMarker(selectionMarker, "ace_active-line", "fullLine");
+    popup.setSelectOnHover = function(val) {
+        if (!val) {
+            hoverMarker.id = popup.session.addMarker(hoverMarker, "ace_line-hover", "fullLine");
+        } else if (hoverMarker.id) {
+            popup.session.removeMarker(hoverMarker.id);
+            hoverMarker.id = null;
+        }
+    };
+    popup.setSelectOnHover(false);
+    popup.on("mousemove", function(e) {
+        if (!lastMouseEvent) {
+            lastMouseEvent = e;
+            return;
+        }
+        if (lastMouseEvent.x == e.x && lastMouseEvent.y == e.y) {
+            return;
+        }
+        lastMouseEvent = e;
+        lastMouseEvent.scrollTop = popup.renderer.scrollTop;
+        var row = lastMouseEvent.getDocumentPosition().row;
+        if (hoverMarker.start.row != row) {
+            if (!hoverMarker.id)
+                popup.setRow(row);
+            setHoverMarker(row);
+        }
+    });
+    popup.renderer.on("beforeRender", function() {
+        if (lastMouseEvent && hoverMarker.start.row != -1) {
+            lastMouseEvent.$pos = null;
+            var row = lastMouseEvent.getDocumentPosition().row;
+            if (!hoverMarker.id)
+                popup.setRow(row);
+            setHoverMarker(row, true);
+        }
+    });
+    popup.renderer.on("afterRender", function() {
+        var row = popup.getRow();
+        var t = popup.renderer.$textLayer;
+        var selected = t.element.childNodes[row - t.config.firstRow];
+        if (selected == t.selectedNode)
+            return;
+        if (t.selectedNode)
+            dom.removeCssClass(t.selectedNode, "ace_selected");
+        t.selectedNode = selected;
+        if (selected)
+            dom.addCssClass(selected, "ace_selected");
+    });
+    var hideHoverMarker = function() { setHoverMarker(-1); };
+    var setHoverMarker = function(row, suppressRedraw) {
+        if (row !== hoverMarker.start.row) {
+            hoverMarker.start.row = hoverMarker.end.row = row;
+            if (!suppressRedraw)
+                popup.session._emit("changeBackMarker");
+            popup._emit("changeHoverMarker");
+        }
+    };
+    popup.getHoveredRow = function() {
+        return hoverMarker.start.row;
+    };
+
+    event.addListener(popup.container, "mouseout", hideHoverMarker);
+    popup.on("hide", hideHoverMarker);
+    popup.on("changeSelection", hideHoverMarker);
+
+    popup.session.doc.getLength = function() {
+        return popup.data.length;
+    };
+    popup.session.doc.getLine = function(i) {
+        var data = popup.data[i];
+        if (typeof data == "string")
+            return data;
+        return (data && data.value) || "";
+    };
+
+    var bgTokenizer = popup.session.bgTokenizer;
+    bgTokenizer.$tokenizeRow = function(row) {
+        var data = popup.data[row];
+        var tokens = [];
+        if (!data)
+            return tokens;
+        if (typeof data == "string")
+            data = {value: data};
+        if (!data.caption)
+            data.caption = data.value || data.name;
+
+        var last = -1;
+        var flag, c;
+        for (var i = 0; i < data.caption.length; i++) {
+            c = data.caption[i];
+            flag = data.matchMask & (1 << i) ? 1 : 0;
+            if (last !== flag) {
+                tokens.push({type: data.className || "" + ( flag ? "completion-highlight" : ""), value: c});
+                last = flag;
+            } else {
+                tokens[tokens.length - 1].value += c;
+            }
+        }
+
+        if (data.meta) {
+            var maxW = popup.renderer.$size.scrollerWidth / popup.renderer.layerConfig.characterWidth;
+            var metaData = data.meta;
+            if (metaData.length + data.caption.length > maxW - 2) {
+                metaData = metaData.substr(0, maxW - data.caption.length - 3) + "\u2026";
+            }
+            tokens.push({type: "rightAlignedText", value: metaData});
+        }
+        return tokens;
+    };
+    bgTokenizer.$updateOnChange = noop;
+    bgTokenizer.start = noop;
+
+    popup.session.$computeWidth = function() {
+        return this.screenWidth = 0;
+    };
+
+    popup.$blockScrolling = Infinity;
+    popup.isOpen = false;
+    popup.isTopdown = false;
+    popup.autoSelect = true;
+
+    popup.data = [];
+    popup.setData = function(list) {
+        popup.setValue(lang.stringRepeat("\n", list.length), -1);
+        popup.data = list || [];
+        popup.setRow(0);
+    };
+    popup.getData = function(row) {
+        return popup.data[row];
+    };
+
+    popup.getRow = function() {
+        return selectionMarker.start.row;
+    };
+    popup.setRow = function(line) {
+        line = Math.max(this.autoSelect ? 0 : -1, Math.min(this.data.length, line));
+        if (selectionMarker.start.row != line) {
+            popup.selection.clearSelection();
+            selectionMarker.start.row = selectionMarker.end.row = line || 0;
+            popup.session._emit("changeBackMarker");
+            popup.moveCursorTo(line || 0, 0);
+            if (popup.isOpen)
+                popup._signal("select");
+        }
+    };
+
+    popup.on("changeSelection", function() {
+        if (popup.isOpen)
+            popup.setRow(popup.selection.lead.row);
+        popup.renderer.scrollCursorIntoView();
+    });
+
+    popup.hide = function() {
+        this.container.style.display = "none";
+        this._signal("hide");
+        popup.isOpen = false;
+    };
+    popup.show = function(pos, lineHeight, topdownOnly) {
+        var el = this.container;
+        var screenHeight = window.innerHeight;
+        var screenWidth = window.innerWidth;
+        var renderer = this.renderer;
+        var maxH = renderer.$maxLines * lineHeight * 1.4;
+        var top = pos.top + this.$borderSize;
+        var allowTopdown = top > screenHeight / 2 && !topdownOnly;
+        if (allowTopdown && top + lineHeight + maxH > screenHeight) {
+            renderer.$maxPixelHeight = top - 2 * this.$borderSize;
+            el.style.top = "";
+            el.style.bottom = screenHeight - top + "px";
+            popup.isTopdown = false;
+        } else {
+            top += lineHeight;
+            renderer.$maxPixelHeight = screenHeight - top - 0.2 * lineHeight;
+            el.style.top = top + "px";
+            el.style.bottom = "";
+            popup.isTopdown = true;
+        }
+
+        el.style.display = "";
+        this.renderer.$textLayer.checkForSizeChanges();
+
+        var left = pos.left;
+        if (left + el.offsetWidth > screenWidth)
+            left = screenWidth - el.offsetWidth;
+
+        el.style.left = left + "px";
+
+        this._signal("show");
+        lastMouseEvent = null;
+        popup.isOpen = true;
+    };
+
+    popup.getTextLeftOffset = function() {
+        return this.$borderSize + this.renderer.$padding + this.$imageSize;
+    };
+
+    popup.$imageSize = 0;
+    popup.$borderSize = 1;
+
+    return popup;
+};
+
+dom.importCssString("\
+.ace_editor.ace_autocomplete .ace_marker-layer .ace_active-line {\
+    background-color: #CAD6FA;\
+    z-index: 1;\
+}\
+.ace_editor.ace_autocomplete .ace_line-hover {\
+    border: 1px solid #abbffe;\
+    margin-top: -1px;\
+    background: rgba(233,233,253,0.4);\
+}\
+.ace_editor.ace_autocomplete .ace_line-hover {\
+    position: absolute;\
+    z-index: 2;\
+}\
+.ace_editor.ace_autocomplete .ace_scroller {\
+   background: none;\
+   border: none;\
+   box-shadow: none;\
+}\
+.ace_rightAlignedText {\
+    color: gray;\
+    display: inline-block;\
+    position: absolute;\
+    right: 4px;\
+    text-align: right;\
+    z-index: -1;\
+}\
+.ace_editor.ace_autocomplete .ace_completion-highlight{\
+    color: #000;\
+    text-shadow: 0 0 0.01em;\
+}\
+.ace_editor.ace_autocomplete {\
+    width: 280px;\
+    z-index: 200000;\
+    background: #fbfbfb;\
+    color: #444;\
+    border: 1px lightgray solid;\
+    position: fixed;\
+    box-shadow: 2px 3px 5px rgba(0,0,0,.2);\
+    line-height: 1.4;\
+}");
+
+exports.AcePopup = AcePopup;
+
+});
+
+ace.define("ace/autocomplete/util",["require","exports","module"], function(acequire, exports, module) {
+exports.parForEach = function(array, fn, callback) {
+    var completed = 0;
+    var arLength = array.length;
+    if (arLength === 0)
+        callback();
+    for (var i = 0; i < arLength; i++) {
+        fn(array[i], function(result, err) {
+            completed++;
+            if (completed === arLength)
+                callback(result, err);
+        });
+    }
+};
+
+var ID_REGEX = /[a-zA-Z_0-9\$\-\u00A2-\uFFFF]/;
+
+exports.retrievePrecedingIdentifier = function(text, pos, regex) {
+    regex = regex || ID_REGEX;
+    var buf = [];
+    for (var i = pos-1; i >= 0; i--) {
+        if (regex.test(text[i]))
+            buf.push(text[i]);
+        else
+            break;
+    }
+    return buf.reverse().join("");
+};
+
+exports.retrieveFollowingIdentifier = function(text, pos, regex) {
+    regex = regex || ID_REGEX;
+    var buf = [];
+    for (var i = pos; i < text.length; i++) {
+        if (regex.test(text[i]))
+            buf.push(text[i]);
+        else
+            break;
+    }
+    return buf;
+};
+
+exports.getCompletionPrefix = function (editor) {
+    var pos = editor.getCursorPosition();
+    var line = editor.session.getLine(pos.row);
+    var prefix;
+    editor.completers.forEach(function(completer) {
+        if (completer.identifierRegexps) {
+            completer.identifierRegexps.forEach(function(identifierRegex) {
+                if (!prefix && identifierRegex)
+                    prefix = this.retrievePrecedingIdentifier(line, pos.column, identifierRegex);
+            }.bind(this));
+        }
+    }.bind(this));
+    return prefix || this.retrievePrecedingIdentifier(line, pos.column);
+};
+
+});
+
+ace.define("ace/autocomplete",["require","exports","module","ace/keyboard/hash_handler","ace/autocomplete/popup","ace/autocomplete/util","ace/lib/event","ace/lib/lang","ace/lib/dom","ace/snippets"], function(acequire, exports, module) {
+var HashHandler = acequire("./keyboard/hash_handler").HashHandler;
+var AcePopup = acequire("./autocomplete/popup").AcePopup;
+var util = acequire("./autocomplete/util");
+var event = acequire("./lib/event");
+var lang = acequire("./lib/lang");
+var dom = acequire("./lib/dom");
+var snippetManager = acequire("./snippets").snippetManager;
+
+var Autocomplete = function() {
+    this.autoInsert = false;
+    this.autoSelect = true;
+    this.exactMatch = false;
+    this.gatherCompletionsId = 0;
+    this.keyboardHandler = new HashHandler();
+    this.keyboardHandler.bindKeys(this.commands);
+
+    this.blurListener = this.blurListener.bind(this);
+    this.changeListener = this.changeListener.bind(this);
+    this.mousedownListener = this.mousedownListener.bind(this);
+    this.mousewheelListener = this.mousewheelListener.bind(this);
+
+    this.changeTimer = lang.delayedCall(function() {
+        this.updateCompletions(true);
+    }.bind(this));
+
+    this.tooltipTimer = lang.delayedCall(this.updateDocTooltip.bind(this), 50);
+};
+
+(function() {
+
+    this.$init = function() {
+        this.popup = new AcePopup(document.body || document.documentElement);
+        this.popup.on("click", function(e) {
+            this.insertMatch();
+            e.stop();
+        }.bind(this));
+        this.popup.focus = this.editor.focus.bind(this.editor);
+        this.popup.on("show", this.tooltipTimer.bind(null, null));
+        this.popup.on("select", this.tooltipTimer.bind(null, null));
+        this.popup.on("changeHoverMarker", this.tooltipTimer.bind(null, null));
+        return this.popup;
+    };
+
+    this.getPopup = function() {
+        return this.popup || this.$init();
+    };
+
+    this.openPopup = function(editor, prefix, keepPopupPosition) {
+        if (!this.popup)
+            this.$init();
+
+	this.popup.autoSelect = this.autoSelect;
+
+        this.popup.setData(this.completions.filtered);
+
+        editor.keyBinding.addKeyboardHandler(this.keyboardHandler);
+        
+        var renderer = editor.renderer;
+        this.popup.setRow(this.autoSelect ? 0 : -1);
+        if (!keepPopupPosition) {
+            this.popup.setTheme(editor.getTheme());
+            this.popup.setFontSize(editor.getFontSize());
+
+            var lineHeight = renderer.layerConfig.lineHeight;
+
+            var pos = renderer.$cursorLayer.getPixelPosition(this.base, true);
+            pos.left -= this.popup.getTextLeftOffset();
+
+            var rect = editor.container.getBoundingClientRect();
+            pos.top += rect.top - renderer.layerConfig.offset;
+            pos.left += rect.left - editor.renderer.scrollLeft;
+            pos.left += renderer.gutterWidth;
+
+            this.popup.show(pos, lineHeight);
+        } else if (keepPopupPosition && !prefix) {
+            this.detach();
+        }
+    };
+
+    this.detach = function() {
+        this.editor.keyBinding.removeKeyboardHandler(this.keyboardHandler);
+        this.editor.off("changeSelection", this.changeListener);
+        this.editor.off("blur", this.blurListener);
+        this.editor.off("mousedown", this.mousedownListener);
+        this.editor.off("mousewheel", this.mousewheelListener);
+        this.changeTimer.cancel();
+        this.hideDocTooltip();
+
+        this.gatherCompletionsId += 1;
+        if (this.popup && this.popup.isOpen)
+            this.popup.hide();
+
+        if (this.base)
+            this.base.detach();
+        this.activated = false;
+        this.completions = this.base = null;
+    };
+
+    this.changeListener = function(e) {
+        var cursor = this.editor.selection.lead;
+        if (cursor.row != this.base.row || cursor.column < this.base.column) {
+            this.detach();
+        }
+        if (this.activated)
+            this.changeTimer.schedule();
+        else
+            this.detach();
+    };
+
+    this.blurListener = function(e) {
+        var el = document.activeElement;
+        var text = this.editor.textInput.getElement();
+        var fromTooltip = e.relatedTarget && this.tooltipNode && this.tooltipNode.contains(e.relatedTarget);
+        var container = this.popup && this.popup.container;
+        if (el != text && el.parentNode != container && !fromTooltip
+            && el != this.tooltipNode && e.relatedTarget != text
+        ) {
+            this.detach();
+        }
+    };
+
+    this.mousedownListener = function(e) {
+        this.detach();
+    };
+
+    this.mousewheelListener = function(e) {
+        this.detach();
+    };
+
+    this.goTo = function(where) {
+        var row = this.popup.getRow();
+        var max = this.popup.session.getLength() - 1;
+
+        switch(where) {
+            case "up": row = row <= 0 ? max : row - 1; break;
+            case "down": row = row >= max ? -1 : row + 1; break;
+            case "start": row = 0; break;
+            case "end": row = max; break;
+        }
+
+        this.popup.setRow(row);
+    };
+
+    this.insertMatch = function(data, options) {
+        if (!data)
+            data = this.popup.getData(this.popup.getRow());
+        if (!data)
+            return false;
+
+        if (data.completer && data.completer.insertMatch) {
+            data.completer.insertMatch(this.editor, data);
+        } else {
+            if (this.completions.filterText) {
+                var ranges = this.editor.selection.getAllRanges();
+                for (var i = 0, range; range = ranges[i]; i++) {
+                    range.start.column -= this.completions.filterText.length;
+                    this.editor.session.remove(range);
+                }
+            }
+            if (data.snippet)
+                snippetManager.insertSnippet(this.editor, data.snippet);
+            else
+                this.editor.execCommand("insertstring", data.value || data);
+        }
+        this.detach();
+    };
+
+
+    this.commands = {
+        "Up": function(editor) { editor.completer.goTo("up"); },
+        "Down": function(editor) { editor.completer.goTo("down"); },
+        "Ctrl-Up|Ctrl-Home": function(editor) { editor.completer.goTo("start"); },
+        "Ctrl-Down|Ctrl-End": function(editor) { editor.completer.goTo("end"); },
+
+        "Esc": function(editor) { editor.completer.detach(); },
+        "Return": function(editor) { return editor.completer.insertMatch(); },
+        "Shift-Return": function(editor) { editor.completer.insertMatch(null, {deleteSuffix: true}); },
+        "Tab": function(editor) {
+            var result = editor.completer.insertMatch();
+            if (!result && !editor.tabstopManager)
+                editor.completer.goTo("down");
+            else
+                return result;
+        },
+
+        "PageUp": function(editor) { editor.completer.popup.gotoPageUp(); },
+        "PageDown": function(editor) { editor.completer.popup.gotoPageDown(); }
+    };
+
+    this.gatherCompletions = function(editor, callback) {
+        var session = editor.getSession();
+        var pos = editor.getCursorPosition();
+
+        var prefix = util.getCompletionPrefix(editor);
+
+        this.base = session.doc.createAnchor(pos.row, pos.column - prefix.length);
+        this.base.$insertRight = true;
+
+        var matches = [];
+        var total = editor.completers.length;
+        editor.completers.forEach(function(completer, i) {
+            completer.getCompletions(editor, session, pos, prefix, function(err, results) {
+                if (!err && results)
+                    matches = matches.concat(results);
+                callback(null, {
+                    prefix: util.getCompletionPrefix(editor),
+                    matches: matches,
+                    finished: (--total === 0)
+                });
+            });
+        });
+        return true;
+    };
+
+    this.showPopup = function(editor) {
+        if (this.editor)
+            this.detach();
+
+        this.activated = true;
+
+        this.editor = editor;
+        if (editor.completer != this) {
+            if (editor.completer)
+                editor.completer.detach();
+            editor.completer = this;
+        }
+
+        editor.on("changeSelection", this.changeListener);
+        editor.on("blur", this.blurListener);
+        editor.on("mousedown", this.mousedownListener);
+        editor.on("mousewheel", this.mousewheelListener);
+
+        this.updateCompletions();
+    };
+
+    this.updateCompletions = function(keepPopupPosition) {
+        if (keepPopupPosition && this.base && this.completions) {
+            var pos = this.editor.getCursorPosition();
+            var prefix = this.editor.session.getTextRange({start: this.base, end: pos});
+            if (prefix == this.completions.filterText)
+                return;
+            this.completions.setFilter(prefix);
+            if (!this.completions.filtered.length)
+                return this.detach();
+            if (this.completions.filtered.length == 1
+            && this.completions.filtered[0].value == prefix
+            && !this.completions.filtered[0].snippet)
+                return this.detach();
+            this.openPopup(this.editor, prefix, keepPopupPosition);
+            return;
+        }
+        var _id = this.gatherCompletionsId;
+        this.gatherCompletions(this.editor, function(err, results) {
+            var detachIfFinished = function() {
+                if (!results.finished) return;
+                return this.detach();
+            }.bind(this);
+
+            var prefix = results.prefix;
+            var matches = results && results.matches;
+
+            if (!matches || !matches.length)
+                return detachIfFinished();
+            if (prefix.indexOf(results.prefix) !== 0 || _id != this.gatherCompletionsId)
+                return;
+
+            this.completions = new FilteredList(matches);
+
+            if (this.exactMatch)
+                this.completions.exactMatch = true;
+
+            this.completions.setFilter(prefix);
+            var filtered = this.completions.filtered;
+            if (!filtered.length)
+                return detachIfFinished();
+            if (filtered.length == 1 && filtered[0].value == prefix && !filtered[0].snippet)
+                return detachIfFinished();
+            if (this.autoInsert && filtered.length == 1 && results.finished)
+                return this.insertMatch(filtered[0]);
+
+            this.openPopup(this.editor, prefix, keepPopupPosition);
+        }.bind(this));
+    };
+
+    this.cancelContextMenu = function() {
+        this.editor.$mouseHandler.cancelContextMenu();
+    };
+
+    this.updateDocTooltip = function() {
+        var popup = this.popup;
+        var all = popup.data;
+        var selected = all && (all[popup.getHoveredRow()] || all[popup.getRow()]);
+        var doc = null;
+        if (!selected || !this.editor || !this.popup.isOpen)
+            return this.hideDocTooltip();
+        this.editor.completers.some(function(completer) {
+            if (completer.getDocTooltip)
+                doc = completer.getDocTooltip(selected);
+            return doc;
+        });
+        if (!doc)
+            doc = selected;
+
+        if (typeof doc == "string")
+            doc = {docText: doc};
+        if (!doc || !(doc.docHTML || doc.docText))
+            return this.hideDocTooltip();
+        this.showDocTooltip(doc);
+    };
+
+    this.showDocTooltip = function(item) {
+        if (!this.tooltipNode) {
+            this.tooltipNode = dom.createElement("div");
+            this.tooltipNode.className = "ace_tooltip ace_doc-tooltip";
+            this.tooltipNode.style.margin = 0;
+            this.tooltipNode.style.pointerEvents = "auto";
+            this.tooltipNode.tabIndex = -1;
+            this.tooltipNode.onblur = this.blurListener.bind(this);
+            this.tooltipNode.onclick = this.onTooltipClick.bind(this);
+        }
+
+        var tooltipNode = this.tooltipNode;
+        if (item.docHTML) {
+            tooltipNode.innerHTML = item.docHTML;
+        } else if (item.docText) {
+            tooltipNode.textContent = item.docText;
+        }
+
+        if (!tooltipNode.parentNode)
+            document.body.appendChild(tooltipNode);
+        var popup = this.popup;
+        var rect = popup.container.getBoundingClientRect();
+        tooltipNode.style.top = popup.container.style.top;
+        tooltipNode.style.bottom = popup.container.style.bottom;
+
+        if (window.innerWidth - rect.right < 320) {
+            tooltipNode.style.right = window.innerWidth - rect.left + "px";
+            tooltipNode.style.left = "";
+        } else {
+            tooltipNode.style.left = (rect.right + 1) + "px";
+            tooltipNode.style.right = "";
+        }
+        tooltipNode.style.display = "block";
+    };
+
+    this.hideDocTooltip = function() {
+        this.tooltipTimer.cancel();
+        if (!this.tooltipNode) return;
+        var el = this.tooltipNode;
+        if (!this.editor.isFocused() && document.activeElement == el)
+            this.editor.focus();
+        this.tooltipNode = null;
+        if (el.parentNode)
+            el.parentNode.removeChild(el);
+    };
+
+    this.onTooltipClick = function(e) {
+        var a = e.target;
+        while (a && a != this.tooltipNode) {
+            if (a.nodeName == "A" && a.href) {
+                a.rel = "noreferrer";
+                a.target = "_blank";
+                break;
+            }
+            a = a.parentNode;
+        }
+    };
+
+}).call(Autocomplete.prototype);
+
+Autocomplete.startCommand = {
+    name: "startAutocomplete",
+    exec: function(editor) {
+        if (!editor.completer)
+            editor.completer = new Autocomplete();
+        editor.completer.autoInsert = false;
+        editor.completer.autoSelect = true;
+        editor.completer.showPopup(editor);
+        editor.completer.cancelContextMenu();
+    },
+    bindKey: "Ctrl-Space|Ctrl-Shift-Space|Alt-Space"
+};
+
+var FilteredList = function(array, filterText) {
+    this.all = array;
+    this.filtered = array;
+    this.filterText = filterText || "";
+    this.exactMatch = false;
+};
+(function(){
+    this.setFilter = function(str) {
+        if (str.length > this.filterText && str.lastIndexOf(this.filterText, 0) === 0)
+            var matches = this.filtered;
+        else
+            var matches = this.all;
+
+        this.filterText = str;
+        matches = this.filterCompletions(matches, this.filterText);
+        matches = matches.sort(function(a, b) {
+            return b.exactMatch - a.exactMatch || b.score - a.score;
+        });
+        var prev = null;
+        matches = matches.filter(function(item){
+            var caption = item.snippet || item.caption || item.value;
+            if (caption === prev) return false;
+            prev = caption;
+            return true;
+        });
+
+        this.filtered = matches;
+    };
+    this.filterCompletions = function(items, needle) {
+        var results = [];
+        var upper = needle.toUpperCase();
+        var lower = needle.toLowerCase();
+        loop: for (var i = 0, item; item = items[i]; i++) {
+            var caption = item.value || item.caption || item.snippet;
+            if (!caption) continue;
+            var lastIndex = -1;
+            var matchMask = 0;
+            var penalty = 0;
+            var index, distance;
+
+            if (this.exactMatch) {
+                if (needle !== caption.substr(0, needle.length))
+                    continue loop;
+            }else{
+                for (var j = 0; j < needle.length; j++) {
+                    var i1 = caption.indexOf(lower[j], lastIndex + 1);
+                    var i2 = caption.indexOf(upper[j], lastIndex + 1);
+                    index = (i1 >= 0) ? ((i2 < 0 || i1 < i2) ? i1 : i2) : i2;
+                    if (index < 0)
+                        continue loop;
+                    distance = index - lastIndex - 1;
+                    if (distance > 0) {
+                        if (lastIndex === -1)
+                            penalty += 10;
+                        penalty += distance;
+                    }
+                    matchMask = matchMask | (1 << index);
+                    lastIndex = index;
+                }
+            }
+            item.matchMask = matchMask;
+            item.exactMatch = penalty ? 0 : 1;
+            item.score = (item.score || 0) - penalty;
+            results.push(item);
+        }
+        return results;
+    };
+}).call(FilteredList.prototype);
+
+exports.Autocomplete = Autocomplete;
+exports.FilteredList = FilteredList;
+
+});
+
+ace.define("ace/autocomplete/text_completer",["require","exports","module","ace/range"], function(acequire, exports, module) {
+    var Range = acequire("../range").Range;
+    
+    var splitRegex = /[^a-zA-Z_0-9\$\-\u00C0-\u1FFF\u2C00-\uD7FF\w]+/;
+
+    function getWordIndex(doc, pos) {
+        var textBefore = doc.getTextRange(Range.fromPoints({row: 0, column:0}, pos));
+        return textBefore.split(splitRegex).length - 1;
+    }
+    function wordDistance(doc, pos) {
+        var prefixPos = getWordIndex(doc, pos);
+        var words = doc.getValue().split(splitRegex);
+        var wordScores = Object.create(null);
+        
+        var currentWord = words[prefixPos];
+
+        words.forEach(function(word, idx) {
+            if (!word || word === currentWord) return;
+
+            var distance = Math.abs(prefixPos - idx);
+            var score = words.length - distance;
+            if (wordScores[word]) {
+                wordScores[word] = Math.max(score, wordScores[word]);
+            } else {
+                wordScores[word] = score;
+            }
+        });
+        return wordScores;
+    }
+
+    exports.getCompletions = function(editor, session, pos, prefix, callback) {
+        var wordScore = wordDistance(session, pos, prefix);
+        var wordList = Object.keys(wordScore);
+        callback(null, wordList.map(function(word) {
+            return {
+                caption: word,
+                value: word,
+                score: wordScore[word],
+                meta: "local"
+            };
+        }));
+    };
+});
+
+ace.define("ace/ext/language_tools",["require","exports","module","ace/snippets","ace/autocomplete","ace/config","ace/lib/lang","ace/autocomplete/util","ace/autocomplete/text_completer","ace/editor","ace/config"], function(acequire, exports, module) {
+var snippetManager = acequire("../snippets").snippetManager;
+var Autocomplete = acequire("../autocomplete").Autocomplete;
+var config = acequire("../config");
+var lang = acequire("../lib/lang");
+var util = acequire("../autocomplete/util");
+
+var textCompleter = acequire("../autocomplete/text_completer");
+var keyWordCompleter = {
+    getCompletions: function(editor, session, pos, prefix, callback) {
+        if (session.$mode.completer) {
+            return session.$mode.completer.getCompletions(editor, session, pos, prefix, callback);
+        }
+        var state = editor.session.getState(pos.row);
+        var completions = session.$mode.getCompletions(state, session, pos, prefix);
+        callback(null, completions);
+    }
+};
+
+var snippetCompleter = {
+    getCompletions: function(editor, session, pos, prefix, callback) {
+        var snippetMap = snippetManager.snippetMap;
+        var completions = [];
+        snippetManager.getActiveScopes(editor).forEach(function(scope) {
+            var snippets = snippetMap[scope] || [];
+            for (var i = snippets.length; i--;) {
+                var s = snippets[i];
+                var caption = s.name || s.tabTrigger;
+                if (!caption)
+                    continue;
+                completions.push({
+                    caption: caption,
+                    snippet: s.content,
+                    meta: s.tabTrigger && !s.name ? s.tabTrigger + "\u21E5 " : "snippet",
+                    type: "snippet"
+                });
+            }
+        }, this);
+        callback(null, completions);
+    },
+    getDocTooltip: function(item) {
+        if (item.type == "snippet" && !item.docHTML) {
+            item.docHTML = [
+                "<b>", lang.escapeHTML(item.caption), "</b>", "<hr></hr>",
+                lang.escapeHTML(item.snippet)
+            ].join("");
+        }
+    }
+};
+
+var completers = [snippetCompleter, textCompleter, keyWordCompleter];
+exports.setCompleters = function(val) {
+    completers.length = 0;
+    if (val) completers.push.apply(completers, val);
+};
+exports.addCompleter = function(completer) {
+    completers.push(completer);
+};
+exports.textCompleter = textCompleter;
+exports.keyWordCompleter = keyWordCompleter;
+exports.snippetCompleter = snippetCompleter;
+
+var expandSnippet = {
+    name: "expandSnippet",
+    exec: function(editor) {
+        return snippetManager.expandWithTab(editor);
+    },
+    bindKey: "Tab"
+};
+
+var onChangeMode = function(e, editor) {
+    loadSnippetsForMode(editor.session.$mode);
+};
+
+var loadSnippetsForMode = function(mode) {
+    var id = mode.$id;
+    if (!snippetManager.files)
+        snippetManager.files = {};
+    loadSnippetFile(id);
+    if (mode.modes)
+        mode.modes.forEach(loadSnippetsForMode);
+};
+
+var loadSnippetFile = function(id) {
+    if (!id || snippetManager.files[id])
+        return;
+    var snippetFilePath = id.replace("mode", "snippets");
+    snippetManager.files[id] = {};
+    config.loadModule(snippetFilePath, function(m) {
+        if (m) {
+            snippetManager.files[id] = m;
+            if (!m.snippets && m.snippetText)
+                m.snippets = snippetManager.parseSnippetFile(m.snippetText);
+            snippetManager.register(m.snippets || [], m.scope);
+            if (m.includeScopes) {
+                snippetManager.snippetMap[m.scope].includeScopes = m.includeScopes;
+                m.includeScopes.forEach(function(x) {
+                    loadSnippetFile("ace/mode/" + x);
+                });
+            }
+        }
+    });
+};
+
+var doLiveAutocomplete = function(e) {
+    var editor = e.editor;
+    var hasCompleter = editor.completer && editor.completer.activated;
+    if (e.command.name === "backspace") {
+        if (hasCompleter && !util.getCompletionPrefix(editor))
+            editor.completer.detach();
+    }
+    else if (e.command.name === "insertstring") {
+        var prefix = util.getCompletionPrefix(editor);
+        if (prefix && !hasCompleter) {
+            if (!editor.completer) {
+                editor.completer = new Autocomplete();
+            }
+            editor.completer.autoInsert = false;
+            editor.completer.showPopup(editor);
+        }
+    }
+};
+
+var Editor = acequire("../editor").Editor;
+acequire("../config").defineOptions(Editor.prototype, "editor", {
+    enableBasicAutocompletion: {
+        set: function(val) {
+            if (val) {
+                if (!this.completers)
+                    this.completers = Array.isArray(val)? val: completers;
+                this.commands.addCommand(Autocomplete.startCommand);
+            } else {
+                this.commands.removeCommand(Autocomplete.startCommand);
+            }
+        },
+        value: false
+    },
+    enableLiveAutocompletion: {
+        set: function(val) {
+            if (val) {
+                if (!this.completers)
+                    this.completers = Array.isArray(val)? val: completers;
+                this.commands.on('afterExec', doLiveAutocomplete);
+            } else {
+                this.commands.removeListener('afterExec', doLiveAutocomplete);
+            }
+        },
+        value: false
+    },
+    enableSnippets: {
+        set: function(val) {
+            if (val) {
+                this.commands.addCommand(expandSnippet);
+                this.on("changeMode", onChangeMode);
+                onChangeMode(null, this);
+            } else {
+                this.commands.removeCommand(expandSnippet);
+                this.off("changeMode", onChangeMode);
+            }
+        },
+        value: false
+    }
+});
+});
+                (function() {
+                    ace.acequire(["ace/ext/language_tools"], function() {});
+                })();
+
+//import brace from 'brace';
+var QueryBuilder = function (_React$Component) {
+  inherits(QueryBuilder, _React$Component);
+
+  function QueryBuilder(props) {
+    classCallCheck(this, QueryBuilder);
+
+    var _this = possibleConstructorReturn(this, (QueryBuilder.__proto__ || Object.getPrototypeOf(QueryBuilder)).call(this, props));
+
+    _this.state = {
+      sql: _this.props.value.data.attributes.sql,
+      finalSql: _this.props.value.data.attributes.finalSql
+    };
+
+    _this.updateCode = _this.updateCode.bind(_this);
+    _this.submit = _this.submit.bind(_this);
+    return _this;
+  }
+
+  createClass(QueryBuilder, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.update(this.props.value);
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      this.update(nextProps.value);
+    }
+  }, {
+    key: 'updateCode',
+    value: function updateCode(newSql) {
+      this.setState({
+        sql: newSql
+      });
+    }
+  }, {
+    key: 'submit',
+    value: function submit() {
+      var _this2 = this;
+
+      be5.net.request('queryBuilder', { sql: this.state.sql, _ts_: new Date().getTime(), values: this.props.value.params }, function (json) {
+        _this2.update(json);
+      });
+    }
+  }, {
+    key: 'update',
+    value: function update(json) {
+      this.setState({
+        finalSql: json.data.attributes.finalSql
+      });
+
+      changeDocument('queryBuilder-table', { value: getModelByID(json.included, json.meta, "queryTable") });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      return React.createElement(
+        'div',
+        { className: 'queryBuilder' },
+        React.createElement(
+          'h1',
+          null,
+          'Query Builder'
+        ),
+        React.createElement(
+          SplitPane,
+          { split: 'horizontal', defaultSize: 300 },
+          React.createElement(AceEditor, {
+            value: this.state.sql,
+            mode: 'mysql',
+            theme: 'xcode',
+            fontSize: 13,
+            onChange: this.updateCode,
+            name: 'queryBuilder_editor',
+            width: '100%',
+            height: '100%',
+            enableBasicAutocompletion: false,
+            enableLiveAutocompletion: false,
+            editorProps: {
+              $blockScrolling: true,
+              enableSnippets: false,
+              showLineNumbers: true,
+              tabSize: 2
+            },
+            commands: [{
+              name: 'Submit',
+              bindKey: { win: 'Alt-Enter', mac: 'Command-Enter' },
+              exec: function exec() {
+                _this3.submit();
+              }
+            }]
+          }),
+          React.createElement(
+            'div',
+            null,
+            React.createElement(
+              'button',
+              {
+                className: 'btn btn-primary btn-sm mt-2 mb-2',
+                onClick: this.submit,
+                title: 'Alt-Enter'
+              },
+              '\u0412\u044B\u043F\u043E\u043B\u043D\u0438\u0442\u044C'
+            ),
+            React.createElement(Document$1, { frontendParams: { documentName: "queryBuilder-table" } }),
+            React.createElement(
+              'h2',
+              null,
+              'Final sql'
+            ),
+            React.createElement(
+              'pre',
+              null,
+              this.state.finalSql
+            )
+          )
+        )
+      );
+      //
+    }
+  }]);
+  return QueryBuilder;
+}(React.Component);
+
+registerDocument("queryBuilder", QueryBuilder);
 
 var be5init = {
   hashChange: function hashChange() {
     bus.fire("mainModalClose");
 
-    var state = documentState.get(be5.mainDocumentName);
+    var state = documentState.get(be5.MAIN_DOCUMENT);
     console.log(state);
 
     if (state.value.links !== undefined && "#!" + state.value.data.links.self === be5.url.get() && state.value.data.links.self.startsWith('form')) {
       //console.log('skip - form already opened');
     } else {
-      be5.url.process(be5.mainDocumentName, be5.url.get());
+      be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
     }
   },
   init: function init(store) {
     window.addEventListener("hashchange", this.hashChange, false);
-
-    be5.net.request("appInfo", {}, function (data) {
-      be5.appInfo = data;
-      be5.ui.setTitle();
-    });
 
     bus.listen('CallDefaultAction', function () {
       be5.net.request('menu/defaultAction', {}, function (data) {
@@ -4291,134 +6226,21 @@ var be5init = {
       });
     });
 
-    // be5.net.request('languageSelector', {}, function(data) {
-    //   be5.locale.set(data.selected, data.messages);
-    //   be5.url.process(be5.mainDocumentName, be5.url.get());
-    // });
-
     bus.listen('RefreshAll', function () {
-      store.dispatch(userActions.updateUserInfo());
+      store.dispatch(updateUserInfo());
+    });
+
+    be5.net.request("appInfo", {}, function (data) {
+      be5.appInfo = data;
+      be5.ui.setTitle();
+    });
+
+    be5.net.request('languageSelector', {}, function (data) {
+      be5.locale.set(data.selected, data.messages);
+      be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
     });
   }
 };
-
-var http = {
-  get: be5.net.requestJson,
-  getHtml: be5.net.requestHtml,
-  post: be5.net.requestJson
-};
-
-var Language = function (_React$Component) {
-  inherits(Language, _React$Component);
-
-  function Language(props) {
-    classCallCheck(this, Language);
-    return possibleConstructorReturn(this, (Language.__proto__ || Object.getPrototypeOf(Language)).call(this, props));
-  }
-
-  createClass(Language, [{
-    key: 'onClick',
-    value: function onClick(e) {
-      this.props.onLanguageClick(this.props.code);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      if (this.props.selected) {
-        return React.createElement(
-          'div',
-          { className: "language selectedLanguage" },
-          this.props.code
-        );
-      }
-      return React.createElement(
-        'div',
-        { className: "language", onClick: this.onClick },
-        this.props.code
-      );
-    }
-  }]);
-  return Language;
-}(React.Component);
-
-Language.propTypes = {
-  onLanguageClick: PropTypes.func.isRequired
-};
-
-var LanguageList = function (_React$Component2) {
-  inherits(LanguageList, _React$Component2);
-
-  function LanguageList(props) {
-    classCallCheck(this, LanguageList);
-    return possibleConstructorReturn(this, (LanguageList.__proto__ || Object.getPrototypeOf(LanguageList)).call(this, props));
-  }
-
-  createClass(LanguageList, [{
-    key: 'render',
-    value: function render() {
-      var selected = this.props.data.selected;
-      var onLanguageClick = this.props.onLanguageClick;
-      var languageNodes = this.props.data.languages.map(function (language) {
-        return React.createElement(Language, { key: language, code: language, selected: language === selected, onLanguageClick: onLanguageClick });
-      });
-      return React.createElement(
-        'div',
-        { className: "languageList" },
-        languageNodes
-      );
-    }
-  }]);
-  return LanguageList;
-}(React.Component);
-
-var LanguageBox = function (_React$Component3) {
-  inherits(LanguageBox, _React$Component3);
-
-  function LanguageBox(props) {
-    classCallCheck(this, LanguageBox);
-
-    var _this3 = possibleConstructorReturn(this, (LanguageBox.__proto__ || Object.getPrototypeOf(LanguageBox)).call(this, props));
-
-    _this3.state = { data: { languages: [], selected: '' } };
-    return _this3;
-  }
-
-  createClass(LanguageBox, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.refresh();
-    }
-  }, {
-    key: 'refresh',
-    value: function refresh() {
-      be5.net.request('languageSelector', {}, function (data) {
-        be5.locale.set(data.selected, data.messages);
-        this.setState({ data: { selected: data.selected, languages: data.languages } });
-      }.bind(this));
-    }
-  }, {
-    key: 'changeLanguage',
-    value: function changeLanguage(language) {
-      be5.net.request('languageSelector/select', { language: language }, function (data) {
-        this.setState({ data: { selected: data.selected, languages: data.languages } });
-        be5.locale.set(language, data.messages);
-      }.bind(this));
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      if (this.state.data && this.state.data.languages.length <= 1) {
-        return null;
-      }
-      return React.createElement(
-        'div',
-        { className: "languageBox" },
-        React.createElement(LanguageList, { data: this.state.data, onLanguageClick: this.changeLanguage })
-      );
-    }
-  }]);
-  return LanguageBox;
-}(React.Component);
 
 var Role = function Role(props) {
   var id = props.name + "-checkbox";
@@ -4445,7 +6267,7 @@ Role.propTypes = {
   onChange: PropTypes.func.isRequired
 };
 
-var RoleBox = function RoleBox(props) {
+var RoleSelector = function RoleSelector(props) {
 
   function onRoleChange(name) {
     var roles = [].concat(toConsumableArray(props.currentRoles));
@@ -4512,68 +6334,64 @@ var RoleBox = function RoleBox(props) {
   );
 };
 
-RoleBox.propTypes = {
+RoleSelector.propTypes = {
   size: PropTypes.string,
   className: PropTypes.string,
   currentRoles: PropTypes.array,
-  availableRoles: PropTypes.array
+  availableRoles: PropTypes.array,
+  toggleRoles: PropTypes.func.isRequired
 };
 
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    availableRoles: state.user.availableRoles || [],
-    currentRoles: state.user.currentRoles || []
-  };
-};
+var UserControl = function UserControl(props) {
+  var _props$user = props.user,
+      userName = _props$user.userName,
+      loggedIn = _props$user.loggedIn,
+      currentRoles = _props$user.currentRoles,
+      availableRoles = _props$user.availableRoles;
 
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    toggleRoles: function toggleRoles(roles) {
-      return dispatch(userActions.toggleRoles(roles));
-    }
-  };
-};
 
-var RoleSelector = connect(mapStateToProps, mapDispatchToProps)(RoleBox);
-
-var UserControlBox = function UserControlBox(props) {
-
-  if (!props.user.loggedIn) {
+  if (!loggedIn) {
     return null;
   }
 
   return React.createElement(
     'div',
     { className: classNames('user-control', props.className || 'form-inline mb-2') },
-    React.createElement(RoleSelector, { size: props.size }),
+    React.createElement(RoleSelector, {
+      size: props.size,
+      currentRoles: currentRoles,
+      availableRoles: availableRoles,
+      toggleRoles: props.toggleRoles
+    }),
     React.createElement(
       'label',
       null,
-      props.user.userName
+      userName
     )
   );
 };
 
-UserControlBox.propTypes = {
+UserControl.propTypes = {
   size: PropTypes.string,
-  className: PropTypes.string
+  className: PropTypes.string,
+  user: PropTypes.shape({})
 };
 
-var UserControl = connect(userSelectors.getUser, function () {})(UserControlBox);
+var mapStateToProps$1 = function mapStateToProps(state) {
+  return {
+    user: getUser(state)
+  };
+};
 
-var img$1 = 'data:image/png;base64,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';
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    toggleRoles: function toggleRoles$$1(roles) {
+      return dispatch(toggleRoles(roles));
+    }
+  };
+};
 
-var MenuFooter = React.createClass({
-  displayName: 'MenuFooter',
-
-  render: function render() {
-    return React.createElement(
-      'div',
-      { className: 'menuFooter' },
-      React.createElement('img', { src: img$1 })
-    );
-  }
-});
+var UserControlContainer = connect(mapStateToProps$1, mapDispatchToProps)(UserControl);
 
 var createUnknownActionException = function createUnknownActionException(actionName) {
   return {
@@ -4700,37 +6518,34 @@ var MenuNode = React.createClass({
   }
 });
 
-var MenuBody = function (_React$Component) {
-  inherits(MenuBody, _React$Component);
+var propTypes$1 = {
+  menu: PropTypes.shape({})
+};
+
+var MenuBody = function (_Component) {
+  inherits(MenuBody, _Component);
 
   function MenuBody(props) {
     classCallCheck(this, MenuBody);
 
     var _this = possibleConstructorReturn(this, (MenuBody.__proto__ || Object.getPrototypeOf(MenuBody)).call(this, props));
 
-    _this.state = { root: [{ title: 'Loading...' }], query: '' };
+    _this.state = { query: '' };
 
     _this._getFilteredRoot = _this._getFilteredRoot.bind(_this);
     return _this;
   }
 
   createClass(MenuBody, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.refresh();
-    }
-  }, {
-    key: 'refresh',
-    value: function refresh() {
-      var _this2 = this;
-
-      be5.net.request('menu', {}, function (data) {
-        _this2.setState(data);
-      });
-    }
-  }, {
     key: 'render',
     value: function render() {
+      if (this.props.menu === null) {
+        return React.createElement(
+          'p',
+          null,
+          'Loading...'
+        );
+      }
       var filteredRoot = this._getFilteredRoot();
       var rootNodes = filteredRoot.map(function (node) {
         return React.createElement(MenuNode, { key: JSON.stringify(node), data: node, level: 1 });
@@ -4769,11 +6584,13 @@ var MenuBody = function (_React$Component) {
         });
       };
 
-      return filterByTitle(this.state.root, this.state.query);
+      return filterByTitle(this.props.menu.root, this.state.query);
     }
   }]);
   return MenuBody;
-}(React.Component);
+}(Component);
+
+MenuBody.propTypes = propTypes$1;
 
 var MenuSearchField = function (_React$Component) {
   inherits(MenuSearchField, _React$Component);
@@ -4808,36 +6625,50 @@ MenuSearchField.propTypes = {
   onChange: PropTypes.func.isRequired
 };
 
-var Menu = function (_React$Component) {
-  inherits(Menu, _React$Component);
+var propTypes = {
+  menu: PropTypes.shape({}),
+  currentRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
+  fetchMenu: PropTypes.func.isRequired
+};
+
+var Menu = function (_Component) {
+  inherits(Menu, _Component);
 
   function Menu(props) {
     classCallCheck(this, Menu);
 
     var _this = possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
 
-    _this.state = {};
-
     _this._handleQueryChange = _this._handleQueryChange.bind(_this);
     return _this;
   }
 
   createClass(Menu, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      // this.props.fetchMenu();
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var _props = this.props,
+          currentRoles = _props.currentRoles,
+          fetchMenu = _props.fetchMenu,
+          menu = _props.menu;
+
+      if (!arraysEqual(currentRoles, nextProps.currentRoles)) {
+        fetchMenu();
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       return React.createElement(
         'div',
         { className: 'menuContainer' },
         React.createElement(MenuSearchField, { ref: 'searchfield', onChange: this._handleQueryChange }),
-        React.createElement(MenuBody, { ref: 'menubody' }),
-        React.createElement(MenuFooter, null)
+        React.createElement(MenuBody, { ref: 'menubody', menu: this.props.menu })
       );
-    }
-  }, {
-    key: 'refresh',
-    value: function refresh() {
-      //this.refs.menuheader.setState({ message: be5.messages.welcome });
-      this.refs.menubody.refresh();
     }
   }, {
     key: '_handleQueryChange',
@@ -4846,37 +6677,174 @@ var Menu = function (_React$Component) {
     }
   }]);
   return Menu;
-}(React.Component);
+}(Component);
 
-var SideBar = function (_React$Component) {
-  inherits(SideBar, _React$Component);
+Menu.propTypes = propTypes;
 
-  function SideBar(props) {
-    classCallCheck(this, SideBar);
-    return possibleConstructorReturn(this, (SideBar.__proto__ || Object.getPrototypeOf(SideBar)).call(this, props));
+var UPDATE_MENU = 'UPDATE_MENU';
+
+var fetchMenu = function fetchMenu() {
+  return function (dispatch) {
+    be5.net.request('menu', {}, function (data) {
+      dispatch({ type: UPDATE_MENU, data: data });
+    });
+  };
+};
+
+var getMenu = function getMenu(state) {
+  return state.menu;
+};
+
+var mapStateToProps$2 = function mapStateToProps(state) {
+  return {
+    menu: getMenu(state),
+    currentRoles: getCurrentRoles(state)
+  };
+};
+
+var mapDispatchToProps$1 = function mapDispatchToProps(dispatch) {
+  return {
+    fetchMenu: function fetchMenu$$1(roles) {
+      return dispatch(fetchMenu());
+    }
+  };
+};
+
+var MenuContainer = connect(mapStateToProps$2, mapDispatchToProps$1)(Menu);
+
+var img$1 = 'data:image/png;base64,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';
+
+var MenuFooter = function MenuFooter() {
+  return React.createElement(
+    'div',
+    { className: 'menuFooter' },
+    React.createElement('img', { src: img$1 })
+  );
+};
+
+var Language = function (_React$Component) {
+  inherits(Language, _React$Component);
+
+  function Language(props) {
+    classCallCheck(this, Language);
+    return possibleConstructorReturn(this, (Language.__proto__ || Object.getPrototypeOf(Language)).call(this, props));
   }
 
-  createClass(SideBar, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        { className: "side" },
-        React.createElement(UserControl, { size: 'sm' }),
-        React.createElement(Menu, { ref: 'menu' }),
-        React.createElement(LanguageBox, { ref: 'languageSelector' })
-      );
+  createClass(Language, [{
+    key: 'onClick',
+    value: function onClick(e) {
+      this.props.onLanguageClick(this.props.code);
     }
   }, {
-    key: 'refresh',
-    value: function refresh() {
-      if (this.refs.menu) this.refs.menu.refresh();
-      // if(this.refs.languageSelector)
-      //   this.refs.languageSelector.refresh();
+    key: 'render',
+    value: function render() {
+      if (this.props.selected) {
+        return React.createElement(
+          'div',
+          { className: "language selectedLanguage" },
+          this.props.code
+        );
+      }
+      return React.createElement(
+        'div',
+        { className: "language", onClick: this.onClick },
+        this.props.code
+      );
     }
   }]);
-  return SideBar;
+  return Language;
 }(React.Component);
+
+Language.propTypes = {
+  onLanguageClick: PropTypes.func.isRequired
+};
+
+var LanguageList = function (_React$Component2) {
+  inherits(LanguageList, _React$Component2);
+
+  function LanguageList(props) {
+    classCallCheck(this, LanguageList);
+    return possibleConstructorReturn(this, (LanguageList.__proto__ || Object.getPrototypeOf(LanguageList)).call(this, props));
+  }
+
+  createClass(LanguageList, [{
+    key: 'render',
+    value: function render() {
+      var selected = this.props.data.selected;
+      var onLanguageClick = this.props.onLanguageClick;
+      var languageNodes = this.props.data.languages.map(function (language) {
+        return React.createElement(Language, { key: language, code: language, selected: language === selected, onLanguageClick: onLanguageClick });
+      });
+      return React.createElement(
+        'div',
+        { className: "languageList" },
+        languageNodes
+      );
+    }
+  }]);
+  return LanguageList;
+}(React.Component);
+
+var LanguageBox = function (_React$Component3) {
+  inherits(LanguageBox, _React$Component3);
+
+  function LanguageBox(props) {
+    classCallCheck(this, LanguageBox);
+
+    var _this3 = possibleConstructorReturn(this, (LanguageBox.__proto__ || Object.getPrototypeOf(LanguageBox)).call(this, props));
+
+    _this3.state = { data: { languages: [], selected: '' } };
+    return _this3;
+  }
+
+  createClass(LanguageBox, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      //this.refresh();
+    }
+  }, {
+    key: 'changeLanguage',
+
+
+    // refresh() {
+    //   be5.net.request('languageSelector', {}, function(data) {
+    //       be5.locale.set(data.selected, data.messages);
+    //       this.setState({ data: {selected: data.selected, languages: data.languages} });
+    //     }.bind(this));
+    // };
+
+    value: function changeLanguage(language) {
+      be5.net.request('languageSelector/select', { language: language }, function (data) {
+        this.setState({ data: { selected: data.selected, languages: data.languages } });
+        be5.locale.set(language, data.messages);
+      }.bind(this));
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      if (this.state.data && this.state.data.languages.length <= 1) {
+        return null;
+      }
+      return React.createElement(
+        'div',
+        { className: "languageBox" },
+        React.createElement(LanguageList, { data: this.state.data, onLanguageClick: this.changeLanguage })
+      );
+    }
+  }]);
+  return LanguageBox;
+}(React.Component);
+
+var SideBar = function SideBar() {
+  return React.createElement(
+    'div',
+    { className: "side" },
+    React.createElement(UserControlContainer, { size: 'sm' }),
+    React.createElement(MenuContainer, null),
+    React.createElement(MenuFooter, null),
+    React.createElement(LanguageBox, null)
+  );
+};
 
 var Be5Components = function (_React$Component) {
   inherits(Be5Components, _React$Component);
@@ -4935,7 +6903,7 @@ var Be5Components = function (_React$Component) {
         React.createElement(
           Modal,
           { isOpen: this.state.modal, toggle: this.close, className: this.props.className },
-          React.createElement(Document$1, { ref: 'document', frontendParams: { documentName: be5.mainModalDocumentName } })
+          React.createElement(Document$1, { ref: 'document', frontendParams: { documentName: be5.MAIN_MODAL_DOCUMENT } })
         )
       );
     }
@@ -4943,46 +6911,19 @@ var Be5Components = function (_React$Component) {
   return Be5Components;
 }(React.Component);
 
-var Application = function (_React$Component) {
-  inherits(Application, _React$Component);
-
-  function Application(props) {
-    classCallCheck(this, Application);
-
-    var _this = possibleConstructorReturn(this, (Application.__proto__ || Object.getPrototypeOf(Application)).call(this, props));
-
-    _this.refresh = _this.refresh.bind(_this);
-    return _this;
-  }
-
-  createClass(Application, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      bus.listen('RefreshAll', this.refresh);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(Be5Components, null),
-        React.createElement(
-          SplitPane,
-          { split: 'vertical', defaultSize: 280, className: 'main-split-pane' },
-          React.createElement(SideBar, { ref: 'sideBar' }),
-          React.createElement(Document$1, { ref: 'document', frontendParams: { documentName: be5.mainDocumentName } })
-        )
-      );
-    }
-  }, {
-    key: 'refresh',
-    value: function refresh() {
-      this.refs.sideBar.refresh();
-    }
-  }]);
-  return Application;
-}(React.Component);
+var Application = function Application() {
+  return React.createElement(
+    'div',
+    null,
+    React.createElement(Be5Components, null),
+    React.createElement(
+      SplitPane,
+      { split: 'vertical', defaultSize: 280, className: 'main-split-pane' },
+      React.createElement(SideBar, null),
+      React.createElement(Document$1, { frontendParams: { documentName: be5.MAIN_DOCUMENT } })
+    )
+  );
+};
 
 var listeners$1 = [];
 
@@ -5000,7 +6941,7 @@ var menu = {
   }
 };
 
-var getMenu = function getMenu() {
+var getMenu$1 = function getMenu() {
   return menu;
 };
 
@@ -5045,7 +6986,7 @@ var Be5MenuHolder = {
   // function()
   changed: changed,
   // function()
-  getMenu: getMenu,
+  getMenu: getMenu$1,
   // function()
   reload: load
 };
@@ -5278,7 +7219,7 @@ var Be5MenuItem = React.createClass({
     }
     return {
       entity: this.props.entity,
-      query: this.props.view || be5Const.DEFAULT_VIEW
+      query: this.props.view || DEFAULT_VIEW
     };
   }
 });
@@ -5763,4 +7704,4 @@ Navs.propTypes = {
 // actions
 // services
 
-export { be5, be5init, index as constants, Preconditions as preconditions, bus, changeDocument, documentUtils, http, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, Document$1 as Document, RoleSelector, UserControl, Form, SubmitOnChangeForm, ModalForm, InlineForm, FinishedResult, Table, QuickColumns, OperationBox, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, action$2 as formAction, action as loadingAction, action$4 as loginAction, action$6 as logoutAction, action$12 as qBuilderAction, action$8 as staticAction, action$10 as tableAction, action$14 as textAction, actions as action, forms, tables, formsCollection, tablesCollection, actionsCollection };
+export { be5, be5init, constants, Preconditions as preconditions, utils, documentUtils, bus, changeDocument, documents$2 as documents, routes$1 as routes, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineForm, FinishedResult, Table, QuickColumns, OperationBox, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, tables };
