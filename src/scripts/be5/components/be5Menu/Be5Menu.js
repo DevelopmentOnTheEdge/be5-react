@@ -1,7 +1,7 @@
 import React from 'react';
 import Be5MenuHolder from './Be5MenuHolder';
 import be5 from '../../be5';
-import RoleSelector from '../../containers/RoleSelector';
+import RoleSelector from '../RoleSelector';
 import actions        from '../../services/actions';
 import {
   Collapse,

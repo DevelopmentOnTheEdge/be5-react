@@ -24,10 +24,11 @@ import TreeMenu         from './components/TreeMenu.js';
 import FormWizard       from './components/FormWizard.js';
 import Navs             from './components/Navs.js';
 import Be5Components    from './components/Be5Components.js';
+import RoleSelector     from './components/RoleSelector.js';
+import UserControl   from './components/UserControl.js';
 
 import Document         from './containers/Document.js';
-import RoleSelector     from './containers/RoleSelector.js';
-import UserControl      from './containers/UserControl.js';
+import UserControlContainer from './containers/UserControlContainer.js';
 
 // forms
 import Form               from './components/forms/Form.js';
@@ -96,11 +97,12 @@ export {
   TreeMenu,
   FormWizard,
   Navs,
+  RoleSelector,
+  UserControl,
 
   // containers
   Document,
-  RoleSelector,
-  UserControl,
+  UserControlContainer,
 
   // forms
   Form,

@@ -3,10 +3,6 @@ import PropTypes  from 'prop-types';
 import be5        from '../be5';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button} from 'reactstrap';
 
-import { connect }    from 'react-redux'
-import { userActions } from '../store/actions/index'
-import { userSelectors } from '../store/selectors/index'
-
 
 const Role = (props) => {
   const id = props.name + "-checkbox";
@@ -28,7 +24,7 @@ Role.propTypes = {
   onChange: PropTypes.func.isRequired
 };
 
-const RoleBox = (props) => {
+const RoleSelector = (props) => {
 
   function onRoleChange(name)
   {
@@ -79,7 +75,7 @@ const RoleBox = (props) => {
   );
 };
 
-RoleBox.propTypes = {
+RoleSelector.propTypes = {
   size: PropTypes.string,
   className: PropTypes.string,
   currentRoles: PropTypes.array,
@@ -87,21 +83,4 @@ RoleBox.propTypes = {
   toggleRoles: PropTypes.func.isRequired
 };
 
-
-export {
-  RoleBox
-};
-
-const mapStateToProps = state => ({
-  availableRoles: state.user.availableRoles || [],
-  currentRoles: state.user.currentRoles || []
-});
-
-const mapDispatchToProps = dispatch => ({
-  toggleRoles: roles => dispatch(userActions.toggleRoles(roles))
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RoleBox)
+export default RoleSelector;

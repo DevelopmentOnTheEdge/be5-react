@@ -1,12 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import RoleSelector, {RoleBox} from '../../../../src/scripts/be5/containers/RoleSelector';
+import RoleSelector from '../../../../src/scripts/be5/components/RoleSelector';
 import {shallow, mount} from 'enzyme';
 
 
 test('render', () => {
   const component = renderer.create(
-    <RoleBox availableRoles={["Administrator", "Manager"]} currentRoles={["Manager"]}
+    <RoleSelector availableRoles={["Administrator", "Manager"]} currentRoles={["Manager"]}
              toggleRoles={()=>{}} />
   );
   expect(component.toJSON()).toMatchSnapshot();
@@ -21,7 +21,7 @@ test('calls', () => {
   // };
 
   const wrapper = mount(
-    <RoleBox
+    <RoleSelector
       availableRoles={["Administrator", "Manager", "Role1", "Role2"]}
       currentRoles={["Manager", "Role1"]}
       toggleRoles={handle}
