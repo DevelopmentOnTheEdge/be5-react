@@ -166,15 +166,13 @@ export default
       bus.fire("alert", {msg: operationResult.message, type: 'error'});
     }
 
-    //const formComponentName = json.data.attributes.layout.type || 'form';
-    //const formComponent = getDocument(formComponentName);
+    const formComponentName = json.data.attributes.layout.type;
 
-    if(frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT)
+    if(formComponentName === 'modalForm' || frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT)
     {
       bus.fire("mainModalOpen");
 
-      changeDocument(be5.MAIN_MODAL_DOCUMENT,
-        { value: json, frontendParams: frontendParams });
+      changeDocument(be5.MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
     }
     else
     {

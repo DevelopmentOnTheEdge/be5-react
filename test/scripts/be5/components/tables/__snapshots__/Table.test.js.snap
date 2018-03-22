@@ -9,66 +9,59 @@ exports[`FormTable 1`] = `
     id="document-content___form"
   />
   <div
-    className="document-content"
-    id="document-content___table"
+    className="table-component"
   >
+    <h1
+      className="table-component__title"
+    >
+      Организации: Общие сведения
+    </h1>
     <div>
       <div
-        className="table-component"
+        className="operationList"
       >
-        <h1
-          className="table-component__title"
+        <button
+          className="btn btn-secondary btn-secondary-old btn-sm"
+          onClick={[Function]}
         >
-          Организации: Общие сведения
-        </h1>
-        <div>
-          <div
-            className="operationList"
+          Редактировать
+        </button>
+         
+        <button
+          className="btn btn-secondary btn-secondary-old btn-sm"
+          onClick={[Function]}
+        >
+          Добавить
+        </button>
+      </div>
+      <div
+        id="quickColumns"
+      >
+        <span>
+          Другие колонки:
+        </span>
+        <span>
+          <input
+            checked={false}
+            id="quick0"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="rowIndex"
+            htmlFor="quick0"
           >
-            <button
-              className="btn btn-secondary btn-secondary-old btn-sm"
-              onClick={[Function]}
-            >
-              Редактировать
-            </button>
+            Наименование
              
-            <button
-              className="btn btn-secondary btn-secondary-old btn-sm"
-              onClick={[Function]}
-            >
-              Добавить
-            </button>
-          </div>
-          <div
-            id="quickColumns"
-          >
-            <span>
-              Другие колонки:
-            </span>
-            <span>
-              <input
-                checked={false}
-                id="quick0"
-                onChange={[Function]}
-                type="checkbox"
-              />
-              <label
-                className="rowIndex"
-                htmlFor="quick0"
-              >
-                Наименование
-                 
-              </label>
-            </span>
-          </div>
-          <div
-            className="scroll"
-          >
-            <div
-              className="row"
-            />
-          </div>
-        </div>
+          </label>
+        </span>
+      </div>
+      <div
+        className="scroll"
+      >
+        <div
+          className="row"
+        />
       </div>
     </div>
   </div>
@@ -140,66 +133,59 @@ exports[`TableForm 1`] = `
   className="table-form"
 >
   <div
-    className="document-content"
-    id="document-content___table"
+    className="table-component"
   >
+    <h1
+      className="table-component__title"
+    >
+      Организации: Общие сведения
+    </h1>
     <div>
       <div
-        className="table-component"
+        className="operationList"
       >
-        <h1
-          className="table-component__title"
+        <button
+          className="btn btn-secondary btn-secondary-old btn-sm"
+          onClick={[Function]}
         >
-          Организации: Общие сведения
-        </h1>
-        <div>
-          <div
-            className="operationList"
+          Редактировать
+        </button>
+         
+        <button
+          className="btn btn-secondary btn-secondary-old btn-sm"
+          onClick={[Function]}
+        >
+          Добавить
+        </button>
+      </div>
+      <div
+        id="quickColumns"
+      >
+        <span>
+          Другие колонки:
+        </span>
+        <span>
+          <input
+            checked={false}
+            id="quick0"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="rowIndex"
+            htmlFor="quick0"
           >
-            <button
-              className="btn btn-secondary btn-secondary-old btn-sm"
-              onClick={[Function]}
-            >
-              Редактировать
-            </button>
+            Наименование
              
-            <button
-              className="btn btn-secondary btn-secondary-old btn-sm"
-              onClick={[Function]}
-            >
-              Добавить
-            </button>
-          </div>
-          <div
-            id="quickColumns"
-          >
-            <span>
-              Другие колонки:
-            </span>
-            <span>
-              <input
-                checked={false}
-                id="quick0"
-                onChange={[Function]}
-                type="checkbox"
-              />
-              <label
-                className="rowIndex"
-                htmlFor="quick0"
-              >
-                Наименование
-                 
-              </label>
-            </span>
-          </div>
-          <div
-            className="scroll"
-          >
-            <div
-              className="row"
-            />
-          </div>
-        </div>
+          </label>
+        </span>
+      </div>
+      <div
+        className="scroll"
+      >
+        <div
+          className="row"
+        />
       </div>
     </div>
   </div>
@@ -218,66 +204,59 @@ exports[`TableFormRow 1`] = `
     className="col-lg-6"
   >
     <div
-      className="document-content"
-      id="document-content___table"
+      className="table-component"
     >
+      <h1
+        className="table-component__title"
+      >
+        Организации: Общие сведения
+      </h1>
       <div>
         <div
-          className="table-component"
+          className="operationList"
         >
-          <h1
-            className="table-component__title"
+          <button
+            className="btn btn-secondary btn-secondary-old btn-sm"
+            onClick={[Function]}
           >
-            Организации: Общие сведения
-          </h1>
-          <div>
-            <div
-              className="operationList"
+            Редактировать
+          </button>
+           
+          <button
+            className="btn btn-secondary btn-secondary-old btn-sm"
+            onClick={[Function]}
+          >
+            Добавить
+          </button>
+        </div>
+        <div
+          id="quickColumns"
+        >
+          <span>
+            Другие колонки:
+          </span>
+          <span>
+            <input
+              checked={false}
+              id="quick0"
+              onChange={[Function]}
+              type="checkbox"
+            />
+            <label
+              className="rowIndex"
+              htmlFor="quick0"
             >
-              <button
-                className="btn btn-secondary btn-secondary-old btn-sm"
-                onClick={[Function]}
-              >
-                Редактировать
-              </button>
+              Наименование
                
-              <button
-                className="btn btn-secondary btn-secondary-old btn-sm"
-                onClick={[Function]}
-              >
-                Добавить
-              </button>
-            </div>
-            <div
-              id="quickColumns"
-            >
-              <span>
-                Другие колонки:
-              </span>
-              <span>
-                <input
-                  checked={false}
-                  id="quick0"
-                  onChange={[Function]}
-                  type="checkbox"
-                />
-                <label
-                  className="rowIndex"
-                  htmlFor="quick0"
-                >
-                  Наименование
-                   
-                </label>
-              </span>
-            </div>
-            <div
-              className="scroll"
-            >
-              <div
-                className="row"
-              />
-            </div>
-          </div>
+            </label>
+          </span>
+        </div>
+        <div
+          className="scroll"
+        >
+          <div
+            className="row"
+          />
         </div>
       </div>
     </div>

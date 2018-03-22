@@ -39,7 +39,7 @@ test('test datatables', () => {
 test('Table', () => {
   const component = renderer.create(
     <TestProvider>
-      <Table value={testData.simpleTable}/>
+      <Table value={testData.simpleTable} frontendParams={{documentName: 'test'}} />
     </TestProvider>
   );
 
@@ -49,7 +49,7 @@ test('Table', () => {
 test('TableForm', () => {
   const component = renderer.create(
     <TestProvider>
-      <TableForm value={testData.simpleTable}/>
+      <TableForm value={testData.simpleTable} frontendParams={{documentName: 'test'}} />
     </TestProvider>
   );
 
@@ -59,7 +59,7 @@ test('TableForm', () => {
 test('FormTable', () => {
   const component = renderer.create(
     <TestProvider>
-      <FormTable value={testData.simpleTable}/>
+      <FormTable value={testData.simpleTable} frontendParams={{documentName: 'test'}} />
     </TestProvider>
   );
 
@@ -69,7 +69,7 @@ test('FormTable', () => {
 test('TableFormRow', () => {
   const component = renderer.create(
     <TestProvider>
-      <TableFormRow value={testData.simpleTable}/>
+      <TableFormRow value={testData.simpleTable} frontendParams={{documentName: 'test'}} />
     </TestProvider>
   );
 

@@ -25,14 +25,18 @@ class TableForm extends React.Component
 
   updateDocuments(){
     changeDocument("form", { value: "" } );
-    changeDocument("table", { value: this.props.value });
   }
 
   render() {
+    const {
+      frontendParams,
+      value
+    } = this.props;
+
     return (
       <div className="table-form">
-        <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} />
-        <HelpInfo value={this.props.value.data.attributes.layout.helpInfo} />
+        <Table frontendParams={{documentName: frontendParams.documentName, operationDocumentName: "form"}} value={value}/>
+        <HelpInfo value={value.data.attributes.layout.helpInfo} />
         <Document frontendParams={{documentName: "form"}} />
       </div>
     );
@@ -45,6 +49,11 @@ class TableForm extends React.Component
   }
 
 }
+
+TableForm.propTypes = {
+  value: PropTypes.object.isRequired,
+  frontendParams: PropTypes.object.isRequired
+};
 
 registerDocument('tableForm', TableForm);
 

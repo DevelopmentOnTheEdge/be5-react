@@ -1,17 +1,23 @@
 import React            from 'react';
-import be5              from '../../be5';
+import PropTypes        from 'prop-types';
 import Document         from '../../containers/Document';
 import TableForm        from './TableForm';
 import {registerDocument} from '../../core/documents';
+import Table from "./Table";
 
 
 class TableFormRow extends TableForm {
 
   render() {
+    const {
+      frontendParams,
+      value
+    } = this.props;
+
     return (
       <div className="row">
         <div className="col-lg-6">
-          <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} />
+          <Table frontendParams={{documentName: frontendParams.documentName, operationDocumentName: "form"}} value={value}/>
         </div>
         <div className="col-lg-6">
           <Document frontendParams={{documentName: "form"}} />
@@ -21,6 +27,11 @@ class TableFormRow extends TableForm {
   }
 
 }
+
+TableFormRow.propTypes = {
+  value: PropTypes.object.isRequired,
+  frontendParams: PropTypes.object.isRequired
+};
 
 registerDocument('tableFormRow', TableFormRow);
 
