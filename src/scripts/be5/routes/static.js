@@ -1,7 +1,6 @@
 import React          from 'react';
 import be5            from '../be5';
 import changeDocument from '../core/changeDocument';
-import StaticPage     from '../components/StaticPage';
 import {registerRoute} from '../core/routes'
 
 
@@ -12,7 +11,7 @@ const route = function(documentName, page)
   };
 
   be5.net.request('static/' + page, requestParams, data => {
-    changeDocument(documentName, { component: StaticPage, value: data })
+    changeDocument(documentName, { value: data })
   });
 };
 

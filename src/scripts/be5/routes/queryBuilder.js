@@ -1,7 +1,6 @@
 import React          from 'react';
 import be5            from '../be5';
 import changeDocument from '../core/changeDocument';
-import QueryBuilder   from '../components/QueryBuilder';
 import {registerRoute} from '../core/routes'
 
 
@@ -13,7 +12,7 @@ const route = function(documentName, params)
   };
 
   be5.net.request('queryBuilder', requestParams, data => {
-    changeDocument(documentName, { component: QueryBuilder, value: Object.assign({}, data, {params: be5.net.paramString(params)}) })
+    changeDocument(documentName, { value: Object.assign({}, data, {params: be5.net.paramString(params)}) })
   });
 };
 

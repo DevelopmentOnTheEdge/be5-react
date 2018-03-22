@@ -124,12 +124,12 @@ export default
                 bus.fire("alert", {msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success'});
                 bus.fire("mainModalClose");
               }else{
-                changeDocument(documentName, {component: FinishedResult, value: json, frontendParams: frontendParams});
+                changeDocument(documentName, { value: json, frontendParams: frontendParams});
               }
               return;
             case 'document':
               const tableJson = Object.assign({}, attributes.details, {meta: json.meta});
-              changeDocument(frontendParams.parentDocumentName, {component: Table, value: tableJson});
+              changeDocument(frontendParams.parentDocumentName, {value: tableJson});
               if(documentName === be5.MAIN_MODAL_DOCUMENT) {
                 bus.fire("mainModalClose");
               }
@@ -153,7 +153,7 @@ export default
       const error = json.errors[0];
       bus.fire("alert", {msg: error.status + " "+ error.title, type: 'error'});
 
-      changeDocument(documentName, {component: ErrorPane, value: json, frontendParams: frontendParams});
+      changeDocument(documentName, {value: json, frontendParams: frontendParams});
     }
   },
 
@@ -166,24 +166,19 @@ export default
       bus.fire("alert", {msg: operationResult.message, type: 'error'});
     }
 
-    const formComponentName = json.data.attributes.layout.type || 'form';
-    const formComponent = getDocument(formComponentName);
+    //const formComponentName = json.data.attributes.layout.type || 'form';
+    //const formComponent = getDocument(formComponentName);
 
-    if(formComponentName === 'modal' || frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT)
+    if(frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT)
     {
       bus.fire("mainModalOpen");
 
       changeDocument(be5.MAIN_MODAL_DOCUMENT,
-        { component: formComponent, value: json, frontendParams: frontendParams });
+        { value: json, frontendParams: frontendParams });
     }
     else
     {
-      if(formComponent === undefined){
-        changeDocument(frontendParams.documentName, { component: StaticPage,
-          value: StaticPage.createValue(be5.messages.formComponentNotFound + formComponentName, '')});
-      }else{
-        changeDocument(frontendParams.documentName, { component: formComponent, value: json, frontendParams: frontendParams });
-      }
+      changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
     }
   },
 

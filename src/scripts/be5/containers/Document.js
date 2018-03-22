@@ -19,8 +19,7 @@ class Document extends React.Component
     super(props);
     this.state = {
       value: props.value || "",
-      frontendParams: props.frontendParams,
-      component: props.component
+      frontendParams: props.frontendParams
     };
 
     this.reload = this.reload.bind(this);
@@ -35,8 +34,7 @@ class Document extends React.Component
     {
       this.setState({
         value: nextProps.value || "",
-        frontendParams: nextProps.frontendParams,
-        component: nextProps.component
+        frontendParams: nextProps.frontendParams
       });
     }
   }
@@ -53,7 +51,7 @@ class Document extends React.Component
           || data.value.meta._ts_ > this.state.value.meta._ts_)
       {
         this.setState(Object.assign(
-          {value: undefined, frontendParams: undefined, component: undefined},
+          {value: undefined, frontendParams: undefined},
           data
         ));
       }

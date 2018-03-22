@@ -77,3 +77,22 @@ test('others props value', () => {
     "documentName": "test", "operationDocumentName": "form", "parentDocumentName": "propsParentDoc", "test": "test"
   });
 });
+
+//todo test Document
+// test('_performData', () => {
+//   const handle = jest.fn();
+//   bus.replaceListeners("testDoc", handle);
+//
+//   tables._performData(testData.simpleTable, "testDoc");
+//
+//   expect(handle.mock.calls[0]).toEqual([{ value: testData.simpleTable }]);
+// });
+//
+// test('_performData error', () => {
+//   const handle = jest.fn();
+//   bus.replaceListeners("testDoc", handle);
+//
+//   tables._performData(testData.jsonApiError, "testDoc");
+//
+//   expect(handle.mock.calls[0]).toEqual([{ value: testData.jsonApiError }]);
+// });

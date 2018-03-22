@@ -25,7 +25,7 @@ class TableForm extends React.Component
 
   updateDocuments(){
     changeDocument("form", { value: "" } );
-    changeDocument("table", { component: Table, value: this.props.value });
+    changeDocument("table", { value: this.props.value });
   }
 
   render() {

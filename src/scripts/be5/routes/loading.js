@@ -4,7 +4,7 @@ import {registerRoute} from '../core/routes'
 
 
 const route = function(documentName, page) {
-  changeDocument(documentName, { component: Loading })
+  changeDocument(documentName, { })
 };
 
 class Loading extends React.Component

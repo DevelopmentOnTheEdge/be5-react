@@ -2,7 +2,6 @@ import React          from 'react';
 //import brace from 'brace';
 import be5            from '../be5';
 import Document       from '../containers/Document';
-import Tables         from '../services/tables';
 import AceEditor from 'react-ace';
 import SplitPane from 'react-split-pane';
 import {registerDocument} from "../core/documents";
@@ -11,6 +10,7 @@ import {getModelByID} from "../utils/documentUtils";
 import 'brace/mode/mysql';
 import 'brace/theme/xcode';
 import 'brace/ext/language_tools';
+import changeDocument from "../core/changeDocument";
 
 
 class QueryBuilder extends React.Component
@@ -51,9 +51,7 @@ class QueryBuilder extends React.Component
       finalSql: json.data.attributes.finalSql,
     });
 
-    Tables._performData(
-      getModelByID(json.included, json.meta, "queryTable")
-    , 'queryBuilder-table');
+    changeDocument('queryBuilder-table', { value: getModelByID(json.included, json.meta, "queryTable") });
   }
 
   render() {
