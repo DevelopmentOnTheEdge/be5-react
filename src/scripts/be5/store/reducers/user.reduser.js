@@ -1,9 +1,9 @@
 import * as types from '../constants/user.constants';
 
 const initialState = {
-  "availableRoles":["Guest"],
+  "availableRoles":["DefaultGuest"],
   "loggedIn":false,
-  "currentRoles":["Guest"],
+  "currentRoles":["DefaultGuest"],
   "userName":"Guest"
 };
 

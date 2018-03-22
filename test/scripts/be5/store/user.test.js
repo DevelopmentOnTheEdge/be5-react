@@ -14,7 +14,7 @@ test('test updateUserInfo', () => {
   const store = testUtils.getStore();
 
   expect(getUser(store.getState()))
-    .toEqual({"availableRoles": ["Guest"], "currentRoles": ["Guest"], "loggedIn": false, "userName": "Guest"});
+    .toEqual({"availableRoles": ["DefaultGuest"], "currentRoles": ["DefaultGuest"], "loggedIn": false, "userName": "Guest"});
 
   store.dispatch(updateUserInfo());
 
@@ -29,7 +29,7 @@ test('test toggleRoles', () => {
   };
 
   expect(getCurrentRoles(store.getState()))
-    .toEqual(["Guest"]);
+    .toEqual(["DefaultGuest"]);
 
   store.dispatch(toggleRoles('Administrator,Manager'));
 
