@@ -17,7 +17,8 @@ class InlineForm extends Form
       localization: be5.messages.property,
       inline: true,
       rowClass:"d-flex",
-      bsSize: attributes.layout.bsSize
+      bsSize: attributes.layout.bsSize,
+      className: 'mr-sm-2'
     };
 
     const properties = attributes.bean.order.map(p => (
@@ -28,7 +29,11 @@ class InlineForm extends Form
       <form
         id={this.state.meta._ts_}
         onSubmit={this._applyOnSubmit}
-        className={classNames('form-inline', attributes.layout.formCssClass || 'form-inline-bordered', this.state.wasValidated ? 'was-validated' : '')}
+        className={classNames(
+          'form-inline',
+          this.state.wasValidated ? 'was-validated' : '',
+          attributes.layout.formClassName || 'form-inline-bordered'
+        )}
       >
         <label className={classNames(
           "mb-2 mr-sm-2",

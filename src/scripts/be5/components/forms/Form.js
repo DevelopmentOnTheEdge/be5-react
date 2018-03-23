@@ -172,7 +172,10 @@ class Form extends React.Component
           <form
             id={this.state.meta._ts_}
             onSubmit={this._applyOnSubmit}
-            className={this.state.wasValidated ? 'was-validated' : ''}
+            className={classNames(
+              this.state.wasValidated ? 'was-validated' : '',
+              attributes.layout.formClassName
+            )}
           >
             <PropertySet
               bean={attributes.bean}

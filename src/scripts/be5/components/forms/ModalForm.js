@@ -1,6 +1,7 @@
 import React           from 'react';
 import be5             from '../../be5';
 import bus             from '../../core/bus';
+import classNames      from 'classnames';
 import Form            from './Form';
 import PropertySet     from 'beanexplorer-react';
 import { ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -21,7 +22,11 @@ class ModalForm extends Form
         <form
           id={this.state.meta._ts_}
           onSubmit={this._applyOnSubmit}
-          className={this.state.wasValidated ? 'was-validated' : ''}
+          className={classNames(
+            'form-modal',
+            this.state.wasValidated ? 'was-validated' : '',
+            attributes.layout.formClassName
+          )}
         >
           <ModalBody>
             <PropertySet

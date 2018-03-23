@@ -25,7 +25,11 @@ class SubmitOnChangeForm extends Form
     return (
         <form
           id={this.state.meta._ts_}
-          className={classNames('submit-onchange-form', attributes.layout.formCssClass)}
+          className={classNames(
+            'submit-onchange-form',
+            this.state.wasValidated ? 'was-validated' : '',
+            attributes.layout.formClassName
+          )}
         >
           <PropertyInput
             id={0}
