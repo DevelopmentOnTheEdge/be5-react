@@ -2,22 +2,18 @@ import React            from 'react';
 import PropTypes        from 'prop-types';
 import Document         from '../../containers/Document';
 import TableForm        from './TableForm';
+import HelpInfo         from "../HelpInfo";
 import {registerDocument} from '../../core/documents';
-import Table from "./Table";
 
 
-class FormTable extends TableForm {
-
+class FormTable extends TableForm
+{
   render() {
-    const {
-      frontendParams,
-      value
-    } = this.props;
-
     return (
       <div className="form-table">
         <Document frontendParams={{documentName: "form"}} />
-        <Table frontendParams={{documentName: frontendParams.documentName, operationDocumentName: "form"}} value={value}/>
+        <HelpInfo value={this.props.value.data.attributes.layout.helpInfo} />
+        <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} documentType="table" />
      </div>
     );
   }

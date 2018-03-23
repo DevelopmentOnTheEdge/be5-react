@@ -3,24 +3,18 @@ import PropTypes        from 'prop-types';
 import Document         from '../../containers/Document';
 import TableForm        from './TableForm';
 import {registerDocument} from '../../core/documents';
-import Table from "./Table";
 
 
-class TableFormRow extends TableForm {
-
+class TableFormRow extends TableForm
+{
   render() {
-    const {
-      frontendParams,
-      value
-    } = this.props;
-
     return (
       <div className="row">
         <div className="col-lg-6">
-          <Table frontendParams={{documentName: frontendParams.documentName, operationDocumentName: "form"}} value={value}/>
+          <Document frontendParams={{documentName: "form"}} />
         </div>
         <div className="col-lg-6">
-          <Document frontendParams={{documentName: "form"}} />
+          <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} documentType="table" />
         </div>
       </div>
     );
