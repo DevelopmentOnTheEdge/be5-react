@@ -10,16 +10,18 @@ class InlineForm extends Form
 {
   render() {
     const attributes = this.state.data.attributes;
+
     const commonProps = {
       bean: attributes.bean,
       onChange: this._onFieldChange,
       localization: be5.messages.property,
       inline: true,
       rowClass:"d-flex",
+      bsSize: attributes.layout.bsSize
     };
 
     const properties = attributes.bean.order.map(p => (
-      <Property key={p} path={p} {...commonProps} bsSize={attributes.layout.bsSize}/>
+      <Property key={p} path={p} {...commonProps} />
     ));
 
     return (
