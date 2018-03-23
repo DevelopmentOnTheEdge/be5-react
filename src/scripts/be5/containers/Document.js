@@ -134,11 +134,14 @@ class Document extends React.Component
     {
       const ErrorPane = getDocument("errorPane");
       contentItem = (
-        <ErrorPane
-          ref="documentContent"
-          value={this.state.value}
-          frontendParams={this.getComponentFrontendParams()}
-        />
+        <div>
+          {devRole ? devTools : null}
+          <ErrorPane
+            ref="documentContent"
+            value={this.state.value}
+            frontendParams={this.getComponentFrontendParams()}
+          />
+        </div>
       )
     }
     else{
