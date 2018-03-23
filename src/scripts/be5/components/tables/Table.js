@@ -10,7 +10,7 @@ import numberFormatter    from 'number-format.js';
 import OperationBox       from './OperationBox';
 import QuickColumns       from './QuickColumns';
 import Document           from "../../containers/Document";
-import {registerDocument} from '../../core/documents';
+import {getDocument, registerDocument} from '../../core/documents';
 
 
 const formatCell = (data, options, isColumn) =>
@@ -412,7 +412,7 @@ class Table extends React.Component
       topForm = <Document
         frontendParams={{documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName}}
         value={{data: topFormJson, meta: value.meta}}
-        component={documents.getDocument(topFormJson.attributes.layout.type)}
+        component={getDocument(topFormJson.attributes.layout.type)}
       />
     }
 

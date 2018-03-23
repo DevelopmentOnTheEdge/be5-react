@@ -10,7 +10,6 @@ import {getDocument} from "../core/documents";
 
 import reloadImg from '../../../images/reload.png';
 import StaticPage from "../components/StaticPage";
-import ErrorPane from "../components/ErrorPane";
 
 
 class Document extends React.Component
@@ -101,20 +100,8 @@ class Document extends React.Component
 
     if(this.state.value.data && this.state.value.data.type)
     {
-      let documentType = this.state.value.data.type;
-
-      if(this.state.value.data.attributes.layout !== undefined &&
-         this.state.value.data.attributes.layout.type !== undefined)
-      {
-        documentType = this.state.value.data.attributes.layout.type;
-      }
-
-      if(this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT)
-      {
-        documentType = 'modalForm';
-      }
-
-      const DocumentContent = getDocument(documentType);
+      const documentType = this.getDocumentName();
+      const DocumentContent = getDocument(this.getDocumentName(documentType));
 
       if(DocumentContent === undefined)
       {
@@ -145,6 +132,7 @@ class Document extends React.Component
     }
     else if(this.state.value.errors)
     {
+      const ErrorPane = getDocument("errorPane");
       contentItem = (
         <ErrorPane
           ref="documentContent"
@@ -169,6 +157,26 @@ class Document extends React.Component
     );
   }
 
+  getDocumentName() {
+    if(this.props.documentType)
+    {
+      return this.props.documentType;
+    }
+
+    if(this.state.value.data.attributes.layout !== undefined &&
+      this.state.value.data.attributes.layout.type !== undefined)
+    {
+      return this.state.value.data.attributes.layout.type;
+    }
+
+    if(this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT)
+    {
+      return 'modalForm';
+    }
+
+    return this.state.value.data.type;
+  }
+
   getComponentFrontendParams() {
     return Object.assign({}, this.state.frontendParams, this.props.frontendParams);
   }
@@ -182,7 +190,7 @@ Document.propTypes = {
     onSuccess: PropTypes.function
   }),
   value: PropTypes.object,
-  component: PropTypes.func
+  documentType: PropTypes.string
 };
 
 export {

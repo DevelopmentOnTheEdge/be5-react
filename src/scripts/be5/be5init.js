@@ -28,6 +28,7 @@ import './components/forms/FinishedResult';
 
 import './components/QueryBuilder';
 import './components/StaticPage';
+import './components/ErrorPane';
 
 
 export default {

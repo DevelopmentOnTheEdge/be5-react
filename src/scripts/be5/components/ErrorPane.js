@@ -3,6 +3,7 @@ import PropTypes      from 'prop-types';
 import be5            from '../be5';
 import forms          from '../services/forms';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
+import {registerDocument} from "../core/documents";
 
 
 class ErrorPane extends React.Component
@@ -72,10 +73,6 @@ class ErrorPane extends React.Component
 
 }
 
-// StaticPage.defaultProps = {
-//   value: ''
-// };
-
 ErrorPane.propTypes =  {
   value: PropTypes.shape({
     errors: PropTypes.array.isRequired,
@@ -84,5 +81,7 @@ ErrorPane.propTypes =  {
     })
   }),
 };
+
+registerDocument("errorPane", ErrorPane);
 
 export default ErrorPane;
