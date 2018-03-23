@@ -111,7 +111,8 @@ class TableBox extends React.Component {
     let columnIndexShift = 0;
 
     if (hasCheckBoxes) {
-      theadrow.append($("<th>").html('<input id="rowCheckboxAll" type="checkbox" class=""/>'));
+      //theadrow.append($("<th>").html('<input id="rowCheckboxAll" type="checkbox" class=""/>'));
+      theadrow.append($("<th>").text("#"));
       tfootrow.append($("<th>").text("#"));
       columnIndexShift = 1;
     }
@@ -233,12 +234,12 @@ class TableBox extends React.Component {
           const checked = this.checked;
           if (checked && $.inArray(rowId, be5.tableState.selectedRows) === -1) {
             be5.tableState.selectedRows.push(rowId);
-            if(attributes.rows.length === be5.tableState.selectedRows.length){
-              $('#rowCheckboxAll').prop('checked', true);
-            }
+            // if(attributes.rows.length === be5.tableState.selectedRows.length){
+            //   $('#rowCheckboxAll').prop('checked', true);
+            // }
           } else if (!checked && $.inArray(rowId, be5.tableState.selectedRows) !== -1) {
             be5.tableState.selectedRows.splice($.inArray(rowId, be5.tableState.selectedRows), 1);
-            $('#rowCheckboxAll').prop('checked', false);
+            //$('#rowCheckboxAll').prop('checked', false);
           }
           _this.onSelectionChange();
         });
@@ -306,22 +307,22 @@ class TableBox extends React.Component {
 
     $('.dataTables-nav').css('max-width', Math.max(650, tableDiv.width() + 2));
 
-    $('#rowCheckboxAll').click(function (e) {
-      e.stopPropagation();
-
-      if (!$('#rowCheckboxAll').prop('checked')) {
-        $('.rowCheckbox').prop('checked', false);
-        be5.tableState.selectedRows = [];
-      }else{
-        $('.rowCheckbox').prop('checked', true);
-
-        for(let i=0; i< attributes.rows.length; i++){
-          be5.tableState.selectedRows.push(attributes.rows[i].id);
-        }
-      }
-
-      _this.onSelectionChange();
-    });
+    // $('#rowCheckboxAll').click(function (e) {
+    //   e.stopPropagation();
+    //
+    //   if (!$('#rowCheckboxAll').prop('checked')) {
+    //     $('.rowCheckbox').prop('checked', false);
+    //     be5.tableState.selectedRows = [];
+    //   }else{
+    //     $('.rowCheckbox').prop('checked', true);
+    //
+    //     for(let i=0; i< attributes.rows.length; i++){
+    //       be5.tableState.selectedRows.push(attributes.rows[i].id);
+    //     }
+    //   }
+    //
+    //   _this.onSelectionChange();
+    // });
 
     this.refs.quickColumns.setTable(this.refs.table);
 
