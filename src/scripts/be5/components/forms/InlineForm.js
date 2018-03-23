@@ -36,14 +36,14 @@ class InlineForm extends Form
         )}
       >
         <label className={classNames(
-          "mb-2 mr-sm-2",
+          "mr-sm-2",
           {'col-form-label-sm' : attributes.layout.bsSize === "sm"},
           {'col-form-label-lg' : attributes.layout.bsSize === "lg"}
         )}>
           <strong>{attributes.title}</strong>
         </label>
         {properties}
-        {this._createOkAction('mb-2')}
+        {this._createOkAction('')}
         {this._getErrorPane()}
       </form>
     );
