@@ -9,5 +9,5 @@ export const registerRoute = (actionName, fn) => {
 };
 
 export const getAllRoutes = () => {
-  return Object.keys(documents);
+  return Object.keys(routes);
 };

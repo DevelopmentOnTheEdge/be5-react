@@ -12,6 +12,7 @@ import './routes/table';
 import './routes/queryBuilder';
 import './routes/text';
 import './routes/login';
+import './routes/uiPanel';
 
 
 import './components/tables/TableForm';
@@ -29,6 +30,7 @@ import './components/forms/FinishedResult';
 import './components/QueryBuilder';
 import './components/StaticPage';
 import './components/ErrorPane';
+import './components/UiPanel';
 
 
 export default {

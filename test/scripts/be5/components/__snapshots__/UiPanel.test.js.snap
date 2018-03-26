@@ -1,0 +1,301 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot 1`] = `
+<div
+  className="ui-panel row"
+>
+  <div
+    className="col-md-12"
+  >
+    <h1>
+      Core
+    </h1>
+  </div>
+  <div
+    className="col-md-4"
+  >
+    <h3>
+      documents
+    </h3>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        errorPane
+      </span>
+       - 
+      ErrorPane
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        form
+      </span>
+       - 
+      Form
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        formTable
+      </span>
+       - 
+      FormTable
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        inlineForm
+      </span>
+       - 
+      InlineForm
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        modalForm
+      </span>
+       - 
+      ModalForm
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        operationResult
+      </span>
+       - 
+      FinishedResult
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        queryBuilder
+      </span>
+       - 
+      QueryBuilder
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        rTable
+      </span>
+       - 
+      ReactTable
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        static
+      </span>
+       - 
+      StaticPage
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        submitOnChange
+      </span>
+       - 
+      SubmitOnChangeForm
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        table
+      </span>
+       - 
+      Table
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        tableForm
+      </span>
+       - 
+      TableForm
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        tableFormRow
+      </span>
+       - 
+      TableFormRow
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        uiPanel
+      </span>
+       - 
+      UiPanel
+    </div>
+  </div>
+  <div
+    className="col-md-8"
+  >
+    <h3>
+      routes
+    </h3>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        form
+      </span>
+      (
+      <span>
+        documentName
+      </span>
+      <span>
+        , 
+        entity
+      </span>
+      <span>
+        , 
+        query
+      </span>
+      <span>
+        , 
+        operation
+      </span>
+      <span>
+        , 
+        operationParams
+      </span>
+      )
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        loading
+      </span>
+      (
+      <span>
+        documentName
+      </span>
+      <span>
+        , 
+        page
+      </span>
+      )
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        login
+      </span>
+      (
+      )
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        logout
+      </span>
+      (
+      )
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        queryBuilder
+      </span>
+      (
+      <span>
+        documentName
+      </span>
+      <span>
+        , 
+        params
+      </span>
+      )
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        static
+      </span>
+      (
+      <span>
+        documentName
+      </span>
+      <span>
+        , 
+        page
+      </span>
+      )
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        table
+      </span>
+      (
+      <span>
+        documentName
+      </span>
+      <span>
+        , 
+        entity
+      </span>
+      <span>
+        , 
+        query
+      </span>
+      <span>
+        , 
+        params
+      </span>
+      )
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        text
+      </span>
+      (
+      <span>
+        documentName
+      </span>
+      <span>
+        , 
+        text
+      </span>
+      )
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        uiPanel
+      </span>
+      (
+      <span>
+        documentName
+      </span>
+      )
+    </div>
+  </div>
+</div>
+`;

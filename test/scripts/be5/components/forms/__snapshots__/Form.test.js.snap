@@ -118,14 +118,14 @@ exports[`InlineForm 1`] = `
   onSubmit={[Function]}
 >
   <label
-    className="mb-2 mr-sm-2"
+    className="mr-sm-2"
   >
     <strong>
       SelectCompany
     </strong>
   </label>
   <button
-    className="btn btn-primary mb-2"
+    className="btn btn-primary"
     disabled={false}
     onClick={[Function]}
     title=""
@@ -160,7 +160,7 @@ exports[`ModalForm 1`] = `
     </button>
   </div>
   <form
-    className=""
+    className="form-modal"
     id="1507198229686"
     onSubmit={[Function]}
   >
@@ -198,7 +198,6 @@ exports[`SubmitOnChangeForm 1`] = `
 >
   <input
     className="property-input form-control"
-    disabled={undefined}
     id="companyIDPropertyInput"
     maxLength={undefined}
     onChange={[Function]}

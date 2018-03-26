@@ -1,6 +1,7 @@
 import React          from 'react';
 import renderer       from 'react-test-renderer';
 import QueryBuilder   from '../../../../src/scripts/be5/components/QueryBuilder';
+import '../../../../src/scripts/be5/components/tables/Table';
 import {shallow, mount, render} from 'enzyme';
 import {TestProvider}      from "../testUtils";
 import testData       from '../testData.json'
