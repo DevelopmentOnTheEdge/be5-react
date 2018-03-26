@@ -25,7 +25,7 @@ class TableForm extends React.Component
   render() {
     return (
       <div className="table-form">
-        <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} documentType="table" />
+        <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} type="table" />
         <HelpInfo value={this.props.value.data.attributes.layout.helpInfo} />
         <Document frontendParams={{documentName: "form"}} />
       </div>
