@@ -161,9 +161,9 @@ class Document extends React.Component
   }
 
   getDocumentName() {
-    if(this.props.documentType)
+    if(this.props.type)
     {
-      return this.props.documentType;
+      return this.props.type;
     }
 
     if(this.state.value.data.attributes.layout !== undefined &&
@@ -193,7 +193,7 @@ Document.propTypes = {
     onSuccess: PropTypes.function
   }),
   value: PropTypes.object,
-  documentType: PropTypes.string
+  type: PropTypes.string
 };
 
 export {
