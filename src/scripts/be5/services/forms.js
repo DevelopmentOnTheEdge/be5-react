@@ -136,18 +136,18 @@ export default
               return;
             default:
               bus.fire("alert", {
-                msg: be5.messages.errorUnknownAction.replace('$action', 'status = ' + attributes.status),
+                msg: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + attributes.status),
                 type: 'error'
               });
-            //changeDocument(documentName, {  value: be5.messages.errorUnknownAction.replace('$action', 'status = ' + attributes.status) });
+            //changeDocument(documentName, {  value: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + attributes.status) });
           }
           return;
         default:
           bus.fire("alert", {
-            msg: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + json.data.attributes.type),
+            msg: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type),
             type: 'error'
           });
-        //changeDocument(documentName, { value: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + json.data.attributes.type) });
+        //changeDocument(documentName, { value: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type) });
       }
     }else{
       const error = json.errors[0];

@@ -51,8 +51,8 @@ StaticPage.propTypes =  {
   value: PropTypes.shape({
     data: PropTypes.shape({
       attributes: PropTypes.shape({
-        title   : PropTypes.string.isRequired,
-        content: PropTypes.string.isRequired,
+        title   : PropTypes.string,
+        content: PropTypes.string,
       }),
       meta: PropTypes.shape({
         _ts_: PropTypes.isRequired,

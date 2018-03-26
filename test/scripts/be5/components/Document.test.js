@@ -24,7 +24,7 @@ test('frontendParams init state, props', () => {
   const wrapper = mount( <RawDocument frontendParams={{documentName: "test"}} store={testUtils.getStore()}/> );
 
   expect(wrapper.props()).toEqual({"frontendParams": {"documentName": "test"}, store: expect.any(Object)});
-  expect(wrapper.state()).toEqual({"frontendParams": {"documentName": "test"}, "value": ""});
+  expect(wrapper.state()).toEqual({"frontendParams": {"documentName": "test"}, "value": null});
 
   expect(wrapper.instance().getComponentFrontendParams()).toEqual({"documentName": "test"});
 });

@@ -5,7 +5,7 @@ import {registerRoute} from '../core/routes'
 
 const route = function(documentName)
 {
-  changeDocument(documentName, {type: 'uiPanel', value: {}});
+  changeDocument(documentName, {value: {}, frontendParams: {type: 'uiPanel'}});
 };
 
 registerRoute("uiPanel", route);

@@ -17,8 +17,8 @@ class Document extends React.Component
   constructor(props) {
     super(props);
     this.state = {
-      value: props.value || "",
-      frontendParams: props.frontendParams
+      value: props.value || null,
+      frontendParams: props.frontendParams || {}
     };
 
     this.reload = this.reload.bind(this);
@@ -41,16 +41,16 @@ class Document extends React.Component
   componentDidMount() {
     bus.replaceListeners(this.props.frontendParams.documentName, data =>
     {
-      if(this.state.value.meta !== undefined && !Number.isInteger(Number.parseInt(this.state.value.meta._ts_)))
+      if(this.state.value && this.state.value.meta && !Number.isInteger(Number.parseInt(this.state.value.meta._ts_)))
       {
         console.error("meta._ts_ mast be string of Integer " + this.state.value.meta._ts_);
       }
 
-      if(this.state.value.meta === undefined || data.value.meta === undefined
+      if(this.state.value === null || this.state.value.meta === undefined || data.value.meta === undefined
           || data.value.meta._ts_ > this.state.value.meta._ts_)
       {
         this.setState(Object.assign(
-          {value: undefined, frontendParams: undefined},
+          {value: {}, frontendParams: {}},
           data
         ));
       }
@@ -86,98 +86,107 @@ class Document extends React.Component
     const loadingItem = null;//this.state.loading
       //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
 
-    const devRole = this.props.currentRoles && this.props.currentRoles.indexOf(ROLE_SYSTEM_DEVELOPER) !== -1;
-
-    const devTools = (
-      <span onClick={this.refresh} className={"document-reload float-right"}>
-        <img src={reloadImg} alt={be5.messages.reload}
-             title={be5.messages.reload + " " + this.props.frontendParams.documentName}/>
-      </span>
-    );
-
-    let contentItem = null;
-    if(this.state.value)be5.ui.setTitle(this.state.value.title);
-
-    if(this.state.value.data && this.state.value.data.type)
-    {
-      const documentType = this.getDocumentName();
-      const DocumentContent = getDocument(this.getDocumentName(documentType));
-
-      if(DocumentContent === undefined)
-      {
-        const value = StaticPage.createValue(
-          be5.messages.componentForTypeNotRegistered.replace( '$type', documentType), '');
-
-        contentItem = (
-          <StaticPage
-            ref="documentContent"
-            value={value}
-            frontendParams={this.getComponentFrontendParams()}
-          />
-        )
-      }
-      else
-      {
-        contentItem = (
-          <div>
-            {devRole ? devTools : null}
-            <DocumentContent
-              ref="documentContent"
-              value={this.state.value}
-              frontendParams={this.getComponentFrontendParams()}
-            />
-          </div>
-        )
-      }
-    }
-    else if(this.state.value.errors)
-    {
-      const ErrorPane = getDocument("errorPane");
-      contentItem = (
-        <div>
-          {devRole ? devTools : null}
-          <ErrorPane
-            ref="documentContent"
-            value={this.state.value}
-            frontendParams={this.getComponentFrontendParams()}
-          />
-        </div>
-      )
-    }
-    else{
-      if (this.state.value) {
-        contentItem = (
-          <h1>{this.state.value}</h1>
-        );
-      }
-    }
+    //if(this.state.value)be5.ui.setTitle(this.state.value.title);
 
     return (
       <div className='document-content' id={'document-content___' + this.props.frontendParams.documentName}>
         {loadingItem}
-        {contentItem}
+        {this.getDocument()}
       </div>
     );
   }
 
+  getDocument()
+  {
+    const documentType = this.getDocumentName();
+    if(documentType === null)
+    {
+      return null;
+    }
+
+    const DocumentContent = getDocument(documentType);
+
+    if(DocumentContent === undefined)
+    {
+      const value = StaticPage.createValue(
+        be5.messages.componentForTypeNotRegistered.replace( '$type', documentType), '');
+
+      return (
+        <StaticPage
+          ref="documentContent"
+          value={value}
+          frontendParams={this.getComponentFrontendParams()}
+        />
+      )
+    }
+
+    return (
+      <div>
+        {this.getDevTools()}
+        <DocumentContent
+          ref="documentContent"
+          value={this.state.value}
+          frontendParams={this.getComponentFrontendParams()}
+        />
+      </div>
+    )
+
+  }
+
   getDocumentName() {
+    if(!this.state.value)
+    {
+      return null;
+    }
+
     if(this.props.type)
     {
       return this.props.type;
     }
 
-    if(this.state.value.data.attributes.layout !== undefined &&
-      this.state.value.data.attributes.layout.type !== undefined)
+    if (this.state.frontendParams.type)
     {
-      return this.state.value.data.attributes.layout.type;
+      return this.state.frontendParams.type;
     }
 
-    if(this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT)
+    if (this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT)
     {
       return 'modalForm';
     }
 
-    return this.state.value.data.type;
+    if(this.state.value.errors)
+    {
+      return 'errorPane'
+    }
+
+    if(this.state.value.data)
+    {
+      if(this.state.value.data.attributes.layout !== undefined &&
+        this.state.value.data.attributes.layout.type !== undefined)
+      {
+        return this.state.value.data.attributes.layout.type;
+      }
+
+      return this.state.value.data.type;
+    }
+
+    return undefined;
+  }
+
+  getDevTools(){
+    const devRole = this.props.currentRoles && this.props.currentRoles.indexOf(ROLE_SYSTEM_DEVELOPER) !== -1;
+
+    if(!devRole)
+    {
+      return null;
+    }
+
+    return (
+      <span onClick={this.refresh} className={"document-reload float-right"}>
+        <img src={reloadImg} alt={be5.messages.reload}
+             title={be5.messages.reload + " " + this.props.frontendParams.documentName}/>
+      </span>
+    );
   }
 
   getComponentFrontendParams() {
@@ -205,5 +214,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
 )(Document)

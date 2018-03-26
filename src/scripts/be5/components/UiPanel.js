@@ -35,7 +35,7 @@ const UiPanel = () => {
         <h3>documents</h3>
         {getAllDocumentTypes().sort().map((name) => {
           let doc = getDocument(name);
-          console.log('document', doc.name, doc);
+          //console.log('document', doc.name, doc);
           return (
             <div key={"documents-"+name}>
               <span className="badge badge-primary">{name}</span> - {getDocument(name).name}
@@ -47,7 +47,7 @@ const UiPanel = () => {
         <h3>routes</h3>
         {getAllRoutes().sort().map((name) => {
           let route = getRoute(name);
-          console.log('route', route.name, route);
+          //console.log('route', route.name, route);
           return (
             <div key={"documents-"+name}>
               <span className="badge badge-primary">{name}</span>

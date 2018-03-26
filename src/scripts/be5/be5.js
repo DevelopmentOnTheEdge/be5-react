@@ -4,6 +4,7 @@ import messages from './core/messages';
 import bus      from './core/bus';
 import changeDocument from './core/changeDocument';
 import {getRoute} from './core/routes'
+import StaticPage from "./components/StaticPage";
 
 
 const be5 = {
@@ -181,7 +182,7 @@ const be5 = {
       }
       let urlParts = url.split('/');
       // if (!be5.hasAction(urlParts[0])) {
-      //   be5.log.error(be5.messages.errorUnknownAction.replace(
+      //   be5.log.error(be5.messages.errorUnknownRoute.replace(
       //       '$action', urlParts[0]));
       //   return;
       // }
@@ -211,8 +212,9 @@ const be5 = {
         //changeDocument(documentName, { loading: true });
         action.apply(be5, positional);
       }else{
-        changeDocument(documentName, { value: be5.messages.errorUnknownAction.replace('$action', actionName) });
-        console.error(be5.messages.errorUnknownAction.replace('$action', actionName));
+        const msg = be5.messages.errorUnknownRoute.replace('$action', actionName);
+        changeDocument(documentName, { value: StaticPage.createValue(msg) });
+        console.error(msg);
       }
     }
   },

@@ -44,9 +44,20 @@ exports[`test 1`] = `
     className="document-content"
     id="document-content___FormWizard"
   >
-    <h1>
-      A
-    </h1>
+    <div>
+      <div
+        className="staticPage"
+      >
+        <div
+          className="staticPage__text"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "A",
+            }
+          }
+        />
+      </div>
+    </div>
   </div>
   <br />
   <div

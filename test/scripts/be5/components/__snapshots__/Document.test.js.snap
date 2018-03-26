@@ -12,8 +12,22 @@ exports[`snapshot 2`] = `
   className="document-content"
   id="document-content___MainDocument"
 >
-  <h1>
-    Page loaded.
-  </h1>
+  <div
+    className="staticPage"
+  >
+    <h1
+      className="staticPage__title"
+    >
+      Component for type "undefined" is not registered.
+    </h1>
+    <div
+      className="staticPage__text"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "",
+        }
+      }
+    />
+  </div>
 </div>
 `;

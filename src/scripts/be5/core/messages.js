@@ -4,7 +4,7 @@ export default {
     errorServerQueryException : 'Error during server query: $message',
     errorInvalidErrorResponse : 'Server returned unknown error',
     errorNoData : 'Error communicating with server: no data received',
-    errorUnknownAction : 'Unknown action: $action',
+    errorUnknownRoute : 'Unknown route: $action',
     errorUrlParameterAbsent : 'Invalid URL: $parameter is absent',
 
     welcome: 'Hello!',
@@ -40,7 +40,7 @@ export default {
     errorServerQueryException : 'Ошибка сервера: $message',
     errorInvalidErrorResponse : 'Сервер вернул неизвестную ошибку',
     errorNoData : 'Ошибка связи с сервером: ответ не получен',
-    errorUnknownAction : 'Неизвестная операция: $action',
+    errorUnknownRoute : 'Неизвестный путь: $action',
     errorUrlParameterAbsent : 'Неверный URL: отсутствует $parameter',
 
     welcome: 'Добро пожаловать!',

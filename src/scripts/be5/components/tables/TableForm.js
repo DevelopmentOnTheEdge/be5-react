@@ -18,7 +18,7 @@ class TableForm extends React.Component
   }
 
   updateDocuments(){
-    changeDocument("form", { value: "" } );
+    changeDocument("form", { value: null } );
     changeDocument("table", { value: this.props.value });
   }
 
