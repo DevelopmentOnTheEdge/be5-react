@@ -1,5 +1,6 @@
 import React    from 'react';
 import {getBaseUrl}    from './utils/utils';
+import {createStaticValue} from './utils/documentUtils';
 import messages from './core/messages';
 import bus      from './core/bus';
 import changeDocument from './core/changeDocument';
@@ -213,8 +214,8 @@ const be5 = {
         action.apply(be5, positional);
       }else{
         const msg = be5.messages.errorUnknownRoute.replace('$action', actionName);
-        changeDocument(documentName, { value: StaticPage.createValue(msg) });
-        console.error(msg);
+        changeDocument(documentName, { value: createStaticValue(msg) });
+        console.info(msg);
       }
     }
   },

@@ -42,7 +42,7 @@ export default {
     const state = documentState.get(be5.MAIN_DOCUMENT);
     console.log(state);
 
-    if(state.value && state.value.links && "#!" + state.value.data.links.self === be5.url.get()
+    if(state.value && state.value.data && state.value.data.links && "#!" + state.value.data.links.self === be5.url.get()
       && state.value.data.links.self.startsWith('form'))
     {
       //console.log('skip - form already opened');

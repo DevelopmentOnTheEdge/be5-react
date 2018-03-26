@@ -40,6 +40,42 @@ var utils = Object.freeze({
 	arraysEqual: arraysEqual
 });
 
+var getResourceByID = function getResourceByID(included, id) {
+  for (var i = 0; i < included.length; i++) {
+    if (included[i].id === id) return included[i];
+  }
+  return undefined;
+};
+
+var getModelByID = function getModelByID(included, meta, id) {
+  var res = getResourceByID(included, id);
+  if (res !== undefined) {
+    return { data: res, included: included, meta: meta };
+  } else {
+    return undefined;
+  }
+};
+
+var createStaticValue = function createStaticValue(title, text, meta, links) {
+  return {
+    data: {
+      type: 'static',
+      attributes: {
+        title: title,
+        content: text
+      }
+    },
+    meta: meta || { _ts_: new Date().getTime() },
+    links: links || {}
+  };
+};
+
+var documentUtils = Object.freeze({
+	getResourceByID: getResourceByID,
+	getModelByID: getModelByID,
+	createStaticValue: createStaticValue
+});
+
 var messages = {
   en: {
     errorCannotConnect: 'Cannot connect to server',
@@ -241,6 +277,39 @@ var getAllDocumentTypes = function getAllDocumentTypes() {
   return Object.keys(documents$1);
 };
 
+var StaticPage = function StaticPage(props) {
+  var attributes = props.value.data.attributes;
+
+  var title = attributes.title ? React.createElement(
+    'h1',
+    { className: 'staticPage__title' },
+    attributes.title
+  ) : null;
+
+  return React.createElement(
+    'div',
+    { className: 'staticPage' },
+    title,
+    React.createElement('div', { className: 'staticPage__text', dangerouslySetInnerHTML: { __html: attributes.content } })
+  );
+};
+
+StaticPage.propTypes = {
+  value: PropTypes.shape({
+    data: PropTypes.shape({
+      attributes: PropTypes.shape({
+        title: PropTypes.string,
+        content: PropTypes.string
+      }),
+      meta: PropTypes.shape({
+        _ts_: PropTypes.isRequired
+      })
+    })
+  })
+};
+
+registerDocument("static", StaticPage);
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
@@ -387,72 +456,6 @@ var toConsumableArray = function (arr) {
     return Array.from(arr);
   }
 };
-
-var StaticPage = function (_React$Component) {
-  inherits(StaticPage, _React$Component);
-
-  function StaticPage() {
-    classCallCheck(this, StaticPage);
-    return possibleConstructorReturn(this, (StaticPage.__proto__ || Object.getPrototypeOf(StaticPage)).apply(this, arguments));
-  }
-
-  createClass(StaticPage, [{
-    key: 'render',
-    value: function render() {
-      var attributes = this.props.value.data.attributes;
-
-      var title = attributes.title ? React.createElement(
-        'h1',
-        { className: 'staticPage__title' },
-        attributes.title
-      ) : null;
-
-      return React.createElement(
-        'div',
-        { className: 'staticPage' },
-        title,
-        React.createElement('div', { className: 'staticPage__text', dangerouslySetInnerHTML: { __html: attributes.content } })
-      );
-    }
-  }], [{
-    key: 'createValue',
-    value: function createValue(title, text) {
-      return StaticPage.createValue(title, text, { _ts_: new Date().getTime() }, {});
-    }
-  }, {
-    key: 'createValue',
-    value: function createValue(title, text, meta, links) {
-      return {
-        data: {
-          type: 'static',
-          attributes: {
-            title: title,
-            content: text
-          }
-        },
-        meta: meta,
-        links: links
-      };
-    }
-  }]);
-  return StaticPage;
-}(React.Component);
-
-StaticPage.propTypes = {
-  value: PropTypes.shape({
-    data: PropTypes.shape({
-      attributes: PropTypes.shape({
-        title: PropTypes.string,
-        content: PropTypes.string
-      }),
-      meta: PropTypes.shape({
-        _ts_: PropTypes.isRequired
-      })
-    })
-  })
-};
-
-registerDocument("static", StaticPage);
 
 var be5 = {
   debug: true,
@@ -653,8 +656,8 @@ var be5 = {
         action.apply(be5, positional);
       } else {
         var msg = be5.messages.errorUnknownRoute.replace('$action', actionName);
-        changeDocument(documentName, { value: StaticPage.createValue(msg) });
-        console.error(msg);
+        changeDocument(documentName, { value: createStaticValue(msg) });
+        console.info(msg);
       }
     }
   },
@@ -1133,7 +1136,7 @@ var route$12 = function route(documentName, params) {
 registerRoute("queryBuilder", route$12);
 
 var route$14 = function route(documentName, text) {
-  changeDocument(documentName, { value: StaticPage.createValue(undefined, text) });
+  changeDocument(documentName, { value: createStaticValue(undefined, text) });
 };
 
 registerRoute("text", route$14);
@@ -1204,7 +1207,7 @@ var Document = function (_React$Component) {
           console.error("meta._ts_ mast be string of Integer " + _this2.state.value.meta._ts_);
         }
 
-        if (_this2.state.value === null || _this2.state.value.meta === undefined || data.value.meta === undefined || data.value.meta._ts_ > _this2.state.value.meta._ts_) {
+        if (!_this2.state.value || !_this2.state.value.meta || !data.value || !data.value.meta || data.value.meta._ts_ > _this2.state.value.meta._ts_) {
           _this2.setState(Object.assign({ value: {}, frontendParams: {} }, data));
         }
         // if(!data.loading)this.setState({ loading: false });
@@ -1260,7 +1263,7 @@ var Document = function (_React$Component) {
       var DocumentContent = getDocument(documentType);
 
       if (DocumentContent === undefined) {
-        var value = StaticPage.createValue(be5.messages.componentForTypeNotRegistered.replace('$type', documentType), '');
+        var value = createStaticValue(be5.messages.componentForTypeNotRegistered.replace('$type', documentType), '');
 
         return React.createElement(StaticPage, {
           value: value,
@@ -1465,7 +1468,7 @@ var TableForm = function (_React$Component) {
         { className: 'table-form' },
         React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, type: 'table' }),
         React.createElement(HelpInfo, { value: this.props.value.data.attributes.layout.helpInfo }),
-        React.createElement(Document$1, { frontendParams: { documentName: "form" } })
+        React.createElement(Document$1, { frontendParams: { documentName: "form", parentDocumentName: "table" } })
       );
     }
   }]);
@@ -1496,12 +1499,12 @@ var TableFormRow = function (_TableForm) {
         React.createElement(
           'div',
           { className: 'col-lg-6' },
-          React.createElement(Document$1, { frontendParams: { documentName: "form" } })
+          React.createElement(Document$1, { frontendParams: { documentName: "form", parentDocumentName: "table" } })
         ),
         React.createElement(
           'div',
           { className: 'col-lg-6' },
-          React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, documentType: 'table' })
+          React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, type: 'table' })
         )
       );
     }
@@ -1530,9 +1533,9 @@ var FormTable = function (_TableForm) {
       return React.createElement(
         'div',
         { className: 'form-table' },
-        React.createElement(Document$1, { frontendParams: { documentName: "form" } }),
+        React.createElement(Document$1, { frontendParams: { documentName: "form", parentDocumentName: "table" } }),
         React.createElement(HelpInfo, { value: this.props.value.data.attributes.layout.helpInfo }),
-        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, documentType: 'table' })
+        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, type: 'table' })
       );
     }
   }]);
@@ -1545,27 +1548,6 @@ FormTable.propTypes = {
 };
 
 registerDocument('formTable', FormTable);
-
-var getResourceByID = function getResourceByID(included, id) {
-  for (var i = 0; i < included.length; i++) {
-    if (included[i].id === id) return included[i];
-  }
-  return undefined;
-};
-
-var getModelByID = function getModelByID(included, meta, id) {
-  var res = getResourceByID(included, id);
-  if (res !== undefined) {
-    return { data: res, included: included, meta: meta };
-  } else {
-    return undefined;
-  }
-};
-
-var documentUtils = Object.freeze({
-	getResourceByID: getResourceByID,
-	getModelByID: getModelByID
-});
 
 var OperationBox = function (_React$Component) {
   inherits(OperationBox, _React$Component);
@@ -6213,6 +6195,8 @@ var UiPanel = function UiPanel() {
         'documents'
       ),
       getAllDocumentTypes().sort().map(function (name) {
+        //let doc = getDocument(name);
+        //console.log('document', doc.name, doc);
         return React.createElement(
           'div',
           { key: "documents-" + name },
@@ -6235,6 +6219,8 @@ var UiPanel = function UiPanel() {
         'routes'
       ),
       getAllRoutes().sort().map(function (name) {
+        //let route = getRoute(name);
+        //console.log('route', route.name, route);
         return React.createElement(
           'div',
           { key: "documents-" + name },
@@ -6261,7 +6247,7 @@ var be5init = {
     var state = documentState.get(be5.MAIN_DOCUMENT);
     console.log(state);
 
-    if (state.value && state.value.links && "#!" + state.value.data.links.self === be5.url.get() && state.value.data.links.self.startsWith('form')) {
+    if (state.value && state.value.data && state.value.data.links && "#!" + state.value.data.links.self === be5.url.get() && state.value.data.links.self.startsWith('form')) {
       //console.log('skip - form already opened');
     } else {
       be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());

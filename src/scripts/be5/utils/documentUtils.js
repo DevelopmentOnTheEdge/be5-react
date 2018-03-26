@@ -20,3 +20,16 @@ export const getModelByID = (included, meta, id) => {
   }
 };
 
+export const createStaticValue = (title, text, meta, links) => {
+  return {
+    data: {
+      type: 'static',
+      attributes: {
+        title: title,
+        content: text
+      }
+    },
+    meta: meta || {_ts_: new Date().getTime()},
+    links: links || {}
+  }
+};

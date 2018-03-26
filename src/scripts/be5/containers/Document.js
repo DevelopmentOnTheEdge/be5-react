@@ -10,6 +10,7 @@ import {getDocument} from "../core/documents";
 
 import reloadImg from '../../../images/reload.png';
 import StaticPage from "../components/StaticPage";
+import {createStaticValue} from "../utils/documentUtils";
 
 
 class Document extends React.Component
@@ -45,7 +46,7 @@ class Document extends React.Component
         console.error("meta._ts_ mast be string of Integer " + this.state.value.meta._ts_);
       }
 
-      if(this.state.value === null || this.state.value.meta === undefined || data.value.meta === undefined
+      if(!this.state.value || !this.state.value.meta || !data.value || !data.value.meta
           || data.value.meta._ts_ > this.state.value.meta._ts_)
       {
         this.setState(Object.assign(
@@ -110,7 +111,7 @@ class Document extends React.Component
 
     if(DocumentContent === undefined)
     {
-      const value = StaticPage.createValue(
+      const value = createStaticValue(
         be5.messages.componentForTypeNotRegistered.replace( '$type', documentType), '');
 
       return (

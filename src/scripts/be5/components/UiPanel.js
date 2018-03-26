@@ -34,7 +34,7 @@ const UiPanel = () => {
       <div className="col-md-4">
         <h3>documents</h3>
         {getAllDocumentTypes().sort().map((name) => {
-          let doc = getDocument(name);
+          //let doc = getDocument(name);
           //console.log('document', doc.name, doc);
           return (
             <div key={"documents-"+name}>
@@ -46,7 +46,7 @@ const UiPanel = () => {
       <div className="col-md-8">
         <h3>routes</h3>
         {getAllRoutes().sort().map((name) => {
-          let route = getRoute(name);
+          //let route = getRoute(name);
           //console.log('route', route.name, route);
           return (
             <div key={"documents-"+name}>
