@@ -5,13 +5,14 @@
   overflow: auto;
 }
 .main-split-pane > .Pane1 {
-  padding: 15px;
-}
-.main-split-pane > .Pane1 {
   background: #f8f8f8;
 }
 .main-split-pane > .Resizer {
   opacity: 0.11;
+}
+
+.side-bar {
+  padding: 15px;
 }
 
 #document-content___MainDocument {

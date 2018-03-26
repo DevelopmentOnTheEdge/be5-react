@@ -11,8 +11,12 @@ const Application = () => {
     <div>
       <Be5Components/>
       <SplitPane split="vertical" defaultSize={280} className="main-split-pane">
-        <SideBar/>
-        <Document frontendParams={{documentName: be5.MAIN_DOCUMENT}} />
+        <div className="side-pane">
+          <SideBar/>
+        </div>
+        <div className="main-pane">
+          <Document frontendParams={{documentName: be5.MAIN_DOCUMENT}} />
+        </div>
       </SplitPane>
     </div>
   );

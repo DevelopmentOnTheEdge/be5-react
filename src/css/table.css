@@ -93,8 +93,12 @@ table.dataTable {
   width: auto;
   margin: 0;
 }
-.table-striped-light tbody tr:nth-of-type(odd) {
-  background-color: #f9f9f9;
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.025);
+}
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.075);
 }
 
 .dataTables_wrapper .dataTables_info {

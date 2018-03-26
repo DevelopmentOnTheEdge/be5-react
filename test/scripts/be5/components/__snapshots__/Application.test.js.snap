@@ -39,28 +39,32 @@ exports[`snapshot 1`] = `
       }
     >
       <div
-        className="side"
+        className="side-pane"
       >
         <div
-          className="menuContainer"
+          className="side-bar"
         >
-          <input
-            className="searchField form-control"
-            onChange={[Function]}
-            placeholder="Filter..."
-            type="text"
-            value=""
-          />
-          <p>
-            Loading...
-          </p>
-        </div>
-        <div
-          className="menuFooter"
-        >
-          <img
-            src={Object {}}
-          />
+          <div
+            className="menuContainer"
+          >
+            <input
+              className="searchField form-control"
+              onChange={[Function]}
+              placeholder="Filter..."
+              type="text"
+              value=""
+            />
+            <p>
+              Loading...
+            </p>
+          </div>
+          <div
+            className="menuFooter"
+          >
+            <img
+              src={Object {}}
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -84,9 +88,13 @@ exports[`snapshot 1`] = `
       }
     >
       <div
-        className="document-content"
-        id="document-content___MainDocument"
-      />
+        className="main-pane"
+      >
+        <div
+          className="document-content"
+          id="document-content___MainDocument"
+        />
+      </div>
     </div>
   </div>
 </div>

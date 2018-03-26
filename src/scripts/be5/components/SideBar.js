@@ -7,7 +7,7 @@ import LanguageSelector     from './LanguageSelector';
 
 const SideBar = () => {
   return (
-    <div className={"side"}>
+    <div className={"side-bar"}>
       <UserControlContainer size="sm"/>
       <MenuContainer/>
       <MenuFooter/>

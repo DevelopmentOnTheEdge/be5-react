@@ -113,7 +113,7 @@ exports[`Form errorOnApply 1`] = `
 
 exports[`InlineForm 1`] = `
 <form
-  className="form-inline form-inline-bordered"
+  className="form-inline form-inline-mini"
   id="1507198229686"
   onSubmit={[Function]}
 >

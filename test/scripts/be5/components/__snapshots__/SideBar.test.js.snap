@@ -2,7 +2,7 @@
 
 exports[`snapshot sideBar 1`] = `
 <div
-  className="side"
+  className="side-bar"
 >
   <div
     className="menuContainer"

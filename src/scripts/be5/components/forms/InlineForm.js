@@ -6,7 +6,7 @@ import {Property}      from 'beanexplorer-react';
 import {registerDocument} from '../../core/documents';
 
 
-class InlineForm extends Form
+class InlineMiniForm extends Form
 {
   render() {
     const attributes = this.state.data.attributes;
@@ -32,7 +32,7 @@ class InlineForm extends Form
         className={classNames(
           'form-inline',
           this.state.wasValidated ? 'was-validated' : '',
-          attributes.layout.formClassName || 'form-inline-bordered'
+          attributes.layout.formClassName || 'form-inline-mini'
         )}
       >
         <label className={classNames(
@@ -51,6 +51,6 @@ class InlineForm extends Form
 
 }
 
-registerDocument('inlineForm', InlineForm);
+registerDocument('inlineMiniForm', InlineMiniForm);
 
-export default InlineForm;
+export default InlineMiniForm;
