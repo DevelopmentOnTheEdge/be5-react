@@ -1,4 +1,4 @@
-import * as types from '../constants/userConstants';
+import * as types from '../constants/user.constants';
 
 const initialState = {
   "availableRoles":["DefaultGuest"],

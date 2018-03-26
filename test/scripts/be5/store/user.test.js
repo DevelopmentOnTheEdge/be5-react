@@ -1,5 +1,5 @@
-import {updateUserInfo, toggleRoles}  from '../../../../src/scripts/be5/store/actions/userActions'
-import {getUser, getCurrentRoles}  from '../../../../src/scripts/be5/store/selectors/userSelectors'
+import {updateUserInfo, toggleRoles}  from '../../../../src/scripts/be5/store/actions/user.actions'
+import {getUser, getCurrentRoles}  from '../../../../src/scripts/be5/store/selectors/user.selectors'
 import be5 from '../../../../src/scripts/be5/be5';
 import testUtils from "../testUtils";
 

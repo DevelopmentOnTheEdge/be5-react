@@ -1,7 +1,7 @@
 import be5 from './be5';
 import bus from './core/bus';
 import documentState      from './core/documentState';
-import { updateUserInfo } from './store/actions/userActions'
+import { updateUserInfo } from './store/actions/user.actions'
 
 import './routes/loading';
 import './routes/form';

@@ -1,5 +1,5 @@
 import be5 from "../../be5";
-import * as types from '../constants/userConstants';
+import * as types from '../constants/user.constants';
 
 
 export const updateUserInfo = () => {

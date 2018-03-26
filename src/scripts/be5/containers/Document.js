@@ -4,7 +4,7 @@ import be5 from '../be5';
 import bus from '../core/bus';
 import documentState from '../core/documentState';
 import { connect }    from 'react-redux'
-import { getCurrentRoles } from '../store/selectors/userSelectors'
+import { getCurrentRoles } from '../store/selectors/user.selectors'
 import {ROLE_SYSTEM_DEVELOPER} from "../constants";
 import {getDocument} from "../core/documents";
 

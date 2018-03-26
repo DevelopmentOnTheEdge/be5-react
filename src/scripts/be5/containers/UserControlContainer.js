@@ -1,7 +1,7 @@
 import UserControl     from '../components/UserControl'
 import { connect }     from 'react-redux'
-import { toggleRoles } from '../store/actions/userActions'
-import { getUser }          from '../store/selectors/userSelectors'
+import { toggleRoles } from '../store/actions/user.actions'
+import { getUser }          from '../store/selectors/user.selectors'
 
 
 const mapStateToProps = state => ({
