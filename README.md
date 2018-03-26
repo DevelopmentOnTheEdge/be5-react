@@ -25,7 +25,7 @@ npm run build
 
 ```sh
 $ npm start //or run you be5-application
-$ npm run dev
+$ npm start
 serving at http://localhost:8888
 ```
 
