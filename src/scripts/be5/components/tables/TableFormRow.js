@@ -11,10 +11,10 @@ class TableFormRow extends TableForm
     return (
       <div className="row">
         <div className="col-lg-6">
-          <Document frontendParams={{documentName: "form"}} />
+          <Document frontendParams={{documentName: "form", parentDocumentName: "table"}} />
         </div>
         <div className="col-lg-6">
-          <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} documentType="table" />
+          <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} type="table" />
         </div>
       </div>
     );

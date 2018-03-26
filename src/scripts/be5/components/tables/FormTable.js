@@ -11,9 +11,9 @@ class FormTable extends TableForm
   render() {
     return (
       <div className="form-table">
-        <Document frontendParams={{documentName: "form"}} />
+        <Document frontendParams={{documentName: "form", parentDocumentName: "table"}} />
         <HelpInfo value={this.props.value.data.attributes.layout.helpInfo} />
-        <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} documentType="table" />
+        <Document frontendParams={{documentName: "table", operationDocumentName: "form"}} type="table" />
      </div>
     );
   }
