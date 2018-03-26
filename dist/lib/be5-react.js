@@ -10,6 +10,9 @@ import JsonPointer from 'json-pointer';
 import AceEditor from 'react-ace';
 import SplitPane from 'react-split-pane';
 import Alert from 'react-s-alert';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { createLogger } from 'redux-logger';
 
 var getBaseUrl = function getBaseUrl() {
   var getUrl = window.location;
@@ -1446,8 +1449,8 @@ var Document = function (_React$Component) {
   }, {
     key: 'getDocumentName',
     value: function getDocumentName() {
-      if (this.props.documentType) {
-        return this.props.documentType;
+      if (this.props.type) {
+        return this.props.type;
       }
 
       if (this.state.value.data.attributes.layout !== undefined && this.state.value.data.attributes.layout.type !== undefined) {
@@ -1477,7 +1480,7 @@ Document.propTypes = {
     onSuccess: PropTypes.function
   }),
   value: PropTypes.object,
-  documentType: PropTypes.string
+  type: PropTypes.string
 };
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -2200,7 +2203,7 @@ var route$14 = function route(documentName, text) {
 registerRoute("text", route$14);
 
 var route$16 = function route(documentName) {
-  changeDocument(documentName, { value: { data: { type: "uiPanel", attributes: "" } } });
+  changeDocument(documentName, { type: 'uiPanel', value: {} });
 };
 
 registerRoute("uiPanel", route$16);
@@ -2313,7 +2316,7 @@ var TableForm = function (_React$Component) {
       return React.createElement(
         'div',
         { className: 'table-form' },
-        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, documentType: 'table' }),
+        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, type: 'table' }),
         React.createElement(HelpInfo, { value: this.props.value.data.attributes.layout.helpInfo }),
         React.createElement(Document$1, { frontendParams: { documentName: "form" } })
       );
@@ -7822,6 +7825,59 @@ Navs.propTypes = {
   documentName: PropTypes.string
 };
 
+var isProduction = "development" === 'production';
+
+var middleware = [thunkMiddleware];
+if (!isProduction) {
+  middleware.push(createLogger());
+}
+
+var enhancer = compose(applyMiddleware.apply(undefined, middleware), !isProduction && window.devToolsExtension ? window.devToolsExtension() : function (f) {
+  return f;
+});
+
+var createBaseStore = function createBaseStore(rootReducer) {
+  return createStore(rootReducer, {}, enhancer);
+};
+
+var initialState = {
+  "availableRoles": ["DefaultGuest"],
+  "loggedIn": false,
+  "currentRoles": ["DefaultGuest"],
+  "userName": "Guest"
+};
+
+function users() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments[1];
+
+  switch (action.type) {
+    case UPDATE_USER_INFO:
+      return action.user;
+    case SELECT_ROLES:
+      return Object.assign({}, state, { currentRoles: action.currentRoles });
+    default:
+      return state;
+  }
+}
+
+function users$1() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  var action = arguments[1];
+
+  switch (action.type) {
+    case UPDATE_MENU:
+      return action.data;
+    default:
+      return state;
+  }
+}
+
+var index = combineReducers({
+  user: users,
+  menu: users$1
+});
+
 //import be5styles from './be5styles.js';
 // core
 // components
@@ -7830,5 +7886,6 @@ Navs.propTypes = {
 // menu
 // actions
 // services
+// store
 
-export { be5, be5init, constants, Preconditions as preconditions, utils, documentUtils, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, toggleRoles, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, tables };
+export { be5, be5init, constants, Preconditions as preconditions, utils, documentUtils, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, tables };
