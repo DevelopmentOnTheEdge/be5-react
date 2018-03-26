@@ -9,8 +9,8 @@ import * as utils from './utils/utils.js';
 // core
 import bus from './core/bus.js';
 import changeDocument from './core/changeDocument.js';
-import * as documents from './core/documents.js';
-import * as routes  from './core/routes.js';
+import './core/documents.js';
+import './core/routes.js';
 
 // components
 import Application      from './components/Application.js';
@@ -68,7 +68,13 @@ import textAction      from './routes/text.js';
 // services
 import action            from './services/actions.js';
 import forms             from './services/forms.js';
-import tables            from './services/tables.js'
+import tables            from './services/tables.js';
+
+import './store/actions/user.actions'
+import './store/actions/menu.actions'
+
+import './store/selectors/user.selectors'
+import './store/selectors/menu.selectors'
 
 
 export {
@@ -82,8 +88,6 @@ export {
   // core
   bus,
   changeDocument,
-  documents,
-  routes,
 
   // components
   Application,

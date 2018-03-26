@@ -217,14 +217,8 @@ var registerRoute = function registerRoute(actionName, fn) {
 };
 
 var getAllRoutes = function getAllRoutes() {
-  return Object.keys(documents);
+  return Object.keys(routes);
 };
-
-var routes$1 = Object.freeze({
-	getRoute: getRoute,
-	registerRoute: registerRoute,
-	getAllRoutes: getAllRoutes
-});
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
@@ -803,12 +797,6 @@ var getAllDocumentTypes = function getAllDocumentTypes() {
   return Object.keys(documents$1);
 };
 
-var documents$2 = Object.freeze({
-	getDocument: getDocument,
-	registerDocument: registerDocument,
-	getAllDocumentTypes: getAllDocumentTypes
-});
-
 var FinishedResult = function (_React$Component) {
   inherits(FinishedResult, _React$Component);
 
@@ -1036,10 +1024,6 @@ var ErrorPane = function (_React$Component) {
   return ErrorPane;
 }(React.Component);
 
-// StaticPage.defaultProps = {
-//   value: ''
-// };
-
 ErrorPane.propTypes = {
   value: PropTypes.shape({
     errors: PropTypes.array.isRequired,
@@ -1048,6 +1032,8 @@ ErrorPane.propTypes = {
     })
   })
 };
+
+registerDocument("errorPane", ErrorPane);
 
 var getResourceByID = function getResourceByID(included, id) {
   for (var i = 0; i < included.length; i++) {
@@ -1405,17 +1391,8 @@ var Document = function (_React$Component) {
       if (this.state.value) be5.ui.setTitle(this.state.value.title);
 
       if (this.state.value.data && this.state.value.data.type) {
-        var documentType = this.state.value.data.type;
-
-        if (this.state.value.data.attributes.layout !== undefined && this.state.value.data.attributes.layout.type !== undefined) {
-          documentType = this.state.value.data.attributes.layout.type;
-        }
-
-        if (this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
-          documentType = 'modalForm';
-        }
-
-        var DocumentContent = getDocument(documentType);
+        var documentType = this.getDocumentName();
+        var DocumentContent = getDocument(this.getDocumentName(documentType));
 
         if (DocumentContent === undefined) {
           var value = StaticPage.createValue(be5.messages.componentForTypeNotRegistered.replace('$type', documentType), '');
@@ -1438,11 +1415,17 @@ var Document = function (_React$Component) {
           );
         }
       } else if (this.state.value.errors) {
-        contentItem = React.createElement(ErrorPane, {
-          ref: 'documentContent',
-          value: this.state.value,
-          frontendParams: this.getComponentFrontendParams()
-        });
+        var ErrorPane = getDocument("errorPane");
+        contentItem = React.createElement(
+          'div',
+          null,
+          devRole ? devTools : null,
+          React.createElement(ErrorPane, {
+            ref: 'documentContent',
+            value: this.state.value,
+            frontendParams: this.getComponentFrontendParams()
+          })
+        );
       } else {
         if (this.state.value) {
           contentItem = React.createElement(
@@ -1461,6 +1444,23 @@ var Document = function (_React$Component) {
       );
     }
   }, {
+    key: 'getDocumentName',
+    value: function getDocumentName() {
+      if (this.props.documentType) {
+        return this.props.documentType;
+      }
+
+      if (this.state.value.data.attributes.layout !== undefined && this.state.value.data.attributes.layout.type !== undefined) {
+        return this.state.value.data.attributes.layout.type;
+      }
+
+      if (this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
+        return 'modalForm';
+      }
+
+      return this.state.value.data.type;
+    }
+  }, {
     key: 'getComponentFrontendParams',
     value: function getComponentFrontendParams() {
       return Object.assign({}, this.state.frontendParams, this.props.frontendParams);
@@ -1477,7 +1477,7 @@ Document.propTypes = {
     onSuccess: PropTypes.function
   }),
   value: PropTypes.object,
-  component: PropTypes.func
+  documentType: PropTypes.string
 };
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -1598,7 +1598,8 @@ var TableBox = function (_React$Component) {
       var columnIndexShift = 0;
 
       if (hasCheckBoxes) {
-        theadrow.append($("<th>").html('<input id="rowCheckboxAll" type="checkbox" class=""/>'));
+        //theadrow.append($("<th>").html('<input id="rowCheckboxAll" type="checkbox" class=""/>'));
+        theadrow.append($("<th>").text("#"));
         tfootrow.append($("<th>").text("#"));
         columnIndexShift = 1;
       }
@@ -1715,12 +1716,12 @@ var TableBox = function (_React$Component) {
             var checked = this.checked;
             if (checked && $.inArray(rowId, be5.tableState.selectedRows) === -1) {
               be5.tableState.selectedRows.push(rowId);
-              if (attributes.rows.length === be5.tableState.selectedRows.length) {
-                $('#rowCheckboxAll').prop('checked', true);
-              }
+              // if(attributes.rows.length === be5.tableState.selectedRows.length){
+              //   $('#rowCheckboxAll').prop('checked', true);
+              // }
             } else if (!checked && $.inArray(rowId, be5.tableState.selectedRows) !== -1) {
               be5.tableState.selectedRows.splice($.inArray(rowId, be5.tableState.selectedRows), 1);
-              $('#rowCheckboxAll').prop('checked', false);
+              //$('#rowCheckboxAll').prop('checked', false);
             }
             _this.onSelectionChange();
           });
@@ -1787,22 +1788,22 @@ var TableBox = function (_React$Component) {
 
       $('.dataTables-nav').css('max-width', Math.max(650, tableDiv.width() + 2));
 
-      $('#rowCheckboxAll').click(function (e) {
-        e.stopPropagation();
-
-        if (!$('#rowCheckboxAll').prop('checked')) {
-          $('.rowCheckbox').prop('checked', false);
-          be5.tableState.selectedRows = [];
-        } else {
-          $('.rowCheckbox').prop('checked', true);
-
-          for (var _i = 0; _i < attributes.rows.length; _i++) {
-            be5.tableState.selectedRows.push(attributes.rows[_i].id);
-          }
-        }
-
-        _this.onSelectionChange();
-      });
+      // $('#rowCheckboxAll').click(function (e) {
+      //   e.stopPropagation();
+      //
+      //   if (!$('#rowCheckboxAll').prop('checked')) {
+      //     $('.rowCheckbox').prop('checked', false);
+      //     be5.tableState.selectedRows = [];
+      //   }else{
+      //     $('.rowCheckbox').prop('checked', true);
+      //
+      //     for(let i=0; i< attributes.rows.length; i++){
+      //       be5.tableState.selectedRows.push(attributes.rows[i].id);
+      //     }
+      //   }
+      //
+      //   _this.onSelectionChange();
+      // });
 
       this.refs.quickColumns.setTable(this.refs.table);
 
@@ -1910,7 +1911,7 @@ var Table = function (_React$Component3) {
         topForm = React.createElement(Document$1, {
           frontendParams: { documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName },
           value: { data: topFormJson, meta: value.meta },
-          component: documents.getDocument(topFormJson.attributes.layout.type)
+          component: getDocument(topFormJson.attributes.layout.type)
         });
       }
 
@@ -2082,10 +2083,9 @@ var forms = {
       bus.fire("alert", { msg: operationResult.message, type: 'error' });
     }
 
-    //const formComponentName = json.data.attributes.layout.type || 'form';
-    //const formComponent = getDocument(formComponentName);
+    var formComponentName = json.data.attributes.layout.type;
 
-    if (frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
+    if (formComponentName === 'modalForm' || frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
       bus.fire("mainModalOpen");
 
       changeDocument(be5.MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
@@ -2199,6 +2199,12 @@ var route$14 = function route(documentName, text) {
 
 registerRoute("text", route$14);
 
+var route$16 = function route(documentName) {
+  changeDocument(documentName, { value: { data: { type: "uiPanel", attributes: "" } } });
+};
+
+registerRoute("uiPanel", route$16);
+
 var HelpInfo = function (_React$Component) {
   inherits(HelpInfo, _React$Component);
 
@@ -2282,11 +2288,7 @@ var TableForm = function (_React$Component) {
 
   function TableForm() {
     classCallCheck(this, TableForm);
-
-    var _this = possibleConstructorReturn(this, (TableForm.__proto__ || Object.getPrototypeOf(TableForm)).call(this));
-
-    _this.state = { helpCollapse: false };
-    return _this;
+    return possibleConstructorReturn(this, (TableForm.__proto__ || Object.getPrototypeOf(TableForm)).apply(this, arguments));
   }
 
   createClass(TableForm, [{
@@ -2311,7 +2313,7 @@ var TableForm = function (_React$Component) {
       return React.createElement(
         'div',
         { className: 'table-form' },
-        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" } }),
+        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, documentType: 'table' }),
         React.createElement(HelpInfo, { value: this.props.value.data.attributes.layout.helpInfo }),
         React.createElement(Document$1, { frontendParams: { documentName: "form" } })
       );
@@ -2326,6 +2328,11 @@ var TableForm = function (_React$Component) {
   }]);
   return TableForm;
 }(React.Component);
+
+TableForm.propTypes = {
+  value: PropTypes.object.isRequired,
+  frontendParams: PropTypes.object.isRequired
+};
 
 registerDocument('tableForm', TableForm);
 
@@ -2346,18 +2353,23 @@ var TableFormRow = function (_TableForm) {
         React.createElement(
           'div',
           { className: 'col-lg-6' },
-          React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" } })
+          React.createElement(Document$1, { frontendParams: { documentName: "form" } })
         ),
         React.createElement(
           'div',
           { className: 'col-lg-6' },
-          React.createElement(Document$1, { frontendParams: { documentName: "form" } })
+          React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, documentType: 'table' })
         )
       );
     }
   }]);
   return TableFormRow;
 }(TableForm);
+
+TableFormRow.propTypes = {
+  value: PropTypes.object.isRequired,
+  frontendParams: PropTypes.object.isRequired
+};
 
 registerDocument('tableFormRow', TableFormRow);
 
@@ -2376,12 +2388,18 @@ var FormTable = function (_TableForm) {
         'div',
         { className: 'form-table' },
         React.createElement(Document$1, { frontendParams: { documentName: "form" } }),
-        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" } })
+        React.createElement(HelpInfo, { value: this.props.value.data.attributes.layout.helpInfo }),
+        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, documentType: 'table' })
       );
     }
   }]);
   return FormTable;
 }(TableForm);
+
+FormTable.propTypes = {
+  value: PropTypes.object.isRequired,
+  frontendParams: PropTypes.object.isRequired
+};
 
 registerDocument('formTable', FormTable);
 
@@ -3682,7 +3700,7 @@ var Form = function (_React$Component) {
             {
               id: this.state.meta._ts_,
               onSubmit: this._applyOnSubmit,
-              className: this.state.wasValidated ? 'was-validated' : ''
+              className: classNames(this.state.wasValidated ? 'was-validated' : '', attributes.layout.formClassName)
             },
             React.createElement(PropertySet, {
               bean: attributes.bean,
@@ -3745,7 +3763,7 @@ var SubmitOnChangeForm = function (_Form) {
         'form',
         {
           id: this.state.meta._ts_,
-          className: classNames('submit-onchange-form', attributes.layout.formCssClass)
+          className: classNames('submit-onchange-form', this.state.wasValidated ? 'was-validated' : '', attributes.layout.formClassName)
         },
         React.createElement(PropertyInput, {
           id: 0,
@@ -3799,7 +3817,7 @@ var ModalForm = function (_Form) {
           {
             id: this.state.meta._ts_,
             onSubmit: this._applyOnSubmit,
-            className: this.state.wasValidated ? 'was-validated' : ''
+            className: classNames('form-modal', this.state.wasValidated ? 'was-validated' : '', attributes.layout.formClassName)
           },
           React.createElement(
             ModalBody,
@@ -3830,28 +3848,31 @@ var ModalForm = function (_Form) {
 
 registerDocument('modalForm', ModalForm);
 
-var InlineForm = function (_Form) {
-  inherits(InlineForm, _Form);
+var InlineMiniForm = function (_Form) {
+  inherits(InlineMiniForm, _Form);
 
-  function InlineForm() {
-    classCallCheck(this, InlineForm);
-    return possibleConstructorReturn(this, (InlineForm.__proto__ || Object.getPrototypeOf(InlineForm)).apply(this, arguments));
+  function InlineMiniForm() {
+    classCallCheck(this, InlineMiniForm);
+    return possibleConstructorReturn(this, (InlineMiniForm.__proto__ || Object.getPrototypeOf(InlineMiniForm)).apply(this, arguments));
   }
 
-  createClass(InlineForm, [{
+  createClass(InlineMiniForm, [{
     key: 'render',
     value: function render() {
       var attributes = this.state.data.attributes;
+
       var commonProps = {
         bean: attributes.bean,
         onChange: this._onFieldChange,
         localization: be5.messages.property,
         inline: true,
-        rowClass: "d-flex"
+        rowClass: "d-flex",
+        bsSize: attributes.layout.bsSize,
+        className: 'mr-sm-2'
       };
 
       var properties = attributes.bean.order.map(function (p) {
-        return React.createElement(Property, _extends({ key: p, path: p }, commonProps, { bsSize: attributes.layout.bsSize }));
+        return React.createElement(Property, _extends({ key: p, path: p }, commonProps));
       });
 
       return React.createElement(
@@ -3859,11 +3880,11 @@ var InlineForm = function (_Form) {
         {
           id: this.state.meta._ts_,
           onSubmit: this._applyOnSubmit,
-          className: classNames('form-inline', attributes.layout.formCssClass || 'form-inline-bordered', this.state.wasValidated ? 'was-validated' : '')
+          className: classNames('form-inline', this.state.wasValidated ? 'was-validated' : '', attributes.layout.formClassName || 'form-inline-mini')
         },
         React.createElement(
           'label',
-          { className: classNames("mb-2 mr-sm-2", { 'col-form-label-sm': attributes.layout.bsSize === "sm" }, { 'col-form-label-lg': attributes.layout.bsSize === "lg" }) },
+          { className: classNames("mr-sm-2", { 'col-form-label-sm': attributes.layout.bsSize === "sm" }, { 'col-form-label-lg': attributes.layout.bsSize === "lg" }) },
           React.createElement(
             'strong',
             null,
@@ -3871,15 +3892,15 @@ var InlineForm = function (_Form) {
           )
         ),
         properties,
-        this._createOkAction('mb-2'),
+        this._createOkAction(''),
         this._getErrorPane()
       );
     }
   }]);
-  return InlineForm;
+  return InlineMiniForm;
 }(Form);
 
-registerDocument('inlineForm', InlineForm);
+registerDocument('inlineMiniForm', InlineMiniForm);
 
 ace.define("ace/mode/doc_comment_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(acequire, exports, module) {
 var oop = acequire("../lib/oop");
@@ -6204,6 +6225,104 @@ var QueryBuilder = function (_React$Component) {
 
 registerDocument("queryBuilder", QueryBuilder);
 
+var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+var ARGUMENT_NAMES = /([^\s,]+)/g;
+
+function getParamNamesString(func) {
+  var fnStr = func.toString().replace(STRIP_COMMENTS, '');
+  var result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
+  if (result === null) return [];
+  return result;
+}
+
+function getParamNames(func) {
+  var arr = getParamNamesString(func);
+  return arr.map(function (name, i) {
+    if (i === 0) {
+      return React.createElement(
+        'span',
+        { key: name },
+        name
+      );
+    } else {
+      return React.createElement(
+        'span',
+        { key: name },
+        ', ',
+        name
+      );
+    }
+  });
+}
+
+var UiPanel = function UiPanel() {
+
+  return React.createElement(
+    'div',
+    { className: classNames('ui-panel row') },
+    React.createElement(
+      'div',
+      { className: 'col-md-12' },
+      React.createElement(
+        'h1',
+        null,
+        'Core'
+      )
+    ),
+    React.createElement(
+      'div',
+      { className: 'col-md-4' },
+      React.createElement(
+        'h3',
+        null,
+        'documents'
+      ),
+      getAllDocumentTypes().sort().map(function (name) {
+        var doc = getDocument(name);
+        console.log('document', doc.name, doc);
+        return React.createElement(
+          'div',
+          { key: "documents-" + name },
+          React.createElement(
+            'span',
+            { className: 'badge badge-primary' },
+            name
+          ),
+          ' - ',
+          getDocument(name).name
+        );
+      })
+    ),
+    React.createElement(
+      'div',
+      { className: 'col-md-8' },
+      React.createElement(
+        'h3',
+        null,
+        'routes'
+      ),
+      getAllRoutes().sort().map(function (name) {
+        var route = getRoute(name);
+        console.log('route', route.name, route);
+        return React.createElement(
+          'div',
+          { key: "documents-" + name },
+          React.createElement(
+            'span',
+            { className: 'badge badge-primary' },
+            name
+          ),
+          '(',
+          getParamNames(getRoute(name)),
+          ')'
+        );
+      })
+    )
+  );
+};
+
+registerDocument("uiPanel", UiPanel);
+
 var be5init = {
   hashChange: function hashChange() {
     bus.fire("mainModalClose");
@@ -6838,7 +6957,7 @@ var LanguageBox = function (_React$Component3) {
 var SideBar = function SideBar() {
   return React.createElement(
     'div',
-    { className: "side" },
+    { className: "side-bar" },
     React.createElement(UserControlContainer, { size: 'sm' }),
     React.createElement(MenuContainer, null),
     React.createElement(MenuFooter, null),
@@ -6919,8 +7038,16 @@ var Application = function Application() {
     React.createElement(
       SplitPane,
       { split: 'vertical', defaultSize: 280, className: 'main-split-pane' },
-      React.createElement(SideBar, null),
-      React.createElement(Document$1, { frontendParams: { documentName: be5.MAIN_DOCUMENT } })
+      React.createElement(
+        'div',
+        { className: 'side-pane' },
+        React.createElement(SideBar, null)
+      ),
+      React.createElement(
+        'div',
+        { className: 'main-pane' },
+        React.createElement(Document$1, { frontendParams: { documentName: be5.MAIN_DOCUMENT } })
+      )
     )
   );
 };
@@ -7704,4 +7831,4 @@ Navs.propTypes = {
 // actions
 // services
 
-export { be5, be5init, constants, Preconditions as preconditions, utils, documentUtils, bus, changeDocument, documents$2 as documents, routes$1 as routes, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineForm, FinishedResult, Table, QuickColumns, OperationBox, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, tables };
+export { be5, be5init, constants, Preconditions as preconditions, utils, documentUtils, bus, changeDocument, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, tables };
