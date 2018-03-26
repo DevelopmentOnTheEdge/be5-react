@@ -9,8 +9,8 @@ import * as utils from './utils/utils.js';
 // core
 import bus from './core/bus.js';
 import changeDocument from './core/changeDocument.js';
-import './core/documents.js';
-import './core/routes.js';
+import {getDocument, registerDocument, getAllDocumentTypes} from './core/documents.js';
+import {registerRoute,getRoute,getAllRoutes} from "./core/routes";
 
 // components
 import Application      from './components/Application.js';
@@ -70,11 +70,11 @@ import action            from './services/actions.js';
 import forms             from './services/forms.js';
 import tables            from './services/tables.js';
 
-import './store/actions/user.actions'
-import './store/actions/menu.actions'
+import {toggleRoles,updateUserInfo} from './store/actions/user.actions'
+import {fetchMenu} from './store/actions/menu.actions'
 
-import './store/selectors/user.selectors'
-import './store/selectors/menu.selectors'
+import {getCurrentRoles, getUser} from './store/selectors/user.selectors'
+import {getMenu} from './store/selectors/menu.selectors'
 
 
 export {
@@ -88,6 +88,14 @@ export {
   // core
   bus,
   changeDocument,
+  getDocument, registerDocument, getAllDocumentTypes,
+  registerRoute,getRoute,getAllRoutes,
+
+  // store
+  toggleRoles,updateUserInfo,
+  fetchMenu,
+  getCurrentRoles, getUser,
+  getMenu,
 
   // components
   Application,
