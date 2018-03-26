@@ -21,7 +21,6 @@ class Document extends React.Component
       frontendParams: props.frontendParams || {}
     };
 
-    this.reload = this.reload.bind(this);
     this.refresh = this.refresh.bind(this);
   }
 
@@ -68,16 +67,19 @@ class Document extends React.Component
     bus.replaceListeners(this.props.frontendParams.documentName + be5.DOCUMENT_REFRESH_SUFFIX, data => {});
   }
 
-  reload() {
+  refresh() {
     if(this.state.value.data.links.self !== undefined)
     {
       be5.url.process(this.props.frontendParams.documentName, "#!" + this.state.value.data.links.self);
     }
-  }
-
-  refresh() {
-    //console.log("refresh() ", JSON.stringify(this.props.frontendParams), JSON.stringify(this.state.frontendParams));
-    this.refs.documentContent.refresh();
+    else if(this.props.value.errors[0].links.self !== undefined)
+    {
+      be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.errors[0].links.self);
+    }
+    else
+    {
+      console.info("not have links.self");
+    }
   }
 
   render() {
@@ -113,7 +115,6 @@ class Document extends React.Component
 
       return (
         <StaticPage
-          ref="documentContent"
           value={value}
           frontendParams={this.getComponentFrontendParams()}
         />
@@ -124,7 +125,6 @@ class Document extends React.Component
       <div>
         {this.getDevTools()}
         <DocumentContent
-          ref="documentContent"
           value={this.state.value}
           frontendParams={this.getComponentFrontendParams()}
         />

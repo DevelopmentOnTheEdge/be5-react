@@ -42,15 +42,6 @@ class Form extends React.Component
     };
   }
 
-  refresh() {
-    if(!this.state.submitted)
-    {
-      this.setState({submitted: true}, () => {
-        forms.load(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
-      });
-    }
-  }
-  
   _reloadOnChange(controlName) {
     if(!this.state.submitted)
     {

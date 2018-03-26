@@ -2,11 +2,6 @@ import be5              from '../be5';
 import bus              from '../core/bus';
 import Preconditions    from '../utils/preconditions';
 import changeDocument   from '../core/changeDocument';
-import FinishedResult   from '../components/forms/FinishedResult';
-import StaticPage       from '../components/StaticPage';
-import ErrorPane        from '../components/ErrorPane';
-import {getDocument}    from '../core/documents';
-import Table            from "../components/tables/Table";
 
 
 export default

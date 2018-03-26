@@ -1,23 +1,11 @@
 import be5                 from '../be5';
 import changeDocument      from '../core/changeDocument';
 import Preconditions       from '../utils/preconditions';
-import StaticPage          from '../components/StaticPage';
-import ErrorPane           from "../components/ErrorPane";
-import Table               from "../components/tables/Table";
-import {getDocument}       from '../core/documents';
 
 
 export default
 {
   load(params, documentName) {
-    this._send(params, documentName);
-  },
-
-  refresh(params, documentName) {
-    this._send(params, documentName);
-  },
-
-  _send(params, documentName) {
     Preconditions.passed(params.entity);
     Preconditions.passed(params.query);
 
@@ -30,26 +18,10 @@ export default
 
     be5.net.request('document', requestParams, data => {
       changeDocument(documentName, { value: data });
-    }, (data)=> {
+    }, (data) => {
       changeDocument(documentName, { value: data });
       //changeDocument(documentName, { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)});
     });
   },
 
-  // _performData(json, documentName)
-  // {
-  //   if(json.data !== undefined){
-  //     const tableComponentName = json.data.attributes.layout.type || 'table';
-  //     const tableComponent = getDocument(tableComponentName);
-  //
-  //     if(tableComponent === undefined){
-  //       changeDocument(documentName, { component: StaticPage,
-  //         value: StaticPage.createValue(be5.messages.tableComponentNotFound + tableComponentName, '', json.meta, json.links)});
-  //     }else{
-  //       changeDocument(documentName, { component: tableComponent, value: json });
-  //     }
-  //   }else{
-  //     changeDocument(documentName, { component: ErrorPane, value: json });
-  //   }
-  // }
 }

@@ -32,12 +32,6 @@ class TableForm extends React.Component
     );
   }
 
-  refresh() {
-    if(this.props.value.data.links.self !== undefined) {
-      be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.data.links.self);
-    }
-  }
-
 }
 
 TableForm.propTypes = {

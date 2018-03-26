@@ -14,14 +14,14 @@ class Navs extends React.Component
       compState: this.props.startAtStep
     };
 
-    this.refresh = this.refresh.bind(this);
+    this.init = this.init.bind(this);
   }
 
   componentDidMount(){
-    this.refresh();
+    this.init();
   }
 
-  refresh() {
+  init() {
     be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
   }
   

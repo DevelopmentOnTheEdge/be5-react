@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Button, Card, CardBody, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalFooter, ModalHeader, Nav, NavItem, NavLink, Navbar, NavbarBrand, NavbarToggler, UncontrolledDropdown } from 'reactstrap';
+import classNames from 'classnames';
 import ReactDOM from 'react-dom';
 import numberFormatter from 'number-format.js';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
 import PropertySet, { Property, PropertyInput } from 'beanexplorer-react';
 import JsonPointer from 'json-pointer';
 import AceEditor from 'react-ace';
@@ -46,7 +46,7 @@ var messages = {
     errorServerQueryException: 'Error during server query: $message',
     errorInvalidErrorResponse: 'Server returned unknown error',
     errorNoData: 'Error communicating with server: no data received',
-    errorUnknownAction: 'Unknown action: $action',
+    errorUnknownRoute: 'Unknown route: $action',
     errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
 
     welcome: 'Hello!',
@@ -82,7 +82,7 @@ var messages = {
     errorServerQueryException: 'Ошибка сервера: $message',
     errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
     errorNoData: 'Ошибка связи с сервером: ответ не получен',
-    errorUnknownAction: 'Неизвестная операция: $action',
+    errorUnknownRoute: 'Неизвестный путь: $action',
     errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
 
     welcome: 'Добро пожаловать!',
@@ -221,6 +221,24 @@ var registerRoute = function registerRoute(actionName, fn) {
 
 var getAllRoutes = function getAllRoutes() {
   return Object.keys(routes);
+};
+
+var documents$1 = {};
+
+var getDocument = function getDocument(type) {
+  return documents$1[type];
+};
+
+// createDocument(type, props) {
+//   return documents[type](props);
+// };
+
+var registerDocument = function registerDocument(type, component) {
+  documents$1[type] = component;
+};
+
+var getAllDocumentTypes = function getAllDocumentTypes() {
+  return Object.keys(documents$1);
 };
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -369,6 +387,72 @@ var toConsumableArray = function (arr) {
     return Array.from(arr);
   }
 };
+
+var StaticPage = function (_React$Component) {
+  inherits(StaticPage, _React$Component);
+
+  function StaticPage() {
+    classCallCheck(this, StaticPage);
+    return possibleConstructorReturn(this, (StaticPage.__proto__ || Object.getPrototypeOf(StaticPage)).apply(this, arguments));
+  }
+
+  createClass(StaticPage, [{
+    key: 'render',
+    value: function render() {
+      var attributes = this.props.value.data.attributes;
+
+      var title = attributes.title ? React.createElement(
+        'h1',
+        { className: 'staticPage__title' },
+        attributes.title
+      ) : null;
+
+      return React.createElement(
+        'div',
+        { className: 'staticPage' },
+        title,
+        React.createElement('div', { className: 'staticPage__text', dangerouslySetInnerHTML: { __html: attributes.content } })
+      );
+    }
+  }], [{
+    key: 'createValue',
+    value: function createValue(title, text) {
+      return StaticPage.createValue(title, text, { _ts_: new Date().getTime() }, {});
+    }
+  }, {
+    key: 'createValue',
+    value: function createValue(title, text, meta, links) {
+      return {
+        data: {
+          type: 'static',
+          attributes: {
+            title: title,
+            content: text
+          }
+        },
+        meta: meta,
+        links: links
+      };
+    }
+  }]);
+  return StaticPage;
+}(React.Component);
+
+StaticPage.propTypes = {
+  value: PropTypes.shape({
+    data: PropTypes.shape({
+      attributes: PropTypes.shape({
+        title: PropTypes.string,
+        content: PropTypes.string
+      }),
+      meta: PropTypes.shape({
+        _ts_: PropTypes.isRequired
+      })
+    })
+  })
+};
+
+registerDocument("static", StaticPage);
 
 var be5 = {
   debug: true,
@@ -538,7 +622,7 @@ var be5 = {
       }
       var urlParts = url.split('/');
       // if (!be5.hasAction(urlParts[0])) {
-      //   be5.log.error(be5.messages.errorUnknownAction.replace(
+      //   be5.log.error(be5.messages.errorUnknownRoute.replace(
       //       '$action', urlParts[0]));
       //   return;
       // }
@@ -568,8 +652,9 @@ var be5 = {
         //changeDocument(documentName, { loading: true });
         action.apply(be5, positional);
       } else {
-        changeDocument(documentName, { value: be5.messages.errorUnknownAction.replace('$action', actionName) });
-        console.error(be5.messages.errorUnknownAction.replace('$action', actionName));
+        var msg = be5.messages.errorUnknownRoute.replace('$action', actionName);
+        changeDocument(documentName, { value: StaticPage.createValue(msg) });
+        console.error(msg);
       }
     }
   },
@@ -782,261 +867,684 @@ var Loading = function (_React$Component) {
 
 registerRoute("loading", route);
 
-var documents$1 = {};
+var forms = {
+  load: function load(params, frontendParams) {
+    this._send('form', params, frontendParams);
+  },
+  apply: function apply(params, frontendParams) {
+    this._send('form/apply', params, frontendParams);
+  },
+  _send: function _send(action, params, frontendParams) {
+    var _this = this;
 
-var getDocument = function getDocument(type) {
-  return documents$1[type];
+    Preconditions.passed(params.entity);
+    Preconditions.passed(params.query);
+    Preconditions.passed(params.operation);
+
+    var selectedRows = params.selectedRows;
+    if (!selectedRows) {
+      selectedRows = params.operationParams === undefined || params.operationParams.selectedRows === undefined ? be5.tableState.selectedRows.join() : params.operationParams.selectedRows;
+    }
+    if (params.operationParams !== undefined && params.operationParams.selectedRows !== undefined) {
+      delete params.operationParams.selectedRows;
+    }
+
+    var requestParams = {
+      entity: params.entity,
+      query: params.query,
+      operation: params.operation,
+      values: be5.net.paramString(params.values),
+      operationParams: be5.net.paramString(params.operationParams),
+      selectedRows: selectedRows || '',
+      _ts_: new Date().getTime()
+    };
+
+    be5.net.request(action, requestParams, function (data) {
+      _this._performOperationResult(data, frontendParams, params);
+    }, function (data) {
+      bus.fire("alert", { msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error' });
+    });
+  },
+  _performOperationResult: function _performOperationResult(json, frontendParams, applyParams) {
+    var documentName = frontendParams.documentName;
+
+    Preconditions.passed(documentName);
+
+    if (json.data !== undefined) {
+      switch (json.data.type) {
+        case 'form':
+          this._performForm(json, frontendParams);
+          return;
+        case 'operationResult':
+          var attributes = json.data.attributes;
+
+          if (attributes.status === 'error') {
+            bus.fire("alert", { msg: attributes.message, type: 'error' });
+            return;
+          }
+
+          if (frontendParams.onSuccess) {
+            frontendParams.onSuccess(json, applyParams);
+          }
+
+          if (attributes.status !== 'document' && frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
+            //console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
+            bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX);
+          }
+
+          switch (attributes.status) {
+            case 'redirect':
+              bus.fire("alert", { msg: be5.messages.successfullyCompleted, type: 'success' });
+              if (attributes.details === 'refreshAll' || attributes.details === 'refreshAllAndGoBack') {
+                if (attributes.details === 'refreshAll') {
+                  bus.fire('CallDefaultAction');
+                } else {
+                  window.history.back();
+                }
+                bus.fire('RefreshAll');
+                if (documentName === be5.MAIN_MODAL_DOCUMENT) bus.fire("mainModalClose");
+              } else if (attributes.details.startsWith("http://") || attributes.details.startsWith("https://") || attributes.details.startsWith("ftp://")) {
+                window.location.href = attributes.details;
+              } else {
+                if (documentName === be5.MAIN_DOCUMENT) {
+                  be5.url.set(attributes.details);
+                } else {
+                  if (be5.url.parse(attributes.details).positional[0] === 'form') {
+                    this.load(this.getOperationParams(attributes.details, {}), frontendParams);
+                  } else {
+                    be5.url.process(documentName, '#!' + attributes.details);
+                  }
+                }
+              }
+              return;
+            case 'finished':
+              if (documentName === be5.MAIN_MODAL_DOCUMENT) {
+                bus.fire("alert", { msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success' });
+                bus.fire("mainModalClose");
+              } else {
+                changeDocument(documentName, { value: json, frontendParams: frontendParams });
+              }
+              return;
+            case 'document':
+              var tableJson = Object.assign({}, attributes.details, { meta: json.meta });
+              changeDocument(frontendParams.parentDocumentName, { value: tableJson });
+              if (documentName === be5.MAIN_MODAL_DOCUMENT) {
+                bus.fire("mainModalClose");
+              }
+              return;
+            default:
+              bus.fire("alert", {
+                msg: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + attributes.status),
+                type: 'error'
+              });
+            //changeDocument(documentName, {  value: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + attributes.status) });
+          }
+          return;
+        default:
+          bus.fire("alert", {
+            msg: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type),
+            type: 'error'
+          });
+        //changeDocument(documentName, { value: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type) });
+      }
+    } else {
+      var error = json.errors[0];
+      bus.fire("alert", { msg: error.status + " " + error.title, type: 'error' });
+
+      changeDocument(documentName, { value: json, frontendParams: frontendParams });
+    }
+  },
+  _performForm: function _performForm(json, frontendParams) {
+    var operationResult = json.data.attributes.operationResult;
+
+    if (operationResult.status === 'error') {
+      bus.fire("alert", { msg: operationResult.message, type: 'error' });
+    }
+
+    var formComponentName = json.data.attributes.layout.type;
+
+    if (formComponentName === 'modalForm' || frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
+      bus.fire("mainModalOpen");
+
+      changeDocument(be5.MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
+    } else {
+      changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+    }
+  },
+  changeLocationHash: function changeLocationHash(props) {
+    var self = void 0;
+    if (props.value.data !== undefined) {
+      self = props.value.data.links.self;
+    } else {
+      self = props.value.errors[0].links.self;
+    }
+
+    if (props.frontendParams && props.frontendParams.documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
+
+      be5.url.set(self);
+    }
+  },
+  getOperationParams: function getOperationParams(url) {
+    var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    var attr = be5.url.parse(url);
+
+    return {
+      entity: attr.positional[1],
+      query: attr.positional[2],
+      operation: attr.positional[3],
+      values: values,
+      operationParams: attr.named
+    };
+  }
 };
 
-// createDocument(type, props) {
-//   return documents[type](props);
-// };
+var route$2 = function route(documentName, entity, query, operation, operationParams) {
 
-var registerDocument = function registerDocument(type, component) {
-  documents$1[type] = component;
+  var params = {
+    entity: entity,
+    query: query || 'All records',
+    operation: operation,
+    values: {},
+    operationParams: operationParams
+  };
+
+  forms.load(params, { documentName: documentName });
 };
 
-var getAllDocumentTypes = function getAllDocumentTypes() {
-  return Object.keys(documents$1);
+registerRoute("form", route$2);
+
+var route$4 = function route() {
+  forms.load(forms.getOperationParams('form/users/All records/Login'), {
+    documentName: be5.MAIN_MODAL_DOCUMENT
+  });
 };
 
-var FinishedResult = function (_React$Component) {
-  inherits(FinishedResult, _React$Component);
+registerRoute("login", route$4);
 
-  function FinishedResult() {
-    classCallCheck(this, FinishedResult);
-    return possibleConstructorReturn(this, (FinishedResult.__proto__ || Object.getPrototypeOf(FinishedResult)).apply(this, arguments));
+var route$6 = function route() {
+  forms.load(forms.getOperationParams('form/users/All records/Logout'), {
+    documentName: be5.MAIN_DOCUMENT, onSuccess: function onSuccess(result, applyParams) {
+      //not used document.cookie = 'be_auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+
+    }
+
+  });
+};
+
+registerRoute("logout", route$6);
+
+var route$8 = function route(documentName, page) {
+  var requestParams = {
+    _ts_: new Date().getTime()
+  };
+
+  be5.net.request('static/' + page, requestParams, function (data) {
+    changeDocument(documentName, { value: data });
+  });
+};
+
+registerRoute("static", route$8);
+
+var tables = {
+  load: function load(params, documentName) {
+    Preconditions.passed(params.entity);
+    Preconditions.passed(params.query);
+
+    var requestParams = {
+      entity: params.entity,
+      query: params.query,
+      values: be5.net.paramString(params.params),
+      _ts_: new Date().getTime()
+    };
+
+    be5.net.request('document', requestParams, function (data) {
+      changeDocument(documentName, { value: data });
+    }, function (data) {
+      changeDocument(documentName, { value: data });
+      //changeDocument(documentName, { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)});
+    });
+  }
+};
+
+var route$10 = function route(documentName, entity, query, params) {
+
+  var paramsObject = {
+    entity: entity,
+    query: query || 'All records',
+    params: params
+  };
+  tables.load(paramsObject, documentName);
+};
+
+registerRoute("table", route$10);
+
+var route$12 = function route(documentName, params) {
+  var requestParams = {
+    values: be5.net.paramString(params),
+    _ts_: new Date().getTime()
+  };
+
+  be5.net.request('queryBuilder', requestParams, function (data) {
+    changeDocument(documentName, { value: Object.assign({}, data, { params: be5.net.paramString(params) }) });
+  });
+};
+
+registerRoute("queryBuilder", route$12);
+
+var route$14 = function route(documentName, text) {
+  changeDocument(documentName, { value: StaticPage.createValue(undefined, text) });
+};
+
+registerRoute("text", route$14);
+
+var route$16 = function route(documentName) {
+  changeDocument(documentName, { value: {}, frontendParams: { type: 'uiPanel' } });
+};
+
+registerRoute("uiPanel", route$16);
+
+var getUser = function getUser(state) {
+  return state.user;
+};
+
+var getCurrentRoles = function getCurrentRoles(state) {
+  return state.user.currentRoles;
+};
+
+var DEFAULT_VIEW = 'All records';
+
+var ROLE_ADMINISTRATOR = "Administrator";
+var ROLE_SYSTEM_DEVELOPER = "SystemDeveloper";
+var ROLE_GUEST = "Guest";
+
+var constants = Object.freeze({
+	DEFAULT_VIEW: DEFAULT_VIEW,
+	ROLE_ADMINISTRATOR: ROLE_ADMINISTRATOR,
+	ROLE_SYSTEM_DEVELOPER: ROLE_SYSTEM_DEVELOPER,
+	ROLE_GUEST: ROLE_GUEST
+});
+
+var img = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAATdEVYdFRpdGxlAE9wdGljYWwgRHJpdmU+Z7oMAAAC+ElEQVQ4jZWS329TZRjHP+ft6dJ2djNxHcgyunb+KIyNwfRG0mZgNgfeAJNBUBO8NEswITPEGHIy1I1lcTEzhn/Aq5mIFwp2yGSMzAsCyMIAp7hWOXjD+LGW03bnPe/rxSyZ7spv8tw9z+f75Ps8htaasvr7+81Apfm6oY1dGrpAV4BhY5AV2vjME4ZjKHUSjBxKHTt69MNpszw8ODj4TCBUMdbasnnH5pYt1NREEEIgpbs2l8u1/TAxvjebyeT27z8YXrh3j7MT4wFgmwkwPPzx8z6/L713zxuxeKyRUqmI4+RRSiGEIBQKsa/7ALZ9J1xfv56qcBg0rwCYAArxxVsH346tqV3L4uJDrv58lfn52+TyeZ6qrGTjxk0kXkwQiUT4r8yhTwd2xmPxjnXPruP+/QXOpE9zx7YnQQwIrUOFUnHwwtRk4vbvv9HVuZNAIAiAUmoZYCh9+NUdHRSLRWZvXMe27XMlx+2yLEueGP7kXE/3gUQ81rjKWUq5DNAY64PBEK5b4uatWwiMjyzLkgCuK8OPHj3kwYOFVQDXdSlnUCeEgVIKx3mMlFx/0uR575765usvtdaJ5WtrtC7XPxlIzysUS8VqIUyqq5/mcc5uBs4DHD92/DKwYZX9yhCl532fyWQONcYbadrQRCabtXq+6pka2zfmrXiwwJIsngB2a60mPJf3hoaGcgCmWpKnr1y5fKghGqW5uYX5zHy7d809+8HM+wM+7d2U2teKxkol21/e1NTEj5MT78zOzl4CTgKYQvhPzc39cn7q4lR7Kpliz+5utrRu3X5x+sL2u3f/4oVolOS2JNFoA/l8HtP0I6UXKG9naK3p6+urEaa+1NnxWkPb1jaCwRB+vx8hfCilcN0lCgWH9Hia6Z+mb5ii4qWRkZHCEwDAkSO9zyl8n9dGartSqSSRSC1V4Socx2Hu1zmuzczwx5/Zb02j4s3R0dHFf22wUr2HezsNLXuVMuo1ug7Ia80Zhf6ubk1d2rIstbJ/FeD/6m8m/lj+PIxQ9QAAAABJRU5ErkJggg==';
+
+var Document = function (_React$Component) {
+  inherits(Document, _React$Component);
+
+  function Document(props) {
+    classCallCheck(this, Document);
+
+    var _this = possibleConstructorReturn(this, (Document.__proto__ || Object.getPrototypeOf(Document)).call(this, props));
+
+    _this.state = {
+      value: props.value || null,
+      frontendParams: props.frontendParams || {}
+    };
+
+    _this.refresh = _this.refresh.bind(_this);
+    return _this;
   }
 
-  createClass(FinishedResult, [{
+  createClass(Document, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.value !== undefined && (this.props.value.meta === undefined || nextProps.value.meta === undefined || nextProps.value.meta._ts_ > this.props.value.meta._ts_)) {
+        this.setState({
+          value: nextProps.value || "",
+          frontendParams: nextProps.frontendParams
+        });
+      }
+    }
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      forms.changeLocationHash(this.props);
+      var _this2 = this;
+
+      bus.replaceListeners(this.props.frontendParams.documentName, function (data) {
+        if (_this2.state.value && _this2.state.value.meta && !Number.isInteger(Number.parseInt(_this2.state.value.meta._ts_))) {
+          console.error("meta._ts_ mast be string of Integer " + _this2.state.value.meta._ts_);
+        }
+
+        if (_this2.state.value === null || _this2.state.value.meta === undefined || data.value.meta === undefined || data.value.meta._ts_ > _this2.state.value.meta._ts_) {
+          _this2.setState(Object.assign({ value: {}, frontendParams: {} }, data));
+        }
+        // if(!data.loading)this.setState({ loading: false });
+        // if(!data.error)this.setState({ error: null });
+      });
+
+      bus.replaceListeners(this.props.frontendParams.documentName + be5.DOCUMENT_REFRESH_SUFFIX, function () {
+        _this2.refresh();
+      });
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      bus.replaceListeners(this.props.frontendParams.documentName, function (data) {});
+      bus.replaceListeners(this.props.frontendParams.documentName + be5.DOCUMENT_REFRESH_SUFFIX, function (data) {});
     }
   }, {
     key: 'refresh',
     value: function refresh() {
-      console.info("FinishedResult not support refresh");
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var attributes = this.props.value.data.attributes;
-
-      var message = attributes.message;
-      if (attributes.status === 'finished' && attributes.message === undefined) {
-        message = be5.messages.successfullyCompleted;
-      }
-
-      return React.createElement(
-        'div',
-        { className: 'finishedResult' },
-        React.createElement('div', { dangerouslySetInnerHTML: { __html: message } })
-      );
-      //    <div className="linkBack">
-      //              <button className="btn btn-secondary btn-sm" onClick={back}>
-      //                {be5.messages.back}
-      //              </button>
-      //            </div>
-    }
-  }]);
-  return FinishedResult;
-}(React.Component);
-
-FinishedResult.propTypes = {
-  value: PropTypes.shape({
-    data: PropTypes.shape({
-      attributes: PropTypes.object.isRequired,
-      meta: PropTypes.shape({
-        _ts_: PropTypes.isRequired
-      })
-    })
-  })
-};
-
-registerDocument('operationResult', FinishedResult);
-
-var StaticPage = function (_React$Component) {
-  inherits(StaticPage, _React$Component);
-
-  function StaticPage() {
-    classCallCheck(this, StaticPage);
-    return possibleConstructorReturn(this, (StaticPage.__proto__ || Object.getPrototypeOf(StaticPage)).apply(this, arguments));
-  }
-
-  createClass(StaticPage, [{
-    key: 'render',
-    value: function render() {
-      var attributes = this.props.value.data.attributes;
-
-      var title = attributes.title ? React.createElement(
-        'h1',
-        { className: 'staticPage__title' },
-        attributes.title
-      ) : null;
-
-      return React.createElement(
-        'div',
-        { className: 'staticPage' },
-        title,
-        React.createElement('div', { className: 'staticPage__text', dangerouslySetInnerHTML: { __html: attributes.content } })
-      );
-    }
-  }, {
-    key: 'refresh',
-    value: function refresh() {
-      if (this.props.value.data.links.self !== undefined) {
-        be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.data.links.self);
+      if (this.state.value.data.links.self !== undefined) {
+        be5.url.process(this.props.frontendParams.documentName, "#!" + this.state.value.data.links.self);
+      } else if (this.props.value.errors[0].links.self !== undefined) {
+        be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.errors[0].links.self);
       } else {
-        console.info("staticPage without links.self");
+        console.info("not have links.self");
       }
     }
-  }], [{
-    key: 'createValue',
-    value: function createValue(title, text) {
-      return StaticPage.createValue(title, text, { _ts_: new Date().getTime() }, {});
+  }, {
+    key: 'render',
+    value: function render() {
+      documentState.set(this.props.frontendParams.documentName, this.state);
+
+      var loadingItem = null; //this.state.loading
+      //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
+
+      //if(this.state.value)be5.ui.setTitle(this.state.value.title);
+
+      return React.createElement(
+        'div',
+        { className: 'document-content', id: 'document-content___' + this.props.frontendParams.documentName },
+        loadingItem,
+        this.getDocument()
+      );
     }
   }, {
-    key: 'createValue',
-    value: function createValue(title, text, meta, links) {
-      return {
-        data: {
-          type: 'static',
-          attributes: {
-            title: title,
-            content: text
-          }
-        },
-        meta: meta,
-        links: links
-      };
+    key: 'getDocument',
+    value: function getDocument$$1() {
+      var documentType = this.getDocumentName();
+      if (documentType === null) {
+        return null;
+      }
+
+      var DocumentContent = getDocument(documentType);
+
+      if (DocumentContent === undefined) {
+        var value = StaticPage.createValue(be5.messages.componentForTypeNotRegistered.replace('$type', documentType), '');
+
+        return React.createElement(StaticPage, {
+          value: value,
+          frontendParams: this.getComponentFrontendParams()
+        });
+      }
+
+      return React.createElement(
+        'div',
+        null,
+        this.getDevTools(),
+        React.createElement(DocumentContent, {
+          value: this.state.value,
+          frontendParams: this.getComponentFrontendParams()
+        })
+      );
+    }
+  }, {
+    key: 'getDocumentName',
+    value: function getDocumentName() {
+      if (!this.state.value) {
+        return null;
+      }
+
+      if (this.props.type) {
+        return this.props.type;
+      }
+
+      if (this.state.frontendParams.type) {
+        return this.state.frontendParams.type;
+      }
+
+      if (this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
+        return 'modalForm';
+      }
+
+      if (this.state.value.errors) {
+        return 'errorPane';
+      }
+
+      if (this.state.value.data) {
+        if (this.state.value.data.attributes.layout !== undefined && this.state.value.data.attributes.layout.type !== undefined) {
+          return this.state.value.data.attributes.layout.type;
+        }
+
+        return this.state.value.data.type;
+      }
+
+      return undefined;
+    }
+  }, {
+    key: 'getDevTools',
+    value: function getDevTools() {
+      var devRole = this.props.currentRoles && this.props.currentRoles.indexOf(ROLE_SYSTEM_DEVELOPER) !== -1;
+
+      if (!devRole) {
+        return null;
+      }
+
+      return React.createElement(
+        'span',
+        { onClick: this.refresh, className: "document-reload float-right" },
+        React.createElement('img', { src: img, alt: be5.messages.reload,
+          title: be5.messages.reload + " " + this.props.frontendParams.documentName })
+      );
+    }
+  }, {
+    key: 'getComponentFrontendParams',
+    value: function getComponentFrontendParams() {
+      return Object.assign({}, this.state.frontendParams, this.props.frontendParams);
     }
   }]);
-  return StaticPage;
+  return Document;
 }(React.Component);
 
-StaticPage.propTypes = {
-  value: PropTypes.shape({
-    data: PropTypes.shape({
-      attributes: PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        content: PropTypes.string.isRequired
-      }),
-      meta: PropTypes.shape({
-        _ts_: PropTypes.isRequired
-      })
-    })
-  })
+Document.propTypes = {
+  frontendParams: PropTypes.shape({
+    documentName: PropTypes.string.isRequired,
+    operationDocumentName: PropTypes.string,
+    parentDocumentName: PropTypes.string,
+    onSuccess: PropTypes.function
+  }),
+  value: PropTypes.object,
+  type: PropTypes.string
 };
 
-registerDocument("static", StaticPage);
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    currentRoles: getCurrentRoles(state)
+  };
+};
 
-var ErrorPane = function (_React$Component) {
-  inherits(ErrorPane, _React$Component);
+var Document$1 = connect(mapStateToProps)(Document);
 
-  function ErrorPane() {
-    classCallCheck(this, ErrorPane);
+var HelpInfo = function (_React$Component) {
+  inherits(HelpInfo, _React$Component);
 
-    var _this = possibleConstructorReturn(this, (ErrorPane.__proto__ || Object.getPrototypeOf(ErrorPane)).call(this));
+  function HelpInfo(props) {
+    classCallCheck(this, HelpInfo);
 
-    _this.state = { helpCollapse: false };
+    var _this = possibleConstructorReturn(this, (HelpInfo.__proto__ || Object.getPrototypeOf(HelpInfo)).call(this));
+
+    _this.state = { isOpen: props.isOpen };
+
     _this.helpCollapseToggle = _this.helpCollapseToggle.bind(_this);
     return _this;
   }
 
-  createClass(ErrorPane, [{
+  createClass(HelpInfo, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      forms.changeLocationHash(this.props);
+      if (this.props.value) {
+        be5.url.process(this.props.documentName, "#!" + this.props.value);
+      }
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      if (this.props.value) {
+        be5.url.process(this.props.documentName, "#!" + this.props.value);
+      }
     }
   }, {
     key: 'helpCollapseToggle',
     value: function helpCollapseToggle() {
-      this.setState({ helpCollapse: !this.state.helpCollapse });
-    }
-  }, {
-    key: 'refresh',
-    value: function refresh() {
-      if (this.props.value.errors[0].links.self !== undefined) {
-        be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.errors[0].links.self);
-      } else {
-        console.info("errorPane without links.self, most likely error on the execute operation");
-      }
+      this.setState({ isOpen: !this.state.isOpen });
     }
   }, {
     key: 'render',
     value: function render() {
-      var error = this.props.value.errors ? this.props.value.errors[0] : this.props.value;
-      return React.createElement(
-        'div',
-        { className: 'errorPane' },
-        React.createElement(
-          'h1',
-          { className: 'errorPane__title' },
-          error.status,
-          ' - ',
-          error.title
-        ),
-        React.createElement('br', null),
-        error.code !== undefined ? React.createElement('pre', { className: 'errorPane__code', dangerouslySetInnerHTML: { __html: error.code } }) : null,
-        error.detail !== undefined ? React.createElement(
+      if (this.props.value) {
+        return React.createElement(
           'div',
-          null,
+          { className: 'helpInfo clearfix' },
           React.createElement(
             Button,
-            { color: 'info', className: 'btn-sm', onClick: this.helpCollapseToggle, style: { marginBottom: '1rem' } },
-            be5.messages.details
+            { color: 'info', className: classNames('btn-sm', this.props.className),
+              onClick: this.helpCollapseToggle },
+            be5.messages.helpInfo
           ),
           React.createElement(
             Collapse,
-            { isOpen: this.state.helpCollapse },
+            { isOpen: this.state.isOpen, tag: this.props.tag },
             React.createElement(
-              Card,
-              null,
-              React.createElement(
-                CardBody,
-                null,
-                React.createElement(
-                  'pre',
-                  { className: 'errorPane__detail' },
-                  error.detail
-                )
-              )
+              'div',
+              { className: 'alert alert-success max-width-970', role: 'alert' },
+              React.createElement(Document$1, { frontendParams: { documentName: this.props.documentName } })
             )
           )
-        ) : null
-      );
+        );
+      } else {
+        return null;
+      }
     }
-
-    // static createValue(title, text)
-    // {
-    //   const date = new Date().getTime();
-    //   return {
-    //     data: {
-    //       type: 'staticPage',
-    //       attributes: {
-    //         title: title,
-    //         content: text
-    //       }
-    //     },
-    //     meta: {_ts_: date}
-    //   }
-    // }
-
   }]);
-  return ErrorPane;
+  return HelpInfo;
 }(React.Component);
 
-ErrorPane.propTypes = {
-  value: PropTypes.shape({
-    errors: PropTypes.array.isRequired,
-    meta: PropTypes.shape({
-      _ts_: PropTypes.isRequired
-    })
-  })
+HelpInfo.propTypes = {
+  value: PropTypes.string,
+  documentName: PropTypes.string,
+  isOpen: PropTypes.bool,
+  tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+  className: PropTypes.node
 };
 
-registerDocument("errorPane", ErrorPane);
+HelpInfo.defaultProps = {
+  isOpen: false,
+  tag: 'div',
+  documentName: "helpInfo"
+};
+
+var TableForm = function (_React$Component) {
+  inherits(TableForm, _React$Component);
+
+  function TableForm() {
+    classCallCheck(this, TableForm);
+    return possibleConstructorReturn(this, (TableForm.__proto__ || Object.getPrototypeOf(TableForm)).apply(this, arguments));
+  }
+
+  createClass(TableForm, [{
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      this.updateDocuments();
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.updateDocuments();
+    }
+  }, {
+    key: 'updateDocuments',
+    value: function updateDocuments() {
+      changeDocument("form", { value: null });
+      changeDocument("table", { value: this.props.value });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return React.createElement(
+        'div',
+        { className: 'table-form' },
+        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, type: 'table' }),
+        React.createElement(HelpInfo, { value: this.props.value.data.attributes.layout.helpInfo }),
+        React.createElement(Document$1, { frontendParams: { documentName: "form" } })
+      );
+    }
+  }]);
+  return TableForm;
+}(React.Component);
+
+TableForm.propTypes = {
+  value: PropTypes.object.isRequired,
+  frontendParams: PropTypes.object.isRequired
+};
+
+registerDocument('tableForm', TableForm);
+
+var TableFormRow = function (_TableForm) {
+  inherits(TableFormRow, _TableForm);
+
+  function TableFormRow() {
+    classCallCheck(this, TableFormRow);
+    return possibleConstructorReturn(this, (TableFormRow.__proto__ || Object.getPrototypeOf(TableFormRow)).apply(this, arguments));
+  }
+
+  createClass(TableFormRow, [{
+    key: 'render',
+    value: function render() {
+      return React.createElement(
+        'div',
+        { className: 'row' },
+        React.createElement(
+          'div',
+          { className: 'col-lg-6' },
+          React.createElement(Document$1, { frontendParams: { documentName: "form" } })
+        ),
+        React.createElement(
+          'div',
+          { className: 'col-lg-6' },
+          React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, documentType: 'table' })
+        )
+      );
+    }
+  }]);
+  return TableFormRow;
+}(TableForm);
+
+TableFormRow.propTypes = {
+  value: PropTypes.object.isRequired,
+  frontendParams: PropTypes.object.isRequired
+};
+
+registerDocument('tableFormRow', TableFormRow);
+
+var FormTable = function (_TableForm) {
+  inherits(FormTable, _TableForm);
+
+  function FormTable() {
+    classCallCheck(this, FormTable);
+    return possibleConstructorReturn(this, (FormTable.__proto__ || Object.getPrototypeOf(FormTable)).apply(this, arguments));
+  }
+
+  createClass(FormTable, [{
+    key: 'render',
+    value: function render() {
+      return React.createElement(
+        'div',
+        { className: 'form-table' },
+        React.createElement(Document$1, { frontendParams: { documentName: "form" } }),
+        React.createElement(HelpInfo, { value: this.props.value.data.attributes.layout.helpInfo }),
+        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, documentType: 'table' })
+      );
+    }
+  }]);
+  return FormTable;
+}(TableForm);
+
+FormTable.propTypes = {
+  value: PropTypes.object.isRequired,
+  frontendParams: PropTypes.object.isRequired
+};
+
+registerDocument('formTable', FormTable);
 
 var getResourceByID = function getResourceByID(included, id) {
   for (var i = 0; i < included.length; i++) {
@@ -1058,33 +1566,6 @@ var documentUtils = Object.freeze({
 	getResourceByID: getResourceByID,
 	getModelByID: getModelByID
 });
-
-var tables = {
-  load: function load(params, documentName) {
-    this._send(params, documentName);
-  },
-  refresh: function refresh(params, documentName) {
-    this._send(params, documentName);
-  },
-  _send: function _send(params, documentName) {
-    Preconditions.passed(params.entity);
-    Preconditions.passed(params.query);
-
-    var requestParams = {
-      entity: params.entity,
-      query: params.query,
-      values: be5.net.paramString(params.params),
-      _ts_: new Date().getTime()
-    };
-
-    be5.net.request('document', requestParams, function (data) {
-      changeDocument(documentName, { value: data });
-    }, function (data) {
-      changeDocument(documentName, { value: data });
-      //changeDocument(documentName, { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)});
-    });
-  }
-};
 
 var OperationBox = function (_React$Component) {
   inherits(OperationBox, _React$Component);
@@ -1281,215 +1762,6 @@ var QuickColumns = function (_React$Component) {
   }]);
   return QuickColumns;
 }(React.Component);
-
-var getUser = function getUser(state) {
-  return state.user;
-};
-
-var getCurrentRoles = function getCurrentRoles(state) {
-  return state.user.currentRoles;
-};
-
-var DEFAULT_VIEW = 'All records';
-
-var ROLE_ADMINISTRATOR = "Administrator";
-var ROLE_SYSTEM_DEVELOPER = "SystemDeveloper";
-var ROLE_GUEST = "Guest";
-
-var constants = Object.freeze({
-	DEFAULT_VIEW: DEFAULT_VIEW,
-	ROLE_ADMINISTRATOR: ROLE_ADMINISTRATOR,
-	ROLE_SYSTEM_DEVELOPER: ROLE_SYSTEM_DEVELOPER,
-	ROLE_GUEST: ROLE_GUEST
-});
-
-var img = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAATdEVYdFRpdGxlAE9wdGljYWwgRHJpdmU+Z7oMAAAC+ElEQVQ4jZWS329TZRjHP+ft6dJ2djNxHcgyunb+KIyNwfRG0mZgNgfeAJNBUBO8NEswITPEGHIy1I1lcTEzhn/Aq5mIFwp2yGSMzAsCyMIAp7hWOXjD+LGW03bnPe/rxSyZ7spv8tw9z+f75Ps8htaasvr7+81Apfm6oY1dGrpAV4BhY5AV2vjME4ZjKHUSjBxKHTt69MNpszw8ODj4TCBUMdbasnnH5pYt1NREEEIgpbs2l8u1/TAxvjebyeT27z8YXrh3j7MT4wFgmwkwPPzx8z6/L713zxuxeKyRUqmI4+RRSiGEIBQKsa/7ALZ9J1xfv56qcBg0rwCYAArxxVsH346tqV3L4uJDrv58lfn52+TyeZ6qrGTjxk0kXkwQiUT4r8yhTwd2xmPxjnXPruP+/QXOpE9zx7YnQQwIrUOFUnHwwtRk4vbvv9HVuZNAIAiAUmoZYCh9+NUdHRSLRWZvXMe27XMlx+2yLEueGP7kXE/3gUQ81rjKWUq5DNAY64PBEK5b4uatWwiMjyzLkgCuK8OPHj3kwYOFVQDXdSlnUCeEgVIKx3mMlFx/0uR575765usvtdaJ5WtrtC7XPxlIzysUS8VqIUyqq5/mcc5uBs4DHD92/DKwYZX9yhCl532fyWQONcYbadrQRCabtXq+6pka2zfmrXiwwJIsngB2a60mPJf3hoaGcgCmWpKnr1y5fKghGqW5uYX5zHy7d809+8HM+wM+7d2U2teKxkol21/e1NTEj5MT78zOzl4CTgKYQvhPzc39cn7q4lR7Kpliz+5utrRu3X5x+sL2u3f/4oVolOS2JNFoA/l8HtP0I6UXKG9naK3p6+urEaa+1NnxWkPb1jaCwRB+vx8hfCilcN0lCgWH9Hia6Z+mb5ii4qWRkZHCEwDAkSO9zyl8n9dGartSqSSRSC1V4Socx2Hu1zmuzczwx5/Zb02j4s3R0dHFf22wUr2HezsNLXuVMuo1ug7Ia80Zhf6ubk1d2rIstbJ/FeD/6m8m/lj+PIxQ9QAAAABJRU5ErkJggg==';
-
-var Document = function (_React$Component) {
-  inherits(Document, _React$Component);
-
-  function Document(props) {
-    classCallCheck(this, Document);
-
-    var _this = possibleConstructorReturn(this, (Document.__proto__ || Object.getPrototypeOf(Document)).call(this, props));
-
-    _this.state = {
-      value: props.value || "",
-      frontendParams: props.frontendParams
-    };
-
-    _this.reload = _this.reload.bind(_this);
-    _this.refresh = _this.refresh.bind(_this);
-    return _this;
-  }
-
-  createClass(Document, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.value !== undefined && (this.props.value.meta === undefined || nextProps.value.meta === undefined || nextProps.value.meta._ts_ > this.props.value.meta._ts_)) {
-        this.setState({
-          value: nextProps.value || "",
-          frontendParams: nextProps.frontendParams
-        });
-      }
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      bus.replaceListeners(this.props.frontendParams.documentName, function (data) {
-        if (_this2.state.value.meta !== undefined && !Number.isInteger(Number.parseInt(_this2.state.value.meta._ts_))) {
-          console.error("meta._ts_ mast be string of Integer " + _this2.state.value.meta._ts_);
-        }
-
-        if (_this2.state.value.meta === undefined || data.value.meta === undefined || data.value.meta._ts_ > _this2.state.value.meta._ts_) {
-          _this2.setState(Object.assign({ value: undefined, frontendParams: undefined }, data));
-        }
-        // if(!data.loading)this.setState({ loading: false });
-        // if(!data.error)this.setState({ error: null });
-      });
-
-      bus.replaceListeners(this.props.frontendParams.documentName + be5.DOCUMENT_REFRESH_SUFFIX, function () {
-        _this2.refresh();
-      });
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      bus.replaceListeners(this.props.frontendParams.documentName, function (data) {});
-      bus.replaceListeners(this.props.frontendParams.documentName + be5.DOCUMENT_REFRESH_SUFFIX, function (data) {});
-    }
-  }, {
-    key: 'reload',
-    value: function reload() {
-      if (this.state.value.data.links.self !== undefined) {
-        be5.url.process(this.props.frontendParams.documentName, "#!" + this.state.value.data.links.self);
-      }
-    }
-  }, {
-    key: 'refresh',
-    value: function refresh() {
-      //console.log("refresh() ", JSON.stringify(this.props.frontendParams), JSON.stringify(this.state.frontendParams));
-      this.refs.documentContent.refresh();
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      documentState.set(this.props.frontendParams.documentName, this.state);
-
-      var loadingItem = null; //this.state.loading
-      //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
-
-      var devRole = this.props.currentRoles && this.props.currentRoles.indexOf(ROLE_SYSTEM_DEVELOPER) !== -1;
-
-      var devTools = React.createElement(
-        'span',
-        { onClick: this.refresh, className: "document-reload float-right" },
-        React.createElement('img', { src: img, alt: be5.messages.reload,
-          title: be5.messages.reload + " " + this.props.frontendParams.documentName })
-      );
-
-      var contentItem = null;
-      if (this.state.value) be5.ui.setTitle(this.state.value.title);
-
-      if (this.state.value.data && this.state.value.data.type) {
-        var documentType = this.getDocumentName();
-        var DocumentContent = getDocument(this.getDocumentName(documentType));
-
-        if (DocumentContent === undefined) {
-          var value = StaticPage.createValue(be5.messages.componentForTypeNotRegistered.replace('$type', documentType), '');
-
-          contentItem = React.createElement(StaticPage, {
-            ref: 'documentContent',
-            value: value,
-            frontendParams: this.getComponentFrontendParams()
-          });
-        } else {
-          contentItem = React.createElement(
-            'div',
-            null,
-            devRole ? devTools : null,
-            React.createElement(DocumentContent, {
-              ref: 'documentContent',
-              value: this.state.value,
-              frontendParams: this.getComponentFrontendParams()
-            })
-          );
-        }
-      } else if (this.state.value.errors) {
-        var ErrorPane = getDocument("errorPane");
-        contentItem = React.createElement(
-          'div',
-          null,
-          devRole ? devTools : null,
-          React.createElement(ErrorPane, {
-            ref: 'documentContent',
-            value: this.state.value,
-            frontendParams: this.getComponentFrontendParams()
-          })
-        );
-      } else {
-        if (this.state.value) {
-          contentItem = React.createElement(
-            'h1',
-            null,
-            this.state.value
-          );
-        }
-      }
-
-      return React.createElement(
-        'div',
-        { className: 'document-content', id: 'document-content___' + this.props.frontendParams.documentName },
-        loadingItem,
-        contentItem
-      );
-    }
-  }, {
-    key: 'getDocumentName',
-    value: function getDocumentName() {
-      if (this.props.type) {
-        return this.props.type;
-      }
-
-      if (this.state.value.data.attributes.layout !== undefined && this.state.value.data.attributes.layout.type !== undefined) {
-        return this.state.value.data.attributes.layout.type;
-      }
-
-      if (this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
-        return 'modalForm';
-      }
-
-      return this.state.value.data.type;
-    }
-  }, {
-    key: 'getComponentFrontendParams',
-    value: function getComponentFrontendParams() {
-      return Object.assign({}, this.state.frontendParams, this.props.frontendParams);
-    }
-  }]);
-  return Document;
-}(React.Component);
-
-Document.propTypes = {
-  frontendParams: PropTypes.shape({
-    documentName: PropTypes.string.isRequired,
-    operationDocumentName: PropTypes.string,
-    parentDocumentName: PropTypes.string,
-    onSuccess: PropTypes.function
-  }),
-  value: PropTypes.object,
-  type: PropTypes.string
-};
-
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    currentRoles: getCurrentRoles(state)
-  };
-};
-
-var Document$1 = connect(mapStateToProps)(Document);
 
 var formatCell = function formatCell(data, options, isColumn) {
   if (!Array.isArray(data)) {
@@ -1930,18 +2202,6 @@ var Table = function (_React$Component3) {
         table
       );
     }
-  }, {
-    key: 'refresh',
-    value: function refresh() {
-      var attr = this.props.value.data.attributes;
-      var params = {
-        entity: attr.category,
-        query: attr.page,
-        params: attr.parameters
-      };
-
-      tables.refresh(params, this.props.frontendParams.documentName);
-    }
   }]);
   return Table;
 }(React.Component);
@@ -1951,460 +2211,6 @@ Table.propTypes = {
 };
 
 registerDocument('table', Table);
-
-var forms = {
-  load: function load(params, frontendParams) {
-    this._send('form', params, frontendParams);
-  },
-  apply: function apply(params, frontendParams) {
-    this._send('form/apply', params, frontendParams);
-  },
-  _send: function _send(action, params, frontendParams) {
-    var _this = this;
-
-    Preconditions.passed(params.entity);
-    Preconditions.passed(params.query);
-    Preconditions.passed(params.operation);
-
-    var selectedRows = params.selectedRows;
-    if (!selectedRows) {
-      selectedRows = params.operationParams === undefined || params.operationParams.selectedRows === undefined ? be5.tableState.selectedRows.join() : params.operationParams.selectedRows;
-    }
-    if (params.operationParams !== undefined && params.operationParams.selectedRows !== undefined) {
-      delete params.operationParams.selectedRows;
-    }
-
-    var requestParams = {
-      entity: params.entity,
-      query: params.query,
-      operation: params.operation,
-      values: be5.net.paramString(params.values),
-      operationParams: be5.net.paramString(params.operationParams),
-      selectedRows: selectedRows || '',
-      _ts_: new Date().getTime()
-    };
-
-    be5.net.request(action, requestParams, function (data) {
-      _this._performOperationResult(data, frontendParams, params);
-    }, function (data) {
-      bus.fire("alert", { msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error' });
-    });
-  },
-  _performOperationResult: function _performOperationResult(json, frontendParams, applyParams) {
-    var documentName = frontendParams.documentName;
-
-    Preconditions.passed(documentName);
-
-    if (json.data !== undefined) {
-      switch (json.data.type) {
-        case 'form':
-          this._performForm(json, frontendParams);
-          return;
-        case 'operationResult':
-          var attributes = json.data.attributes;
-
-          if (attributes.status === 'error') {
-            bus.fire("alert", { msg: attributes.message, type: 'error' });
-            return;
-          }
-
-          if (frontendParams.onSuccess) {
-            frontendParams.onSuccess(json, applyParams);
-          }
-
-          if (attributes.status !== 'document' && frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
-            //console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
-            bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX);
-          }
-
-          switch (attributes.status) {
-            case 'redirect':
-              bus.fire("alert", { msg: be5.messages.successfullyCompleted, type: 'success' });
-              if (attributes.details === 'refreshAll' || attributes.details === 'refreshAllAndGoBack') {
-                if (attributes.details === 'refreshAll') {
-                  bus.fire('CallDefaultAction');
-                } else {
-                  window.history.back();
-                }
-                bus.fire('RefreshAll');
-                if (documentName === be5.MAIN_MODAL_DOCUMENT) bus.fire("mainModalClose");
-              } else if (attributes.details.startsWith("http://") || attributes.details.startsWith("https://") || attributes.details.startsWith("ftp://")) {
-                window.location.href = attributes.details;
-              } else {
-                if (documentName === be5.MAIN_DOCUMENT) {
-                  be5.url.set(attributes.details);
-                } else {
-                  if (be5.url.parse(attributes.details).positional[0] === 'form') {
-                    this.load(this.getOperationParams(attributes.details, {}), frontendParams);
-                  } else {
-                    be5.url.process(documentName, '#!' + attributes.details);
-                  }
-                }
-              }
-              return;
-            case 'finished':
-              if (documentName === be5.MAIN_MODAL_DOCUMENT) {
-                bus.fire("alert", { msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success' });
-                bus.fire("mainModalClose");
-              } else {
-                changeDocument(documentName, { value: json, frontendParams: frontendParams });
-              }
-              return;
-            case 'document':
-              var tableJson = Object.assign({}, attributes.details, { meta: json.meta });
-              changeDocument(frontendParams.parentDocumentName, { value: tableJson });
-              if (documentName === be5.MAIN_MODAL_DOCUMENT) {
-                bus.fire("mainModalClose");
-              }
-              return;
-            default:
-              bus.fire("alert", {
-                msg: be5.messages.errorUnknownAction.replace('$action', 'status = ' + attributes.status),
-                type: 'error'
-              });
-            //changeDocument(documentName, {  value: be5.messages.errorUnknownAction.replace('$action', 'status = ' + attributes.status) });
-          }
-          return;
-        default:
-          bus.fire("alert", {
-            msg: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + json.data.attributes.type),
-            type: 'error'
-          });
-        //changeDocument(documentName, { value: be5.messages.errorUnknownAction.replace('$action', 'data.type = ' + json.data.attributes.type) });
-      }
-    } else {
-      var error = json.errors[0];
-      bus.fire("alert", { msg: error.status + " " + error.title, type: 'error' });
-
-      changeDocument(documentName, { value: json, frontendParams: frontendParams });
-    }
-  },
-  _performForm: function _performForm(json, frontendParams) {
-    var operationResult = json.data.attributes.operationResult;
-
-    if (operationResult.status === 'error') {
-      bus.fire("alert", { msg: operationResult.message, type: 'error' });
-    }
-
-    var formComponentName = json.data.attributes.layout.type;
-
-    if (formComponentName === 'modalForm' || frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
-      bus.fire("mainModalOpen");
-
-      changeDocument(be5.MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
-    } else {
-      changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
-    }
-  },
-  changeLocationHash: function changeLocationHash(props) {
-    var self = void 0;
-    if (props.value.data !== undefined) {
-      self = props.value.data.links.self;
-    } else {
-      self = props.value.errors[0].links.self;
-    }
-
-    if (props.frontendParams && props.frontendParams.documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
-
-      be5.url.set(self);
-    }
-  },
-  getOperationParams: function getOperationParams(url) {
-    var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    var attr = be5.url.parse(url);
-
-    return {
-      entity: attr.positional[1],
-      query: attr.positional[2],
-      operation: attr.positional[3],
-      values: values,
-      operationParams: attr.named
-    };
-  }
-};
-
-var route$2 = function route(documentName, entity, query, operation, operationParams) {
-
-  var params = {
-    entity: entity,
-    query: query || 'All records',
-    operation: operation,
-    values: {},
-    operationParams: operationParams
-  };
-
-  forms.load(params, { documentName: documentName });
-};
-
-registerRoute("form", route$2);
-
-var route$4 = function route() {
-  forms.load(forms.getOperationParams('form/users/All records/Login'), {
-    documentName: be5.MAIN_MODAL_DOCUMENT
-  });
-};
-
-registerRoute("login", route$4);
-
-var route$6 = function route() {
-  forms.load(forms.getOperationParams('form/users/All records/Logout'), {
-    documentName: be5.MAIN_DOCUMENT, onSuccess: function onSuccess(result, applyParams) {
-      //not used document.cookie = 'be_auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-
-    }
-
-  });
-};
-
-registerRoute("logout", route$6);
-
-var route$8 = function route(documentName, page) {
-  var requestParams = {
-    _ts_: new Date().getTime()
-  };
-
-  be5.net.request('static/' + page, requestParams, function (data) {
-    changeDocument(documentName, { value: data });
-  });
-};
-
-registerRoute("static", route$8);
-
-var route$10 = function route(documentName, entity, query, params) {
-
-  var paramsObject = {
-    entity: entity,
-    query: query || 'All records',
-    params: params
-  };
-  tables.load(paramsObject, documentName);
-};
-
-registerRoute("table", route$10);
-
-var route$12 = function route(documentName, params) {
-  var requestParams = {
-    values: be5.net.paramString(params),
-    _ts_: new Date().getTime()
-  };
-
-  be5.net.request('queryBuilder', requestParams, function (data) {
-    changeDocument(documentName, { value: Object.assign({}, data, { params: be5.net.paramString(params) }) });
-  });
-};
-
-registerRoute("queryBuilder", route$12);
-
-var route$14 = function route(documentName, text) {
-  changeDocument(documentName, { value: text });
-};
-
-registerRoute("text", route$14);
-
-var route$16 = function route(documentName) {
-  changeDocument(documentName, { type: 'uiPanel', value: {} });
-};
-
-registerRoute("uiPanel", route$16);
-
-var HelpInfo = function (_React$Component) {
-  inherits(HelpInfo, _React$Component);
-
-  function HelpInfo(props) {
-    classCallCheck(this, HelpInfo);
-
-    var _this = possibleConstructorReturn(this, (HelpInfo.__proto__ || Object.getPrototypeOf(HelpInfo)).call(this));
-
-    _this.state = { isOpen: props.isOpen };
-
-    _this.helpCollapseToggle = _this.helpCollapseToggle.bind(_this);
-    return _this;
-  }
-
-  createClass(HelpInfo, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      if (this.props.value) {
-        be5.url.process(this.props.documentName, "#!" + this.props.value);
-      }
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      if (this.props.value) {
-        be5.url.process(this.props.documentName, "#!" + this.props.value);
-      }
-    }
-  }, {
-    key: 'helpCollapseToggle',
-    value: function helpCollapseToggle() {
-      this.setState({ isOpen: !this.state.isOpen });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      if (this.props.value) {
-        return React.createElement(
-          'div',
-          { className: 'helpInfo clearfix' },
-          React.createElement(
-            Button,
-            { color: 'info', className: classNames('btn-sm', this.props.className),
-              onClick: this.helpCollapseToggle },
-            be5.messages.helpInfo
-          ),
-          React.createElement(
-            Collapse,
-            { isOpen: this.state.isOpen, tag: this.props.tag },
-            React.createElement(
-              'div',
-              { className: 'alert alert-success max-width-970', role: 'alert' },
-              React.createElement(Document$1, { frontendParams: { documentName: this.props.documentName } })
-            )
-          )
-        );
-      } else {
-        return null;
-      }
-    }
-  }]);
-  return HelpInfo;
-}(React.Component);
-
-HelpInfo.propTypes = {
-  value: PropTypes.string,
-  documentName: PropTypes.string,
-  isOpen: PropTypes.bool,
-  tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-  className: PropTypes.node
-};
-
-HelpInfo.defaultProps = {
-  isOpen: false,
-  tag: 'div',
-  documentName: "helpInfo"
-};
-
-var TableForm = function (_React$Component) {
-  inherits(TableForm, _React$Component);
-
-  function TableForm() {
-    classCallCheck(this, TableForm);
-    return possibleConstructorReturn(this, (TableForm.__proto__ || Object.getPrototypeOf(TableForm)).apply(this, arguments));
-  }
-
-  createClass(TableForm, [{
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      this.updateDocuments();
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.updateDocuments();
-    }
-  }, {
-    key: 'updateDocuments',
-    value: function updateDocuments() {
-      changeDocument("form", { value: "" });
-      changeDocument("table", { value: this.props.value });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        { className: 'table-form' },
-        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, type: 'table' }),
-        React.createElement(HelpInfo, { value: this.props.value.data.attributes.layout.helpInfo }),
-        React.createElement(Document$1, { frontendParams: { documentName: "form" } })
-      );
-    }
-  }, {
-    key: 'refresh',
-    value: function refresh() {
-      if (this.props.value.data.links.self !== undefined) {
-        be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.data.links.self);
-      }
-    }
-  }]);
-  return TableForm;
-}(React.Component);
-
-TableForm.propTypes = {
-  value: PropTypes.object.isRequired,
-  frontendParams: PropTypes.object.isRequired
-};
-
-registerDocument('tableForm', TableForm);
-
-var TableFormRow = function (_TableForm) {
-  inherits(TableFormRow, _TableForm);
-
-  function TableFormRow() {
-    classCallCheck(this, TableFormRow);
-    return possibleConstructorReturn(this, (TableFormRow.__proto__ || Object.getPrototypeOf(TableFormRow)).apply(this, arguments));
-  }
-
-  createClass(TableFormRow, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        { className: 'row' },
-        React.createElement(
-          'div',
-          { className: 'col-lg-6' },
-          React.createElement(Document$1, { frontendParams: { documentName: "form" } })
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-lg-6' },
-          React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, documentType: 'table' })
-        )
-      );
-    }
-  }]);
-  return TableFormRow;
-}(TableForm);
-
-TableFormRow.propTypes = {
-  value: PropTypes.object.isRequired,
-  frontendParams: PropTypes.object.isRequired
-};
-
-registerDocument('tableFormRow', TableFormRow);
-
-var FormTable = function (_TableForm) {
-  inherits(FormTable, _TableForm);
-
-  function FormTable() {
-    classCallCheck(this, FormTable);
-    return possibleConstructorReturn(this, (FormTable.__proto__ || Object.getPrototypeOf(FormTable)).apply(this, arguments));
-  }
-
-  createClass(FormTable, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        { className: 'form-table' },
-        React.createElement(Document$1, { frontendParams: { documentName: "form" } }),
-        React.createElement(HelpInfo, { value: this.props.value.data.attributes.layout.helpInfo }),
-        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, documentType: 'table' })
-      );
-    }
-  }]);
-  return FormTable;
-}(TableForm);
-
-FormTable.propTypes = {
-  value: PropTypes.object.isRequired,
-  frontendParams: PropTypes.object.isRequired
-};
-
-registerDocument('formTable', FormTable);
 
 var TableBox$1 = function (_React$Component) {
   inherits(TableBox, _React$Component);
@@ -2856,18 +2662,6 @@ var ReactTable = function (_React$Component2) {
         table
       );
     }
-  }, {
-    key: 'refresh',
-    value: function refresh() {
-      var attr = this.props.value.data.attributes;
-      var params = {
-        entity: attr.category,
-        query: attr.page,
-        params: attr.parameters
-      };
-
-      tables.refresh(params, this.props.frontendParams.documentName);
-    }
   }]);
   return ReactTable;
 }(React.Component);
@@ -2877,6 +2671,104 @@ ReactTable.propTypes = {
 };
 
 registerDocument('rTable', ReactTable);
+
+var ErrorPane = function (_React$Component) {
+  inherits(ErrorPane, _React$Component);
+
+  function ErrorPane() {
+    classCallCheck(this, ErrorPane);
+
+    var _this = possibleConstructorReturn(this, (ErrorPane.__proto__ || Object.getPrototypeOf(ErrorPane)).call(this));
+
+    _this.state = { helpCollapse: false };
+    _this.helpCollapseToggle = _this.helpCollapseToggle.bind(_this);
+    return _this;
+  }
+
+  createClass(ErrorPane, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      forms.changeLocationHash(this.props);
+    }
+  }, {
+    key: 'helpCollapseToggle',
+    value: function helpCollapseToggle() {
+      this.setState({ helpCollapse: !this.state.helpCollapse });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var error = this.props.value.errors ? this.props.value.errors[0] : this.props.value;
+      return React.createElement(
+        'div',
+        { className: 'errorPane' },
+        React.createElement(
+          'h1',
+          { className: 'errorPane__title' },
+          error.status,
+          ' - ',
+          error.title
+        ),
+        React.createElement('br', null),
+        error.code !== undefined ? React.createElement('pre', { className: 'errorPane__code', dangerouslySetInnerHTML: { __html: error.code } }) : null,
+        error.detail !== undefined ? React.createElement(
+          'div',
+          null,
+          React.createElement(
+            Button,
+            { color: 'info', className: 'btn-sm', onClick: this.helpCollapseToggle, style: { marginBottom: '1rem' } },
+            be5.messages.details
+          ),
+          React.createElement(
+            Collapse,
+            { isOpen: this.state.helpCollapse },
+            React.createElement(
+              Card,
+              null,
+              React.createElement(
+                CardBody,
+                null,
+                React.createElement(
+                  'pre',
+                  { className: 'errorPane__detail' },
+                  error.detail
+                )
+              )
+            )
+          )
+        ) : null
+      );
+    }
+
+    // static createValue(title, text)
+    // {
+    //   const date = new Date().getTime();
+    //   return {
+    //     data: {
+    //       type: 'staticPage',
+    //       attributes: {
+    //         title: title,
+    //         content: text
+    //       }
+    //     },
+    //     meta: {_ts_: date}
+    //   }
+    // }
+
+  }]);
+  return ErrorPane;
+}(React.Component);
+
+ErrorPane.propTypes = {
+  value: PropTypes.shape({
+    errors: PropTypes.array.isRequired,
+    meta: PropTypes.shape({
+      _ts_: PropTypes.isRequired
+    })
+  })
+};
+
+registerDocument("errorPane", ErrorPane);
 
 function unwrapExports (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
@@ -3546,38 +3438,27 @@ var Form = function (_React$Component) {
       };
     }
   }, {
-    key: 'refresh',
-    value: function refresh() {
+    key: '_reloadOnChange',
+    value: function _reloadOnChange(controlName) {
       var _this2 = this;
 
       if (!this.state.submitted) {
         this.setState({ submitted: true }, function () {
-          forms.load(_this2.getParams(_this2.state.data.attributes.bean.values), _this2.props.frontendParams);
-        });
-      }
-    }
-  }, {
-    key: '_reloadOnChange',
-    value: function _reloadOnChange(controlName) {
-      var _this3 = this;
+          var values = Object.assign({}, _this2.state.data.attributes.bean.values, { '_reloadcontrol_': controlName });
 
-      if (!this.state.submitted) {
-        this.setState({ submitted: true }, function () {
-          var values = Object.assign({}, _this3.state.data.attributes.bean.values, { '_reloadcontrol_': controlName });
-
-          forms.load(_this3.getParams(values), _this3.props.frontendParams);
+          forms.load(_this2.getParams(values), _this2.props.frontendParams);
         });
       }
     }
   }, {
     key: 'apply',
     value: function apply() {
-      var _this4 = this;
+      var _this3 = this;
 
       this.setState({ wasValidated: false });
       if (!this.state.submitted) {
         this.setState({ submitted: true }, function () {
-          forms.apply(_this4.getParams(_this4.state.data.attributes.bean.values), _this4.props.frontendParams);
+          forms.apply(_this3.getParams(_this3.state.data.attributes.bean.values), _this3.props.frontendParams);
         });
       }
     }
@@ -3605,14 +3486,14 @@ var Form = function (_React$Component) {
   }, {
     key: '_onFieldChange',
     value: function _onFieldChange(name, value) {
-      var _this5 = this;
+      var _this4 = this;
 
       var attributes = this.state.data.attributes;
       this._setValue(name, value);
 
       this.forceUpdate(function () {
         if (attributes.bean.meta[name].reloadOnChange === true || attributes.bean.meta[name].autoRefresh === true) {
-          _this5._reloadOnChange(name);
+          _this4._reloadOnChange(name);
         }
       });
     }
@@ -3633,7 +3514,7 @@ var Form = function (_React$Component) {
   }, {
     key: '_createOkAction',
     value: function _createOkAction(addCssClasses) {
-      var _this6 = this;
+      var _this5 = this;
 
       return React.createElement(
         Transition,
@@ -3643,11 +3524,11 @@ var Form = function (_React$Component) {
             'button',
             {
               type: 'submit',
-              className: classNames("btn btn-primary", { 'btn-sm': _this6.state.data.attributes.layout.bsSize === 'sm' }, { 'btn-lg': _this6.state.data.attributes.layout.bsSize === 'lg' }, addCssClasses),
+              className: classNames("btn btn-primary", { 'btn-sm': _this5.state.data.attributes.layout.bsSize === 'sm' }, { 'btn-lg': _this5.state.data.attributes.layout.bsSize === 'lg' }, addCssClasses),
               onClick: function onClick() {
-                return _this6.setState({ wasValidated: true });
+                return _this5.setState({ wasValidated: true });
               },
-              title: _this6.state.submitted ? be5.messages.submitted : "",
+              title: _this5.state.submitted ? be5.messages.submitted : "",
               disabled: state === 'entered'
             },
             be5.messages.Submit
@@ -3904,6 +3785,57 @@ var InlineMiniForm = function (_Form) {
 }(Form);
 
 registerDocument('inlineMiniForm', InlineMiniForm);
+
+var FinishedResult = function (_React$Component) {
+  inherits(FinishedResult, _React$Component);
+
+  function FinishedResult() {
+    classCallCheck(this, FinishedResult);
+    return possibleConstructorReturn(this, (FinishedResult.__proto__ || Object.getPrototypeOf(FinishedResult)).apply(this, arguments));
+  }
+
+  createClass(FinishedResult, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      forms.changeLocationHash(this.props);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var attributes = this.props.value.data.attributes;
+
+      var message = attributes.message;
+      if (attributes.status === 'finished' && attributes.message === undefined) {
+        message = be5.messages.successfullyCompleted;
+      }
+
+      return React.createElement(
+        'div',
+        { className: 'finishedResult' },
+        React.createElement('div', { dangerouslySetInnerHTML: { __html: message } })
+      );
+      //    <div className="linkBack">
+      //              <button className="btn btn-secondary btn-sm" onClick={back}>
+      //                {be5.messages.back}
+      //              </button>
+      //            </div>
+    }
+  }]);
+  return FinishedResult;
+}(React.Component);
+
+FinishedResult.propTypes = {
+  value: PropTypes.shape({
+    data: PropTypes.shape({
+      attributes: PropTypes.object.isRequired,
+      meta: PropTypes.shape({
+        _ts_: PropTypes.isRequired
+      })
+    })
+  })
+};
+
+registerDocument('operationResult', FinishedResult);
 
 ace.define("ace/mode/doc_comment_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(acequire, exports, module) {
 var oop = acequire("../lib/oop");
@@ -6281,8 +6213,6 @@ var UiPanel = function UiPanel() {
         'documents'
       ),
       getAllDocumentTypes().sort().map(function (name) {
-        var doc = getDocument(name);
-        console.log('document', doc.name, doc);
         return React.createElement(
           'div',
           { key: "documents-" + name },
@@ -6305,8 +6235,6 @@ var UiPanel = function UiPanel() {
         'routes'
       ),
       getAllRoutes().sort().map(function (name) {
-        var route = getRoute(name);
-        console.log('route', route.name, route);
         return React.createElement(
           'div',
           { key: "documents-" + name },
@@ -6333,7 +6261,7 @@ var be5init = {
     var state = documentState.get(be5.MAIN_DOCUMENT);
     console.log(state);
 
-    if (state.value.links !== undefined && "#!" + state.value.data.links.self === be5.url.get() && state.value.data.links.self.startsWith('form')) {
+    if (state.value && state.value.links && "#!" + state.value.data.links.self === be5.url.get() && state.value.data.links.self.startsWith('form')) {
       //console.log('skip - form already opened');
     } else {
       be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
@@ -7135,6 +7063,7 @@ var Be5Menu = React.createClass({
     return { loaded: false, isOpen: false };
   },
   componentDidMount: function componentDidMount() {
+    this.refresh();
     if (this.props.show) {
       this._onMenuChanged(Be5MenuHolder.getMenu());
       Be5MenuHolder.addListener(this._onMenuChanged);
@@ -7522,11 +7451,11 @@ var FormWizard = function (_React$Component) {
   createClass(FormWizard, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.refresh();
+      this.init();
     }
   }, {
-    key: 'refresh',
-    value: function refresh() {
+    key: 'init',
+    value: function init() {
       this.setState(this.getPrevNextBtnState(this.props.startAtStep));
       be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
     }
@@ -7735,18 +7664,18 @@ var Navs = function (_React$Component) {
       compState: _this.props.startAtStep
     };
 
-    _this.refresh = _this.refresh.bind(_this);
+    _this.init = _this.init.bind(_this);
     return _this;
   }
 
   createClass(Navs, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.refresh();
+      this.init();
     }
   }, {
-    key: 'refresh',
-    value: function refresh() {
+    key: 'init',
+    value: function init() {
       be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
     }
   }, {

@@ -31,8 +31,9 @@ export default React.createClass({
   getInitialState() {
     return { loaded: false, isOpen: false };
   },
-  
+
   componentDidMount() {
+    this.refresh();
     if (this.props.show) {
       this._onMenuChanged(Be5MenuHolder.getMenu());
       Be5MenuHolder.addListener(this._onMenuChanged);

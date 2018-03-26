@@ -17,14 +17,6 @@ class StaticPage extends React.Component
     </div>;
   }
 
-  refresh() {
-    if(this.props.value.data.links.self !== undefined) {
-      be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.data.links.self);
-    }else{
-      console.info("staticPage without links.self");
-    }
-  }
-
   static createValue(title, text)
   {
     return StaticPage.createValue(title, text, {_ts_: new Date().getTime()}, {});

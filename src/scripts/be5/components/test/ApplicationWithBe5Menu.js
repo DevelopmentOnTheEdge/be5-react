@@ -8,16 +8,6 @@ import Be5Components from "../Be5Components";
 
 class ApplicationWithBe5Menu extends React.Component
 {
-  constructor(props) {
-    super(props);
-
-    this.refresh = this.refresh.bind(this);
-  }
-
-  componentDidMount() {
-    bus.listen('RefreshAll', this.refresh);
-  }
-
   render() {
     return (
       <div>
@@ -33,9 +23,6 @@ class ApplicationWithBe5Menu extends React.Component
 
   }
 
-  refresh() {
-    this.refs.menu.refresh();
-  }
 }
 
 export default ApplicationWithBe5Menu;

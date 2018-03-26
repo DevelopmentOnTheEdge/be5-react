@@ -426,17 +426,6 @@ class Table extends React.Component
     );
   }
 
-  refresh() {
-    const attr = this.props.value.data.attributes;
-    const params = {
-        entity: attr.category,
-        query: attr.page,
-        params: attr.parameters
-    };
-
-    tables.refresh(params, this.props.frontendParams.documentName);
-  }
-
 }
 
 Table.propTypes = {

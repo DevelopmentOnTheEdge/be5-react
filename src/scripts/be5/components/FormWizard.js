@@ -23,10 +23,10 @@ class FormWizard extends React.Component
   }
 
   componentDidMount(){
-    this.refresh()
+    this.init()
   }
 
-  refresh() {
+  init() {
     this.setState(this.getPrevNextBtnState(this.props.startAtStep));
     be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
   }

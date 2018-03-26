@@ -11,10 +11,6 @@ class FinishedResult extends React.Component
     forms.changeLocationHash(this.props);
   }
 
-  refresh() {
-    console.info("FinishedResult not support refresh");
-  }
-
   render() {
     const back = () => { history.back(); };
     const attributes = this.props.value.data.attributes;
