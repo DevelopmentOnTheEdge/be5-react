@@ -64,7 +64,7 @@
 }
 
 .Select--sm .Select-placeholder,
-.Select--sm.Select--single > .Select-control .Select-value,
+.Select--sm .Select--single > .Select-control .Select-value,
 .Select--sm .Select-input > input{
   line-height: 23px;
 }
