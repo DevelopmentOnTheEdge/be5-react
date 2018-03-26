@@ -1,5 +1,5 @@
 import be5 from "../../be5";
-import * as types from '../constants/menu.constants';
+import * as types from '../constants/menuConstants';
 
 
 export const fetchMenu = () => {

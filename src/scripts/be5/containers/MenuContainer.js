@@ -1,8 +1,8 @@
 import Menu              from '../components/menu/Menu'
 import { connect }       from 'react-redux'
-import { fetchMenu }     from '../store/actions/menu.actions'
-import { getMenu } from '../store/selectors/menu.selectors'
-import { getCurrentRoles } from '../store/selectors/user.selectors'
+import { fetchMenu }     from '../store/actions/menuActions'
+import { getMenu } from '../store/selectors/menuSelectors'
+import { getCurrentRoles } from '../store/selectors/userSelectors'
 
 
 const mapStateToProps = state => ({

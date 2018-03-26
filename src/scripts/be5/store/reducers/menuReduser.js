@@ -1,4 +1,4 @@
-import * as types from '../constants/menu.constants';
+import * as types from '../constants/menuConstants';
 
 
 export default function users(state = null, action)

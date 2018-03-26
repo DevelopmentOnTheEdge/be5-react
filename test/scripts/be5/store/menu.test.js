@@ -1,5 +1,5 @@
-import {fetchMenu}  from '../../../../src/scripts/be5/store/actions/menu.actions'
-import {getMenu}  from '../../../../src/scripts/be5/store/selectors/menu.selectors'
+import {fetchMenu}  from '../../../../src/scripts/be5/store/actions/menuActions'
+import {getMenu}  from '../../../../src/scripts/be5/store/selectors/menuSelectors'
 import be5 from '../../../../src/scripts/be5/be5';
 import testUtils from "../testUtils";
 

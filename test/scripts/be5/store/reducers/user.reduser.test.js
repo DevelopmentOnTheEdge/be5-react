@@ -1,5 +1,5 @@
-import * as types from '../../../../../src/scripts/be5/store/constants/user.constants';
-import user from '../../../../../src/scripts/be5/store/reducers/user.reduser'
+import * as types from '../../../../../src/scripts/be5/store/constants/userConstants';
+import user from '../../../../../src/scripts/be5/store/reducers/userReduser'
 
 
 describe('user reducer', () => {
