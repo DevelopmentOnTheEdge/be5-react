@@ -1,19 +1,15 @@
 import React            from 'react';
 import { Provider }     from 'react-redux';
-import { createStore, applyMiddleware }  from 'redux'
-import thunkMiddleware  from 'redux-thunk';
 import rootReducer      from '../../../src/scripts/be5/store/reducers'
+import createBaseStore  from '../../../src/scripts/be5/store'
 
 
 export default {
-  getStore
+  getStore: getStore
 }
 
 function getStore() {
-  return createStore(
-    rootReducer,
-    applyMiddleware(thunkMiddleware)
-  );
+  return createBaseStore(rootReducer);
 }
 
 export const TestProvider = ({ children }) => {

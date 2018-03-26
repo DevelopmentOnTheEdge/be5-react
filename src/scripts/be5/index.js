@@ -70,6 +70,12 @@ import action            from './services/actions.js';
 import forms             from './services/forms.js';
 import tables            from './services/tables.js';
 
+// store
+import createBaseStore from './store';
+import rootReducer     from './store/reducers';
+import userReduser     from './store/reducers/user.reduser';
+import menuReduser     from './store/reducers/menu.reduser';
+
 import {toggleRoles,updateUserInfo} from './store/actions/user.actions'
 import {fetchMenu} from './store/actions/menu.actions'
 
@@ -89,9 +95,10 @@ export {
   bus,
   changeDocument,
   getDocument, registerDocument, getAllDocumentTypes,
-  registerRoute,getRoute,getAllRoutes,
+  registerRoute, getRoute, getAllRoutes,
 
   // store
+  createBaseStore, rootReducer, userReduser, menuReduser,
   toggleRoles,updateUserInfo,
   fetchMenu,
   getCurrentRoles, getUser,
