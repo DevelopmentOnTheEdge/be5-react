@@ -122,11 +122,6 @@ div.dataTables_wrapper div.dataTables_length select {
 .dataTables-nav {
   margin-top: 14px;
 }
-@media (min-width: 1200px){
-  .dataTables-nav {
-    min-width: 650px;
-  }
-}
 
 .dataTables_length {
   margin: 2px 0 2px 0;
@@ -138,7 +133,8 @@ div.dataTables_wrapper div.dataTables_paginate {
 }
 div.dataTables_wrapper div.dataTables_info {
   padding-top: 0.33rem;
-  float: right;
+  padding-left: 10px;
+  float: left;
 }
 
 .dataTables_length label{
