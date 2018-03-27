@@ -1,6 +1,16 @@
 /*ta - text alignment*/
-.ta-center { text-align: center; }
-.ta-right { text-align: right; }
+.ta-left {
+  text-align: left;
+}
+.ta-right {
+  text-align: right;
+}
+.ta-center {
+  text-align: center;
+}
+.td-strong{
+  font-weight: bold;
+}
 
 /*fs - font style*/
 .fs-italic { font-style: italic; }

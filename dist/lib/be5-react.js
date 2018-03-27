@@ -2043,8 +2043,6 @@ var TableBox = function (_React$Component) {
         _this._refreshEnablementIfNeeded();
       });
 
-      $('.dataTables-nav').css('max-width', Math.max(650, tableDiv.width() + 2));
-
       // $('#rowCheckboxAll').click(function (e) {
       //   e.stopPropagation();
       //
