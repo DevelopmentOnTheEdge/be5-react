@@ -4,7 +4,7 @@ import MenuNode   from './MenuNode';
 
 
 const propTypes = {
-  menu: PropTypes.shape({})
+  menu: PropTypes.shape({}).isRequired
 };
 
 class MenuBody extends Component

@@ -28,9 +28,10 @@ import FormWizard       from './components/FormWizard.js';
 import Navs             from './components/Navs.js';
 import Be5Components    from './components/Be5Components.js';
 import RoleSelector     from './components/RoleSelector.js';
-import UserControl   from './components/UserControl.js';
+import UserControl      from './components/UserControl.js';
 
-import Document         from './containers/Document.js';
+import Document             from './containers/Document.js';
+import MenuContainer        from './containers/MenuContainer';
 import UserControlContainer from './containers/UserControlContainer.js';
 
 // forms
@@ -121,6 +122,7 @@ export {
   Navs,
   RoleSelector,
   UserControl,
+  MenuContainer,
 
   // containers
   Document,

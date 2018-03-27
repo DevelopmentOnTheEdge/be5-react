@@ -6,9 +6,14 @@ import {arraysEqual}    from '../../utils/utils';
 
 
 const propTypes = {
-  menu: PropTypes.shape({}),
+  menu: PropTypes.shape({}).isRequired,
   currentRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchMenu: PropTypes.func.isRequired,
+  searchField: PropTypes.bool,
+};
+
+const defaultProps = {
+  searchField: true
 };
 
 class Menu extends Component {
@@ -32,7 +37,7 @@ class Menu extends Component {
   render() {
     return (
       <div className="menuContainer">
-        <MenuSearchField ref="searchfield" onChange={this._handleQueryChange}/>
+        {this.props.searchField ? <MenuSearchField ref="searchfield" onChange={this._handleQueryChange}/> : null}
         <MenuBody ref="menubody" menu={this.props.menu} />
       </div>
     );
@@ -44,5 +49,7 @@ class Menu extends Component {
 }
 
 Menu.propTypes = propTypes;
+
+Menu.defaultProps = defaultProps;
 
 export default Menu;
