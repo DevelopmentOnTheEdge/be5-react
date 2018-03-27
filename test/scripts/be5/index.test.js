@@ -8,7 +8,7 @@ import be5init from '../../../src/scripts/be5/be5init';
 import testUtils from "./testUtils";
 
 test('test load', () => {
-  be5init.init();
+  be5init.init(testUtils.getStore());
 });
 
 test('hashChange', () => {

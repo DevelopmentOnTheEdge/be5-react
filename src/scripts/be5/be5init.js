@@ -1,5 +1,6 @@
 import be5 from './be5';
 import bus from './core/bus';
+import Preconditions from './utils/preconditions';
 import documentState      from './core/documentState';
 import { updateUserInfo } from './store/actions/user.actions'
 
@@ -55,6 +56,8 @@ export default {
 
   init(store)
   {
+    Preconditions.passed(store, 'store in required');
+
     window.addEventListener("hashchange", this.hashChange, false);
 
     bus.listen('CallDefaultAction', () => {
