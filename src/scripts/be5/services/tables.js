@@ -5,7 +5,7 @@ import Preconditions       from '../utils/preconditions';
 
 export default
 {
-  load(params, documentName) {
+  load(params, frontendParams) {
     Preconditions.passed(params.entity);
     Preconditions.passed(params.query);
 
@@ -17,9 +17,9 @@ export default
     };
 
     be5.net.request('document', requestParams, data => {
-      changeDocument(documentName, { value: data });
+      changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
     }, (data) => {
-      changeDocument(documentName, { value: data });
+      changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
       //changeDocument(documentName, { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)});
     });
   },

@@ -10,7 +10,7 @@ const route = function(documentName, entity, query, params) {
     query: query || 'All records',
     params: params
   };
-  tables.load(paramsObject, documentName);
+  tables.load(paramsObject, {documentName: documentName});
 
 };
 

@@ -1039,7 +1039,7 @@ var route$8 = function route(documentName, page) {
 registerRoute("static", route$8);
 
 var tables = {
-  load: function load(params, documentName) {
+  load: function load(params, frontendParams) {
     Preconditions.passed(params.entity);
     Preconditions.passed(params.query);
 
@@ -1051,9 +1051,9 @@ var tables = {
     };
 
     be5.net.request('document', requestParams, function (data) {
-      changeDocument(documentName, { value: data });
+      changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
     }, function (data) {
-      changeDocument(documentName, { value: data });
+      changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
       //changeDocument(documentName, { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)});
     });
   }
@@ -1066,7 +1066,7 @@ var route$10 = function route(documentName, entity, query, params) {
     query: query || 'All records',
     params: params
   };
-  tables.load(paramsObject, documentName);
+  tables.load(paramsObject, { documentName: documentName });
 };
 
 registerRoute("table", route$10);

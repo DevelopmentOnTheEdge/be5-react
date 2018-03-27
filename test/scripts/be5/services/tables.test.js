@@ -11,7 +11,7 @@ test('load', () => {
     query: 'All records',
     params: {'user_name': 'demo'}
   };
-  tables.load(paramsObject, 'testDoc');
+  tables.load(paramsObject, {documentName: 'testDoc'});
 
   expect(be5.net.request.mock.calls.length).toBe(1);
   expect(be5.net.request.mock.calls[0]).toEqual([
