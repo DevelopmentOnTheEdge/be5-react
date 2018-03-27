@@ -78,8 +78,8 @@ const RoleSelector = (props) => {
 RoleSelector.propTypes = {
   size: PropTypes.string,
   className: PropTypes.string,
-  currentRoles: PropTypes.array,
-  availableRoles: PropTypes.array,
+  currentRoles: PropTypes.array.isRequired,
+  availableRoles: PropTypes.array.isRequired,
   toggleRoles: PropTypes.func.isRequired
 };
 
