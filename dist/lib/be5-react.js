@@ -240,10 +240,10 @@ var Preconditions = {
   }
 };
 
-var changeDocument = (function (documentName, value) {
+var changeDocument = function changeDocument(documentName, value) {
   Preconditions.passed(documentName);
   bus.fire(documentName, value);
-});
+};
 
 var routes = {};
 
@@ -258,57 +258,6 @@ var registerRoute = function registerRoute(actionName, fn) {
 var getAllRoutes = function getAllRoutes() {
   return Object.keys(routes);
 };
-
-var documents$1 = {};
-
-var getDocument = function getDocument(type) {
-  return documents$1[type];
-};
-
-// createDocument(type, props) {
-//   return documents[type](props);
-// };
-
-var registerDocument = function registerDocument(type, component) {
-  documents$1[type] = component;
-};
-
-var getAllDocumentTypes = function getAllDocumentTypes() {
-  return Object.keys(documents$1);
-};
-
-var StaticPage = function StaticPage(props) {
-  var attributes = props.value.data.attributes;
-
-  var title = attributes.title ? React.createElement(
-    'h1',
-    { className: 'staticPage__title' },
-    attributes.title
-  ) : null;
-
-  return React.createElement(
-    'div',
-    { className: 'staticPage' },
-    title,
-    React.createElement('div', { className: 'staticPage__text', dangerouslySetInnerHTML: { __html: attributes.content } })
-  );
-};
-
-StaticPage.propTypes = {
-  value: PropTypes.shape({
-    data: PropTypes.shape({
-      attributes: PropTypes.shape({
-        title: PropTypes.string,
-        content: PropTypes.string
-      }),
-      meta: PropTypes.shape({
-        _ts_: PropTypes.isRequired
-      })
-    })
-  })
-};
-
-registerDocument("static", StaticPage);
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
@@ -1168,7 +1117,58 @@ var constants = Object.freeze({
 	ROLE_GUEST: ROLE_GUEST
 });
 
+var documents$1 = {};
+
+var getDocument = function getDocument(type) {
+  return documents$1[type];
+};
+
+// createDocument(type, props) {
+//   return documents[type](props);
+// };
+
+var registerDocument = function registerDocument(type, component) {
+  documents$1[type] = component;
+};
+
+var getAllDocumentTypes = function getAllDocumentTypes() {
+  return Object.keys(documents$1);
+};
+
 var img = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAATdEVYdFRpdGxlAE9wdGljYWwgRHJpdmU+Z7oMAAAC+ElEQVQ4jZWS329TZRjHP+ft6dJ2djNxHcgyunb+KIyNwfRG0mZgNgfeAJNBUBO8NEswITPEGHIy1I1lcTEzhn/Aq5mIFwp2yGSMzAsCyMIAp7hWOXjD+LGW03bnPe/rxSyZ7spv8tw9z+f75Ps8htaasvr7+81Apfm6oY1dGrpAV4BhY5AV2vjME4ZjKHUSjBxKHTt69MNpszw8ODj4TCBUMdbasnnH5pYt1NREEEIgpbs2l8u1/TAxvjebyeT27z8YXrh3j7MT4wFgmwkwPPzx8z6/L713zxuxeKyRUqmI4+RRSiGEIBQKsa/7ALZ9J1xfv56qcBg0rwCYAArxxVsH346tqV3L4uJDrv58lfn52+TyeZ6qrGTjxk0kXkwQiUT4r8yhTwd2xmPxjnXPruP+/QXOpE9zx7YnQQwIrUOFUnHwwtRk4vbvv9HVuZNAIAiAUmoZYCh9+NUdHRSLRWZvXMe27XMlx+2yLEueGP7kXE/3gUQ81rjKWUq5DNAY64PBEK5b4uatWwiMjyzLkgCuK8OPHj3kwYOFVQDXdSlnUCeEgVIKx3mMlFx/0uR575765usvtdaJ5WtrtC7XPxlIzysUS8VqIUyqq5/mcc5uBs4DHD92/DKwYZX9yhCl532fyWQONcYbadrQRCabtXq+6pka2zfmrXiwwJIsngB2a60mPJf3hoaGcgCmWpKnr1y5fKghGqW5uYX5zHy7d809+8HM+wM+7d2U2teKxkol21/e1NTEj5MT78zOzl4CTgKYQvhPzc39cn7q4lR7Kpliz+5utrRu3X5x+sL2u3f/4oVolOS2JNFoA/l8HtP0I6UXKG9naK3p6+urEaa+1NnxWkPb1jaCwRB+vx8hfCilcN0lCgWH9Hia6Z+mb5ii4qWRkZHCEwDAkSO9zyl8n9dGartSqSSRSC1V4Socx2Hu1zmuzczwx5/Zb02j4s3R0dHFf22wUr2HezsNLXuVMuo1ug7Ia80Zhf6ubk1d2rIstbJ/FeD/6m8m/lj+PIxQ9QAAAABJRU5ErkJggg==';
+
+var StaticPage = function StaticPage(props) {
+  var attributes = props.value.data.attributes;
+
+  var title = attributes.title ? React.createElement(
+    'h1',
+    { className: 'staticPage__title' },
+    attributes.title
+  ) : null;
+
+  return React.createElement(
+    'div',
+    { className: 'staticPage' },
+    title,
+    React.createElement('div', { className: 'staticPage__text', dangerouslySetInnerHTML: { __html: attributes.content } })
+  );
+};
+
+StaticPage.propTypes = {
+  value: PropTypes.shape({
+    data: PropTypes.shape({
+      attributes: PropTypes.shape({
+        title: PropTypes.string,
+        content: PropTypes.string
+      }),
+      meta: PropTypes.shape({
+        _ts_: PropTypes.isRequired
+      })
+    })
+  })
+};
+
+registerDocument("static", StaticPage);
 
 var Document = function (_React$Component) {
   inherits(Document, _React$Component);

@@ -5,7 +5,6 @@ import messages from './core/messages';
 import bus      from './core/bus';
 import changeDocument from './core/changeDocument';
 import {getRoute} from './core/routes'
-import StaticPage from "./components/StaticPage";
 
 
 const be5 = {
