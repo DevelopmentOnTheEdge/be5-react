@@ -23,6 +23,7 @@ class Document extends React.Component
     };
 
     this.refresh = this.refresh.bind(this);
+    this.getRefreshUrl = this.getRefreshUrl.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -66,21 +67,6 @@ class Document extends React.Component
   componentWillUnmount(){
     bus.replaceListeners(this.props.frontendParams.documentName, data => {});
     bus.replaceListeners(this.props.frontendParams.documentName + be5.DOCUMENT_REFRESH_SUFFIX, data => {});
-  }
-
-  refresh() {
-    if(this.state.value.data.links.self !== undefined)
-    {
-      be5.url.process(this.props.frontendParams.documentName, "#!" + this.state.value.data.links.self);
-    }
-    else if(this.props.value.errors[0].links.self !== undefined)
-    {
-      be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.errors[0].links.self);
-    }
-    else
-    {
-      console.info("not have links.self");
-    }
   }
 
   render() {
@@ -177,7 +163,7 @@ class Document extends React.Component
   getDevTools(){
     const devRole = this.props.currentRoles && this.props.currentRoles.indexOf(ROLE_SYSTEM_DEVELOPER) !== -1;
 
-    if(!devRole)
+    if(!devRole || !this.getRefreshUrl())
     {
       return null;
     }
@@ -185,9 +171,28 @@ class Document extends React.Component
     return (
       <span onClick={this.refresh} className={"document-reload float-right"}>
         <img src={reloadImg} alt={be5.messages.reload}
-             title={be5.messages.reload + " " + this.props.frontendParams.documentName}/>
+             title={be5.messages.reload + " " + this.props.frontendParams.documentName + " - " + this.getRefreshUrl()}/>
       </span>
     );
+  }
+
+  refresh() {
+    be5.url.process(this.props.frontendParams.documentName, this.getRefreshUrl());
+  }
+
+  getRefreshUrl()
+  {
+    if(this.state.value)
+    {
+      if (this.state.value.data && this.state.value.data.links && this.state.value.data.links.self !== undefined) {
+        return "#!" + this.state.value.data.links.self;
+      }
+      else if (this.state.value.errors && this.state.value.errors[0].links.self !== undefined) {
+        return "#!" + this.state.value.errors[0].links.self;
+      }
+    }
+
+    return undefined;
   }
 
   getComponentFrontendParams() {

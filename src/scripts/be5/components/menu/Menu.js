@@ -6,7 +6,7 @@ import {arraysEqual}    from '../../utils/utils';
 
 
 const propTypes = {
-  menu: PropTypes.shape({}).isRequired,
+  menu: PropTypes.shape({}),
   currentRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchMenu: PropTypes.func.isRequired,
   searchField: PropTypes.bool,
@@ -28,7 +28,7 @@ class Menu extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { currentRoles, fetchMenu, menu } = this.props;
+    const { currentRoles, fetchMenu } = this.props;
     if (!arraysEqual(currentRoles, nextProps.currentRoles)) {
       fetchMenu();
     }

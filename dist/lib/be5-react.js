@@ -1184,6 +1184,7 @@ var Document = function (_React$Component) {
     };
 
     _this.refresh = _this.refresh.bind(_this);
+    _this.getRefreshUrl = _this.getRefreshUrl.bind(_this);
     return _this;
   }
 
@@ -1223,17 +1224,6 @@ var Document = function (_React$Component) {
     value: function componentWillUnmount() {
       bus.replaceListeners(this.props.frontendParams.documentName, function (data) {});
       bus.replaceListeners(this.props.frontendParams.documentName + be5.DOCUMENT_REFRESH_SUFFIX, function (data) {});
-    }
-  }, {
-    key: 'refresh',
-    value: function refresh() {
-      if (this.state.value.data.links.self !== undefined) {
-        be5.url.process(this.props.frontendParams.documentName, "#!" + this.state.value.data.links.self);
-      } else if (this.props.value.errors[0].links.self !== undefined) {
-        be5.url.process(this.props.frontendParams.documentName, "#!" + this.props.value.errors[0].links.self);
-      } else {
-        console.info("not have links.self");
-      }
     }
   }, {
     key: 'render',
@@ -1319,7 +1309,7 @@ var Document = function (_React$Component) {
     value: function getDevTools() {
       var devRole = this.props.currentRoles && this.props.currentRoles.indexOf(ROLE_SYSTEM_DEVELOPER) !== -1;
 
-      if (!devRole) {
+      if (!devRole || !this.getRefreshUrl()) {
         return null;
       }
 
@@ -1327,8 +1317,26 @@ var Document = function (_React$Component) {
         'span',
         { onClick: this.refresh, className: "document-reload float-right" },
         React.createElement('img', { src: img, alt: be5.messages.reload,
-          title: be5.messages.reload + " " + this.props.frontendParams.documentName })
+          title: be5.messages.reload + " " + this.props.frontendParams.documentName + " - " + this.getRefreshUrl() })
       );
+    }
+  }, {
+    key: 'refresh',
+    value: function refresh() {
+      be5.url.process(this.props.frontendParams.documentName, this.getRefreshUrl());
+    }
+  }, {
+    key: 'getRefreshUrl',
+    value: function getRefreshUrl() {
+      if (this.state.value) {
+        if (this.state.value.data && this.state.value.data.links && this.state.value.data.links.self !== undefined) {
+          return "#!" + this.state.value.data.links.self;
+        } else if (this.state.value.errors && this.state.value.errors[0].links.self !== undefined) {
+          return "#!" + this.state.value.errors[0].links.self;
+        }
+      }
+
+      return undefined;
     }
   }, {
     key: 'getComponentFrontendParams',
@@ -6252,6 +6260,8 @@ var be5init = {
     }
   },
   init: function init(store) {
+    Preconditions.passed(store, 'store in required');
+
     window.addEventListener("hashchange", this.hashChange, false);
 
     bus.listen('CallDefaultAction', function () {
@@ -6371,8 +6381,8 @@ var RoleSelector = function RoleSelector(props) {
 RoleSelector.propTypes = {
   size: PropTypes.string,
   className: PropTypes.string,
-  currentRoles: PropTypes.array,
-  availableRoles: PropTypes.array,
+  currentRoles: PropTypes.array.isRequired,
+  availableRoles: PropTypes.array.isRequired,
   toggleRoles: PropTypes.func.isRequired
 };
 
@@ -6553,7 +6563,7 @@ var MenuNode = React.createClass({
 });
 
 var propTypes$1 = {
-  menu: PropTypes.shape({}).isRequired
+  menu: PropTypes.shape({})
 };
 
 var MenuBody = function (_Component) {
@@ -6660,7 +6670,7 @@ MenuSearchField.propTypes = {
 };
 
 var propTypes = {
-  menu: PropTypes.shape({}).isRequired,
+  menu: PropTypes.shape({}),
   currentRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchMenu: PropTypes.func.isRequired,
   searchField: PropTypes.bool
@@ -6692,8 +6702,7 @@ var Menu = function (_Component) {
     value: function componentWillReceiveProps(nextProps) {
       var _props = this.props,
           currentRoles = _props.currentRoles,
-          fetchMenu = _props.fetchMenu,
-          menu = _props.menu;
+          fetchMenu = _props.fetchMenu;
 
       if (!arraysEqual(currentRoles, nextProps.currentRoles)) {
         fetchMenu();
