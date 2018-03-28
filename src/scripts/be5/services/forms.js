@@ -2,6 +2,8 @@ import be5              from '../be5';
 import bus              from '../core/bus';
 import Preconditions    from '../utils/preconditions';
 import changeDocument   from '../core/changeDocument';
+import {updateUserInfo} from "../store/actions/user.actions";
+import {UPDATE_USER_INFO} from "../store/constants/user.constants";
 
 
 export default
@@ -79,17 +81,7 @@ export default
           switch (attributes.status) {
             case 'redirect':
               bus.fire("alert", {msg: be5.messages.successfullyCompleted, type: 'success'});
-              if(attributes.details === 'refreshAll' || attributes.details === 'refreshAllAndGoBack')
-              {
-                if(attributes.details === 'refreshAll'){
-                  bus.fire('CallDefaultAction');
-                }else{
-                  window.history.back();
-                }
-                bus.fire('RefreshAll');
-                if(documentName === be5.MAIN_MODAL_DOCUMENT)bus.fire("mainModalClose");
-              }
-              else if(attributes.details.startsWith("http://")
+              if(attributes.details.startsWith("http://")
                       || attributes.details.startsWith("https://")
                       || attributes.details.startsWith("ftp://"))
               {
@@ -115,10 +107,24 @@ export default
               }
               return;
             case 'finished':
-              if(documentName === be5.MAIN_MODAL_DOCUMENT) {
+              if(attributes.details !== undefined)
+              {
+                if(attributes.details === UPDATE_USER_INFO)
+                {
+                  be5.store.dispatch(updateUserInfo());
+
+                  bus.fire('CallDefaultAction');
+
+                  if(documentName === be5.MAIN_MODAL_DOCUMENT)bus.fire("mainModalClose");
+                }
+              }
+              else if(documentName === be5.MAIN_MODAL_DOCUMENT)
+              {
                 bus.fire("alert", {msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success'});
                 bus.fire("mainModalClose");
-              }else{
+              }
+              else
+              {
                 changeDocument(documentName, { value: json, frontendParams: frontendParams});
               }
               return;

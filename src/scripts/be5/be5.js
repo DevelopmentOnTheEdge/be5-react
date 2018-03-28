@@ -8,6 +8,8 @@ import {getRoute} from './core/routes'
 
 
 const be5 = {
+  store: undefined,
+
   debug: true,
 
   def: {
@@ -67,10 +69,7 @@ const be5 = {
       if(dataTablesLocal !== 'en'){
         $.getJSON( "//cdn.datatables.net/plug-ins/1.10.13/i18n/" + dataTablesLocal + ".json", function( data ) {
           be5.messages['dataTables'] = data;
-          bus.fire('RefreshAll');
         });
-      }else{
-        bus.fire('RefreshAll');
       }
     },
 

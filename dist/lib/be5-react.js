@@ -407,6 +407,8 @@ var toConsumableArray = function (arr) {
 };
 
 var be5 = {
+  store: undefined,
+
   debug: true,
 
   def: {
@@ -467,10 +469,7 @@ var be5 = {
       if (dataTablesLocal !== 'en') {
         $.getJSON("//cdn.datatables.net/plug-ins/1.10.13/i18n/" + dataTablesLocal + ".json", function (data) {
           be5.messages['dataTables'] = data;
-          bus.fire('RefreshAll');
         });
-      } else {
-        bus.fire('RefreshAll');
       }
     },
     msg: function msg(key) {
@@ -767,6 +766,29 @@ var documentState = {
   getAll: getAll
 };
 
+var route = function route(documentName, page) {
+  changeDocument(documentName, {});
+};
+
+var Loading = function (_React$Component) {
+  inherits(Loading, _React$Component);
+
+  function Loading() {
+    classCallCheck(this, Loading);
+    return possibleConstructorReturn(this, (Loading.__proto__ || Object.getPrototypeOf(Loading)).apply(this, arguments));
+  }
+
+  createClass(Loading, [{
+    key: 'render',
+    value: function render() {
+      return React.createElement('div', { className: 'document-loader' });
+    }
+  }]);
+  return Loading;
+}(React.Component);
+
+registerRoute("loading", route);
+
 var UPDATE_USER_INFO = 'UPDATE_USER_INFO';
 
 var SELECT_ROLES = 'SELECT_ROLES';
@@ -795,29 +817,6 @@ var toggleRoles = function toggleRoles(roles) {
     });
   };
 };
-
-var route = function route(documentName, page) {
-  changeDocument(documentName, {});
-};
-
-var Loading = function (_React$Component) {
-  inherits(Loading, _React$Component);
-
-  function Loading() {
-    classCallCheck(this, Loading);
-    return possibleConstructorReturn(this, (Loading.__proto__ || Object.getPrototypeOf(Loading)).apply(this, arguments));
-  }
-
-  createClass(Loading, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement('div', { className: 'document-loader' });
-    }
-  }]);
-  return Loading;
-}(React.Component);
-
-registerRoute("loading", route);
 
 var forms = {
   load: function load(params, frontendParams) {
@@ -887,15 +886,7 @@ var forms = {
           switch (attributes.status) {
             case 'redirect':
               bus.fire("alert", { msg: be5.messages.successfullyCompleted, type: 'success' });
-              if (attributes.details === 'refreshAll' || attributes.details === 'refreshAllAndGoBack') {
-                if (attributes.details === 'refreshAll') {
-                  bus.fire('CallDefaultAction');
-                } else {
-                  window.history.back();
-                }
-                bus.fire('RefreshAll');
-                if (documentName === be5.MAIN_MODAL_DOCUMENT) bus.fire("mainModalClose");
-              } else if (attributes.details.startsWith("http://") || attributes.details.startsWith("https://") || attributes.details.startsWith("ftp://")) {
+              if (attributes.details.startsWith("http://") || attributes.details.startsWith("https://") || attributes.details.startsWith("ftp://")) {
                 window.location.href = attributes.details;
               } else {
                 if (documentName === be5.MAIN_DOCUMENT) {
@@ -910,7 +901,15 @@ var forms = {
               }
               return;
             case 'finished':
-              if (documentName === be5.MAIN_MODAL_DOCUMENT) {
+              if (attributes.details !== undefined) {
+                if (attributes.details === UPDATE_USER_INFO) {
+                  be5.store.dispatch(updateUserInfo());
+
+                  bus.fire('CallDefaultAction');
+
+                  if (documentName === be5.MAIN_MODAL_DOCUMENT) bus.fire("mainModalClose");
+                }
+              } else if (documentName === be5.MAIN_MODAL_DOCUMENT) {
                 bus.fire("alert", { msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success' });
                 bus.fire("mainModalClose");
               } else {
@@ -6262,16 +6261,15 @@ var be5init = {
   init: function init(store) {
     Preconditions.passed(store, 'store in required');
 
+    be5.store = store;
+    store.dispatch(updateUserInfo());
+
     window.addEventListener("hashchange", this.hashChange, false);
 
     bus.listen('CallDefaultAction', function () {
       be5.net.request('menu/defaultAction', {}, function (data) {
         be5.url.set(data.arg);
       });
-    });
-
-    bus.listen('RefreshAll', function () {
-      store.dispatch(updateUserInfo());
     });
 
     be5.net.request("appInfo", {}, function (data) {

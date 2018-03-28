@@ -2,7 +2,6 @@ import be5 from './be5';
 import bus from './core/bus';
 import Preconditions from './utils/preconditions';
 import documentState      from './core/documentState';
-import { updateUserInfo } from './store/actions/user.actions'
 
 import './routes/loading';
 import './routes/form';
@@ -32,6 +31,7 @@ import './components/QueryBuilder';
 import './components/StaticPage';
 import './components/ErrorPane';
 import './components/UiPanel';
+import {updateUserInfo} from "./store/actions/user.actions";
 
 
 export default {
@@ -58,16 +58,15 @@ export default {
   {
     Preconditions.passed(store, 'store in required');
 
+    be5.store = store;
+    store.dispatch(updateUserInfo());
+
     window.addEventListener("hashchange", this.hashChange, false);
 
     bus.listen('CallDefaultAction', () => {
       be5.net.request('menu/defaultAction', {}, data => {
         be5.url.set(data.arg)
       });
-    });
-
-    bus.listen('RefreshAll', () => {
-      store.dispatch(updateUserInfo());
     });
 
     be5.net.request("appInfo", {}, function(data) {
