@@ -148,7 +148,7 @@ class Document extends React.Component
 
     if(this.state.value.data)
     {
-      if(this.state.value.data.attributes.layout !== undefined &&
+      if(this.state.value.data.attributes && this.state.value.data.attributes.layout &&
         this.state.value.data.attributes.layout.type !== undefined)
       {
         return this.state.value.data.attributes.layout.type;
