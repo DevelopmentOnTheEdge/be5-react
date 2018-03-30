@@ -77,10 +77,15 @@ class Document extends React.Component
 
     //if(this.state.value)be5.ui.setTitle(this.state.value.title);
 
+    const document = this.getDocument();
+    if(document === null){
+      return null;
+    }
+
     return (
       <div className='document-content' id={'document-content___' + this.props.frontendParams.documentName}>
         {loadingItem}
-        {this.getDocument()}
+        {document}
       </div>
     );
   }

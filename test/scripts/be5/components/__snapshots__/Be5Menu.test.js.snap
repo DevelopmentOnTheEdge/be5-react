@@ -110,12 +110,7 @@ exports[`ApplicationWithBe5Menu 1`] = `
   >
     <div
       className="row"
-    >
-      <div
-        className="document-content"
-        id="document-content___MainDocument"
-      />
-    </div>
+    />
   </div>
 </div>
 `;

@@ -1,11 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshot 1`] = `
-<div
-  className="document-content"
-  id="document-content___MainDocument"
-/>
-`;
+exports[`snapshot 1`] = `null`;
 
 exports[`snapshot 2`] = `
 <div

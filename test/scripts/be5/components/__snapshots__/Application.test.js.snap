@@ -89,12 +89,7 @@ exports[`snapshot 1`] = `
     >
       <div
         className="main-pane"
-      >
-        <div
-          className="document-content"
-          id="document-content___MainDocument"
-        />
-      </div>
+      />
     </div>
   </div>
 </div>
