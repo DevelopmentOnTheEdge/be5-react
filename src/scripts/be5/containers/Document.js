@@ -141,11 +141,6 @@ class Document extends React.Component
       return 'modalForm';
     }
 
-    if(this.state.value.errors)
-    {
-      return 'errorPane'
-    }
-
     if(this.state.value.data)
     {
       if(this.state.value.data.attributes.layout !== undefined &&
@@ -155,6 +150,11 @@ class Document extends React.Component
       }
 
       return this.state.value.data.type;
+    }
+
+    if(this.state.value.errors)
+    {
+      return 'errorPane';
     }
 
     return undefined;
