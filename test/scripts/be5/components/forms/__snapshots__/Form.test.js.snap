@@ -90,22 +90,26 @@ exports[`Form errorOnApply 1`] = `
     <div
       className="errorPane"
     >
-      <h1
-        className="errorPane__title"
+      <div
+        className="errorPane__error"
       >
-        500
-         - 
-        Internal error occured during operation testtable.TestOperation
-      </h1>
-      <br />
-      <pre
-        className="errorPane__code"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "Be5Exception: Internal error occured during operation... ",
+        <h1
+          className="errorPane__title"
+        >
+          500
+           - 
+          Internal error occured during operation testtable.TestOperation
+        </h1>
+        <br />
+        <pre
+          className="errorPane__code"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Be5Exception: Internal error occured during operation... ",
+            }
           }
-        }
-      />
+        />
+      </div>
     </div>
   </div>
 </div>

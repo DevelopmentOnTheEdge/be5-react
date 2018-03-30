@@ -9,14 +9,25 @@ import testData       from '../testData.json'
 
 test('snapshot', () => {
   const json = {
-    data: {
-      type: "queryBuilder",
-      attributes: {
-        finalSql: 'SELECT * FROM users',
-        sql: 'select * from users'
-      }
+    "data": {
+      "attributes": "select * from users",
+      "links": {
+        "self": "queryBuilder"
+      },
+      "type": "queryBuilder"
     },
-    included: [Object.assign({}, testData.simpleTable.data, {id: "queryTable"})],
+    "errors": [],
+    "included": [
+      {
+        "attributes": {
+          "content": "SELECT * FROM users LIMIT 2147483647",
+          "title": "Final sql"
+        },
+        "id": "finalSql",
+        "type": "static"
+      },
+      Object.assign({}, testData.simpleTable.data, {id: "queryTable"})
+    ],
     meta: testData.simpleTable.meta
   };
 

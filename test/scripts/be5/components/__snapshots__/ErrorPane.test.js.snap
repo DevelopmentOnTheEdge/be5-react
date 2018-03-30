@@ -4,22 +4,26 @@ exports[`snapshot 1`] = `
 <div
   className="errorPane"
 >
-  <h1
-    className="errorPane__title"
+  <div
+    className="errorPane__error"
   >
-    404
-     - 
-    Query not found: testtable.Test 1D2
-  </h1>
-  <br />
-  <pre
-    className="errorPane__code"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "Be5Exception: Query not found: testtable.Test 1D2
+    <h1
+      className="errorPane__title"
+    >
+      404
+       - 
+      Query not found: testtable.Test 1D2
+    </h1>
+    <br />
+    <pre
+      className="errorPane__code"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "Be5Exception: Query not found: testtable.Test 1D2
  ",
+        }
       }
-    }
-  />
+    />
+  </div>
 </div>
 `;

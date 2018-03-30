@@ -142,12 +142,31 @@ exports[`snapshot 1`] = `
             </div>
           </div>
         </div>
-        <h2>
-          Final sql
-        </h2>
-        <pre>
-          SELECT * FROM users
-        </pre>
+        <div
+          className="document-content"
+          id="document-content___queryBuilder-finalSql"
+        >
+          <div>
+            <div
+              className="staticPage"
+            >
+              <h1
+                className="staticPage__title"
+              >
+                Final sql
+              </h1>
+              <div
+                className="staticPage__text"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SELECT * FROM users LIMIT 2147483647",
+                  }
+                }
+              />
+            </div>
+          </div>
+        </div>
+        <br />
       </div>
     </div>
   </div>

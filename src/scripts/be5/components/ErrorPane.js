@@ -6,7 +6,7 @@ import { Collapse, Button, CardBody, Card } from 'reactstrap';
 import {registerDocument} from "../core/documents";
 
 
-class ErrorPane extends React.Component
+class Error extends React.Component
 {
   constructor(){
     super();
@@ -14,23 +14,25 @@ class ErrorPane extends React.Component
     this.helpCollapseToggle = this.helpCollapseToggle.bind(this);
   }
 
-  componentDidMount() {
-    forms.changeLocationHash(this.props);
-  }
-
   helpCollapseToggle() {
     this.setState({ helpCollapse: !this.state.helpCollapse });
   }
 
-  render() {
-    const error = this.props.value.errors ? this.props.value.errors[0] : this.props.value;
-    return <div className='errorPane'>
-      <h1 className='errorPane__title' >{error.status} - {error.title}</h1>
+  render(){
+    const {
+      status,
+      title,
+      code,
+      detail
+    } = this.props;
+
+    return <div className='errorPane__error'>
+      <h1 className='errorPane__title' >{status} - {title}</h1>
       <br/>
-      {error.code !== undefined ?
-        <pre className='errorPane__code' dangerouslySetInnerHTML={ {__html: error.code} }/> : null
+      {code !== undefined ?
+        <pre className='errorPane__code' dangerouslySetInnerHTML={ {__html: code} }/> : null
       }
-      {error.detail !== undefined ?
+      {detail !== undefined ?
         <div>
           <Button color="info" className="btn-sm" onClick={this.helpCollapseToggle} style={{ marginBottom: '1rem' }}>
             {be5.messages.details}
@@ -38,7 +40,7 @@ class ErrorPane extends React.Component
           <Collapse isOpen={this.state.helpCollapse}>
             <Card>
               <CardBody>
-                <pre className='errorPane__detail' >{error.detail}</pre>
+                <pre className='errorPane__detail' >{detail}</pre>
               </CardBody>
             </Card>
           </Collapse>
@@ -47,22 +49,25 @@ class ErrorPane extends React.Component
         : null}
     </div>;
   }
+}
 
-  // static createValue(title, text)
-  // {
-  //   const date = new Date().getTime();
-  //   return {
-  //     data: {
-  //       type: 'staticPage',
-  //       attributes: {
-  //         title: title,
-  //         content: text
-  //       }
-  //     },
-  //     meta: {_ts_: date}
-  //   }
-  // }
+class ErrorPane extends React.Component
+{
+  componentDidMount() {
+    forms.changeLocationHash(this.props);
+  }
 
+  render() {
+    const errors = this.props.value.errors;
+
+    if(!errors || errors.length === 0){
+      return null;
+    }
+
+    return <div className='errorPane'>
+      {errors.map((error, i) => <Error {...error} key={i} />)}
+    </div>;
+  }
 }
 
 ErrorPane.propTypes =  {

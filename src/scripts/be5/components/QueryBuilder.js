@@ -4,13 +4,14 @@ import be5            from '../be5';
 import Document       from '../containers/Document';
 import AceEditor from 'react-ace';
 import SplitPane from 'react-split-pane';
+import ErrorPane from "./ErrorPane";
+import changeDocument from "../core/changeDocument";
 import {registerDocument} from "../core/documents";
 import {getModelByID} from "../utils/documentUtils";
 
 import 'brace/mode/mysql';
 import 'brace/theme/xcode';
 import 'brace/ext/language_tools';
-import changeDocument from "../core/changeDocument";
 
 
 class QueryBuilder extends React.Component
@@ -18,8 +19,8 @@ class QueryBuilder extends React.Component
   constructor(props) {
     super(props);
     this.state = {
-      sql: this.props.value.data.attributes.sql,
-      finalSql: this.props.value.data.attributes.finalSql
+      sql: this.props.value.data.attributes,
+      value: this.props.value
     };
 
     this.updateCode = this.updateCode.bind(this);
@@ -47,9 +48,8 @@ class QueryBuilder extends React.Component
   }
 
 	update(json){
-    this.setState({
-      finalSql: json.data.attributes.finalSql,
-    });
+    this.setState({value: json});
+    changeDocument('queryBuilder-finalSql', { value: getModelByID(json.included, json.meta, "finalSql") });
 
     changeDocument('queryBuilder-table', { value: getModelByID(json.included, json.meta, "queryTable") });
   }
@@ -80,7 +80,7 @@ class QueryBuilder extends React.Component
             commands={[{
               name: 'Submit',
               bindKey: {win: 'Alt-Enter', mac: 'Command-Enter'},
-              exec: () => {this.submit()}
+              exec: this.submit
             }]}
           />
           <div>
@@ -92,8 +92,9 @@ class QueryBuilder extends React.Component
               Выполнить
             </button>
             <Document frontendParams={{documentName: "queryBuilder-table"}} />
-            <h2>Final sql</h2>
-            <pre>{this.state.finalSql}</pre>
+            <Document frontendParams={{documentName: "queryBuilder-finalSql"}} />
+            <br/>
+            <ErrorPane value={this.state.value} />
           </div>
         </SplitPane>
 
