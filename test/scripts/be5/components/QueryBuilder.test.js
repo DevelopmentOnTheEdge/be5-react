@@ -26,7 +26,7 @@ test('snapshot', () => {
         "id": "finalSql",
         "type": "static"
       },
-      Object.assign({}, testData.simpleTable.data, {id: "queryTable"})
+      Object.assign({id: "result"}, testData.simpleTable.data)
     ],
     meta: testData.simpleTable.meta
   };

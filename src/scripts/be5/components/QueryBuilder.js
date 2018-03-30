@@ -49,9 +49,9 @@ class QueryBuilder extends React.Component
 
 	update(json){
     this.setState({value: json});
-    changeDocument('queryBuilder-finalSql', { value: getModelByID(json.included, json.meta, "finalSql") });
 
-    changeDocument('queryBuilder-table', { value: getModelByID(json.included, json.meta, "queryTable") });
+    changeDocument('queryBuilder-result', { value: getModelByID(json.included, json.meta, "result") });
+    changeDocument('queryBuilder-finalSql', { value: getModelByID(json.included, json.meta, "finalSql") });
   }
 
   render() {
@@ -91,7 +91,7 @@ class QueryBuilder extends React.Component
             >
               Выполнить
             </button>
-            <Document frontendParams={{documentName: "queryBuilder-table"}} />
+            <Document frontendParams={{documentName: "queryBuilder-result"}} />
             <Document frontendParams={{documentName: "queryBuilder-finalSql"}} />
             <br/>
             <ErrorPane value={this.state.value} />

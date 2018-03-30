@@ -80,7 +80,7 @@ exports[`snapshot 1`] = `
         </button>
         <div
           className="document-content"
-          id="document-content___queryBuilder-table"
+          id="document-content___queryBuilder-result"
         >
           <div>
             <div
