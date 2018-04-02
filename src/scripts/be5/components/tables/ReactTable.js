@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes          from 'prop-types';
 import be5                from '../../be5';
-import {getResourceByID}  from '../../utils/documentUtils';
+import {getModelByID}     from '../../utils/documentUtils';
 import forms              from '../../services/forms';
-import tables             from '../../services/tables';
 import numberFormatter    from 'number-format.js';
 import OperationBox       from './OperationBox';
 import QuickColumns       from './QuickColumns';
@@ -391,13 +390,12 @@ class ReactTable extends React.Component
     const TitleTag = `h${(value.data.attributes.parameters && value.data.attributes.parameters.titleLevel) || 1}`;
 
     //todo use getModelByID() instead getResourceByID()
-    const topFormJson = value.included !== undefined ? getResourceByID(value.included, "topForm") : undefined;
+    const topFormJson = value.included !== undefined ? getModelByID(value.included, value.meta, "topForm") : undefined;
     let topForm;
     if(topFormJson){
       topForm = <Document
         frontendParams={{documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName}}
-        value={{data: topFormJson, meta: value.meta}}
-        component={documents.getDocument(topFormJson.attributes.layout.type)}
+        value={topFormJson}
       />
     }
 

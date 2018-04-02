@@ -3,14 +3,13 @@ import PropTypes          from 'prop-types';
 import ReactDOM           from 'react-dom';
 import be5                from '../../be5';
 import {getBaseUrl}       from '../../utils/utils';
-import {getResourceByID}  from '../../utils/documentUtils';
+import {getModelByID}     from '../../utils/documentUtils';
 import forms              from '../../services/forms';
-import tables             from '../../services/tables';
 import numberFormatter    from 'number-format.js';
 import OperationBox       from './OperationBox';
 import QuickColumns       from './QuickColumns';
 import Document           from "../../containers/Document";
-import {getDocument, registerDocument} from '../../core/documents';
+import {registerDocument} from '../../core/documents';
 
 
 const formatCell = (data, options, isColumn) =>
@@ -404,14 +403,12 @@ class Table extends React.Component
 
     const TitleTag = `h${(value.data.attributes.parameters && value.data.attributes.parameters.titleLevel) || 1}`;
 
-    //todo use getModelByID() instead getResourceByID()
-    const topFormJson = value.included !== undefined ? getResourceByID(value.included, "topForm") : undefined;
+    const topFormJson = value.included !== undefined ? getModelByID(value.included, value.meta, "topForm") : undefined;
     let topForm;
     if(topFormJson){
       topForm = <Document
         frontendParams={{documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName}}
-        value={{data: topFormJson, meta: value.meta}}
-        component={getDocument(topFormJson.attributes.layout.type)}
+        value={topFormJson}
       />
     }
 
