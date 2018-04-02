@@ -9,7 +9,9 @@ import ErrorPane from "./ErrorPane";
 import {registerDocument} from "../core/documents";
 import {getModelByID} from "../utils/documentUtils";
 
+//todo create file for BE-SQL
 import 'brace/mode/mysql';
+
 import 'brace/theme/xcode';
 import 'brace/ext/language_tools';
 
