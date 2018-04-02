@@ -41,7 +41,13 @@ class QueryBuilder extends React.Component
 	}
 
   submit(){
-    be5.net.request('queryBuilder', { sql: this.state.sql, _ts_: new Date().getTime(), values: this.props.value.params }, json => {
+    const requestParams = {
+      sql: this.state.sql,
+      values: this.props.value.params,
+      _ts_: new Date().getTime()
+    };
+
+    be5.net.request('queryBuilder', requestParams, json => {
       this.update(json);
     });
   }
