@@ -10,7 +10,7 @@ import OperationBox       from './OperationBox';
 import QuickColumns       from './QuickColumns';
 import Document           from "../../containers/Document";
 import {registerDocument} from '../../core/documents';
-
+import {updateTable}      from "../../services/tables";
 
 const formatCell = (data, options, isColumn) =>
 {
@@ -165,28 +165,63 @@ class TableBox extends React.Component {
       searching: false,
       autoWidth: false,
       aaSorting: [],
-      ajax: {
-        url: getBaseUrl() + be5.net.url('document/moreRows'),
-        data: {
+      ajax: function (data, callback, settings) {
+        console.log(data, settings);
+        const params = {
           entity: attributes.category,
           query: attributes.page,
-          values: be5.net.paramString(attributes.parameters),
-          selectable: attributes.selectable,
-          totalNumberOfRows: attributes.totalNumberOfRows
-        },
-        dataSrc: function(d){
-          if(d.type === "error"){
-            be5.log.error(d.value.code + "\n" + d.value.message);
+          params: Object.assign({}, attributes.parameters, {
+            _offset_     : data.start,
+            _limit_      : data.length,
+          })
+        };
+        if(data.order && data.order.length > 0){
+          params.params._orderColumn_ = data.order[0].column;
+          params.params._orderDir_    = data.order[0].dir;
+        }
+        updateTable(params, function(json){
+          console.log(json);
+          if(json.type === "error"){
+            be5.log.error(json.value.code + "\n" + json.value.message);
           }else{
-            for(let i=0; i < d.data.length; i++){
-              for(let j=0; j < d.data[0].length - columnIndexShift; j++){
-                d.data[i][j + columnIndexShift] = formatCell(d.data[i][j + columnIndexShift].content, d.data[i][j + columnIndexShift].options)
+            for(let i=0; i < json.data.length; i++){
+              for(let j=0; j < json.data[0].length - columnIndexShift; j++){
+                json.data[i][j + columnIndexShift] = formatCell(json.data[i][j + columnIndexShift].content, json.data[i][j + columnIndexShift].options)
               }
             }
           }
-          return d.data;
-        }
+          return callback(json);
+        });
       },
+      // ajax: {
+      //   url: getBaseUrl() + be5.net.url('document/moreRows'),
+      //   data: function ( d ) {
+      //     const addData = {
+      //       entity: attributes.category,
+      //       query: attributes.page,
+      //       values: be5.net.paramString(attributes.parameters),
+      //       selectable: attributes.selectable,
+      //       totalNumberOfRows: attributes.totalNumberOfRows,
+      //       _orderColumn_: d.order[0].column,
+      //       _orderDir_:    d.order[0].dir,
+      //     };
+      //     console.log(d, addData);
+      //
+      //     return Object.assign({}, d, addData);
+      //   },
+      //   dataSrc: function(json){
+      //     if(json.type === "error"){
+      //       be5.log.error(json.value.code + "\n" + json.value.message);
+      //     }else{
+      //       for(let i=0; i < json.data.length; i++){
+      //         for(let j=0; j < json.data[0].length - columnIndexShift; j++){
+      //           json.data[i][j + columnIndexShift] = formatCell(json.data[i][j + columnIndexShift].content, json.data[i][j + columnIndexShift].options)
+      //         }
+      //       }
+      //     }
+      //     return json.data;
+      //   }
+      // },
       lengthMenu: lengths,
       pageLength: pageLength,
       // This both tells

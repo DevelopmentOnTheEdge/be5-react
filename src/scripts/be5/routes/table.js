@@ -1,5 +1,5 @@
 import React             from 'react';
-import tables            from '../services/tables';
+import {loadTable} from "../services/tables";
 import {registerRoute} from '../core/routes'
 
 
@@ -10,7 +10,7 @@ const route = function(documentName, entity, query, params) {
     query: query || 'All records',
     params: params
   };
-  tables.load(paramsObject, {documentName: documentName});
+  loadTable(paramsObject, {documentName: documentName});
 
 };
 
