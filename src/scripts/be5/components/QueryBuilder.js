@@ -4,8 +4,8 @@ import be5            from '../be5';
 import Document       from '../containers/Document';
 import AceEditor from 'react-ace';
 import SplitPane from 'react-split-pane';
+import StaticPage from "./StaticPage";
 import ErrorPane from "./ErrorPane";
-import changeDocument from "../core/changeDocument";
 import {registerDocument} from "../core/documents";
 import {getModelByID} from "../utils/documentUtils";
 
@@ -19,12 +19,13 @@ class QueryBuilder extends React.Component
   constructor(props) {
     super(props);
     this.state = {
-      sql: this.props.value.data.attributes,
+      sql: this.props.value.data.attributes.sql,
       value: this.props.value
     };
 
     this.updateCode = this.updateCode.bind(this);
     this.submit = this.submit.bind(this);
+    this.setSqlFromHistory = this.setSqlFromHistory.bind(this);
   }
 
   componentDidMount(){
@@ -36,9 +37,7 @@ class QueryBuilder extends React.Component
   }
 
   updateCode(newSql){
-    this.setState({
-      sql: newSql,
-    });
+    this.setState({ sql: newSql });
 	}
 
   submit(){
@@ -49,19 +48,42 @@ class QueryBuilder extends React.Component
 
 	update(json){
     this.setState({value: json});
+  }
 
-    changeDocument('queryBuilder-result', { value: getModelByID(json.included, json.meta, "result") });
-    changeDocument('queryBuilder-finalSql', { value: getModelByID(json.included, json.meta, "finalSql") });
+  setSqlFromHistory(event) {
+	  console.log(event.target.value);
+    this.setState({sql: event.target.value});
   }
 
   render() {
+	  const {
+	    value,
+      sql
+    } = this.state;
 
     return (
       <div className="queryBuilder">
-        <h1>Query Builder</h1>
+        <div className="row">
+          <div className="col-md-6">
+            <h1>Query Builder</h1>
+          </div>
+          <div className="col-md-6">
+            <select
+              multiple={true}
+              style={{width: '100%'}}
+              onClick={this.setSqlFromHistory}
+            >
+              {value.data.attributes.history.slice().reverse().map((value, i) => (
+                <option value={value} key={i}>{value}</option>
+              ))}
+            </select>
+            <br/>
+            <br/>
+          </div>
+        </div>
         <SplitPane split="horizontal" defaultSize={300} >
           <AceEditor
-            value={this.state.sql}
+            value={sql}
             mode="mysql"
             theme="xcode"
             fontSize={13}
@@ -72,7 +94,7 @@ class QueryBuilder extends React.Component
             enableBasicAutocompletion={false}
             enableLiveAutocompletion={false}
             editorProps={{
-              $blockScrolling: true,
+              $blockScrolling: Infinity,
               enableSnippets: false,
               showLineNumbers: true,
               tabSize: 2,
@@ -91,16 +113,18 @@ class QueryBuilder extends React.Component
             >
               Выполнить
             </button>
-            <Document frontendParams={{documentName: "queryBuilder-result"}} />
-            <Document frontendParams={{documentName: "queryBuilder-finalSql"}} />
+            <Document
+              value={getModelByID(value.included, value.meta, "result")}
+              frontendParams={{documentName: "queryBuilder-result"}}
+            />
+            <StaticPage value={getModelByID(value.included, value.meta, "finalSql")} />
             <br/>
-            <ErrorPane value={this.state.value} />
+            <ErrorPane value={value} />
           </div>
         </SplitPane>
 
       </div>
     );
-    //
   }
 }
 

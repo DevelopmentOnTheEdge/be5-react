@@ -29,12 +29,10 @@
 #document-content___MainDocument {
   padding: 15px;
 }
-.document-content + .document-content {
-  margin-top: 15px;
+.document-content {
+  margin-bottom: 15px;
 }
-.alert .document-content {
-  margin-bottom: 0;
-}
+
 a.menuItemWithRef {
   color: #5b5b5b;
 }

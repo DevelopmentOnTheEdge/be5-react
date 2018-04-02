@@ -27,9 +27,9 @@ class Document extends React.Component
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.value !== undefined &&
+    if('value' in nextProps &&
       (!this.props.value || this.props.value.meta === undefined ||
-        !nextProps.value || nextProps.value.meta === undefined ||
+       !nextProps.value  || nextProps.value.meta === undefined ||
         nextProps.value.meta._ts_ > this.props.value.meta._ts_))
     {
       this.setState({

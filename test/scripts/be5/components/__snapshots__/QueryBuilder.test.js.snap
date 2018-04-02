@@ -4,9 +4,38 @@ exports[`snapshot 1`] = `
 <div
   className="queryBuilder"
 >
-  <h1>
-    Query Builder
-  </h1>
+  <div
+    className="row"
+  >
+    <div
+      className="col-md-6"
+    >
+      <h1>
+        Query Builder
+      </h1>
+    </div>
+    <div
+      className="col-md-6"
+    >
+      <select
+        multiple={true}
+        onClick={[Function]}
+        style={
+          Object {
+            "width": "100%",
+          }
+        }
+      >
+        <option
+          value="select * from users"
+        >
+          select * from users
+        </option>
+      </select>
+      <br />
+      <br />
+    </div>
+  </div>
   <div
     className="SplitPane  horizontal "
     style={
@@ -143,28 +172,21 @@ exports[`snapshot 1`] = `
           </div>
         </div>
         <div
-          className="document-content"
-          id="document-content___queryBuilder-finalSql"
+          className="staticPage"
         >
-          <div>
-            <div
-              className="staticPage"
-            >
-              <h1
-                className="staticPage__title"
-              >
-                Final sql
-              </h1>
-              <div
-                className="staticPage__text"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "SELECT * FROM users LIMIT 2147483647",
-                  }
-                }
-              />
-            </div>
-          </div>
+          <h1
+            className="staticPage__title"
+          >
+            Final sql
+          </h1>
+          <div
+            className="staticPage__text"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SELECT * FROM users LIMIT 2147483647",
+              }
+            }
+          />
         </div>
         <br />
       </div>

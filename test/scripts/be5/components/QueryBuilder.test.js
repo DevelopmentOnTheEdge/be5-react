@@ -10,7 +10,10 @@ import testData       from '../testData.json'
 test('snapshot', () => {
   const json = {
     "data": {
-      "attributes": "select * from users",
+      "attributes": {
+        sql: "select * from users",
+        history: ["select * from users"]
+      },
       "links": {
         "self": "queryBuilder"
       },
