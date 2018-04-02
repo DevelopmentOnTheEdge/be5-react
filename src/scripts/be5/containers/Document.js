@@ -28,8 +28,8 @@ class Document extends React.Component
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.value !== undefined &&
-      (this.props.value.meta === undefined ||
-        nextProps.value.meta === undefined ||
+      (!this.props.value || this.props.value.meta === undefined ||
+        !nextProps.value || nextProps.value.meta === undefined ||
         nextProps.value.meta._ts_ > this.props.value.meta._ts_))
     {
       this.setState({
@@ -193,8 +193,8 @@ class Document extends React.Component
       {
         return "#!" + this.state.value.data.links.self;
       }
-      else if (this.state.value.errors && this.state.value.errors.length > 0
-            && this.state.value.errors[0].links.self !== undefined)
+      else if (this.state.value.errors && this.state.value.errors.length > 0 &&
+        this.state.value.errors[0].links && this.state.value.errors[0].links.self !== undefined)
       {
         return "#!" + this.state.value.errors[0].links.self;
       }

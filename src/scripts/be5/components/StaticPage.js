@@ -5,6 +5,8 @@ import {registerDocument} from '../core/documents';
 
 const StaticPage = (props) =>
 {
+  if(!props.value)return null;
+
   const attributes = props.value.data.attributes;
 
   const title = attributes.title ? (<h1 className='staticPage__title' >{attributes.title}</h1>) : null;
