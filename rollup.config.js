@@ -8,6 +8,10 @@ import pkg         from './package.json'
 
 const external = Object.keys(pkg.dependencies || {});
 
+external.push('react-transition-group/Transition');
+external.push('brace/mode/mysql');
+external.push('brace/theme/xcode');
+external.push('brace/ext/language_tools');
 
 export default {
   input: 'src/scripts/be5/index.js',
