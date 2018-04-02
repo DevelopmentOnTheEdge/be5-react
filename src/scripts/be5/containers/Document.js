@@ -189,10 +189,13 @@ class Document extends React.Component
   {
     if(this.state.value)
     {
-      if (this.state.value.data && this.state.value.data.links && this.state.value.data.links.self !== undefined) {
+      if (this.state.value.data && this.state.value.data.links && this.state.value.data.links.self !== undefined)
+      {
         return "#!" + this.state.value.data.links.self;
       }
-      else if (this.state.value.errors && this.state.value.errors[0].links.self !== undefined) {
+      else if (this.state.value.errors && this.state.value.errors.length > 0
+            && this.state.value.errors[0].links.self !== undefined)
+      {
         return "#!" + this.state.value.errors[0].links.self;
       }
     }

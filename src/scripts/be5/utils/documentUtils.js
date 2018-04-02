@@ -1,6 +1,8 @@
 
 
 export const getResourceByID = (included, id) => {
+  if(included === undefined) return undefined;
+
   for(let i =0; i < included.length; i++)
   {
     if(included[i].id === id)return included[i];
@@ -9,6 +11,8 @@ export const getResourceByID = (included, id) => {
 };
 
 export const getModelByID = (included, meta, id) => {
+  if(included === undefined) return undefined;
+
   const res = getResourceByID(included, id);
   if(res !== undefined)
   {
