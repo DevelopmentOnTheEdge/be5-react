@@ -165,6 +165,8 @@ class TableBox extends React.Component {
       searching: false,
       autoWidth: false,
       aaSorting: [],
+      displayStart: attributes.offset,
+      order: attributes.orderColumn >= 0 ? [[ attributes.orderColumn, attributes.orderDir ]] : undefined,
       ajax: function (data, callback, settings) {
         console.log(data, settings);
         const params = {
@@ -190,38 +192,16 @@ class TableBox extends React.Component {
               }
             }
           }
+
+          // call react callback - update table and filter operations
+          // $.get('myUrl', function(newDataArray) {
+          //   datatable.clear();
+          //   datatable.rows.add(newDataArray);
+          //   datatable.draw();
+          // });
           return callback(json);
         });
       },
-      // ajax: {
-      //   url: getBaseUrl() + be5.net.url('document/moreRows'),
-      //   data: function ( d ) {
-      //     const addData = {
-      //       entity: attributes.category,
-      //       query: attributes.page,
-      //       values: be5.net.paramString(attributes.parameters),
-      //       selectable: attributes.selectable,
-      //       totalNumberOfRows: attributes.totalNumberOfRows,
-      //       _orderColumn_: d.order[0].column,
-      //       _orderDir_:    d.order[0].dir,
-      //     };
-      //     console.log(d, addData);
-      //
-      //     return Object.assign({}, d, addData);
-      //   },
-      //   dataSrc: function(json){
-      //     if(json.type === "error"){
-      //       be5.log.error(json.value.code + "\n" + json.value.message);
-      //     }else{
-      //       for(let i=0; i < json.data.length; i++){
-      //         for(let j=0; j < json.data[0].length - columnIndexShift; j++){
-      //           json.data[i][j + columnIndexShift] = formatCell(json.data[i][j + columnIndexShift].content, json.data[i][j + columnIndexShift].options)
-      //         }
-      //       }
-      //     }
-      //     return json.data;
-      //   }
-      // },
       lengthMenu: lengths,
       pageLength: pageLength,
       // This both tells
