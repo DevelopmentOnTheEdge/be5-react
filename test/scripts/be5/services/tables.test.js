@@ -1,6 +1,6 @@
 import React            from 'react';
 import be5              from '../../../../src/scripts/be5/be5';
-import tables           from '../../../../src/scripts/be5/services/tables';
+import {loadTable}           from '../../../../src/scripts/be5/services/tables';
 
 
 test('load', () => {
@@ -11,11 +11,11 @@ test('load', () => {
     query: 'All records',
     params: {'user_name': 'demo'}
   };
-  tables.load(paramsObject, {documentName: 'testDoc'});
+  loadTable(paramsObject, {documentName: 'testDoc'});
 
   expect(be5.net.request.mock.calls.length).toBe(1);
   expect(be5.net.request.mock.calls[0]).toEqual([
-    "document",
+    "table",
     {
       "_ts_": expect.any(Number),
       "entity": "users",
