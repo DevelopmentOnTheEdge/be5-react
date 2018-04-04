@@ -1045,25 +1045,33 @@ var route$8 = function route(documentName, page) {
 
 registerRoute("static", route$8);
 
-var tables = {
-  load: function load(params, frontendParams) {
-    Preconditions.passed(params.entity);
-    Preconditions.passed(params.query);
+var loadTable = function loadTable(params, frontendParams) {
+  be5.net.request('table', getRequestParams(params), function (data) {
+    changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
+  }, function (data) {
+    changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
+    //changeDocument(documentName, { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)});
+  });
+};
 
-    var requestParams = {
-      entity: params.entity,
-      query: params.query,
-      values: be5.net.paramString(params.params),
-      _ts_: new Date().getTime()
-    };
+var updateTable = function updateTable(params, callback) {
+  be5.net.request('table/update', getRequestParams(params), function (data) {
+    callback(data);
+  }, function (data) {
+    console.error(data);
+  });
+};
 
-    be5.net.request('document', requestParams, function (data) {
-      changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
-    }, function (data) {
-      changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
-      //changeDocument(documentName, { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)});
-    });
-  }
+var getRequestParams = function getRequestParams(params) {
+  Preconditions.passed(params.entity);
+  Preconditions.passed(params.query);
+
+  return {
+    entity: params.entity,
+    query: params.query,
+    values: be5.net.paramString(params.params),
+    _ts_: new Date().getTime()
+  };
 };
 
 var route$10 = function route(documentName, entity, query, params) {
@@ -1073,7 +1081,7 @@ var route$10 = function route(documentName, entity, query, params) {
     query: query || 'All records',
     params: params
   };
-  tables.load(paramsObject, { documentName: documentName });
+  loadTable(paramsObject, { documentName: documentName });
 };
 
 registerRoute("table", route$10);
@@ -1931,27 +1939,42 @@ var TableBox = function (_React$Component) {
         searching: false,
         autoWidth: false,
         aaSorting: [],
-        ajax: {
-          url: getBaseUrl() + be5.net.url('document/moreRows'),
-          data: {
+        displayStart: attributes.offset,
+        order: attributes.orderColumn >= 0 ? [[attributes.orderColumn, attributes.orderDir]] : undefined,
+        ajax: function ajax(data, callback, settings) {
+          console.log(data, settings);
+          var params = {
             entity: attributes.category,
             query: attributes.page,
-            values: be5.net.paramString(attributes.parameters),
-            selectable: attributes.selectable,
-            totalNumberOfRows: attributes.totalNumberOfRows
-          },
-          dataSrc: function dataSrc(d) {
-            if (d.type === "error") {
-              be5.log.error(d.value.code + "\n" + d.value.message);
+            params: Object.assign({}, attributes.parameters, {
+              _offset_: data.start,
+              _limit_: data.length
+            })
+          };
+          if (data.order && data.order.length > 0) {
+            params.params._orderColumn_ = data.order[0].column;
+            params.params._orderDir_ = data.order[0].dir;
+          }
+          updateTable(params, function (json) {
+            console.log(json);
+            if (json.type === "error") {
+              be5.log.error(json.value.code + "\n" + json.value.message);
             } else {
-              for (var i = 0; i < d.data.length; i++) {
-                for (var j = 0; j < d.data[0].length - columnIndexShift; j++) {
-                  d.data[i][j + columnIndexShift] = formatCell(d.data[i][j + columnIndexShift].content, d.data[i][j + columnIndexShift].options);
+              for (var i = 0; i < json.data.length; i++) {
+                for (var j = 0; j < json.data[0].length - columnIndexShift; j++) {
+                  json.data[i][j + columnIndexShift] = formatCell(json.data[i][j + columnIndexShift].content, json.data[i][j + columnIndexShift].options);
                 }
               }
             }
-            return d.data;
-          }
+
+            // call react callback - update table and filter operations
+            // $.get('myUrl', function(newDataArray) {
+            //   datatable.clear();
+            //   datatable.rows.add(newDataArray);
+            //   datatable.draw();
+            // });
+            return callback(json);
+          });
         },
         lengthMenu: lengths,
         pageLength: pageLength,
@@ -5062,4 +5085,4 @@ var index = combineReducers({
 // services
 // store
 
-export { be5, be5init, constants, Preconditions as preconditions, utils, documentUtils, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, MenuContainer$1 as MenuContainer, Document$1 as Document, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, tables };
+export { be5, be5init, constants, Preconditions as preconditions, utils, documentUtils, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, MenuContainer$1 as MenuContainer, Document$1 as Document, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, loadTable, updateTable };
