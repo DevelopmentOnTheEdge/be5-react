@@ -154,6 +154,22 @@ exports[`snapshot 1`] = `
       <span
         className="badge badge-primary"
       >
+        categories
+      </span>
+      (
+      <span>
+        documentName
+      </span>
+      <span>
+        , 
+        entity
+      </span>
+      )
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
         form
       </span>
       (

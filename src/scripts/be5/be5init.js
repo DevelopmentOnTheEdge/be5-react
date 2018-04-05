@@ -13,6 +13,7 @@ import './routes/queryBuilder';
 import './routes/text';
 import './routes/login';
 import './routes/uiPanel';
+import './routes/categories';
 
 
 import './components/tables/TableForm';
