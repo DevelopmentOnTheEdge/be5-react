@@ -3504,37 +3504,37 @@ var QueryBuilder = function (_React$Component) {
 
 registerDocument("queryBuilder", QueryBuilder);
 
-var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
-var ARGUMENT_NAMES = /([^\s,]+)/g;
-
-function getParamNamesString(func) {
-  var fnStr = func.toString().replace(STRIP_COMMENTS, '');
-  var result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
-  if (result === null) return [];
-  return result;
-}
-
-function getParamNames(func) {
-  var arr = getParamNamesString(func);
-  return arr.map(function (name, i) {
-    if (i === 0) {
-      return React.createElement(
-        'span',
-        { key: name },
-        name
-      );
-    } else {
-      return React.createElement(
-        'span',
-        { key: name },
-        ', ',
-        name
-      );
-    }
-  });
-}
-
 var UiPanel = function UiPanel() {
+
+  var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+  var ARGUMENT_NAMES = /([^\s,]+)/g;
+
+  function getParamNamesString(func) {
+    var fnStr = func.toString().replace(STRIP_COMMENTS, '');
+    var result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
+    if (result === null) return [];
+    return result;
+  }
+
+  function getParamNames(func) {
+    var arr = getParamNamesString(func);
+    return arr.map(function (name, i) {
+      if (i === 0) {
+        return React.createElement(
+          'span',
+          { key: name },
+          name
+        );
+      } else {
+        return React.createElement(
+          'span',
+          { key: name },
+          ', ',
+          name
+        );
+      }
+    });
+  }
 
   return React.createElement(
     'div',
