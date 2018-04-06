@@ -59,8 +59,7 @@ class QueryBuilder extends React.Component
   }
 
   setSqlFromHistory(event) {
-	  console.log(event.target.value);
-    this.setState({sql: event.target.value});
+	  this.setState({sql: event.target.value});
   }
 
   render() {

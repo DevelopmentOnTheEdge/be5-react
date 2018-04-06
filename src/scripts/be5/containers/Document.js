@@ -166,9 +166,7 @@ class Document extends React.Component
   }
 
   getDevTools(){
-    const devRole = this.props.currentRoles && this.props.currentRoles.indexOf(ROLE_SYSTEM_DEVELOPER) !== -1;
-
-    if(!devRole || !this.getRefreshUrl())
+    if(!this.props.hasDevRole || !this.getRefreshUrl())
     {
       return null;
     }
@@ -224,7 +222,7 @@ export {
 };
 
 const mapStateToProps = state => ({
-  currentRoles: getCurrentRoles(state)
+  hasDevRole: getCurrentRoles(state).indexOf(ROLE_SYSTEM_DEVELOPER) !== -1
 });
 
 export default connect(
