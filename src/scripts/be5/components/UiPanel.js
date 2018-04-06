@@ -3,28 +3,29 @@ import {getAllDocumentTypes, registerDocument, getDocument} from '../core/docume
 import {getAllRoutes, getRoute} from '../core/routes'
 import classNames   from 'classnames';
 
-const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
-const ARGUMENT_NAMES = /([^\s,]+)/g;
-
-function getParamNamesString(func) {
-  const fnStr = func.toString().replace(STRIP_COMMENTS, '');
-  const result = fnStr.slice(fnStr.indexOf('(')+1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
-  if(result === null) return [];
-  return result;
-}
-
-function getParamNames(func) {
-  const arr = getParamNamesString(func);
-  return arr.map((name, i) => {
-   if(i === 0){
-     return <span key={name}>{name}</span>
-   }else{
-     return <span key={name}>, {name}</span>
-   }
-  });
-}
 
 const UiPanel = () => {
+
+  const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+  const ARGUMENT_NAMES = /([^\s,]+)/g;
+
+  function getParamNamesString(func) {
+    const fnStr = func.toString().replace(STRIP_COMMENTS, '');
+    const result = fnStr.slice(fnStr.indexOf('(')+1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
+    if(result === null) return [];
+    return result;
+  }
+
+  function getParamNames(func) {
+    const arr = getParamNamesString(func);
+    return arr.map((name, i) => {
+      if(i === 0){
+        return <span key={name}>{name}</span>
+      }else{
+        return <span key={name}>, {name}</span>
+      }
+    });
+  }
 
   return (
     <div className={classNames('ui-panel row')}>
