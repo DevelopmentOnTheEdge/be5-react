@@ -3,7 +3,7 @@ import PropTypes          from 'prop-types';
 import ReactDOM           from 'react-dom';
 import be5                from '../../be5';
 import {getBaseUrl}       from '../../utils/utils';
-import {getModelByID}     from '../../utils/documentUtils';
+import {getModelByID, getSelfUrl} from '../../utils/documentUtils';
 import forms              from '../../services/forms';
 import numberFormatter    from 'number-format.js';
 import OperationBox       from './OperationBox';
@@ -11,6 +11,8 @@ import QuickColumns       from './QuickColumns';
 import Document           from "../../containers/Document";
 import {registerDocument} from '../../core/documents';
 import {updateTable}      from "../../services/tables";
+import CategoryNavigation from "./CategoryNavigation";
+
 
 const formatCell = (data, options, isColumn) =>
 {
@@ -346,6 +348,7 @@ class TableBox extends React.Component {
     if (attributes.columns.length === 0) {
       return (
         <div>
+          <CategoryNavigation categories={attributes.categoryNavigation} url={getSelfUrl(this.props.value)}/>
           <OperationBox ref="operations" operations={attributes.operations} onOperationClick={this.onOperationClick} hasRows={attributes.rows.length !== 0}/>
           {be5.messages.emptyTable}
         </div>
@@ -354,6 +357,7 @@ class TableBox extends React.Component {
 
     return (
       <div>
+        <CategoryNavigation categories={attributes.categoryNavigation} url={getSelfUrl(this.props.value)}/>
         <OperationBox ref="operations" operations={attributes.operations} onOperationClick={this.onOperationClick} hasRows={attributes.rows.length !== 0}/>
         <QuickColumns ref="quickColumns" columns={attributes.columns} firstRow={attributes.rows[0].cells} table={this.refs.table} selectable={attributes.selectable}/>
         <div className="scroll">

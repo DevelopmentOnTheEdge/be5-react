@@ -34,6 +34,9 @@
   margin: 0.7rem 0;
 }
 
+.category-navigation{
+  margin-bottom: 0.7rem;
+}
 /****** table.dataTable ******/
 table.dataTable {
   width: auto;

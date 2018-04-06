@@ -10,7 +10,7 @@ import {getDocument} from "../core/documents";
 
 import reloadImg from '../../../images/reload.png';
 import StaticPage from "../components/StaticPage";
-import {createStaticValue} from "../utils/documentUtils";
+import {createStaticValue, getSelfUrl} from "../utils/documentUtils";
 
 
 class Document extends React.Component
@@ -23,7 +23,6 @@ class Document extends React.Component
     };
 
     this.refresh = this.refresh.bind(this);
-    this.getRefreshUrl = this.getRefreshUrl.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -166,7 +165,7 @@ class Document extends React.Component
   }
 
   getDevTools(){
-    if(!this.props.hasDevRole || !this.getRefreshUrl())
+    if(!this.props.hasDevRole || !getSelfUrl(this.state.value))
     {
       return null;
     }
@@ -174,31 +173,13 @@ class Document extends React.Component
     return (
       <span onClick={this.refresh} className={"document-reload float-right"}>
         <img src={reloadImg} alt={be5.messages.reload}
-             title={be5.messages.reload + " " + this.props.frontendParams.documentName + " - " + this.getRefreshUrl()}/>
+             title={be5.messages.reload + " " + this.props.frontendParams.documentName + " - " + getSelfUrl(this.state.value)}/>
       </span>
     );
   }
 
   refresh() {
-    be5.url.process(this.props.frontendParams.documentName, this.getRefreshUrl());
-  }
-
-  getRefreshUrl()
-  {
-    if(this.state.value)
-    {
-      if (this.state.value.data && this.state.value.data.links && this.state.value.data.links.self !== undefined)
-      {
-        return "#!" + this.state.value.data.links.self;
-      }
-      else if (this.state.value.errors && this.state.value.errors.length > 0 &&
-        this.state.value.errors[0].links && this.state.value.errors[0].links.self !== undefined)
-      {
-        return "#!" + this.state.value.errors[0].links.self;
-      }
-    }
-
-    return undefined;
+    be5.url.process(this.props.frontendParams.documentName, getSelfUrl(this.state.value));
   }
 
   getComponentFrontendParams() {

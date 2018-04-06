@@ -39,11 +39,6 @@ var arraysEqual = function arraysEqual(a, b) {
   return true;
 };
 
-var utils = Object.freeze({
-	getBaseUrl: getBaseUrl,
-	arraysEqual: arraysEqual
-});
-
 var getResourceByID = function getResourceByID(included, id) {
   if (included === undefined) return undefined;
 
@@ -78,11 +73,17 @@ var createStaticValue = function createStaticValue(title, text, meta, links) {
   };
 };
 
-var documentUtils = Object.freeze({
-	getResourceByID: getResourceByID,
-	getModelByID: getModelByID,
-	createStaticValue: createStaticValue
-});
+var getSelfUrl = function getSelfUrl(value) {
+  if (value) {
+    if (value.data && value.data.links && value.data.links.self !== undefined) {
+      return "#!" + value.data.links.self;
+    } else if (value.errors && value.errors.length > 0 && value.errors[0].links && value.errors[0].links.self !== undefined) {
+      return "#!" + value.errors[0].links.self;
+    }
+  }
+
+  return undefined;
+};
 
 var messages = {
   en: {
@@ -1111,6 +1112,20 @@ var route$16 = function route(documentName) {
 
 registerRoute("uiPanel", route$16);
 
+var route$18 = function route(documentName, entity) {
+  var requestParams = {
+    entity: entity
+  };
+
+  be5.net.request('categories/forest/', requestParams, function (data) {
+    changeDocument(documentName, {
+      value: createStaticValue('', "<pre>" + JSON.stringify(data, null, 4) + "</pre>")
+    });
+  });
+};
+
+registerRoute("categories", route$18);
+
 var getUser = function getUser(state) {
   return state.user;
 };
@@ -1201,7 +1216,6 @@ var Document = function (_React$Component) {
     };
 
     _this.refresh = _this.refresh.bind(_this);
-    _this.getRefreshUrl = _this.getRefreshUrl.bind(_this);
     return _this;
   }
 
@@ -1329,9 +1343,7 @@ var Document = function (_React$Component) {
   }, {
     key: 'getDevTools',
     value: function getDevTools() {
-      var devRole = this.props.currentRoles && this.props.currentRoles.indexOf(ROLE_SYSTEM_DEVELOPER) !== -1;
-
-      if (!devRole || !this.getRefreshUrl()) {
+      if (!this.props.hasDevRole || !getSelfUrl(this.state.value)) {
         return null;
       }
 
@@ -1339,26 +1351,13 @@ var Document = function (_React$Component) {
         'span',
         { onClick: this.refresh, className: "document-reload float-right" },
         React.createElement('img', { src: img, alt: be5.messages.reload,
-          title: be5.messages.reload + " " + this.props.frontendParams.documentName + " - " + this.getRefreshUrl() })
+          title: be5.messages.reload + " " + this.props.frontendParams.documentName + " - " + getSelfUrl(this.state.value) })
       );
     }
   }, {
     key: 'refresh',
     value: function refresh() {
-      be5.url.process(this.props.frontendParams.documentName, this.getRefreshUrl());
-    }
-  }, {
-    key: 'getRefreshUrl',
-    value: function getRefreshUrl() {
-      if (this.state.value) {
-        if (this.state.value.data && this.state.value.data.links && this.state.value.data.links.self !== undefined) {
-          return "#!" + this.state.value.data.links.self;
-        } else if (this.state.value.errors && this.state.value.errors.length > 0 && this.state.value.errors[0].links && this.state.value.errors[0].links.self !== undefined) {
-          return "#!" + this.state.value.errors[0].links.self;
-        }
-      }
-
-      return undefined;
+      be5.url.process(this.props.frontendParams.documentName, getSelfUrl(this.state.value));
     }
   }, {
     key: 'getComponentFrontendParams',
@@ -1382,7 +1381,7 @@ Document.propTypes = {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    currentRoles: getCurrentRoles(state)
+    hasDevRole: getCurrentRoles(state).indexOf(ROLE_SYSTEM_DEVELOPER) !== -1
   };
 };
 
@@ -1775,6 +1774,97 @@ var QuickColumns = function (_React$Component) {
   return QuickColumns;
 }(React.Component);
 
+var propTypes = {
+  categories: PropTypes.array,
+  url: PropTypes.string
+};
+
+var CategoryNavigation = function CategoryNavigation(_ref) {
+  var categories = _ref.categories,
+      url = _ref.url;
+
+  if (!categories || categories.length === 0) return null;
+
+  var pUrl = be5.url.parse(url);
+  var currentCat = pUrl.named['_cat_'];
+
+  if (currentCat === undefined) {
+    return React.createElement(
+      'div',
+      { className: 'category-navigation category-navigation__not-select' },
+      React.createElement(
+        'a',
+        { href: be5.url.create("", pUrl.positional, Object.assign({}, pUrl.named, { _cat_: categories[0].id })) },
+        be5.messages['Switch to categorized view']
+      )
+    );
+  }
+
+  var row = [];
+
+  function tableTd(categories) {
+    return categories.map(function (cat) {
+      if (parseInt(currentCat) !== cat.id) {
+        return React.createElement(
+          'a',
+          { className: 'd-block',
+            href: be5.url.create("", pUrl.positional, Object.assign({}, pUrl.named, { _cat_: cat.id })), key: cat.id },
+          cat.name
+        );
+      } else {
+        return React.createElement(
+          'span',
+          { className: 'd-block', key: cat.id },
+          cat.name
+        );
+      }
+    });
+  }
+
+  function tableRow(categories, lvl) {
+    var td = React.createElement(
+      'td',
+      { key: lvl },
+      tableTd(categories)
+    );
+    row.push(td);
+    if (categories.length === 1 && categories[0].children !== undefined && categories[0].children.length > 0) {
+      row.push(React.createElement(
+        'td',
+        { key: "nav" + lvl },
+        React.createElement(
+          'span',
+          null,
+          '->'
+        )
+      ));
+      tableRow(categories[0].children, lvl + 1);
+    }
+  }
+
+  tableRow(categories, 0);
+
+  return React.createElement(
+    'div',
+    { className: 'category-navigation' },
+    React.createElement(
+      'table',
+      null,
+      React.createElement(
+        'tbody',
+        null,
+        React.createElement(
+          'tr',
+          null,
+          row
+        )
+      )
+    )
+  );
+};
+
+CategoryNavigation.propTypes = propTypes;
+
 var formatCell = function formatCell(data, options, isColumn) {
   if (!Array.isArray(data)) {
     if (data === '') {
@@ -2117,6 +2207,7 @@ var TableBox = function (_React$Component) {
         return React.createElement(
           'div',
           null,
+          React.createElement(CategoryNavigation, { categories: attributes.categoryNavigation, url: getSelfUrl(this.props.value) }),
           React.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick, hasRows: attributes.rows.length !== 0 }),
           be5.messages.emptyTable
         );
@@ -2125,6 +2216,7 @@ var TableBox = function (_React$Component) {
       return React.createElement(
         'div',
         null,
+        React.createElement(CategoryNavigation, { categories: attributes.categoryNavigation, url: getSelfUrl(this.props.value) }),
         React.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick, hasRows: attributes.rows.length !== 0 }),
         React.createElement(QuickColumns, { ref: 'quickColumns', columns: attributes.columns, firstRow: attributes.rows[0].cells, table: this.refs.table, selectable: attributes.selectable }),
         React.createElement(
@@ -3310,7 +3402,6 @@ var QueryBuilder = function (_React$Component) {
   }, {
     key: 'setSqlFromHistory',
     value: function setSqlFromHistory(event) {
-      console.log(event.target.value);
       this.setState({ sql: event.target.value });
     }
   }, {
@@ -3662,6 +3753,17 @@ var UserControl = function UserControl(props) {
     return null;
   }
 
+  function reLogin() {
+    if (props.hasDevRole) {
+      return React.createElement(
+        'span',
+        { onClick: props.openReLoginForm, className: "document-reload float-right" },
+        React.createElement('img', { src: img, alt: "Login", title: "Login" })
+      );
+    }
+    return null;
+  }
+
   return React.createElement(
     'div',
     { className: classNames('user-control', props.className || 'form-inline mb-2') },
@@ -3675,7 +3777,8 @@ var UserControl = function UserControl(props) {
       'label',
       null,
       userName
-    )
+    ),
+    reLogin()
   );
 };
 
@@ -3685,9 +3788,16 @@ UserControl.propTypes = {
   user: PropTypes.shape({})
 };
 
+var openReLoginForm = function openReLoginForm() {
+  forms.load(forms.getOperationParams('form/users/All records/Login/withoutUpdateUserInfo=true'), {
+    documentName: be5.MAIN_MODAL_DOCUMENT
+  });
+};
+
 var mapStateToProps$1 = function mapStateToProps(state) {
   return {
-    user: getUser(state)
+    user: getUser(state),
+    hasDevRole: getCurrentRoles(state).indexOf(ROLE_SYSTEM_DEVELOPER) !== -1
   };
 };
 
@@ -3695,7 +3805,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     toggleRoles: function toggleRoles$$1(roles) {
       return dispatch(toggleRoles(roles));
-    }
+    },
+    openReLoginForm: openReLoginForm
   };
 };
 
@@ -3826,7 +3937,7 @@ var MenuNode = React.createClass({
   }
 });
 
-var propTypes$1 = {
+var propTypes$2 = {
   menu: PropTypes.shape({})
 };
 
@@ -3898,7 +4009,7 @@ var MenuBody = function (_Component) {
   return MenuBody;
 }(Component);
 
-MenuBody.propTypes = propTypes$1;
+MenuBody.propTypes = propTypes$2;
 
 var MenuSearchField = function (_React$Component) {
   inherits(MenuSearchField, _React$Component);
@@ -3933,7 +4044,7 @@ MenuSearchField.propTypes = {
   onChange: PropTypes.func.isRequired
 };
 
-var propTypes = {
+var propTypes$1 = {
   menu: PropTypes.shape({}),
   currentRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchMenu: PropTypes.func.isRequired,
@@ -3991,7 +4102,7 @@ var Menu = function (_Component) {
   return Menu;
 }(Component);
 
-Menu.propTypes = propTypes;
+Menu.propTypes = propTypes$1;
 
 Menu.defaultProps = defaultProps;
 
@@ -5085,4 +5196,4 @@ var index = combineReducers({
 // services
 // store
 
-export { be5, be5init, constants, Preconditions as preconditions, utils, documentUtils, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, MenuContainer$1 as MenuContainer, Document$1 as Document, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, loadTable, updateTable };
+export { be5, be5init, constants, Preconditions as preconditions, getBaseUrl, getSelfUrl, getModelByID, createStaticValue, getResourceByID, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, MenuContainer$1 as MenuContainer, Document$1 as Document, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, loadTable, updateTable };

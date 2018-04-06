@@ -3,8 +3,8 @@ import be5init from './be5init.js';
 //import be5styles from './be5styles.js';
 import * as constants from './constants.js';
 import preconditions from './utils/preconditions.js';
-import * as documentUtils from './utils/documentUtils.js';
-import * as utils from './utils/utils.js';
+import {getSelfUrl, getModelByID, createStaticValue, getResourceByID} from './utils/documentUtils.js';
+import {getBaseUrl} from './utils/utils.js';
 
 // core
 import bus from './core/bus.js';
@@ -45,6 +45,7 @@ import FinishedResult     from './components/forms/FinishedResult.js';
 import Table           from './components/tables/Table.js';
 import QuickColumns    from './components/tables/QuickColumns.js';
 import OperationBox    from './components/tables/OperationBox.js';
+import CategoryNavigation from './components/tables/CategoryNavigation.js';
 import FormTable       from './components/tables/FormTable.js';
 import TableForm       from './components/tables/TableForm.js';
 import TableFormRow    from './components/tables/TableFormRow.js';
@@ -89,8 +90,8 @@ export {
   be5init,
   constants,
   preconditions,
-  utils,
-  documentUtils,
+  getBaseUrl,
+  getSelfUrl, getModelByID, createStaticValue, getResourceByID,
 
   // core
   bus,
@@ -139,6 +140,7 @@ export {
   Table,
   QuickColumns,
   OperationBox,
+  CategoryNavigation,
   FormTable,
   TableForm,
   TableFormRow,
