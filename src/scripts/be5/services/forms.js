@@ -80,7 +80,7 @@ export default
 
           switch (attributes.status) {
             case 'redirect':
-              bus.fire("alert", {msg: be5.messages.successfullyCompleted, type: 'success'});
+              bus.fire("alert", {msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success'});
               if(attributes.details.startsWith("http://")
                       || attributes.details.startsWith("https://")
                       || attributes.details.startsWith("ftp://"))
