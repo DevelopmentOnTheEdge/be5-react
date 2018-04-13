@@ -37,6 +37,10 @@
 .category-navigation{
   margin-bottom: 0.7rem;
 }
+.category-navigation td {
+  padding-top: 0;
+  padding-bottom: 0;
+}
 /****** table.dataTable ******/
 table.dataTable {
   width: auto;
