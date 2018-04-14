@@ -17,6 +17,8 @@
 }
 #document-content___MainDocument {
   padding: 15px;
+  width: 100%;
+  max-width: 100%;
 }
 #document-content___MainModalDocument {
   margin: 0;

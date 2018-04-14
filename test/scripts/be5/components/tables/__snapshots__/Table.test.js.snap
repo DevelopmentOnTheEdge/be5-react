@@ -58,7 +58,7 @@ exports[`FormTable 1`] = `
             </span>
           </div>
           <div
-            className="scroll"
+            className=""
           >
             <div
               className="row"
@@ -121,7 +121,7 @@ exports[`Table 1`] = `
       </span>
     </div>
     <div
-      className="scroll"
+      className=""
     >
       <div
         className="row"
@@ -189,7 +189,7 @@ exports[`TableForm 1`] = `
             </span>
           </div>
           <div
-            className="scroll"
+            className=""
           >
             <div
               className="row"
@@ -266,7 +266,7 @@ exports[`TableFormRow 1`] = `
               </span>
             </div>
             <div
-              className="scroll"
+              className=""
             >
               <div
                 className="row"

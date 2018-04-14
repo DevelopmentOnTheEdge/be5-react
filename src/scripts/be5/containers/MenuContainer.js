@@ -14,7 +14,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchMenu: roles => dispatch(fetchMenu())
+  fetchMenu: roles => dispatch(fetchMenu('menu'))
 });
 
 export default connect(

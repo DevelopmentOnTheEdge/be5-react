@@ -161,7 +161,7 @@ exports[`snapshot 1`] = `
                   </span>
                 </div>
                 <div
-                  className="scroll"
+                  className=""
                 >
                   <div
                     className="row"

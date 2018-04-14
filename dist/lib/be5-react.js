@@ -86,93 +86,93 @@ var getSelfUrl = function getSelfUrl(value) {
 };
 
 var messages = {
-  en: {
-    errorCannotConnect: 'Cannot connect to server',
-    errorServerQueryException: 'Error during server query: $message',
-    errorInvalidErrorResponse: 'Server returned unknown error',
-    errorNoData: 'Error communicating with server: no data received',
-    errorUnknownRoute: 'Unknown route: $action',
-    errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
+    en: {
+        errorCannotConnect: 'Cannot connect to server',
+        errorServerQueryException: 'Error during server query: $message',
+        errorInvalidErrorResponse: 'Server returned unknown error',
+        errorNoData: 'Error communicating with server: no data received',
+        errorUnknownRoute: 'Unknown route: $action',
+        errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
 
-    welcome: 'Hello!',
-    loading: 'Page is loading...',
-    settings: 'Settings',
-    emptyTable: 'Nothing found',
-    roles: 'Roles',
-    back: 'Back',
-    error: 'Error:',
-    cancel: 'Cancel',
-    logout: 'Logout',
-    reload: 'reload',
-    All: 'All',
-    successfullyCompleted: 'Successfully completed.',
+        welcome: 'Hello!',
+        loading: 'Page is loading...',
+        settings: 'Settings',
+        emptyTable: 'Nothing found',
+        roles: 'Roles',
+        back: 'Back',
+        error: 'Error:',
+        cancel: 'Cancel',
+        logout: 'Logout',
+        reload: 'reload',
+        All: 'All',
+        successfullyCompleted: 'Successfully completed.',
 
-    filter: 'Filter...',
+        filter: 'Filter...',
 
-    Submit: 'Submit',
-    submitted: 'In progress...',
+        Submit: 'Submit',
+        submitted: 'In progress...',
 
-    formComponentNotFound: 'Document component not found: ',
-    tableComponentNotFound: 'Table component not found: ',
-    componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
+        formComponentNotFound: 'Document component not found: ',
+        tableComponentNotFound: 'Table component not found: ',
+        componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
 
-    helpInfo: "Help",
-    details: "Details",
+        helpInfo: "Help",
+        details: "Details",
 
-    NotFound: "Not Found"
-  },
-
-  ru: {
-    errorCannotConnect: 'Не могу подключиться к серверу',
-    errorServerQueryException: 'Ошибка сервера: $message',
-    errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
-    errorNoData: 'Ошибка связи с сервером: ответ не получен',
-    errorUnknownRoute: 'Неизвестный путь: $action',
-    errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
-
-    welcome: 'Добро пожаловать!',
-    loading: 'Загрузка...',
-    settings: 'Настройки',
-    emptyTable: 'Нет данных',
-    roles: 'Роли',
-    back: 'Назад',
-    error: 'Ошибка:',
-    cancel: 'Отмена',
-    logout: 'Выход',
-    reload: 'Перезагрузить',
-    All: 'Все',
-    successfullyCompleted: 'Успешно выполнено.',
-
-    filter: 'Фильтр...',
-
-    Submit: 'Выполнить',
-    submitted: 'Выполняется...',
-
-    property: {
-      locale: 'ru',
-      clearAllText: 'Очистить всё',
-      clearValueText: 'Очистить',
-      noResultsText: 'Нет результатов',
-      searchPromptText: 'Начните вводить для поиска',
-      placeholder: 'Выберите...',
-      loadingPlaceholder: 'Загрузка...',
-      stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
-      numberTypeMismatch: 'Введите число.',
-      simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
-      rangeOverflow: 'Значение должно быть меньше или равно {0}.',
-      rangeUnderflow: 'Значение должно быть больше или равно {0}.',
-      datePatternError: 'Введите дату в формате дд.мм.гггг'
+        NotFound: "Not Found"
     },
 
-    formComponentNotFound: 'Компонент формы не найден: ',
-    tableComponentNotFound: 'Компонент таблицы не найден: ',
-    componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
+    ru: {
+        errorCannotConnect: 'Не могу подключиться к серверу',
+        errorServerQueryException: 'Ошибка сервера: $message',
+        errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
+        errorNoData: 'Ошибка связи с сервером: ответ не получен',
+        errorUnknownRoute: 'Неизвестный путь: $action',
+        errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
 
-    helpInfo: "Справка",
-    details: "Подробнее",
+        welcome: 'Добро пожаловать!',
+        loading: 'Загрузка...',
+        settings: 'Настройки',
+        emptyTable: 'Нет данных',
+        roles: 'Роли',
+        back: 'Назад',
+        error: 'Ошибка:',
+        cancel: 'Отмена',
+        logout: 'Выход',
+        reload: 'Перезагрузить',
+        All: 'Все',
+        successfullyCompleted: 'Успешно выполнено.',
 
-    NotFound: "Не найдено"
-  }
+        filter: 'Фильтр...',
+
+        Submit: 'Выполнить',
+        submitted: 'Выполняется...',
+
+        property: {
+            locale: 'ru',
+            clearAllText: 'Очистить всё',
+            clearValueText: 'Очистить',
+            noResultsText: 'Нет результатов',
+            searchPromptText: 'Начните вводить для поиска',
+            placeholder: 'Выберите...',
+            loadingPlaceholder: 'Загрузка...',
+            stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
+            numberTypeMismatch: 'Введите число.',
+            simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
+            rangeOverflow: 'Значение должно быть меньше или равно {0}.',
+            rangeUnderflow: 'Значение должно быть больше или равно {0}.',
+            datePatternError: 'Введите дату в формате дд.мм.гггг'
+        },
+
+        formComponentNotFound: 'Компонент формы не найден: ',
+        tableComponentNotFound: 'Компонент таблицы не найден: ',
+        componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
+
+        helpInfo: "Справка",
+        details: "Подробнее",
+
+        NotFound: "Не найдено"
+    }
 };
 
 var listeners = function () {
@@ -894,7 +894,7 @@ var forms = {
 
           switch (attributes.status) {
             case 'redirect':
-              bus.fire("alert", { msg: be5.messages.successfullyCompleted, type: 'success' });
+              bus.fire("alert", { msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success' });
               if (attributes.details.startsWith("http://") || attributes.details.startsWith("https://") || attributes.details.startsWith("ftp://")) {
                 window.location.href = attributes.details;
               } else {
@@ -1997,7 +1997,7 @@ var TableBox = function (_React$Component) {
         tbody.append(tr);
       });
 
-      var tableDiv = $('<table id="' + this.props.value.meta._ts_ + '" ' + 'class="table table-striped table-striped-light table-bordered table-hover display table-sm" cellspacing="0"/>').append(thead).append(tbody).append(attributes.rows.length > 10 ? tfoot : '').appendTo(node);
+      var tableDiv = $('<table id="' + this.props.value.meta._ts_ + '" ' + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>').append(thead).append(tbody).append(attributes.rows.length > 10 ? tfoot : '').appendTo(node);
 
       var lengths = [5, 10, 20, 50, 100, 500, 1000];
       var pageLength = attributes.length;
@@ -2022,7 +2022,7 @@ var TableBox = function (_React$Component) {
       }
 
       var tableConfiguration = {
-        dom: 'rt <"dataTables-nav clearfix"pli>',
+        dom: 'r <"table-responsive-md"t> <"dataTables-nav clearfix"pli>',
         processing: true,
         serverSide: true,
         language: language,
@@ -2221,7 +2221,7 @@ var TableBox = function (_React$Component) {
         React.createElement(QuickColumns, { ref: 'quickColumns', columns: attributes.columns, firstRow: attributes.rows[0].cells, table: this.refs.table, selectable: attributes.selectable }),
         React.createElement(
           'div',
-          { className: 'scroll' },
+          { className: '' },
           React.createElement('div', { ref: 'table', className: 'row' })
         )
       );
@@ -4108,9 +4108,9 @@ Menu.defaultProps = defaultProps;
 
 var UPDATE_MENU = 'UPDATE_MENU';
 
-var fetchMenu = function fetchMenu() {
+var fetchMenu = function fetchMenu(path) {
   return function (dispatch) {
-    be5.net.request('menu', {}, function (data) {
+    be5.net.request(path, {}, function (data) {
       dispatch({ type: UPDATE_MENU, data: data });
     });
   };
@@ -4134,7 +4134,7 @@ var mapStateToProps$2 = function mapStateToProps(state) {
 var mapDispatchToProps$1 = function mapDispatchToProps(dispatch) {
   return {
     fetchMenu: function fetchMenu$$1(roles) {
-      return dispatch(fetchMenu());
+      return dispatch(fetchMenu('menu'));
     }
   };
 };
@@ -4362,97 +4362,30 @@ var Application = function Application() {
   );
 };
 
-var listeners$1 = [];
-
-var actions$1 = []; // all actions from backend
-
-var tree = {};
-
-var menu = {
-  find: function find(coords) {
-    //console.log(actions, coords);
-    return _(actions$1).findWhere(coords);
-  },
-  getRaw: function getRaw() {
-    return tree;
-  }
-};
-
-var getMenu$1 = function getMenu() {
-  return menu;
-};
-
-var addListener = function addListener(listener) {
-  listeners$1.push(listener);
-};
-
-var changed = function changed() {
-  _(listeners$1).each(function (listener) {
-    listener(menu);
-  });
-};
-
-var updateActions = function updateActions() {
-  var resultActions = [];
-
-  _(tree.root).each(function (item) {
-    if (item.hasOwnProperty('action')) {
-      resultActions.push(_.extend({}, item.id, { action: item.action, title: item.title }));
-    }
-    _(item.children || []).each(function (qitem) {
-      resultActions.push(_.extend({}, qitem.id, { action: qitem.action, title: qitem.title }));
-    });
-  });
-
-  actions$1 = resultActions;
-};
-
-var load = function load() {
-  be5.net.request('menu/withIds', {}, function (data) {
-    tree = data;
-    updateActions(data);
-    changed();
-  });
-};
-
-//load();
-
-var Be5MenuHolder = {
-  // function(listener)
-  addListener: addListener,
-  // function()
-  changed: changed,
-  // function()
-  getMenu: getMenu$1,
-  // function()
-  reload: load
-};
-
-var Be5Menu = React.createClass({
+var NavbarMenu = React.createClass({
   displayName: 'Be5Menu',
 
   propTypes: {
-    // true => default menu
-    // false => user lists all possible items using Be5MenuItem
-    show: React.PropTypes.bool.isRequired,
-    branding: React.PropTypes.string
+    //show: PropTypes.bool,
+    brand: PropTypes.string
   },
 
+  // defaultProps: {
+  //   show: true
+  // },
+
   getInitialState: function getInitialState() {
-    return { loaded: false, isOpen: false };
+    return { isOpen: false };
   },
-  componentDidMount: function componentDidMount() {
-    this.refresh();
-    if (this.props.show) {
-      this._onMenuChanged(Be5MenuHolder.getMenu());
-      Be5MenuHolder.addListener(this._onMenuChanged);
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    var _props = this.props,
+        loggedIn = _props.loggedIn,
+        currentRoles = _props.currentRoles,
+        fetchMenu = _props.fetchMenu;
+
+    if (!arraysEqual(currentRoles, nextProps.currentRoles) || loggedIn !== nextProps.loggedIn) {
+      fetchMenu();
     }
-  },
-  _onMenuChanged: function _onMenuChanged(menu) {
-    this.setState({
-      loaded: Object.keys(menu.getRaw()).length !== 0,
-      menu: menu.getRaw()
-    });
   },
   toggle: function toggle() {
     this.setState({
@@ -4460,19 +4393,22 @@ var Be5Menu = React.createClass({
     });
   },
   render: function render() {
-    if (!this.props.show) {
-      return React.createElement('span', null);
+    // if (!this.props.show) {
+    //   return null;
+    // }
+    if (this.props.menu === null) {
+      return React.createElement(
+        'p',
+        null,
+        'Loading...'
+      );
     }
 
-    var rootMenuItems = this.state.loaded ? this._renderMenuItems(this.state.menu.root, false) : React.createElement(
-      'li',
-      null,
-      'Loading...'
-    );
-    var branding = this.props.branding ? React.createElement(
+    var rootMenuItems = this._renderMenuItems(this.props.menu.root, false);
+    var brand = this.props.brand ? React.createElement(
       NavbarBrand,
       { href: '#' },
-      this.props.branding
+      this.props.brand
     ) : undefined;
     var rightButtons = this._renderRightButtons();
 
@@ -4482,7 +4418,7 @@ var Be5Menu = React.createClass({
       React.createElement(
         'div',
         { className: 'container' },
-        branding,
+        brand,
         React.createElement(NavbarToggler, { onClick: this.toggle }),
         React.createElement(
           Collapse,
@@ -4498,10 +4434,7 @@ var Be5Menu = React.createClass({
     );
   },
   _renderRightButtons: function _renderRightButtons() {
-    if (!this.state.loaded) {
-      return undefined;
-    }
-    if (!this.state.menu.loggedIn) {
+    if (!this.props.loggedIn) {
       return React.createElement(
         'form',
         { className: 'form-inline ml-auto' },
@@ -4509,14 +4442,10 @@ var Be5Menu = React.createClass({
           'a',
           { className: 'btn btn-secondary', role: 'button', href: '#!login' },
           'Sign in'
-        ),
-        ' ',
-        React.createElement(
-          'a',
-          { className: 'btn btn-primary', role: 'button', href: '#!register' },
-          'Sign up'
         )
       );
+      // {' '}
+      // <a className="btn btn-primary" role="button" href="#!register">Sign up</a>
     }
     //<RoleSelector/>
     return React.createElement(
@@ -4531,10 +4460,9 @@ var Be5Menu = React.createClass({
   },
   _renderDropdownMenuItems: function _renderDropdownMenuItems(items) {
     return _(items).map(function (item) {
-      if (item.default) {
-        return undefined;
-      }
-
+      // if (item.default) {
+      //   return undefined;
+      // }
       var _actions$parse = actions.parse(item.action),
           href = _actions$parse.href,
           target = _actions$parse.target;
@@ -4550,9 +4478,9 @@ var Be5Menu = React.createClass({
     var _this = this;
 
     return _(items).map(function (item) {
-      if (item.default) {
-        return undefined;
-      }
+      // if (item.default) {
+      //   return undefined;
+      // }
 
       if (!item.children || item.children.length === 0) {
         var _actions$parse2 = actions.parse(item.action),
@@ -4591,74 +4519,6 @@ var Be5Menu = React.createClass({
         )
       );
     });
-  },
-
-
-  /* public */
-  refresh: function refresh() {
-    Be5MenuHolder.reload();
-  }
-});
-
-var Be5MenuItem = React.createClass({
-  displayName: 'Be5MenuItem',
-
-  propTypes: {
-    entity: React.PropTypes.string,
-    view: React.PropTypes.string,
-    op: React.PropTypes.string
-  },
-
-  getInitialState: function getInitialState() {
-    return { available: false, title: '' };
-  },
-  componentDidMount: function componentDidMount() {
-    this._onMenuChanged(Be5MenuHolder.getMenu());
-    Be5MenuHolder.addListener(this._onMenuChanged);
-  },
-  render: function render() {
-    if (!this.state.available) {
-      return React.createElement('span', null);
-    }
-
-    var _actions$parse = actions.parse(Be5MenuHolder.getMenu().find(this._getCoordinates()).action),
-        href = _actions$parse.href,
-        target = _actions$parse.target;
-
-    console.log(href, target);
-    return React.createElement(
-      'a',
-      { className: 'menu-item', href: href, target: target },
-      this.state.title
-    );
-  },
-  _onMenuChanged: function _onMenuChanged(menu) {
-    var item = Be5MenuHolder.getMenu().find(this._getCoordinates());
-    if (!item) {
-      this.setState({ available: false });
-    } else {
-      this.setState({ available: true, title: item.title });
-    }
-  },
-
-
-  // Translates "op" to "operation" and "view" to "query"
-  // Don't read it, it's boring.
-  _getCoordinates: function _getCoordinates() {
-    if (this.props.view && this.props.op) {
-      return {
-        entity: this.props.entity, query: this.props.view, operation: this.props.op
-      };
-    }
-    if (this.props.op) {
-      return {
-        entity: this.props.entity, operation: this.props.op
-      };
-    }
-    return {
-      entity: this.props.entity,
-      query: this.props.view || DEFAULT_VIEW
-    };
   }
 });
 
@@ -5133,6 +4993,28 @@ Navs.propTypes = {
   documentName: PropTypes.string
 };
 
+var NavbarMenuContainer = function NavbarMenuContainer(props) {
+  return React.createElement(NavbarMenu, props);
+};
+
+var mapStateToProps$3 = function mapStateToProps(state) {
+  return {
+    menu: getMenu(state),
+    currentRoles: getCurrentRoles(state),
+    loggedIn: getUser(state).loggedIn
+  };
+};
+
+var mapDispatchToProps$2 = function mapDispatchToProps(dispatch) {
+  return {
+    fetchMenu: function fetchMenu$$1(roles) {
+      return dispatch(fetchMenu('menu/withIds'));
+    }
+  };
+};
+
+var NavbarMenuContainer$1 = connect(mapStateToProps$3, mapDispatchToProps$2)(NavbarMenuContainer);
+
 var isProduction = "development" === 'production';
 
 var middleware = [thunkMiddleware];
@@ -5196,4 +5078,4 @@ var index = combineReducers({
 // services
 // store
 
-export { be5, be5init, constants, Preconditions as preconditions, getBaseUrl, getSelfUrl, getModelByID, createStaticValue, getResourceByID, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, Be5Components, Be5Menu, Be5MenuHolder, Be5MenuItem, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, MenuContainer$1 as MenuContainer, Document$1 as Document, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, loadTable, updateTable };
+export { be5, be5init, constants, Preconditions as preconditions, getBaseUrl, getSelfUrl, getModelByID, createStaticValue, getResourceByID, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, loadTable, updateTable };

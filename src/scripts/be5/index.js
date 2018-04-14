@@ -14,9 +14,7 @@ import {registerRoute,getRoute,getAllRoutes} from "./core/routes";
 
 // components
 import Application      from './components/Application.js';
-import Be5Menu          from './components/be5Menu/Be5Menu.js';
-import Be5MenuHolder    from './components/be5Menu/Be5MenuHolder.js';
-import Be5MenuItem      from './components/be5Menu/Be5MenuItem.js';
+import Be5Menu          from './components/menu/NavbarMenu.js';
 import HelpInfo         from './components/HelpInfo.js';
 import LanguageSelector from './components/LanguageSelector.js';
 import SideBar          from './components/SideBar.js';
@@ -31,6 +29,7 @@ import RoleSelector     from './components/RoleSelector.js';
 import UserControl      from './components/UserControl.js';
 
 import Document             from './containers/Document.js';
+import NavbarMenuContainer        from './containers/NavbarMenuContainer';
 import MenuContainer        from './containers/MenuContainer';
 import UserControlContainer from './containers/UserControlContainer.js';
 
@@ -110,8 +109,6 @@ export {
   Application,
   Be5Components,
   Be5Menu,
-  Be5MenuHolder,
-  Be5MenuItem,
   HelpInfo,
   LanguageSelector,
   SideBar,
@@ -123,10 +120,11 @@ export {
   Navs,
   RoleSelector,
   UserControl,
-  MenuContainer,
 
   // containers
   Document,
+  MenuContainer,
+  NavbarMenuContainer,
   UserControlContainer,
 
   // forms

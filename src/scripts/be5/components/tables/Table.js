@@ -135,7 +135,7 @@ class TableBox extends React.Component {
     });
 
     const tableDiv = $('<table id="' + this.props.value.meta._ts_ + '" '
-          + 'class="table table-striped table-striped-light table-bordered table-hover display table-sm" cellspacing="0"/>')
+          + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>')
       .append(thead)
       .append(tbody)
       .append( ( attributes.rows.length > 10 ? tfoot : ''))
@@ -160,7 +160,7 @@ class TableBox extends React.Component {
     }
 
     const tableConfiguration = {
-      dom: 'rt <"dataTables-nav clearfix"pli>',
+      dom: 'r <"table-responsive-md"t> <"dataTables-nav clearfix"pli>',
       processing: true,
       serverSide: true,
       language: language,
@@ -360,7 +360,7 @@ class TableBox extends React.Component {
         <CategoryNavigation categories={attributes.categoryNavigation} url={getSelfUrl(this.props.value)}/>
         <OperationBox ref="operations" operations={attributes.operations} onOperationClick={this.onOperationClick} hasRows={attributes.rows.length !== 0}/>
         <QuickColumns ref="quickColumns" columns={attributes.columns} firstRow={attributes.rows[0].cells} table={this.refs.table} selectable={attributes.selectable}/>
-        <div className="scroll">
+        <div className="">
           <div ref="table" className="row"/>
         </div>
       </div>

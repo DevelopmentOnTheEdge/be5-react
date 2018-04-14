@@ -42,3 +42,7 @@ a.rootMenuItem.inactive + div + ul {
     color: #AACCCC;
     text-decoration: underline;
 }
+
+.nav-link {
+    font-size: 16px;
+}

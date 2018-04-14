@@ -2,7 +2,7 @@ import ReactDOM         from 'react-dom';
 import React            from 'react';
 import { Provider }     from 'react-redux'
 import { AppContainer } from 'react-hot-loader'
-import App              from './components/Application';
+import App              from './components/test/ApplicationWithBe5Menu';
 import rootReducer      from './store/reducers'
 import createBaseStore  from './store'
 import be5init          from './be5init';
