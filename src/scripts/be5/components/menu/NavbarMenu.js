@@ -15,7 +15,8 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Button
+  Button,
+  UncontrolledTooltip
 } from 'reactstrap';
 import RoleSelector from "../RoleSelector";
 
@@ -94,7 +95,11 @@ export default React.createClass({
     }
     return (
       <form className="form-inline ml-auto">
+        <UncontrolledTooltip placement="left" target="RoleSelector">
+          {userName}
+        </UncontrolledTooltip>
         <RoleSelector
+          id={"RoleSelector"}
           availableRoles={availableRoles}
           currentRoles={currentRoles}
           toggleRoles={this.props.toggleRoles}

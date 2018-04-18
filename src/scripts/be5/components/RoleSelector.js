@@ -58,7 +58,7 @@ const RoleSelector = (props) => {
   );
 
   return (
-    <UncontrolledDropdown size={props.size} className="roleBox mr-sm-2">
+    <UncontrolledDropdown size={props.size} className="roleBox mr-sm-2" id={props.id}>
       <DropdownToggle caret>{be5.messages.roles}</DropdownToggle>
 
       <DropdownMenu>
@@ -76,6 +76,7 @@ const RoleSelector = (props) => {
 };
 
 RoleSelector.propTypes = {
+  id: PropTypes.string,
   size: PropTypes.string,
   className: PropTypes.string,
   currentRoles: PropTypes.array.isRequired,
