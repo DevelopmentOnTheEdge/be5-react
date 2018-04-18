@@ -14,12 +14,14 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  Button
 } from 'reactstrap';
+import RoleSelector from "../RoleSelector";
 
 
 export default React.createClass({
-  displayName: 'Be5Menu',
+  displayName: 'NavbarMenu',
 
   propTypes: {
     //show: PropTypes.bool,
@@ -35,9 +37,9 @@ export default React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    const { loggedIn, currentRoles, fetchMenu } = this.props;
-    if (!arraysEqual(currentRoles, nextProps.currentRoles) || loggedIn !== nextProps.loggedIn ) {
-      fetchMenu();
+    const { loggedIn, currentRoles } = this.props.user;
+    if (!arraysEqual(currentRoles, nextProps.user.currentRoles) || loggedIn !== nextProps.user.loggedIn ) {
+      this.props.fetchMenu();
     }
   },
 
@@ -52,11 +54,11 @@ export default React.createClass({
     //   return null;
     // }
     if(this.props.menu === null){
-      return <p>Loading...</p>
+      return null
     }
     
     const rootMenuItems = this._renderMenuItems(this.props.menu.root, false);
-    const brand = this.props.brand ?  <NavbarBrand href="#">{this.props.brand}</NavbarBrand> : undefined;
+    const brand = this.props.brand ? <NavbarBrand href="#">{this.props.brand}</NavbarBrand> : undefined;
     const rightButtons = this._renderRightButtons();
 
     return (
@@ -76,21 +78,36 @@ export default React.createClass({
   },
   
   _renderRightButtons() {
-    if (!this.props.loggedIn){
+    const {
+      userName,
+      loggedIn,
+      currentRoles,
+      availableRoles
+    } = this.props.user;
+
+    if (!loggedIn){
       return (
         <form className="form-inline ml-auto">
-          <a className="btn btn-secondary" role="button" href="#!login">Sign in</a>
+          <Button onClick={this._onClick} href="#!login" color="secondary">{be5.messages.login}</Button>
         </form>
       );
-      // {' '}
-      // <a className="btn btn-primary" role="button" href="#!register">Sign up</a>
     }
-    //<RoleSelector/>
     return (
       <form className="form-inline ml-auto">
-        <a className="btn btn-secondary" role="button" href="#!logout">{be5.messages.logout}</a>
+        <RoleSelector
+          availableRoles={availableRoles}
+          currentRoles={currentRoles}
+          toggleRoles={this.props.toggleRoles}
+        />{' '}
+        <Button onClick={this._onClick} href="#!logout" color="secondary">{be5.messages.logout}</Button>
       </form>
     );
+  },
+
+  _onClick(e) {
+    if(/^#/.test(e.target.getAttribute("href"))) {
+      be5.url.set(e.target.getAttribute("href"));
+    }
   },
 
   _renderDropdownMenuItems(items) {
@@ -119,7 +136,7 @@ export default React.createClass({
         // return <li className={liClass} key={target+href}><a className={aClass} href={href} target={target}>{item.title}</a></li>;
         return (
           <NavItem key={target+href}>
-            <NavLink href={href}>{item.title}</NavLink>
+            <NavLink onClick={this._onClick} href={href}>{item.title}</NavLink>
           </NavItem>
         )
       }
