@@ -1,5 +1,6 @@
 import React          from 'react';
 import PropTypes      from 'prop-types';
+import classNames     from 'classnames';
 import be5            from '../../be5';
 import actions        from '../../services/actions';
 import {arraysEqual}  from '../../utils/utils';
@@ -116,16 +117,23 @@ export default React.createClass({
   },
 
   _renderDropdownMenuItems(items) {
-    return _(items).map(item => {
+    let active = false;
+    const dropdownMenuItems = _(items).map(item => {
       // if (item.default) {
       //   return undefined;
       // }
       const { href, target } = actions.parse(item.action);
 
+      //TODO after store url in redux if(this.props.url === href)active = true;
       return (
-        <DropdownItem href={href} key={target+href}>{item.title}</DropdownItem>
+        <DropdownItem onClick={this._onClick} href={href} key={target+href}>{item.title}</DropdownItem>
       )
     });
+
+    return {
+      dropdownMenuItems: dropdownMenuItems,
+      active: active
+    }
   },
 
   _renderMenuItems(items, inDropdown) {
@@ -139,18 +147,19 @@ export default React.createClass({
         // const liClass = inDropdown ? '' : 'nav-item';
         // const aClass = inDropdown ? 'dropdown-item' : 'nav-link';
         // return <li className={liClass} key={target+href}><a className={aClass} href={href} target={target}>{item.title}</a></li>;
+        let active = false;
+        //if(this.props.url === href)active = true;
         return (
           <NavItem key={target+href}>
-            <NavLink onClick={this._onClick} href={href}>{item.title}</NavLink>
+            <NavLink onClick={this._onClick} href={href} active={active}>{item.title}</NavLink>
           </NavItem>
         )
       }
-      
-      const dropdownMenuItems = this._renderDropdownMenuItems(item.children, true);
 
+      const {dropdownMenuItems, active} = this._renderDropdownMenuItems(item.children, true);
       return (
         <UncontrolledDropdown nav inNavbar key={item.title}>
-          <DropdownToggle nav caret>
+          <DropdownToggle nav caret className={classNames({active: active})}>
             {item.title}
           </DropdownToggle>
           <DropdownMenu >
