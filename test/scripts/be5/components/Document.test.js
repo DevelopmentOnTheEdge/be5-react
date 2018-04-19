@@ -3,7 +3,7 @@ import renderer       from 'react-test-renderer';
 import Document, {Document as RawDocument}       from '../../../../src/scripts/be5/containers/Document';
 import changeDocument from '../../../../src/scripts/be5/core/changeDocument';
 import {shallow, mount} from 'enzyme';
-import testUtils, {TestProvider}      from "../testUtils";
+import {getTestStore, TestProvider} from "../testUtils";
 import { Provider }   from 'react-redux';
 
 
@@ -21,7 +21,7 @@ test('snapshot', () => {
 });
 
 test('frontendParams init state, props', () => {
-  const wrapper = mount( <RawDocument frontendParams={{documentName: "test"}} store={testUtils.getStore()}/> );
+  const wrapper = mount( <RawDocument frontendParams={{documentName: "test"}} store={getTestStore()}/> );
 
   expect(wrapper.props()).toEqual({"frontendParams": {"documentName": "test"}, store: expect.any(Object)});
   expect(wrapper.state()).toEqual({"frontendParams": {"documentName": "test"}, "value": null});

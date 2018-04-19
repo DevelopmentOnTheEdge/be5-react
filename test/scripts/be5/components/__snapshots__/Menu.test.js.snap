@@ -99,10 +99,97 @@ exports[`snapshot NavbarMenu 1`] = `
       <form
         className="form-inline ml-auto"
       >
+        <div
+          className="roleBox mr-sm-2 dropdown"
+          id="RoleSelector"
+          onKeyDown={[Function]}
+        >
+          <button
+            aria-expanded={false}
+            aria-haspopup={true}
+            className="dropdown-toggle btn btn-secondary"
+            onClick={[Function]}
+            type="button"
+          >
+            Roles
+          </button>
+          <div
+            aria-hidden={true}
+            className="dropdown-menu"
+            role="menu"
+            tabIndex="-1"
+          >
+            <div
+              className="role"
+            >
+              <input
+                checked={false}
+                id="Administrator-checkbox"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <label
+                htmlFor="Administrator-checkbox"
+              >
+                <span
+                  className="checkBox"
+                />
+                Administrator
+              </label>
+            </div>
+            <div
+              className="role"
+            >
+              <input
+                checked={true}
+                id="Manager-checkbox"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <label
+                htmlFor="Manager-checkbox"
+              >
+                <span
+                  className="checkBox"
+                />
+                Manager
+              </label>
+            </div>
+            <div
+              className="dropdown-divider"
+              onClick={[Function]}
+              tabIndex="-1"
+              type={undefined}
+            />
+            <div
+              className="roleBox_add-actions"
+            >
+              Выбрать:
+               
+              <button
+                className="enable-all btn btn-primary btn-sm"
+                onClick={[Function]}
+                type="button"
+              >
+                Всё
+              </button>
+               
+              <button
+                className="disable-all btn btn-secondary btn-sm"
+                onClick={[Function]}
+                type="button"
+              >
+                Ничего
+              </button>
+            </div>
+          </div>
+        </div>
+         
         <a
           className="btn btn-secondary"
           href="#!logout"
-          role="button"
+          onClick={[Function]}
+          type={undefined}
         >
           Logout
         </a>

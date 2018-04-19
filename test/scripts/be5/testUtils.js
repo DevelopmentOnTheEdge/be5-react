@@ -4,17 +4,22 @@ import rootReducer      from '../../../src/scripts/be5/store/reducers'
 import createBaseStore  from '../../../src/scripts/be5/store'
 
 
-export default {
-  getStore: getStore
-}
+export const getTestUser = () => {
+  return {
+    "availableRoles": ["Administrator", "Manager"],
+    "currentRoles": ["Manager"],
+    "loggedIn": true,
+    "userName": "Administrator"
+  };
+};
 
-function getStore() {
+export const getTestStore = () => {
   return createBaseStore(rootReducer);
-}
+};
 
 export const TestProvider = ({ children }) => {
   return (
-    <Provider store={getStore()}>
+    <Provider store={getTestStore()}>
       {children}
     </Provider>
   );

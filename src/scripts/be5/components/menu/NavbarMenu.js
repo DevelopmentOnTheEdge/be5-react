@@ -27,6 +27,8 @@ export default React.createClass({
 
   propTypes: {
     //show: PropTypes.bool,
+    menu: PropTypes.shape({}),
+    user: PropTypes.shape({}),
     brand: PropTypes.string
   },
 

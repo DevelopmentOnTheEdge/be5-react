@@ -1,7 +1,7 @@
 import {fetchMenu}  from '../../../../src/scripts/be5/store/actions/menu.actions'
 import {getMenu}  from '../../../../src/scripts/be5/store/selectors/menu.selectors'
 import be5 from '../../../../src/scripts/be5/be5';
-import testUtils from "../testUtils";
+import {getTestStore} from "../testUtils";
 
 
 test('test updateUserInfo', () => {
@@ -10,7 +10,7 @@ test('test updateUserInfo', () => {
     callback(menu)
   };
 
-  const store = testUtils.getStore();
+  const store = getTestStore();
 
   expect(getMenu(store.getState()))
     .toEqual(null);

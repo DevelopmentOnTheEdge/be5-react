@@ -3,6 +3,7 @@
 exports[`render 1`] = `
 <div
   className="roleBox mr-sm-2 dropdown"
+  id={undefined}
   onKeyDown={[Function]}
 >
   <button

@@ -1,7 +1,7 @@
 import {updateUserInfo, toggleRoles}  from '../../../../src/scripts/be5/store/actions/user.actions'
 import {getUser, getCurrentRoles}  from '../../../../src/scripts/be5/store/selectors/user.selectors'
 import be5 from '../../../../src/scripts/be5/be5';
-import testUtils from "../testUtils";
+import {getTestStore} from "../testUtils";
 
 
 test('test updateUserInfo', () => {
@@ -11,7 +11,7 @@ test('test updateUserInfo', () => {
     callback(newUserState)
   };
 
-  const store = testUtils.getStore();
+  const store = getTestStore();
 
   expect(getUser(store.getState()))
     .toEqual({"availableRoles": ["DefaultGuest"], "currentRoles": ["DefaultGuest"], "loggedIn": false, "userName": "Guest"});
@@ -23,7 +23,7 @@ test('test updateUserInfo', () => {
 });
 
 test('test toggleRoles', () => {
-  const store = testUtils.getStore();
+  const store = getTestStore();
   be5.net.request = function (path, attr, callback) {
     callback(["Administrator", "Manager"])
   };

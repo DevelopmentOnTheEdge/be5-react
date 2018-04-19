@@ -5,15 +5,16 @@ import Document       from '../../../src/scripts/be5/containers/Document';
 import '../../../src/scripts/be5/index';
 import '../../../src/scripts/be5/be5styles';
 import be5init from '../../../src/scripts/be5/be5init';
-import testUtils from "./testUtils";
+import {getTestStore} from "./testUtils";
+
 
 test('test load', () => {
-  be5init.init(testUtils.getStore());
+  be5init.init(getTestStore());
 });
 
 test('hashChange', () => {
   const component = renderer.create(
-    <Document frontendParams={{documentName: "MainDocument"}} store={testUtils.getStore()} />
+    <Document frontendParams={{documentName: "MainDocument"}} store={getTestStore()} />
   );
   be5init.hashChange();
 });

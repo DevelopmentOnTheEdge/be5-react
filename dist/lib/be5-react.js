@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Card, CardBody, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalFooter, ModalHeader, Nav, NavItem, NavLink, Navbar, NavbarBrand, NavbarToggler, UncontrolledDropdown } from 'reactstrap';
+import { Button, Card, CardBody, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalFooter, ModalHeader, Nav, NavItem, NavLink, Navbar, NavbarBrand, NavbarToggler, UncontrolledDropdown, UncontrolledTooltip } from 'reactstrap';
 import classNames from 'classnames';
 import ReactDOM from 'react-dom';
 import numberFormatter from 'number-format.js';
@@ -86,93 +86,95 @@ var getSelfUrl = function getSelfUrl(value) {
 };
 
 var messages = {
-    en: {
-        errorCannotConnect: 'Cannot connect to server',
-        errorServerQueryException: 'Error during server query: $message',
-        errorInvalidErrorResponse: 'Server returned unknown error',
-        errorNoData: 'Error communicating with server: no data received',
-        errorUnknownRoute: 'Unknown route: $action',
-        errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
+  en: {
+    errorCannotConnect: 'Cannot connect to server',
+    errorServerQueryException: 'Error during server query: $message',
+    errorInvalidErrorResponse: 'Server returned unknown error',
+    errorNoData: 'Error communicating with server: no data received',
+    errorUnknownRoute: 'Unknown route: $action',
+    errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
 
-        welcome: 'Hello!',
-        loading: 'Page is loading...',
-        settings: 'Settings',
-        emptyTable: 'Nothing found',
-        roles: 'Roles',
-        back: 'Back',
-        error: 'Error:',
-        cancel: 'Cancel',
-        logout: 'Logout',
-        reload: 'reload',
-        All: 'All',
-        successfullyCompleted: 'Successfully completed.',
+    welcome: 'Hello!',
+    loading: 'Page is loading...',
+    settings: 'Settings',
+    emptyTable: 'Nothing found',
+    roles: 'Roles',
+    back: 'Back',
+    error: 'Error:',
+    cancel: 'Cancel',
+    login: 'Login',
+    logout: 'Logout',
+    reload: 'reload',
+    All: 'All',
+    successfullyCompleted: 'Successfully completed.',
 
-        filter: 'Filter...',
+    filter: 'Filter...',
 
-        Submit: 'Submit',
-        submitted: 'In progress...',
+    Submit: 'Submit',
+    submitted: 'In progress...',
 
-        formComponentNotFound: 'Document component not found: ',
-        tableComponentNotFound: 'Table component not found: ',
-        componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
+    formComponentNotFound: 'Document component not found: ',
+    tableComponentNotFound: 'Table component not found: ',
+    componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
 
-        helpInfo: "Help",
-        details: "Details",
+    helpInfo: "Help",
+    details: "Details",
 
-        NotFound: "Not Found"
+    NotFound: "Not Found"
+  },
+
+  ru: {
+    errorCannotConnect: 'Не могу подключиться к серверу',
+    errorServerQueryException: 'Ошибка сервера: $message',
+    errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
+    errorNoData: 'Ошибка связи с сервером: ответ не получен',
+    errorUnknownRoute: 'Неизвестный путь: $action',
+    errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
+
+    welcome: 'Добро пожаловать!',
+    loading: 'Загрузка...',
+    settings: 'Настройки',
+    emptyTable: 'Нет данных',
+    roles: 'Роли',
+    back: 'Назад',
+    error: 'Ошибка:',
+    cancel: 'Отмена',
+    login: 'Вход',
+    logout: 'Выход',
+    reload: 'Перезагрузить',
+    All: 'Все',
+    successfullyCompleted: 'Успешно выполнено.',
+
+    filter: 'Фильтр...',
+
+    Submit: 'Выполнить',
+    submitted: 'Выполняется...',
+
+    property: {
+      locale: 'ru',
+      clearAllText: 'Очистить всё',
+      clearValueText: 'Очистить',
+      noResultsText: 'Нет результатов',
+      searchPromptText: 'Начните вводить для поиска',
+      placeholder: 'Выберите...',
+      loadingPlaceholder: 'Загрузка...',
+      stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
+      numberTypeMismatch: 'Введите число.',
+      simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
+      rangeOverflow: 'Значение должно быть меньше или равно {0}.',
+      rangeUnderflow: 'Значение должно быть больше или равно {0}.',
+      datePatternError: 'Введите дату в формате дд.мм.гггг'
     },
 
-    ru: {
-        errorCannotConnect: 'Не могу подключиться к серверу',
-        errorServerQueryException: 'Ошибка сервера: $message',
-        errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
-        errorNoData: 'Ошибка связи с сервером: ответ не получен',
-        errorUnknownRoute: 'Неизвестный путь: $action',
-        errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
+    formComponentNotFound: 'Компонент формы не найден: ',
+    tableComponentNotFound: 'Компонент таблицы не найден: ',
+    componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
 
-        welcome: 'Добро пожаловать!',
-        loading: 'Загрузка...',
-        settings: 'Настройки',
-        emptyTable: 'Нет данных',
-        roles: 'Роли',
-        back: 'Назад',
-        error: 'Ошибка:',
-        cancel: 'Отмена',
-        logout: 'Выход',
-        reload: 'Перезагрузить',
-        All: 'Все',
-        successfullyCompleted: 'Успешно выполнено.',
+    helpInfo: "Справка",
+    details: "Подробнее",
 
-        filter: 'Фильтр...',
-
-        Submit: 'Выполнить',
-        submitted: 'Выполняется...',
-
-        property: {
-            locale: 'ru',
-            clearAllText: 'Очистить всё',
-            clearValueText: 'Очистить',
-            noResultsText: 'Нет результатов',
-            searchPromptText: 'Начните вводить для поиска',
-            placeholder: 'Выберите...',
-            loadingPlaceholder: 'Загрузка...',
-            stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
-            numberTypeMismatch: 'Введите число.',
-            simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
-            rangeOverflow: 'Значение должно быть меньше или равно {0}.',
-            rangeUnderflow: 'Значение должно быть больше или равно {0}.',
-            datePatternError: 'Введите дату в формате дд.мм.гггг'
-        },
-
-        formComponentNotFound: 'Компонент формы не найден: ',
-        tableComponentNotFound: 'Компонент таблицы не найден: ',
-        componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
-
-        helpInfo: "Справка",
-        details: "Подробнее",
-
-        NotFound: "Не найдено"
-    }
+    NotFound: "Не найдено"
+  }
 };
 
 var listeners = function () {
@@ -519,6 +521,7 @@ var be5 = {
       url = '#' + url;
       if (be5.url.get() !== url) {
         document.location.hash = url;
+        //todo be5.store.dispatch(setUrl(url))
       } else {
         be5.url.process(be5.MAIN_DOCUMENT, url);
       }
@@ -3701,7 +3704,7 @@ var RoleSelector = function RoleSelector(props) {
 
   return React.createElement(
     UncontrolledDropdown,
-    { size: props.size, className: 'roleBox mr-sm-2' },
+    { size: props.size, className: 'roleBox mr-sm-2', id: props.id },
     React.createElement(
       DropdownToggle,
       { caret: true },
@@ -3734,6 +3737,7 @@ var RoleSelector = function RoleSelector(props) {
 };
 
 RoleSelector.propTypes = {
+  id: PropTypes.string,
   size: PropTypes.string,
   className: PropTypes.string,
   currentRoles: PropTypes.array.isRequired,
@@ -4363,10 +4367,12 @@ var Application = function Application() {
 };
 
 var NavbarMenu = React.createClass({
-  displayName: 'Be5Menu',
+  displayName: 'NavbarMenu',
 
   propTypes: {
     //show: PropTypes.bool,
+    menu: PropTypes.shape({}),
+    user: PropTypes.shape({}),
     brand: PropTypes.string
   },
 
@@ -4378,13 +4384,12 @@ var NavbarMenu = React.createClass({
     return { isOpen: false };
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    var _props = this.props,
-        loggedIn = _props.loggedIn,
-        currentRoles = _props.currentRoles,
-        fetchMenu = _props.fetchMenu;
+    var _props$user = this.props.user,
+        loggedIn = _props$user.loggedIn,
+        currentRoles = _props$user.currentRoles;
 
-    if (!arraysEqual(currentRoles, nextProps.currentRoles) || loggedIn !== nextProps.loggedIn) {
-      fetchMenu();
+    if (!arraysEqual(currentRoles, nextProps.user.currentRoles) || loggedIn !== nextProps.user.loggedIn) {
+      this.props.fetchMenu();
     }
   },
   toggle: function toggle() {
@@ -4397,11 +4402,7 @@ var NavbarMenu = React.createClass({
     //   return null;
     // }
     if (this.props.menu === null) {
-      return React.createElement(
-        'p',
-        null,
-        'Loading...'
-      );
+      return null;
     }
 
     var rootMenuItems = this._renderMenuItems(this.props.menu.root, false);
@@ -4434,32 +4435,56 @@ var NavbarMenu = React.createClass({
     );
   },
   _renderRightButtons: function _renderRightButtons() {
-    if (!this.props.loggedIn) {
+    var _props$user2 = this.props.user,
+        userName = _props$user2.userName,
+        loggedIn = _props$user2.loggedIn,
+        currentRoles = _props$user2.currentRoles,
+        availableRoles = _props$user2.availableRoles;
+
+
+    if (!loggedIn) {
       return React.createElement(
         'form',
         { className: 'form-inline ml-auto' },
         React.createElement(
-          'a',
-          { className: 'btn btn-secondary', role: 'button', href: '#!login' },
-          'Sign in'
+          Button,
+          { onClick: this._onClick, href: '#!login', color: 'secondary' },
+          be5.messages.login
         )
       );
-      // {' '}
-      // <a className="btn btn-primary" role="button" href="#!register">Sign up</a>
     }
-    //<RoleSelector/>
     return React.createElement(
       'form',
       { className: 'form-inline ml-auto' },
       React.createElement(
-        'a',
-        { className: 'btn btn-secondary', role: 'button', href: '#!logout' },
+        UncontrolledTooltip,
+        { placement: 'left', target: 'RoleSelector' },
+        userName
+      ),
+      React.createElement(RoleSelector, {
+        id: "RoleSelector",
+        availableRoles: availableRoles,
+        currentRoles: currentRoles,
+        toggleRoles: this.props.toggleRoles
+      }),
+      ' ',
+      React.createElement(
+        Button,
+        { onClick: this._onClick, href: '#!logout', color: 'secondary' },
         be5.messages.logout
       )
     );
   },
+  _onClick: function _onClick(e) {
+    if (/^#/.test(e.target.getAttribute("href"))) {
+      be5.url.set(e.target.getAttribute("href"));
+    }
+  },
   _renderDropdownMenuItems: function _renderDropdownMenuItems(items) {
-    return _(items).map(function (item) {
+    var _this = this;
+
+    var active = false;
+    var dropdownMenuItems = _(items).map(function (item) {
       // if (item.default) {
       //   return undefined;
       // }
@@ -4467,15 +4492,23 @@ var NavbarMenu = React.createClass({
           href = _actions$parse.href,
           target = _actions$parse.target;
 
+      //TODO after store url in redux if(this.props.url === href)active = true;
+
+
       return React.createElement(
         DropdownItem,
-        { href: href, key: target + href },
+        { onClick: _this._onClick, href: href, key: target + href },
         item.title
       );
     });
+
+    return {
+      dropdownMenuItems: dropdownMenuItems,
+      active: active
+    };
   },
   _renderMenuItems: function _renderMenuItems(items, inDropdown) {
-    var _this = this;
+    var _this2 = this;
 
     return _(items).map(function (item) {
       // if (item.default) {
@@ -4491,25 +4524,29 @@ var NavbarMenu = React.createClass({
         // return <li className={liClass} key={target+href}><a className={aClass} href={href} target={target}>{item.title}</a></li>;
 
 
+        var _active = false;
+        //if(this.props.url === href)active = true;
         return React.createElement(
           NavItem,
           { key: target + href },
           React.createElement(
             NavLink,
-            { href: href },
+            { onClick: _this2._onClick, href: href, active: _active },
             item.title
           )
         );
       }
 
-      var dropdownMenuItems = _this._renderDropdownMenuItems(item.children, true);
+      var _renderDropdownMenuIt = _this2._renderDropdownMenuItems(item.children, true),
+          dropdownMenuItems = _renderDropdownMenuIt.dropdownMenuItems,
+          active = _renderDropdownMenuIt.active;
 
       return React.createElement(
         UncontrolledDropdown,
         { nav: true, inNavbar: true, key: item.title },
         React.createElement(
           DropdownToggle,
-          { nav: true, caret: true },
+          { nav: true, caret: true, className: classNames({ active: active }) },
           item.title
         ),
         React.createElement(
@@ -5000,13 +5037,16 @@ var NavbarMenuContainer = function NavbarMenuContainer(props) {
 var mapStateToProps$3 = function mapStateToProps(state) {
   return {
     menu: getMenu(state),
-    currentRoles: getCurrentRoles(state),
-    loggedIn: getUser(state).loggedIn
+    user: getUser(state),
+    url: be5.url.get()
   };
 };
 
 var mapDispatchToProps$2 = function mapDispatchToProps(dispatch) {
   return {
+    toggleRoles: function toggleRoles$$1(roles) {
+      return dispatch(toggleRoles(roles));
+    },
     fetchMenu: function fetchMenu$$1(roles) {
       return dispatch(fetchMenu('menu/withIds'));
     }
