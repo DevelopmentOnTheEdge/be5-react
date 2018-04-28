@@ -5,7 +5,8 @@ import Document       from '../../../src/scripts/be5/containers/Document';
 import '../../../src/scripts/be5/index';
 import '../../../src/scripts/be5/be5styles';
 import be5init from '../../../src/scripts/be5/be5init';
-import {getTestStore} from "./testUtils";
+import {getTestStore, getTestUser} from "./testUtils";
+import {updateUserInfo} from "../../../src/scripts/be5/store/actions/user.actions";
 
 
 test('test load', () => {
@@ -13,8 +14,12 @@ test('test load', () => {
 });
 
 test('hashChange', () => {
+  const store = getTestStore();
   const component = renderer.create(
-    <Document frontendParams={{documentName: "MainDocument"}} store={getTestStore()} />
+    <Document frontendParams={{documentName: "MainDocument"}} store={store} />
   );
-  be5init.hashChange();
+
+  store.dispatch(updateUserInfo(getTestUser()), function () {
+    be5init.hashChange();
+  });
 });

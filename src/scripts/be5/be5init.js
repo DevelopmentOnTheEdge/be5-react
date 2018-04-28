@@ -32,7 +32,7 @@ import './components/QueryBuilder';
 import './components/StaticPage';
 import './components/ErrorPane';
 import './components/UiPanel';
-import {updateUserInfo} from "./store/actions/user.actions";
+import {fetchUserInfo} from "./store/actions/user.actions";
 
 
 export default {
@@ -60,24 +60,19 @@ export default {
     Preconditions.passed(store, 'store in required');
 
     be5.store = store;
-    store.dispatch(updateUserInfo());
-
-    window.addEventListener("hashchange", this.hashChange, false);
-
-    bus.listen('CallDefaultAction', () => {
-      be5.net.request('menu/defaultAction', {}, data => {
-        be5.url.set(data.arg)
+    store.dispatch(fetchUserInfo(), function () {
+      be5.net.request('languageSelector', {}, function(data) {
+        be5.locale.set(data.selected, data.messages);
+        be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
       });
     });
+
+    window.addEventListener("hashchange", this.hashChange, false);
 
     be5.net.request("appInfo", {}, function(data) {
       be5.appInfo = data;
       be5.ui.setTitle();
     });
 
-    be5.net.request('languageSelector', {}, function(data) {
-      be5.locale.set(data.selected, data.messages);
-      be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
-    });
   }
 }

@@ -1,4 +1,4 @@
-import {updateUserInfo, toggleRoles}  from '../../../../src/scripts/be5/store/actions/user.actions'
+import {fetchUserInfo, toggleRoles}  from '../../../../src/scripts/be5/store/actions/user.actions'
 import {getUser, getCurrentRoles}  from '../../../../src/scripts/be5/store/selectors/user.selectors'
 import be5 from '../../../../src/scripts/be5/be5';
 import {getTestStore} from "../testUtils";
@@ -14,9 +14,10 @@ test('test updateUserInfo', () => {
   const store = getTestStore();
 
   expect(getUser(store.getState()))
-    .toEqual({"availableRoles": ["DefaultGuest"], "currentRoles": ["DefaultGuest"], "loggedIn": false, "userName": "Guest"});
+    .toEqual({"availableRoles": ["DefaultGuest"], "currentRoles": ["DefaultGuest"], "loggedIn": false, "userName": "Guest",
+      "defaultRoute": "static/welcome.be"});
 
-  store.dispatch(updateUserInfo());
+  store.dispatch(fetchUserInfo());
 
   expect(getUser(store.getState()))
     .toEqual(newUserState);

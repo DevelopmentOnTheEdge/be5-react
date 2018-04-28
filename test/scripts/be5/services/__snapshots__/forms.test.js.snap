@@ -52,7 +52,7 @@ exports[`load and _performForm test 1`] = `
 </div>
 `;
 
-exports[`performOperationResult finished 1`] = `
+exports[`performOperationResult finished FinishedResult 1`] = `
 <div
   className="document-content"
   id="document-content___test"

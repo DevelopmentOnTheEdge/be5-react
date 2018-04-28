@@ -4,7 +4,8 @@ const initialState = {
   "availableRoles":["DefaultGuest"],
   "loggedIn":false,
   "currentRoles":["DefaultGuest"],
-  "userName":"Guest"
+  "userName":"Guest",
+  "defaultRoute": "static/welcome.be"
 };
 
 export default function users(state = initialState, action)

@@ -77,7 +77,7 @@ import rootReducer     from './store/reducers';
 import userReduser     from './store/reducers/user.reduser';
 import menuReduser     from './store/reducers/menu.reduser';
 
-import {toggleRoles,updateUserInfo} from './store/actions/user.actions'
+import {toggleRoles,fetchUserInfo,updateUserInfo} from './store/actions/user.actions'
 import {fetchMenu} from './store/actions/menu.actions'
 
 import {getCurrentRoles, getUser} from './store/selectors/user.selectors'
@@ -100,7 +100,7 @@ export {
 
   // store
   createBaseStore, rootReducer, userReduser, menuReduser,
-  toggleRoles,updateUserInfo,
+  toggleRoles,fetchUserInfo,updateUserInfo,
   fetchMenu,
   getCurrentRoles, getUser,
   getMenu,

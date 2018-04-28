@@ -10,7 +10,8 @@ describe('user reducer', () => {
       "availableRoles":["DefaultGuest"],
       "loggedIn":false,
       "currentRoles":["DefaultGuest"],
-      "userName":"Guest"
+      "userName":"Guest",
+      "defaultRoute": "static/welcome.be"
     })
   });
 
