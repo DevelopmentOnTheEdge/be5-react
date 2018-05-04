@@ -270,6 +270,18 @@ var getAllRoutes = function getAllRoutes() {
   return Object.keys(routes);
 };
 
+var getUser = function getUser(state) {
+  return state.user;
+};
+
+var getCurrentRoles = function getCurrentRoles(state) {
+  return state.user.currentRoles;
+};
+
+var getDefaultRoute = function getDefaultRoute(state) {
+  return state.user.defaultRoute;
+};
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
@@ -419,6 +431,11 @@ var toConsumableArray = function (arr) {
 
 var be5 = {
   store: undefined,
+
+  getStoreState: function getStoreState() {
+    return be5.store.getState();
+  },
+
 
   debug: true,
 
@@ -575,7 +592,7 @@ var be5 = {
     },
     process: function process(documentName, url) {
       if (url === '' || url === '#' || url === '#!') {
-        bus.fire('CallDefaultAction');
+        url = '#!' + getDefaultRoute(be5.getStoreState());
       }
       if (url.substring(0, 1) === '#') url = url.substring(1);
       if (url.substring(0, 1) !== '!') return;
@@ -809,12 +826,16 @@ var SELECT_ROLES = 'SELECT_ROLES';
 //LOGIN_SUCCESS: 'USERS_LOGIN_SUCCESS',
 //LOGIN_FAILURE: 'USERS_LOGIN_FAILURE',
 
-var updateUserInfo = function updateUserInfo() {
+var fetchUserInfo = function fetchUserInfo() {
   return function (dispatch) {
     be5.net.request('userInfo', {}, function (data) {
       dispatch({ type: UPDATE_USER_INFO, user: data });
     });
   };
+};
+
+var updateUserInfo = function updateUserInfo(data) {
+  return { type: UPDATE_USER_INFO, user: data };
 };
 
 // function logout() {
@@ -829,6 +850,25 @@ var toggleRoles = function toggleRoles(roles) {
     });
   };
 };
+
+var DEFAULT_VIEW = 'All records';
+
+var ROLE_ADMINISTRATOR = "Administrator";
+var ROLE_SYSTEM_DEVELOPER = "SystemDeveloper";
+var ROLE_GUEST = "Guest";
+
+var OPEN_DEFAULT_ROUTE = 'OPEN_DEFAULT_ROUTE';
+
+var UPDATE_PARENT_DOCUMENT = 'UPDATE_PARENT_DOCUMENT';
+
+var constants = Object.freeze({
+	DEFAULT_VIEW: DEFAULT_VIEW,
+	ROLE_ADMINISTRATOR: ROLE_ADMINISTRATOR,
+	ROLE_SYSTEM_DEVELOPER: ROLE_SYSTEM_DEVELOPER,
+	ROLE_GUEST: ROLE_GUEST,
+	OPEN_DEFAULT_ROUTE: OPEN_DEFAULT_ROUTE,
+	UPDATE_PARENT_DOCUMENT: UPDATE_PARENT_DOCUMENT
+});
 
 var forms = {
   load: function load(params, frontendParams) {
@@ -890,9 +930,13 @@ var forms = {
             frontendParams.onSuccess(json, applyParams);
           }
 
-          if (attributes.status !== 'document' && frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
+          if (!this.isActions(attributes) && frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
             //console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
             bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX);
+          }
+
+          if (documentName === be5.MAIN_MODAL_DOCUMENT) {
+            bus.fire("mainModalClose");
           }
 
           switch (attributes.status) {
@@ -914,25 +958,13 @@ var forms = {
               return;
             case 'finished':
               if (attributes.details !== undefined) {
-                if (attributes.details === UPDATE_USER_INFO) {
-                  be5.store.dispatch(updateUserInfo());
-
-                  bus.fire('CallDefaultAction');
-
-                  if (documentName === be5.MAIN_MODAL_DOCUMENT) bus.fire("mainModalClose");
-                }
-              } else if (documentName === be5.MAIN_MODAL_DOCUMENT) {
-                bus.fire("alert", { msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success' });
-                bus.fire("mainModalClose");
+                this.executeActions(attributes.details, json, frontendParams, applyParams);
               } else {
-                changeDocument(documentName, { value: json, frontendParams: frontendParams });
-              }
-              return;
-            case 'document':
-              var tableJson = Object.assign({}, attributes.details, { meta: json.meta });
-              changeDocument(frontendParams.parentDocumentName, { value: tableJson });
-              if (documentName === be5.MAIN_MODAL_DOCUMENT) {
-                bus.fire("mainModalClose");
+                if (documentName === be5.MAIN_MODAL_DOCUMENT) {
+                  bus.fire("alert", { msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success' });
+                } else {
+                  changeDocument(documentName, { value: json, frontendParams: frontendParams });
+                }
               }
               return;
             default:
@@ -957,6 +989,30 @@ var forms = {
       changeDocument(documentName, { value: json, frontendParams: frontendParams });
     }
   },
+  isActions: function isActions(attributes) {
+    return attributes.status === 'finished' && attributes.details !== undefined;
+  },
+
+
+  executeActions: function executeActions(actions, json, frontendParams, applyParams) {
+    Preconditions.passed((typeof actions === 'undefined' ? 'undefined' : _typeof(actions)) === 'object', "actions must be object:" + actions);
+
+    if (actions[UPDATE_USER_INFO] !== undefined) {
+      be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
+    }
+
+    if (actions[OPEN_DEFAULT_ROUTE] !== undefined) {
+      be5.url.set(getDefaultRoute(be5.getStoreState()));
+    }
+
+    if (actions[UPDATE_PARENT_DOCUMENT] !== undefined) {
+      var tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], { meta: json.meta });
+      changeDocument(frontendParams.parentDocumentName, { value: tableJson });
+    }
+
+    bus.fire("actionsAfterFinished", { actions: actions, json: json, frontendParams: frontendParams, applyParams: applyParams });
+  },
+
   _performForm: function _performForm(json, frontendParams) {
     var operationResult = json.data.attributes.operationResult;
 
@@ -1128,27 +1184,6 @@ var route$18 = function route(documentName, entity) {
 };
 
 registerRoute("categories", route$18);
-
-var getUser = function getUser(state) {
-  return state.user;
-};
-
-var getCurrentRoles = function getCurrentRoles(state) {
-  return state.user.currentRoles;
-};
-
-var DEFAULT_VIEW = 'All records';
-
-var ROLE_ADMINISTRATOR = "Administrator";
-var ROLE_SYSTEM_DEVELOPER = "SystemDeveloper";
-var ROLE_GUEST = "Guest";
-
-var constants = Object.freeze({
-	DEFAULT_VIEW: DEFAULT_VIEW,
-	ROLE_ADMINISTRATOR: ROLE_ADMINISTRATOR,
-	ROLE_SYSTEM_DEVELOPER: ROLE_SYSTEM_DEVELOPER,
-	ROLE_GUEST: ROLE_GUEST
-});
 
 var documents = {};
 
@@ -3609,8 +3644,8 @@ var be5init = {
   hashChange: function hashChange() {
     bus.fire("mainModalClose");
 
+    //todo move to redux
     var state = documentState.get(be5.MAIN_DOCUMENT);
-    console.log(state);
 
     if (state.value && state.value.data && state.value.data.links && "#!" + state.value.data.links.self === be5.url.get() && state.value.data.links.self.startsWith('form')) {
       //console.log('skip - form already opened');
@@ -3622,25 +3657,40 @@ var be5init = {
     Preconditions.passed(store, 'store in required');
 
     be5.store = store;
-    store.dispatch(updateUserInfo());
+    this.initGetUser(store);
+
+    be5.net.request('languageSelector', {}, function (data) {
+      be5.locale.set(data.selected, data.messages);
+      //be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
+
+      store.dispatch(fetchUserInfo());
+    });
 
     window.addEventListener("hashchange", this.hashChange, false);
-
-    bus.listen('CallDefaultAction', function () {
-      be5.net.request('menu/defaultAction', {}, function (data) {
-        be5.url.set(data.arg);
-      });
-    });
 
     be5.net.request("appInfo", {}, function (data) {
       be5.appInfo = data;
       be5.ui.setTitle();
     });
-
-    be5.net.request('languageSelector', {}, function (data) {
-      be5.locale.set(data.selected, data.messages);
+  },
+  initGetUser: function initGetUser(store) {
+    this.initOnLoad(store, undefined, getDefaultRoute, function () {
+      //be5.url.set(getDefaultRoute(be5.store))
+      //be5.url.process(be5.MAIN_DOCUMENT, "");
       be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
     });
+  },
+  initOnLoad: function initOnLoad(store, initState, select, onChange) {
+    function handleChange() {
+      var nextState = select(store.getState());
+
+      if (nextState !== initState) {
+        onChange(nextState);
+        unsubscribe();
+      }
+    }
+
+    var unsubscribe = store.subscribe(handleChange);
   }
 };
 
@@ -5071,10 +5121,12 @@ var createBaseStore = function createBaseStore(rootReducer) {
 };
 
 var initialState = {
-  "availableRoles": ["DefaultGuest"],
+  "availableRoles": ["FrontendInit"],
+  "currentRoles": ["FrontendInit"],
   "loggedIn": false,
-  "currentRoles": ["DefaultGuest"],
-  "userName": "Guest"
+  "userName": "Guest",
+  "getCreationTime": "0",
+  "defaultRoute": undefined
 };
 
 function users() {
@@ -5118,4 +5170,4 @@ var index = combineReducers({
 // services
 // store
 
-export { be5, be5init, constants, Preconditions as preconditions, getBaseUrl, getSelfUrl, getModelByID, createStaticValue, getResourceByID, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, loadTable, updateTable };
+export { be5, be5init, constants, Preconditions as preconditions, getBaseUrl, getSelfUrl, getModelByID, createStaticValue, getResourceByID, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, loadTable, updateTable };
