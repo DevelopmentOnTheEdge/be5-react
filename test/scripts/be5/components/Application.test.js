@@ -15,7 +15,6 @@ test('snapshot', () => {
   );
   expect(component.toJSON()).toMatchSnapshot();
 
-  bus.fire("LoggedIn");
   // changeDocument('MainDocument', { component: StaticPage, value: "test" });
   // expect(component.toJSON()).toMatchSnapshot();
 
