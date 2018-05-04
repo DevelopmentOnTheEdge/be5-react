@@ -178,7 +178,7 @@ export default
       changeDocument(frontendParams.parentDocumentName, {value: tableJson});
     }
 
-    //todo api for register new actions
+    bus.fire("actionsAfterFinished", {actions, json, frontendParams, applyParams});
   },
 
   _performForm(json, frontendParams)

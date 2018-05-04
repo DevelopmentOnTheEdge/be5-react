@@ -8,6 +8,7 @@ import be5            from '../../../../src/scripts/be5/be5';
 import forms          from '../../../../src/scripts/be5/services/forms';
 import testData       from '../testData.json';
 import {getUser} from "../../../../src/scripts/be5/store/selectors/user.selectors";
+import bus from "../../../../src/scripts/be5/core/bus";
 
 
 test('load', () => {
@@ -103,6 +104,32 @@ test('performOperationResult UPDATE_USER_INFO', () => {
 
   expect(getUser(store.getState())).toEqual(getTestUser());
 });
+
+test('actionsAfterFinished TEST', () => {
+  let out = '';
+
+  bus.listen("actionsAfterFinished", ({actions, json, frontendParams, applyParams}) => {
+    if(actions["TEST"] !== undefined)
+    {
+      out = actions["TEST"] + ' 1'
+    }
+  });
+
+  const res = {
+    data: {
+      type: "operationResult",
+      attributes: {"status":"finished", details: {
+        TEST: "test data"
+      }},
+      links: {"self":"form/categories/Doc categories/Edit"},
+    },
+    meta: {"_ts_":"1503244989281"},
+  };
+  forms._performOperationResult(res, {documentName: "test"});
+
+  expect(out).toEqual('test data 1');
+});
+
 
 test('performOperationResult redirect', () => {
   //const mockFunc = jest.fn();
