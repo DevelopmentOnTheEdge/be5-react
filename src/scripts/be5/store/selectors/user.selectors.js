@@ -9,3 +9,7 @@ export const getCurrentRoles = (state) => {
 export const getDefaultRoute = (state) => {
   return state.user.defaultRoute;
 };
+
+export const getCreationTime = (state) => {
+  return state.user.creationTime;
+};

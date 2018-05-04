@@ -8,7 +8,6 @@ import be5            from '../../../../src/scripts/be5/be5';
 import forms          from '../../../../src/scripts/be5/services/forms';
 import testData       from '../testData.json';
 import {getUser} from "../../../../src/scripts/be5/store/selectors/user.selectors";
-import {fetchUserInfo} from "../../../../src/scripts/be5/store/actions/user.actions";
 
 
 test('load', () => {
@@ -87,8 +86,8 @@ test('performOperationResult UPDATE_USER_INFO', () => {
   be5.store = store;
 
   expect(getUser(store.getState()))
-    .toEqual({"availableRoles": ["DefaultGuest"], "currentRoles": ["DefaultGuest"], "loggedIn": false, "userName": "Guest",
-        "defaultRoute": "static/welcome.be"});
+    .toEqual({"availableRoles": ["FrontendInit"], "currentRoles": ["FrontendInit"], "loggedIn": false, "userName": "Guest",
+      "getCreationTime": "0", "defaultRoute": undefined});
 
   const res = {
     data: {

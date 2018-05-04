@@ -33,6 +33,7 @@ import './components/StaticPage';
 import './components/ErrorPane';
 import './components/UiPanel';
 import {fetchUserInfo} from "./store/actions/user.actions";
+import {getDefaultRoute} from "./store/selectors/user.selectors";
 
 
 export default {
@@ -41,8 +42,8 @@ export default {
   {
     bus.fire("mainModalClose");
 
+    //todo move to redux
     const state = documentState.get(be5.MAIN_DOCUMENT);
-    console.log(state);
 
     if(state.value && state.value.data && state.value.data.links && "#!" + state.value.data.links.self === be5.url.get()
       && state.value.data.links.self.startsWith('form'))
@@ -60,11 +61,13 @@ export default {
     Preconditions.passed(store, 'store in required');
 
     be5.store = store;
-    store.dispatch(fetchUserInfo(), function () {
-      be5.net.request('languageSelector', {}, function(data) {
-        be5.locale.set(data.selected, data.messages);
-        be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
-      });
+    this.initGetUser(store);
+
+    be5.net.request('languageSelector', {}, function(data) {
+      be5.locale.set(data.selected, data.messages);
+      //be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
+
+      store.dispatch(fetchUserInfo());
     });
 
     window.addEventListener("hashchange", this.hashChange, false);
@@ -74,5 +77,26 @@ export default {
       be5.ui.setTitle();
     });
 
+  },
+
+  initGetUser(store){
+    this.initOnLoad(store, undefined, getDefaultRoute, () => {
+      //be5.url.set(getDefaultRoute(be5.store))
+      //be5.url.process(be5.MAIN_DOCUMENT, "");
+      be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
+    });
+  },
+
+  initOnLoad(store, initState, select, onChange) {
+    function handleChange() {
+      let nextState = select(store.getState());
+
+      if (nextState !== initState) {
+        onChange(nextState);
+        unsubscribe();
+      }
+    }
+
+    let unsubscribe = store.subscribe(handleChange);
   }
 }

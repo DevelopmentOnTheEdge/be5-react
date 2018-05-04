@@ -9,7 +9,9 @@ export const getTestUser = () => {
     "availableRoles": ["Administrator", "Manager"],
     "currentRoles": ["Manager"],
     "loggedIn": true,
-    "userName": "Administrator"
+    "userName": "Administrator",
+    "creationTime": "2018-05-03T12:05:43.239Z",
+    "defaultRoute": "static/welcome.be"
   };
 };
 

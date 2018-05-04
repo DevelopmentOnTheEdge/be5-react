@@ -7,11 +7,12 @@ describe('user reducer', () => {
     expect(
       user(undefined, {})
     ).toEqual({
-      "availableRoles":["DefaultGuest"],
+      "availableRoles":["FrontendInit"],
       "loggedIn":false,
-      "currentRoles":["DefaultGuest"],
+      "currentRoles":["FrontendInit"],
       "userName":"Guest",
-      "defaultRoute": "static/welcome.be"
+      "getCreationTime": "0",
+      "defaultRoute": undefined
     })
   });
 

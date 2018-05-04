@@ -14,8 +14,8 @@ test('test updateUserInfo', () => {
   const store = getTestStore();
 
   expect(getUser(store.getState()))
-    .toEqual({"availableRoles": ["DefaultGuest"], "currentRoles": ["DefaultGuest"], "loggedIn": false, "userName": "Guest",
-      "defaultRoute": "static/welcome.be"});
+    .toEqual({"availableRoles": ["FrontendInit"], "currentRoles": ["FrontendInit"], "loggedIn": false, "userName": "Guest",
+      "getCreationTime": "0", "defaultRoute": undefined});
 
   store.dispatch(fetchUserInfo());
 
@@ -30,7 +30,7 @@ test('test toggleRoles', () => {
   };
 
   expect(getCurrentRoles(store.getState()))
-    .toEqual(["DefaultGuest"]);
+    .toEqual(["FrontendInit"]);
 
   store.dispatch(toggleRoles('Administrator,Manager'));
 

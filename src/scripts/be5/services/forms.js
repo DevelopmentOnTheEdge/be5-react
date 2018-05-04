@@ -155,6 +155,8 @@ export default
 
   executeActions: function (actions, json, frontendParams, applyParams)
   {
+    Preconditions.passed(typeof actions === 'object', "actions must be array");
+
     if(actions[UPDATE_USER_INFO] !== undefined)
     {
       be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
