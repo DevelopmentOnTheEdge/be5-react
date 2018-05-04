@@ -73,8 +73,8 @@ export default
             frontendParams.onSuccess(json, applyParams);
           }
 
-          if (attributes.status !== 'document' && frontendParams.parentDocumentName !== undefined
-                                            && frontendParams.parentDocumentName !== frontendParams.documentName)
+          if (!this.isActions(attributes) && frontendParams.parentDocumentName !== undefined
+                                          && frontendParams.parentDocumentName !== frontendParams.documentName)
           {
             //console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
             bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX)
@@ -151,6 +151,11 @@ export default
 
       changeDocument(documentName, {value: json, frontendParams: frontendParams});
     }
+  },
+
+  isActions(attributes)
+  {
+    return attributes.status === 'finished' && attributes.details !== undefined
   },
 
   executeActions: function (actions, json, frontendParams, applyParams)
