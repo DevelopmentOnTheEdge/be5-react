@@ -1,12 +1,14 @@
 import React          from 'react';
 import renderer       from 'react-test-renderer';
-import {TestProvider} from "../testUtils";
+import {getTestStore, getTestUser, TestProvider} from "../testUtils";
 import Document       from '../../../../src/scripts/be5/containers/Document';
 import '../../../../src/scripts/be5/components/forms/Form';
 import '../../../../src/scripts/be5/components/forms/FinishedResult';
 import be5            from '../../../../src/scripts/be5/be5';
 import forms          from '../../../../src/scripts/be5/services/forms';
 import testData       from '../testData.json';
+import {getUser} from "../../../../src/scripts/be5/store/selectors/user.selectors";
+import bus from "../../../../src/scripts/be5/core/bus";
 
 
 test('load', () => {
@@ -58,7 +60,7 @@ test('load', () => {
 
 });
 
-test('performOperationResult finished', () => {
+test('performOperationResult finished FinishedResult', () => {
   const component = renderer.create(
     <TestProvider>
       <Document frontendParams={{documentName: "test"}}/>
@@ -79,6 +81,55 @@ test('performOperationResult finished', () => {
   expect(component.toJSON()).toMatchSnapshot();
   //expect(mockFunc.mock.calls.length).toBe(1);
 });
+
+test('performOperationResult UPDATE_USER_INFO', () => {
+  const store = getTestStore();
+  be5.store = store;
+
+  expect(getUser(store.getState()))
+    .toEqual({"availableRoles": ["FrontendInit"], "currentRoles": ["FrontendInit"], "loggedIn": false, "userName": "Guest",
+      "getCreationTime": "0", "defaultRoute": undefined});
+
+  const res = {
+    data: {
+      type: "operationResult",
+      attributes: {"status":"finished", details: {
+        UPDATE_USER_INFO: getTestUser()
+      }},
+      links: {"self":"form/categories/Doc categories/Edit"},
+    },
+    meta: {"_ts_":"1503244989281"},
+  };
+  forms._performOperationResult(res, {documentName: "test"});
+
+  expect(getUser(store.getState())).toEqual(getTestUser());
+});
+
+test('actionsAfterFinished TEST', () => {
+  let out = '';
+
+  bus.listen("actionsAfterFinished", ({actions, json, frontendParams, applyParams}) => {
+    if(actions["TEST"] !== undefined)
+    {
+      out = actions["TEST"] + ' 1'
+    }
+  });
+
+  const res = {
+    data: {
+      type: "operationResult",
+      attributes: {"status":"finished", details: {
+        TEST: "test data"
+      }},
+      links: {"self":"form/categories/Doc categories/Edit"},
+    },
+    meta: {"_ts_":"1503244989281"},
+  };
+  forms._performOperationResult(res, {documentName: "test"});
+
+  expect(out).toEqual('test data 1');
+});
+
 
 test('performOperationResult redirect', () => {
   //const mockFunc = jest.fn();

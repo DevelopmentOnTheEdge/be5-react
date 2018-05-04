@@ -5,3 +5,11 @@ export const getUser = (state) => {
 export const getCurrentRoles = (state) => {
   return state.user.currentRoles;
 };
+
+export const getDefaultRoute = (state) => {
+  return state.user.defaultRoute;
+};
+
+export const getCreationTime = (state) => {
+  return state.user.creationTime;
+};

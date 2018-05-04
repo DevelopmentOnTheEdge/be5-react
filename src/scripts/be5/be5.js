@@ -4,11 +4,16 @@ import {createStaticValue} from './utils/documentUtils';
 import messages from './core/messages';
 import bus      from './core/bus';
 import changeDocument from './core/changeDocument';
-import {getRoute} from './core/routes'
+import {getRoute} from './core/routes';
+import {getDefaultRoute} from "./store/selectors/user.selectors";
 
 
 const be5 = {
   store: undefined,
+
+  getStoreState(){
+    return be5.store.getState()
+  },
 
   debug: true,
 
@@ -170,7 +175,7 @@ const be5 = {
 
     process(documentName, url) {
       if (url === '' || url === '#' || url === '#!') {
-        bus.fire('CallDefaultAction');
+        url = '#!' + getDefaultRoute(be5.getStoreState());
       }
       if (url.substring(0, 1) === '#')
         url = url.substring(1);

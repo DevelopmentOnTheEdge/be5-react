@@ -4,6 +4,8 @@ import Preconditions    from '../utils/preconditions';
 import changeDocument   from '../core/changeDocument';
 import {updateUserInfo} from "../store/actions/user.actions";
 import {UPDATE_USER_INFO} from "../store/constants/user.constants";
+import {OPEN_DEFAULT_ROUTE, UPDATE_PARENT_DOCUMENT} from "../constants";
+import {getDefaultRoute} from "../store/selectors/user.selectors";
 
 
 export default
@@ -71,11 +73,16 @@ export default
             frontendParams.onSuccess(json, applyParams);
           }
 
-          if (attributes.status !== 'document' && frontendParams.parentDocumentName !== undefined
-                                            && frontendParams.parentDocumentName !== frontendParams.documentName)
+          if (!this.isActions(attributes) && frontendParams.parentDocumentName !== undefined
+                                          && frontendParams.parentDocumentName !== frontendParams.documentName)
           {
             //console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
             bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX)
+          }
+
+          if(documentName === be5.MAIN_MODAL_DOCUMENT)
+          {
+            bus.fire("mainModalClose");
           }
 
           switch (attributes.status) {
@@ -109,30 +116,18 @@ export default
             case 'finished':
               if(attributes.details !== undefined)
               {
-                if(attributes.details === UPDATE_USER_INFO)
-                {
-                  be5.store.dispatch(updateUserInfo());
-
-                  bus.fire('CallDefaultAction');
-
-                  if(documentName === be5.MAIN_MODAL_DOCUMENT)bus.fire("mainModalClose");
-                }
-              }
-              else if(documentName === be5.MAIN_MODAL_DOCUMENT)
-              {
-                bus.fire("alert", {msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success'});
-                bus.fire("mainModalClose");
+                this.executeActions(attributes.details, json, frontendParams, applyParams);
               }
               else
               {
-                changeDocument(documentName, { value: json, frontendParams: frontendParams});
-              }
-              return;
-            case 'document':
-              const tableJson = Object.assign({}, attributes.details, {meta: json.meta});
-              changeDocument(frontendParams.parentDocumentName, {value: tableJson});
-              if(documentName === be5.MAIN_MODAL_DOCUMENT) {
-                bus.fire("mainModalClose");
+                if(documentName === be5.MAIN_MODAL_DOCUMENT)
+                {
+                  bus.fire("alert", {msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success'});
+                }
+                else
+                {
+                  changeDocument(documentName, { value: json, frontendParams: frontendParams});
+                }
               }
               return;
             default:
@@ -156,6 +151,34 @@ export default
 
       changeDocument(documentName, {value: json, frontendParams: frontendParams});
     }
+  },
+
+  isActions(attributes)
+  {
+    return attributes.status === 'finished' && attributes.details !== undefined
+  },
+
+  executeActions: function (actions, json, frontendParams, applyParams)
+  {
+    Preconditions.passed(typeof actions === 'object', "actions must be object:" + actions);
+
+    if(actions[UPDATE_USER_INFO] !== undefined)
+    {
+      be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
+    }
+
+    if(actions[OPEN_DEFAULT_ROUTE] !== undefined)
+    {
+      be5.url.set(getDefaultRoute(be5.getStoreState()));
+    }
+
+    if(actions[UPDATE_PARENT_DOCUMENT] !== undefined)
+    {
+      const tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], {meta: json.meta});
+      changeDocument(frontendParams.parentDocumentName, {value: tableJson});
+    }
+
+    bus.fire("actionsAfterFinished", {actions, json, frontendParams, applyParams});
   },
 
   _performForm(json, frontendParams)

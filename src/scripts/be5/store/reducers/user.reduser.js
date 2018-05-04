@@ -1,10 +1,12 @@
 import * as types from '../constants/user.constants';
 
 const initialState = {
-  "availableRoles":["DefaultGuest"],
+  "availableRoles":["FrontendInit"],
+  "currentRoles":["FrontendInit"],
   "loggedIn":false,
-  "currentRoles":["DefaultGuest"],
-  "userName":"Guest"
+  "userName":"Guest",
+  "getCreationTime": "0",
+  "defaultRoute": undefined
 };
 
 export default function users(state = initialState, action)
