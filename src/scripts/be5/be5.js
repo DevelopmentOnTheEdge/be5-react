@@ -11,6 +11,10 @@ import {getDefaultRoute} from "./store/selectors/user.selectors";
 const be5 = {
   store: undefined,
 
+  getStoreState(){
+    return be5.store.getState()
+  },
+
   debug: true,
 
   def: {
@@ -171,7 +175,7 @@ const be5 = {
 
     process(documentName, url) {
       if (url === '' || url === '#' || url === '#!') {
-        url = '#!' + getDefaultRoute(be5.store.getState());
+        url = '#!' + getDefaultRoute(be5.getStoreState());
       }
       if (url.substring(0, 1) === '#')
         url = url.substring(1);

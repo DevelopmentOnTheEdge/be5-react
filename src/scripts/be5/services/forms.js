@@ -155,7 +155,7 @@ export default
 
   executeActions: function (actions, json, frontendParams, applyParams)
   {
-    Preconditions.passed(typeof actions === 'object', "actions must be array");
+    Preconditions.passed(typeof actions === 'object', "actions must be object:" + actions);
 
     if(actions[UPDATE_USER_INFO] !== undefined)
     {
@@ -164,7 +164,7 @@ export default
 
     if(actions[OPEN_DEFAULT_ROUTE] !== undefined)
     {
-      be5.url.set(getDefaultRoute(be5.store));
+      be5.url.set(getDefaultRoute(be5.getStoreState()));
     }
 
     if(actions[UPDATE_PARENT_DOCUMENT] !== undefined)
