@@ -91,6 +91,7 @@ export default
 
               let url;
               let newWindowUrl = null;
+
               if(typeof(attributes.details) !== 'object'){
                 url = attributes.details.url;
                 newWindowUrl = attributes.details.newWindowUrl;
@@ -102,9 +103,11 @@ export default
                 window.open(newWindowUrl, '_blank');
               }
 
-              if(url.startsWith("http://")
-                      || url.startsWith("https://")
-                      || url.startsWith("ftp://"))
+              if(url === 'goBack()'){
+                window.history.back();
+              }
+
+              if(url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://"))
               {
                 window.location.href = url;
               }
