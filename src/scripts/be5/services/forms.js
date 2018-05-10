@@ -88,27 +88,41 @@ export default
           switch (attributes.status) {
             case 'redirect':
               bus.fire("alert", {msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success'});
-              if(attributes.details.startsWith("http://")
-                      || attributes.details.startsWith("https://")
-                      || attributes.details.startsWith("ftp://"))
+
+              let url;
+              let newWindowUrl = null;
+              if(typeof(attributes.details) !== 'object'){
+                url = attributes.details.url;
+                newWindowUrl = attributes.details.newWindowUrl;
+              }else{
+                url = attributes.details;
+              }
+
+              if(newWindowUrl !== null){
+                window.open(newWindowUrl, '_blank');
+              }
+
+              if(url.startsWith("http://")
+                      || url.startsWith("https://")
+                      || url.startsWith("ftp://"))
               {
-                window.location.href = attributes.details;
+                window.location.href = url;
               }
               else
               {
                 if (documentName === be5.MAIN_DOCUMENT)
                 {
-                  be5.url.set(attributes.details);
+                  be5.url.set(url);
                 }
                 else
                 {
-                  if(be5.url.parse(attributes.details).positional[0] === 'form')
+                  if(be5.url.parse(url).positional[0] === 'form')
                   {
-                    this.load(this.getOperationParams(attributes.details, {}), frontendParams);
+                    this.load(this.getOperationParams(url, {}), frontendParams);
                   }
                   else
                   {
-                    be5.url.process(documentName, '#!' + attributes.details);
+                    be5.url.process(documentName, '#!' + url);
                   }
                 }
               }
