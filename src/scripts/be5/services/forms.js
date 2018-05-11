@@ -182,9 +182,10 @@ export default
       }
     }
 
+    //window.open blocked by browser usually
     if(actions[OPEN_NEW_WINDOW] !== undefined)
     {
-      window.open(actions[OPEN_NEW_WINDOW], '_blank');
+      window.open(actions[OPEN_NEW_WINDOW]);
     }
 
     if(actions.hasOwnProperty(OPEN_DEFAULT_ROUTE))
