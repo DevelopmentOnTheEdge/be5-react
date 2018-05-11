@@ -4,7 +4,7 @@ import Preconditions    from '../utils/preconditions';
 import changeDocument   from '../core/changeDocument';
 import {updateUserInfo} from "../store/actions/user.actions";
 import {UPDATE_USER_INFO} from "../store/constants/user.constants";
-import {OPEN_DEFAULT_ROUTE, UPDATE_PARENT_DOCUMENT} from "../constants";
+import {GO_BACK, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, UPDATE_PARENT_DOCUMENT} from "../constants";
 import {getDefaultRoute} from "../store/selectors/user.selectors";
 
 
@@ -88,27 +88,28 @@ export default
           switch (attributes.status) {
             case 'redirect':
               bus.fire("alert", {msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success'});
-              if(attributes.details.startsWith("http://")
-                      || attributes.details.startsWith("https://")
-                      || attributes.details.startsWith("ftp://"))
+
+              const url = attributes.details;
+
+              if(url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://"))
               {
-                window.location.href = attributes.details;
+                window.location.href = url;
               }
               else
               {
                 if (documentName === be5.MAIN_DOCUMENT)
                 {
-                  be5.url.set(attributes.details);
+                  be5.url.set(url);
                 }
                 else
                 {
-                  if(be5.url.parse(attributes.details).positional[0] === 'form')
+                  if(be5.url.parse(url).positional[0] === 'form')
                   {
-                    this.load(this.getOperationParams(attributes.details, {}), frontendParams);
+                    this.load(this.getOperationParams(url, {}), frontendParams);
                   }
                   else
                   {
-                    be5.url.process(documentName, '#!' + attributes.details);
+                    be5.url.process(documentName, '#!' + url);
                   }
                 }
               }
@@ -158,18 +159,28 @@ export default
     return attributes.status === 'finished' && attributes.details !== undefined
   },
 
-  executeActions: function (actions, json, frontendParams, applyParams)
+  executeActions: function (actionsArrayOrOneObject, json, frontendParams, applyParams)
   {
-    Preconditions.passed(typeof actions === 'object', "actions must be object:" + actions);
+    const actions = this.getActionsMap(actionsArrayOrOneObject);
 
     if(actions[UPDATE_USER_INFO] !== undefined)
     {
       be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
     }
 
-    if(actions[OPEN_DEFAULT_ROUTE] !== undefined)
+    if(actions[OPEN_NEW_WINDOW] !== undefined)
+    {
+      window.open(actions[OPEN_NEW_WINDOW]);
+    }
+
+    if(actions.hasOwnProperty(OPEN_DEFAULT_ROUTE))
     {
       be5.url.set(getDefaultRoute(be5.getStoreState()));
+    }
+
+    if(actions.hasOwnProperty(GO_BACK))
+    {
+      window.history.back();
     }
 
     if(actions[UPDATE_PARENT_DOCUMENT] !== undefined)
@@ -178,7 +189,29 @@ export default
       changeDocument(frontendParams.parentDocumentName, {value: tableJson});
     }
 
-    bus.fire("actionsAfterFinished", {actions, json, frontendParams, applyParams});
+    bus.fire("executeFrontendActions", {actions, json, frontendParams, applyParams});
+  },
+
+  getActionsMap(actionsArrayOrOneObject) {
+    let map = {};
+    if(Array.isArray(actionsArrayOrOneObject))
+    {
+      for (let i = 0; i < actionsArrayOrOneObject.length; i++) {
+        Preconditions.passed(typeof actionsArrayOrOneObject[i].type === "string",
+          "Actions must be object with string type:" + actionsArrayOrOneObject);
+
+        map[actionsArrayOrOneObject[i].type] = actionsArrayOrOneObject[i].value;
+      }
+    }
+    else
+    {
+      Preconditions.passed(typeof actionsArrayOrOneObject.type === "string",
+        "Actions must be object with string type:" + actionsArrayOrOneObject);
+
+      map[actionsArrayOrOneObject.type] = actionsArrayOrOneObject.value;
+    }
+
+    return map;
   },
 
   _performForm(json, frontendParams)

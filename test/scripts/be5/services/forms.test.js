@@ -93,9 +93,9 @@ test('performOperationResult UPDATE_USER_INFO', () => {
   const res = {
     data: {
       type: "operationResult",
-      attributes: {"status":"finished", details: {
-        UPDATE_USER_INFO: getTestUser()
-      }},
+      attributes: {"status":"finished", details:
+        new FrontendAction("UPDATE_USER_INFO", getTestUser())
+      },
       links: {"self":"form/categories/Doc categories/Edit"},
     },
     meta: {"_ts_":"1503244989281"},
@@ -105,10 +105,10 @@ test('performOperationResult UPDATE_USER_INFO', () => {
   expect(getUser(store.getState())).toEqual(getTestUser());
 });
 
-test('actionsAfterFinished TEST', () => {
+test('executeFrontendActions TEST', () => {
   let out = '';
 
-  bus.listen("actionsAfterFinished", ({actions, json, frontendParams, applyParams}) => {
+  bus.listen("executeFrontendActions", ({actions, json, frontendParams, applyParams}) => {
     if(actions["TEST"] !== undefined)
     {
       out = actions["TEST"] + ' 1'
@@ -118,9 +118,9 @@ test('actionsAfterFinished TEST', () => {
   const res = {
     data: {
       type: "operationResult",
-      attributes: {"status":"finished", details: {
-        TEST: "test data"
-      }},
+      attributes: {"status":"finished", details:
+        [new FrontendAction("TEST", "test data")]
+      },
       links: {"self":"form/categories/Doc categories/Edit"},
     },
     meta: {"_ts_":"1503244989281"},
@@ -191,3 +191,9 @@ test('load and _performForm test', () => {
   expect(component.toJSON()).toMatchSnapshot();
 });
 
+class FrontendAction {
+  constructor(type, value) {
+    this.type = type;
+    this.value = value;
+  }
+}

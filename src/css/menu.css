@@ -43,6 +43,6 @@ a.rootMenuItem.inactive + div + ul {
     text-decoration: underline;
 }
 
-.nav-link {
+.navbar .nav-link {
     font-size: 16px;
 }
