@@ -67,7 +67,13 @@ class TableBox extends React.Component {
       this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
   }
 
-  onOperationClick(name) {
+  onOperationClick(operation) {
+    if(operation.clientSide === true)
+    {
+      return;
+    }
+
+    const name = operation.name;
     const attr = this.props.value.data.attributes;
 
     const params = {
