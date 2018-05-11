@@ -858,6 +858,8 @@ var ROLE_SYSTEM_DEVELOPER = "SystemDeveloper";
 var ROLE_GUEST = "Guest";
 
 var OPEN_DEFAULT_ROUTE = 'OPEN_DEFAULT_ROUTE';
+var OPEN_NEW_WINDOW = 'OPEN_NEW_WINDOW';
+var GO_BACK = 'GO_BACK';
 
 var UPDATE_PARENT_DOCUMENT = 'UPDATE_PARENT_DOCUMENT';
 
@@ -867,6 +869,8 @@ var constants = Object.freeze({
 	ROLE_SYSTEM_DEVELOPER: ROLE_SYSTEM_DEVELOPER,
 	ROLE_GUEST: ROLE_GUEST,
 	OPEN_DEFAULT_ROUTE: OPEN_DEFAULT_ROUTE,
+	OPEN_NEW_WINDOW: OPEN_NEW_WINDOW,
+	GO_BACK: GO_BACK,
 	UPDATE_PARENT_DOCUMENT: UPDATE_PARENT_DOCUMENT
 });
 
@@ -942,16 +946,19 @@ var forms = {
           switch (attributes.status) {
             case 'redirect':
               bus.fire("alert", { msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success' });
-              if (attributes.details.startsWith("http://") || attributes.details.startsWith("https://") || attributes.details.startsWith("ftp://")) {
-                window.location.href = attributes.details;
+
+              var url = attributes.details;
+
+              if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://")) {
+                window.location.href = url;
               } else {
                 if (documentName === be5.MAIN_DOCUMENT) {
-                  be5.url.set(attributes.details);
+                  be5.url.set(url);
                 } else {
-                  if (be5.url.parse(attributes.details).positional[0] === 'form') {
-                    this.load(this.getOperationParams(attributes.details, {}), frontendParams);
+                  if (be5.url.parse(url).positional[0] === 'form') {
+                    this.load(this.getOperationParams(url, {}), frontendParams);
                   } else {
-                    be5.url.process(documentName, '#!' + attributes.details);
+                    be5.url.process(documentName, '#!' + url);
                   }
                 }
               }
@@ -994,15 +1001,23 @@ var forms = {
   },
 
 
-  executeActions: function executeActions(actions, json, frontendParams, applyParams) {
-    Preconditions.passed((typeof actions === 'undefined' ? 'undefined' : _typeof(actions)) === 'object', "actions must be object:" + actions);
+  executeActions: function executeActions(actionsArrayOrOneObject, json, frontendParams, applyParams) {
+    var actions = this.getActionsMap(actionsArrayOrOneObject);
 
     if (actions[UPDATE_USER_INFO] !== undefined) {
       be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
     }
 
-    if (actions[OPEN_DEFAULT_ROUTE] !== undefined) {
+    if (actions[OPEN_NEW_WINDOW] !== undefined) {
+      window.open(actions[OPEN_NEW_WINDOW]);
+    }
+
+    if (actions.hasOwnProperty(OPEN_DEFAULT_ROUTE)) {
       be5.url.set(getDefaultRoute(be5.getStoreState()));
+    }
+
+    if (actions.hasOwnProperty(GO_BACK)) {
+      window.history.back();
     }
 
     if (actions[UPDATE_PARENT_DOCUMENT] !== undefined) {
@@ -1010,9 +1025,25 @@ var forms = {
       changeDocument(frontendParams.parentDocumentName, { value: tableJson });
     }
 
-    bus.fire("actionsAfterFinished", { actions: actions, json: json, frontendParams: frontendParams, applyParams: applyParams });
+    bus.fire("executeFrontendActions", { actions: actions, json: json, frontendParams: frontendParams, applyParams: applyParams });
   },
 
+  getActionsMap: function getActionsMap(actionsArrayOrOneObject) {
+    var map = {};
+    if (Array.isArray(actionsArrayOrOneObject)) {
+      for (var i = 0; i < actionsArrayOrOneObject.length; i++) {
+        Preconditions.passed(typeof actionsArrayOrOneObject[i].type === "string", "Actions must be object with string type:" + actionsArrayOrOneObject);
+
+        map[actionsArrayOrOneObject[i].type] = actionsArrayOrOneObject[i].value;
+      }
+    } else {
+      Preconditions.passed(typeof actionsArrayOrOneObject.type === "string", "Actions must be object with string type:" + actionsArrayOrOneObject);
+
+      map[actionsArrayOrOneObject.type] = actionsArrayOrOneObject.value;
+    }
+
+    return map;
+  },
   _performForm: function _performForm(json, frontendParams) {
     var operationResult = json.data.attributes.operationResult;
 
