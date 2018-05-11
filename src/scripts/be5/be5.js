@@ -278,7 +278,9 @@ const be5 = {
         dataType : type,
         type : 'POST',
         data : params,
-        async: !!success,
+        //use only async request:
+        //https://stackoverflow.com/questions/25446125/synchronous-ajax-does-chrome-have-a-timeout-on-trusted-events
+        async: true,
         xhrFields: {
           withCredentials: true
         },
