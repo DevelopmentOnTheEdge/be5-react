@@ -189,8 +189,7 @@ export default
       changeDocument(frontendParams.parentDocumentName, {value: tableJson});
     }
 
-    //todo rename executeFrontendActions
-    bus.fire("actionsAfterFinished", {actions, json, frontendParams, applyParams});
+    bus.fire("executeFrontendActions", {actions, json, frontendParams, applyParams});
   },
 
   getActionsMap(actionsArrayOrOneObject) {

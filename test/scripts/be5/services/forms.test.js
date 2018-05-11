@@ -105,10 +105,10 @@ test('performOperationResult UPDATE_USER_INFO', () => {
   expect(getUser(store.getState())).toEqual(getTestUser());
 });
 
-test('actionsAfterFinished TEST', () => {
+test('executeFrontendActions TEST', () => {
   let out = '';
 
-  bus.listen("actionsAfterFinished", ({actions, json, frontendParams, applyParams}) => {
+  bus.listen("executeFrontendActions", ({actions, json, frontendParams, applyParams}) => {
     if(actions["TEST"] !== undefined)
     {
       out = actions["TEST"] + ' 1'
