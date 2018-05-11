@@ -168,17 +168,17 @@ export default
       be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
     }
 
-    if(actions[OPEN_DEFAULT_ROUTE] !== undefined)
-    {
-      be5.url.set(getDefaultRoute(be5.getStoreState()));
-    }
-
     if(actions[OPEN_NEW_WINDOW] !== undefined)
     {
       window.open(actions[OPEN_NEW_WINDOW]);
     }
 
-    if(actions[GO_BACK] !== undefined)
+    if(actions.hasOwnProperty(OPEN_DEFAULT_ROUTE))
+    {
+      be5.url.set(getDefaultRoute(be5.getStoreState()));
+    }
+
+    if(actions.hasOwnProperty(GO_BACK))
     {
       window.history.back();
     }
