@@ -170,7 +170,7 @@ export default
 
     if(actions[OPEN_NEW_WINDOW] !== undefined)
     {
-      window.open(actions[OPEN_NEW_WINDOW]);
+      window.open(actions[OPEN_NEW_WINDOW], '_blank');
     }
 
     if(actions.hasOwnProperty(OPEN_DEFAULT_ROUTE))
