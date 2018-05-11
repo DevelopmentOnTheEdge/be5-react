@@ -89,23 +89,24 @@ export default
             case 'redirect':
               bus.fire("alert", {msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success'});
 
-              let url;
-              let newWindowUrl = null;
-
-              if(typeof(attributes.details) !== 'object'){
-                url = attributes.details.url;
-                newWindowUrl = attributes.details.newWindowUrl;
-              }else{
-                url = attributes.details;
-              }
-
-              if(newWindowUrl !== null){
-                window.open(newWindowUrl, '_blank');
-              }
-
-              if(url === 'goBack()'){
-                window.history.back();
-              }
+              const url = attributes.details;
+              // let url;
+              // let newWindowUrl = null;
+              //
+              // if(typeof(attributes.details) !== 'object'){
+              //   url = attributes.details.url;
+              //   newWindowUrl = attributes.details.newWindowUrl;
+              // }else{
+              //   url = attributes.details;
+              // }
+              //
+              // if(newWindowUrl !== null){
+              //   window.open(newWindowUrl, '_blank');
+              // }
+              //
+              // if(url === 'goBack()'){
+              //   window.history.back();
+              // }
 
               if(url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://"))
               {
@@ -175,9 +176,9 @@ export default
     return attributes.status === 'finished' && attributes.details !== undefined
   },
 
-  executeActions: function (actions, json, frontendParams, applyParams)
+  executeActions: function (actionsArrayOrOneObject, json, frontendParams, applyParams)
   {
-    Preconditions.passed(typeof actions === 'object', "actions must be object:" + actions);
+    const actions = this.getActionsMap(actionsArrayOrOneObject)
 
     if(actions[UPDATE_USER_INFO] !== undefined)
     {
@@ -195,7 +196,30 @@ export default
       changeDocument(frontendParams.parentDocumentName, {value: tableJson});
     }
 
+    //todo rename executeFrontendActions
     bus.fire("actionsAfterFinished", {actions, json, frontendParams, applyParams});
+  },
+
+  getActionsMap(actionsArrayOrOneObject) {
+    let map = {};
+    if(Array.isArray(actionsArrayOrOneObject))
+    {
+      for (let i = 0; i < actionsArrayOrOneObject.length; i++) {
+        Preconditions.passed(typeof actionsArrayOrOneObject[i].type === "string",
+          "Actions must be object with string type:" + actionsArrayOrOneObject);
+
+        map[actionsArrayOrOneObject[i].type] = actionsArrayOrOneObject[i].value;
+      }
+    }
+    else
+    {
+      Preconditions.passed(typeof actionsArrayOrOneObject.type === "string",
+        "Actions must be object with string type:" + actionsArrayOrOneObject);
+
+      map[actionsArrayOrOneObject.type] = actionsArrayOrOneObject.value;
+    }
+
+    return map;
   },
 
   _performForm(json, frontendParams)
