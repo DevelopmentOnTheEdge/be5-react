@@ -4,7 +4,7 @@ import Preconditions    from '../utils/preconditions';
 import changeDocument   from '../core/changeDocument';
 import {updateUserInfo} from "../store/actions/user.actions";
 import {UPDATE_USER_INFO} from "../store/constants/user.constants";
-import {OPEN_DEFAULT_ROUTE, UPDATE_PARENT_DOCUMENT} from "../constants";
+import {GO_BACK, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, UPDATE_PARENT_DOCUMENT} from "../constants";
 import {getDefaultRoute} from "../store/selectors/user.selectors";
 
 
@@ -90,23 +90,6 @@ export default
               bus.fire("alert", {msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success'});
 
               const url = attributes.details;
-              // let url;
-              // let newWindowUrl = null;
-              //
-              // if(typeof(attributes.details) !== 'object'){
-              //   url = attributes.details.url;
-              //   newWindowUrl = attributes.details.newWindowUrl;
-              // }else{
-              //   url = attributes.details;
-              // }
-              //
-              // if(newWindowUrl !== null){
-              //   window.open(newWindowUrl, '_blank');
-              // }
-              //
-              // if(url === 'goBack()'){
-              //   window.history.back();
-              // }
 
               if(url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://"))
               {
@@ -178,7 +161,7 @@ export default
 
   executeActions: function (actionsArrayOrOneObject, json, frontendParams, applyParams)
   {
-    const actions = this.getActionsMap(actionsArrayOrOneObject)
+    const actions = this.getActionsMap(actionsArrayOrOneObject);
 
     if(actions[UPDATE_USER_INFO] !== undefined)
     {
@@ -188,6 +171,16 @@ export default
     if(actions[OPEN_DEFAULT_ROUTE] !== undefined)
     {
       be5.url.set(getDefaultRoute(be5.getStoreState()));
+    }
+
+    if(actions[OPEN_NEW_WINDOW] !== undefined)
+    {
+      window.open(actions[OPEN_NEW_WINDOW]);
+    }
+
+    if(actions[GO_BACK] !== undefined)
+    {
+      window.history.back();
     }
 
     if(actions[UPDATE_PARENT_DOCUMENT] !== undefined)
