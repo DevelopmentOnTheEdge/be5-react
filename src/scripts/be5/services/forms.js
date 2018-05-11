@@ -4,8 +4,9 @@ import Preconditions    from '../utils/preconditions';
 import changeDocument   from '../core/changeDocument';
 import {updateUserInfo} from "../store/actions/user.actions";
 import {UPDATE_USER_INFO} from "../store/constants/user.constants";
-import {GO_BACK, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, UPDATE_PARENT_DOCUMENT} from "../constants";
+import {GO_BACK, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, REDIRECT, UPDATE_PARENT_DOCUMENT} from "../constants";
 import {getDefaultRoute} from "../store/selectors/user.selectors";
+import FrontendAction from "./model/FrontendAction";
 
 
 export default
@@ -87,43 +88,26 @@ export default
 
           switch (attributes.status) {
             case 'redirect':
-              bus.fire("alert", {msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success'});
+              bus.fire("alert", {msg: attributes.message || be5.messages.successfullyCompleted, type: 'success'});
 
-              const url = attributes.details;
+              this.executeActions(new FrontendAction(REDIRECT, attributes.details), json, frontendParams, applyParams);
 
-              if(url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://"))
-              {
-                window.location.href = url;
-              }
-              else
-              {
-                if (documentName === be5.MAIN_DOCUMENT)
-                {
-                  be5.url.set(url);
-                }
-                else
-                {
-                  if(be5.url.parse(url).positional[0] === 'form')
-                  {
-                    this.load(this.getOperationParams(url, {}), frontendParams);
-                  }
-                  else
-                  {
-                    be5.url.process(documentName, '#!' + url);
-                  }
-                }
-              }
               return;
             case 'finished':
               if(attributes.details !== undefined)
               {
                 this.executeActions(attributes.details, json, frontendParams, applyParams);
+
+                if(attributes.message !== undefined)
+                {
+                  bus.fire("alert", {msg: attributes.message, type: 'success'});
+                }
               }
               else
               {
                 if(documentName === be5.MAIN_MODAL_DOCUMENT)
                 {
-                  bus.fire("alert", {msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success'});
+                  bus.fire("alert", {msg: attributes.message || be5.messages.successfullyCompleted, type: 'success'});
                 }
                 else
                 {
@@ -161,11 +145,41 @@ export default
 
   executeActions: function (actionsArrayOrOneObject, json, frontendParams, applyParams)
   {
+    const documentName = frontendParams.documentName;
+
     const actions = this.getActionsMap(actionsArrayOrOneObject);
 
     if(actions[UPDATE_USER_INFO] !== undefined)
     {
       be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
+    }
+
+    if(actions[REDIRECT] !== undefined)
+    {
+      const url = actions[REDIRECT];
+
+      if(url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://"))
+      {
+        window.location.href = url;
+      }
+      else
+      {
+        if (documentName === be5.MAIN_DOCUMENT)
+        {
+          be5.url.set(url);
+        }
+        else
+        {
+          if(be5.url.parse(url).positional[0] === 'form')
+          {
+            this.load(this.getOperationParams(url, {}), frontendParams);
+          }
+          else
+          {
+            be5.url.process(documentName, '#!' + url);
+          }
+        }
+      }
     }
 
     if(actions[OPEN_NEW_WINDOW] !== undefined)

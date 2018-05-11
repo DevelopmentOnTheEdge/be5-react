@@ -9,6 +9,7 @@ import forms          from '../../../../src/scripts/be5/services/forms';
 import testData       from '../testData.json';
 import {getUser} from "../../../../src/scripts/be5/store/selectors/user.selectors";
 import bus from "../../../../src/scripts/be5/core/bus";
+import FrontendAction from "../../../../src/scripts/be5/services/model/FrontendAction";
 
 
 test('load', () => {
@@ -191,9 +192,3 @@ test('load and _performForm test', () => {
   expect(component.toJSON()).toMatchSnapshot();
 });
 
-class FrontendAction {
-  constructor(type, value) {
-    this.type = type;
-    this.value = value;
-  }
-}
