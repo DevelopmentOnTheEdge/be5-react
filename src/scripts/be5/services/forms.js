@@ -4,7 +4,11 @@ import Preconditions    from '../utils/preconditions';
 import changeDocument   from '../core/changeDocument';
 import {updateUserInfo} from "../store/actions/user.actions";
 import {UPDATE_USER_INFO} from "../store/constants/user.constants";
-import {GO_BACK, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, REDIRECT, UPDATE_PARENT_DOCUMENT} from "../constants";
+import {
+  CLOSE_MAIN_MODAL,
+  GO_BACK, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, REDIRECT, UPDATE_DOCUMENT,
+  UPDATE_PARENT_DOCUMENT
+} from "../constants";
 import {getDefaultRoute} from "../store/selectors/user.selectors";
 import FrontendAction from "./model/FrontendAction";
 
@@ -81,11 +85,6 @@ export default
             bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX)
           }
 
-          if(documentName === be5.MAIN_MODAL_DOCUMENT)
-          {
-            bus.fire("mainModalClose");
-          }
-
           switch (attributes.status) {
             case 'redirect':
               bus.fire("alert", {msg: attributes.message || be5.messages.successfullyCompleted, type: 'success'});
@@ -107,6 +106,7 @@ export default
               {
                 if(documentName === be5.MAIN_MODAL_DOCUMENT)
                 {
+                  bus.fire("mainModalClose");
                   bus.fire("alert", {msg: attributes.message || be5.messages.successfullyCompleted, type: 'success'});
                 }
                 else
@@ -148,6 +148,12 @@ export default
     const documentName = frontendParams.documentName;
 
     const actions = this.getActionsMap(actionsArrayOrOneObject);
+
+    if((actions.length === 0 && documentName === be5.MAIN_MODAL_DOCUMENT)
+        || actions.hasOwnProperty(CLOSE_MAIN_MODAL))
+    {
+      bus.fire("mainModalClose");
+    }
 
     if(actions[UPDATE_USER_INFO] !== undefined)
     {
@@ -202,6 +208,18 @@ export default
     {
       const tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], {meta: json.meta});
       changeDocument(frontendParams.parentDocumentName, {value: tableJson});
+
+      //usually used in filters
+      if(documentName === be5.MAIN_MODAL_DOCUMENT)
+      {
+        bus.fire("mainModalClose");
+      }
+    }
+
+    if(actions[UPDATE_DOCUMENT] !== undefined)
+    {
+      const tableJson = Object.assign({}, actions[UPDATE_DOCUMENT], {meta: json.meta});
+      changeDocument(documentName, {value: tableJson});
     }
 
     bus.fire("executeFrontendActions", {actions, json, frontendParams, applyParams});
