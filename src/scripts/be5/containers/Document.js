@@ -140,17 +140,17 @@ class Document extends React.Component
       return this.state.frontendParams.type;
     }
 
-    if (this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT)
-    {
-      return 'modalForm';
-    }
-
     if(this.state.value.data)
     {
       if(this.state.value.data.attributes && this.state.value.data.attributes.layout &&
         this.state.value.data.attributes.layout.type !== undefined)
       {
         return this.state.value.data.attributes.layout.type;
+      }
+
+      if(this.state.value.data.type === 'form' && this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT)
+      {
+        return 'modalForm';
       }
 
       return this.state.value.data.type;
