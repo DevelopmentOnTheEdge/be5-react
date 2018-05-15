@@ -691,7 +691,9 @@ var be5 = {
         dataType: type,
         type: 'POST',
         data: params,
-        async: !!_success,
+        //use only async request:
+        //https://stackoverflow.com/questions/25446125/synchronous-ajax-does-chrome-have-a-timeout-on-trusted-events
+        async: true,
         xhrFields: {
           withCredentials: true
         },
@@ -857,10 +859,14 @@ var ROLE_ADMINISTRATOR = "Administrator";
 var ROLE_SYSTEM_DEVELOPER = "SystemDeveloper";
 var ROLE_GUEST = "Guest";
 
+var REDIRECT = 'REDIRECT';
 var OPEN_DEFAULT_ROUTE = 'OPEN_DEFAULT_ROUTE';
 var OPEN_NEW_WINDOW = 'OPEN_NEW_WINDOW';
 var GO_BACK = 'GO_BACK';
 
+var CLOSE_MAIN_MODAL = 'CLOSE_MAIN_MODAL';
+
+var UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
 var UPDATE_PARENT_DOCUMENT = 'UPDATE_PARENT_DOCUMENT';
 
 var constants = Object.freeze({
@@ -868,11 +874,21 @@ var constants = Object.freeze({
 	ROLE_ADMINISTRATOR: ROLE_ADMINISTRATOR,
 	ROLE_SYSTEM_DEVELOPER: ROLE_SYSTEM_DEVELOPER,
 	ROLE_GUEST: ROLE_GUEST,
+	REDIRECT: REDIRECT,
 	OPEN_DEFAULT_ROUTE: OPEN_DEFAULT_ROUTE,
 	OPEN_NEW_WINDOW: OPEN_NEW_WINDOW,
 	GO_BACK: GO_BACK,
+	CLOSE_MAIN_MODAL: CLOSE_MAIN_MODAL,
+	UPDATE_DOCUMENT: UPDATE_DOCUMENT,
 	UPDATE_PARENT_DOCUMENT: UPDATE_PARENT_DOCUMENT
 });
+
+var FrontendAction = function FrontendAction(type, value) {
+  classCallCheck(this, FrontendAction);
+
+  this.type = type;
+  this.value = value;
+};
 
 var forms = {
   load: function load(params, frontendParams) {
@@ -939,36 +955,24 @@ var forms = {
             bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX);
           }
 
-          if (documentName === be5.MAIN_MODAL_DOCUMENT) {
-            bus.fire("mainModalClose");
-          }
-
           switch (attributes.status) {
             case 'redirect':
-              bus.fire("alert", { msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success' });
+              bus.fire("alert", { msg: attributes.message || be5.messages.successfullyCompleted, type: 'success' });
 
-              var url = attributes.details;
+              this.executeActions(new FrontendAction(REDIRECT, attributes.details), json, frontendParams, applyParams);
 
-              if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://")) {
-                window.location.href = url;
-              } else {
-                if (documentName === be5.MAIN_DOCUMENT) {
-                  be5.url.set(url);
-                } else {
-                  if (be5.url.parse(url).positional[0] === 'form') {
-                    this.load(this.getOperationParams(url, {}), frontendParams);
-                  } else {
-                    be5.url.process(documentName, '#!' + url);
-                  }
-                }
-              }
               return;
             case 'finished':
               if (attributes.details !== undefined) {
                 this.executeActions(attributes.details, json, frontendParams, applyParams);
+
+                if (attributes.message !== undefined) {
+                  bus.fire("alert", { msg: attributes.message, type: 'success' });
+                }
               } else {
                 if (documentName === be5.MAIN_MODAL_DOCUMENT) {
-                  bus.fire("alert", { msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success' });
+                  bus.fire("mainModalClose");
+                  bus.fire("alert", { msg: attributes.message || be5.messages.successfullyCompleted, type: 'success' });
                 } else {
                   changeDocument(documentName, { value: json, frontendParams: frontendParams });
                 }
@@ -1002,14 +1006,39 @@ var forms = {
 
 
   executeActions: function executeActions(actionsArrayOrOneObject, json, frontendParams, applyParams) {
+    var documentName = frontendParams.documentName;
+
     var actions = this.getActionsMap(actionsArrayOrOneObject);
+
+    if (actions.length === 0 && documentName === be5.MAIN_MODAL_DOCUMENT || actions.hasOwnProperty(CLOSE_MAIN_MODAL)) {
+      bus.fire("mainModalClose");
+    }
 
     if (actions[UPDATE_USER_INFO] !== undefined) {
       be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
     }
 
+    if (actions[REDIRECT] !== undefined) {
+      var url = actions[REDIRECT];
+
+      if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://")) {
+        window.location.href = url;
+      } else {
+        if (documentName === be5.MAIN_DOCUMENT) {
+          be5.url.set(url);
+        } else {
+          if (be5.url.parse(url).positional[0] === 'form') {
+            this.load(this.getOperationParams(url, {}), frontendParams);
+          } else {
+            be5.url.process(documentName, '#!' + url);
+          }
+        }
+      }
+    }
+
+    //window.open blocked by browser usually
     if (actions[OPEN_NEW_WINDOW] !== undefined) {
-      window.open(actions[OPEN_NEW_WINDOW], '_blank');
+      window.open(actions[OPEN_NEW_WINDOW]);
     }
 
     if (actions.hasOwnProperty(OPEN_DEFAULT_ROUTE)) {
@@ -1023,6 +1052,16 @@ var forms = {
     if (actions[UPDATE_PARENT_DOCUMENT] !== undefined) {
       var tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], { meta: json.meta });
       changeDocument(frontendParams.parentDocumentName, { value: tableJson });
+
+      //usually used in filters
+      if (documentName === be5.MAIN_MODAL_DOCUMENT) {
+        bus.fire("mainModalClose");
+      }
+    }
+
+    if (actions[UPDATE_DOCUMENT] !== undefined) {
+      var _tableJson = Object.assign({}, actions[UPDATE_DOCUMENT], { meta: json.meta });
+      changeDocument(documentName, { value: _tableJson });
     }
 
     bus.fire("executeFrontendActions", { actions: actions, json: json, frontendParams: frontendParams, applyParams: applyParams });
@@ -1391,13 +1430,13 @@ var Document = function (_React$Component) {
         return this.state.frontendParams.type;
       }
 
-      if (this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
-        return 'modalForm';
-      }
-
       if (this.state.value.data) {
         if (this.state.value.data.attributes && this.state.value.data.attributes.layout && this.state.value.data.attributes.layout.type !== undefined) {
           return this.state.value.data.attributes.layout.type;
+        }
+
+        if (this.state.value.data.type === 'form' && this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
+          return 'modalForm';
         }
 
         return this.state.value.data.type;
@@ -1663,7 +1702,7 @@ var OperationBox = function (_React$Component) {
           return operation.name === name;
         });
         if (!operation.requiresConfirmation || confirm(operation.title + "?")) {
-          this.props.onOperationClick(name);
+          this.props.onOperationClick(operation);
         }
       }
       e.preventDefault();
@@ -1994,7 +2033,12 @@ var TableBox = function (_React$Component) {
     }
   }, {
     key: 'onOperationClick',
-    value: function onOperationClick(name) {
+    value: function onOperationClick(operation) {
+      if (operation.clientSide === true) {
+        return;
+      }
+
+      var name = operation.name;
       var attr = this.props.value.data.attributes;
 
       var params = {
@@ -2431,7 +2475,12 @@ var TableBox$1 = function (_React$Component) {
 
   createClass(TableBox, [{
     key: 'onOperationClick',
-    value: function onOperationClick(name) {
+    value: function onOperationClick(operation) {
+      if (operation.clientSide === true) {
+        return;
+      }
+
+      var name = operation.name;
       var attr = this.props.value.data.attributes;
 
       var params = {
