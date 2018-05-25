@@ -11,6 +11,7 @@ import Document           from "../../containers/Document";
 import {registerDocument} from '../../core/documents';
 import {updateTable}      from "../../services/tables";
 import CategoryNavigation from "./CategoryNavigation";
+import {executeFrontendActions} from "../../services/frontendActions";
 
 
 const formatCell = (data, options, isColumn) =>
@@ -67,8 +68,14 @@ class TableBox extends React.Component {
   }
 
   onOperationClick(operation) {
+    const frontendParams = {
+      documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
+      parentDocumentName: this.props.frontendParams.documentName
+    };
+
     if(operation.clientSide === true)
     {
+      executeFrontendActions(JSON.parse(operation.action), frontendParams);
       return;
     }
 
@@ -83,10 +90,7 @@ class TableBox extends React.Component {
       operationParams: attr.parameters
     };
 
-    forms.load(params, {
-      documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
-      parentDocumentName: this.props.frontendParams.documentName
-    });
+    forms.load(params, frontendParams);
   }
 
   onSelectionChange() {

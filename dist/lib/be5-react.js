@@ -806,6 +806,13 @@ var Loading = function (_React$Component) {
 
 registerRoute("loading", route);
 
+var FrontendAction = function FrontendAction(type, value) {
+  classCallCheck(this, FrontendAction);
+
+  this.type = type;
+  this.value = value;
+};
+
 var UPDATE_USER_INFO = 'UPDATE_USER_INFO';
 
 var SELECT_ROLES = 'SELECT_ROLES';
@@ -839,11 +846,83 @@ var toggleRoles = function toggleRoles(roles) {
   };
 };
 
-var FrontendAction = function FrontendAction(type, value) {
-  classCallCheck(this, FrontendAction);
+var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneObject, frontendParams) {
+  var documentName = frontendParams.documentName;
 
-  this.type = type;
-  this.value = value;
+  var actions = getActionsMap(actionsArrayOrOneObject);
+
+  if (actions.length === 0 && documentName === be5.MAIN_MODAL_DOCUMENT || actions.hasOwnProperty(CLOSE_MAIN_MODAL)) {
+    bus.fire("mainModalClose");
+  }
+
+  if (actions[UPDATE_USER_INFO] !== undefined) {
+    be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
+  }
+
+  if (actions[REDIRECT] !== undefined) {
+    var url = actions[REDIRECT];
+
+    if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://")) {
+      window.location.href = url;
+    } else {
+      if (documentName === be5.MAIN_DOCUMENT) {
+        be5.url.set(url);
+      } else {
+        if (be5.url.parse(url).positional[0] === 'form') {
+          forms.load(forms.getOperationParams(url, {}), frontendParams);
+        } else {
+          be5.url.process(documentName, '#!' + url);
+        }
+      }
+    }
+  }
+
+  //window.open blocked by browser usually
+  if (actions[OPEN_NEW_WINDOW] !== undefined) {
+    window.open(actions[OPEN_NEW_WINDOW]);
+  }
+
+  if (actions.hasOwnProperty(OPEN_DEFAULT_ROUTE)) {
+    be5.url.set(getDefaultRoute(be5.getStoreState()));
+  }
+
+  if (actions.hasOwnProperty(GO_BACK)) {
+    window.history.back();
+  }
+
+  if (actions[UPDATE_PARENT_DOCUMENT] !== undefined) {
+    var tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], { meta: json.meta });
+    changeDocument(frontendParams.parentDocumentName, { value: tableJson });
+
+    //usually used in filters
+    if (documentName === be5.MAIN_MODAL_DOCUMENT) {
+      bus.fire("mainModalClose");
+    }
+  }
+
+  if (actions[UPDATE_DOCUMENT] !== undefined) {
+    var _tableJson = Object.assign({}, actions[UPDATE_DOCUMENT], { meta: json.meta });
+    changeDocument(documentName, { value: _tableJson });
+  }
+
+  bus.fire("executeFrontendActions", { actions: actions, frontendParams: frontendParams });
+};
+
+var getActionsMap = function getActionsMap(actionsArrayOrOneObject) {
+  var map = {};
+  if (Array.isArray(actionsArrayOrOneObject)) {
+    for (var i = 0; i < actionsArrayOrOneObject.length; i++) {
+      Preconditions.passed(typeof actionsArrayOrOneObject[i].type === "string", "Actions must be object with string 'type' field: " + actionsArrayOrOneObject);
+
+      map[actionsArrayOrOneObject[i].type] = actionsArrayOrOneObject[i].value;
+    }
+  } else {
+    Preconditions.passed(typeof actionsArrayOrOneObject.type === "string", "Actions must be object with string 'type' field: " + actionsArrayOrOneObject);
+
+    map[actionsArrayOrOneObject.type] = actionsArrayOrOneObject.value;
+  }
+
+  return map;
 };
 
 var forms = {
@@ -915,12 +994,12 @@ var forms = {
             case 'redirect':
               bus.fire("alert", { msg: attributes.message || be5.messages.successfullyCompleted, type: 'success' });
 
-              this.executeActions(new FrontendAction(REDIRECT, attributes.details), json, frontendParams, applyParams);
+              executeFrontendActions(new FrontendAction(REDIRECT, attributes.details), frontendParams);
 
               return;
             case 'finished':
               if (attributes.details !== undefined) {
-                this.executeActions(attributes.details, json, frontendParams, applyParams);
+                executeFrontendActions(attributes.details, frontendParams);
 
                 if (attributes.message !== undefined) {
                   bus.fire("alert", { msg: attributes.message, type: 'success' });
@@ -958,86 +1037,6 @@ var forms = {
   },
   isActions: function isActions(attributes) {
     return attributes.status === 'finished' && attributes.details !== undefined;
-  },
-
-
-  executeActions: function executeActions(actionsArrayOrOneObject, json, frontendParams, applyParams) {
-    var documentName = frontendParams.documentName;
-
-    var actions = this.getActionsMap(actionsArrayOrOneObject);
-
-    if (actions.length === 0 && documentName === be5.MAIN_MODAL_DOCUMENT || actions.hasOwnProperty(CLOSE_MAIN_MODAL)) {
-      bus.fire("mainModalClose");
-    }
-
-    if (actions[UPDATE_USER_INFO] !== undefined) {
-      be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
-    }
-
-    if (actions[REDIRECT] !== undefined) {
-      var url = actions[REDIRECT];
-
-      if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://")) {
-        window.location.href = url;
-      } else {
-        if (documentName === be5.MAIN_DOCUMENT) {
-          be5.url.set(url);
-        } else {
-          if (be5.url.parse(url).positional[0] === 'form') {
-            this.load(this.getOperationParams(url, {}), frontendParams);
-          } else {
-            be5.url.process(documentName, '#!' + url);
-          }
-        }
-      }
-    }
-
-    //window.open blocked by browser usually
-    if (actions[OPEN_NEW_WINDOW] !== undefined) {
-      window.open(actions[OPEN_NEW_WINDOW]);
-    }
-
-    if (actions.hasOwnProperty(OPEN_DEFAULT_ROUTE)) {
-      be5.url.set(getDefaultRoute(be5.getStoreState()));
-    }
-
-    if (actions.hasOwnProperty(GO_BACK)) {
-      window.history.back();
-    }
-
-    if (actions[UPDATE_PARENT_DOCUMENT] !== undefined) {
-      var tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], { meta: json.meta });
-      changeDocument(frontendParams.parentDocumentName, { value: tableJson });
-
-      //usually used in filters
-      if (documentName === be5.MAIN_MODAL_DOCUMENT) {
-        bus.fire("mainModalClose");
-      }
-    }
-
-    if (actions[UPDATE_DOCUMENT] !== undefined) {
-      var _tableJson = Object.assign({}, actions[UPDATE_DOCUMENT], { meta: json.meta });
-      changeDocument(documentName, { value: _tableJson });
-    }
-
-    bus.fire("executeFrontendActions", { actions: actions, json: json, frontendParams: frontendParams, applyParams: applyParams });
-  },
-
-  getActionsMap: function getActionsMap(actionsArrayOrOneObject) {
-    var map = {};
-    if (Array.isArray(actionsArrayOrOneObject)) {
-      for (var i = 0; i < actionsArrayOrOneObject.length; i++) {
-        Preconditions.passed(typeof actionsArrayOrOneObject[i].type === "string", "Actions must be object with string type:" + actionsArrayOrOneObject);
-
-        map[actionsArrayOrOneObject[i].type] = actionsArrayOrOneObject[i].value;
-      }
-    } else {
-      Preconditions.passed(typeof actionsArrayOrOneObject.type === "string", "Actions must be object with string type:" + actionsArrayOrOneObject);
-
-      map[actionsArrayOrOneObject.type] = actionsArrayOrOneObject.value;
-    }
-
-    return map;
   },
   _performForm: function _performForm(json, frontendParams) {
     var operationResult = json.data.attributes.operationResult;
@@ -1990,7 +1989,13 @@ var TableBox = function (_React$Component) {
   }, {
     key: 'onOperationClick',
     value: function onOperationClick(operation) {
+      var frontendParams = {
+        documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
+        parentDocumentName: this.props.frontendParams.documentName
+      };
+
       if (operation.clientSide === true) {
+        executeFrontendActions(JSON.parse(operation.action), frontendParams);
         return;
       }
 
@@ -2005,10 +2010,7 @@ var TableBox = function (_React$Component) {
         operationParams: attr.parameters
       };
 
-      forms.load(params, {
-        documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
-        parentDocumentName: this.props.frontendParams.documentName
-      });
+      forms.load(params, frontendParams);
     }
   }, {
     key: 'onSelectionChange',
@@ -4470,6 +4472,7 @@ var MainDocumentOnly = function MainDocumentOnly() {
   return React.createElement(
     'div',
     { className: 'MainDocument-only' },
+    React.createElement(Be5Components, null),
     React.createElement(Document$1, { frontendParams: { documentName: be5.MAIN_DOCUMENT } })
   );
 };

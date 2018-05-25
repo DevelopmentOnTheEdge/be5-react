@@ -109,7 +109,7 @@ test('performOperationResult UPDATE_USER_INFO', () => {
 test('executeFrontendActions TEST', () => {
   let out = '';
 
-  bus.listen("executeFrontendActions", ({actions, json, frontendParams, applyParams}) => {
+  bus.listen("executeFrontendActions", ({actions, frontendParams}) => {
     if(actions["TEST"] !== undefined)
     {
       out = actions["TEST"] + ' 1'

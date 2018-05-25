@@ -10,6 +10,7 @@ import {
   GO_BACK, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, REDIRECT, UPDATE_DOCUMENT,
   UPDATE_PARENT_DOCUMENT
 } from "../constants";
+import forms           from './forms';
 
 
 export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) =>
@@ -47,7 +48,7 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
       {
         if(be5.url.parse(url).positional[0] === 'form')
         {
-          this.load(this.getOperationParams(url, {}), frontendParams);
+          forms.load(forms.getOperationParams(url, {}), frontendParams);
         }
         else
         {
@@ -100,7 +101,7 @@ export const getActionsMap = (actionsArrayOrOneObject) => {
   {
     for (let i = 0; i < actionsArrayOrOneObject.length; i++) {
       Preconditions.passed(typeof actionsArrayOrOneObject[i].type === "string",
-        "Actions must be object with string 'type' field:" + actionsArrayOrOneObject);
+        "Actions must be object with string 'type' field: " + actionsArrayOrOneObject);
 
       map[actionsArrayOrOneObject[i].type] = actionsArrayOrOneObject[i].value;
     }
@@ -108,7 +109,7 @@ export const getActionsMap = (actionsArrayOrOneObject) => {
   else
   {
     Preconditions.passed(typeof actionsArrayOrOneObject.type === "string",
-      "Actions must be object with string type:" + actionsArrayOrOneObject);
+      "Actions must be object with string 'type' field: " + actionsArrayOrOneObject);
 
     map[actionsArrayOrOneObject.type] = actionsArrayOrOneObject.value;
   }
