@@ -1,11 +1,11 @@
 import React    from 'react';
-import {getBaseUrl}    from './utils/utils';
 import {createStaticValue} from './utils/documentUtils';
 import messages from './core/messages';
 import bus      from './core/bus';
 import changeDocument from './core/changeDocument';
 import {getRoute} from './core/routes';
 import {getDefaultRoute} from "./store/selectors/user.selectors";
+import {API_URL_PREFIX} from "./constants";
 
 
 const be5 = {
@@ -17,11 +17,6 @@ const be5 = {
 
   debug: true,
 
-  def: {
-    URL_PREFIX : '/api/',
-    APPLICATION_PREFIX : '/',
-  },
-
   messages: messages.en,
 
   //todo move to constants
@@ -30,20 +25,6 @@ const be5 = {
   DOCUMENT_REFRESH_SUFFIX: "_refresh",
 
   appInfo: {},
-
-  // load: {
-  //   css(url) {
-  //     var link = document.createElement("link");
-  //     link.type = "text/css";
-  //     link.rel = "stylesheet";
-  //     if(be5.isRemoteUrl(url)){
-  //       link.href = url;
-  //     }else{
-  //       link.href = '/' + url;
-  //     }
-  //     document.getElementsByTagName("head")[0].appendChild(link);
-  //   }
-  // },
 
   locale: {
     set(loc, addMessages) {
@@ -226,11 +207,7 @@ const be5 = {
 
   net: {
     url(path) {
-      return be5.def.URL_PREFIX + path;
-    },
-
-    resourceUrl(resource) {
-      return '/be5/' + resource;
+      return API_URL_PREFIX + path;
     },
 
     paramString(params) {
@@ -244,27 +221,6 @@ const be5 = {
       return be5.net.requestUrl(be5.net.url(path), 'json', params, success, failure);
     },
 
-    // // transforms parameters!
-    // requestJson(path, params, success, failure) {
-    //   return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'json', be5.net.transform(params), success, failure);
-    // },
-    //
-    // requestHtml(path, success, failure) {
-    //   return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'html', {}, success, failure);
-    // },
-
-    // transform(params) {
-    //   const copy = {};
-    //   for (let key in params) {
-    //   if (typeof params[key] === 'object') {
-    //     copy[key] = be5.net.paramString(params[key]);
-    //   } else {
-    //     copy[key] = params[key];
-    //   }
-    //   }
-    //   return copy;
-    // },
-
     requestUrl(url, type, params, success, failureFunc) {
       let result = null;
       const failure = function(data) {
@@ -274,12 +230,10 @@ const be5 = {
       };
 
       $.ajax({
-        url : getBaseUrl() + url,
+        url : url,
         dataType : type,
         type : 'POST',
         data : params,
-        //use only async request:
-        //https://stackoverflow.com/questions/25446125/synchronous-ajax-does-chrome-have-a-timeout-on-trusted-events
         async: true,
         xhrFields: {
           withCredentials: true
@@ -378,3 +332,25 @@ const be5 = {
 };
 
 export default be5;
+
+
+// // transforms parameters!
+// requestJson(path, params, success, failure) {
+//   return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'json', be5.net.transform(params), success, failure);
+// },
+//
+// requestHtml(path, success, failure) {
+//   return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'html', {}, success, failure);
+// },
+
+// transform(params) {
+//   const copy = {};
+//   for (let key in params) {
+//   if (typeof params[key] === 'object') {
+//     copy[key] = be5.net.paramString(params[key]);
+//   } else {
+//     copy[key] = params[key];
+//   }
+//   }
+//   return copy;
+// },

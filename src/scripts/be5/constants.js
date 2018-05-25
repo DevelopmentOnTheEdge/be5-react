@@ -1,3 +1,5 @@
+export const API_URL_PREFIX = '/api/';
+
 export const DEFAULT_VIEW = 'All records';
 
 export const ROLE_ADMINISTRATOR = "Administrator";

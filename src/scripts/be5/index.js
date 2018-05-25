@@ -4,7 +4,7 @@ import be5init from './be5init.js';
 import * as constants from './constants.js';
 import preconditions from './utils/preconditions.js';
 import {getSelfUrl, getModelByID, createStaticValue, getResourceByID} from './utils/documentUtils.js';
-import {getBaseUrl} from './utils/utils.js';
+import {arraysEqual} from './utils/utils.js';
 
 // core
 import bus from './core/bus.js';
@@ -89,7 +89,7 @@ export {
   be5init,
   constants,
   preconditions,
-  getBaseUrl,
+  arraysEqual,
   getSelfUrl, getModelByID, createStaticValue, getResourceByID,
 
   // core

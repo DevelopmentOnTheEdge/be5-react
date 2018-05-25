@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes          from 'prop-types';
 import ReactDOM           from 'react-dom';
 import be5                from '../../be5';
-import {getBaseUrl}       from '../../utils/utils';
 import {getModelByID, getSelfUrl} from '../../utils/documentUtils';
 import forms              from '../../services/forms';
 import numberFormatter    from 'number-format.js';

@@ -18,27 +18,6 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 
-var getBaseUrl = function getBaseUrl() {
-  var getUrl = window.location;
-  var baseUrl = getUrl.protocol + "//" + getUrl.host;
-  if (getUrl.pathname.split('/')[1] !== "") baseUrl += "/" + getUrl.pathname.split('/')[1];
-  return baseUrl;
-};
-
-var arraysEqual = function arraysEqual(a, b) {
-  if (a === b) return true;
-  if (a === null || b === null) return false;
-  if (a.length !== b.length) return false;
-
-  a.sort();
-  b.sort();
-
-  for (var i = 0; i < a.length; ++i) {
-    if (a[i] !== b[i]) return false;
-  }
-  return true;
-};
-
 var getResourceByID = function getResourceByID(included, id) {
   if (included === undefined) return undefined;
 
@@ -282,6 +261,39 @@ var getDefaultRoute = function getDefaultRoute(state) {
   return state.user.defaultRoute;
 };
 
+var API_URL_PREFIX = '/api/';
+
+var DEFAULT_VIEW = 'All records';
+
+var ROLE_ADMINISTRATOR = "Administrator";
+var ROLE_SYSTEM_DEVELOPER = "SystemDeveloper";
+var ROLE_GUEST = "Guest";
+
+var REDIRECT = 'REDIRECT';
+var OPEN_DEFAULT_ROUTE = 'OPEN_DEFAULT_ROUTE';
+var OPEN_NEW_WINDOW = 'OPEN_NEW_WINDOW';
+var GO_BACK = 'GO_BACK';
+
+var CLOSE_MAIN_MODAL = 'CLOSE_MAIN_MODAL';
+
+var UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
+var UPDATE_PARENT_DOCUMENT = 'UPDATE_PARENT_DOCUMENT';
+
+var constants = Object.freeze({
+	API_URL_PREFIX: API_URL_PREFIX,
+	DEFAULT_VIEW: DEFAULT_VIEW,
+	ROLE_ADMINISTRATOR: ROLE_ADMINISTRATOR,
+	ROLE_SYSTEM_DEVELOPER: ROLE_SYSTEM_DEVELOPER,
+	ROLE_GUEST: ROLE_GUEST,
+	REDIRECT: REDIRECT,
+	OPEN_DEFAULT_ROUTE: OPEN_DEFAULT_ROUTE,
+	OPEN_NEW_WINDOW: OPEN_NEW_WINDOW,
+	GO_BACK: GO_BACK,
+	CLOSE_MAIN_MODAL: CLOSE_MAIN_MODAL,
+	UPDATE_DOCUMENT: UPDATE_DOCUMENT,
+	UPDATE_PARENT_DOCUMENT: UPDATE_PARENT_DOCUMENT
+});
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
@@ -439,11 +451,6 @@ var be5 = {
 
   debug: true,
 
-  def: {
-    URL_PREFIX: '/api/',
-    APPLICATION_PREFIX: '/'
-  },
-
   messages: messages.en,
 
   //todo move to constants
@@ -452,20 +459,6 @@ var be5 = {
   DOCUMENT_REFRESH_SUFFIX: "_refresh",
 
   appInfo: {},
-
-  // load: {
-  //   css(url) {
-  //     var link = document.createElement("link");
-  //     link.type = "text/css";
-  //     link.rel = "stylesheet";
-  //     if(be5.isRemoteUrl(url)){
-  //       link.href = url;
-  //     }else{
-  //       link.href = '/' + url;
-  //     }
-  //     document.getElementsByTagName("head")[0].appendChild(link);
-  //   }
-  // },
 
   locale: {
     set: function set$$1(loc, addMessages) {
@@ -641,10 +634,7 @@ var be5 = {
 
   net: {
     url: function url(path) {
-      return be5.def.URL_PREFIX + path;
-    },
-    resourceUrl: function resourceUrl(resource) {
-      return '/be5/' + resource;
+      return API_URL_PREFIX + path;
     },
     paramString: function paramString(params) {
       if ((typeof params === 'undefined' ? 'undefined' : _typeof(params)) !== 'object') {
@@ -655,29 +645,6 @@ var be5 = {
     request: function request(path, params, success, failure) {
       return be5.net.requestUrl(be5.net.url(path), 'json', params, success, failure);
     },
-
-
-    // // transforms parameters!
-    // requestJson(path, params, success, failure) {
-    //   return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'json', be5.net.transform(params), success, failure);
-    // },
-    //
-    // requestHtml(path, success, failure) {
-    //   return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'html', {}, success, failure);
-    // },
-
-    // transform(params) {
-    //   const copy = {};
-    //   for (let key in params) {
-    //   if (typeof params[key] === 'object') {
-    //     copy[key] = be5.net.paramString(params[key]);
-    //   } else {
-    //     copy[key] = params[key];
-    //   }
-    //   }
-    //   return copy;
-    // },
-
     requestUrl: function requestUrl(url, type, params, _success, failureFunc) {
       var result = null;
       var failure = function failure(data) {
@@ -687,12 +654,10 @@ var be5 = {
       };
 
       $.ajax({
-        url: getBaseUrl() + url,
+        url: url,
         dataType: type,
         type: 'POST',
         data: params,
-        //use only async request:
-        //https://stackoverflow.com/questions/25446125/synchronous-ajax-does-chrome-have-a-timeout-on-trusted-events
         async: true,
         xhrFields: {
           withCredentials: true
@@ -777,6 +742,27 @@ var be5 = {
 
 };
 
+// // transforms parameters!
+// requestJson(path, params, success, failure) {
+//   return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'json', be5.net.transform(params), success, failure);
+// },
+//
+// requestHtml(path, success, failure) {
+//   return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'html', {}, success, failure);
+// },
+
+// transform(params) {
+//   const copy = {};
+//   for (let key in params) {
+//   if (typeof params[key] === 'object') {
+//     copy[key] = be5.net.paramString(params[key]);
+//   } else {
+//     copy[key] = params[key];
+//   }
+//   }
+//   return copy;
+// },
+
 var states = [];
 
 function set$1(name, value) {
@@ -852,36 +838,6 @@ var toggleRoles = function toggleRoles(roles) {
     });
   };
 };
-
-var DEFAULT_VIEW = 'All records';
-
-var ROLE_ADMINISTRATOR = "Administrator";
-var ROLE_SYSTEM_DEVELOPER = "SystemDeveloper";
-var ROLE_GUEST = "Guest";
-
-var REDIRECT = 'REDIRECT';
-var OPEN_DEFAULT_ROUTE = 'OPEN_DEFAULT_ROUTE';
-var OPEN_NEW_WINDOW = 'OPEN_NEW_WINDOW';
-var GO_BACK = 'GO_BACK';
-
-var CLOSE_MAIN_MODAL = 'CLOSE_MAIN_MODAL';
-
-var UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
-var UPDATE_PARENT_DOCUMENT = 'UPDATE_PARENT_DOCUMENT';
-
-var constants = Object.freeze({
-	DEFAULT_VIEW: DEFAULT_VIEW,
-	ROLE_ADMINISTRATOR: ROLE_ADMINISTRATOR,
-	ROLE_SYSTEM_DEVELOPER: ROLE_SYSTEM_DEVELOPER,
-	ROLE_GUEST: ROLE_GUEST,
-	REDIRECT: REDIRECT,
-	OPEN_DEFAULT_ROUTE: OPEN_DEFAULT_ROUTE,
-	OPEN_NEW_WINDOW: OPEN_NEW_WINDOW,
-	GO_BACK: GO_BACK,
-	CLOSE_MAIN_MODAL: CLOSE_MAIN_MODAL,
-	UPDATE_DOCUMENT: UPDATE_DOCUMENT,
-	UPDATE_PARENT_DOCUMENT: UPDATE_PARENT_DOCUMENT
-});
 
 var FrontendAction = function FrontendAction(type, value) {
   classCallCheck(this, FrontendAction);
@@ -3774,6 +3730,20 @@ var be5init = {
   }
 };
 
+var arraysEqual = function arraysEqual(a, b) {
+  if (a === b) return true;
+  if (a === null || b === null) return false;
+  if (a.length !== b.length) return false;
+
+  a.sort();
+  b.sort();
+
+  for (var i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+};
+
 var Role = function Role(props) {
   var id = props.name + "-checkbox";
 
@@ -5250,4 +5220,4 @@ var index = combineReducers({
 // services
 // store
 
-export { be5, be5init, constants, Preconditions as preconditions, getBaseUrl, getSelfUrl, getModelByID, createStaticValue, getResourceByID, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, loadTable, updateTable };
+export { be5, be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, loadTable, updateTable };
