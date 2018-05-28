@@ -459,7 +459,7 @@ var be5 = {
   DOCUMENT_REFRESH_SUFFIX: "_refresh",
 
   appInfo: {},
-  serverUrlWithContext: window.serverUrlWithContext || "",
+  serverUrlWithContext: window.serverUrlWithContext || "/",
 
   locale: {
     set: function set$$1(loc, addMessages) {
