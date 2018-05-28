@@ -459,7 +459,7 @@ var be5 = {
   DOCUMENT_REFRESH_SUFFIX: "_refresh",
 
   appInfo: {},
-  serverUrlWithContext: window.serverUrlWithContext || "/",
+  serverUrlWithContext: window.serverUrlWithContext || "",
 
   locale: {
     set: function set$$1(loc, addMessages) {
@@ -654,6 +654,7 @@ var be5 = {
         if (typeof failureFunc === 'function') failureFunc(data);
       };
 
+      console.log(be5.serverUrlWithContext);
       $.ajax({
         url: be5.serverUrlWithContext + url,
         dataType: type,

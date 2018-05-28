@@ -25,7 +25,7 @@ const be5 = {
   DOCUMENT_REFRESH_SUFFIX: "_refresh",
 
   appInfo: {},
-  serverUrlWithContext: window.serverUrlWithContext || "/",
+  serverUrlWithContext: window.serverUrlWithContext || "",
 
   locale: {
     set(loc, addMessages) {
@@ -230,6 +230,7 @@ const be5 = {
         if (typeof (failureFunc) === 'function')failureFunc(data);
       };
 
+      console.log(be5.serverUrlWithContext);
       $.ajax({
         url : be5.serverUrlWithContext + url,
         dataType : type,
