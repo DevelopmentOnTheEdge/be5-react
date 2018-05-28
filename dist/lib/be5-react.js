@@ -459,6 +459,7 @@ var be5 = {
   DOCUMENT_REFRESH_SUFFIX: "_refresh",
 
   appInfo: {},
+  serverUrlWithContext: window.serverUrlWithContext || "/",
 
   locale: {
     set: function set$$1(loc, addMessages) {
@@ -654,7 +655,7 @@ var be5 = {
       };
 
       $.ajax({
-        url: window.location.origin + url,
+        url: be5.serverUrlWithContext + url,
         dataType: type,
         type: 'POST',
         data: params,
