@@ -18,27 +18,6 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 
-var getBaseUrl = function getBaseUrl() {
-  var getUrl = window.location;
-  var baseUrl = getUrl.protocol + "//" + getUrl.host;
-  if (getUrl.pathname.split('/')[1] !== "") baseUrl += "/" + getUrl.pathname.split('/')[1];
-  return baseUrl;
-};
-
-var arraysEqual = function arraysEqual(a, b) {
-  if (a === b) return true;
-  if (a === null || b === null) return false;
-  if (a.length !== b.length) return false;
-
-  a.sort();
-  b.sort();
-
-  for (var i = 0; i < a.length; ++i) {
-    if (a[i] !== b[i]) return false;
-  }
-  return true;
-};
-
 var getResourceByID = function getResourceByID(included, id) {
   if (included === undefined) return undefined;
 
@@ -282,6 +261,39 @@ var getDefaultRoute = function getDefaultRoute(state) {
   return state.user.defaultRoute;
 };
 
+var API_URL_PREFIX = '/api/';
+
+var DEFAULT_VIEW = 'All records';
+
+var ROLE_ADMINISTRATOR = "Administrator";
+var ROLE_SYSTEM_DEVELOPER = "SystemDeveloper";
+var ROLE_GUEST = "Guest";
+
+var REDIRECT = 'REDIRECT';
+var OPEN_DEFAULT_ROUTE = 'OPEN_DEFAULT_ROUTE';
+var OPEN_NEW_WINDOW = 'OPEN_NEW_WINDOW';
+var GO_BACK = 'GO_BACK';
+
+var CLOSE_MAIN_MODAL = 'CLOSE_MAIN_MODAL';
+
+var UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
+var UPDATE_PARENT_DOCUMENT = 'UPDATE_PARENT_DOCUMENT';
+
+var constants = Object.freeze({
+	API_URL_PREFIX: API_URL_PREFIX,
+	DEFAULT_VIEW: DEFAULT_VIEW,
+	ROLE_ADMINISTRATOR: ROLE_ADMINISTRATOR,
+	ROLE_SYSTEM_DEVELOPER: ROLE_SYSTEM_DEVELOPER,
+	ROLE_GUEST: ROLE_GUEST,
+	REDIRECT: REDIRECT,
+	OPEN_DEFAULT_ROUTE: OPEN_DEFAULT_ROUTE,
+	OPEN_NEW_WINDOW: OPEN_NEW_WINDOW,
+	GO_BACK: GO_BACK,
+	CLOSE_MAIN_MODAL: CLOSE_MAIN_MODAL,
+	UPDATE_DOCUMENT: UPDATE_DOCUMENT,
+	UPDATE_PARENT_DOCUMENT: UPDATE_PARENT_DOCUMENT
+});
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
@@ -439,11 +451,6 @@ var be5 = {
 
   debug: true,
 
-  def: {
-    URL_PREFIX: '/api/',
-    APPLICATION_PREFIX: '/'
-  },
-
   messages: messages.en,
 
   //todo move to constants
@@ -452,20 +459,6 @@ var be5 = {
   DOCUMENT_REFRESH_SUFFIX: "_refresh",
 
   appInfo: {},
-
-  // load: {
-  //   css(url) {
-  //     var link = document.createElement("link");
-  //     link.type = "text/css";
-  //     link.rel = "stylesheet";
-  //     if(be5.isRemoteUrl(url)){
-  //       link.href = url;
-  //     }else{
-  //       link.href = '/' + url;
-  //     }
-  //     document.getElementsByTagName("head")[0].appendChild(link);
-  //   }
-  // },
 
   locale: {
     set: function set$$1(loc, addMessages) {
@@ -641,10 +634,7 @@ var be5 = {
 
   net: {
     url: function url(path) {
-      return be5.def.URL_PREFIX + path;
-    },
-    resourceUrl: function resourceUrl(resource) {
-      return '/be5/' + resource;
+      return API_URL_PREFIX + path;
     },
     paramString: function paramString(params) {
       if ((typeof params === 'undefined' ? 'undefined' : _typeof(params)) !== 'object') {
@@ -655,29 +645,6 @@ var be5 = {
     request: function request(path, params, success, failure) {
       return be5.net.requestUrl(be5.net.url(path), 'json', params, success, failure);
     },
-
-
-    // // transforms parameters!
-    // requestJson(path, params, success, failure) {
-    //   return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'json', be5.net.transform(params), success, failure);
-    // },
-    //
-    // requestHtml(path, success, failure) {
-    //   return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'html', {}, success, failure);
-    // },
-
-    // transform(params) {
-    //   const copy = {};
-    //   for (let key in params) {
-    //   if (typeof params[key] === 'object') {
-    //     copy[key] = be5.net.paramString(params[key]);
-    //   } else {
-    //     copy[key] = params[key];
-    //   }
-    //   }
-    //   return copy;
-    // },
-
     requestUrl: function requestUrl(url, type, params, _success, failureFunc) {
       var result = null;
       var failure = function failure(data) {
@@ -687,11 +654,11 @@ var be5 = {
       };
 
       $.ajax({
-        url: getBaseUrl() + url,
+        url: url,
         dataType: type,
         type: 'POST',
         data: params,
-        async: !!_success,
+        async: true,
         xhrFields: {
           withCredentials: true
         },
@@ -775,6 +742,27 @@ var be5 = {
 
 };
 
+// // transforms parameters!
+// requestJson(path, params, success, failure) {
+//   return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'json', be5.net.transform(params), success, failure);
+// },
+//
+// requestHtml(path, success, failure) {
+//   return be5.net.requestUrl(be5.def.APPLICATION_PREFIX + path, 'html', {}, success, failure);
+// },
+
+// transform(params) {
+//   const copy = {};
+//   for (let key in params) {
+//   if (typeof params[key] === 'object') {
+//     copy[key] = be5.net.paramString(params[key]);
+//   } else {
+//     copy[key] = params[key];
+//   }
+//   }
+//   return copy;
+// },
+
 var states = [];
 
 function set$1(name, value) {
@@ -818,6 +806,13 @@ var Loading = function (_React$Component) {
 
 registerRoute("loading", route);
 
+var FrontendAction = function FrontendAction(type, value) {
+  classCallCheck(this, FrontendAction);
+
+  this.type = type;
+  this.value = value;
+};
+
 var UPDATE_USER_INFO = 'UPDATE_USER_INFO';
 
 var SELECT_ROLES = 'SELECT_ROLES';
@@ -851,28 +846,84 @@ var toggleRoles = function toggleRoles(roles) {
   };
 };
 
-var DEFAULT_VIEW = 'All records';
+var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneObject, frontendParams) {
+  var documentName = frontendParams.documentName;
 
-var ROLE_ADMINISTRATOR = "Administrator";
-var ROLE_SYSTEM_DEVELOPER = "SystemDeveloper";
-var ROLE_GUEST = "Guest";
+  var actions = getActionsMap(actionsArrayOrOneObject);
 
-var OPEN_DEFAULT_ROUTE = 'OPEN_DEFAULT_ROUTE';
-var OPEN_NEW_WINDOW = 'OPEN_NEW_WINDOW';
-var GO_BACK = 'GO_BACK';
+  if (actions.length === 0 && documentName === be5.MAIN_MODAL_DOCUMENT || actions.hasOwnProperty(CLOSE_MAIN_MODAL)) {
+    bus.fire("mainModalClose");
+  }
 
-var UPDATE_PARENT_DOCUMENT = 'UPDATE_PARENT_DOCUMENT';
+  if (actions[UPDATE_USER_INFO] !== undefined) {
+    be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
+  }
 
-var constants = Object.freeze({
-	DEFAULT_VIEW: DEFAULT_VIEW,
-	ROLE_ADMINISTRATOR: ROLE_ADMINISTRATOR,
-	ROLE_SYSTEM_DEVELOPER: ROLE_SYSTEM_DEVELOPER,
-	ROLE_GUEST: ROLE_GUEST,
-	OPEN_DEFAULT_ROUTE: OPEN_DEFAULT_ROUTE,
-	OPEN_NEW_WINDOW: OPEN_NEW_WINDOW,
-	GO_BACK: GO_BACK,
-	UPDATE_PARENT_DOCUMENT: UPDATE_PARENT_DOCUMENT
-});
+  if (actions[REDIRECT] !== undefined) {
+    var url = actions[REDIRECT];
+
+    if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://")) {
+      window.location.href = url;
+    } else {
+      if (documentName === be5.MAIN_DOCUMENT) {
+        be5.url.set(url);
+      } else {
+        if (be5.url.parse(url).positional[0] === 'form') {
+          forms.load(forms.getOperationParams(url, {}), frontendParams);
+        } else {
+          be5.url.process(documentName, '#!' + url);
+        }
+      }
+    }
+  }
+
+  //window.open blocked by browser usually
+  if (actions[OPEN_NEW_WINDOW] !== undefined) {
+    window.open(actions[OPEN_NEW_WINDOW]);
+  }
+
+  if (actions.hasOwnProperty(OPEN_DEFAULT_ROUTE)) {
+    be5.url.set(getDefaultRoute(be5.getStoreState()));
+  }
+
+  if (actions.hasOwnProperty(GO_BACK)) {
+    window.history.back();
+  }
+
+  if (actions[UPDATE_PARENT_DOCUMENT] !== undefined) {
+    var tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], { meta: json.meta });
+    changeDocument(frontendParams.parentDocumentName, { value: tableJson });
+
+    //usually used in filters
+    if (documentName === be5.MAIN_MODAL_DOCUMENT) {
+      bus.fire("mainModalClose");
+    }
+  }
+
+  if (actions[UPDATE_DOCUMENT] !== undefined) {
+    var _tableJson = Object.assign({}, actions[UPDATE_DOCUMENT], { meta: json.meta });
+    changeDocument(documentName, { value: _tableJson });
+  }
+
+  bus.fire("executeFrontendActions", { actions: actions, frontendParams: frontendParams });
+};
+
+var getActionsMap = function getActionsMap(actionsArrayOrOneObject) {
+  var map = {};
+  if (Array.isArray(actionsArrayOrOneObject)) {
+    for (var i = 0; i < actionsArrayOrOneObject.length; i++) {
+      Preconditions.passed(typeof actionsArrayOrOneObject[i].type === "string", "Actions must be object with string 'type' field: " + actionsArrayOrOneObject);
+
+      map[actionsArrayOrOneObject[i].type] = actionsArrayOrOneObject[i].value;
+    }
+  } else {
+    Preconditions.passed(typeof actionsArrayOrOneObject.type === "string", "Actions must be object with string 'type' field: " + actionsArrayOrOneObject);
+
+    map[actionsArrayOrOneObject.type] = actionsArrayOrOneObject.value;
+  }
+
+  return map;
+};
 
 var forms = {
   load: function load(params, frontendParams) {
@@ -939,36 +990,24 @@ var forms = {
             bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX);
           }
 
-          if (documentName === be5.MAIN_MODAL_DOCUMENT) {
-            bus.fire("mainModalClose");
-          }
-
           switch (attributes.status) {
             case 'redirect':
-              bus.fire("alert", { msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success' });
+              bus.fire("alert", { msg: attributes.message || be5.messages.successfullyCompleted, type: 'success' });
 
-              var url = attributes.details;
+              executeFrontendActions(new FrontendAction(REDIRECT, attributes.details), frontendParams);
 
-              if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://")) {
-                window.location.href = url;
-              } else {
-                if (documentName === be5.MAIN_DOCUMENT) {
-                  be5.url.set(url);
-                } else {
-                  if (be5.url.parse(url).positional[0] === 'form') {
-                    this.load(this.getOperationParams(url, {}), frontendParams);
-                  } else {
-                    be5.url.process(documentName, '#!' + url);
-                  }
-                }
-              }
               return;
             case 'finished':
               if (attributes.details !== undefined) {
-                this.executeActions(attributes.details, json, frontendParams, applyParams);
+                executeFrontendActions(attributes.details, frontendParams);
+
+                if (attributes.message !== undefined) {
+                  bus.fire("alert", { msg: attributes.message, type: 'success' });
+                }
               } else {
                 if (documentName === be5.MAIN_MODAL_DOCUMENT) {
-                  bus.fire("alert", { msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success' });
+                  bus.fire("mainModalClose");
+                  bus.fire("alert", { msg: attributes.message || be5.messages.successfullyCompleted, type: 'success' });
                 } else {
                   changeDocument(documentName, { value: json, frontendParams: frontendParams });
                 }
@@ -998,51 +1037,6 @@ var forms = {
   },
   isActions: function isActions(attributes) {
     return attributes.status === 'finished' && attributes.details !== undefined;
-  },
-
-
-  executeActions: function executeActions(actionsArrayOrOneObject, json, frontendParams, applyParams) {
-    var actions = this.getActionsMap(actionsArrayOrOneObject);
-
-    if (actions[UPDATE_USER_INFO] !== undefined) {
-      be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
-    }
-
-    if (actions[OPEN_NEW_WINDOW] !== undefined) {
-      window.open(actions[OPEN_NEW_WINDOW]);
-    }
-
-    if (actions.hasOwnProperty(OPEN_DEFAULT_ROUTE)) {
-      be5.url.set(getDefaultRoute(be5.getStoreState()));
-    }
-
-    if (actions.hasOwnProperty(GO_BACK)) {
-      window.history.back();
-    }
-
-    if (actions[UPDATE_PARENT_DOCUMENT] !== undefined) {
-      var tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], { meta: json.meta });
-      changeDocument(frontendParams.parentDocumentName, { value: tableJson });
-    }
-
-    bus.fire("executeFrontendActions", { actions: actions, json: json, frontendParams: frontendParams, applyParams: applyParams });
-  },
-
-  getActionsMap: function getActionsMap(actionsArrayOrOneObject) {
-    var map = {};
-    if (Array.isArray(actionsArrayOrOneObject)) {
-      for (var i = 0; i < actionsArrayOrOneObject.length; i++) {
-        Preconditions.passed(typeof actionsArrayOrOneObject[i].type === "string", "Actions must be object with string type:" + actionsArrayOrOneObject);
-
-        map[actionsArrayOrOneObject[i].type] = actionsArrayOrOneObject[i].value;
-      }
-    } else {
-      Preconditions.passed(typeof actionsArrayOrOneObject.type === "string", "Actions must be object with string type:" + actionsArrayOrOneObject);
-
-      map[actionsArrayOrOneObject.type] = actionsArrayOrOneObject.value;
-    }
-
-    return map;
   },
   _performForm: function _performForm(json, frontendParams) {
     var operationResult = json.data.attributes.operationResult;
@@ -1391,13 +1385,13 @@ var Document = function (_React$Component) {
         return this.state.frontendParams.type;
       }
 
-      if (this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
-        return 'modalForm';
-      }
-
       if (this.state.value.data) {
         if (this.state.value.data.attributes && this.state.value.data.attributes.layout && this.state.value.data.attributes.layout.type !== undefined) {
           return this.state.value.data.attributes.layout.type;
+        }
+
+        if (this.state.value.data.type === 'form' && this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
+          return 'modalForm';
         }
 
         return this.state.value.data.type;
@@ -1663,7 +1657,7 @@ var OperationBox = function (_React$Component) {
           return operation.name === name;
         });
         if (!operation.requiresConfirmation || confirm(operation.title + "?")) {
-          this.props.onOperationClick(name);
+          this.props.onOperationClick(operation);
         }
       }
       e.preventDefault();
@@ -1994,7 +1988,18 @@ var TableBox = function (_React$Component) {
     }
   }, {
     key: 'onOperationClick',
-    value: function onOperationClick(name) {
+    value: function onOperationClick(operation) {
+      var frontendParams = {
+        documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
+        parentDocumentName: this.props.frontendParams.documentName
+      };
+
+      if (operation.clientSide === true) {
+        executeFrontendActions(JSON.parse(operation.action), frontendParams);
+        return;
+      }
+
+      var name = operation.name;
       var attr = this.props.value.data.attributes;
 
       var params = {
@@ -2005,10 +2010,7 @@ var TableBox = function (_React$Component) {
         operationParams: attr.parameters
       };
 
-      forms.load(params, {
-        documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
-        parentDocumentName: this.props.frontendParams.documentName
-      });
+      forms.load(params, frontendParams);
     }
   }, {
     key: 'onSelectionChange',
@@ -2431,7 +2433,12 @@ var TableBox$1 = function (_React$Component) {
 
   createClass(TableBox, [{
     key: 'onOperationClick',
-    value: function onOperationClick(name) {
+    value: function onOperationClick(operation) {
+      if (operation.clientSide === true) {
+        return;
+      }
+
+      var name = operation.name;
       var attr = this.props.value.data.attributes;
 
       var params = {
@@ -3725,6 +3732,20 @@ var be5init = {
   }
 };
 
+var arraysEqual = function arraysEqual(a, b) {
+  if (a === b) return true;
+  if (a === null || b === null) return false;
+  if (a.length !== b.length) return false;
+
+  a.sort();
+  b.sort();
+
+  for (var i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+};
+
 var Role = function Role(props) {
   var id = props.name + "-checkbox";
 
@@ -4444,6 +4465,15 @@ var Application = function Application() {
         React.createElement(Document$1, { frontendParams: { documentName: be5.MAIN_DOCUMENT } })
       )
     )
+  );
+};
+
+var MainDocumentOnly = function MainDocumentOnly() {
+  return React.createElement(
+    'div',
+    { className: 'MainDocument-only' },
+    React.createElement(Be5Components, null),
+    React.createElement(Document$1, { frontendParams: { documentName: be5.MAIN_DOCUMENT } })
   );
 };
 
@@ -5201,4 +5231,4 @@ var index = combineReducers({
 // services
 // store
 
-export { be5, be5init, constants, Preconditions as preconditions, getBaseUrl, getSelfUrl, getModelByID, createStaticValue, getResourceByID, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, loadTable, updateTable };
+export { be5, be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, loadTable, updateTable };

@@ -4,7 +4,7 @@ import be5init from './be5init.js';
 import * as constants from './constants.js';
 import preconditions from './utils/preconditions.js';
 import {getSelfUrl, getModelByID, createStaticValue, getResourceByID} from './utils/documentUtils.js';
-import {getBaseUrl} from './utils/utils.js';
+import {arraysEqual} from './utils/utils.js';
 
 // core
 import bus from './core/bus.js';
@@ -14,6 +14,7 @@ import {registerRoute,getRoute,getAllRoutes} from "./core/routes";
 
 // components
 import Application      from './components/Application.js';
+import MainDocumentOnly from './components/MainDocumentOnly.js';
 import Be5Menu          from './components/menu/NavbarMenu.js';
 import HelpInfo         from './components/HelpInfo.js';
 import LanguageSelector from './components/LanguageSelector.js';
@@ -29,7 +30,7 @@ import RoleSelector     from './components/RoleSelector.js';
 import UserControl      from './components/UserControl.js';
 
 import Document             from './containers/Document.js';
-import NavbarMenuContainer        from './containers/NavbarMenuContainer';
+import NavbarMenuContainer  from './containers/NavbarMenuContainer';
 import MenuContainer        from './containers/MenuContainer';
 import UserControlContainer from './containers/UserControlContainer.js';
 
@@ -89,7 +90,7 @@ export {
   be5init,
   constants,
   preconditions,
-  getBaseUrl,
+  arraysEqual,
   getSelfUrl, getModelByID, createStaticValue, getResourceByID,
 
   // core
@@ -107,6 +108,7 @@ export {
 
   // components
   Application,
+  MainDocumentOnly,
   Be5Components,
   Be5Menu,
   HelpInfo,

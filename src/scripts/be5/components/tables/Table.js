@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes          from 'prop-types';
 import ReactDOM           from 'react-dom';
 import be5                from '../../be5';
-import {getBaseUrl}       from '../../utils/utils';
 import {getModelByID, getSelfUrl} from '../../utils/documentUtils';
 import forms              from '../../services/forms';
 import numberFormatter    from 'number-format.js';
@@ -12,6 +11,7 @@ import Document           from "../../containers/Document";
 import {registerDocument} from '../../core/documents';
 import {updateTable}      from "../../services/tables";
 import CategoryNavigation from "./CategoryNavigation";
+import {executeFrontendActions} from "../../services/frontendActions";
 
 
 const formatCell = (data, options, isColumn) =>
@@ -67,7 +67,19 @@ class TableBox extends React.Component {
       this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
   }
 
-  onOperationClick(name) {
+  onOperationClick(operation) {
+    const frontendParams = {
+      documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
+      parentDocumentName: this.props.frontendParams.documentName
+    };
+
+    if(operation.clientSide === true)
+    {
+      executeFrontendActions(JSON.parse(operation.action), frontendParams);
+      return;
+    }
+
+    const name = operation.name;
     const attr = this.props.value.data.attributes;
 
     const params = {
@@ -78,10 +90,7 @@ class TableBox extends React.Component {
       operationParams: attr.parameters
     };
 
-    forms.load(params, {
-      documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
-      parentDocumentName: this.props.frontendParams.documentName
-    });
+    forms.load(params, frontendParams);
   }
 
   onSelectionChange() {

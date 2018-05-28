@@ -13,7 +13,7 @@ class OperationBox extends React.Component
     if (!$(ReactDOM.findDOMNode(this.refs[name])).hasClass('disabled')) {
       const operation = this.props.operations.find(operation => operation.name === name);
       if (!operation.requiresConfirmation || confirm(operation.title + "?")) {
-        this.props.onOperationClick(name);
+        this.props.onOperationClick(operation);
       }
     }
     e.preventDefault();

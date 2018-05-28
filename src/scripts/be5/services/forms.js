@@ -2,10 +2,9 @@ import be5              from '../be5';
 import bus              from '../core/bus';
 import Preconditions    from '../utils/preconditions';
 import changeDocument   from '../core/changeDocument';
-import {updateUserInfo} from "../store/actions/user.actions";
-import {UPDATE_USER_INFO} from "../store/constants/user.constants";
-import {GO_BACK, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, UPDATE_PARENT_DOCUMENT} from "../constants";
-import {getDefaultRoute} from "../store/selectors/user.selectors";
+import {REDIRECT} from "../constants";
+import FrontendAction from "./model/FrontendAction";
+import {executeFrontendActions} from "./frontendActions";
 
 
 export default
@@ -80,50 +79,29 @@ export default
             bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX)
           }
 
-          if(documentName === be5.MAIN_MODAL_DOCUMENT)
-          {
-            bus.fire("mainModalClose");
-          }
-
           switch (attributes.status) {
             case 'redirect':
-              bus.fire("alert", {msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success'});
+              bus.fire("alert", {msg: attributes.message || be5.messages.successfullyCompleted, type: 'success'});
 
-              const url = attributes.details;
+              executeFrontendActions(new FrontendAction(REDIRECT, attributes.details), frontendParams);
 
-              if(url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://"))
-              {
-                window.location.href = url;
-              }
-              else
-              {
-                if (documentName === be5.MAIN_DOCUMENT)
-                {
-                  be5.url.set(url);
-                }
-                else
-                {
-                  if(be5.url.parse(url).positional[0] === 'form')
-                  {
-                    this.load(this.getOperationParams(url, {}), frontendParams);
-                  }
-                  else
-                  {
-                    be5.url.process(documentName, '#!' + url);
-                  }
-                }
-              }
               return;
             case 'finished':
               if(attributes.details !== undefined)
               {
-                this.executeActions(attributes.details, json, frontendParams, applyParams);
+                executeFrontendActions(attributes.details, frontendParams);
+
+                if(attributes.message !== undefined)
+                {
+                  bus.fire("alert", {msg: attributes.message, type: 'success'});
+                }
               }
               else
               {
                 if(documentName === be5.MAIN_MODAL_DOCUMENT)
                 {
-                  bus.fire("alert", {msg: json.data.attributes.message || be5.messages.successfullyCompleted, type: 'success'});
+                  bus.fire("mainModalClose");
+                  bus.fire("alert", {msg: attributes.message || be5.messages.successfullyCompleted, type: 'success'});
                 }
                 else
                 {
@@ -157,61 +135,6 @@ export default
   isActions(attributes)
   {
     return attributes.status === 'finished' && attributes.details !== undefined
-  },
-
-  executeActions: function (actionsArrayOrOneObject, json, frontendParams, applyParams)
-  {
-    const actions = this.getActionsMap(actionsArrayOrOneObject);
-
-    if(actions[UPDATE_USER_INFO] !== undefined)
-    {
-      be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
-    }
-
-    if(actions[OPEN_NEW_WINDOW] !== undefined)
-    {
-      window.open(actions[OPEN_NEW_WINDOW]);
-    }
-
-    if(actions.hasOwnProperty(OPEN_DEFAULT_ROUTE))
-    {
-      be5.url.set(getDefaultRoute(be5.getStoreState()));
-    }
-
-    if(actions.hasOwnProperty(GO_BACK))
-    {
-      window.history.back();
-    }
-
-    if(actions[UPDATE_PARENT_DOCUMENT] !== undefined)
-    {
-      const tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], {meta: json.meta});
-      changeDocument(frontendParams.parentDocumentName, {value: tableJson});
-    }
-
-    bus.fire("executeFrontendActions", {actions, json, frontendParams, applyParams});
-  },
-
-  getActionsMap(actionsArrayOrOneObject) {
-    let map = {};
-    if(Array.isArray(actionsArrayOrOneObject))
-    {
-      for (let i = 0; i < actionsArrayOrOneObject.length; i++) {
-        Preconditions.passed(typeof actionsArrayOrOneObject[i].type === "string",
-          "Actions must be object with string type:" + actionsArrayOrOneObject);
-
-        map[actionsArrayOrOneObject[i].type] = actionsArrayOrOneObject[i].value;
-      }
-    }
-    else
-    {
-      Preconditions.passed(typeof actionsArrayOrOneObject.type === "string",
-        "Actions must be object with string type:" + actionsArrayOrOneObject);
-
-      map[actionsArrayOrOneObject.type] = actionsArrayOrOneObject.value;
-    }
-
-    return map;
   },
 
   _performForm(json, frontendParams)

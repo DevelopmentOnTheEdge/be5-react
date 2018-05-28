@@ -1,11 +1,3 @@
-export const getBaseUrl = function()
-{
-  let getUrl = window.location;
-  let baseUrl = getUrl.protocol + "//" + getUrl.host;
-  if(getUrl.pathname.split('/')[1] !== "")  baseUrl += "/" + getUrl.pathname.split('/')[1];
-  return baseUrl
-};
-
 export const arraysEqual = function(a, b)
 {
   if (a === b) return true;
