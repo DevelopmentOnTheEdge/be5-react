@@ -230,7 +230,6 @@ const be5 = {
         if (typeof (failureFunc) === 'function')failureFunc(data);
       };
 
-      console.log(be5.serverUrlWithContext);
       $.ajax({
         url : be5.serverUrlWithContext + url,
         dataType : type,
