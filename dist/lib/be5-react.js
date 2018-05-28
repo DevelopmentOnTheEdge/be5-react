@@ -261,7 +261,7 @@ var getDefaultRoute = function getDefaultRoute(state) {
   return state.user.defaultRoute;
 };
 
-var API_URL_PREFIX = '/api/';
+var API_URL_PREFIX = 'api/';
 
 var DEFAULT_VIEW = 'All records';
 
