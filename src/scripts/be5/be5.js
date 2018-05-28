@@ -230,7 +230,7 @@ const be5 = {
       };
 
       $.ajax({
-        url : url,
+        url : window.location.origin + url,
         dataType : type,
         type : 'POST',
         data : params,
