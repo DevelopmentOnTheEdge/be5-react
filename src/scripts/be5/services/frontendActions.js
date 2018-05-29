@@ -58,7 +58,6 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
     }
   }
 
-  //window.open blocked by browser usually
   if(actions[OPEN_NEW_WINDOW] !== undefined)
   {
     window.open(actions[OPEN_NEW_WINDOW]);
@@ -76,7 +75,7 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 
   if(actions[UPDATE_PARENT_DOCUMENT] !== undefined)
   {
-    const tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], {meta: json.meta});
+    const tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], {meta: {_ts_: new Date().getTime()}});
     changeDocument(frontendParams.parentDocumentName, {value: tableJson});
 
     //usually used in filters
@@ -88,7 +87,7 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 
   if(actions[UPDATE_DOCUMENT] !== undefined)
   {
-    const tableJson = Object.assign({}, actions[UPDATE_DOCUMENT], {meta: json.meta});
+    const tableJson = Object.assign({}, actions[UPDATE_DOCUMENT], {meta: {_ts_: new Date().getTime()}});
     changeDocument(documentName, {value: tableJson});
   }
 

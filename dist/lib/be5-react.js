@@ -878,7 +878,6 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
     }
   }
 
-  //window.open blocked by browser usually
   if (actions[OPEN_NEW_WINDOW] !== undefined) {
     window.open(actions[OPEN_NEW_WINDOW]);
   }
@@ -892,7 +891,7 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
   }
 
   if (actions[UPDATE_PARENT_DOCUMENT] !== undefined) {
-    var tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], { meta: json.meta });
+    var tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], { meta: { _ts_: new Date().getTime() } });
     changeDocument(frontendParams.parentDocumentName, { value: tableJson });
 
     //usually used in filters
@@ -902,7 +901,7 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
   }
 
   if (actions[UPDATE_DOCUMENT] !== undefined) {
-    var _tableJson = Object.assign({}, actions[UPDATE_DOCUMENT], { meta: json.meta });
+    var _tableJson = Object.assign({}, actions[UPDATE_DOCUMENT], { meta: { _ts_: new Date().getTime() } });
     changeDocument(documentName, { value: _tableJson });
   }
 
@@ -2118,7 +2117,6 @@ var TableBox = function (_React$Component) {
             params.params._orderDir_ = data.order[0].dir;
           }
           updateTable(params, function (json) {
-            console.log(json);
             if (json.type === "error") {
               be5.log.error(json.value.code + "\n" + json.value.message);
             } else {
