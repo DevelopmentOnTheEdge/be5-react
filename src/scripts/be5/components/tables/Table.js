@@ -193,7 +193,6 @@ class TableBox extends React.Component {
           params.params._orderDir_    = data.order[0].dir;
         }
         updateTable(params, function(json){
-          console.log(json);
           if(json.type === "error"){
             be5.log.error(json.value.code + "\n" + json.value.message);
           }else{
