@@ -560,11 +560,11 @@ var be5 = {
     //   return encodeURIComponent(hashUriComponent);
     // },
 
-    create: function create(action) {
-      var positional = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-      var named = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    create: function create() {
+      var positional = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      var named = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-      return be5.url.form([action].concat(positional), named);
+      return be5.url.form(positional, named);
     },
     form: function form(positional) {
       var named = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -1867,7 +1867,7 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
       { className: 'category-navigation category-navigation__not-select' },
       React.createElement(
         'a',
-        { href: be5.url.create("", pUrl.positional, Object.assign({}, pUrl.named, { _cat_: categories[0].id })) },
+        { href: be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, { _cat_: categories[0].id })) },
         be5.locale.msg('Switch to categorized view')
       )
     );
@@ -1881,7 +1881,7 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
         return React.createElement(
           'a',
           { className: 'd-block',
-            href: be5.url.create("", pUrl.positional, Object.assign({}, pUrl.named, { _cat_: cat.id })), key: cat.id },
+            href: be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, { _cat_: cat.id })), key: cat.id },
           cat.name
         );
       } else {
@@ -2161,9 +2161,10 @@ var TableBox = function (_React$Component) {
             var val = row[0];
             var id = "row-" + val + "-checkbox";
             var display = meta.row + 1;
-            if (editable) {
-              display = '<a href="#!' + be5.url.create('form', [attributes.category, attributes.page, 'Edit'], { selectedRows: val }) + '">' + display + '</a>';
-            }
+
+            // if(editable) {
+            //   display = '<a href="#!'+be5.url.create(['form', attributes.category, attributes.page, 'Edit'], {selectedRows: val})+'">'+display+'</a>';
+            // }
             // Pure HTML! Have no idea how to convert some react.js to string.
             return '\
                 <input id="{id}" type="checkbox" class="rowCheckbox"></input>\

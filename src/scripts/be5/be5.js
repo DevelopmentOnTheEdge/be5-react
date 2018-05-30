@@ -123,8 +123,8 @@ const be5 = {
     //   return encodeURIComponent(hashUriComponent);
     // },
 
-    create(action, positional = [], named = {}) {
-      return be5.url.form([action].concat(positional), named);
+    create(positional = [], named = {}) {
+      return be5.url.form(positional, named);
     },
 
     form(positional, named = {}) {
