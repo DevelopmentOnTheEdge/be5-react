@@ -271,7 +271,7 @@ var getDefaultRoute = function getDefaultRoute(state) {
   return state.user.defaultRoute;
 };
 
-var API_URL_PREFIX = 'api/';
+var API_URL_PREFIX = '/api/';
 
 var DEFAULT_VIEW = 'All records';
 
@@ -469,7 +469,7 @@ var be5 = {
   DOCUMENT_REFRESH_SUFFIX: "_refresh",
 
   appInfo: {},
-  serverUrlWithContext: window.serverUrlWithContext || "/",
+  be5ServerUrl: window.be5ServerUrl || "",
 
   locale: {
     set: function set$$1(loc, addMessages) {
@@ -665,7 +665,7 @@ var be5 = {
       };
 
       $.ajax({
-        url: be5.serverUrlWithContext + url,
+        url: be5.be5ServerUrl + url,
         dataType: type,
         type: 'POST',
         data: params,
