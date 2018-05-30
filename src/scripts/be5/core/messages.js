@@ -22,6 +22,11 @@ export default {
     successfullyCompleted: 'Successfully completed.',
 
     filter: 'Filter...',
+    records: 'records',
+
+    selectRoles: 'Select',
+    allRoles: 'all',
+    clearRoles: 'clear',
 
     Submit: 'Submit',
     submitted: 'In progress...',
@@ -59,6 +64,11 @@ export default {
     successfullyCompleted: 'Успешно выполнено.',
 
     filter: 'Фильтр...',
+    records: 'записей',
+
+    selectRoles: 'Выбрать',
+    allRoles: 'Всё',
+    clearRoles: 'Ничего',
 
     Submit: 'Выполнить',
     submitted: 'Выполняется...',

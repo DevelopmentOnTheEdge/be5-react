@@ -19,7 +19,7 @@ const CategoryNavigation = ({categories, url}) =>
     return (
       <div className="category-navigation category-navigation__not-select">
         <a href={be5.url.create("", pUrl.positional, Object.assign({}, pUrl.named, {_cat_: categories[0].id}))}>
-          {be5.messages['Switch to categorized view']}
+          {be5.locale.msg('Switch to categorized view')}
         </a>
       </div>
     )

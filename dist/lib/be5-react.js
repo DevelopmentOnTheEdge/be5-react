@@ -88,6 +88,11 @@ var messages = {
     successfullyCompleted: 'Successfully completed.',
 
     filter: 'Filter...',
+    records: 'records',
+
+    selectRoles: 'Select',
+    allRoles: 'all',
+    clearRoles: 'clear',
 
     Submit: 'Submit',
     submitted: 'In progress...',
@@ -125,6 +130,11 @@ var messages = {
     successfullyCompleted: 'Успешно выполнено.',
 
     filter: 'Фильтр...',
+    records: 'записей',
+
+    selectRoles: 'Выбрать',
+    allRoles: 'Всё',
+    clearRoles: 'Ничего',
 
     Submit: 'Выполнить',
     submitted: 'Выполняется...',
@@ -1858,7 +1868,7 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
       React.createElement(
         'a',
         { href: be5.url.create("", pUrl.positional, Object.assign({}, pUrl.named, { _cat_: categories[0].id })) },
-        be5.messages['Switch to categorized view']
+        be5.locale.msg('Switch to categorized view')
       )
     );
   }
@@ -2081,7 +2091,7 @@ var TableBox = function (_React$Component) {
       }
 
       var lengthsTitles = lengths.map(function (x) {
-        return x + ' записей';
+        return x + ' ' + be5.locale.msg('records');
       });
 
       lengths = [lengths, lengthsTitles];
@@ -3819,18 +3829,17 @@ var RoleSelector = function RoleSelector(props) {
       React.createElement(
         'div',
         { className: 'roleBox_add-actions' },
-        '\u0412\u044B\u0431\u0440\u0430\u0442\u044C:',
-        ' ',
+        be5.locale.msg('selectRoles') + ' ',
         React.createElement(
           Button,
           { onClick: handleSelectAll, color: 'primary', className: 'enable-all', size: 'sm' },
-          '\u0412\u0441\u0451'
+          be5.locale.msg('allRoles')
         ),
         ' ',
         React.createElement(
           Button,
           { onClick: handleClear, color: 'secondary', className: 'disable-all', size: 'sm' },
-          '\u041D\u0438\u0447\u0435\u0433\u043E'
+          be5.locale.msg('clearRoles')
         )
       )
     )

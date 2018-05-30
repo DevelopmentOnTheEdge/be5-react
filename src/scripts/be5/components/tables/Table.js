@@ -158,7 +158,7 @@ class TableBox extends React.Component {
       lengths.sort(function(a,b) {return a-b;});
     }
 
-    const lengthsTitles = lengths.map(x => x + ' записей');
+    const lengthsTitles = lengths.map(x => x + ' ' + be5.locale.msg('records'));
 
     lengths = [lengths, lengthsTitles];
 

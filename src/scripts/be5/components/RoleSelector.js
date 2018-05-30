@@ -66,9 +66,9 @@ const RoleSelector = (props) => {
         <DropdownItem divider />
 
         <div className="roleBox_add-actions">
-          Выбрать:{' '}
-          <Button onClick={handleSelectAll} color="primary" className="enable-all" size="sm">Всё</Button>{' '}
-          <Button onClick={handleClear} color="secondary" className="disable-all" size="sm">Ничего</Button>
+          {be5.locale.msg('selectRoles') + ' '}
+          <Button onClick={handleSelectAll} color="primary" className="enable-all" size="sm">{be5.locale.msg('allRoles')}</Button>{' '}
+          <Button onClick={handleClear} color="secondary" className="disable-all" size="sm">{be5.locale.msg('clearRoles')}</Button>
         </div>
       </DropdownMenu>
     </UncontrolledDropdown>
