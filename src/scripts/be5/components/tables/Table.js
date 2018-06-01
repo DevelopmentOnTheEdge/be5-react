@@ -153,9 +153,18 @@ class TableBox extends React.Component {
     let lengths = [5,10,20,50,100,500,1000];
     const pageLength = attributes.length;
 
+    let tableDom = 'r <"table-responsive-md"t> <"dataTables-nav clearfix"pli>';
+
     if (lengths.indexOf(pageLength) === -1) {
-      lengths.push(pageLength);
-      lengths.sort(function(a,b) {return a-b;});
+      if(pageLength < 5)
+      {
+        tableDom = tableDom.replace("pli", "pi");
+      }
+      else
+      {
+        lengths.push(pageLength);
+        lengths.sort(function(a,b) {return a-b;});
+      }
     }
 
     const lengthsTitles = lengths.map(x => x + ' ' + be5.locale.msg('entries'));
@@ -169,7 +178,7 @@ class TableBox extends React.Component {
     language.lengthMenu = "_MENU_";
 
     const tableConfiguration = {
-      dom: 'r <"table-responsive-md"t> <"dataTables-nav clearfix"pli>',
+      dom: tableDom,
       processing: true,
       serverSide: true,
       language: language,
