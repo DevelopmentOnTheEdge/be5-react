@@ -22,7 +22,7 @@ export default {
     successfullyCompleted: 'Successfully completed.',
 
     filter: 'Filter...',
-    records: 'records',
+    entries: 'entries',
 
     selectRoles: 'Select',
     allRoles: 'all',
@@ -64,7 +64,7 @@ export default {
     successfullyCompleted: 'Успешно выполнено.',
 
     filter: 'Фильтр...',
-    records: 'записей',
+    entries: 'записей',
 
     selectRoles: 'Выбрать',
     allRoles: 'Всё',

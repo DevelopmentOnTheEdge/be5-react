@@ -158,15 +158,15 @@ class TableBox extends React.Component {
       lengths.sort(function(a,b) {return a-b;});
     }
 
-    const lengthsTitles = lengths.map(x => x + ' ' + be5.locale.msg('records'));
+    const lengthsTitles = lengths.map(x => x + ' ' + be5.locale.msg('entries'));
 
     lengths = [lengths, lengthsTitles];
 
-    let language = null;
+    let language = {};
     if(be5.locale.value !== 'en'){
       language = be5.messages.dataTables || {};
-      language.lengthMenu = "_MENU_";
     }
+    language.lengthMenu = "_MENU_";
 
     const tableConfiguration = {
       dom: 'r <"table-responsive-md"t> <"dataTables-nav clearfix"pli>',
