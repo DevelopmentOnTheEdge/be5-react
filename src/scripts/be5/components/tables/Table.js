@@ -363,7 +363,7 @@ class TableBox extends React.Component {
 
   render() {
     const attributes = this.props.value.data.attributes;
-    if (attributes.columns.length === 0) {
+    if (attributes.rows.length === 0) {
       return (
         <div>
           <CategoryNavigation categories={attributes.categoryNavigation} url={getSelfUrl(this.props.value)}/>
