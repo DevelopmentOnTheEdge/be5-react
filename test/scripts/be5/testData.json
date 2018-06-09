@@ -169,15 +169,15 @@
       "attributes":{"bean":{"values":{},"meta":{},"order":[]},
       "entity":"testtable",
         "errorModel":{
-          "code":"Be5Exception: Internal error occured during operation... ",
+          "code":"Be5Exception: Internal error occurred during operation... ",
           "status":"500",
-          "title":"Internal error occured during operation testtable.TestOperation",
+          "title":"Internal error occurred during operation testtable.TestOperation",
           "links":{"self":"form/testtable/Test 1D/TestOperation"}
         },
         "layout":{},
         "operation":"TestOperation",
         "operationParams":{},
-        "operationResult":{"message":"Internal error occured during operation testtable.TestOperation","status":"error"},
+        "operationResult":{"message":"Internal error occurred during operation testtable.TestOperation","status":"error"},
         "query":"Test 1D",
         "selectedRows":"",
         "title":"Тестовая операция"},

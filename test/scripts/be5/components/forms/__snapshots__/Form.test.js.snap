@@ -98,14 +98,14 @@ exports[`Form errorOnApply 1`] = `
         >
           500
            - 
-          Internal error occured during operation testtable.TestOperation
+          Internal error occurred during operation testtable.TestOperation
         </h1>
         <br />
         <pre
           className="errorPane__code"
           dangerouslySetInnerHTML={
             Object {
-              "__html": "Be5Exception: Internal error occured during operation... ",
+              "__html": "Be5Exception: Internal error occurred during operation... ",
             }
           }
         />
