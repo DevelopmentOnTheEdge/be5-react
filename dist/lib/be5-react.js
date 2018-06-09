@@ -88,7 +88,7 @@ var messages = {
     successfullyCompleted: 'Successfully completed.',
 
     filter: 'Filter...',
-    records: 'records',
+    entries: 'entries',
 
     selectRoles: 'Select',
     allRoles: 'all',
@@ -130,7 +130,7 @@ var messages = {
     successfullyCompleted: 'Успешно выполнено.',
 
     filter: 'Фильтр...',
-    records: 'записей',
+    entries: 'записей',
 
     selectRoles: 'Выбрать',
     allRoles: 'Всё',
@@ -2083,27 +2083,33 @@ var TableBox = function (_React$Component) {
       var lengths = [5, 10, 20, 50, 100, 500, 1000];
       var pageLength = attributes.length;
 
+      var tableDom = 'r <"table-responsive-md"t> <"dataTables-nav clearfix"pli>';
+
       if (lengths.indexOf(pageLength) === -1) {
-        lengths.push(pageLength);
-        lengths.sort(function (a, b) {
-          return a - b;
-        });
+        if (pageLength < 5) {
+          tableDom = tableDom.replace("pli", "pi");
+        } else {
+          lengths.push(pageLength);
+          lengths.sort(function (a, b) {
+            return a - b;
+          });
+        }
       }
 
       var lengthsTitles = lengths.map(function (x) {
-        return x + ' ' + be5.locale.msg('records');
+        return x + ' ' + be5.locale.msg('entries');
       });
 
       lengths = [lengths, lengthsTitles];
 
-      var language = null;
+      var language = {};
       if (be5.locale.value !== 'en') {
         language = be5.messages.dataTables || {};
-        language.lengthMenu = "_MENU_";
       }
+      language.lengthMenu = "_MENU_";
 
       var tableConfiguration = {
-        dom: 'r <"table-responsive-md"t> <"dataTables-nav clearfix"pli>',
+        dom: tableDom,
         processing: true,
         serverSide: true,
         language: language,
@@ -2284,7 +2290,7 @@ var TableBox = function (_React$Component) {
     key: 'render',
     value: function render() {
       var attributes = this.props.value.data.attributes;
-      if (attributes.columns.length === 0) {
+      if (attributes.rows.length === 0) {
         return React.createElement(
           'div',
           null,
