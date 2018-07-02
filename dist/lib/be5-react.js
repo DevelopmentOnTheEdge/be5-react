@@ -2119,7 +2119,6 @@ var TableBox = function (_React$Component) {
         displayStart: attributes.offset,
         order: attributes.orderColumn >= 0 ? [[attributes.orderColumn, attributes.orderDir]] : undefined,
         ajax: function ajax(data, callback, settings) {
-          console.log(data, settings);
           var params = {
             entity: attributes.category,
             query: attributes.page,
@@ -2132,7 +2131,8 @@ var TableBox = function (_React$Component) {
             params.params._orderColumn_ = data.order[0].column;
             params.params._orderDir_ = data.order[0].dir;
           }
-          updateTable(params, function (json) {
+          updateTable(params, function (jsonApiModel) {
+            var json = jsonApiModel.data.attributes;
             if (json.type === "error") {
               be5.log.error(json.value.code + "\n" + json.value.message);
             } else {
