@@ -3114,6 +3114,10 @@ var Form = function (_React$Component) {
     value: function _createOkAction(addCssClasses) {
       var _this5 = this;
 
+      var _state$data$attribute = this.state.data.attributes.layout,
+          bsSize = _state$data$attribute.bsSize,
+          submitText = _state$data$attribute.submitText;
+
       return React.createElement(
         Transition,
         { 'in': this.state.submitted, timeout: 200 },
@@ -3122,14 +3126,14 @@ var Form = function (_React$Component) {
             'button',
             {
               type: 'submit',
-              className: classNames("btn btn-primary", { 'btn-sm': _this5.state.data.attributes.layout.bsSize === 'sm' }, { 'btn-lg': _this5.state.data.attributes.layout.bsSize === 'lg' }, addCssClasses),
+              className: classNames("btn btn-primary", { 'btn-sm': bsSize === 'sm' }, { 'btn-lg': bsSize === 'lg' }, addCssClasses),
               onClick: function onClick() {
                 return _this5.setState({ wasValidated: true });
               },
               title: _this5.state.submitted ? be5.messages.submitted : "",
               disabled: state === 'entered'
             },
-            be5.messages.Submit
+            submitText || be5.messages.Submit
           );
         }
       );

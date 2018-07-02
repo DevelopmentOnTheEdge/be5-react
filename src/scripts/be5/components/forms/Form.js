@@ -108,6 +108,7 @@ class Form extends React.Component
   }
 
   _createOkAction(addCssClasses) {
+    const {bsSize, submitText} = this.state.data.attributes.layout;
     return (
       <Transition in={this.state.submitted} timeout={200}>
         {(state) => (
@@ -115,15 +116,15 @@ class Form extends React.Component
             type="submit"
             className={classNames(
               "btn btn-primary",
-              {'btn-sm' : this.state.data.attributes.layout.bsSize === 'sm'},
-              {'btn-lg' : this.state.data.attributes.layout.bsSize === 'lg'},
+              {'btn-sm' : bsSize === 'sm'},
+              {'btn-lg' : bsSize === 'lg'},
               addCssClasses
             )}
             onClick={() => this.setState({wasValidated: true})}
             title={this.state.submitted ? be5.messages.submitted: ""}
             disabled={state === 'entered'}
           >
-          {be5.messages.Submit}
+          {submitText || be5.messages.Submit}
           </button>
         )}
       </Transition>
