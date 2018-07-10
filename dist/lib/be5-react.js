@@ -3732,10 +3732,8 @@ var be5init = {
     });
   },
   initGetUser: function initGetUser(store) {
-    this.initOnLoad(store, undefined, getDefaultRoute, function (nextState) {
-      //be5.url.set(getDefaultRoute(be5.store))
-      //be5.url.process(be5.MAIN_DOCUMENT, "");
-      be5.url.process(be5.MAIN_DOCUMENT, "#!" + nextState);
+    this.initOnLoad(store, undefined, getDefaultRoute, function () {
+      be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
     });
   },
   initOnLoad: function initOnLoad(store, initState, select, onChange) {
