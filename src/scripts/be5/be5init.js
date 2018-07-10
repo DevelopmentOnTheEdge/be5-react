@@ -80,10 +80,10 @@ export default {
   },
 
   initGetUser(store){
-    this.initOnLoad(store, undefined, getDefaultRoute, () => {
+    this.initOnLoad(store, undefined, getDefaultRoute, (nextState) => {
       //be5.url.set(getDefaultRoute(be5.store))
       //be5.url.process(be5.MAIN_DOCUMENT, "");
-      be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
+      be5.url.process(be5.MAIN_DOCUMENT, "#!" + nextState);
     });
   },
 
