@@ -81,8 +81,6 @@ export default {
 
   initGetUser(store){
     this.initOnLoad(store, undefined, getDefaultRoute, () => {
-      //be5.url.set(getDefaultRoute(be5.store))
-      //be5.url.process(be5.MAIN_DOCUMENT, "");
       be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
     });
   },

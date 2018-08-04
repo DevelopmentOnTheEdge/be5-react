@@ -25,7 +25,7 @@ const be5 = {
   DOCUMENT_REFRESH_SUFFIX: "_refresh",
 
   appInfo: {},
-  serverUrlWithContext: window.serverUrlWithContext || "/",
+  be5ServerUrl: window.be5ServerUrl || "",
 
   locale: {
     set(loc, addMessages) {
@@ -123,8 +123,8 @@ const be5 = {
     //   return encodeURIComponent(hashUriComponent);
     // },
 
-    create(action, positional = [], named = {}) {
-      return be5.url.form([action].concat(positional), named);
+    create(positional = [], named = {}) {
+      return be5.url.form(positional, named);
     },
 
     form(positional, named = {}) {
@@ -231,7 +231,7 @@ const be5 = {
       };
 
       $.ajax({
-        url : be5.serverUrlWithContext + url,
+        url : be5.be5ServerUrl + url,
         dataType : type,
         type : 'POST',
         data : params,

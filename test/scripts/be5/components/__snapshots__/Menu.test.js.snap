@@ -164,14 +164,13 @@ exports[`snapshot NavbarMenu 1`] = `
             <div
               className="roleBox_add-actions"
             >
-              Выбрать:
-               
+              Select 
               <button
                 className="enable-all btn btn-primary btn-sm"
                 onClick={[Function]}
                 type="button"
               >
-                Всё
+                all
               </button>
                
               <button
@@ -179,7 +178,7 @@ exports[`snapshot NavbarMenu 1`] = `
                 onClick={[Function]}
                 type="button"
               >
-                Ничего
+                clear
               </button>
             </div>
           </div>

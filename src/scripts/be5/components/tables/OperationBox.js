@@ -11,7 +11,7 @@ class OperationBox extends React.Component
 
   onClick(name, e) {
     if (!$(ReactDOM.findDOMNode(this.refs[name])).hasClass('disabled')) {
-      const operation = this.props.operations.find(operation => operation.name === name);
+      const operation = this.props.operations.attributes.find(operation => operation.name === name);
       if (!operation.requiresConfirmation || confirm(operation.title + "?")) {
         this.props.onOperationClick(operation);
       }
@@ -20,7 +20,8 @@ class OperationBox extends React.Component
   }
 
   refreshEnablement() {
-    this.props.operations.forEach(operation => {
+    if(!this.props.operations) return;
+    this.props.operations.attributes.forEach(operation => {
       let visible = false;
       switch (operation.visibleWhen) {
         case 'always':
@@ -47,6 +48,7 @@ class OperationBox extends React.Component
   }
 
   render() {
+    if(!this.props.operations) return null;
     const splitWithSpaces = (elements) => {
       const out = [];
       _(elements).each(e => {
@@ -57,7 +59,7 @@ class OperationBox extends React.Component
       });
       return out;
     };
-    const operations = this.props.operations.map(operation => {
+    const operations = this.props.operations.attributes.map(operation => {
 //      if (operation.isClientSide) {
 //        const action = Action.parse(operation.action);
 //        const attrs = {
@@ -81,7 +83,7 @@ class OperationBox extends React.Component
       );
     });
 
-    if(this.props.operations.length === 0){
+    if(this.props.operations.attributes.length === 0){
       return (
         <div/>
       );

@@ -1,6 +1,6 @@
 {
   "name": "be5-react",
-  "version": "0.2.29",
+  "version": "0.2.40",
   "description": "React client UI for be5 server api",
   "main": "dist/lib/be5-react.js",
   "scripts": {
@@ -86,6 +86,7 @@
     "url": "https://github.com/DevelopmentOnTheEdge/be5-react.git"
   },
   "jest": {
+    "testURL": "http://localhost/",
     "verbose": true,
     "globals": {
       "NODE_ENV": "test"

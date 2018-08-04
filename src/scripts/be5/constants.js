@@ -1,4 +1,4 @@
-export const API_URL_PREFIX = 'api/';
+export const API_URL_PREFIX = '/api/';
 
 export const DEFAULT_VIEW = 'All records';
 

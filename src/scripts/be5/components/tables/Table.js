@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes          from 'prop-types';
 import ReactDOM           from 'react-dom';
 import be5                from '../../be5';
-import {getModelByID, getSelfUrl} from '../../utils/documentUtils';
+import {getModelByID, getResourceByType, getSelfUrl} from '../../utils/documentUtils';
 import forms              from '../../services/forms';
 import numberFormatter    from 'number-format.js';
 import OperationBox       from './OperationBox';
@@ -117,7 +117,7 @@ class TableBox extends React.Component {
     const tfoot = $('<tfoot>');
     const tfootrow = $('<tr>').appendTo(tfoot);
     const hasCheckBoxes = attributes.selectable;
-    const editable = attributes.operations.filter((op) => op.name === 'Edit').length === 1;
+    //const editable = attributes.operations.filter((op) => op.name === 'Edit').length === 1;
     let columnIndexShift = 0;
 
     if (hasCheckBoxes) {
@@ -153,23 +153,32 @@ class TableBox extends React.Component {
     let lengths = [5,10,20,50,100,500,1000];
     const pageLength = attributes.length;
 
+    let tableDom = 'r <"table-responsive-md"t> <"dataTables-nav clearfix"pli>';
+
     if (lengths.indexOf(pageLength) === -1) {
-      lengths.push(pageLength);
-      lengths.sort(function(a,b) {return a-b;});
+      if(pageLength < 5)
+      {
+        tableDom = tableDom.replace("pli", "pi");
+      }
+      else
+      {
+        lengths.push(pageLength);
+        lengths.sort(function(a,b) {return a-b;});
+      }
     }
 
-    const lengthsTitles = lengths.map(x => x + ' записей');
+    const lengthsTitles = lengths.map(x => x + ' ' + be5.locale.msg('entries'));
 
     lengths = [lengths, lengthsTitles];
 
-    let language = null;
+    let language = {};
     if(be5.locale.value !== 'en'){
       language = be5.messages.dataTables || {};
-      language.lengthMenu = "_MENU_";
     }
+    language.lengthMenu = "_MENU_";
 
     const tableConfiguration = {
-      dom: 'r <"table-responsive-md"t> <"dataTables-nav clearfix"pli>',
+      dom: tableDom,
       processing: true,
       serverSide: true,
       language: language,
@@ -179,7 +188,6 @@ class TableBox extends React.Component {
       displayStart: attributes.offset,
       order: attributes.orderColumn >= 0 ? [[ attributes.orderColumn, attributes.orderDir ]] : undefined,
       ajax: function (data, callback, settings) {
-        console.log(data, settings);
         const params = {
           entity: attributes.category,
           query: attributes.page,
@@ -192,8 +200,8 @@ class TableBox extends React.Component {
           params.params._orderColumn_ = data.order[0].column;
           params.params._orderDir_    = data.order[0].dir;
         }
-        updateTable(params, function(json){
-          console.log(json);
+        updateTable(params, function(jsonApiModel){
+          const json = jsonApiModel.data.attributes;
           if(json.type === "error"){
             be5.log.error(json.value.code + "\n" + json.value.message);
           }else{
@@ -229,9 +237,10 @@ class TableBox extends React.Component {
             const val = row[0];
             const id = "row-" + val + "-checkbox";
             let display = meta.row+1;
-            if(editable) {
-              display = '<a href="#!'+be5.url.create('form', [attributes.category, attributes.page, 'Edit'], {selectedRows: val})+'">'+display+'</a>';
-            }
+
+            // if(editable) {
+            //   display = '<a href="#!'+be5.url.create(['form', attributes.category, attributes.page, 'Edit'], {selectedRows: val})+'">'+display+'</a>';
+            // }
             // Pure HTML! Have no idea how to convert some react.js to string.
             return '\
                 <input id="{id}" type="checkbox" class="rowCheckbox"></input>\
@@ -353,12 +362,22 @@ class TableBox extends React.Component {
   }
 
   render() {
-    const attributes = this.props.value.data.attributes;
-    if (attributes.columns.length === 0) {
+    const {data, included} = this.props.value;
+    const hasRows = data.attributes.rows.length;
+
+    if (!hasRows) {
       return (
         <div>
-          <CategoryNavigation categories={attributes.categoryNavigation} url={getSelfUrl(this.props.value)}/>
-          <OperationBox ref="operations" operations={attributes.operations} onOperationClick={this.onOperationClick} hasRows={attributes.rows.length !== 0}/>
+          <CategoryNavigation
+            data={getResourceByType(included, "documentCategories")}
+            url={getSelfUrl(this.props.value)}
+          />
+          <OperationBox
+            ref="operations"
+            operations={getResourceByType(included, "documentOperations")}
+            onOperationClick={this.onOperationClick}
+            hasRows={hasRows}
+          />
           {be5.messages.emptyTable}
         </div>
       );
@@ -366,9 +385,23 @@ class TableBox extends React.Component {
 
     return (
       <div>
-        <CategoryNavigation categories={attributes.categoryNavigation} url={getSelfUrl(this.props.value)}/>
-        <OperationBox ref="operations" operations={attributes.operations} onOperationClick={this.onOperationClick} hasRows={attributes.rows.length !== 0}/>
-        <QuickColumns ref="quickColumns" columns={attributes.columns} firstRow={attributes.rows[0].cells} table={this.refs.table} selectable={attributes.selectable}/>
+        <CategoryNavigation
+          data={getResourceByType(included, "documentCategories")}
+          url={getSelfUrl(this.props.value)}
+        />
+        <OperationBox
+          ref="operations"
+          operations={getResourceByType(included, "documentOperations")}
+          onOperationClick={this.onOperationClick}
+          hasRows={hasRows}
+        />
+        <QuickColumns
+          ref="quickColumns"
+          columns={data.attributes.columns}
+          firstRow={data.attributes.rows[0].cells}
+          table={this.refs.table}
+          selectable={data.attributes.selectable}
+        />
         <div className="">
           <div ref="table" className="row"/>
         </div>

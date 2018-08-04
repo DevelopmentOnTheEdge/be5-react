@@ -27,6 +27,15 @@ var getResourceByID = function getResourceByID(included, id) {
   return undefined;
 };
 
+var getResourceByType = function getResourceByType(included, type) {
+  if (included === undefined) return undefined;
+
+  for (var i = 0; i < included.length; i++) {
+    if (included[i].type === type) return included[i];
+  }
+  return undefined;
+};
+
 var getModelByID = function getModelByID(included, meta, id) {
   if (included === undefined) return undefined;
 
@@ -65,95 +74,105 @@ var getSelfUrl = function getSelfUrl(value) {
 };
 
 var messages = {
-  en: {
-    errorCannotConnect: 'Cannot connect to server',
-    errorServerQueryException: 'Error during server query: $message',
-    errorInvalidErrorResponse: 'Server returned unknown error',
-    errorNoData: 'Error communicating with server: no data received',
-    errorUnknownRoute: 'Unknown route: $action',
-    errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
+    en: {
+        errorCannotConnect: 'Cannot connect to server',
+        errorServerQueryException: 'Error during server query: $message',
+        errorInvalidErrorResponse: 'Server returned unknown error',
+        errorNoData: 'Error communicating with server: no data received',
+        errorUnknownRoute: 'Unknown route: $action',
+        errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
 
-    welcome: 'Hello!',
-    loading: 'Page is loading...',
-    settings: 'Settings',
-    emptyTable: 'Nothing found',
-    roles: 'Roles',
-    back: 'Back',
-    error: 'Error:',
-    cancel: 'Cancel',
-    login: 'Login',
-    logout: 'Logout',
-    reload: 'reload',
-    All: 'All',
-    successfullyCompleted: 'Successfully completed.',
+        welcome: 'Hello!',
+        loading: 'Page is loading...',
+        settings: 'Settings',
+        emptyTable: 'Nothing found',
+        roles: 'Roles',
+        back: 'Back',
+        error: 'Error:',
+        cancel: 'Cancel',
+        login: 'Login',
+        logout: 'Logout',
+        reload: 'reload',
+        All: 'All',
+        successfullyCompleted: 'Successfully completed.',
 
-    filter: 'Filter...',
+        filter: 'Filter...',
+        entries: 'entries',
 
-    Submit: 'Submit',
-    submitted: 'In progress...',
+        selectRoles: 'Select',
+        allRoles: 'all',
+        clearRoles: 'clear',
 
-    formComponentNotFound: 'Document component not found: ',
-    tableComponentNotFound: 'Table component not found: ',
-    componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
+        Submit: 'Submit',
+        submitted: 'In progress...',
 
-    helpInfo: "Help",
-    details: "Details",
+        formComponentNotFound: 'Document component not found: ',
+        tableComponentNotFound: 'Table component not found: ',
+        componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
 
-    NotFound: "Not Found"
-  },
+        helpInfo: "Help",
+        details: "Details",
 
-  ru: {
-    errorCannotConnect: 'Не могу подключиться к серверу',
-    errorServerQueryException: 'Ошибка сервера: $message',
-    errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
-    errorNoData: 'Ошибка связи с сервером: ответ не получен',
-    errorUnknownRoute: 'Неизвестный путь: $action',
-    errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
-
-    welcome: 'Добро пожаловать!',
-    loading: 'Загрузка...',
-    settings: 'Настройки',
-    emptyTable: 'Нет данных',
-    roles: 'Роли',
-    back: 'Назад',
-    error: 'Ошибка:',
-    cancel: 'Отмена',
-    login: 'Вход',
-    logout: 'Выход',
-    reload: 'Перезагрузить',
-    All: 'Все',
-    successfullyCompleted: 'Успешно выполнено.',
-
-    filter: 'Фильтр...',
-
-    Submit: 'Выполнить',
-    submitted: 'Выполняется...',
-
-    property: {
-      locale: 'ru',
-      clearAllText: 'Очистить всё',
-      clearValueText: 'Очистить',
-      noResultsText: 'Нет результатов',
-      searchPromptText: 'Начните вводить для поиска',
-      placeholder: 'Выберите...',
-      loadingPlaceholder: 'Загрузка...',
-      stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
-      numberTypeMismatch: 'Введите число.',
-      simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
-      rangeOverflow: 'Значение должно быть меньше или равно {0}.',
-      rangeUnderflow: 'Значение должно быть больше или равно {0}.',
-      datePatternError: 'Введите дату в формате дд.мм.гггг'
+        NotFound: "Not Found"
     },
 
-    formComponentNotFound: 'Компонент формы не найден: ',
-    tableComponentNotFound: 'Компонент таблицы не найден: ',
-    componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
+    ru: {
+        errorCannotConnect: 'Не могу подключиться к серверу',
+        errorServerQueryException: 'Ошибка сервера: $message',
+        errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
+        errorNoData: 'Ошибка связи с сервером: ответ не получен',
+        errorUnknownRoute: 'Неизвестный путь: $action',
+        errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
 
-    helpInfo: "Справка",
-    details: "Подробнее",
+        welcome: 'Добро пожаловать!',
+        loading: 'Загрузка...',
+        settings: 'Настройки',
+        emptyTable: 'Нет данных',
+        roles: 'Роли',
+        back: 'Назад',
+        error: 'Ошибка:',
+        cancel: 'Отмена',
+        login: 'Вход',
+        logout: 'Выход',
+        reload: 'Перезагрузить',
+        All: 'Все',
+        successfullyCompleted: 'Успешно выполнено.',
 
-    NotFound: "Не найдено"
-  }
+        filter: 'Фильтр...',
+        entries: 'записей',
+
+        selectRoles: 'Выбрать',
+        allRoles: 'Всё',
+        clearRoles: 'Ничего',
+
+        Submit: 'Выполнить',
+        submitted: 'Выполняется...',
+
+        property: {
+            locale: 'ru',
+            clearAllText: 'Очистить всё',
+            clearValueText: 'Очистить',
+            noResultsText: 'Нет результатов',
+            searchPromptText: 'Начните вводить для поиска',
+            placeholder: 'Выберите...',
+            loadingPlaceholder: 'Загрузка...',
+            stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
+            numberTypeMismatch: 'Введите число.',
+            simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
+            rangeOverflow: 'Значение должно быть меньше или равно {0}.',
+            rangeUnderflow: 'Значение должно быть больше или равно {0}.',
+            datePatternError: 'Введите дату в формате дд.мм.гггг'
+        },
+
+        formComponentNotFound: 'Компонент формы не найден: ',
+        tableComponentNotFound: 'Компонент таблицы не найден: ',
+        componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
+
+        helpInfo: "Справка",
+        details: "Подробнее",
+
+        NotFound: "Не найдено"
+    }
 };
 
 var listeners = function () {
@@ -261,7 +280,7 @@ var getDefaultRoute = function getDefaultRoute(state) {
   return state.user.defaultRoute;
 };
 
-var API_URL_PREFIX = 'api/';
+var API_URL_PREFIX = '/api/';
 
 var DEFAULT_VIEW = 'All records';
 
@@ -459,7 +478,7 @@ var be5 = {
   DOCUMENT_REFRESH_SUFFIX: "_refresh",
 
   appInfo: {},
-  serverUrlWithContext: window.serverUrlWithContext || "/",
+  be5ServerUrl: window.be5ServerUrl || "",
 
   locale: {
     set: function set$$1(loc, addMessages) {
@@ -550,11 +569,11 @@ var be5 = {
     //   return encodeURIComponent(hashUriComponent);
     // },
 
-    create: function create(action) {
-      var positional = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-      var named = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    create: function create() {
+      var positional = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      var named = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-      return be5.url.form([action].concat(positional), named);
+      return be5.url.form(positional, named);
     },
     form: function form(positional) {
       var named = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -655,7 +674,7 @@ var be5 = {
       };
 
       $.ajax({
-        url: be5.serverUrlWithContext + url,
+        url: be5.be5ServerUrl + url,
         dataType: type,
         type: 'POST',
         data: params,
@@ -878,7 +897,6 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
     }
   }
 
-  //window.open blocked by browser usually
   if (actions[OPEN_NEW_WINDOW] !== undefined) {
     window.open(actions[OPEN_NEW_WINDOW]);
   }
@@ -892,7 +910,7 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
   }
 
   if (actions[UPDATE_PARENT_DOCUMENT] !== undefined) {
-    var tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], { meta: json.meta });
+    var tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], { meta: { _ts_: new Date().getTime() } });
     changeDocument(frontendParams.parentDocumentName, { value: tableJson });
 
     //usually used in filters
@@ -902,7 +920,7 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
   }
 
   if (actions[UPDATE_DOCUMENT] !== undefined) {
-    var _tableJson = Object.assign({}, actions[UPDATE_DOCUMENT], { meta: json.meta });
+    var _tableJson = Object.assign({}, actions[UPDATE_DOCUMENT], { meta: { _ts_: new Date().getTime() } });
     changeDocument(documentName, { value: _tableJson });
   }
 
@@ -1654,7 +1672,7 @@ var OperationBox = function (_React$Component) {
     key: 'onClick',
     value: function onClick(name, e) {
       if (!$(ReactDOM.findDOMNode(this.refs[name])).hasClass('disabled')) {
-        var operation = this.props.operations.find(function (operation) {
+        var operation = this.props.operations.attributes.find(function (operation) {
           return operation.name === name;
         });
         if (!operation.requiresConfirmation || confirm(operation.title + "?")) {
@@ -1668,7 +1686,8 @@ var OperationBox = function (_React$Component) {
     value: function refreshEnablement() {
       var _this2 = this;
 
-      this.props.operations.forEach(function (operation) {
+      if (!this.props.operations) return;
+      this.props.operations.attributes.forEach(function (operation) {
         var visible = false;
         switch (operation.visibleWhen) {
           case 'always':
@@ -1698,6 +1717,7 @@ var OperationBox = function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
+      if (!this.props.operations) return null;
       var splitWithSpaces = function splitWithSpaces(elements) {
         var out = [];
         _(elements).each(function (e) {
@@ -1708,7 +1728,7 @@ var OperationBox = function (_React$Component) {
         });
         return out;
       };
-      var operations = this.props.operations.map(function (operation) {
+      var operations = this.props.operations.attributes.map(function (operation) {
         //      if (operation.isClientSide) {
         //        const action = Action.parse(operation.action);
         //        const attrs = {
@@ -1732,7 +1752,7 @@ var OperationBox = function (_React$Component) {
         );
       });
 
-      if (this.props.operations.length === 0) {
+      if (this.props.operations.attributes.length === 0) {
         return React.createElement('div', null);
       }
       return React.createElement(
@@ -1839,15 +1859,19 @@ var QuickColumns = function (_React$Component) {
 }(React.Component);
 
 var propTypes = {
-  categories: PropTypes.array,
+  data: PropTypes.shape({
+    attributes: PropTypes.array,
+    type: PropTypes.string
+  }),
   url: PropTypes.string
 };
 
 var CategoryNavigation = function CategoryNavigation(_ref) {
-  var categories = _ref.categories,
+  var data = _ref.data,
       url = _ref.url;
 
-  if (!categories || categories.length === 0) return null;
+  if (!data || !data.attributes || data.attributes.length === 0) return null;
+  var categories = data.attributes;
 
   var pUrl = be5.url.parse(url);
   var currentCat = pUrl.named['_cat_'];
@@ -1858,8 +1882,8 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
       { className: 'category-navigation category-navigation__not-select' },
       React.createElement(
         'a',
-        { href: be5.url.create("", pUrl.positional, Object.assign({}, pUrl.named, { _cat_: categories[0].id })) },
-        be5.messages['Switch to categorized view']
+        { href: be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, { _cat_: categories[0].id })) },
+        be5.locale.msg('Switch to categorized view')
       )
     );
   }
@@ -1872,7 +1896,7 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
         return React.createElement(
           'a',
           { className: 'd-block',
-            href: be5.url.create("", pUrl.positional, Object.assign({}, pUrl.named, { _cat_: cat.id })), key: cat.id },
+            href: be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, { _cat_: cat.id })), key: cat.id },
           cat.name
         );
       } else {
@@ -2041,9 +2065,7 @@ var TableBox = function (_React$Component) {
       var tfoot = $('<tfoot>');
       var tfootrow = $('<tr>').appendTo(tfoot);
       var hasCheckBoxes = attributes.selectable;
-      var editable = attributes.operations.filter(function (op) {
-        return op.name === 'Edit';
-      }).length === 1;
+      //const editable = attributes.operations.filter((op) => op.name === 'Edit').length === 1;
       var columnIndexShift = 0;
 
       if (hasCheckBoxes) {
@@ -2074,27 +2096,33 @@ var TableBox = function (_React$Component) {
       var lengths = [5, 10, 20, 50, 100, 500, 1000];
       var pageLength = attributes.length;
 
+      var tableDom = 'r <"table-responsive-md"t> <"dataTables-nav clearfix"pli>';
+
       if (lengths.indexOf(pageLength) === -1) {
-        lengths.push(pageLength);
-        lengths.sort(function (a, b) {
-          return a - b;
-        });
+        if (pageLength < 5) {
+          tableDom = tableDom.replace("pli", "pi");
+        } else {
+          lengths.push(pageLength);
+          lengths.sort(function (a, b) {
+            return a - b;
+          });
+        }
       }
 
       var lengthsTitles = lengths.map(function (x) {
-        return x + ' записей';
+        return x + ' ' + be5.locale.msg('entries');
       });
 
       lengths = [lengths, lengthsTitles];
 
-      var language = null;
+      var language = {};
       if (be5.locale.value !== 'en') {
         language = be5.messages.dataTables || {};
-        language.lengthMenu = "_MENU_";
       }
+      language.lengthMenu = "_MENU_";
 
       var tableConfiguration = {
-        dom: 'r <"table-responsive-md"t> <"dataTables-nav clearfix"pli>',
+        dom: tableDom,
         processing: true,
         serverSide: true,
         language: language,
@@ -2104,7 +2132,6 @@ var TableBox = function (_React$Component) {
         displayStart: attributes.offset,
         order: attributes.orderColumn >= 0 ? [[attributes.orderColumn, attributes.orderDir]] : undefined,
         ajax: function ajax(data, callback, settings) {
-          console.log(data, settings);
           var params = {
             entity: attributes.category,
             query: attributes.page,
@@ -2117,8 +2144,8 @@ var TableBox = function (_React$Component) {
             params.params._orderColumn_ = data.order[0].column;
             params.params._orderDir_ = data.order[0].dir;
           }
-          updateTable(params, function (json) {
-            console.log(json);
+          updateTable(params, function (jsonApiModel) {
+            var json = jsonApiModel.data.attributes;
             if (json.type === "error") {
               be5.log.error(json.value.code + "\n" + json.value.message);
             } else {
@@ -2153,9 +2180,10 @@ var TableBox = function (_React$Component) {
             var val = row[0];
             var id = "row-" + val + "-checkbox";
             var display = meta.row + 1;
-            if (editable) {
-              display = '<a href="#!' + be5.url.create('form', [attributes.category, attributes.page, 'Edit'], { selectedRows: val }) + '">' + display + '</a>';
-            }
+
+            // if(editable) {
+            //   display = '<a href="#!'+be5.url.create(['form', attributes.category, attributes.page, 'Edit'], {selectedRows: val})+'">'+display+'</a>';
+            // }
             // Pure HTML! Have no idea how to convert some react.js to string.
             return '\
                 <input id="{id}" type="checkbox" class="rowCheckbox"></input>\
@@ -2274,13 +2302,26 @@ var TableBox = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var attributes = this.props.value.data.attributes;
-      if (attributes.columns.length === 0) {
+      var _props$value = this.props.value,
+          data = _props$value.data,
+          included = _props$value.included;
+
+      var hasRows = data.attributes.rows.length;
+
+      if (!hasRows) {
         return React.createElement(
           'div',
           null,
-          React.createElement(CategoryNavigation, { categories: attributes.categoryNavigation, url: getSelfUrl(this.props.value) }),
-          React.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick, hasRows: attributes.rows.length !== 0 }),
+          React.createElement(CategoryNavigation, {
+            data: getResourceByType(included, "documentCategories"),
+            url: getSelfUrl(this.props.value)
+          }),
+          React.createElement(OperationBox, {
+            ref: 'operations',
+            operations: getResourceByType(included, "documentOperations"),
+            onOperationClick: this.onOperationClick,
+            hasRows: hasRows
+          }),
           be5.messages.emptyTable
         );
       }
@@ -2288,9 +2329,23 @@ var TableBox = function (_React$Component) {
       return React.createElement(
         'div',
         null,
-        React.createElement(CategoryNavigation, { categories: attributes.categoryNavigation, url: getSelfUrl(this.props.value) }),
-        React.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick, hasRows: attributes.rows.length !== 0 }),
-        React.createElement(QuickColumns, { ref: 'quickColumns', columns: attributes.columns, firstRow: attributes.rows[0].cells, table: this.refs.table, selectable: attributes.selectable }),
+        React.createElement(CategoryNavigation, {
+          data: getResourceByType(included, "documentCategories"),
+          url: getSelfUrl(this.props.value)
+        }),
+        React.createElement(OperationBox, {
+          ref: 'operations',
+          operations: getResourceByType(included, "documentOperations"),
+          onOperationClick: this.onOperationClick,
+          hasRows: hasRows
+        }),
+        React.createElement(QuickColumns, {
+          ref: 'quickColumns',
+          columns: data.attributes.columns,
+          firstRow: data.attributes.rows[0].cells,
+          table: this.refs.table,
+          selectable: data.attributes.selectable
+        }),
         React.createElement(
           'div',
           { className: '' },
@@ -3099,6 +3154,10 @@ var Form = function (_React$Component) {
     value: function _createOkAction(addCssClasses) {
       var _this5 = this;
 
+      var _state$data$attribute = this.state.data.attributes.layout,
+          bsSize = _state$data$attribute.bsSize,
+          submitText = _state$data$attribute.submitText;
+
       return React.createElement(
         Transition,
         { 'in': this.state.submitted, timeout: 200 },
@@ -3107,14 +3166,14 @@ var Form = function (_React$Component) {
             'button',
             {
               type: 'submit',
-              className: classNames("btn btn-primary", { 'btn-sm': _this5.state.data.attributes.layout.bsSize === 'sm' }, { 'btn-lg': _this5.state.data.attributes.layout.bsSize === 'lg' }, addCssClasses),
+              className: classNames("btn btn-primary", { 'btn-sm': bsSize === 'sm' }, { 'btn-lg': bsSize === 'lg' }, addCssClasses),
               onClick: function onClick() {
                 return _this5.setState({ wasValidated: true });
               },
               title: _this5.state.submitted ? be5.messages.submitted : "",
               disabled: state === 'entered'
             },
-            be5.messages.Submit
+            submitText || be5.messages.Submit
           );
         }
       );
@@ -3714,8 +3773,6 @@ var be5init = {
   },
   initGetUser: function initGetUser(store) {
     this.initOnLoad(store, undefined, getDefaultRoute, function () {
-      //be5.url.set(getDefaultRoute(be5.store))
-      //be5.url.process(be5.MAIN_DOCUMENT, "");
       be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
     });
   },
@@ -3821,18 +3878,17 @@ var RoleSelector = function RoleSelector(props) {
       React.createElement(
         'div',
         { className: 'roleBox_add-actions' },
-        '\u0412\u044B\u0431\u0440\u0430\u0442\u044C:',
-        ' ',
+        be5.locale.msg('selectRoles') + ' ',
         React.createElement(
           Button,
           { onClick: handleSelectAll, color: 'primary', className: 'enable-all', size: 'sm' },
-          '\u0412\u0441\u0451'
+          be5.locale.msg('allRoles')
         ),
         ' ',
         React.createElement(
           Button,
           { onClick: handleClear, color: 'secondary', className: 'disable-all', size: 'sm' },
-          '\u041D\u0438\u0447\u0435\u0433\u043E'
+          be5.locale.msg('clearRoles')
         )
       )
     )

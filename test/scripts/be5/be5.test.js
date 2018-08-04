@@ -17,7 +17,7 @@ test('be5.url', () =>
   be5.url.clear();
   be5.url.set('text/Test');
 
-  expect(be5.url.create('form', ['users','All records', 'Insert'], {'user_name':'Guest'}))
+  expect(be5.url.create(['form', 'users','All records', 'Insert'], {'user_name':'Guest'}))
     .toBe('form/users/All records/Insert/user_name=Guest');
 
   expect(be5.url.parse('form/users/All records/Insert/user_name=Guest'))

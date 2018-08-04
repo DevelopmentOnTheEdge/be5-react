@@ -3,14 +3,18 @@ import PropTypes  from 'prop-types';
 import be5 from "../../be5";
 
 
-const propTypes =  {
-  categories: PropTypes.array,
+const propTypes = {
+  data: PropTypes.shape({
+    attributes: PropTypes.array,
+    type: PropTypes.string
+  }),
   url: PropTypes.string
 };
 
-const CategoryNavigation = ({categories, url}) =>
+const CategoryNavigation = ({data, url}) =>
 {
-  if(!categories || categories.length === 0)return null;
+  if(!data || !data.attributes || data.attributes.length === 0)return null;
+  const categories = data.attributes;
 
   const pUrl = be5.url.parse(url);
   const currentCat = pUrl.named['_cat_'];
@@ -18,8 +22,8 @@ const CategoryNavigation = ({categories, url}) =>
   if(currentCat === undefined){
     return (
       <div className="category-navigation category-navigation__not-select">
-        <a href={be5.url.create("", pUrl.positional, Object.assign({}, pUrl.named, {_cat_: categories[0].id}))}>
-          {be5.messages['Switch to categorized view']}
+        <a href={be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, {_cat_: categories[0].id}))}>
+          {be5.locale.msg('Switch to categorized view')}
         </a>
       </div>
     )
@@ -32,7 +36,7 @@ const CategoryNavigation = ({categories, url}) =>
       if (parseInt(currentCat) !== cat.id) {
         return (
           <a className="d-block"
-             href={be5.url.create("", pUrl.positional, Object.assign({}, pUrl.named, {_cat_: cat.id}))} key={cat.id}>
+             href={be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, {_cat_: cat.id}))} key={cat.id}>
             {cat.name}
           </a>
         )
