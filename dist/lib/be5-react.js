@@ -27,6 +27,15 @@ var getResourceByID = function getResourceByID(included, id) {
   return undefined;
 };
 
+var getResourceByType = function getResourceByType(included, type) {
+  if (included === undefined) return undefined;
+
+  for (var i = 0; i < included.length; i++) {
+    if (included[i].type === type) return included[i];
+  }
+  return undefined;
+};
+
 var getModelByID = function getModelByID(included, meta, id) {
   if (included === undefined) return undefined;
 
@@ -65,105 +74,105 @@ var getSelfUrl = function getSelfUrl(value) {
 };
 
 var messages = {
-  en: {
-    errorCannotConnect: 'Cannot connect to server',
-    errorServerQueryException: 'Error during server query: $message',
-    errorInvalidErrorResponse: 'Server returned unknown error',
-    errorNoData: 'Error communicating with server: no data received',
-    errorUnknownRoute: 'Unknown route: $action',
-    errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
+    en: {
+        errorCannotConnect: 'Cannot connect to server',
+        errorServerQueryException: 'Error during server query: $message',
+        errorInvalidErrorResponse: 'Server returned unknown error',
+        errorNoData: 'Error communicating with server: no data received',
+        errorUnknownRoute: 'Unknown route: $action',
+        errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
 
-    welcome: 'Hello!',
-    loading: 'Page is loading...',
-    settings: 'Settings',
-    emptyTable: 'Nothing found',
-    roles: 'Roles',
-    back: 'Back',
-    error: 'Error:',
-    cancel: 'Cancel',
-    login: 'Login',
-    logout: 'Logout',
-    reload: 'reload',
-    All: 'All',
-    successfullyCompleted: 'Successfully completed.',
+        welcome: 'Hello!',
+        loading: 'Page is loading...',
+        settings: 'Settings',
+        emptyTable: 'Nothing found',
+        roles: 'Roles',
+        back: 'Back',
+        error: 'Error:',
+        cancel: 'Cancel',
+        login: 'Login',
+        logout: 'Logout',
+        reload: 'reload',
+        All: 'All',
+        successfullyCompleted: 'Successfully completed.',
 
-    filter: 'Filter...',
-    entries: 'entries',
+        filter: 'Filter...',
+        entries: 'entries',
 
-    selectRoles: 'Select',
-    allRoles: 'all',
-    clearRoles: 'clear',
+        selectRoles: 'Select',
+        allRoles: 'all',
+        clearRoles: 'clear',
 
-    Submit: 'Submit',
-    submitted: 'In progress...',
+        Submit: 'Submit',
+        submitted: 'In progress...',
 
-    formComponentNotFound: 'Document component not found: ',
-    tableComponentNotFound: 'Table component not found: ',
-    componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
+        formComponentNotFound: 'Document component not found: ',
+        tableComponentNotFound: 'Table component not found: ',
+        componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
 
-    helpInfo: "Help",
-    details: "Details",
+        helpInfo: "Help",
+        details: "Details",
 
-    NotFound: "Not Found"
-  },
-
-  ru: {
-    errorCannotConnect: 'Не могу подключиться к серверу',
-    errorServerQueryException: 'Ошибка сервера: $message',
-    errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
-    errorNoData: 'Ошибка связи с сервером: ответ не получен',
-    errorUnknownRoute: 'Неизвестный путь: $action',
-    errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
-
-    welcome: 'Добро пожаловать!',
-    loading: 'Загрузка...',
-    settings: 'Настройки',
-    emptyTable: 'Нет данных',
-    roles: 'Роли',
-    back: 'Назад',
-    error: 'Ошибка:',
-    cancel: 'Отмена',
-    login: 'Вход',
-    logout: 'Выход',
-    reload: 'Перезагрузить',
-    All: 'Все',
-    successfullyCompleted: 'Успешно выполнено.',
-
-    filter: 'Фильтр...',
-    entries: 'записей',
-
-    selectRoles: 'Выбрать',
-    allRoles: 'Всё',
-    clearRoles: 'Ничего',
-
-    Submit: 'Выполнить',
-    submitted: 'Выполняется...',
-
-    property: {
-      locale: 'ru',
-      clearAllText: 'Очистить всё',
-      clearValueText: 'Очистить',
-      noResultsText: 'Нет результатов',
-      searchPromptText: 'Начните вводить для поиска',
-      placeholder: 'Выберите...',
-      loadingPlaceholder: 'Загрузка...',
-      stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
-      numberTypeMismatch: 'Введите число.',
-      simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
-      rangeOverflow: 'Значение должно быть меньше или равно {0}.',
-      rangeUnderflow: 'Значение должно быть больше или равно {0}.',
-      datePatternError: 'Введите дату в формате дд.мм.гггг'
+        NotFound: "Not Found"
     },
 
-    formComponentNotFound: 'Компонент формы не найден: ',
-    tableComponentNotFound: 'Компонент таблицы не найден: ',
-    componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
+    ru: {
+        errorCannotConnect: 'Не могу подключиться к серверу',
+        errorServerQueryException: 'Ошибка сервера: $message',
+        errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
+        errorNoData: 'Ошибка связи с сервером: ответ не получен',
+        errorUnknownRoute: 'Неизвестный путь: $action',
+        errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
 
-    helpInfo: "Справка",
-    details: "Подробнее",
+        welcome: 'Добро пожаловать!',
+        loading: 'Загрузка...',
+        settings: 'Настройки',
+        emptyTable: 'Нет данных',
+        roles: 'Роли',
+        back: 'Назад',
+        error: 'Ошибка:',
+        cancel: 'Отмена',
+        login: 'Вход',
+        logout: 'Выход',
+        reload: 'Перезагрузить',
+        All: 'Все',
+        successfullyCompleted: 'Успешно выполнено.',
 
-    NotFound: "Не найдено"
-  }
+        filter: 'Фильтр...',
+        entries: 'записей',
+
+        selectRoles: 'Выбрать',
+        allRoles: 'Всё',
+        clearRoles: 'Ничего',
+
+        Submit: 'Выполнить',
+        submitted: 'Выполняется...',
+
+        property: {
+            locale: 'ru',
+            clearAllText: 'Очистить всё',
+            clearValueText: 'Очистить',
+            noResultsText: 'Нет результатов',
+            searchPromptText: 'Начните вводить для поиска',
+            placeholder: 'Выберите...',
+            loadingPlaceholder: 'Загрузка...',
+            stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
+            numberTypeMismatch: 'Введите число.',
+            simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
+            rangeOverflow: 'Значение должно быть меньше или равно {0}.',
+            rangeUnderflow: 'Значение должно быть больше или равно {0}.',
+            datePatternError: 'Введите дату в формате дд.мм.гггг'
+        },
+
+        formComponentNotFound: 'Компонент формы не найден: ',
+        tableComponentNotFound: 'Компонент таблицы не найден: ',
+        componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
+
+        helpInfo: "Справка",
+        details: "Подробнее",
+
+        NotFound: "Не найдено"
+    }
 };
 
 var listeners = function () {
@@ -1663,7 +1672,7 @@ var OperationBox = function (_React$Component) {
     key: 'onClick',
     value: function onClick(name, e) {
       if (!$(ReactDOM.findDOMNode(this.refs[name])).hasClass('disabled')) {
-        var operation = this.props.operations.find(function (operation) {
+        var operation = this.props.operations.attributes.find(function (operation) {
           return operation.name === name;
         });
         if (!operation.requiresConfirmation || confirm(operation.title + "?")) {
@@ -1677,7 +1686,8 @@ var OperationBox = function (_React$Component) {
     value: function refreshEnablement() {
       var _this2 = this;
 
-      this.props.operations.forEach(function (operation) {
+      if (!this.props.operations) return;
+      this.props.operations.attributes.forEach(function (operation) {
         var visible = false;
         switch (operation.visibleWhen) {
           case 'always':
@@ -1707,6 +1717,7 @@ var OperationBox = function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
+      if (!this.props.operations) return null;
       var splitWithSpaces = function splitWithSpaces(elements) {
         var out = [];
         _(elements).each(function (e) {
@@ -1717,7 +1728,7 @@ var OperationBox = function (_React$Component) {
         });
         return out;
       };
-      var operations = this.props.operations.map(function (operation) {
+      var operations = this.props.operations.attributes.map(function (operation) {
         //      if (operation.isClientSide) {
         //        const action = Action.parse(operation.action);
         //        const attrs = {
@@ -1741,7 +1752,7 @@ var OperationBox = function (_React$Component) {
         );
       });
 
-      if (this.props.operations.length === 0) {
+      if (this.props.operations.attributes.length === 0) {
         return React.createElement('div', null);
       }
       return React.createElement(
@@ -1848,15 +1859,19 @@ var QuickColumns = function (_React$Component) {
 }(React.Component);
 
 var propTypes = {
-  categories: PropTypes.array,
+  data: PropTypes.shape({
+    attributes: PropTypes.array,
+    type: PropTypes.string
+  }),
   url: PropTypes.string
 };
 
 var CategoryNavigation = function CategoryNavigation(_ref) {
-  var categories = _ref.categories,
+  var data = _ref.data,
       url = _ref.url;
 
-  if (!categories || categories.length === 0) return null;
+  if (!data || !data.attributes || data.attributes.length === 0) return null;
+  var categories = data.attributes;
 
   var pUrl = be5.url.parse(url);
   var currentCat = pUrl.named['_cat_'];
@@ -2050,9 +2065,7 @@ var TableBox = function (_React$Component) {
       var tfoot = $('<tfoot>');
       var tfootrow = $('<tr>').appendTo(tfoot);
       var hasCheckBoxes = attributes.selectable;
-      var editable = attributes.operations.filter(function (op) {
-        return op.name === 'Edit';
-      }).length === 1;
+      //const editable = attributes.operations.filter((op) => op.name === 'Edit').length === 1;
       var columnIndexShift = 0;
 
       if (hasCheckBoxes) {
@@ -2289,13 +2302,26 @@ var TableBox = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var attributes = this.props.value.data.attributes;
-      if (attributes.rows.length === 0) {
+      var _props$value = this.props.value,
+          data = _props$value.data,
+          included = _props$value.included;
+
+      var hasRows = data.attributes.rows.length;
+
+      if (!hasRows) {
         return React.createElement(
           'div',
           null,
-          React.createElement(CategoryNavigation, { categories: attributes.categoryNavigation, url: getSelfUrl(this.props.value) }),
-          React.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick, hasRows: attributes.rows.length !== 0 }),
+          React.createElement(CategoryNavigation, {
+            data: getResourceByType(included, "documentCategories"),
+            url: getSelfUrl(this.props.value)
+          }),
+          React.createElement(OperationBox, {
+            ref: 'operations',
+            operations: getResourceByType(included, "documentOperations"),
+            onOperationClick: this.onOperationClick,
+            hasRows: hasRows
+          }),
           be5.messages.emptyTable
         );
       }
@@ -2303,9 +2329,23 @@ var TableBox = function (_React$Component) {
       return React.createElement(
         'div',
         null,
-        React.createElement(CategoryNavigation, { categories: attributes.categoryNavigation, url: getSelfUrl(this.props.value) }),
-        React.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick, hasRows: attributes.rows.length !== 0 }),
-        React.createElement(QuickColumns, { ref: 'quickColumns', columns: attributes.columns, firstRow: attributes.rows[0].cells, table: this.refs.table, selectable: attributes.selectable }),
+        React.createElement(CategoryNavigation, {
+          data: getResourceByType(included, "documentCategories"),
+          url: getSelfUrl(this.props.value)
+        }),
+        React.createElement(OperationBox, {
+          ref: 'operations',
+          operations: getResourceByType(included, "documentOperations"),
+          onOperationClick: this.onOperationClick,
+          hasRows: hasRows
+        }),
+        React.createElement(QuickColumns, {
+          ref: 'quickColumns',
+          columns: data.attributes.columns,
+          firstRow: data.attributes.rows[0].cells,
+          table: this.refs.table,
+          selectable: data.attributes.selectable
+        }),
         React.createElement(
           'div',
           { className: '' },

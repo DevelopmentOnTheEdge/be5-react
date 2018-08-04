@@ -122,23 +122,6 @@ exports[`snapshot 1`] = `
               </h1>
               <div>
                 <div
-                  className="operationList"
-                >
-                  <button
-                    className="btn btn-secondary btn-secondary-old btn-sm"
-                    onClick={[Function]}
-                  >
-                    Редактировать
-                  </button>
-                   
-                  <button
-                    className="btn btn-secondary btn-secondary-old btn-sm"
-                    onClick={[Function]}
-                  >
-                    Добавить
-                  </button>
-                </div>
-                <div
                   id="quickColumns"
                 >
                   <span>

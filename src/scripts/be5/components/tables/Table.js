@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes          from 'prop-types';
 import ReactDOM           from 'react-dom';
 import be5                from '../../be5';
-import {getModelByID, getSelfUrl} from '../../utils/documentUtils';
+import {getModelByID, getResourceByType, getSelfUrl} from '../../utils/documentUtils';
 import forms              from '../../services/forms';
 import numberFormatter    from 'number-format.js';
 import OperationBox       from './OperationBox';
@@ -117,7 +117,7 @@ class TableBox extends React.Component {
     const tfoot = $('<tfoot>');
     const tfootrow = $('<tr>').appendTo(tfoot);
     const hasCheckBoxes = attributes.selectable;
-    const editable = attributes.operations.filter((op) => op.name === 'Edit').length === 1;
+    //const editable = attributes.operations.filter((op) => op.name === 'Edit').length === 1;
     let columnIndexShift = 0;
 
     if (hasCheckBoxes) {
@@ -362,12 +362,22 @@ class TableBox extends React.Component {
   }
 
   render() {
-    const attributes = this.props.value.data.attributes;
-    if (attributes.rows.length === 0) {
+    const {data, included} = this.props.value;
+    const hasRows = data.attributes.rows.length;
+
+    if (!hasRows) {
       return (
         <div>
-          <CategoryNavigation categories={attributes.categoryNavigation} url={getSelfUrl(this.props.value)}/>
-          <OperationBox ref="operations" operations={attributes.operations} onOperationClick={this.onOperationClick} hasRows={attributes.rows.length !== 0}/>
+          <CategoryNavigation
+            data={getResourceByType(included, "documentCategories")}
+            url={getSelfUrl(this.props.value)}
+          />
+          <OperationBox
+            ref="operations"
+            operations={getResourceByType(included, "documentOperations")}
+            onOperationClick={this.onOperationClick}
+            hasRows={hasRows}
+          />
           {be5.messages.emptyTable}
         </div>
       );
@@ -375,9 +385,23 @@ class TableBox extends React.Component {
 
     return (
       <div>
-        <CategoryNavigation categories={attributes.categoryNavigation} url={getSelfUrl(this.props.value)}/>
-        <OperationBox ref="operations" operations={attributes.operations} onOperationClick={this.onOperationClick} hasRows={attributes.rows.length !== 0}/>
-        <QuickColumns ref="quickColumns" columns={attributes.columns} firstRow={attributes.rows[0].cells} table={this.refs.table} selectable={attributes.selectable}/>
+        <CategoryNavigation
+          data={getResourceByType(included, "documentCategories")}
+          url={getSelfUrl(this.props.value)}
+        />
+        <OperationBox
+          ref="operations"
+          operations={getResourceByType(included, "documentOperations")}
+          onOperationClick={this.onOperationClick}
+          hasRows={hasRows}
+        />
+        <QuickColumns
+          ref="quickColumns"
+          columns={data.attributes.columns}
+          firstRow={data.attributes.rows[0].cells}
+          table={this.refs.table}
+          selectable={data.attributes.selectable}
+        />
         <div className="">
           <div ref="table" className="row"/>
         </div>

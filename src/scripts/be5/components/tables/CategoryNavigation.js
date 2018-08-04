@@ -3,14 +3,18 @@ import PropTypes  from 'prop-types';
 import be5 from "../../be5";
 
 
-const propTypes =  {
-  categories: PropTypes.array,
+const propTypes = {
+  data: PropTypes.shape({
+    attributes: PropTypes.array,
+    type: PropTypes.string
+  }),
   url: PropTypes.string
 };
 
-const CategoryNavigation = ({categories, url}) =>
+const CategoryNavigation = ({data, url}) =>
 {
-  if(!categories || categories.length === 0)return null;
+  if(!data || !data.attributes || data.attributes.length === 0)return null;
+  const categories = data.attributes;
 
   const pUrl = be5.url.parse(url);
   const currentCat = pUrl.named['_cat_'];

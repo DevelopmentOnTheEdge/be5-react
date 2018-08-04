@@ -10,6 +10,16 @@ export const getResourceByID = (included, id) => {
   return undefined;
 };
 
+export const getResourceByType = (included, type) => {
+  if(included === undefined) return undefined;
+
+  for(let i =0; i < included.length; i++)
+  {
+    if(included[i].type === type)return included[i];
+  }
+  return undefined;
+};
+
 export const getModelByID = (included, meta, id) => {
   if(included === undefined) return undefined;
 
