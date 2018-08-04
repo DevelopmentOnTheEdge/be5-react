@@ -86,6 +86,7 @@
     "url": "https://github.com/DevelopmentOnTheEdge/be5-react.git"
   },
   "jest": {
+    "testURL": "http://localhost/",
     "verbose": true,
     "globals": {
       "NODE_ENV": "test"
