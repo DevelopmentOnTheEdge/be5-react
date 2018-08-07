@@ -12,9 +12,17 @@ export const loadTable = (params, frontendParams) => {
 };
 
 export const getTableByUrl = (url, callback, failure) => {
-  const {positional, named} = be5.url.parse(url);
-  const params = {entity: positional[1], query: positional[2], params: named};
-  getTable(params, callback, failure);
+  getTable(getTableParams(url), callback, failure);
+};
+
+export const getTableParams = (url) => {
+  const attr = be5.url.parse(url);
+
+  return {
+    entity: attr.positional[1],
+    query: attr.positional[2],
+    params: attr.named
+  };
 };
 
 export const getTable = (params, callback, failure) => {

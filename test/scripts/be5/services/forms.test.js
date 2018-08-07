@@ -5,7 +5,7 @@ import Document       from '../../../../src/scripts/be5/containers/Document';
 import '../../../../src/scripts/be5/components/forms/Form';
 import '../../../../src/scripts/be5/components/forms/FinishedResult';
 import be5            from '../../../../src/scripts/be5/be5';
-import forms          from '../../../../src/scripts/be5/services/forms';
+import forms, {_performOperationResult, openOperationByUrl} from '../../../../src/scripts/be5/services/forms';
 import testData       from '../testData.json';
 import {getUser} from "../../../../src/scripts/be5/store/selectors/user.selectors";
 import bus from "../../../../src/scripts/be5/core/bus";
@@ -77,7 +77,7 @@ test('performOperationResult finished FinishedResult', () => {
     meta: {"_ts_":"1503244989281"},
   };
 
-  forms._performOperationResult(res, {documentName: "test"});
+  _performOperationResult(res, {documentName: "test"});
 
   expect(component.toJSON()).toMatchSnapshot();
   //expect(mockFunc.mock.calls.length).toBe(1);
@@ -101,7 +101,7 @@ test('performOperationResult UPDATE_USER_INFO', () => {
     },
     meta: {"_ts_":"1503244989281"},
   };
-  forms._performOperationResult(res, {documentName: "test"});
+  _performOperationResult(res, {documentName: "test"});
 
   expect(getUser(store.getState())).toEqual(getTestUser());
 });
@@ -126,7 +126,7 @@ test('executeFrontendActions TEST', () => {
     },
     meta: {"_ts_":"1503244989281"},
   };
-  forms._performOperationResult(res, {documentName: "test"});
+  _performOperationResult(res, {documentName: "test"});
 
   expect(out).toEqual('test data 1');
 });
@@ -144,7 +144,7 @@ test('performOperationResult redirect', () => {
     },
     "meta":{"_ts_":"1503244989281"}
   };
-  forms._performOperationResult(res, {documentName: "test"});
+  _performOperationResult(res, {documentName: "test"});
 
   expect(be5.url.process.mock.calls[0]).toEqual(["test", "#!static/welcome.be"]);
   //expect(mockFunc.mock.calls.length).toBe(1);
@@ -162,7 +162,7 @@ test('performOperationResult redirect be5.MAIN_DOCUMENT', () => {
     },
     "meta":{"_ts_":"1503244989281"}
   };
-  forms._performOperationResult(res, {documentName: be5.MAIN_DOCUMENT});
+  _performOperationResult(res, {documentName: be5.MAIN_DOCUMENT});
 
   expect(be5.url.set.mock.calls.length).toBe(1);
   //expect(mockFunc.mock.calls.length).toBe(1);
@@ -185,7 +185,7 @@ test('load and _performForm test', () => {
     operationParams: {'user_name':'Guest',selectedRows: '12'}
   };
   forms.load(params, {documentName: "test"});
-  //forms._performOperationResult(testData.emptyForm, {documentName: 'test'});
+  //_performOperationResult(testData.emptyForm, {documentName: 'test'});
 
   //expect(be5.url.set.mock.calls.length).toBe(1);
   //expect(mockFunc.mock.calls.length).toBe(1);
@@ -195,7 +195,7 @@ test('load and _performForm test', () => {
 test('callOperationByUrl', () => {
   be5.net.request = jest.fn();
 
-  forms.openOperationByUrl('form/users/All records/Insert/user_name=Guest/selectedRows=12', () => {});
+  openOperationByUrl('form/users/All records/Insert/user_name=Guest/selectedRows=12', () => {});
 
   expect(be5.net.request.mock.calls.length).toBe(1);
   expect(be5.net.request.mock.calls[0]).toEqual([
@@ -216,7 +216,7 @@ test('callOperationByUrl data', () => {
   be5.net.request = (action, requestParams, data) => {data(testData.emptyForm, {documentName: 'test'})};
 
   let data;
-  forms.openOperationByUrl('form/users/All records/Insert/user_name=Guest/selectedRows=12', json => {data = json;});
+  openOperationByUrl('form/users/All records/Insert/user_name=Guest/selectedRows=12', json => {data = json;});
 
   expect(data).toBe(testData.emptyForm);
 });

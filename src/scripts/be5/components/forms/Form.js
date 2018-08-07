@@ -2,7 +2,7 @@ import React           from 'react';
 import PropTypes       from 'prop-types';
 import classNames      from 'classnames';
 import be5             from '../../be5';
-import forms           from '../../services/forms';
+import forms, {changeLocationHash} from '../../services/forms';
 import PropertySet     from 'beanexplorer-react';
 import JsonPointer     from 'json-pointer';
 import ErrorPane       from "../ErrorPane";
@@ -23,7 +23,7 @@ class Form extends React.Component
   }
 
   componentDidMount() {
-    forms.changeLocationHash(this.props);
+    changeLocationHash(this.props);
   }
 
   componentWillReceiveProps(nextProps) {

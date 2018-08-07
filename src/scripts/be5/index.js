@@ -69,7 +69,7 @@ import textAction      from './routes/text.js';
 
 // services
 import action            from './services/actions.js';
-import forms             from './services/forms.js';
+import {loadOperation, submitOperation, getOperationParams, openOperationByUrl} from './services/forms.js';
 import {loadTable, updateTable, getTableByUrl} from './services/tables.js';
 
 // store
@@ -164,6 +164,6 @@ export {
 
   // services
   action,
-  forms,
+  loadOperation, submitOperation, getOperationParams, openOperationByUrl,
   loadTable, updateTable, getTableByUrl
 }

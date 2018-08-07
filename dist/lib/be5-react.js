@@ -74,105 +74,105 @@ var getSelfUrl = function getSelfUrl(value) {
 };
 
 var messages = {
-    en: {
-        errorCannotConnect: 'Cannot connect to server',
-        errorServerQueryException: 'Error during server query: $message',
-        errorInvalidErrorResponse: 'Server returned unknown error',
-        errorNoData: 'Error communicating with server: no data received',
-        errorUnknownRoute: 'Unknown route: $action',
-        errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
+  en: {
+    errorCannotConnect: 'Cannot connect to server',
+    errorServerQueryException: 'Error during server query: $message',
+    errorInvalidErrorResponse: 'Server returned unknown error',
+    errorNoData: 'Error communicating with server: no data received',
+    errorUnknownRoute: 'Unknown route: $action',
+    errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
 
-        welcome: 'Hello!',
-        loading: 'Page is loading...',
-        settings: 'Settings',
-        emptyTable: 'Nothing found',
-        roles: 'Roles',
-        back: 'Back',
-        error: 'Error:',
-        cancel: 'Cancel',
-        login: 'Login',
-        logout: 'Logout',
-        reload: 'reload',
-        All: 'All',
-        successfullyCompleted: 'Successfully completed.',
+    welcome: 'Hello!',
+    loading: 'Page is loading...',
+    settings: 'Settings',
+    emptyTable: 'Nothing found',
+    roles: 'Roles',
+    back: 'Back',
+    error: 'Error:',
+    cancel: 'Cancel',
+    login: 'Login',
+    logout: 'Logout',
+    reload: 'reload',
+    All: 'All',
+    successfullyCompleted: 'Successfully completed.',
 
-        filter: 'Filter...',
-        entries: 'entries',
+    filter: 'Filter...',
+    entries: 'entries',
 
-        selectRoles: 'Select',
-        allRoles: 'all',
-        clearRoles: 'clear',
+    selectRoles: 'Select',
+    allRoles: 'all',
+    clearRoles: 'clear',
 
-        Submit: 'Submit',
-        submitted: 'In progress...',
+    Submit: 'Submit',
+    submitted: 'In progress...',
 
-        formComponentNotFound: 'Document component not found: ',
-        tableComponentNotFound: 'Table component not found: ',
-        componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
+    formComponentNotFound: 'Document component not found: ',
+    tableComponentNotFound: 'Table component not found: ',
+    componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
 
-        helpInfo: "Help",
-        details: "Details",
+    helpInfo: "Help",
+    details: "Details",
 
-        NotFound: "Not Found"
+    NotFound: "Not Found"
+  },
+
+  ru: {
+    errorCannotConnect: 'Не могу подключиться к серверу',
+    errorServerQueryException: 'Ошибка сервера: $message',
+    errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
+    errorNoData: 'Ошибка связи с сервером: ответ не получен',
+    errorUnknownRoute: 'Неизвестный путь: $action',
+    errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
+
+    welcome: 'Добро пожаловать!',
+    loading: 'Загрузка...',
+    settings: 'Настройки',
+    emptyTable: 'Нет данных',
+    roles: 'Роли',
+    back: 'Назад',
+    error: 'Ошибка:',
+    cancel: 'Отмена',
+    login: 'Вход',
+    logout: 'Выход',
+    reload: 'Перезагрузить',
+    All: 'Все',
+    successfullyCompleted: 'Успешно выполнено.',
+
+    filter: 'Фильтр...',
+    entries: 'записей',
+
+    selectRoles: 'Выбрать',
+    allRoles: 'Всё',
+    clearRoles: 'Ничего',
+
+    Submit: 'Выполнить',
+    submitted: 'Выполняется...',
+
+    property: {
+      locale: 'ru',
+      clearAllText: 'Очистить всё',
+      clearValueText: 'Очистить',
+      noResultsText: 'Нет результатов',
+      searchPromptText: 'Начните вводить для поиска',
+      placeholder: 'Выберите...',
+      loadingPlaceholder: 'Загрузка...',
+      stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
+      numberTypeMismatch: 'Введите число.',
+      simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
+      rangeOverflow: 'Значение должно быть меньше или равно {0}.',
+      rangeUnderflow: 'Значение должно быть больше или равно {0}.',
+      datePatternError: 'Введите дату в формате дд.мм.гггг'
     },
 
-    ru: {
-        errorCannotConnect: 'Не могу подключиться к серверу',
-        errorServerQueryException: 'Ошибка сервера: $message',
-        errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
-        errorNoData: 'Ошибка связи с сервером: ответ не получен',
-        errorUnknownRoute: 'Неизвестный путь: $action',
-        errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
+    formComponentNotFound: 'Компонент формы не найден: ',
+    tableComponentNotFound: 'Компонент таблицы не найден: ',
+    componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
 
-        welcome: 'Добро пожаловать!',
-        loading: 'Загрузка...',
-        settings: 'Настройки',
-        emptyTable: 'Нет данных',
-        roles: 'Роли',
-        back: 'Назад',
-        error: 'Ошибка:',
-        cancel: 'Отмена',
-        login: 'Вход',
-        logout: 'Выход',
-        reload: 'Перезагрузить',
-        All: 'Все',
-        successfullyCompleted: 'Успешно выполнено.',
+    helpInfo: "Справка",
+    details: "Подробнее",
 
-        filter: 'Фильтр...',
-        entries: 'записей',
-
-        selectRoles: 'Выбрать',
-        allRoles: 'Всё',
-        clearRoles: 'Ничего',
-
-        Submit: 'Выполнить',
-        submitted: 'Выполняется...',
-
-        property: {
-            locale: 'ru',
-            clearAllText: 'Очистить всё',
-            clearValueText: 'Очистить',
-            noResultsText: 'Нет результатов',
-            searchPromptText: 'Начните вводить для поиска',
-            placeholder: 'Выберите...',
-            loadingPlaceholder: 'Загрузка...',
-            stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
-            numberTypeMismatch: 'Введите число.',
-            simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
-            rangeOverflow: 'Значение должно быть меньше или равно {0}.',
-            rangeUnderflow: 'Значение должно быть больше или равно {0}.',
-            datePatternError: 'Введите дату в формате дд.мм.гггг'
-        },
-
-        formComponentNotFound: 'Компонент формы не найден: ',
-        tableComponentNotFound: 'Компонент таблицы не найден: ',
-        componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
-
-        helpInfo: "Справка",
-        details: "Подробнее",
-
-        NotFound: "Не найдено"
-    }
+    NotFound: "Не найдено"
+  }
 };
 
 var listeners = function () {
@@ -238,12 +238,14 @@ var createArgumentEqualityError = function createArgumentEqualityError(message) 
 var Preconditions = {
   passed: function passed(argument, message) {
     if (!argument) {
+      console.trace();
       throw createMandatoryArgumentError(message || 'argument is missing');
     }
     return argument;
   },
   eq: function eq(arg1, arg2, message) {
     if (arg1 !== arg2) {
+      console.trace();
       throw createArgumentEqualityError(message || arg1 + ' should be equal to ' + arg2);
     }
   }
@@ -944,162 +946,183 @@ var getActionsMap = function getActionsMap(actionsArrayOrOneObject) {
   return map;
 };
 
-var forms = {
-  load: function load(params, frontendParams) {
-    this._send('form', params, frontendParams);
-  },
-  apply: function apply(params, frontendParams) {
-    this._send('form/apply', params, frontendParams);
-  },
-  _send: function _send(action, params, frontendParams) {
-    var _this = this;
+var loadOperation = function loadOperation(params, frontendParams) {
+  _send('form', params, frontendParams);
+};
 
-    Preconditions.passed(params.entity);
-    Preconditions.passed(params.query);
-    Preconditions.passed(params.operation);
+var submitOperation = function submitOperation(params, frontendParams) {
+  _send('form/apply', params, frontendParams);
+};
 
-    var selectedRows = params.selectedRows;
-    if (!selectedRows) {
-      selectedRows = params.operationParams === undefined || params.operationParams.selectedRows === undefined ? be5.tableState.selectedRows.join() : params.operationParams.selectedRows;
-    }
-    if (params.operationParams !== undefined && params.operationParams.selectedRows !== undefined) {
-      delete params.operationParams.selectedRows;
-    }
+var _send = function _send(action, params, frontendParams) {
+  _request(action, params, function (data) {
+    _performOperationResult(data, frontendParams, params);
+  }, function (data) {
+    bus.fire("alert", { msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error' });
+  });
+};
 
-    var requestParams = {
-      entity: params.entity,
-      query: params.query,
-      operation: params.operation,
-      values: be5.net.paramString(params.values),
-      operationParams: be5.net.paramString(params.operationParams),
-      selectedRows: selectedRows || '',
-      _ts_: new Date().getTime()
-    };
+var openOperationByUrl = function openOperationByUrl(url, callback, failure) {
+  _request('form', getOperationParams(url), callback, failure);
+};
 
-    be5.net.request(action, requestParams, function (data) {
-      _this._performOperationResult(data, frontendParams, params);
-    }, function (data) {
-      bus.fire("alert", { msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error' });
-    });
-  },
-  _performOperationResult: function _performOperationResult(json, frontendParams, applyParams) {
-    var documentName = frontendParams.documentName;
+var _request = function _request(action, params, callback, failure) {
+  Preconditions.passed(params.entity);
+  Preconditions.passed(params.query);
+  Preconditions.passed(params.operation);
 
-    Preconditions.passed(documentName);
-
-    if (json.data !== undefined) {
-      switch (json.data.type) {
-        case 'form':
-          this._performForm(json, frontendParams);
-          return;
-        case 'operationResult':
-          var attributes = json.data.attributes;
-
-          if (attributes.status === 'error') {
-            bus.fire("alert", { msg: attributes.message, type: 'error' });
-            return;
-          }
-
-          if (frontendParams.onSuccess) {
-            frontendParams.onSuccess(json, applyParams);
-          }
-
-          if (!this.isActions(attributes) && frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
-            //console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
-            bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX);
-          }
-
-          switch (attributes.status) {
-            case 'redirect':
-              bus.fire("alert", { msg: attributes.message || be5.messages.successfullyCompleted, type: 'success' });
-
-              executeFrontendActions(new FrontendAction(REDIRECT, attributes.details), frontendParams);
-
-              return;
-            case 'finished':
-              if (attributes.details !== undefined) {
-                executeFrontendActions(attributes.details, frontendParams);
-
-                if (attributes.message !== undefined) {
-                  bus.fire("alert", { msg: attributes.message, type: 'success' });
-                }
-              } else {
-                if (documentName === be5.MAIN_MODAL_DOCUMENT) {
-                  bus.fire("mainModalClose");
-                  bus.fire("alert", { msg: attributes.message || be5.messages.successfullyCompleted, type: 'success' });
-                } else {
-                  changeDocument(documentName, { value: json, frontendParams: frontendParams });
-                }
-              }
-              return;
-            default:
-              bus.fire("alert", {
-                msg: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + attributes.status),
-                type: 'error'
-              });
-            //changeDocument(documentName, {  value: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + attributes.status) });
-          }
-          return;
-        default:
-          bus.fire("alert", {
-            msg: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type),
-            type: 'error'
-          });
-        //changeDocument(documentName, { value: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type) });
-      }
-    } else {
-      var error = json.errors[0];
-      bus.fire("alert", { msg: error.status + " " + error.title, type: 'error' });
-
-      changeDocument(documentName, { value: json, frontendParams: frontendParams });
-    }
-  },
-  isActions: function isActions(attributes) {
-    return attributes.status === 'finished' && attributes.details !== undefined;
-  },
-  _performForm: function _performForm(json, frontendParams) {
-    var operationResult = json.data.attributes.operationResult;
-
-    if (operationResult.status === 'error') {
-      bus.fire("alert", { msg: operationResult.message, type: 'error' });
-    }
-
-    var formComponentName = json.data.attributes.layout.type;
-
-    if (formComponentName === 'modalForm' || frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
-      bus.fire("mainModalOpen");
-
-      changeDocument(be5.MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
-    } else {
-      changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
-    }
-  },
-  changeLocationHash: function changeLocationHash(props) {
-    var self = void 0;
-    if (props.value.data !== undefined) {
-      self = props.value.data.links.self;
-    } else {
-      self = props.value.errors[0].links.self;
-    }
-
-    if (props.frontendParams && props.frontendParams.documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
-
-      be5.url.set(self);
-    }
-  },
-  getOperationParams: function getOperationParams(url) {
-    var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    var attr = be5.url.parse(url);
-
-    return {
-      entity: attr.positional[1],
-      query: attr.positional[2],
-      operation: attr.positional[3],
-      values: values,
-      operationParams: attr.named
-    };
+  var selectedRows = params.selectedRows;
+  if (!selectedRows) {
+    selectedRows = params.operationParams === undefined || params.operationParams.selectedRows === undefined ? be5.tableState.selectedRows.join() : params.operationParams.selectedRows;
   }
+  if (params.operationParams !== undefined && params.operationParams.selectedRows !== undefined) {
+    delete params.operationParams.selectedRows;
+  }
+
+  var requestParams = {
+    entity: params.entity,
+    query: params.query,
+    operation: params.operation,
+    values: be5.net.paramString(params.values),
+    operationParams: be5.net.paramString(params.operationParams),
+    selectedRows: selectedRows || '',
+    _ts_: new Date().getTime()
+  };
+
+  be5.net.request(action, requestParams, function (data) {
+    return callback(data);
+  }, function (data) {
+    return failure(data);
+  });
+};
+
+var _performOperationResult = function _performOperationResult(json, frontendParams, applyParams) {
+  var documentName = frontendParams.documentName;
+
+  Preconditions.passed(documentName);
+
+  if (json.data !== undefined) {
+    switch (json.data.type) {
+      case 'form':
+        _performForm(json, frontendParams);
+        return;
+      case 'operationResult':
+        var attributes = json.data.attributes;
+
+        if (attributes.status === 'error') {
+          bus.fire("alert", { msg: attributes.message, type: 'error' });
+          return;
+        }
+
+        if (frontendParams.onSuccess) {
+          frontendParams.onSuccess(json, applyParams);
+        }
+
+        if (!isActions(attributes) && frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
+          //console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
+          bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX);
+        }
+
+        switch (attributes.status) {
+          case 'redirect':
+            bus.fire("alert", { msg: attributes.message || be5.messages.successfullyCompleted, type: 'success' });
+
+            executeFrontendActions(new FrontendAction(REDIRECT, attributes.details), frontendParams);
+
+            return;
+          case 'finished':
+            if (attributes.details !== undefined) {
+              executeFrontendActions(attributes.details, frontendParams);
+
+              if (attributes.message !== undefined) {
+                bus.fire("alert", { msg: attributes.message, type: 'success' });
+              }
+            } else {
+              if (documentName === be5.MAIN_MODAL_DOCUMENT) {
+                bus.fire("mainModalClose");
+                bus.fire("alert", { msg: attributes.message || be5.messages.successfullyCompleted, type: 'success' });
+              } else {
+                changeDocument(documentName, { value: json, frontendParams: frontendParams });
+              }
+            }
+            return;
+          default:
+            bus.fire("alert", {
+              msg: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + attributes.status),
+              type: 'error'
+            });
+          //changeDocument(documentName, {  value: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + attributes.status) });
+        }
+        return;
+      default:
+        bus.fire("alert", {
+          msg: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type),
+          type: 'error'
+        });
+      //changeDocument(documentName, { value: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type) });
+    }
+  } else {
+    var error = json.errors[0];
+    bus.fire("alert", { msg: error.status + " " + error.title, type: 'error' });
+
+    changeDocument(documentName, { value: json, frontendParams: frontendParams });
+  }
+};
+
+var isActions = function isActions(attributes) {
+  return attributes.status === 'finished' && attributes.details !== undefined;
+};
+
+var _performForm = function _performForm(json, frontendParams) {
+  var operationResult = json.data.attributes.operationResult;
+
+  if (operationResult.status === 'error') {
+    bus.fire("alert", { msg: operationResult.message, type: 'error' });
+  }
+
+  var formComponentName = json.data.attributes.layout.type;
+
+  if (formComponentName === 'modalForm' || frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
+    bus.fire("mainModalOpen");
+
+    changeDocument(be5.MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
+  } else {
+    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+  }
+};
+
+var changeLocationHash = function changeLocationHash(props) {
+  var self = void 0;
+  if (props.value.data !== undefined) {
+    self = props.value.data.links.self;
+  } else {
+    self = props.value.errors[0].links.self;
+  }
+
+  if (props.frontendParams && props.frontendParams.documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
+    be5.url.set(self);
+  }
+};
+
+var getOperationParams = function getOperationParams(url) {
+  var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  var attr = be5.url.parse(url);
+
+  return {
+    entity: attr.positional[1],
+    query: attr.positional[2],
+    operation: attr.positional[3],
+    values: values,
+    operationParams: attr.named
+  };
+};
+
+var forms = {
+  load: loadOperation,
+
+  apply: submitOperation
+
 };
 
 var route$2 = function route(documentName, entity, query, operation, operationParams) {
@@ -1150,11 +1173,32 @@ var route$8 = function route(documentName, page) {
 registerRoute("static", route$8);
 
 var loadTable = function loadTable(params, frontendParams) {
-  be5.net.request('table', getRequestParams(params), function (data) {
+  getTable(params, function (data) {
     changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
   }, function (data) {
     changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
-    //changeDocument(documentName, { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)});
+  });
+};
+
+var getTableByUrl = function getTableByUrl(url, callback, failure) {
+  getTable(getTableParams(url), callback, failure);
+};
+
+var getTableParams = function getTableParams(url) {
+  var attr = be5.url.parse(url);
+
+  return {
+    entity: attr.positional[1],
+    query: attr.positional[2],
+    params: attr.named
+  };
+};
+
+var getTable = function getTable(params, callback, failure) {
+  be5.net.request('table', getRequestParams(params), function (data) {
+    return callback(data);
+  }, function (data) {
+    return failure(data);
   });
 };
 
@@ -2411,7 +2455,7 @@ var Table = function (_React$Component3) {
       //const reloadClass = "table-reload float-xs-right " + this.state.runReload;
       var table = null;
 
-      if (value.data.attributes.parameters && value.data.attributes.parameters.displayType === 'list') {
+      if (value.data.attributes.parameters && value.data.attributes.parameters._displayType_ === 'list') {
         table = React.createElement(ListTableBox, { ref: 'tableBox', value: value });
       } else {
         table = React.createElement(TableBox, {
@@ -2421,7 +2465,7 @@ var Table = function (_React$Component3) {
         });
       }
 
-      var TitleTag = 'h' + (value.data.attributes.parameters && value.data.attributes.parameters.titleLevel || 1);
+      var TitleTag = 'h' + (value.data.attributes.parameters && value.data.attributes.parameters._titleLevel_ || 1);
 
       var topFormJson = value.included !== undefined ? getModelByID(value.included, value.meta, "topForm") : undefined;
       var topForm = void 0;
@@ -2869,7 +2913,7 @@ var ReactTable = function (_React$Component2) {
       //const reloadClass = "table-reload float-xs-right " + this.state.runReload;
       var table = null;
 
-      // if(value.data.attributes.parameters && value.data.attributes.parameters.displayType === 'list')
+      // if(value.data.attributes.parameters && value.data.attributes.parameters._displayType_ === 'list')
       // {
       //   table = (
       //     <ListTableBox ref="tableBox" value={value} />
@@ -2884,7 +2928,7 @@ var ReactTable = function (_React$Component2) {
         });
       }
 
-      var TitleTag = 'h' + (value.data.attributes.parameters && value.data.attributes.parameters.titleLevel || 1);
+      var TitleTag = 'h' + (value.data.attributes.parameters && value.data.attributes.parameters._titleLevel_ || 1);
 
       //todo use getModelByID() instead getResourceByID()
       var topFormJson = value.included !== undefined ? getModelByID(value.included, value.meta, "topForm") : undefined;
@@ -3001,7 +3045,7 @@ var ErrorPane = function (_React$Component2) {
   createClass(ErrorPane, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      forms.changeLocationHash(this.props);
+      changeLocationHash(this.props);
     }
   }, {
     key: 'render',
@@ -3055,7 +3099,7 @@ var Form = function (_React$Component) {
   createClass(Form, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      forms.changeLocationHash(this.props);
+      changeLocationHash(this.props);
     }
   }, {
     key: 'componentWillReceiveProps',
@@ -3439,7 +3483,7 @@ var FinishedResult = function (_React$Component) {
   createClass(FinishedResult, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      forms.changeLocationHash(this.props);
+      changeLocationHash(this.props);
     }
   }, {
     key: 'render',
@@ -5288,4 +5332,4 @@ var index = combineReducers({
 // services
 // store
 
-export { be5, be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, forms, loadTable, updateTable };
+export { be5, be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, loadTable, updateTable, getTableByUrl };
