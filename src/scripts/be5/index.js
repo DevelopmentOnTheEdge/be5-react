@@ -70,7 +70,7 @@ import textAction      from './routes/text.js';
 // services
 import action            from './services/actions.js';
 import forms             from './services/forms.js';
-import {loadTable, updateTable} from './services/tables.js';
+import {loadTable, updateTable, getTableByUrl} from './services/tables.js';
 
 // store
 import createBaseStore from './store';
@@ -165,5 +165,5 @@ export {
   // services
   action,
   forms,
-  loadTable, updateTable
+  loadTable, updateTable, getTableByUrl
 }

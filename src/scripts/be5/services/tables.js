@@ -4,12 +4,21 @@ import Preconditions       from '../utils/preconditions';
 
 
 export const loadTable = (params, frontendParams) => {
-  be5.net.request('table', getRequestParams(params), data => {
+  getTable(params, data => {
     changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
   }, (data) => {
     changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
-    //changeDocument(documentName, { component: StaticPage, value: StaticPage.createValue(data.value.code, data.value.message)});
-  });
+  })
+};
+
+export const getTableByUrl = (url, callback, failure) => {
+  const {positional, named} = be5.url.parse(url);
+  const params = {entity: positional[1], query: positional[2], params: named};
+  getTable(params, callback, failure);
+};
+
+export const getTable = (params, callback, failure) => {
+  be5.net.request('table', getRequestParams(params), data => callback(data), data => failure(data));
 };
 
 export const updateTable = (params, callback) => {

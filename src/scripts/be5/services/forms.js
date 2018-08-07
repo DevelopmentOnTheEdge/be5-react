@@ -17,7 +17,21 @@ export default
     this._send('form/apply', params, frontendParams);
   },
 
+  openOperationByUrl(url, callback, failure) {
+    const {positional, named} = be5.url.parse(url);
+    const params = {entity: positional[1], query: positional[2], operation: positional[3], operationParams: named};
+    this._request('form', params, callback, failure);
+  },
+
   _send(action, params, frontendParams) {
+    this._request(action, params, data => {
+      this._performOperationResult(data, frontendParams, params);
+    },(data)=> {
+      bus.fire("alert", {msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error'});
+    })
+  },
+
+  _request(action, params, callback, failure) {
     Preconditions.passed(params.entity);
     Preconditions.passed(params.query);
     Preconditions.passed(params.operation);
@@ -41,11 +55,7 @@ export default
       _ts_: new Date().getTime()
     };
 
-    be5.net.request(action, requestParams, data => {
-      this._performOperationResult(data, frontendParams, params);
-    },(data)=> {
-      bus.fire("alert", {msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error'});
-    });
+    be5.net.request(action, requestParams, data => callback(data), data => failure(data));
   },
 
   _performOperationResult(json, frontendParams, applyParams)

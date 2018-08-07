@@ -192,3 +192,32 @@ test('load and _performForm test', () => {
   expect(component.toJSON()).toMatchSnapshot();
 });
 
+test('callOperationByUrl', () => {
+  be5.net.request = jest.fn();
+
+  forms.openOperationByUrl('form/users/All records/Insert/user_name=Guest/selectedRows=12', () => {});
+
+  expect(be5.net.request.mock.calls.length).toBe(1);
+  expect(be5.net.request.mock.calls[0]).toEqual([
+    "form", {
+      "_ts_": expect.any(Number),
+      "entity": "users",
+      "operation": "Insert",
+      "operationParams": '{"user_name":"Guest"}',
+      "query": "All records",
+      "selectedRows": "12",
+      "values": "{}"},
+    expect.any(Function),
+    expect.any(Function)
+  ]);
+});
+
+test('callOperationByUrl data', () => {
+  be5.net.request = (action, requestParams, data) => {data(testData.emptyForm, {documentName: 'test'})};
+
+  let data;
+  forms.openOperationByUrl('form/users/All records/Insert/user_name=Guest/selectedRows=12', json => {data = json;});
+
+  expect(data).toBe(testData.emptyForm);
+});
+
