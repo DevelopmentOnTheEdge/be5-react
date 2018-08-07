@@ -5,7 +5,10 @@ import Document       from '../../../../src/scripts/be5/containers/Document';
 import '../../../../src/scripts/be5/components/forms/Form';
 import '../../../../src/scripts/be5/components/forms/FinishedResult';
 import be5            from '../../../../src/scripts/be5/be5';
-import forms, {_performOperationResult, openOperationByUrl} from '../../../../src/scripts/be5/services/forms';
+import forms, {
+  _performOperationResult, fetchOperationByUrl,
+  openOperationByUrl
+} from '../../../../src/scripts/be5/services/forms';
 import testData       from '../testData.json';
 import {getUser} from "../../../../src/scripts/be5/store/selectors/user.selectors";
 import bus from "../../../../src/scripts/be5/core/bus";
@@ -192,10 +195,23 @@ test('load and _performForm test', () => {
   expect(component.toJSON()).toMatchSnapshot();
 });
 
-test('callOperationByUrl', () => {
+test('openOperationByUrl', () => {
+  const component = renderer.create(
+    <TestProvider>
+      <Document frontendParams={{documentName: "test"}}/>
+    </TestProvider>
+  );
+  be5.net.request = (action, requestParams, data) => {data(testData.emptyForm, {documentName: 'test'})};
+
+  openOperationByUrl('form/users/All records/Insert/user_name=Guest/selectedRows=12', {documentName: "test"});
+
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('fetchOperationByUrl', () => {
   be5.net.request = jest.fn();
 
-  openOperationByUrl('form/users/All records/Insert/user_name=Guest/selectedRows=12', () => {});
+  fetchOperationByUrl('form/users/All records/Insert/user_name=Guest/selectedRows=12', () => {});
 
   expect(be5.net.request.mock.calls.length).toBe(1);
   expect(be5.net.request.mock.calls[0]).toEqual([
@@ -212,11 +228,11 @@ test('callOperationByUrl', () => {
   ]);
 });
 
-test('callOperationByUrl data', () => {
+test('fetchOperationByUrl data', () => {
   be5.net.request = (action, requestParams, data) => {data(testData.emptyForm, {documentName: 'test'})};
 
   let data;
-  openOperationByUrl('form/users/All records/Insert/user_name=Guest/selectedRows=12', json => {data = json;});
+  fetchOperationByUrl('form/users/All records/Insert/user_name=Guest/selectedRows=12', json => {data = json;});
 
   expect(data).toBe(testData.emptyForm);
 });

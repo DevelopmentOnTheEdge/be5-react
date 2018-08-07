@@ -52,6 +52,58 @@ exports[`load and _performForm test 1`] = `
 </div>
 `;
 
+exports[`openOperationByUrl 1`] = `
+<div
+  className="document-content"
+  id="document-content___test"
+>
+  <div>
+    <div
+      className="row"
+    >
+      <div
+        className="formBox col-12 max-width-970 formBoxDefault"
+      >
+        <h1
+          className="form-component__title"
+        >
+          SelectCompany
+        </h1>
+        <form
+          className=""
+          id="1507198229686"
+          onSubmit={[Function]}
+        >
+          <div
+            className="property-set form-row"
+          />
+          <div
+            className="formActions"
+          >
+            <div>
+              <button
+                className="btn btn-primary"
+                disabled={false}
+                onClick={[Function]}
+                title=""
+                type="submit"
+              >
+                Submit
+              </button>
+               
+            </div>
+          </div>
+        </form>
+        <br />
+      </div>
+      <div
+        className="col-12"
+      />
+    </div>
+  </div>
+</div>
+`;
+
 exports[`performOperationResult finished FinishedResult 1`] = `
 <div
   className="document-content"

@@ -23,7 +23,15 @@ const _send = (action, params, frontendParams) => {
   })
 };
 
-export const openOperationByUrl = (url, callback, failure) => {
+export const openOperationByUrl = (url, frontendParams) => {
+  _send('form', getOperationParams(url), frontendParams);
+};
+
+export const openOperationByUrlWithValues = (url, values, frontendParams) => {
+  _send('form', getOperationParams(url, values), frontendParams);
+};
+
+export const fetchOperationByUrl = (url, callback, failure) => {
   _request('form', getOperationParams(url), callback, failure);
 };
 

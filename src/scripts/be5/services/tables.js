@@ -11,7 +11,7 @@ export const loadTable = (params, frontendParams) => {
   })
 };
 
-export const getTableByUrl = (url, callback, failure) => {
+export const fetchTableByUrl = (url, callback, failure) => {
   getTable(getTableParams(url), callback, failure);
 };
 

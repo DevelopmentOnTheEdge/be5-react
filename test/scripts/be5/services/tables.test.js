@@ -1,6 +1,6 @@
 import React            from 'react';
 import be5              from '../../../../src/scripts/be5/be5';
-import {getTableByUrl, loadTable} from '../../../../src/scripts/be5/services/tables';
+import {fetchTableByUrl, loadTable} from '../../../../src/scripts/be5/services/tables';
 import testData       from '../testData.json';
 
 test('load', () => {
@@ -28,10 +28,10 @@ test('load', () => {
 
 });
 
-test('getTableByUrl', () => {
+test('fetchTableByUrl', () => {
   be5.net.request = jest.fn();
 
-  getTableByUrl("table/users/All records/user_name=demo", () => {});
+  fetchTableByUrl("table/users/All records/user_name=demo", () => {});
 
   expect(be5.net.request.mock.calls.length).toBe(1);
   expect(be5.net.request.mock.calls[0]).toEqual([
@@ -52,7 +52,7 @@ test('getTableByUrl data', () => {
   be5.net.request = (action, requestParams, data) => {data(testData.simpleTable, {documentName: 'test'})};
 
   let data;
-  getTableByUrl("table/users/All records/user_name=demo", json => {data = json;});
+  fetchTableByUrl("table/users/All records/user_name=demo", json => {data = json;});
 
   expect(data).toBe(testData.simpleTable);
 });

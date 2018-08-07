@@ -69,8 +69,12 @@ import textAction      from './routes/text.js';
 
 // services
 import action            from './services/actions.js';
-import {loadOperation, submitOperation, getOperationParams, openOperationByUrl} from './services/forms.js';
-import {loadTable, updateTable, getTableByUrl} from './services/tables.js';
+import {
+  loadOperation, submitOperation, getOperationParams,
+  openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl
+} from './services/forms.js';
+
+import {loadTable, updateTable, fetchTableByUrl} from './services/tables.js';
 
 // store
 import createBaseStore from './store';
@@ -164,6 +168,9 @@ export {
 
   // services
   action,
-  loadOperation, submitOperation, getOperationParams, openOperationByUrl,
-  loadTable, updateTable, getTableByUrl
+
+  loadOperation, submitOperation, getOperationParams,
+  openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl,
+
+  loadTable, updateTable, fetchTableByUrl
 }

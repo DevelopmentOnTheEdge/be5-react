@@ -10,7 +10,7 @@ import {
   GO_BACK, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, REDIRECT, UPDATE_DOCUMENT,
   UPDATE_PARENT_DOCUMENT
 } from "../constants";
-import forms           from './forms';
+import {openOperationByUrl} from './forms';
 
 
 export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) =>
@@ -48,7 +48,7 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
       {
         if(be5.url.parse(url).positional[0] === 'form')
         {
-          forms.load(forms.getOperationParams(url, {}), frontendParams);
+          openOperationByUrl(url, frontendParams);
         }
         else
         {

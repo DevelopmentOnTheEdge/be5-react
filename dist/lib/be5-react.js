@@ -891,7 +891,7 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
         be5.url.set(url);
       } else {
         if (be5.url.parse(url).positional[0] === 'form') {
-          forms.load(forms.getOperationParams(url, {}), frontendParams);
+          openOperationByUrl(url, frontendParams);
         } else {
           be5.url.process(documentName, '#!' + url);
         }
@@ -962,7 +962,15 @@ var _send = function _send(action, params, frontendParams) {
   });
 };
 
-var openOperationByUrl = function openOperationByUrl(url, callback, failure) {
+var openOperationByUrl = function openOperationByUrl(url, frontendParams) {
+  _send('form', getOperationParams(url), frontendParams);
+};
+
+var openOperationByUrlWithValues = function openOperationByUrlWithValues(url, values, frontendParams) {
+  _send('form', getOperationParams(url, values), frontendParams);
+};
+
+var fetchOperationByUrl = function fetchOperationByUrl(url, callback, failure) {
   _request('form', getOperationParams(url), callback, failure);
 };
 
@@ -1141,7 +1149,7 @@ var route$2 = function route(documentName, entity, query, operation, operationPa
 registerRoute("form", route$2);
 
 var route$4 = function route() {
-  forms.load(forms.getOperationParams('form/users/All records/Login'), {
+  openOperationByUrl('form/users/All records/Login', {
     documentName: be5.MAIN_MODAL_DOCUMENT
   });
 };
@@ -1149,7 +1157,7 @@ var route$4 = function route() {
 registerRoute("login", route$4);
 
 var route$6 = function route() {
-  forms.load(forms.getOperationParams('form/users/All records/Logout'), {
+  openOperationByUrl('form/users/All records/Logout', {
     documentName: be5.MAIN_DOCUMENT, onSuccess: function onSuccess(result, applyParams) {
       //not used document.cookie = 'be_auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 
@@ -1180,7 +1188,7 @@ var loadTable = function loadTable(params, frontendParams) {
   });
 };
 
-var getTableByUrl = function getTableByUrl(url, callback, failure) {
+var fetchTableByUrl = function fetchTableByUrl(url, callback, failure) {
   getTable(getTableParams(url), callback, failure);
 };
 
@@ -3996,7 +4004,7 @@ UserControl.propTypes = {
 };
 
 var openReLoginForm = function openReLoginForm() {
-  forms.load(forms.getOperationParams('form/users/All records/Login/withoutUpdateUserInfo=true'), {
+  openOperationByUrl('form/users/All records/Login/withoutUpdateUserInfo=true', {
     documentName: be5.MAIN_MODAL_DOCUMENT
   });
 };
@@ -5332,4 +5340,4 @@ var index = combineReducers({
 // services
 // store
 
-export { be5, be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, loadTable, updateTable, getTableByUrl };
+export { be5, be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl };
