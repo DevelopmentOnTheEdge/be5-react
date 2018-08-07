@@ -150,7 +150,7 @@ test('performOperationResult redirect', () => {
   //expect(mockFunc.mock.calls.length).toBe(1);
 });
 
-test('performOperationResult redirect be5.mainDocumentName', () => {
+test('performOperationResult redirect be5.MAIN_DOCUMENT', () => {
   //const mockFunc = jest.fn();
   be5.url.set = jest.fn();
 
