@@ -445,7 +445,7 @@ class Table extends React.Component
     //const reloadClass = "table-reload float-xs-right " + this.state.runReload;
     let table = null;
 
-    if(value.data.attributes.parameters && value.data.attributes.parameters.displayType === 'list')
+    if(value.data.attributes.parameters && value.data.attributes.parameters._displayType_ === 'list')
     {
       table = (
         <ListTableBox ref="tableBox" value={value} />
@@ -462,7 +462,7 @@ class Table extends React.Component
       );
     }
 
-    const TitleTag = `h${(value.data.attributes.parameters && value.data.attributes.parameters.titleLevel) || 1}`;
+    const TitleTag = `h${(value.data.attributes.parameters && value.data.attributes.parameters._titleLevel_) || 1}`;
 
     const topFormJson = value.included !== undefined ? getModelByID(value.included, value.meta, "topForm") : undefined;
     let topForm;
