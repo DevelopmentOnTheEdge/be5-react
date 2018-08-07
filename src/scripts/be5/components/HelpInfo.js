@@ -3,7 +3,7 @@ import PropTypes            from 'prop-types';
 import be5                  from '../be5';
 import Document             from '../containers/Document';
 import { Collapse, Button } from 'reactstrap';
-import classnames           from 'classnames';
+import classNames           from 'classnames';
 
 
 class HelpInfo extends React.Component
@@ -35,7 +35,7 @@ class HelpInfo extends React.Component
     if (this.props.value) {
       return (
         <div className='helpInfo clearfix'>
-          <Button color="info" className={classnames('btn-sm', this.props.className)}
+          <Button color="info" className={classNames('btn-sm', this.props.className)}
                   onClick={this.helpCollapseToggle} >
             {be5.messages.helpInfo}
           </Button>
