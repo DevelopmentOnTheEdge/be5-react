@@ -235,7 +235,7 @@
                 "status": "open"
               },
               "query": "Selection view SelectCompany",
-              "selectedRows": "",
+              "_selectedRows_": "",
               "title": "SelectCompany"
             },
             "type": "form"

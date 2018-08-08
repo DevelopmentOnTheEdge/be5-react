@@ -87,7 +87,7 @@ class TableBox extends React.Component {
       query: attr.page || 'All records',
       operation: name,
       values: {},
-      operationParams: attr.parameters
+      operationParams: Object.assign({}, attr.parameters, {"_selectedRows_": be5.tableState.selectedRows.join()})
     };
 
     forms.load(params, frontendParams);

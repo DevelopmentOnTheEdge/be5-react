@@ -23,7 +23,6 @@ test('login', () => {
       "operation": "Login",
       "operationParams": '{}',
       "query": "All records",
-      "selectedRows": "",
       "values": "{}"
     },
     expect.any(Function),
@@ -44,7 +43,6 @@ test('logout', () => {
       "operation": "Logout",
       "operationParams": '{}',
       "query": "All records",
-      "selectedRows": "",
       "values": "{}"
     },
     expect.any(Function),
@@ -65,7 +63,6 @@ test('form', () => {
       "operation": "Test",
       "operationParams": '{}',
       "query": "All records",
-      "selectedRows": "",
       "values": "{}"
     },
     expect.any(Function),

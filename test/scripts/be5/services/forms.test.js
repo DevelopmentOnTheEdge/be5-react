@@ -32,9 +32,8 @@ test('load', () => {
       "_ts_": expect.any(Number),
       "entity": "users",
       "operation": "Insert",
-      "operationParams": '{"user_name":"Guest"}',
+      "operationParams": '{"user_name":"Guest","_selectedRows_":"12"}',
       "query": "All records",
-      "selectedRows": "12",
       "values": "{}"},
     expect.any(Function),
     expect.any(Function)
@@ -56,7 +55,6 @@ test('load', () => {
       "operation": "Insert",
       "operationParams": '{"user_name":"Guest"}',
       "query": "All records",
-      "selectedRows": "",
       "values": "{}"},
     expect.any(Function),
     expect.any(Function)
@@ -219,9 +217,8 @@ test('fetchOperationByUrl', () => {
       "_ts_": expect.any(Number),
       "entity": "users",
       "operation": "Insert",
-      "operationParams": '{"user_name":"Guest"}',
+      "operationParams": '{"user_name":"Guest","_selectedRows_":"12"}',
       "query": "All records",
-      "selectedRows": "12",
       "values": "{}"},
     expect.any(Function),
     expect.any(Function)

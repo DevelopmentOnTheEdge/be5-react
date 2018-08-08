@@ -94,7 +94,7 @@
           "status": "open"
         },
         "query": "Selection view SelectCompany",
-        "selectedRows": "",
+        "_selectedRows_": "",
         "title": "SelectCompany"
       },
       "links": {
@@ -130,7 +130,7 @@
           "status": "open"
         },
         "query": "Selection view SelectCompany",
-        "selectedRows": "",
+        "_selectedRows_": "",
         "title": "SelectCompany"
       },
       "links": {
@@ -157,7 +157,7 @@
           "status": "open"
         },
         "query": "Selection view SelectCompany",
-        "selectedRows": "",
+        "_selectedRows_": "",
         "title": "SelectCompany"
       },
       "links": {
@@ -184,7 +184,7 @@
         "operationParams":{},
         "operationResult":{"message":"Internal error occurred during operation testtable.TestOperation","status":"error"},
         "query":"Test 1D",
-        "selectedRows":"",
+        "_selectedRows_":"",
         "title":"Тестовая операция"},
       "links":{"self":"form/testtable/Test 1D/TestOperation"},
       "type":"form"

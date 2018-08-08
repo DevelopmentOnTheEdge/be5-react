@@ -66,7 +66,7 @@ test('submit form', () => {
         "operation": "SelectCompany",
         "operationParams": undefined,
         "query": "Selection view SelectCompany",
-        "selectedRows": "",
+        "_selectedRows_": "",
         "values": {"companyID": "newValue"}
       },
       {"documentName": "test"}
@@ -88,7 +88,7 @@ test('reloadOnChange', () => {
       "operation": "SelectCompany",
       "operationParams": undefined,
       "query": "Selection view SelectCompany",
-      "selectedRows": "",
+      "_selectedRows_": "",
       "values": {"_reloadcontrol_": "/companyID", "companyID": "newValue"}
     },
     {"documentName": "test"}
@@ -110,7 +110,7 @@ test('reloadOnChange', () => {
       "operation": "SelectCompany",
       "operationParams": undefined,
       "query": "Selection view SelectCompany",
-      "selectedRows": "",
+      "_selectedRows_": "",
       "values": {"companyID": "newValue"}
     },
     {"documentName": "test"}

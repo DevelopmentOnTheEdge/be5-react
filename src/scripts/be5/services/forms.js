@@ -40,22 +40,12 @@ const _request = (action, params, callback, failure) => {
   Preconditions.passed(params.query);
   Preconditions.passed(params.operation);
 
-  let selectedRows = params.selectedRows;
-  if (!selectedRows) {
-    selectedRows = (params.operationParams === undefined || params.operationParams.selectedRows === undefined)
-      ? be5.tableState.selectedRows.join() : params.operationParams.selectedRows;
-  }
-  if (params.operationParams !== undefined && params.operationParams.selectedRows !== undefined) {
-    delete params.operationParams.selectedRows;
-  }
-
   const requestParams = {
     entity: params.entity,
     query: params.query,
     operation: params.operation,
     values: be5.net.paramString(params.values),
     operationParams: be5.net.paramString(params.operationParams),
-    selectedRows: selectedRows || '',
     _ts_: new Date().getTime()
   };
 
