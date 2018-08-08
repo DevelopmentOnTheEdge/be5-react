@@ -1,7 +1,11 @@
 import bus from "../../../../src/scripts/be5/core/bus";
+import be5 from "../../../../src/scripts/be5/be5";
 import FrontendAction from "../../../../src/scripts/be5/services/model/FrontendAction";
 import {executeFrontendActions} from "../../../../src/scripts/be5/services/frontendActions";
 import changeDocument from "../../../../src/scripts/be5/core/changeDocument";
+import be5init from "../../../../src/scripts/be5/be5init";
+import {getTestStore, getTestUser} from "../testUtils";
+import {updateUserInfo} from "../../../../src/scripts/be5/store/actions/user.actions";
 
 jest.mock("../../../../src/scripts/be5/core/changeDocument", () => {
   return jest.fn();
@@ -9,6 +13,26 @@ jest.mock("../../../../src/scripts/be5/core/changeDocument", () => {
 
 beforeEach(() => {
   changeDocument.mockClear();
+});
+
+test('SET_URL', () => {
+  be5.url.set = jest.fn();
+  executeFrontendActions(JSON.parse('{"type":"SET_URL", "value": "table/testtable/Test 1D"}'),
+    {documentName: "test"});
+
+  expect(be5.url.set.mock.calls[0]).toEqual(["table/testtable/Test 1D"]);
+});
+
+test('OPEN_DEFAULT_ROUTE', () => {
+  const store = getTestStore();
+  store.dispatch(updateUserInfo(getTestUser()));
+  be5init.init(store);
+
+  be5.url.set = jest.fn();
+  executeFrontendActions(JSON.parse('{"type":"OPEN_DEFAULT_ROUTE"}'),
+    {documentName: "test"});
+
+  expect(be5.url.set.mock.calls[0]).toEqual(["static/welcome.be"]);
 });
 
 test('UPDATE_PARENT_DOCUMENT', () => {

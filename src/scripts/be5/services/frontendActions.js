@@ -7,11 +7,14 @@ import {getDefaultRoute} from "../store/selectors/user.selectors";
 import {UPDATE_USER_INFO} from "../store/constants/user.constants";
 import {
   CLOSE_MAIN_MODAL,
-  GO_BACK, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, REDIRECT, UPDATE_DOCUMENT,
+  GO_BACK, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, REDIRECT, SET_URL, UPDATE_DOCUMENT,
   UPDATE_PARENT_DOCUMENT
 } from "../constants";
 import {openOperationByUrl} from './forms';
 
+function simpleFinishInModalDocument(actions, documentName) {
+  return actions.length === 0 && documentName === be5.MAIN_MODAL_DOCUMENT
+}
 
 export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) =>
 {
@@ -19,8 +22,7 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 
   const actions = getActionsMap(actionsArrayOrOneObject);
 
-  if((actions.length === 0 && documentName === be5.MAIN_MODAL_DOCUMENT)
-    || actions.hasOwnProperty(CLOSE_MAIN_MODAL))
+  if(simpleFinishInModalDocument(actions, documentName) || actions.hasOwnProperty(CLOSE_MAIN_MODAL))
   {
     bus.fire("mainModalClose");
   }
@@ -61,6 +63,11 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
   if(actions[OPEN_NEW_WINDOW] !== undefined)
   {
     window.open(actions[OPEN_NEW_WINDOW]);
+  }
+
+  if(actions[SET_URL])
+  {
+    be5.url.set(actions[SET_URL]);
   }
 
   if(actions.hasOwnProperty(OPEN_DEFAULT_ROUTE))

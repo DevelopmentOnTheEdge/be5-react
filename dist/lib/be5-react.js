@@ -290,6 +290,7 @@ var ROLE_ADMINISTRATOR = "Administrator";
 var ROLE_SYSTEM_DEVELOPER = "SystemDeveloper";
 var ROLE_GUEST = "Guest";
 
+var SET_URL = 'SET_URL';
 var REDIRECT = 'REDIRECT';
 var OPEN_DEFAULT_ROUTE = 'OPEN_DEFAULT_ROUTE';
 var OPEN_NEW_WINDOW = 'OPEN_NEW_WINDOW';
@@ -306,6 +307,7 @@ var constants = Object.freeze({
 	ROLE_ADMINISTRATOR: ROLE_ADMINISTRATOR,
 	ROLE_SYSTEM_DEVELOPER: ROLE_SYSTEM_DEVELOPER,
 	ROLE_GUEST: ROLE_GUEST,
+	SET_URL: SET_URL,
 	REDIRECT: REDIRECT,
 	OPEN_DEFAULT_ROUTE: OPEN_DEFAULT_ROUTE,
 	OPEN_NEW_WINDOW: OPEN_NEW_WINDOW,
@@ -868,12 +870,16 @@ var toggleRoles = function toggleRoles(roles) {
   };
 };
 
+function simpleFinishInModalDocument(actions, documentName) {
+  return actions.length === 0 && documentName === be5.MAIN_MODAL_DOCUMENT;
+}
+
 var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneObject, frontendParams) {
   var documentName = frontendParams.documentName;
 
   var actions = getActionsMap(actionsArrayOrOneObject);
 
-  if (actions.length === 0 && documentName === be5.MAIN_MODAL_DOCUMENT || actions.hasOwnProperty(CLOSE_MAIN_MODAL)) {
+  if (simpleFinishInModalDocument(actions, documentName) || actions.hasOwnProperty(CLOSE_MAIN_MODAL)) {
     bus.fire("mainModalClose");
   }
 
@@ -901,6 +907,10 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
 
   if (actions[OPEN_NEW_WINDOW] !== undefined) {
     window.open(actions[OPEN_NEW_WINDOW]);
+  }
+
+  if (actions[SET_URL]) {
+    be5.url.set(actions[SET_URL]);
   }
 
   if (actions.hasOwnProperty(OPEN_DEFAULT_ROUTE)) {
