@@ -3162,11 +3162,6 @@ var Form = function (_React$Component) {
         });
       }
     }
-
-    // cancel() {
-    //   be5.url.set(be5.url.create('table', [this.state.entity, this.state.query], this.state.parameters));
-    // },
-
   }, {
     key: '_applyOnSubmit',
     value: function _applyOnSubmit(e) {
@@ -3240,21 +3235,31 @@ var Form = function (_React$Component) {
         }
       );
     }
+
+    /**
+     * layout: '{"cancelActionText":"Back"}'
+     * layout: '{"cancelAction": {"type": "SET_URL","value":"text/test123"}}'
+     */
+
   }, {
     key: '_createCancelAction',
     value: function _createCancelAction() {
-      //const attributes = this.state.data.attributes;
-      if (!this.props.value.showCancel) {
+      var _this6 = this;
+
+      var layout = this.state.data.attributes.layout;
+
+      if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText) {
+        var action = layout.cancelAction || new FrontendAction(GO_BACK);
+        return React.createElement(
+          'button',
+          { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
+              return executeFrontendActions(action, _this6.props.frontendParams);
+            } },
+          layout.cancelActionText || be5.messages.cancel
+        );
+      } else {
         return null;
       }
-
-      return React.createElement(
-        'button',
-        { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
-            return history.back();
-          } },
-        be5.messages.cancel
-      );
     }
   }, {
     key: '_getErrorPane',

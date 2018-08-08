@@ -8,6 +8,9 @@ import JsonPointer     from 'json-pointer';
 import ErrorPane       from "../ErrorPane";
 import Transition      from 'react-transition-group/Transition';
 import {registerDocument} from '../../core/documents';
+import {executeFrontendActions} from "../../services/frontendActions";
+import FrontendAction from "../../services/model/FrontendAction";
+import {GO_BACK} from "../../constants";
 
 
 class Form extends React.Component
@@ -62,10 +65,6 @@ class Form extends React.Component
       });
     }
   }
-  
-  // cancel() {
-  //   be5.url.set(be5.url.create('table', [this.state.entity, this.state.query], this.state.parameters));
-  // },
 
   _applyOnSubmit(e) {
     // Hitting <enter> in any textbox in Chrome triggers the form submit,
@@ -130,18 +129,24 @@ class Form extends React.Component
       </Transition>
     );
   }
-  
+
+  /**
+   * layout: '{"cancelActionText":"Back"}'
+   * layout: '{"cancelAction": {"type": "SET_URL","value":"text/test123"}}'
+   */
   _createCancelAction() {
-    //const attributes = this.state.data.attributes;
-    if (!this.props.value.showCancel) {
+    const layout = this.state.data.attributes.layout;
+
+    if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText) {
+      const action = layout.cancelAction || new FrontendAction(GO_BACK);
+      return (
+        <button type="button" className="btn btn-secondary" onClick={() => executeFrontendActions(action, this.props.frontendParams)}>
+          {layout.cancelActionText || be5.messages.cancel}
+        </button>
+      );
+    }else{
       return null;
     }
-    
-    return (
-      <button type="button" className="btn btn-secondary" onClick={() => history.back()}>
-        {be5.messages.cancel}
-      </button>
-    );
   }
 
   _getErrorPane(){
