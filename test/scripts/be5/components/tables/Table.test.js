@@ -14,7 +14,7 @@ import dt from 'datatables.net';
 dt(window, $);
 
 
-test('test datatables', () => {
+test('test operation click', () => {
   const handle = forms.load = jest.fn();
 
   const wrapper = mount( <Table value={testData.simpleTable} frontendParams={{documentName: 'test'}}/> );
@@ -31,7 +31,7 @@ test('test datatables', () => {
   wrapper.find('.btn').first().simulate('click');
 
   expect(handle.mock.calls[1]).toEqual([
-    {"entity": "companies", "operation": "Edit", "operationParams": {}, "query": "Общие сведения", "values": {}},
+    {"entity": "companies", "operation": "Edit", "operationParams": {"_selectedRows_":"12"}, "query": "Общие сведения", "values": {}},
     {"documentName": "test", "parentDocumentName": "test"}]);
 });
 

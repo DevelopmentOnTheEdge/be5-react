@@ -989,21 +989,12 @@ var _request = function _request(action, params, callback, failure) {
   Preconditions.passed(params.query);
   Preconditions.passed(params.operation);
 
-  var selectedRows = params.selectedRows;
-  if (!selectedRows) {
-    selectedRows = params.operationParams === undefined || params.operationParams.selectedRows === undefined ? be5.tableState.selectedRows.join() : params.operationParams.selectedRows;
-  }
-  if (params.operationParams !== undefined && params.operationParams.selectedRows !== undefined) {
-    delete params.operationParams.selectedRows;
-  }
-
   var requestParams = {
     entity: params.entity,
     query: params.query,
     operation: params.operation,
     values: be5.net.paramString(params.values),
     operationParams: be5.net.paramString(params.operationParams),
-    selectedRows: selectedRows || '',
     _ts_: new Date().getTime()
   };
 
@@ -2089,12 +2080,20 @@ var TableBox = function (_React$Component) {
       var name = operation.name;
       var attr = this.props.value.data.attributes;
 
+      var operationParams = void 0;
+
+      if (be5.tableState.selectedRows.length > 0) {
+        operationParams = Object.assign({}, attr.parameters, { "_selectedRows_": be5.tableState.selectedRows.join() });
+      } else {
+        operationParams = attr.parameters;
+      }
+
       var params = {
         entity: attr.category,
         query: attr.page || 'All records',
         operation: name,
         values: {},
-        operationParams: attr.parameters
+        operationParams: operationParams
       };
 
       forms.load(params, frontendParams);

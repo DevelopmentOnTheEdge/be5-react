@@ -82,12 +82,20 @@ class TableBox extends React.Component {
     const name = operation.name;
     const attr = this.props.value.data.attributes;
 
+    let operationParams;
+
+    if (be5.tableState.selectedRows.length > 0) {
+      operationParams = Object.assign({}, attr.parameters, {"_selectedRows_": be5.tableState.selectedRows.join()});
+    } else {
+      operationParams = attr.parameters;
+    }
+
     const params = {
       entity: attr.category,
       query: attr.page || 'All records',
       operation: name,
       values: {},
-      operationParams: Object.assign({}, attr.parameters, {"_selectedRows_": be5.tableState.selectedRows.join()})
+      operationParams: operationParams
     };
 
     forms.load(params, frontendParams);

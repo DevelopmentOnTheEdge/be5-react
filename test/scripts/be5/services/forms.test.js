@@ -22,7 +22,7 @@ test('load', () => {
     query: 'All records',
     operation: 'Insert',
     values: {},
-    operationParams: {'user_name':'Guest',selectedRows: '12'}
+    operationParams: {'user_name':'Guest',_selectedRows_: '12'}
   };
   forms.load(params, {documentName: 'testDoc',parentDocumentName: 'parentTestDoc'});
 
@@ -45,7 +45,6 @@ test('load', () => {
     operation: 'Insert',
     values: {},
     operationParams: {'user_name':'Guest'},
-    selectedRows: ''
   };
   forms.apply(params, {documentName: 'testDoc',parentDocumentName: 'parentTestDoc'});
   expect(be5.net.request.mock.calls[1]).toEqual([
@@ -183,7 +182,7 @@ test('load and _performForm test', () => {
     query: 'All records',
     operation: 'Insert',
     values: {},
-    operationParams: {'user_name':'Guest',selectedRows: '12'}
+    operationParams: {'user_name':'Guest',_selectedRows_: '12'}
   };
   forms.load(params, {documentName: "test"});
   //_performOperationResult(testData.emptyForm, {documentName: 'test'});
@@ -201,7 +200,7 @@ test('openOperationByUrl', () => {
   );
   be5.net.request = (action, requestParams, data) => {data(testData.emptyForm, {documentName: 'test'})};
 
-  openOperationByUrl('form/users/All records/Insert/user_name=Guest/selectedRows=12', {documentName: "test"});
+  openOperationByUrl('form/users/All records/Insert/user_name=Guest/_selectedRows_=12', {documentName: "test"});
 
   expect(component.toJSON()).toMatchSnapshot();
 });
@@ -209,7 +208,7 @@ test('openOperationByUrl', () => {
 test('fetchOperationByUrl', () => {
   be5.net.request = jest.fn();
 
-  fetchOperationByUrl('form/users/All records/Insert/user_name=Guest/selectedRows=12', () => {});
+  fetchOperationByUrl('form/users/All records/Insert/user_name=Guest/_selectedRows_=12', () => {});
 
   expect(be5.net.request.mock.calls.length).toBe(1);
   expect(be5.net.request.mock.calls[0]).toEqual([
@@ -229,7 +228,7 @@ test('fetchOperationByUrl data', () => {
   be5.net.request = (action, requestParams, data) => {data(testData.emptyForm, {documentName: 'test'})};
 
   let data;
-  fetchOperationByUrl('form/users/All records/Insert/user_name=Guest/selectedRows=12', json => {data = json;});
+  fetchOperationByUrl('form/users/All records/Insert/user_name=Guest/_selectedRows_=12', json => {data = json;});
 
   expect(data).toBe(testData.emptyForm);
 });
