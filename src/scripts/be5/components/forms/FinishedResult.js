@@ -1,14 +1,14 @@
 import React          from 'react';
 import PropTypes      from 'prop-types';
 import be5            from '../../be5';
-import forms, {changeLocationHash} from '../../services/forms';
 import {registerDocument} from "../../core/documents";
+import {updateLocationHashIfNeeded} from "../../services/documents";
 
 
 class FinishedResult extends React.Component
 {
   componentDidMount() {
-    changeLocationHash(this.props);
+    updateLocationHashIfNeeded(this.props);
   }
 
   render() {

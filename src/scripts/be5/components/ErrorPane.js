@@ -1,9 +1,9 @@
 import React          from 'react';
 import PropTypes      from 'prop-types';
 import be5            from '../be5';
-import forms, {changeLocationHash} from '../services/forms';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
 import {registerDocument} from "../core/documents";
+import {updateLocationHashIfNeeded} from "../services/documents";
 
 
 class Error extends React.Component
@@ -54,7 +54,7 @@ class Error extends React.Component
 class ErrorPane extends React.Component
 {
   componentDidMount() {
-    changeLocationHash(this.props);
+    updateLocationHashIfNeeded(this.props);
   }
 
   render() {

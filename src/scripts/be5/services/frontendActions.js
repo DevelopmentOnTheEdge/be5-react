@@ -83,7 +83,7 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
   if(actions[UPDATE_PARENT_DOCUMENT] !== undefined)
   {
     const tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], {meta: {_ts_: new Date().getTime()}});
-    changeDocument(frontendParams.parentDocumentName, {value: tableJson});
+    changeDocument(frontendParams.parentDocumentName || documentName, {value: tableJson});
 
     //usually used in filters
     if(documentName === be5.MAIN_MODAL_DOCUMENT)

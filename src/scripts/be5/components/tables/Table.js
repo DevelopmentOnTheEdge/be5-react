@@ -12,6 +12,7 @@ import {registerDocument} from '../../core/documents';
 import {updateTable}      from "../../services/tables";
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions} from "../../services/frontendActions";
+import {updateLocationHashIfNeeded} from "../../services/documents";
 
 
 const formatCell = (data, options, isColumn) =>
@@ -446,6 +447,10 @@ class Table extends React.Component
     super(props);
 
     this.state = {runReload: ""}
+  }
+
+  componentDidMount() {
+    updateLocationHashIfNeeded(this.props);
   }
 
   render() {

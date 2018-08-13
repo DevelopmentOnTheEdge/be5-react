@@ -75,6 +75,7 @@ import {
 } from './services/forms.js';
 
 import {loadTable, updateTable, fetchTableByUrl} from './services/tables.js';
+import {updateLocationHashIfNeeded} from './services/documents.js';
 
 // store
 import createBaseStore from './store';
@@ -172,5 +173,7 @@ export {
   loadOperation, submitOperation, getOperationParams,
   openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl,
 
-  loadTable, updateTable, fetchTableByUrl
+  loadTable, updateTable, fetchTableByUrl,
+
+  updateLocationHashIfNeeded
 }
