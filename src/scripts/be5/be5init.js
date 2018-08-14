@@ -26,6 +26,7 @@ import './components/forms/SubmitOnChangeForm';
 import './components/forms/ModalForm';
 import './components/forms/InlineForm';
 import './components/forms/Form';
+import './components/forms/HorizontalForm';
 import './components/forms/FinishedResult';
 
 import './components/QueryBuilder';

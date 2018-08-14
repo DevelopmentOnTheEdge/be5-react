@@ -36,6 +36,7 @@ import UserControlContainer from './containers/UserControlContainer.js';
 
 // forms
 import Form               from './components/forms/Form.js';
+import HorizontalForm     from './components/forms/HorizontalForm';
 import SubmitOnChangeForm from './components/forms/SubmitOnChangeForm.js';
 import ModalForm          from './components/forms/ModalForm.js';
 import InlineForm         from './components/forms/InlineForm.js';
@@ -136,6 +137,7 @@ export {
 
   // forms
   Form,
+  HorizontalForm,
   SubmitOnChangeForm,
   ModalForm,
   InlineForm,

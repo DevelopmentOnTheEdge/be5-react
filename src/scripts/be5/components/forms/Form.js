@@ -201,6 +201,6 @@ Form.propTypes = {
   frontendParams: PropTypes.object.isRequired
 };
 
-registerDocument('form', Form);
+registerDocument('verticalForm', Form);
 
 export default Form;

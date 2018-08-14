@@ -10,10 +10,6 @@ import {registerDocument} from '../../core/documents';
 
 class ModalForm extends Form
 {
-  // componentDidMount(){
-  //   this.initForm();
-  // }
-
   render() {
     const attributes = this.state.data.attributes;
     return (
