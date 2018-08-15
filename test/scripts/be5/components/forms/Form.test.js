@@ -1,6 +1,7 @@
 import React          from 'react';
 import renderer       from 'react-test-renderer';
 import Form           from '../../../../../src/scripts/be5/components/forms/Form';
+import HorizontalForm from '../../../../../src/scripts/be5/components/forms/HorizontalForm';
 import ModalForm      from '../../../../../src/scripts/be5/components/forms/ModalForm';
 import InlineForm     from '../../../../../src/scripts/be5/components/forms/InlineForm';
 import SubmitOnChangeForm           from '../../../../../src/scripts/be5/components/forms/SubmitOnChangeForm';
@@ -12,6 +13,14 @@ import {shallow, mount} from 'enzyme';
 test('Form', () => {
   const component = renderer.create(
     <Form value={testData.emptyForm} frontendParams={{documentName: 'test'}} />
+  );
+
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('HorizontalForm', () => {
+  const component = renderer.create(
+    <HorizontalForm value={testData.emptyForm} frontendParams={{documentName: 'test'}} />
   );
 
   expect(component.toJSON()).toMatchSnapshot();

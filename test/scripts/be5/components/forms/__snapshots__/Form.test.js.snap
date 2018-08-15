@@ -115,6 +115,60 @@ exports[`Form errorOnApply 1`] = `
 </div>
 `;
 
+exports[`HorizontalForm 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="formBox col-12 max-width-970 formBoxDefault"
+  >
+    <h1
+      className="form-component__title"
+    >
+      SelectCompany
+    </h1>
+    <form
+      className=""
+      id="1507198229686"
+      onSubmit={[Function]}
+    >
+      <div
+        className="property-set form-row"
+      />
+      <div
+        className="formActions row"
+      >
+        <div
+          className="col-lg-2"
+        >
+           
+        </div>
+        <div
+          className="col-lg-10"
+        >
+          <div>
+            <button
+              className="btn btn-primary"
+              disabled={false}
+              onClick={[Function]}
+              title=""
+              type="submit"
+            >
+              Submit
+            </button>
+             
+          </div>
+        </div>
+      </div>
+    </form>
+    <br />
+  </div>
+  <div
+    className="col-12"
+  />
+</div>
+`;
+
 exports[`InlineForm 1`] = `
 <form
   className="form-inline form-inline-mini"
