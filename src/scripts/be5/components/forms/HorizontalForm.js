@@ -8,6 +8,21 @@ import {registerDocument} from '../../core/documents';
 
 class HorizontalForm extends Form
 {
+  _createFormActions() {
+    const horizontalColSize = this.state.data.attributes.layout.horizontalColSize || 2;
+
+    return (
+      <div className="formActions row">
+        <div className={'col-lg-' + horizontalColSize}>&nbsp;</div>
+        <div className={'col-lg-' + (12-horizontalColSize)}>
+        {this._createOkAction()}
+        {' '}
+        {this._createCancelAction()}
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const attributes = this.state.data.attributes;
     const horizontalColSize = attributes.layout.horizontalColSize || 2;
@@ -32,12 +47,7 @@ class HorizontalForm extends Form
               horizontal={true}
               horizontalColSize={horizontalColSize}
             />
-            <div className="formActions row">
-              <div className={'col-lg-' + horizontalColSize}>&nbsp;</div>
-              <div className={'col-lg-' + (12-horizontalColSize)}>
-                {this._createFormActions()}
-              </div>
-            </div>
+            {this._createFormActions()}
           </form>
           <br/>
         </div>

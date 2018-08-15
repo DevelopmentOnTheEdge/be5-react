@@ -36,18 +36,16 @@ exports[`load and _performForm test 1`] = `
             <div
               className="col-lg-10"
             >
-              <div>
-                <button
-                  className="btn btn-primary"
-                  disabled={false}
-                  onClick={[Function]}
-                  title=""
-                  type="submit"
-                >
-                  Submit
-                </button>
-                 
-              </div>
+              <button
+                className="btn btn-primary"
+                disabled={false}
+                onClick={[Function]}
+                title=""
+                type="submit"
+              >
+                Submit
+              </button>
+               
             </div>
           </div>
         </form>
@@ -97,18 +95,16 @@ exports[`openOperationByUrl 1`] = `
             <div
               className="col-lg-10"
             >
-              <div>
-                <button
-                  className="btn btn-primary"
-                  disabled={false}
-                  onClick={[Function]}
-                  title=""
-                  type="submit"
-                >
-                  Submit
-                </button>
-                 
-              </div>
+              <button
+                className="btn btn-primary"
+                disabled={false}
+                onClick={[Function]}
+                title=""
+                type="submit"
+              >
+                Submit
+              </button>
+               
             </div>
           </div>
         </form>

@@ -23,18 +23,16 @@ exports[`Form 1`] = `
       <div
         className="formActions"
       >
-        <div>
-          <button
-            className="btn btn-primary"
-            disabled={false}
-            onClick={[Function]}
-            title=""
-            type="submit"
-          >
-            Submit
-          </button>
-           
-        </div>
+        <button
+          className="btn btn-primary"
+          disabled={false}
+          onClick={[Function]}
+          title=""
+          type="submit"
+        >
+          Submit
+        </button>
+         
       </div>
     </form>
     <br />
@@ -68,18 +66,16 @@ exports[`Form errorOnApply 1`] = `
       <div
         className="formActions"
       >
-        <div>
-          <button
-            className="btn btn-primary"
-            disabled={false}
-            onClick={[Function]}
-            title=""
-            type="submit"
-          >
-            Submit
-          </button>
-           
-        </div>
+        <button
+          className="btn btn-primary"
+          disabled={false}
+          onClick={[Function]}
+          title=""
+          type="submit"
+        >
+          Submit
+        </button>
+         
       </div>
     </form>
     <br />
@@ -146,18 +142,16 @@ exports[`HorizontalForm 1`] = `
         <div
           className="col-lg-10"
         >
-          <div>
-            <button
-              className="btn btn-primary"
-              disabled={false}
-              onClick={[Function]}
-              title=""
-              type="submit"
-            >
-              Submit
-            </button>
-             
-          </div>
+          <button
+            className="btn btn-primary"
+            disabled={false}
+            onClick={[Function]}
+            title=""
+            type="submit"
+          >
+            Submit
+          </button>
+           
         </div>
       </div>
     </form>

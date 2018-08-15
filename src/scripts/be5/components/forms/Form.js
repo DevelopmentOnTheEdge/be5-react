@@ -95,7 +95,7 @@ class Form extends React.Component
 
   _createFormActions() {
     return (
-      <div>
+      <div className="formActions">
         {this._createOkAction()}
         {' '}
         {this._createCancelAction()}
@@ -179,9 +179,7 @@ class Form extends React.Component
               localization={be5.messages.property}
               bsSize={attributes.layout.bsSize}
             />
-            <div className="formActions">
-              {this._createFormActions()}
-            </div>
+            {this._createFormActions()}
           </form>
           <br/>
         </div>
