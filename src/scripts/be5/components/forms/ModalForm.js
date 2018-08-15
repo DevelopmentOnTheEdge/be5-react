@@ -1,10 +1,8 @@
-import React           from 'react';
-import be5             from '../../be5';
-import bus             from '../../core/bus';
-import classNames      from 'classnames';
-import Form            from './Form';
-import PropertySet     from 'beanexplorer-react';
-import { ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import React from 'react';
+import bus from '../../core/bus';
+import classNames from 'classnames';
+import Form from './Form';
+import {ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 import {registerDocument} from '../../core/documents';
 
 
@@ -25,12 +23,7 @@ class ModalForm extends Form
           )}
         >
           <ModalBody>
-            <PropertySet
-              bean={attributes.bean}
-              onChange={this._onFieldChange}
-              localization={be5.messages.property}
-              bsSize={attributes.layout.bsSize}
-            />
+            {this._createFormProperties()}
           </ModalBody>
           <div className="col-12">
             {this._getErrorPane()}

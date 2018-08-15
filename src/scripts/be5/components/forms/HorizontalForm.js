@@ -8,6 +8,20 @@ import {registerDocument} from '../../core/documents';
 
 class HorizontalForm extends Form
 {
+  _createFormProperties() {
+    const attributes = this.state.data.attributes;
+    return (
+      <PropertySet
+        bean={attributes.bean}
+        onChange={this._onFieldChange}
+        localization={be5.messages.property}
+        bsSize={attributes.layout.bsSize}
+        horizontal={true}
+        horizontalColSize={attributes.layout.horizontalColSize || 2}
+      />
+    );
+  }
+
   _createFormActions() {
     const horizontalColSize = this.state.data.attributes.layout.horizontalColSize || 2;
 
@@ -25,8 +39,6 @@ class HorizontalForm extends Form
 
   render() {
     const attributes = this.state.data.attributes;
-    const horizontalColSize = attributes.layout.horizontalColSize || 2;
-
     return (
       <div className="row">
         <div className={'formBox ' + (attributes.layout.formBoxCssClasses || 'col-12 max-width-970 formBoxDefault')}>
@@ -39,14 +51,7 @@ class HorizontalForm extends Form
               attributes.layout.formClassName
             )}
           >
-            <PropertySet
-              bean={attributes.bean}
-              onChange={this._onFieldChange}
-              localization={be5.messages.property}
-              bsSize={attributes.layout.bsSize}
-              horizontal={true}
-              horizontalColSize={horizontalColSize}
-            />
+            {this._createFormProperties()}
             {this._createFormActions()}
           </form>
           <br/>

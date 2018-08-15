@@ -93,6 +93,18 @@ class Form extends React.Component
     });
   }
 
+  _createFormProperties() {
+    const attributes = this.state.data.attributes;
+    return (
+      <PropertySet
+        bean={attributes.bean}
+        onChange={this._onFieldChange}
+        localization={be5.messages.property}
+        bsSize={attributes.layout.bsSize}
+      />
+    );
+  }
+
   _createFormActions() {
     return (
       <div className="formActions">
@@ -173,15 +185,9 @@ class Form extends React.Component
               attributes.layout.formClassName
             )}
           >
-            <PropertySet
-              bean={attributes.bean}
-              onChange={this._onFieldChange}
-              localization={be5.messages.property}
-              bsSize={attributes.layout.bsSize}
-            />
+            {this._createFormProperties()}
             {this._createFormActions()}
           </form>
-          <br/>
         </div>
         <div className="col-12">
           {this._getErrorPane()}

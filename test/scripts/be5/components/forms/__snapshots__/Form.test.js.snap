@@ -35,7 +35,6 @@ exports[`Form 1`] = `
          
       </div>
     </form>
-    <br />
   </div>
   <div
     className="col-12"
@@ -78,7 +77,6 @@ exports[`Form errorOnApply 1`] = `
          
       </div>
     </form>
-    <br />
   </div>
   <div
     className="col-12"
