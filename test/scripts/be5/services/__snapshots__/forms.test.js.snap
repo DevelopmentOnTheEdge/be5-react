@@ -26,19 +26,28 @@ exports[`load and _performForm test 1`] = `
             className="property-set form-row"
           />
           <div
-            className="formActions"
+            className="formActions row"
           >
-            <div>
-              <button
-                className="btn btn-primary"
-                disabled={false}
-                onClick={[Function]}
-                title=""
-                type="submit"
-              >
-                Submit
-              </button>
-               
+            <div
+              className="col-lg-2"
+            >
+               
+            </div>
+            <div
+              className="col-lg-10"
+            >
+              <div>
+                <button
+                  className="btn btn-primary"
+                  disabled={false}
+                  onClick={[Function]}
+                  title=""
+                  type="submit"
+                >
+                  Submit
+                </button>
+                 
+              </div>
             </div>
           </div>
         </form>
@@ -78,19 +87,28 @@ exports[`openOperationByUrl 1`] = `
             className="property-set form-row"
           />
           <div
-            className="formActions"
+            className="formActions row"
           >
-            <div>
-              <button
-                className="btn btn-primary"
-                disabled={false}
-                onClick={[Function]}
-                title=""
-                type="submit"
-              >
-                Submit
-              </button>
-               
+            <div
+              className="col-lg-2"
+            >
+               
+            </div>
+            <div
+              className="col-lg-10"
+            >
+              <div>
+                <button
+                  className="btn btn-primary"
+                  disabled={false}
+                  onClick={[Function]}
+                  title=""
+                  type="submit"
+                >
+                  Submit
+                </button>
+                 
+              </div>
             </div>
           </div>
         </form>

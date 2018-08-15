@@ -33,7 +33,7 @@ exports[`snapshot 1`] = `
         form
       </span>
        - 
-      Form
+      HorizontalForm
     </div>
     <div>
       <span
@@ -43,6 +43,15 @@ exports[`snapshot 1`] = `
       </span>
        - 
       FormTable
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        fullClientFilter
+      </span>
+       - 
+      FullClientFilterForm
     </div>
     <div>
       <span
@@ -142,6 +151,15 @@ exports[`snapshot 1`] = `
       </span>
        - 
       UiPanel
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        verticalForm
+      </span>
+       - 
+      Form
     </div>
   </div>
   <div

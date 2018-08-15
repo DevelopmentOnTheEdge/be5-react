@@ -3,6 +3,7 @@ import renderer       from 'react-test-renderer';
 import {getTestStore, getTestUser, TestProvider} from "../testUtils";
 import Document       from '../../../../src/scripts/be5/containers/Document';
 import '../../../../src/scripts/be5/components/forms/Form';
+import '../../../../src/scripts/be5/components/forms/HorizontalForm';
 import '../../../../src/scripts/be5/components/forms/FinishedResult';
 import be5            from '../../../../src/scripts/be5/be5';
 import forms, {

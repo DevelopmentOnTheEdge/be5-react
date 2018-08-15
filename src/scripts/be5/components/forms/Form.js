@@ -41,7 +41,6 @@ class Form extends React.Component
       query: attributes.query,
       operation: attributes.operation,
       operationParams: attributes.operationParams,
-      selectedRows: attributes.selectedRows,
       values: values,
     };
   }
@@ -104,7 +103,7 @@ class Form extends React.Component
     );
   }
 
-  _createOkAction() {
+  _createOkAction(actionData, name) {
     const {bsSize, submitText} = this.state.data.attributes.layout;
     return (
       <Transition in={this.state.submitted} timeout={200}>
@@ -116,11 +115,14 @@ class Form extends React.Component
               {'btn-sm' : bsSize === 'sm'},
               {'btn-lg' : bsSize === 'lg'}
             )}
-            onClick={() => this.setState({wasValidated: true})}
+            onClick={() => this.setState({
+              wasValidated: true,
+              formAction: actionData || 'defaultAction'
+            })}
             title={this.state.submitted ? be5.messages.submitted: ""}
             disabled={state === 'entered'}
           >
-          {submitText || be5.messages.Submit}
+          {name || submitText || be5.messages.Submit}
           </button>
         )}
       </Transition>
