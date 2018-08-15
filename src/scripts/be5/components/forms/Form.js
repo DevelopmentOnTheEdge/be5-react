@@ -95,9 +95,6 @@ class Form extends React.Component
   }
 
   _createFormActions() {
-    if (this.state.hideActions === true) {
-      return null;
-    }
     return (
       <div>
         {this._createOkAction()}
@@ -107,7 +104,7 @@ class Form extends React.Component
     );
   }
 
-  _createOkAction(addCssClasses) {
+  _createOkAction() {
     const {bsSize, submitText} = this.state.data.attributes.layout;
     return (
       <Transition in={this.state.submitted} timeout={200}>
@@ -117,8 +114,7 @@ class Form extends React.Component
             className={classNames(
               "btn btn-primary",
               {'btn-sm' : bsSize === 'sm'},
-              {'btn-lg' : bsSize === 'lg'},
-              addCssClasses
+              {'btn-lg' : bsSize === 'lg'}
             )}
             onClick={() => this.setState({wasValidated: true})}
             title={this.state.submitted ? be5.messages.submitted: ""}
