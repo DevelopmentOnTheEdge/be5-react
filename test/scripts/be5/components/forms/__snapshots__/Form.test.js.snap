@@ -17,22 +17,24 @@ exports[`Form 1`] = `
       id="1507198229686"
       onSubmit={[Function]}
     >
-      <div
-        className="property-set form-row"
-      />
-      <div
-        className="formActions"
-      >
-        <button
-          className="btn btn-primary"
-          disabled={false}
-          onClick={[Function]}
-          title=""
-          type="submit"
+      <div>
+        <div
+          className="property-set form-row"
+        />
+        <div
+          className="formActions"
         >
-          Submit
-        </button>
-         
+          <button
+            className="btn btn-primary"
+            disabled={false}
+            onClick={[Function]}
+            title=""
+            type="submit"
+          >
+            Submit
+          </button>
+           
+        </div>
       </div>
     </form>
   </div>
@@ -59,22 +61,24 @@ exports[`Form errorOnApply 1`] = `
       id="1520488568877"
       onSubmit={[Function]}
     >
-      <div
-        className="property-set form-row"
-      />
-      <div
-        className="formActions"
-      >
-        <button
-          className="btn btn-primary"
-          disabled={false}
-          onClick={[Function]}
-          title=""
-          type="submit"
+      <div>
+        <div
+          className="property-set form-row"
+        />
+        <div
+          className="formActions"
         >
-          Submit
-        </button>
-         
+          <button
+            className="btn btn-primary"
+            disabled={false}
+            onClick={[Function]}
+            title=""
+            type="submit"
+          >
+            Submit
+          </button>
+           
+        </div>
       </div>
     </form>
   </div>
@@ -126,34 +130,35 @@ exports[`HorizontalForm 1`] = `
       id="1507198229686"
       onSubmit={[Function]}
     >
-      <div
-        className="property-set form-row"
-      />
-      <div
-        className="formActions row"
-      >
+      <div>
         <div
-          className="col-lg-2"
-        >
-           
-        </div>
+          className="property-set form-row"
+        />
         <div
-          className="col-lg-10"
+          className="formActions row"
         >
-          <button
-            className="btn btn-primary"
-            disabled={false}
-            onClick={[Function]}
-            title=""
-            type="submit"
+          <div
+            className="col-lg-2"
           >
-            Submit
-          </button>
-           
+             
+          </div>
+          <div
+            className="col-lg-10"
+          >
+            <button
+              className="btn btn-primary"
+              disabled={false}
+              onClick={[Function]}
+              title=""
+              type="submit"
+            >
+              Submit
+            </button>
+             
+          </div>
         </div>
       </div>
     </form>
-    <br />
   </div>
   <div
     className="col-12"
@@ -210,32 +215,34 @@ exports[`ModalForm 1`] = `
     </button>
   </div>
   <form
-    className="form-modal"
+    className=""
     id="1507198229686"
     onSubmit={[Function]}
   >
-    <div
-      className="modal-body"
-    >
+    <div>
       <div
-        className="property-set form-row"
-      />
-    </div>
-    <div
-      className="col-12"
-    />
-    <div
-      className="modal-footer"
-    >
-      <button
-        className="btn btn-primary"
-        disabled={false}
-        onClick={[Function]}
-        title=""
-        type="submit"
+        className="modal-body"
       >
-        Submit
-      </button>
+        <div
+          className="property-set form-row"
+        />
+      </div>
+      <div
+        className="col-12"
+      />
+      <div
+        className="modal-footer"
+      >
+        <button
+          className="btn btn-primary"
+          disabled={false}
+          onClick={[Function]}
+          title=""
+          type="submit"
+        >
+          Submit
+        </button>
+      </div>
     </div>
   </form>
 </div>

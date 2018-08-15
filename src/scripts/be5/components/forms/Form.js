@@ -93,6 +93,31 @@ class Form extends React.Component
     });
   }
 
+  _createForm() {
+    const attributes = this.state.data.attributes;
+    return (
+      <form
+        id={this.state.meta._ts_}
+        onSubmit={this._applyOnSubmit}
+        className={classNames(
+          this.state.wasValidated ? 'was-validated' : '',
+          attributes.layout.formClassName
+        )}
+      >
+        {this._createFormContent()}
+      </form>
+    )
+  }
+
+  _createFormContent() {
+    return (
+      <div>
+        {this._createFormProperties()}
+        {this._createFormActions()}
+      </div>
+    )
+  }
+
   _createFormProperties() {
     const attributes = this.state.data.attributes;
     return (
@@ -177,24 +202,13 @@ class Form extends React.Component
       <div className="row">
         <div className={'formBox ' + (attributes.layout.formBoxCssClasses || 'col-12 max-width-970 formBoxDefault')}>
           <h1 className="form-component__title">{attributes.title}</h1>
-          <form
-            id={this.state.meta._ts_}
-            onSubmit={this._applyOnSubmit}
-            className={classNames(
-              this.state.wasValidated ? 'was-validated' : '',
-              attributes.layout.formClassName
-            )}
-          >
-            {this._createFormProperties()}
-            {this._createFormActions()}
-          </form>
+          {this._createForm()}
         </div>
         <div className="col-12">
           {this._getErrorPane()}
         </div>
       </div>
     );
-    //<button onClick={this.refresh}>refresh</button>
   }
 }
 

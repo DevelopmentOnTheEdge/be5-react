@@ -923,7 +923,7 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
 
   if (actions[UPDATE_PARENT_DOCUMENT] !== undefined) {
     var tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], { meta: { _ts_: new Date().getTime() } });
-    changeDocument(frontendParams.parentDocumentName, { value: tableJson });
+    changeDocument(frontendParams.parentDocumentName || documentName, { value: tableJson });
 
     //usually used in filters
     if (documentName === be5.MAIN_MODAL_DOCUMENT) {
@@ -1097,19 +1097,6 @@ var _performForm = function _performForm(json, frontendParams) {
     changeDocument(be5.MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
   } else {
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
-  }
-};
-
-var changeLocationHash = function changeLocationHash(props) {
-  var self = void 0;
-  if (props.value.data !== undefined) {
-    self = props.value.data.links.self;
-  } else {
-    self = props.value.errors[0].links.self;
-  }
-
-  if (props.frontendParams && props.frontendParams.documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
-    be5.url.set(self);
   }
 };
 
@@ -2006,6 +1993,19 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
 
 CategoryNavigation.propTypes = propTypes;
 
+var updateLocationHashIfNeeded = function updateLocationHashIfNeeded(props) {
+  var self = void 0;
+  if (props.value.data !== undefined) {
+    self = props.value.data.links.self;
+  } else {
+    self = props.value.errors[0].links.self;
+  }
+
+  if (props.frontendParams && props.frontendParams.documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
+    be5.url.set(self);
+  }
+};
+
 var formatCell = function formatCell(data, options, isColumn) {
   if (!Array.isArray(data)) {
     if (data === '') {
@@ -2466,6 +2466,11 @@ var Table = function (_React$Component3) {
   }
 
   createClass(Table, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      updateLocationHashIfNeeded(this.props);
+    }
+  }, {
     key: 'render',
     value: function render() {
       var value = this.props.value;
@@ -3062,7 +3067,7 @@ var ErrorPane = function (_React$Component2) {
   createClass(ErrorPane, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      changeLocationHash(this.props);
+      updateLocationHashIfNeeded(this.props);
     }
   }, {
     key: 'render',
@@ -3116,7 +3121,7 @@ var Form = function (_React$Component) {
   createClass(Form, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      changeLocationHash(this.props);
+      updateLocationHashIfNeeded(this.props);
     }
   }, {
     key: 'componentWillReceiveProps',
@@ -3132,7 +3137,6 @@ var Form = function (_React$Component) {
         query: attributes.query,
         operation: attributes.operation,
         operationParams: attributes.operationParams,
-        selectedRows: attributes.selectedRows,
         values: values
       };
     }
@@ -3192,22 +3196,54 @@ var Form = function (_React$Component) {
       });
     }
   }, {
-    key: '_createFormActions',
-    value: function _createFormActions() {
-      if (this.state.hideActions === true) {
-        return null;
-      }
+    key: '_createForm',
+    value: function _createForm() {
+      var attributes = this.state.data.attributes;
+      return React.createElement(
+        'form',
+        {
+          id: this.state.meta._ts_,
+          onSubmit: this._applyOnSubmit,
+          className: classNames(this.state.wasValidated ? 'was-validated' : '', attributes.layout.formClassName)
+        },
+        this._createFormContent()
+      );
+    }
+  }, {
+    key: '_createFormContent',
+    value: function _createFormContent() {
       return React.createElement(
         'div',
         null,
-        this._createOkAction(),
+        this._createFormProperties(),
+        this._createFormActions()
+      );
+    }
+  }, {
+    key: '_createFormProperties',
+    value: function _createFormProperties() {
+      var attributes = this.state.data.attributes;
+      return React.createElement(PropertySet, {
+        bean: attributes.bean,
+        onChange: this._onFieldChange,
+        localization: be5.messages.property,
+        bsSize: attributes.layout.bsSize
+      });
+    }
+  }, {
+    key: '_createFormActions',
+    value: function _createFormActions() {
+      return React.createElement(
+        'div',
+        { className: 'formActions' },
+        this._createSubmitAction(),
         ' ',
         this._createCancelAction()
       );
     }
   }, {
-    key: '_createOkAction',
-    value: function _createOkAction(addCssClasses) {
+    key: '_createSubmitAction',
+    value: function _createSubmitAction(actionData, name) {
       var _this5 = this;
 
       var _state$data$attribute = this.state.data.attributes.layout,
@@ -3222,14 +3258,17 @@ var Form = function (_React$Component) {
             'button',
             {
               type: 'submit',
-              className: classNames("btn btn-primary", { 'btn-sm': bsSize === 'sm' }, { 'btn-lg': bsSize === 'lg' }, addCssClasses),
+              className: classNames("btn btn-primary", { 'btn-sm': bsSize === 'sm' }, { 'btn-lg': bsSize === 'lg' }),
               onClick: function onClick() {
-                return _this5.setState({ wasValidated: true });
+                return _this5.setState({
+                  wasValidated: true,
+                  formAction: actionData || 'defaultAction'
+                });
               },
               title: _this5.state.submitted ? be5.messages.submitted : "",
               disabled: state === 'entered'
             },
-            submitText || be5.messages.Submit
+            name || submitText || be5.messages.Submit
           );
         }
       );
@@ -3287,26 +3326,7 @@ var Form = function (_React$Component) {
             { className: 'form-component__title' },
             attributes.title
           ),
-          React.createElement(
-            'form',
-            {
-              id: this.state.meta._ts_,
-              onSubmit: this._applyOnSubmit,
-              className: classNames(this.state.wasValidated ? 'was-validated' : '', attributes.layout.formClassName)
-            },
-            React.createElement(PropertySet, {
-              bean: attributes.bean,
-              onChange: this._onFieldChange,
-              localization: be5.messages.property,
-              bsSize: attributes.layout.bsSize
-            }),
-            React.createElement(
-              'div',
-              { className: 'formActions' },
-              this._createFormActions()
-            )
-          ),
-          React.createElement('br', null)
+          this._createForm()
         ),
         React.createElement(
           'div',
@@ -3314,7 +3334,6 @@ var Form = function (_React$Component) {
           this._getErrorPane()
         )
       );
-      //<button onClick={this.refresh}>refresh</button>
     }
   }]);
   return Form;
@@ -3325,7 +3344,7 @@ Form.propTypes = {
   frontendParams: PropTypes.object.isRequired
 };
 
-registerDocument('form', Form);
+registerDocument('verticalForm', Form);
 
 var SubmitOnChangeForm = function (_Form) {
   inherits(SubmitOnChangeForm, _Form);
@@ -3386,12 +3405,30 @@ var ModalForm = function (_Form) {
   }
 
   createClass(ModalForm, [{
+    key: '_createFormContent',
+    value: function _createFormContent() {
+      return React.createElement(
+        'div',
+        null,
+        React.createElement(
+          ModalBody,
+          null,
+          this._createFormProperties()
+        ),
+        React.createElement(
+          'div',
+          { className: 'col-12' },
+          this._getErrorPane()
+        ),
+        React.createElement(
+          ModalFooter,
+          null,
+          this._createSubmitAction()
+        )
+      );
+    }
+  }, {
     key: 'render',
-
-    // componentDidMount(){
-    //   this.initForm();
-    // }
-
     value: function render() {
       var attributes = this.state.data.attributes;
       return React.createElement(
@@ -3404,34 +3441,7 @@ var ModalForm = function (_Form) {
             } },
           attributes.title
         ),
-        React.createElement(
-          'form',
-          {
-            id: this.state.meta._ts_,
-            onSubmit: this._applyOnSubmit,
-            className: classNames('form-modal', this.state.wasValidated ? 'was-validated' : '', attributes.layout.formClassName)
-          },
-          React.createElement(
-            ModalBody,
-            null,
-            React.createElement(PropertySet, {
-              bean: attributes.bean,
-              onChange: this._onFieldChange,
-              localization: be5.messages.property,
-              bsSize: attributes.layout.bsSize
-            })
-          ),
-          React.createElement(
-            'div',
-            { className: 'col-12' },
-            this._getErrorPane()
-          ),
-          React.createElement(
-            ModalFooter,
-            null,
-            this._createOkAction()
-          )
-        )
+        this._createForm()
       );
     }
   }]);
@@ -3484,7 +3494,7 @@ var InlineMiniForm = function (_Form) {
           )
         ),
         properties,
-        this._createOkAction(''),
+        this._createSubmitAction(),
         this._getErrorPane()
       );
     }
@@ -3493,6 +3503,55 @@ var InlineMiniForm = function (_Form) {
 }(Form);
 
 registerDocument('inlineMiniForm', InlineMiniForm);
+
+var HorizontalForm = function (_Form) {
+  inherits(HorizontalForm, _Form);
+
+  function HorizontalForm() {
+    classCallCheck(this, HorizontalForm);
+    return possibleConstructorReturn(this, (HorizontalForm.__proto__ || Object.getPrototypeOf(HorizontalForm)).apply(this, arguments));
+  }
+
+  createClass(HorizontalForm, [{
+    key: '_createFormProperties',
+    value: function _createFormProperties() {
+      var attributes = this.state.data.attributes;
+      return React.createElement(PropertySet, {
+        bean: attributes.bean,
+        onChange: this._onFieldChange,
+        localization: be5.messages.property,
+        bsSize: attributes.layout.bsSize,
+        horizontal: true,
+        horizontalColSize: attributes.layout.horizontalColSize || 2
+      });
+    }
+  }, {
+    key: '_createFormActions',
+    value: function _createFormActions() {
+      var horizontalColSize = this.state.data.attributes.layout.horizontalColSize || 2;
+
+      return React.createElement(
+        'div',
+        { className: 'formActions row' },
+        React.createElement(
+          'div',
+          { className: 'col-lg-' + horizontalColSize },
+          '\xA0'
+        ),
+        React.createElement(
+          'div',
+          { className: 'col-lg-' + (12 - horizontalColSize) },
+          this._createSubmitAction(),
+          ' ',
+          this._createCancelAction()
+        )
+      );
+    }
+  }]);
+  return HorizontalForm;
+}(Form);
+
+registerDocument('form', HorizontalForm);
 
 var FinishedResult = function (_React$Component) {
   inherits(FinishedResult, _React$Component);
@@ -3505,7 +3564,7 @@ var FinishedResult = function (_React$Component) {
   createClass(FinishedResult, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      changeLocationHash(this.props);
+      updateLocationHashIfNeeded(this.props);
     }
   }, {
     key: 'render',
@@ -5354,4 +5413,4 @@ var index = combineReducers({
 // services
 // store
 
-export { be5, be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl };
+export { be5, be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, updateLocationHashIfNeeded };

@@ -22,34 +22,35 @@ exports[`load and _performForm test 1`] = `
           id="1507198229686"
           onSubmit={[Function]}
         >
-          <div
-            className="property-set form-row"
-          />
-          <div
-            className="formActions row"
-          >
+          <div>
             <div
-              className="col-lg-2"
-            >
-               
-            </div>
+              className="property-set form-row"
+            />
             <div
-              className="col-lg-10"
+              className="formActions row"
             >
-              <button
-                className="btn btn-primary"
-                disabled={false}
-                onClick={[Function]}
-                title=""
-                type="submit"
+              <div
+                className="col-lg-2"
               >
-                Submit
-              </button>
-               
+                 
+              </div>
+              <div
+                className="col-lg-10"
+              >
+                <button
+                  className="btn btn-primary"
+                  disabled={false}
+                  onClick={[Function]}
+                  title=""
+                  type="submit"
+                >
+                  Submit
+                </button>
+                 
+              </div>
             </div>
           </div>
         </form>
-        <br />
       </div>
       <div
         className="col-12"
@@ -81,34 +82,35 @@ exports[`openOperationByUrl 1`] = `
           id="1507198229686"
           onSubmit={[Function]}
         >
-          <div
-            className="property-set form-row"
-          />
-          <div
-            className="formActions row"
-          >
+          <div>
             <div
-              className="col-lg-2"
-            >
-               
-            </div>
+              className="property-set form-row"
+            />
             <div
-              className="col-lg-10"
+              className="formActions row"
             >
-              <button
-                className="btn btn-primary"
-                disabled={false}
-                onClick={[Function]}
-                title=""
-                type="submit"
+              <div
+                className="col-lg-2"
               >
-                Submit
-              </button>
-               
+                 
+              </div>
+              <div
+                className="col-lg-10"
+              >
+                <button
+                  className="btn btn-primary"
+                  disabled={false}
+                  onClick={[Function]}
+                  title=""
+                  type="submit"
+                >
+                  Submit
+                </button>
+                 
+              </div>
             </div>
           </div>
         </form>
-        <br />
       </div>
       <div
         className="col-12"
