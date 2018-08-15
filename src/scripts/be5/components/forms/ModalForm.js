@@ -36,7 +36,7 @@ class ModalForm extends Form
             {this._getErrorPane()}
           </div>
           <ModalFooter>
-            {this._createOkAction()}
+            {this._createSubmitAction()}
           </ModalFooter>
         </form>
       </div>

@@ -15,7 +15,7 @@ class HorizontalForm extends Form
       <div className="formActions row">
         <div className={'col-lg-' + horizontalColSize}>&nbsp;</div>
         <div className={'col-lg-' + (12-horizontalColSize)}>
-        {this._createOkAction()}
+        {this._createSubmitAction()}
         {' '}
         {this._createCancelAction()}
         </div>

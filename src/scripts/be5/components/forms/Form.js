@@ -96,14 +96,14 @@ class Form extends React.Component
   _createFormActions() {
     return (
       <div className="formActions">
-        {this._createOkAction()}
+        {this._createSubmitAction()}
         {' '}
         {this._createCancelAction()}
       </div>
     );
   }
 
-  _createOkAction(actionData, name) {
+  _createSubmitAction(actionData, name) {
     const {bsSize, submitText} = this.state.data.attributes.layout;
     return (
       <Transition in={this.state.submitted} timeout={200}>

@@ -43,7 +43,7 @@ class InlineMiniForm extends Form
           <strong>{attributes.title}</strong>
         </label>
         {properties}
-        {this._createOkAction()}
+        {this._createSubmitAction()}
         {this._getErrorPane()}
       </form>
     );
