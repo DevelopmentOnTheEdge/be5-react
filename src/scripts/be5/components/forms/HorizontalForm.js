@@ -1,6 +1,7 @@
 import React from 'react';
 import be5 from '../../be5';
 import Form from './Form';
+import classNames from 'classnames';
 import PropertySet from 'beanexplorer-react';
 import {registerDocument} from '../../core/documents';
 
@@ -23,14 +24,15 @@ class HorizontalForm extends Form
 
   _createFormActions() {
     const horizontalColSize = this.state.data.attributes.layout.horizontalColSize || 2;
+    const colTag = 'col-lg-' + (12-horizontalColSize);
+    const offsetTag = 'offset-lg-' + horizontalColSize;
 
     return (
       <div className="formActions row">
-        <div className={'col-lg-' + horizontalColSize}>&nbsp;</div>
-        <div className={'col-lg-' + (12-horizontalColSize)}>
-        {this._createSubmitAction()}
-        {' '}
-        {this._createCancelAction()}
+        <div className={classNames(colTag, offsetTag)}>
+          {this._createSubmitAction()}
+          {' '}
+          {this._createCancelAction()}
         </div>
       </div>
     );
