@@ -138,12 +138,7 @@ exports[`HorizontalForm 1`] = `
           className="formActions row"
         >
           <div
-            className="col-lg-2"
-          >
-             
-          </div>
-          <div
-            className="col-lg-10"
+            className="col-lg-10 offset-lg-2"
           >
             <button
               className="btn btn-primary"
