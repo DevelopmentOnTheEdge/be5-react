@@ -8,7 +8,6 @@ import {
   Collapse,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
   Nav,
   NavItem,
   NavLink,
@@ -54,15 +53,14 @@ export default React.createClass({
   },
   
   render() {
-    // if (!this.props.show) {
-    //   return null;
-    // }
     if(this.props.menu === null){
       return null
     }
     
     const rootMenuItems = this._renderMenuItems(this.props.menu.root, false);
-    const brand = this.props.brand ? <NavbarBrand href="#">{this.props.brand}</NavbarBrand> : undefined;
+    const brand = this.props.brand
+      ? <a href="#!" onClick={this._onClick} className="navbar-brand">{this.props.brand}</a>
+      : undefined;
     const rightButtons = this._renderRightButtons();
 
     return (
