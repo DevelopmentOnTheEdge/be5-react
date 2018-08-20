@@ -19,6 +19,7 @@ import {
   UncontrolledTooltip
 } from 'reactstrap';
 import RoleSelector from "../RoleSelector";
+import {setUrlForHash} from "../../utils/documentUtils";
 
 
 export default React.createClass({
@@ -59,7 +60,7 @@ export default React.createClass({
     
     const rootMenuItems = this._renderMenuItems(this.props.menu.root, false);
     const brand = this.props.brand
-      ? <a href="#!" onClick={this._onClick} className="navbar-brand">{this.props.brand}</a>
+      ? <a href="#!" onClick={setUrlForHash} className="navbar-brand">{this.props.brand}</a>
       : undefined;
     const rightButtons = this._renderRightButtons();
 
@@ -90,7 +91,7 @@ export default React.createClass({
     if (!loggedIn){
       return (
         <form className="form-inline ml-auto">
-          <Button onClick={this._onClick} href="#!login" color="secondary">{be5.messages.login}</Button>
+          <Button onClick={setUrlForHash} href="#!login" color="secondary">{be5.messages.login}</Button>
         </form>
       );
     }
@@ -105,15 +106,9 @@ export default React.createClass({
           currentRoles={currentRoles}
           toggleRoles={this.props.toggleRoles}
         />{' '}
-        <Button onClick={this._onClick} href="#!logout" color="secondary">{be5.messages.logout}</Button>
+        <Button onClick={setUrlForHash} href="#!logout" color="secondary">{be5.messages.logout}</Button>
       </form>
     );
-  },
-
-  _onClick(e) {
-    if(/^#/.test(e.target.getAttribute("href"))) {
-      be5.url.set(e.target.getAttribute("href"));
-    }
   },
 
   _renderDropdownMenuItems(items) {
@@ -126,7 +121,7 @@ export default React.createClass({
 
       //TODO after store url in redux if(this.props.url === href)active = true;
       return (
-        <DropdownItem onClick={this._onClick} href={href} key={target+href}>{item.title}</DropdownItem>
+        <DropdownItem onClick={setUrlForHash} href={href} key={target+href}>{item.title}</DropdownItem>
       )
     });
 
@@ -151,7 +146,7 @@ export default React.createClass({
         //if(this.props.url === href)active = true;
         return (
           <NavItem key={target+href}>
-            <NavLink onClick={this._onClick} href={href} active={active}>{item.title}</NavLink>
+            <NavLink onClick={setUrlForHash} href={href} active={active}>{item.title}</NavLink>
           </NavItem>
         )
       }

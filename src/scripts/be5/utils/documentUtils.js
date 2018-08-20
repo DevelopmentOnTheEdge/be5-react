@@ -1,3 +1,4 @@
+import be5 from "../be5";
 
 
 export const getResourceByID = (included, id) => {
@@ -63,4 +64,10 @@ export const getSelfUrl = (value) => {
   }
 
   return undefined;
+};
+
+export const setUrlForHash = (e) => {
+  if(/^#/.test(e.target.getAttribute("href"))) {
+    be5.url.set(e.target.getAttribute("href"));
+  }
 };

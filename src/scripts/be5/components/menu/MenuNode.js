@@ -1,6 +1,7 @@
 import React  from 'react';
-import be5    from '../../be5';
 import actions from '../../services/actions';
+import {setUrlForHash} from "../../utils/documentUtils";
+
 
 const MenuNode = React.createClass({
   displayName: 'MenuNode',
@@ -60,18 +61,12 @@ const MenuNode = React.createClass({
       )
     );
   },
-  
-  _onClick(event) {
-    if(/^#/.test(this.state.href)) {
-      be5.url.set(this.state.href);
-    }
-  },
-  
+
   _getHead() {
     if(this.state.hasAction) {
         return (
             React.DOM.a({ href: this.state.href, className: this.state.classes, target: this.state.target,
-                onClick: this._onClick, key: 'a ' + this.props.data.title }, this.props.data.title)
+                onClick: setUrlForHash, key: 'a ' + this.props.data.title }, this.props.data.title)
         );
     }else{
         return (
