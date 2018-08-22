@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Button, Card, CardBody, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalFooter, ModalHeader, Nav, NavItem, NavLink, Navbar, NavbarBrand, NavbarToggler, UncontrolledDropdown, UncontrolledTooltip } from 'reactstrap';
+import { Button, Card, CardBody, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalFooter, ModalHeader, Nav, NavItem, NavLink, Navbar, NavbarToggler, UncontrolledDropdown, UncontrolledTooltip } from 'reactstrap';
 import classNames from 'classnames';
-import ReactDOM from 'react-dom';
-import numberFormatter from 'number-format.js';
+import { connect } from 'react-redux';
+import SplitPane from 'react-split-pane';
+import Alert from 'react-s-alert';
 import PropertySet, { Property, PropertyInput } from 'beanexplorer-react';
 import JsonPointer from 'json-pointer';
 import Transition from 'react-transition-group/Transition';
+import ReactDOM from 'react-dom';
+import numberFormatter from 'number-format.js';
 import AceEditor from 'react-ace';
-import SplitPane from 'react-split-pane';
 import 'brace/mode/mysql';
 import 'brace/theme/xcode';
 import 'brace/ext/language_tools';
-import Alert from 'react-s-alert';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
@@ -71,6 +71,12 @@ var getSelfUrl = function getSelfUrl(value) {
   }
 
   return undefined;
+};
+
+var setUrlForHash = function setUrlForHash(e) {
+  if (/^#/.test(e.target.getAttribute("href"))) {
+    be5.url.set(e.target.getAttribute("href"));
+  }
 };
 
 var messages = {
@@ -787,54 +793,153 @@ var be5 = {
 //   return copy;
 // },
 
-var states = [];
+var Role = function Role(props) {
+  var id = props.name + "-checkbox";
 
-function set$1(name, value) {
-  states[name] = value;
-}
-
-function get$1(name) {
-  return states[name];
-}
-
-function getAll() {
-  return states;
-}
-
-var documentState = {
-  set: set$1,
-  get: get$1,
-  getAll: getAll
+  return React.createElement(
+    'div',
+    { className: "role" },
+    React.createElement('input', {
+      type: 'checkbox',
+      id: id,
+      checked: props.checked,
+      onChange: props.onChange
+    }),
+    React.createElement(
+      'label',
+      { htmlFor: id },
+      React.createElement('span', { className: "checkBox" }),
+      props.name
+    )
+  );
 };
 
-var route = function route(documentName, page) {
-  changeDocument(documentName, {});
+Role.propTypes = {
+  onChange: PropTypes.func.isRequired
 };
 
-var Loading = function (_React$Component) {
-  inherits(Loading, _React$Component);
+var RoleSelector = function RoleSelector(props) {
 
-  function Loading() {
-    classCallCheck(this, Loading);
-    return possibleConstructorReturn(this, (Loading.__proto__ || Object.getPrototypeOf(Loading)).apply(this, arguments));
+  function onRoleChange(name) {
+    var roles = [].concat(toConsumableArray(props.currentRoles));
+    var containRoleIndex = roles.indexOf(name);
+
+    if (containRoleIndex !== -1) {
+      roles.splice(roles.indexOf(name), 1);
+    } else {
+      roles.push(name);
+    }
+
+    props.toggleRoles(roles.join(","));
   }
 
-  createClass(Loading, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement('div', { className: 'document-loader' });
+  function handleSelectAll() {
+    props.toggleRoles(props.availableRoles.join(","));
+  }
+
+  function handleClear() {
+    props.toggleRoles("");
+  }
+
+  if (props.availableRoles.length < 1) {
+    return React.createElement('div', null);
+  }
+
+  var roleNodes = props.availableRoles.map(function (role) {
+    return React.createElement(Role, { key: role, name: role, checked: props.currentRoles.indexOf(role) !== -1, onChange: function onChange() {
+        return onRoleChange(role);
+      } });
+  });
+
+  return React.createElement(
+    UncontrolledDropdown,
+    { size: props.size, className: 'roleBox mr-sm-2', id: props.id },
+    React.createElement(
+      DropdownToggle,
+      { caret: true },
+      be5.messages.roles
+    ),
+    React.createElement(
+      DropdownMenu,
+      null,
+      roleNodes,
+      React.createElement(DropdownItem, { divider: true }),
+      React.createElement(
+        'div',
+        { className: 'roleBox_add-actions' },
+        be5.locale.msg('selectRoles') + ' ',
+        React.createElement(
+          Button,
+          { onClick: handleSelectAll, color: 'primary', className: 'enable-all', size: 'sm' },
+          be5.locale.msg('allRoles')
+        ),
+        ' ',
+        React.createElement(
+          Button,
+          { onClick: handleClear, color: 'secondary', className: 'disable-all', size: 'sm' },
+          be5.locale.msg('clearRoles')
+        )
+      )
+    )
+  );
+};
+
+RoleSelector.propTypes = {
+  id: PropTypes.string,
+  size: PropTypes.string,
+  className: PropTypes.string,
+  currentRoles: PropTypes.array.isRequired,
+  availableRoles: PropTypes.array.isRequired,
+  toggleRoles: PropTypes.func.isRequired
+};
+
+var img = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAATdEVYdFRpdGxlAE9wdGljYWwgRHJpdmU+Z7oMAAAC+ElEQVQ4jZWS329TZRjHP+ft6dJ2djNxHcgyunb+KIyNwfRG0mZgNgfeAJNBUBO8NEswITPEGHIy1I1lcTEzhn/Aq5mIFwp2yGSMzAsCyMIAp7hWOXjD+LGW03bnPe/rxSyZ7spv8tw9z+f75Ps8htaasvr7+81Apfm6oY1dGrpAV4BhY5AV2vjME4ZjKHUSjBxKHTt69MNpszw8ODj4TCBUMdbasnnH5pYt1NREEEIgpbs2l8u1/TAxvjebyeT27z8YXrh3j7MT4wFgmwkwPPzx8z6/L713zxuxeKyRUqmI4+RRSiGEIBQKsa/7ALZ9J1xfv56qcBg0rwCYAArxxVsH346tqV3L4uJDrv58lfn52+TyeZ6qrGTjxk0kXkwQiUT4r8yhTwd2xmPxjnXPruP+/QXOpE9zx7YnQQwIrUOFUnHwwtRk4vbvv9HVuZNAIAiAUmoZYCh9+NUdHRSLRWZvXMe27XMlx+2yLEueGP7kXE/3gUQ81rjKWUq5DNAY64PBEK5b4uatWwiMjyzLkgCuK8OPHj3kwYOFVQDXdSlnUCeEgVIKx3mMlFx/0uR575765usvtdaJ5WtrtC7XPxlIzysUS8VqIUyqq5/mcc5uBs4DHD92/DKwYZX9yhCl532fyWQONcYbadrQRCabtXq+6pka2zfmrXiwwJIsngB2a60mPJf3hoaGcgCmWpKnr1y5fKghGqW5uYX5zHy7d809+8HM+wM+7d2U2teKxkol21/e1NTEj5MT78zOzl4CTgKYQvhPzc39cn7q4lR7Kpliz+5utrRu3X5x+sL2u3f/4oVolOS2JNFoA/l8HtP0I6UXKG9naK3p6+urEaa+1NnxWkPb1jaCwRB+vx8hfCilcN0lCgWH9Hia6Z+mb5ii4qWRkZHCEwDAkSO9zyl8n9dGartSqSSRSC1V4Socx2Hu1zmuzczwx5/Zb02j4s3R0dHFf22wUr2HezsNLXuVMuo1ug7Ia80Zhf6ubk1d2rIstbJ/FeD/6m8m/lj+PIxQ9QAAAABJRU5ErkJggg==';
+
+var UserControl = function UserControl(props) {
+  var _props$user = props.user,
+      userName = _props$user.userName,
+      loggedIn = _props$user.loggedIn,
+      currentRoles = _props$user.currentRoles,
+      availableRoles = _props$user.availableRoles;
+
+
+  if (!loggedIn) {
+    return null;
+  }
+
+  function reLogin() {
+    if (props.hasDevRole) {
+      return React.createElement(
+        'span',
+        { onClick: props.openReLoginForm, className: "document-reload float-right" },
+        React.createElement('img', { src: img, alt: "Login", title: "Login" })
+      );
     }
-  }]);
-  return Loading;
-}(React.Component);
+    return null;
+  }
 
-registerRoute("loading", route);
+  return React.createElement(
+    'div',
+    { className: classNames('user-control', props.className || 'form-inline mb-2') },
+    React.createElement(RoleSelector, {
+      size: props.size,
+      currentRoles: currentRoles,
+      availableRoles: availableRoles,
+      toggleRoles: props.toggleRoles
+    }),
+    React.createElement(
+      'label',
+      null,
+      userName
+    ),
+    reLogin()
+  );
+};
 
-var FrontendAction = function FrontendAction(type, value) {
-  classCallCheck(this, FrontendAction);
-
-  this.type = type;
-  this.value = value;
+UserControl.propTypes = {
+  size: PropTypes.string,
+  className: PropTypes.string,
+  user: PropTypes.shape({})
 };
 
 var UPDATE_USER_INFO = 'UPDATE_USER_INFO';
@@ -868,6 +973,13 @@ var toggleRoles = function toggleRoles(roles) {
       dispatch({ type: SELECT_ROLES, currentRoles: data });
     });
   };
+};
+
+var FrontendAction = function FrontendAction(type, value) {
+  classCallCheck(this, FrontendAction);
+
+  this.type = type;
+  this.value = value;
 };
 
 function simpleFinishInModalDocument(actions, documentName) {
@@ -1121,153 +1233,521 @@ var forms = {
 
 };
 
-var route$2 = function route(documentName, entity, query, operation, operationParams) {
-
-  var params = {
-    entity: entity,
-    query: query || 'All records',
-    operation: operation,
-    values: {},
-    operationParams: operationParams
-  };
-
-  forms.load(params, { documentName: documentName });
-};
-
-registerRoute("form", route$2);
-
-var route$4 = function route() {
-  openOperationByUrl('form/users/All records/Login', {
+var openReLoginForm = function openReLoginForm() {
+  openOperationByUrl('form/users/All records/Login/withoutUpdateUserInfo=true', {
     documentName: be5.MAIN_MODAL_DOCUMENT
   });
 };
 
-registerRoute("login", route$4);
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    user: getUser(state),
+    hasDevRole: getCurrentRoles(state).indexOf(ROLE_SYSTEM_DEVELOPER) !== -1
+  };
+};
 
-var route$6 = function route() {
-  openOperationByUrl('form/users/All records/Logout', {
-    documentName: be5.MAIN_DOCUMENT, onSuccess: function onSuccess(result, applyParams) {
-      //not used document.cookie = 'be_auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    toggleRoles: function toggleRoles$$1(roles) {
+      return dispatch(toggleRoles(roles));
+    },
+    openReLoginForm: openReLoginForm
+  };
+};
 
+var UserControlContainer = connect(mapStateToProps, mapDispatchToProps)(UserControl);
+
+var createUnknownActionException = function createUnknownActionException(actionName) {
+  return {
+    name: 'UnknownActionException',
+    message: 'Action \'' + actionName + '\' is unknown'
+  };
+};
+
+var actions = {
+  /**
+   * Returns an object with href and target.
+   */
+  parse: function parse(action) {
+    switch (action.name) {
+      case 'open':
+        return {
+          href: action.arg,
+          target: '_blank'
+        };
+      case 'call':
+        return {
+          href: '#!' + action.arg,
+          target: ''
+        };
     }
 
-  });
+    throw createUnknownActionException(action.name);
+  }
 };
 
-registerRoute("logout", route$6);
+var MenuNode = React.createClass({
+  displayName: 'MenuNode',
 
-var route$8 = function route(documentName, page) {
-  var requestParams = {
-    _ts_: new Date().getTime()
-  };
+  getInitialState: function getInitialState() {
+    return { href: '#', target: '', classes: '' };
+  },
+  componentDidMount: function componentDidMount() {
+    var href = '#';
+    var target = '';
+    var classes = '';
+    if (this.props.level == 1) {
+      classes += 'rootMenuItem';
+    } else {
+      classes += 'menuItem';
+    }
+    var hasAction = this.props.data.action != null;
+    if (hasAction) {
+      classes += ' menuItemWithRef';
+      var action = actions.parse(this.props.data.action);
+      href = action.href;
+      target = action.target;
+    } else {
+      classes += ' menuItemWithoutRef';
+    }
+    this.setState({ href: href, target: target, classes: classes, hasAction: hasAction });
+  },
+  render: function render() {
+    var hasChildren = this.props.data.children != null;
 
-  be5.net.request('static/' + page, requestParams, function (data) {
-    changeDocument(documentName, { value: data });
-  });
-};
+    if (!hasChildren) {
+      var key = 'menu node ' + this.props.data.title;
+      return React.createElement(
+        'div',
+        { className: 'menuNode', key: key },
+        this._getHead(),
+        this._getOperations()
+      );
+    }
 
-registerRoute("static", route$8);
-
-var loadTable = function loadTable(params, frontendParams) {
-  getTable(params, function (data) {
-    changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
-  }, function (data) {
-    changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
-  });
-};
-
-var fetchTableByUrl = function fetchTableByUrl(url, callback, failure) {
-  getTable(getTableParams(url), callback, failure);
-};
-
-var getTableParams = function getTableParams(url) {
-  var attr = be5.url.parse(url);
-
-  return {
-    entity: attr.positional[1],
-    query: attr.positional[2],
-    params: attr.named
-  };
-};
-
-var getTable = function getTable(params, callback, failure) {
-  be5.net.request('table', getRequestParams(params), function (data) {
-    return callback(data);
-  }, function (data) {
-    return failure(data);
-  });
-};
-
-var updateTable = function updateTable(params, callback) {
-  be5.net.request('table/update', getRequestParams(params), function (data) {
-    callback(data);
-  }, function (data) {
-    console.error(data);
-  });
-};
-
-var getRequestParams = function getRequestParams(params) {
-  Preconditions.passed(params.entity);
-  Preconditions.passed(params.query);
-
-  return {
-    entity: params.entity,
-    query: params.query,
-    values: be5.net.paramString(params.params),
-    _ts_: new Date().getTime()
-  };
-};
-
-var route$10 = function route(documentName, entity, query, params) {
-
-  var paramsObject = {
-    entity: entity,
-    query: query || 'All records',
-    params: params
-  };
-  loadTable(paramsObject, { documentName: documentName });
-};
-
-registerRoute("table", route$10);
-
-var route$12 = function route(documentName, params) {
-  var requestParams = {
-    values: be5.net.paramString(params),
-    _ts_: new Date().getTime()
-  };
-
-  be5.net.request('queryBuilder', requestParams, function (data) {
-    changeDocument(documentName, { value: Object.assign({}, data, { params: be5.net.paramString(params) }) });
-  });
-};
-
-registerRoute("queryBuilder", route$12);
-
-var route$14 = function route(documentName, text) {
-  changeDocument(documentName, { value: createStaticValue(undefined, text) });
-};
-
-registerRoute("text", route$14);
-
-var route$16 = function route(documentName) {
-  changeDocument(documentName, { value: {}, frontendParams: { type: 'uiPanel' } });
-};
-
-registerRoute("uiPanel", route$16);
-
-var route$18 = function route(documentName, entity) {
-  var requestParams = {
-    entity: entity
-  };
-
-  be5.net.request('categories/forest/', requestParams, function (data) {
-    changeDocument(documentName, {
-      value: createStaticValue('', "<pre>" + JSON.stringify(data, null, 4) + "</pre>")
+    var nextLevel = this.props.level + 1;
+    var children = this.props.data.children.map(function (child) {
+      var childKey = 'li ' + child.title;
+      return React.createElement(
+        'li',
+        { key: childKey },
+        React.createElement(MenuNode, { key: child.title, data: child, level: nextLevel })
+      );
     });
-  });
+
+    return React.DOM.div({ className: 'menuNode', key: 'menu node ' + this.props.data.title }, this._getHead(), this._getOperations(), React.DOM.ul({ key: 'ul ' + this.props.data.title }, children));
+  },
+  _getHead: function _getHead() {
+    if (this.state.hasAction) {
+      return React.DOM.a({ href: this.state.href, className: this.state.classes, target: this.state.target,
+        onClick: setUrlForHash, key: 'a ' + this.props.data.title }, this.props.data.title);
+    } else {
+      return React.createElement(
+        'span',
+        { className: this.state.classes },
+        this.props.data.title
+      );
+    }
+  },
+  _getOperations: function _getOperations() {
+    var hasOperations = this.props.data.operations != null;
+
+    if (!hasOperations) {
+      var key = 'operations ' + this.props.data.title;
+      return React.createElement('div', { key: key });
+    }
+
+    return this.props.data.operations.map(function (operation) {
+      var href = '#!' + operation.action.arg;
+      var title = operation.title == 'Insert' ? '+' : operation.title;
+      var opBoxKey = 'operation box ' + title;
+      var opKey = 'operation a ' + title;
+      return React.createElement(
+        'div',
+        { className: 'menuOperationBox', key: opBoxKey },
+        React.createElement(
+          'a',
+          { href: href, className: 'menuOperation', key: opKey },
+          '[',
+          title,
+          ']'
+        )
+      );
+    });
+  }
+});
+
+var propTypes$1 = {
+  menu: PropTypes.shape({})
 };
 
-registerRoute("categories", route$18);
+var MenuBody = function (_Component) {
+  inherits(MenuBody, _Component);
+
+  function MenuBody(props) {
+    classCallCheck(this, MenuBody);
+
+    var _this = possibleConstructorReturn(this, (MenuBody.__proto__ || Object.getPrototypeOf(MenuBody)).call(this, props));
+
+    _this.state = { query: '' };
+
+    _this._getFilteredRoot = _this._getFilteredRoot.bind(_this);
+    return _this;
+  }
+
+  createClass(MenuBody, [{
+    key: 'render',
+    value: function render() {
+      if (this.props.menu === null) {
+        return React.createElement(
+          'p',
+          null,
+          'Loading...'
+        );
+      }
+      var filteredRoot = this._getFilteredRoot();
+      var rootNodes = filteredRoot.map(function (node) {
+        return React.createElement(MenuNode, { key: JSON.stringify(node), data: node, level: 1 });
+      });
+      return React.createElement(
+        'div',
+        { className: 'menu' },
+        rootNodes
+      );
+    }
+  }, {
+    key: '_getFilteredRoot',
+    value: function _getFilteredRoot() {
+      var containsIgnoreCase = function containsIgnoreCase(str, substr) {
+        return str.toLowerCase().indexOf(substr.toLowerCase()) !== -1;
+      };
+      var anyChildContainsIgnoreCase = function anyChildContainsIgnoreCase(node, query) {
+        if (containsIgnoreCase(node.title, query)) {
+          return true;
+        }
+        return node.children && _.any(node.children, function (child) {
+          return anyChildContainsIgnoreCase(child, query);
+        });
+      };
+      var filterNodeContent = function filterNodeContent(node, query) {
+        if (!node.children) {
+          return node;
+        }
+        return _.extend({}, node, { children: filterByTitle(node.children, query) });
+      };
+      var filterByTitle = function filterByTitle(root, query) {
+        return root.filter(function (node) {
+          return anyChildContainsIgnoreCase(node, query);
+        }).map(function (node) {
+          return filterNodeContent(node, query);
+        });
+      };
+
+      return filterByTitle(this.props.menu.root, this.state.query);
+    }
+  }]);
+  return MenuBody;
+}(Component);
+
+MenuBody.propTypes = propTypes$1;
+
+var MenuSearchField = function (_React$Component) {
+  inherits(MenuSearchField, _React$Component);
+
+  function MenuSearchField(props) {
+    classCallCheck(this, MenuSearchField);
+
+    var _this = possibleConstructorReturn(this, (MenuSearchField.__proto__ || Object.getPrototypeOf(MenuSearchField)).call(this, props));
+
+    _this.state = { value: '' };
+
+    _this._handleChange = _this._handleChange.bind(_this);
+    return _this;
+  }
+
+  createClass(MenuSearchField, [{
+    key: 'render',
+    value: function render() {
+      return React.createElement('input', { type: 'text', className: 'searchField form-control', onChange: this._handleChange, value: this.state.value, placeholder: be5.messages.filter });
+    }
+  }, {
+    key: '_handleChange',
+    value: function _handleChange(event) {
+      this.setState({ value: event.target.value });
+      this.props.onChange(event.target.value);
+    }
+  }]);
+  return MenuSearchField;
+}(React.Component);
+
+MenuSearchField.propTypes = {
+  onChange: PropTypes.func.isRequired
+};
+
+var arraysEqual = function arraysEqual(a, b) {
+  if (a === b) return true;
+  if (a === null || b === null) return false;
+  if (a.length !== b.length) return false;
+
+  a.sort();
+  b.sort();
+
+  for (var i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+};
+
+var propTypes = {
+  menu: PropTypes.shape({}),
+  currentRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
+  fetchMenu: PropTypes.func.isRequired,
+  searchField: PropTypes.bool
+};
+
+var defaultProps = {
+  searchField: true
+};
+
+var Menu = function (_Component) {
+  inherits(Menu, _Component);
+
+  function Menu(props) {
+    classCallCheck(this, Menu);
+
+    var _this = possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
+
+    _this._handleQueryChange = _this._handleQueryChange.bind(_this);
+    return _this;
+  }
+
+  createClass(Menu, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      // this.props.fetchMenu();
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var _props = this.props,
+          currentRoles = _props.currentRoles,
+          fetchMenu = _props.fetchMenu;
+
+      if (!arraysEqual(currentRoles, nextProps.currentRoles)) {
+        fetchMenu();
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return React.createElement(
+        'div',
+        { className: 'menuContainer' },
+        this.props.searchField ? React.createElement(MenuSearchField, { ref: 'searchfield', onChange: this._handleQueryChange }) : null,
+        React.createElement(MenuBody, { ref: 'menubody', menu: this.props.menu })
+      );
+    }
+  }, {
+    key: '_handleQueryChange',
+    value: function _handleQueryChange(query) {
+      this.refs.menubody.setState({ query: query });
+    }
+  }]);
+  return Menu;
+}(Component);
+
+Menu.propTypes = propTypes;
+
+Menu.defaultProps = defaultProps;
+
+var UPDATE_MENU = 'UPDATE_MENU';
+
+var fetchMenu = function fetchMenu(path) {
+  return function (dispatch) {
+    be5.net.request(path, {}, function (data) {
+      dispatch({ type: UPDATE_MENU, data: data });
+    });
+  };
+};
+
+var getMenu = function getMenu(state) {
+  return state.menu;
+};
+
+var MenuContainer = function MenuContainer(props) {
+  return React.createElement(Menu, props);
+};
+
+var mapStateToProps$1 = function mapStateToProps(state) {
+  return {
+    menu: getMenu(state),
+    currentRoles: getCurrentRoles(state)
+  };
+};
+
+var mapDispatchToProps$1 = function mapDispatchToProps(dispatch) {
+  return {
+    fetchMenu: function fetchMenu$$1(roles) {
+      return dispatch(fetchMenu('menu'));
+    }
+  };
+};
+
+var MenuContainer$1 = connect(mapStateToProps$1, mapDispatchToProps$1)(MenuContainer);
+
+var img$1 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAAAjCAYAAAANIjHoAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAEN9JREFUeNrsXHtsHMUd/u3e03bseJ3EOC8CZwQJCVEUp0CTlEe5U1uUYCp6bishWtrqXAn+7p2E+keLVN0JqapERXWGCtRKpfhaUQjQijsiEgQtrQ9Kg+KQ4EsMCc7D8cXPe+91Zj1j/7yeffgRK0YeaXV3u7Oz8/jmm2++mT2pWq3Ccgv7X3tHIR9tgkvpdw/elcUn9h06SuMpBkllSPyM6AK9j1xLG1zz0eeT6wmjPLI49AASL8XPX9eywW9SNP48XrbMhfNfZNC9uNxpci1LzonKZ3mfWf2yNHE+aVopo/sM8jDrOQbxZuVZVEfkWgr/du49dJQid0iWJHuoIfGqpRKow1koDZyF4qcnIPe/HihmTpLUnCA5nAsGZi6XgwtDw2tMotAKSBoAppMApQudiuoaAYcIOWKCNGj8bvLZqu8ILPjYdf2zcAiyZ2u1hs4nTcoVYODtZg2cYud46GZloQ28x6x8pPHpvR0MPLi+AixdIwAa1RftJDGSXkxwzSgPNH5kHm2RFKRFyxEh6Wn1zVHWZBtVhKEllwuczevBuXEz1N6+Hxoe/D6Mv3sYrrz0PKhjI+S6eykJWM9ScQKotIAtsyguPicKYQackAjYKNBngQl4zUKGHTPyw1iUNmKcNjL5HiTnEvQTNXpEwH68fJzV/AwonXYyw1iuGzEiTSvBOmmQnY+SeD7ybKM0eR54PsMkfoaDbR5tkWHneZnitENSZp4fPRLwVitlAHJoQkOWof4b7eDatAUu/foXoI6PLgrz2gwROhQzluQ91S+oGArmgFViTFr4EYBjFrfMF7xdBuxFh8UuBFQKljQDMrAhWyRR6NAcYLKAM3PIDnDRPQoDSgcemllHirL0QgyMMYs89LH0aDm6RPHs1hHrVEk0ksVkqztLahXyFRWKqgpl8p1+lshRwdqY/FbHRsG7fRcoD5N6qlQ0cC9lwDpygSGEvisElCEb98RtxptTh0SyJImY0BSIjInnWhdhlH6HXk/SNBnLcjKIMnCa5SG9WBWhzw+WCiJSBbdDvtS+pflJxe0uDeaLzv7xiVUEu9eNlUo3DeZLey8XCk1eh2Mav+NjULf3Xhg/8ibkP/4AJI93SUBLQKPoACeqNB+JFxawcEo3oQqhYcrHGrXLQqq0zYN5qQzQn0vwCQr5TFONyJ7vQxIhY2NihctgJwQRE5qBPsaYGQyYFMuONpM8+EicsICFjbR3WC8pjMdzMp2oVNXshVzx6fs2NMNoqQyey0QSkAkYATRsrPVuentg8OdvnrsYcsnytP4l1+v2fR3yx9KCzlAFOy6GShh8DkEv5BMG7OtDkyXMaikd8/DKDrDhjgI+ZALIGGvE4BzB6xdMVNK6ho6hPGWNpAXqCFUD1rYKvGMkLJgvgTqbYiMPWQNw22kLzuxRXf0kzIFLgkOS5VPDY94XTvbn716/FqigLTJQNdd4zj5+q6/zYr5w6weDw/s9jknwVsslcLfeDFLdKgDyHaRpNeL1esuqSqBbVTV3YpGAm9YJ+CABT1BgVWVEWsuAbWPUJiPnutg5M9bNkrgdJG6cxY2zEcAqpAQNlRGAewoolMlMGBEPzxkTLbxUgdZXzGCEMG0LE+nUxSelljMoCsjPx3PwxucX4ObV9eB1TAKOdqsrxRLsXtP4Qnrwyn6sd+X6BpAJcCtDlwkDTwK3XC7DV26/4yd333Pv+6VSSdLAa6SrCbvPY3JGwdKDenNC4NnGLHTelM6l4EesYsW6lGU7Kdsy8EZtNETKjEGZhozrtTQ5Wo06sM0Jj5HDwd0DszwFLVyANKszzec2kTUZi9ED0AjAn6lgJ0W2UyoqBS4XitA3MqbJhDqXE45nR+FYdoQy8HEP0blVJAeooyC5PAzejL1JnN7e46c+OdF7Yv36Db3r1jX3rl3brH3qj+bm5t55TM7wsOSbo0b26TQydxbaDIBtCF6Uh7YFMhaeMEVMtOFiBN7J2ywWSMKCe/Ss34nSii6C1RlB1lpwTsCdlA0SjJcroLhdsNbjJuB1QC3Rs7VORxkP+hJdoKA2Wakww3en58nhPnz4LTh65G3tmqpWNCaecVQq2rHACVp2jrdjJulg+pYfEcS6/jmCd16BTbDCaEIWQ7IibDajn2eIoTrr1oOXPo8ccdQZI0araEzKYLAtyG3RlT3O6gZsma3U+lpDwLqvZY3GoaMEYC1eD6z2uOBiLr+5UFGBa1zq6aojI5rDIDnkWZMzCmA3ScvhpCxdFU7giBaeS9miBFBY4xqxQRuJlxQwTQKBpEugjVPM6uIOQ8oOeJFsMLTdBOxGAYE9W6wFI0wKKTCHhQVRfbFVKCwxIuRcANluSeYd6xcgTP1nDDZWtikfmpULEBsnBY6KUYfvQL4wBW/AFuOqBF+riDxYX+Ml3ye93CzRtzfV18Enw2OPqAiAVCIUThzTgIsnZhSQRC7kDzzQDnfdfY8GYJfLJTw8Hs9cGoIP6wqa9Ihm0wqayfvRPSF0b8yEkbTJkh3Wtcm8PlF+mBSYxWys4btMQD/X+vJjOcTSx8vBfPmX1w9fcrXbYTrZPRxsio22MPOFO3G+LBi3qhLo5V2ypA3tVC5QZmUTs1VPHTv1syMDg+3cy5WcLqiMDsPoW68TtnXMZG0y/G/dtm13S0sLnDp10nB9ggBccrmcBPVwzEL7iCYiok0zEZNKybBrAQa2jIkGzKB7suj5aQvm1acZsOGQBAyM9wgaTTK68mXnUV8zZBUH71w32YjyQCdmJJ09uvmGVVvo6yijs+L28Pulr756ZHLVVmdP0ZMuSTq31ut+tEJIlkgFuW1tY/1ALn/jUKG4/fToxL0Xc4Wb3LI0qV/pYgPRrJef/Q2MHf47yDU1s3UyAXPFQr9SZq6pqfnwRN+Z3bASVoJBMGRcCuNytbrxfK7wJv1NtKzmIlBdStnSKU+yr+bHEulQOP4RDL/yIuQ/6hGClltiVoEtUqgrTbMS5gXcWUCmmlQCmLlDT7sAam4cch9/CKWz/ZMTMIpswQKDZHPrJIlXXWmalbAg4FZnTNKq2kYbyrYSlxd0waGuAZTvPgoN9z8EI4e6YeS1xKTGleWrkukbNrYsRd3QoreC/fX+lTA96eyGmXsVWhfzAWfOnTcHLmG+Cbck/Qs0eFah0e2WFI+75lKusHasXNkyXip7KIgdoIKaz4HsrQHlkZ+CvKoervzp2SXbZLMSrqkQZhPIPVfzIbIZ3TjJ5EzxuO6rczoC5HvgznVN/se2+fZ9a/N1O0Nbb9jZvmX9Ex5ZHi2xvQV04UGdGIeGA0Go2X2nBuZ5hhqL636WRXz4DM4Ds3T47z4WVx8vzA7tjRB2X5L9TiIrpg/F4VbOEDqf1N3LmacH5ROnUwXxWwFJQTlAkG8/yjc/4gIw9ejKalQvPkFZquj+HuQUxNH9uI7a0PmQ4Fk9ut+4LLyOkiwfSZRGHzssV84kAlgPXfKlqdGFCApSIhAKq13Ok9/c1PyrJ3bdcqDB5Rqd2p+rTm6gaWj/nsbA2PciDP4h+Ths43jHBrgzTHBLBudbdZZPgJ2n14PsewDFTzDfkjJFB7uP+qZNMG3Cx1k8Gh9v8VOY1cPjhtFz/agx8XDaydKJgHg5mdt0omG2FZUFWN5wekZDeCsrX5TlR1Qv9FqKnfMjkKZQvCg7n2JpNsFMPz3L4nawOuP7LjpQGn6U3y72PYWIqU3H2nh7py2NK1EflzCrNt+SWJcoE0DWu5ywZ23j0f6xiaee6T39y1rnpHdbLRbA7bsF3FtaoXDqOEhujzYxq62reyw3MfFPaonZnagtou7yIVbIGMTJ6HzZBGuEFLuuoMrlQMdxAWaurKVgejkZbxjJoo7gM8lP2sT3xKGDsVgcdTh9wFsmuX8tqpcOxIb49aKUrkwZFi+IyuVjZUvo6i8oqKOgSXniDNBZ1InD7FzIDuNOjRNuAlz6NkSF/HJKMhD5oK2e/WfwCrTUel8iIC6q057W5HtpGzYR+VCZsrmcTqenvqFB27Y4MTGhvRQ562DnFxm0UcSeaRMG9+nYkTMIf0Exi4b1IMw0/YMobhaBhW/sTukahk9aRCALwfRihJ3An9lkwrhtqHw+xJz6euHLyhJKW/+JQdvJmBGXOYjqBAM2qMuvUYjoGJZvK83O2Q6ju8I+HhoBuohGd4P9+2JWY12K/DJULxBWvlIqV5t5cSmjOhoaZ0gFCl7Kttt37IAbb/QJ993Sc273vF623EeOPwiAwFm0B31XDIDL9wPwCooykHXB9OpZN6vILJIUoBs+uxCwU6yhEogROVtz4Cg6EMYFpk4SgSajkxRhHUOJQpbrQxbXqF4irIx8a2YagS7MfnegMg8hNleQhOJ550u/nUhapXV1pw8JllY3uzcL0xv2J/FltnJGWPbTdV73beRrnlphdM/CNqUeblhVq1ljMruFMHHjy/0DJ8dL5XU8HbmmDrIvPgfDf/0jyLV12jmPx3PPzVu3Hnn44UegUVGgIgCutvBRLsPB9geXix3GX+RbLO3DgduqY+AgmC8XW830/Qu4vwomr7UvdbC0w9DIr+1TeOD6Fsqu2ncyOYOdTas1T/ezsdzGP2fOKfqyVqmrwIBMwbhz167KD374Y6itrYFCoWD4vMo8tjV+iUJKMCHrggVuldSFbjQqpMDilZ1luQChDd8EhHTv7R3NTXD0/CDIBKxfTORhM2He7Y31kMic+xFhW2eNc3pjDdW25cGLILFFCJl8Dl2+/MxzXb8bLpVKpgRVKOTh2w9952tXwV/ks3k7QZoD0KRrvJ1jMHPnWwxJhMgi1sU1BVyVDv9Uz1LLi6+YUc2bL1fg1c8G2l/pP/+4B++9lR3afyuUzvXTnTVTwD1z+vRtdth0kSdnK0HsMEjLuQCylbRxSpKTHNTIdZRV1U0A3DBRrmy6lCvu/1v/wNNPH88kilXVjTWy7PVC7oP3oTxwVtvqONVLCGvTvbZ2DhtDXZQJ+CoS/T2MWfVmt4Jm1noT3k5ICgx+I1NfaJgL0ggbmPhhtHDB04oiYz4uWGhI6ox+PpHr05n/IfQMXl99yxG4VrvDrr+YL75f1dRCVX7yv5+4xkrl+kJFrS+oan2xogL1eJ0ItPT1dHV0BEZe/8tV26uALJc0mtBwqyfAZrp72PU4alQFLRL0wMx9tlaBbwzHNg039fmLmimBNMkI0oijmXqQpZFlafBZfxTlOcTKxU1+PmnsAfO3LPj9URPplP3SMS5RBu5cubKDSIKdeVXd8dnYxC1XiqUN+UqlXnMJiDyY4UZQWeByQfbF30PxzKdX8z/EEshvTSFLKA2zl1hDyIPkXmAa+bagYyXRkqlZB8ro7CC9RWUFqjTyiFNIg069+sLi8EUQvCSLX1eKg/Fyb8LAQovBMg2WlKitlrEVM7r0Sx0FClYJRaBv9WqWF9Gv2ed/C6PJQ5PLvVcvcLBwY59/T8C0cb8HppeEA4jhFMTQad3Mnce3O4ETmfocLF022CyL7lVQB+PeMX8NiS8583I3obzGEJvr8270x31hVFfLMmhSgb69a/03o3SxQQKv0wFE60KRmrp003e5DJXhISj0HoPRf7wMhVO92q4wqVSC+W6qtTk5S8H0y4sKYt8sTC8kAPrNwxBq6IUOkyJTn5/HhjnXnJ2CkQNrUZ5/P+t43IDvYGlw+TOEOnCHBaNHBHKI10nbcgUuXYDQvrx38K5rKmNvvHZo7/0HDr4nurZECxB27LWFmPorYZ6BLkBIy/EfyVeAuwLc/wswAGp0zuOHQHkBAAAAAElFTkSuQmCC';
+
+var MenuFooter = function MenuFooter() {
+  return React.createElement(
+    'div',
+    { className: 'menuFooter' },
+    React.createElement('img', { src: img$1 })
+  );
+};
+
+var Language = function (_React$Component) {
+  inherits(Language, _React$Component);
+
+  function Language(props) {
+    classCallCheck(this, Language);
+    return possibleConstructorReturn(this, (Language.__proto__ || Object.getPrototypeOf(Language)).call(this, props));
+  }
+
+  createClass(Language, [{
+    key: 'onClick',
+    value: function onClick(e) {
+      this.props.onLanguageClick(this.props.code);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      if (this.props.selected) {
+        return React.createElement(
+          'div',
+          { className: "language selectedLanguage" },
+          this.props.code
+        );
+      }
+      return React.createElement(
+        'div',
+        { className: "language", onClick: this.onClick },
+        this.props.code
+      );
+    }
+  }]);
+  return Language;
+}(React.Component);
+
+Language.propTypes = {
+  onLanguageClick: PropTypes.func.isRequired
+};
+
+var LanguageList = function (_React$Component2) {
+  inherits(LanguageList, _React$Component2);
+
+  function LanguageList(props) {
+    classCallCheck(this, LanguageList);
+    return possibleConstructorReturn(this, (LanguageList.__proto__ || Object.getPrototypeOf(LanguageList)).call(this, props));
+  }
+
+  createClass(LanguageList, [{
+    key: 'render',
+    value: function render() {
+      var selected = this.props.data.selected;
+      var onLanguageClick = this.props.onLanguageClick;
+      var languageNodes = this.props.data.languages.map(function (language) {
+        return React.createElement(Language, { key: language, code: language, selected: language === selected, onLanguageClick: onLanguageClick });
+      });
+      return React.createElement(
+        'div',
+        { className: "languageList" },
+        languageNodes
+      );
+    }
+  }]);
+  return LanguageList;
+}(React.Component);
+
+var LanguageBox = function (_React$Component3) {
+  inherits(LanguageBox, _React$Component3);
+
+  function LanguageBox(props) {
+    classCallCheck(this, LanguageBox);
+
+    var _this3 = possibleConstructorReturn(this, (LanguageBox.__proto__ || Object.getPrototypeOf(LanguageBox)).call(this, props));
+
+    _this3.state = { data: { languages: [], selected: '' } };
+    return _this3;
+  }
+
+  createClass(LanguageBox, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      //this.refresh();
+    }
+  }, {
+    key: 'changeLanguage',
+
+
+    // refresh() {
+    //   be5.net.request('languageSelector', {}, function(data) {
+    //       be5.locale.set(data.selected, data.messages);
+    //       this.setState({ data: {selected: data.selected, languages: data.languages} });
+    //     }.bind(this));
+    // };
+
+    value: function changeLanguage(language) {
+      be5.net.request('languageSelector/select', { language: language }, function (data) {
+        this.setState({ data: { selected: data.selected, languages: data.languages } });
+        be5.locale.set(language, data.messages);
+      }.bind(this));
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      if (this.state.data && this.state.data.languages.length <= 1) {
+        return null;
+      }
+      return React.createElement(
+        'div',
+        { className: "languageBox" },
+        React.createElement(LanguageList, { data: this.state.data, onLanguageClick: this.changeLanguage })
+      );
+    }
+  }]);
+  return LanguageBox;
+}(React.Component);
+
+var SideBar = function SideBar() {
+  return React.createElement(
+    'div',
+    { className: "side-bar" },
+    React.createElement(UserControlContainer, { size: 'sm' }),
+    React.createElement(MenuContainer$1, null),
+    React.createElement(MenuFooter, null),
+    React.createElement(LanguageBox, null)
+  );
+};
+
+var states = [];
+
+function set$1(name, value) {
+  states[name] = value;
+}
+
+function get$1(name) {
+  return states[name];
+}
+
+function getAll() {
+  return states;
+}
+
+var documentState = {
+  set: set$1,
+  get: get$1,
+  getAll: getAll
+};
 
 var documents = {};
 
@@ -1286,8 +1766,6 @@ var registerDocument = function registerDocument(type, component) {
 var getAllDocumentTypes = function getAllDocumentTypes() {
   return Object.keys(documents);
 };
-
-var img = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAATdEVYdFRpdGxlAE9wdGljYWwgRHJpdmU+Z7oMAAAC+ElEQVQ4jZWS329TZRjHP+ft6dJ2djNxHcgyunb+KIyNwfRG0mZgNgfeAJNBUBO8NEswITPEGHIy1I1lcTEzhn/Aq5mIFwp2yGSMzAsCyMIAp7hWOXjD+LGW03bnPe/rxSyZ7spv8tw9z+f75Ps8htaasvr7+81Apfm6oY1dGrpAV4BhY5AV2vjME4ZjKHUSjBxKHTt69MNpszw8ODj4TCBUMdbasnnH5pYt1NREEEIgpbs2l8u1/TAxvjebyeT27z8YXrh3j7MT4wFgmwkwPPzx8z6/L713zxuxeKyRUqmI4+RRSiGEIBQKsa/7ALZ9J1xfv56qcBg0rwCYAArxxVsH346tqV3L4uJDrv58lfn52+TyeZ6qrGTjxk0kXkwQiUT4r8yhTwd2xmPxjnXPruP+/QXOpE9zx7YnQQwIrUOFUnHwwtRk4vbvv9HVuZNAIAiAUmoZYCh9+NUdHRSLRWZvXMe27XMlx+2yLEueGP7kXE/3gUQ81rjKWUq5DNAY64PBEK5b4uatWwiMjyzLkgCuK8OPHj3kwYOFVQDXdSlnUCeEgVIKx3mMlFx/0uR575765usvtdaJ5WtrtC7XPxlIzysUS8VqIUyqq5/mcc5uBs4DHD92/DKwYZX9yhCl532fyWQONcYbadrQRCabtXq+6pka2zfmrXiwwJIsngB2a60mPJf3hoaGcgCmWpKnr1y5fKghGqW5uYX5zHy7d809+8HM+wM+7d2U2teKxkol21/e1NTEj5MT78zOzl4CTgKYQvhPzc39cn7q4lR7Kpliz+5utrRu3X5x+sL2u3f/4oVolOS2JNFoA/l8HtP0I6UXKG9naK3p6+urEaa+1NnxWkPb1jaCwRB+vx8hfCilcN0lCgWH9Hia6Z+mb5ii4qWRkZHCEwDAkSO9zyl8n9dGartSqSSRSC1V4Socx2Hu1zmuzczwx5/Zb02j4s3R0dHFf22wUr2HezsNLXuVMuo1ug7Ia80Zhf6ubk1d2rIstbJ/FeD/6m8m/lj+PIxQ9QAAAABJRU5ErkJggg==';
 
 var StaticPage = function StaticPage(props) {
   if (!props.value) return null;
@@ -1501,13 +1979,292 @@ Document.propTypes = {
   type: PropTypes.string
 };
 
-var mapStateToProps = function mapStateToProps(state) {
+var mapStateToProps$2 = function mapStateToProps(state) {
   return {
     hasDevRole: getCurrentRoles(state).indexOf(ROLE_SYSTEM_DEVELOPER) !== -1
   };
 };
 
-var Document$1 = connect(mapStateToProps)(Document);
+var Document$1 = connect(mapStateToProps$2)(Document);
+
+var Be5Components = function (_React$Component) {
+  inherits(Be5Components, _React$Component);
+
+  function Be5Components(props) {
+    classCallCheck(this, Be5Components);
+
+    var _this = possibleConstructorReturn(this, (Be5Components.__proto__ || Object.getPrototypeOf(Be5Components)).call(this, props));
+
+    _this.state = {
+      modal: false
+    };
+
+    _this.open = _this.open.bind(_this);
+    _this.close = _this.close.bind(_this);
+    return _this;
+  }
+
+  createClass(Be5Components, [{
+    key: 'open',
+    value: function open() {
+      this.setState({ modal: true });
+    }
+  }, {
+    key: 'close',
+    value: function close() {
+      this.setState({ modal: false });
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      bus.listen("mainModalClose", this.close);
+      bus.listen("mainModalOpen", this.open);
+
+      bus.listen("alert", function (data) {
+        if (data.type === 'error') {
+          Alert.error(data.msg, {
+            position: 'top-right',
+            timeout: 5000
+          });
+        } else {
+          Alert.success(data.msg, {
+            position: 'top-right',
+            timeout: 5000
+          });
+        }
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return React.createElement(
+        'div',
+        null,
+        React.createElement(Alert, { stack: { limit: 10 } }),
+        React.createElement(
+          Modal,
+          { isOpen: this.state.modal, toggle: this.close, className: this.props.className },
+          React.createElement(Document$1, { ref: 'document', frontendParams: { documentName: be5.MAIN_MODAL_DOCUMENT } })
+        )
+      );
+    }
+  }]);
+  return Be5Components;
+}(React.Component);
+
+var Application = function Application() {
+  return React.createElement(
+    'div',
+    null,
+    React.createElement(Be5Components, null),
+    React.createElement(
+      SplitPane,
+      { split: 'vertical', defaultSize: 280, className: 'main-split-pane' },
+      React.createElement(
+        'div',
+        { className: 'side-pane' },
+        React.createElement(SideBar, null)
+      ),
+      React.createElement(
+        'div',
+        { className: 'main-pane' },
+        React.createElement(Document$1, { frontendParams: { documentName: be5.MAIN_DOCUMENT } })
+      )
+    )
+  );
+};
+
+var MainDocumentOnly = function MainDocumentOnly() {
+  return React.createElement(
+    'div',
+    { className: 'MainDocument-only' },
+    React.createElement(Be5Components, null),
+    React.createElement(Document$1, { frontendParams: { documentName: be5.MAIN_DOCUMENT } })
+  );
+};
+
+var NavbarMenu = React.createClass({
+  displayName: 'NavbarMenu',
+
+  propTypes: {
+    //show: PropTypes.bool,
+    menu: PropTypes.shape({}),
+    user: PropTypes.shape({}),
+    brand: PropTypes.string
+  },
+
+  // defaultProps: {
+  //   show: true
+  // },
+
+  getInitialState: function getInitialState() {
+    return { isOpen: false };
+  },
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    var _props$user = this.props.user,
+        loggedIn = _props$user.loggedIn,
+        currentRoles = _props$user.currentRoles;
+
+    if (!arraysEqual(currentRoles, nextProps.user.currentRoles) || loggedIn !== nextProps.user.loggedIn) {
+      this.props.fetchMenu();
+    }
+  },
+  toggle: function toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  },
+  render: function render() {
+    if (this.props.menu === null) {
+      return null;
+    }
+
+    var rootMenuItems = this._renderMenuItems(this.props.menu.root, false);
+    var brand = this.props.brand ? React.createElement(
+      'a',
+      { href: '#!', onClick: setUrlForHash, className: 'navbar-brand' },
+      this.props.brand
+    ) : undefined;
+    var rightButtons = this._renderRightButtons();
+
+    return React.createElement(
+      Navbar,
+      { color: 'dark', dark: true, expand: 'md' },
+      React.createElement(
+        'div',
+        { className: 'container' },
+        brand,
+        React.createElement(NavbarToggler, { onClick: this.toggle }),
+        React.createElement(
+          Collapse,
+          { isOpen: this.state.isOpen, navbar: true },
+          React.createElement(
+            Nav,
+            { className: '', navbar: true },
+            rootMenuItems
+          ),
+          rightButtons
+        )
+      )
+    );
+  },
+  _renderRightButtons: function _renderRightButtons() {
+    var _props$user2 = this.props.user,
+        userName = _props$user2.userName,
+        loggedIn = _props$user2.loggedIn,
+        currentRoles = _props$user2.currentRoles,
+        availableRoles = _props$user2.availableRoles;
+
+
+    if (!loggedIn) {
+      return React.createElement(
+        'form',
+        { className: 'form-inline ml-auto' },
+        React.createElement(
+          Button,
+          { onClick: setUrlForHash, href: '#!login', color: 'secondary' },
+          be5.messages.login
+        )
+      );
+    }
+    return React.createElement(
+      'form',
+      { className: 'form-inline ml-auto' },
+      React.createElement(
+        UncontrolledTooltip,
+        { placement: 'left', target: 'RoleSelector' },
+        userName
+      ),
+      React.createElement(RoleSelector, {
+        id: "RoleSelector",
+        availableRoles: availableRoles,
+        currentRoles: currentRoles,
+        toggleRoles: this.props.toggleRoles
+      }),
+      ' ',
+      React.createElement(
+        Button,
+        { onClick: setUrlForHash, href: '#!logout', color: 'secondary' },
+        be5.messages.logout
+      )
+    );
+  },
+  _renderDropdownMenuItems: function _renderDropdownMenuItems(items) {
+    var active = false;
+    var dropdownMenuItems = _(items).map(function (item) {
+      // if (item.default) {
+      //   return undefined;
+      // }
+      var _actions$parse = actions.parse(item.action),
+          href = _actions$parse.href,
+          target = _actions$parse.target;
+
+      //TODO after store url in redux if(this.props.url === href)active = true;
+
+
+      return React.createElement(
+        DropdownItem,
+        { onClick: setUrlForHash, href: href, key: target + href },
+        item.title
+      );
+    });
+
+    return {
+      dropdownMenuItems: dropdownMenuItems,
+      active: active
+    };
+  },
+  _renderMenuItems: function _renderMenuItems(items, inDropdown) {
+    var _this = this;
+
+    return _(items).map(function (item) {
+      // if (item.default) {
+      //   return undefined;
+      // }
+
+      if (!item.children || item.children.length === 0) {
+        var _actions$parse2 = actions.parse(item.action),
+            href = _actions$parse2.href,
+            target = _actions$parse2.target;
+        // const liClass = inDropdown ? '' : 'nav-item';
+        // const aClass = inDropdown ? 'dropdown-item' : 'nav-link';
+        // return <li className={liClass} key={target+href}><a className={aClass} href={href} target={target}>{item.title}</a></li>;
+
+
+        var _active = false;
+        //if(this.props.url === href)active = true;
+        return React.createElement(
+          NavItem,
+          { key: target + href },
+          React.createElement(
+            NavLink,
+            { onClick: setUrlForHash, href: href, active: _active },
+            item.title
+          )
+        );
+      }
+
+      var _renderDropdownMenuIt = _this._renderDropdownMenuItems(item.children, true),
+          dropdownMenuItems = _renderDropdownMenuIt.dropdownMenuItems,
+          active = _renderDropdownMenuIt.active;
+
+      return React.createElement(
+        UncontrolledDropdown,
+        { nav: true, inNavbar: true, key: item.title },
+        React.createElement(
+          DropdownToggle,
+          { nav: true, caret: true, className: classNames({ active: active }) },
+          item.title
+        ),
+        React.createElement(
+          DropdownMenu,
+          null,
+          dropdownMenuItems
+        )
+      );
+    });
+  }
+});
 
 var HelpInfo = function (_React$Component) {
   inherits(HelpInfo, _React$Component);
@@ -1587,118 +2344,1131 @@ HelpInfo.defaultProps = {
   documentName: "helpInfo"
 };
 
-var TableForm = function (_React$Component) {
-  inherits(TableForm, _React$Component);
+var Sorter = React.createClass({
+  displayName: 'Sorter',
 
-  function TableForm() {
-    classCallCheck(this, TableForm);
-    return possibleConstructorReturn(this, (TableForm.__proto__ || Object.getPrototypeOf(TableForm)).apply(this, arguments));
+  propTypes: {
+    /**
+     * An array of columns with name and title.
+     */
+    columns: React.PropTypes.array.isRequired,
+
+    /**
+     * A callback to call when the user clicks a sorting button.
+     */
+    onSelect: React.PropTypes.func.isRequired,
+
+    /**
+     * A name of the soring column, or undefined.
+     */
+    sortingColumnName: React.PropTypes.string,
+
+    /**
+     * A way to sort, or undefined.
+     */
+    sortingOrder: React.PropTypes.oneOf(['asc', 'desc'])
+  },
+
+  render: function render() {
+    if (this.props.columns.length === 0) {
+      return React.createElement('div', null);
+    }
+
+    return React.createElement(
+      'form',
+      { className: 'form-inline' },
+      React.createElement(
+        'div',
+        { className: 'form-group' },
+        React.createElement(
+          'label',
+          null,
+          'Sort by'
+        ),
+        ' ',
+        React.createElement(
+          'div',
+          { className: 'btn-group btn-group-sm', role: 'group', 'aria-label': 'Sorting' },
+          this.props.columns.map(this._renderColumn)
+        )
+      )
+    );
+  },
+  _renderColumn: function _renderColumn(column) {
+    var selected = this.props.sortingColumnName === column.name;
+    var klass = classNames({
+      'btn': true,
+      'btn-primary': selected,
+      'btn-secondary': !selected
+    });
+    var asc = this.props.sortingOrder === 'asc';
+    var iconClass = classNames({
+      'fa': true,
+      'fa-sort': !selected,
+      'fa-sort-asc': selected && asc,
+      'fa-sort-desc': selected && !asc
+    });
+    return React.createElement(
+      'button',
+      { type: 'button', className: klass, onClick: this._onSelect.bind(this, column) },
+      column.title,
+      ' ',
+      React.createElement('span', { className: iconClass })
+    );
+  },
+  _onSelect: function _onSelect(column) {
+    this.props.onSelect(column);
+  }
+});
+
+var updateLocationHashIfNeeded = function updateLocationHashIfNeeded(props) {
+  var self = void 0;
+  if (props.value.data !== undefined) {
+    self = props.value.data.links.self;
+  } else {
+    self = props.value.errors[0].links.self;
   }
 
-  createClass(TableForm, [{
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      this.updateDocuments();
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.updateDocuments();
-    }
-  }, {
-    key: 'updateDocuments',
-    value: function updateDocuments() {
-      changeDocument("form", { value: null });
-      changeDocument("table", { value: this.props.value });
+  if (props.frontendParams && props.frontendParams.documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
+    be5.url.set(self);
+  }
+};
+
+var Error = function (_React$Component) {
+  inherits(Error, _React$Component);
+
+  function Error() {
+    classCallCheck(this, Error);
+
+    var _this = possibleConstructorReturn(this, (Error.__proto__ || Object.getPrototypeOf(Error)).call(this));
+
+    _this.state = { helpCollapse: false };
+    _this.helpCollapseToggle = _this.helpCollapseToggle.bind(_this);
+    return _this;
+  }
+
+  createClass(Error, [{
+    key: 'helpCollapseToggle',
+    value: function helpCollapseToggle() {
+      this.setState({ helpCollapse: !this.state.helpCollapse });
     }
   }, {
     key: 'render',
     value: function render() {
+      var _props = this.props,
+          status = _props.status,
+          title = _props.title,
+          code = _props.code,
+          detail = _props.detail;
+
+
       return React.createElement(
         'div',
-        { className: 'table-form' },
-        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, type: 'table' }),
-        React.createElement(HelpInfo, { value: this.props.value.data.attributes.layout.helpInfo }),
-        React.createElement(Document$1, { frontendParams: { documentName: "form", parentDocumentName: "table" } })
+        { className: 'errorPane__error' },
+        React.createElement(
+          'h1',
+          { className: 'errorPane__title' },
+          status,
+          ' - ',
+          title
+        ),
+        React.createElement('br', null),
+        code !== undefined ? React.createElement('pre', { className: 'errorPane__code', dangerouslySetInnerHTML: { __html: code } }) : null,
+        detail !== undefined ? React.createElement(
+          'div',
+          null,
+          React.createElement(
+            Button,
+            { color: 'info', className: 'btn-sm', onClick: this.helpCollapseToggle, style: { marginBottom: '1rem' } },
+            be5.messages.details
+          ),
+          React.createElement(
+            Collapse,
+            { isOpen: this.state.helpCollapse },
+            React.createElement(
+              Card,
+              null,
+              React.createElement(
+                CardBody,
+                null,
+                React.createElement(
+                  'pre',
+                  { className: 'errorPane__detail' },
+                  detail
+                )
+              )
+            )
+          )
+        ) : null
       );
     }
   }]);
-  return TableForm;
+  return Error;
 }(React.Component);
 
-TableForm.propTypes = {
-  value: PropTypes.object.isRequired,
-  frontendParams: PropTypes.object.isRequired
-};
+var ErrorPane = function (_React$Component2) {
+  inherits(ErrorPane, _React$Component2);
 
-registerDocument('tableForm', TableForm);
-
-var TableFormRow = function (_TableForm) {
-  inherits(TableFormRow, _TableForm);
-
-  function TableFormRow() {
-    classCallCheck(this, TableFormRow);
-    return possibleConstructorReturn(this, (TableFormRow.__proto__ || Object.getPrototypeOf(TableFormRow)).apply(this, arguments));
+  function ErrorPane() {
+    classCallCheck(this, ErrorPane);
+    return possibleConstructorReturn(this, (ErrorPane.__proto__ || Object.getPrototypeOf(ErrorPane)).apply(this, arguments));
   }
 
-  createClass(TableFormRow, [{
+  createClass(ErrorPane, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      updateLocationHashIfNeeded(this.props);
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var errors = this.props.value.errors;
+
+      if (!errors || errors.length === 0) {
+        return null;
+      }
+
+      return React.createElement(
+        'div',
+        { className: 'errorPane' },
+        errors.map(function (error, i) {
+          return React.createElement(Error, _extends({}, error, { key: i }));
+        })
+      );
+    }
+  }]);
+  return ErrorPane;
+}(React.Component);
+
+ErrorPane.propTypes = {
+  value: PropTypes.shape({
+    errors: PropTypes.array.isRequired,
+    meta: PropTypes.shape({
+      _ts_: PropTypes.isRequired
+    })
+  })
+};
+
+registerDocument("errorPane", ErrorPane);
+
+var TreeMenu = React.createClass({
+  displayName: 'TreeMenu',
+
+  propTypes: {
+    /*
+     * Example:
+     * [{ name: 'Menu', id: 1, children: [{ name: 'Child', id: 2 }] }]
+     */
+    rootItems: React.PropTypes.array.isRequired,
+    /*
+     * A node will be passed to the function.
+     */
+    onItemSelect: React.PropTypes.func.isRequired,
+    /*
+     * An item that should be highligted.
+     */
+    activeItemId: React.PropTypes.string.isRequired
+  },
+
+  render: function render() {
+    var _this = this;
+
+    return React.createElement(
+      'div',
+      { className: 'tree-menu' },
+      React.createElement(
+        'ul',
+        { className: 'tree-menu-node-children' },
+        this.props.rootItems.map(function (node) {
+          return _this._renderNode(node);
+        })
+      )
+    );
+  },
+  _renderNode: function _renderNode(node) {
+    var _this2 = this;
+
+    return React.createElement(
+      'li',
+      { className: 'tree-menu-node', key: node.name },
+      React.createElement(
+        'div',
+        { className: 'tree-menu-node-title' },
+        React.createElement(
+          'a',
+          { role: 'button', className: 'tree-menu-node-link' + (node.id === this.props.activeItemId ? ' active' : ''), href: 'javascript:void(0);', onClick: this._handleClick.bind(this, node) },
+          node.name
+        )
+      ),
+      node.children ? React.createElement(
+        'div',
+        { className: 'tree-menu-node-children-container' },
+        React.createElement(
+          'ul',
+          { className: 'tree-menu-node-children' },
+          node.children.map(function (node) {
+            return _this2._renderNode(node);
+          })
+        )
+      ) : undefined
+    );
+  },
+  _handleClick: function _handleClick(node) {
+    this.props.onItemSelect(node);
+  }
+});
+
+var FormWizard = function (_React$Component) {
+  inherits(FormWizard, _React$Component);
+
+  function FormWizard(props) {
+    classCallCheck(this, FormWizard);
+
+    var _this = possibleConstructorReturn(this, (FormWizard.__proto__ || Object.getPrototypeOf(FormWizard)).call(this, props));
+
+    _this.state = {
+      compState: _this.props.startAtStep,
+      navState: _this.getNavStates(_this.props.startAtStep, _this.props.steps.length)
+    };
+
+    _this.hidden = {
+      display: 'none'
+    };
+
+    _this.nextTextOnFinalActionStep = _this.props.nextTextOnFinalActionStep ? _this.props.nextTextOnFinalActionStep : _this.props.nextButtonText;
+    return _this;
+  }
+
+  createClass(FormWizard, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.init();
+    }
+  }, {
+    key: 'init',
+    value: function init() {
+      this.setState(this.getPrevNextBtnState(this.props.startAtStep));
+      be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
+    }
+  }, {
+    key: 'getNavStates',
+    value: function getNavStates(indx, length) {
+      var styles = [];
+      for (var i = 0; i < length; i++) {
+        if (i === indx) {
+          styles.push('doing');
+        } else if (i < indx) {
+          styles.push('done');
+        } else {
+          styles.push('todo');
+        }
+      }
+
+      return { current: indx, styles: styles };
+    }
+  }, {
+    key: 'getPrevNextBtnState',
+    value: function getPrevNextBtnState(currentStep) {
+      var showPreviousBtn = true;
+      var showNextBtn = true;
+      var nextStepText = this.props.nextButtonText;
+
+      if (currentStep === 0) {
+        showPreviousBtn = false;
+      }
+
+      if (currentStep === this.props.steps.length - 2) {
+        nextStepText = this.props.nextTextOnFinalActionStep || nextStepText;
+      }
+
+      if (currentStep >= this.props.steps.length - 1) {
+        showNextBtn = false;
+        showPreviousBtn = this.props.prevBtnOnLastStep === true;
+      }
+
+      return {
+        showPreviousBtn: showPreviousBtn,
+        showNextBtn: showNextBtn,
+        nextStepText: nextStepText
+      };
+    }
+  }, {
+    key: 'checkNavState',
+    value: function checkNavState(currentStep) {
+      this.setState(this.getPrevNextBtnState(currentStep));
+    }
+  }, {
+    key: 'setNavState',
+    value: function setNavState(next) {
+      this.setState({ navState: this.getNavStates(next, this.props.steps.length) });
+
+      if (next < this.props.steps.length) {
+        this.setState({ compState: next });
+      }
+
+      be5.url.process(this.props.documentName, this.props.steps[next].url);
+
+      this.checkNavState(next);
+    }
+  }, {
+    key: 'jumpToStep',
+    value: function jumpToStep(evt) {
+      this.setNavState(evt);
+    }
+  }, {
+    key: 'next',
+    value: function next() {
+      if (this.state.compState + 1 < this.props.steps.length) {
+        this.setNavState(this.state.compState + 1);
+      }
+    }
+  }, {
+    key: 'previous',
+    value: function previous() {
+      if (this.state.compState > 0) {
+        this.setNavState(this.state.compState - 1);
+      }
+    }
+  }, {
+    key: 'getClassName',
+    value: function getClassName(className, i) {
+      var liClassName = className + "-" + this.state.navState.styles[i];
+
+      // if step ui based navigation is disabled, then dont highlight step
+      if (!this.props.stepsNavigation) liClassName += " no-hl";
+
+      return liClassName;
+    }
+  }, {
+    key: 'renderSteps',
+    value: function renderSteps() {
+      var _this2 = this;
+
+      return this.props.steps.map(function (s, i) {
+        return React.createElement(
+          'li',
+          { className: _this2.getClassName("progtrckr", i), onClick: function onClick() {
+              return _this2.jumpToStep(i);
+            }, key: i, value: i },
+          React.createElement(
+            'em',
+            null,
+            i + 1
+          ),
+          React.createElement('span', { dangerouslySetInnerHTML: { __html: _this2.props.steps[i].title } })
+        )
+        //{this.props.steps[i].name}
+        ;
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      var props = this.props,
+          state = this.state;
+
+
+      return React.createElement(
+        'div',
+        { className: 'formWizard' },
+        this.props.showSteps ? React.createElement(
+          'ol',
+          { className: 'progtrckr clearfix' },
+          this.renderSteps()
+        ) : React.createElement('span', null),
+        React.createElement(Document$1, { frontendParams: { documentName: props.documentName } }),
+        React.createElement('br', null),
+        React.createElement(
+          'div',
+          { style: props.showNavigation ? {} : this.hidden, className: 'footer-buttons' },
+          React.createElement(
+            'button',
+            {
+              className: classNames(props.backButtonCls, { disabled: !state.showPreviousBtn }),
+              onClick: function onClick() {
+                _this3.previous();
+              },
+              id: 'prev-button'
+            },
+            props.backButtonText
+          ),
+          ' ',
+          React.createElement(
+            'button',
+            {
+              className: classNames(props.nextButtonCls, { disabled: !state.showNextBtn }),
+              onClick: function onClick() {
+                _this3.next();
+              },
+              id: 'next-button'
+            },
+            state.nextStepText
+          )
+        )
+      );
+    }
+  }]);
+  return FormWizard;
+}(React.Component);
+
+FormWizard.defaultProps = {
+  showSteps: true,
+  showNavigation: true,
+  stepsNavigation: true,
+  prevBtnOnLastStep: true,
+  startAtStep: 0,
+  nextButtonText: "Next",
+  nextButtonCls: "btn btn-prev btn-primary pull-right",
+  backButtonText: "Previous",
+  backButtonCls: "btn btn-next btn-primary pull-left",
+  documentName: "FormWizard"
+};
+
+FormWizard.propTypes = {
+  steps: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired
+  })).isRequired,
+  showSteps: PropTypes.bool,
+  showNavigation: PropTypes.bool,
+  stepsNavigation: PropTypes.bool,
+  prevBtnOnLastStep: PropTypes.bool,
+  startAtStep: PropTypes.number,
+  nextButtonText: PropTypes.string,
+  nextButtonCls: PropTypes.string,
+  backButtonCls: PropTypes.string,
+  backButtonText: PropTypes.string,
+  documentName: PropTypes.string
+};
+
+var Navs = function (_React$Component) {
+  inherits(Navs, _React$Component);
+
+  function Navs(props) {
+    classCallCheck(this, Navs);
+
+    var _this = possibleConstructorReturn(this, (Navs.__proto__ || Object.getPrototypeOf(Navs)).call(this, props));
+
+    _this.state = {
+      compState: _this.props.startAtStep
+    };
+
+    _this.init = _this.init.bind(_this);
+    return _this;
+  }
+
+  createClass(Navs, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.init();
+    }
+  }, {
+    key: 'init',
+    value: function init() {
+      be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
+    }
+  }, {
+    key: 'setNavState',
+    value: function setNavState(id) {
+      this.setState({ compState: id });
+      be5.url.process(this.props.documentName, this.props.steps[id].url);
+    }
+  }, {
+    key: 'renderSteps',
+    value: function renderSteps() {
+      var _this2 = this;
+
+      return this.props.steps.map(function (s, i) {
+        return React.createElement(
+          NavItem,
+          { key: "NavItem" + i },
+          React.createElement(
+            NavLink,
+            { href: '#', active: i === _this2.state.compState, onClick: function onClick() {
+                return _this2.setNavState(i);
+              },
+              key: "NavLink" + i },
+            _this2.props.steps[i].title
+          )
+        );
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var navProps = {
+        tabs: this.props.tabs,
+        pills: this.props.pills,
+        vertical: this.props.vertical,
+        navbar: this.props.navbar,
+        tag: this.props.tag
+      };
+
+      return React.createElement(
+        'div',
+        { className: 'navs-component' },
+        React.createElement(
+          Nav,
+          navProps,
+          this.renderSteps()
+        ),
+        React.createElement(
+          'div',
+          { className: 'tab-content' },
+          React.createElement(Document$1, { frontendParams: { documentName: this.props.documentName } })
+        )
+      );
+    }
+  }]);
+  return Navs;
+}(React.Component);
+
+Navs.defaultProps = {
+  startAtStep: 0,
+  documentName: "navs"
+};
+
+Navs.propTypes = {
+  tabs: PropTypes.bool,
+  pills: PropTypes.bool,
+  vertical: PropTypes.bool,
+  navbar: PropTypes.bool,
+  tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+
+  steps: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired
+  })).isRequired,
+  startAtStep: PropTypes.number,
+  documentName: PropTypes.string
+};
+
+var NavbarMenuContainer = function NavbarMenuContainer(props) {
+  return React.createElement(NavbarMenu, props);
+};
+
+var mapStateToProps$3 = function mapStateToProps(state) {
+  return {
+    menu: getMenu(state),
+    user: getUser(state),
+    url: be5.url.get()
+  };
+};
+
+var mapDispatchToProps$2 = function mapDispatchToProps(dispatch) {
+  return {
+    toggleRoles: function toggleRoles$$1(roles) {
+      return dispatch(toggleRoles(roles));
+    },
+    fetchMenu: function fetchMenu$$1(roles) {
+      return dispatch(fetchMenu('menu/withIds'));
+    }
+  };
+};
+
+var NavbarMenuContainer$1 = connect(mapStateToProps$3, mapDispatchToProps$2)(NavbarMenuContainer);
+
+var Form = function (_React$Component) {
+  inherits(Form, _React$Component);
+
+  function Form(props) {
+    classCallCheck(this, Form);
+
+    var _this = possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
+
+    _this.state = _this.props.value;
+
+    _this._onFieldChange = _this._onFieldChange.bind(_this);
+    _this._setValue = _this._setValue.bind(_this);
+    _this._applyOnSubmit = _this._applyOnSubmit.bind(_this);
+    _this.apply = _this.apply.bind(_this);
+    return _this;
+  }
+
+  createClass(Form, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      updateLocationHashIfNeeded(this.props);
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      this.setState(Object.assign({}, nextProps.value, { wasValidated: false, submitted: false }));
+    }
+  }, {
+    key: 'getParams',
+    value: function getParams(values) {
+      var attributes = this.state.data.attributes;
+      return {
+        entity: attributes.entity,
+        query: attributes.query,
+        operation: attributes.operation,
+        operationParams: attributes.operationParams,
+        values: values
+      };
+    }
+  }, {
+    key: '_reloadOnChange',
+    value: function _reloadOnChange(controlName) {
+      var _this2 = this;
+
+      if (!this.state.submitted) {
+        this.setState({ submitted: true }, function () {
+          var values = Object.assign({}, _this2.state.data.attributes.bean.values, { '_reloadcontrol_': controlName });
+
+          forms.load(_this2.getParams(values), _this2.props.frontendParams);
+        });
+      }
+    }
+  }, {
+    key: 'apply',
+    value: function apply() {
+      var _this3 = this;
+
+      this.setState({ wasValidated: false });
+      if (!this.state.submitted) {
+        this.setState({ submitted: true }, function () {
+          forms.apply(_this3.getParams(_this3.state.data.attributes.bean.values), _this3.props.frontendParams);
+        });
+      }
+    }
+  }, {
+    key: '_applyOnSubmit',
+    value: function _applyOnSubmit(e) {
+      // Hitting <enter> in any textbox in Chrome triggers the form submit,
+      // even when there is no submit button.
+      // That's why I explicitly define the cancellation.
+      e.preventDefault();
+      this.apply();
+    }
+  }, {
+    key: '_setValue',
+    value: function _setValue(name, value) {
+      if (!this.state.submitted) {
+        JsonPointer.set(this.state.data.attributes.bean, "/values" + name, value);
+      }
+    }
+  }, {
+    key: '_onFieldChange',
+    value: function _onFieldChange(name, value) {
+      var _this4 = this;
+
+      var attributes = this.state.data.attributes;
+      this._setValue(name, value);
+
+      this.forceUpdate(function () {
+        if (attributes.bean.meta[name].reloadOnChange === true || attributes.bean.meta[name].autoRefresh === true) {
+          _this4._reloadOnChange(name);
+        }
+      });
+    }
+  }, {
+    key: '_createForm',
+    value: function _createForm() {
+      var attributes = this.state.data.attributes;
+      return React.createElement(
+        'form',
+        {
+          id: this.state.meta._ts_,
+          onSubmit: this._applyOnSubmit,
+          className: classNames(this.state.wasValidated ? 'was-validated' : '', attributes.layout.formClassName)
+        },
+        this._createFormContent()
+      );
+    }
+  }, {
+    key: '_createFormContent',
+    value: function _createFormContent() {
+      return React.createElement(
+        'div',
+        null,
+        this._createFormProperties(),
+        this._createFormActions()
+      );
+    }
+  }, {
+    key: '_createFormProperties',
+    value: function _createFormProperties() {
+      var attributes = this.state.data.attributes;
+      return React.createElement(PropertySet, {
+        bean: attributes.bean,
+        onChange: this._onFieldChange,
+        localization: be5.messages.property,
+        bsSize: attributes.layout.bsSize
+      });
+    }
+  }, {
+    key: '_createFormActions',
+    value: function _createFormActions() {
+      return React.createElement(
+        'div',
+        { className: 'formActions' },
+        this._createSubmitAction(),
+        ' ',
+        this._createCancelAction()
+      );
+    }
+  }, {
+    key: '_createSubmitAction',
+    value: function _createSubmitAction(actionData, name) {
+      var _this5 = this;
+
+      var _state$data$attribute = this.state.data.attributes.layout,
+          bsSize = _state$data$attribute.bsSize,
+          submitText = _state$data$attribute.submitText;
+
+      return React.createElement(
+        Transition,
+        { 'in': this.state.submitted, timeout: 200 },
+        function (state) {
+          return React.createElement(
+            'button',
+            {
+              type: 'submit',
+              className: classNames("btn btn-primary", { 'btn-sm': bsSize === 'sm' }, { 'btn-lg': bsSize === 'lg' }),
+              onClick: function onClick() {
+                return _this5.setState({
+                  wasValidated: true,
+                  formAction: actionData || 'defaultAction'
+                });
+              },
+              title: _this5.state.submitted ? be5.messages.submitted : "",
+              disabled: state === 'entered'
+            },
+            name || submitText || be5.messages.Submit
+          );
+        }
+      );
+    }
+
+    /**
+     * layout: '{"cancelActionText":"Back"}'
+     * layout: '{"cancelAction": {"type": "SET_URL","value":"text/test123"}}'
+     */
+
+  }, {
+    key: '_createCancelAction',
+    value: function _createCancelAction() {
+      var _this6 = this;
+
+      var layout = this.state.data.attributes.layout;
+
+      if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText) {
+        var action = layout.cancelAction || new FrontendAction(GO_BACK);
+        return React.createElement(
+          'button',
+          { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
+              return executeFrontendActions(action, _this6.props.frontendParams);
+            } },
+          layout.cancelActionText || be5.messages.cancel
+        );
+      } else {
+        return null;
+      }
+    }
+  }, {
+    key: '_getErrorPane',
+    value: function _getErrorPane() {
+      var errorModel = this.state.data.attributes.errorModel;
+
+      if (errorModel) {
+        return React.createElement(ErrorPane, { value: { errors: [errorModel], meta: this.state.meta } });
+      } else {
+        return null;
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var attributes = this.state.data.attributes;
+
       return React.createElement(
         'div',
         { className: 'row' },
         React.createElement(
           'div',
-          { className: 'col-lg-6' },
-          React.createElement(Document$1, { frontendParams: { documentName: "form", parentDocumentName: "table" } })
+          { className: 'formBox ' + (attributes.layout.formBoxCssClasses || 'col-12 max-width-970 formBoxDefault') },
+          React.createElement(
+            'h1',
+            { className: 'form-component__title' },
+            attributes.title
+          ),
+          this._createForm()
         ),
         React.createElement(
           'div',
-          { className: 'col-lg-6' },
-          React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, type: 'table' })
+          { className: 'col-12' },
+          this._getErrorPane()
         )
       );
     }
   }]);
-  return TableFormRow;
-}(TableForm);
+  return Form;
+}(React.Component);
 
-TableFormRow.propTypes = {
+Form.propTypes = {
   value: PropTypes.object.isRequired,
   frontendParams: PropTypes.object.isRequired
 };
 
-registerDocument('tableFormRow', TableFormRow);
+registerDocument('verticalForm', Form);
 
-var FormTable = function (_TableForm) {
-  inherits(FormTable, _TableForm);
+var HorizontalForm = function (_Form) {
+  inherits(HorizontalForm, _Form);
 
-  function FormTable() {
-    classCallCheck(this, FormTable);
-    return possibleConstructorReturn(this, (FormTable.__proto__ || Object.getPrototypeOf(FormTable)).apply(this, arguments));
+  function HorizontalForm() {
+    classCallCheck(this, HorizontalForm);
+    return possibleConstructorReturn(this, (HorizontalForm.__proto__ || Object.getPrototypeOf(HorizontalForm)).apply(this, arguments));
   }
 
-  createClass(FormTable, [{
-    key: 'render',
-    value: function render() {
+  createClass(HorizontalForm, [{
+    key: '_createFormProperties',
+    value: function _createFormProperties() {
+      var attributes = this.state.data.attributes;
+      return React.createElement(PropertySet, {
+        bean: attributes.bean,
+        onChange: this._onFieldChange,
+        localization: be5.messages.property,
+        bsSize: attributes.layout.bsSize,
+        horizontal: true,
+        horizontalColSize: attributes.layout.horizontalColSize || 2
+      });
+    }
+  }, {
+    key: '_createFormActions',
+    value: function _createFormActions() {
+      var horizontalColSize = this.state.data.attributes.layout.horizontalColSize || 2;
+      var colTag = 'col-lg-' + (12 - horizontalColSize);
+      var offsetTag = 'offset-lg-' + horizontalColSize;
+
       return React.createElement(
         'div',
-        { className: 'form-table' },
-        React.createElement(Document$1, { frontendParams: { documentName: "form", parentDocumentName: "table" } }),
-        React.createElement(HelpInfo, { value: this.props.value.data.attributes.layout.helpInfo }),
-        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, type: 'table' })
+        { className: 'formActions row' },
+        React.createElement(
+          'div',
+          { className: classNames(colTag, offsetTag) },
+          this._createSubmitAction(),
+          ' ',
+          this._createCancelAction()
+        )
       );
     }
   }]);
-  return FormTable;
-}(TableForm);
+  return HorizontalForm;
+}(Form);
 
-FormTable.propTypes = {
-  value: PropTypes.object.isRequired,
-  frontendParams: PropTypes.object.isRequired
+registerDocument('form', HorizontalForm);
+
+var SubmitOnChangeForm = function (_Form) {
+  inherits(SubmitOnChangeForm, _Form);
+
+  function SubmitOnChangeForm(props) {
+    classCallCheck(this, SubmitOnChangeForm);
+
+    var _this = possibleConstructorReturn(this, (SubmitOnChangeForm.__proto__ || Object.getPrototypeOf(SubmitOnChangeForm)).call(this, props));
+
+    _this.state = _this.props.value;
+
+    _this._onFieldChangeAndSubmit = _this._onFieldChangeAndSubmit.bind(_this);
+    return _this;
+  }
+
+  createClass(SubmitOnChangeForm, [{
+    key: '_onFieldChangeAndSubmit',
+    value: function _onFieldChangeAndSubmit(name, value) {
+      get(SubmitOnChangeForm.prototype.__proto__ || Object.getPrototypeOf(SubmitOnChangeForm.prototype), '_setValue', this).call(this, name, value);
+      get(SubmitOnChangeForm.prototype.__proto__ || Object.getPrototypeOf(SubmitOnChangeForm.prototype), 'apply', this).call(this);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var attributes = this.state.data.attributes;
+      return React.createElement(
+        'form',
+        {
+          id: this.state.meta._ts_,
+          className: classNames('submit-onchange-form', this.state.wasValidated ? 'was-validated' : '', attributes.layout.formClassName)
+        },
+        React.createElement(PropertyInput, {
+          id: 0,
+          bean: attributes.bean,
+          localization: be5.messages.property,
+          onChange: this._onFieldChangeAndSubmit,
+          bsSize: attributes.layout.bsSize
+        }),
+        React.createElement(
+          'div',
+          { className: 'col-12' },
+          this._getErrorPane()
+        )
+      );
+    }
+  }]);
+  return SubmitOnChangeForm;
+}(Form);
+
+registerDocument('submitOnChange', SubmitOnChangeForm);
+
+var ModalForm = function (_Form) {
+  inherits(ModalForm, _Form);
+
+  function ModalForm() {
+    classCallCheck(this, ModalForm);
+    return possibleConstructorReturn(this, (ModalForm.__proto__ || Object.getPrototypeOf(ModalForm)).apply(this, arguments));
+  }
+
+  createClass(ModalForm, [{
+    key: '_createFormContent',
+    value: function _createFormContent() {
+      return React.createElement(
+        'div',
+        null,
+        React.createElement(
+          ModalBody,
+          null,
+          this._createFormProperties()
+        ),
+        React.createElement(
+          'div',
+          { className: 'col-12' },
+          this._getErrorPane()
+        ),
+        React.createElement(
+          ModalFooter,
+          null,
+          this._createSubmitAction()
+        )
+      );
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var attributes = this.state.data.attributes;
+      return React.createElement(
+        'div',
+        null,
+        React.createElement(
+          ModalHeader,
+          { tag: 'h5', toggle: function toggle() {
+              return bus.fire("mainModalClose");
+            } },
+          attributes.title
+        ),
+        this._createForm()
+      );
+    }
+  }]);
+  return ModalForm;
+}(Form);
+
+registerDocument('modalForm', ModalForm);
+
+var InlineMiniForm = function (_Form) {
+  inherits(InlineMiniForm, _Form);
+
+  function InlineMiniForm() {
+    classCallCheck(this, InlineMiniForm);
+    return possibleConstructorReturn(this, (InlineMiniForm.__proto__ || Object.getPrototypeOf(InlineMiniForm)).apply(this, arguments));
+  }
+
+  createClass(InlineMiniForm, [{
+    key: 'render',
+    value: function render() {
+      var attributes = this.state.data.attributes;
+
+      var commonProps = {
+        bean: attributes.bean,
+        onChange: this._onFieldChange,
+        localization: be5.messages.property,
+        inline: true,
+        rowClass: "d-flex",
+        bsSize: attributes.layout.bsSize,
+        className: 'mr-sm-2'
+      };
+
+      var properties = attributes.bean.order.map(function (p) {
+        return React.createElement(Property, _extends({ key: p, path: p }, commonProps));
+      });
+
+      return React.createElement(
+        'form',
+        {
+          id: this.state.meta._ts_,
+          onSubmit: this._applyOnSubmit,
+          className: classNames('form-inline', this.state.wasValidated ? 'was-validated' : '', attributes.layout.formClassName || 'form-inline-mini')
+        },
+        React.createElement(
+          'label',
+          { className: classNames("mr-sm-2", { 'col-form-label-sm': attributes.layout.bsSize === "sm" }, { 'col-form-label-lg': attributes.layout.bsSize === "lg" }) },
+          React.createElement(
+            'strong',
+            null,
+            attributes.title
+          )
+        ),
+        properties,
+        this._createSubmitAction(),
+        this._getErrorPane()
+      );
+    }
+  }]);
+  return InlineMiniForm;
+}(Form);
+
+registerDocument('inlineMiniForm', InlineMiniForm);
+
+var FinishedResult = function (_React$Component) {
+  inherits(FinishedResult, _React$Component);
+
+  function FinishedResult() {
+    classCallCheck(this, FinishedResult);
+    return possibleConstructorReturn(this, (FinishedResult.__proto__ || Object.getPrototypeOf(FinishedResult)).apply(this, arguments));
+  }
+
+  createClass(FinishedResult, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      updateLocationHashIfNeeded(this.props);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var attributes = this.props.value.data.attributes;
+
+      var message = attributes.message;
+      if (attributes.status === 'finished' && attributes.message === undefined) {
+        message = be5.messages.successfullyCompleted;
+      }
+
+      return React.createElement(
+        'div',
+        { className: 'finishedResult' },
+        React.createElement('div', { dangerouslySetInnerHTML: { __html: message } })
+      );
+      //    <div className="linkBack">
+      //              <button className="btn btn-secondary btn-sm" onClick={back}>
+      //                {be5.messages.back}
+      //              </button>
+      //            </div>
+    }
+  }]);
+  return FinishedResult;
+}(React.Component);
+
+FinishedResult.propTypes = {
+  value: PropTypes.shape({
+    data: PropTypes.shape({
+      attributes: PropTypes.object.isRequired,
+      meta: PropTypes.shape({
+        _ts_: PropTypes.isRequired
+      })
+    })
+  })
 };
 
-registerDocument('formTable', FormTable);
+registerDocument('operationResult', FinishedResult);
 
 var OperationBox = function (_React$Component) {
   inherits(OperationBox, _React$Component);
@@ -1898,7 +3668,57 @@ var QuickColumns = function (_React$Component) {
   return QuickColumns;
 }(React.Component);
 
-var propTypes = {
+var loadTable = function loadTable(params, frontendParams) {
+  getTable(params, function (data) {
+    changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
+  }, function (data) {
+    changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
+  });
+};
+
+var fetchTableByUrl = function fetchTableByUrl(url, callback, failure) {
+  getTable(getTableParams(url), callback, failure);
+};
+
+var getTableParams = function getTableParams(url) {
+  var attr = be5.url.parse(url);
+
+  return {
+    entity: attr.positional[1],
+    query: attr.positional[2],
+    params: attr.named
+  };
+};
+
+var getTable = function getTable(params, callback, failure) {
+  be5.net.request('table', getRequestParams(params), function (data) {
+    return callback(data);
+  }, function (data) {
+    return failure(data);
+  });
+};
+
+var updateTable = function updateTable(params, callback) {
+  be5.net.request('table/update', getRequestParams(params), function (data) {
+    callback(data);
+  }, function (data) {
+    console.error(data);
+  });
+};
+
+var getRequestParams = function getRequestParams(params) {
+  Preconditions.passed(params.entity);
+  Preconditions.passed(params.query);
+
+  return {
+    entity: params.entity,
+    query: params.query,
+    values: be5.net.paramString(params.params),
+    _ts_: new Date().getTime()
+  };
+};
+
+var propTypes$2 = {
   data: PropTypes.shape({
     attributes: PropTypes.array,
     type: PropTypes.string
@@ -1991,20 +3811,7 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
   );
 };
 
-CategoryNavigation.propTypes = propTypes;
-
-var updateLocationHashIfNeeded = function updateLocationHashIfNeeded(props) {
-  var self = void 0;
-  if (props.value.data !== undefined) {
-    self = props.value.data.links.self;
-  } else {
-    self = props.value.errors[0].links.self;
-  }
-
-  if (props.frontendParams && props.frontendParams.documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
-    be5.url.set(self);
-  }
-};
+CategoryNavigation.propTypes = propTypes$2;
 
 var formatCell = function formatCell(data, options, isColumn) {
   if (!Array.isArray(data)) {
@@ -2520,6 +4327,240 @@ Table.propTypes = {
 
 registerDocument('table', Table);
 
+var TableForm = function (_React$Component) {
+  inherits(TableForm, _React$Component);
+
+  function TableForm() {
+    classCallCheck(this, TableForm);
+    return possibleConstructorReturn(this, (TableForm.__proto__ || Object.getPrototypeOf(TableForm)).apply(this, arguments));
+  }
+
+  createClass(TableForm, [{
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      this.updateDocuments();
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.updateDocuments();
+    }
+  }, {
+    key: 'updateDocuments',
+    value: function updateDocuments() {
+      changeDocument("form", { value: null });
+      changeDocument("table", { value: this.props.value });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return React.createElement(
+        'div',
+        { className: 'table-form' },
+        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, type: 'table' }),
+        React.createElement(HelpInfo, { value: this.props.value.data.attributes.layout.helpInfo }),
+        React.createElement(Document$1, { frontendParams: { documentName: "form", parentDocumentName: "table" } })
+      );
+    }
+  }]);
+  return TableForm;
+}(React.Component);
+
+TableForm.propTypes = {
+  value: PropTypes.object.isRequired,
+  frontendParams: PropTypes.object.isRequired
+};
+
+registerDocument('tableForm', TableForm);
+
+var FormTable = function (_TableForm) {
+  inherits(FormTable, _TableForm);
+
+  function FormTable() {
+    classCallCheck(this, FormTable);
+    return possibleConstructorReturn(this, (FormTable.__proto__ || Object.getPrototypeOf(FormTable)).apply(this, arguments));
+  }
+
+  createClass(FormTable, [{
+    key: 'render',
+    value: function render() {
+      return React.createElement(
+        'div',
+        { className: 'form-table' },
+        React.createElement(Document$1, { frontendParams: { documentName: "form", parentDocumentName: "table" } }),
+        React.createElement(HelpInfo, { value: this.props.value.data.attributes.layout.helpInfo }),
+        React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, type: 'table' })
+      );
+    }
+  }]);
+  return FormTable;
+}(TableForm);
+
+FormTable.propTypes = {
+  value: PropTypes.object.isRequired,
+  frontendParams: PropTypes.object.isRequired
+};
+
+registerDocument('formTable', FormTable);
+
+var TableFormRow = function (_TableForm) {
+  inherits(TableFormRow, _TableForm);
+
+  function TableFormRow() {
+    classCallCheck(this, TableFormRow);
+    return possibleConstructorReturn(this, (TableFormRow.__proto__ || Object.getPrototypeOf(TableFormRow)).apply(this, arguments));
+  }
+
+  createClass(TableFormRow, [{
+    key: 'render',
+    value: function render() {
+      return React.createElement(
+        'div',
+        { className: 'row' },
+        React.createElement(
+          'div',
+          { className: 'col-lg-6' },
+          React.createElement(Document$1, { frontendParams: { documentName: "form", parentDocumentName: "table" } })
+        ),
+        React.createElement(
+          'div',
+          { className: 'col-lg-6' },
+          React.createElement(Document$1, { frontendParams: { documentName: "table", operationDocumentName: "form" }, type: 'table' })
+        )
+      );
+    }
+  }]);
+  return TableFormRow;
+}(TableForm);
+
+TableFormRow.propTypes = {
+  value: PropTypes.object.isRequired,
+  frontendParams: PropTypes.object.isRequired
+};
+
+registerDocument('tableFormRow', TableFormRow);
+
+var route = function route(documentName, page) {
+  changeDocument(documentName, {});
+};
+
+var Loading = function (_React$Component) {
+  inherits(Loading, _React$Component);
+
+  function Loading() {
+    classCallCheck(this, Loading);
+    return possibleConstructorReturn(this, (Loading.__proto__ || Object.getPrototypeOf(Loading)).apply(this, arguments));
+  }
+
+  createClass(Loading, [{
+    key: 'render',
+    value: function render() {
+      return React.createElement('div', { className: 'document-loader' });
+    }
+  }]);
+  return Loading;
+}(React.Component);
+
+registerRoute("loading", route);
+
+var route$2 = function route(documentName, entity, query, operation, operationParams) {
+
+  var params = {
+    entity: entity,
+    query: query || 'All records',
+    operation: operation,
+    values: {},
+    operationParams: operationParams
+  };
+
+  forms.load(params, { documentName: documentName });
+};
+
+registerRoute("form", route$2);
+
+var route$4 = function route() {
+  openOperationByUrl('form/users/All records/Login', {
+    documentName: be5.MAIN_MODAL_DOCUMENT
+  });
+};
+
+registerRoute("login", route$4);
+
+var route$6 = function route() {
+  openOperationByUrl('form/users/All records/Logout', {
+    documentName: be5.MAIN_DOCUMENT, onSuccess: function onSuccess(result, applyParams) {
+      //not used document.cookie = 'be_auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+
+    }
+
+  });
+};
+
+registerRoute("logout", route$6);
+
+var route$8 = function route(documentName, page) {
+  var requestParams = {
+    _ts_: new Date().getTime()
+  };
+
+  be5.net.request('static/' + page, requestParams, function (data) {
+    changeDocument(documentName, { value: data });
+  });
+};
+
+registerRoute("static", route$8);
+
+var route$10 = function route(documentName, entity, query, params) {
+
+  var paramsObject = {
+    entity: entity,
+    query: query || 'All records',
+    params: params
+  };
+  loadTable(paramsObject, { documentName: documentName });
+};
+
+registerRoute("table", route$10);
+
+var route$12 = function route(documentName, params) {
+  var requestParams = {
+    values: be5.net.paramString(params),
+    _ts_: new Date().getTime()
+  };
+
+  be5.net.request('queryBuilder', requestParams, function (data) {
+    changeDocument(documentName, { value: Object.assign({}, data, { params: be5.net.paramString(params) }) });
+  });
+};
+
+registerRoute("queryBuilder", route$12);
+
+var route$14 = function route(documentName, text) {
+  changeDocument(documentName, { value: createStaticValue(undefined, text) });
+};
+
+registerRoute("text", route$14);
+
+var route$16 = function route(documentName) {
+  changeDocument(documentName, { value: {}, frontendParams: { type: 'uiPanel' } });
+};
+
+registerRoute("uiPanel", route$16);
+
+var route$18 = function route(documentName, entity) {
+  var requestParams = {
+    entity: entity
+  };
+
+  be5.net.request('categories/forest/', requestParams, function (data) {
+    changeDocument(documentName, {
+      value: createStaticValue('', "<pre>" + JSON.stringify(data, null, 4) + "</pre>")
+    });
+  });
+};
+
+registerRoute("categories", route$18);
+
 var TableBox$1 = function (_React$Component) {
   inherits(TableBox, _React$Component);
 
@@ -2984,626 +5025,6 @@ ReactTable.propTypes = {
 
 registerDocument('rTable', ReactTable);
 
-var Error = function (_React$Component) {
-  inherits(Error, _React$Component);
-
-  function Error() {
-    classCallCheck(this, Error);
-
-    var _this = possibleConstructorReturn(this, (Error.__proto__ || Object.getPrototypeOf(Error)).call(this));
-
-    _this.state = { helpCollapse: false };
-    _this.helpCollapseToggle = _this.helpCollapseToggle.bind(_this);
-    return _this;
-  }
-
-  createClass(Error, [{
-    key: 'helpCollapseToggle',
-    value: function helpCollapseToggle() {
-      this.setState({ helpCollapse: !this.state.helpCollapse });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props = this.props,
-          status = _props.status,
-          title = _props.title,
-          code = _props.code,
-          detail = _props.detail;
-
-
-      return React.createElement(
-        'div',
-        { className: 'errorPane__error' },
-        React.createElement(
-          'h1',
-          { className: 'errorPane__title' },
-          status,
-          ' - ',
-          title
-        ),
-        React.createElement('br', null),
-        code !== undefined ? React.createElement('pre', { className: 'errorPane__code', dangerouslySetInnerHTML: { __html: code } }) : null,
-        detail !== undefined ? React.createElement(
-          'div',
-          null,
-          React.createElement(
-            Button,
-            { color: 'info', className: 'btn-sm', onClick: this.helpCollapseToggle, style: { marginBottom: '1rem' } },
-            be5.messages.details
-          ),
-          React.createElement(
-            Collapse,
-            { isOpen: this.state.helpCollapse },
-            React.createElement(
-              Card,
-              null,
-              React.createElement(
-                CardBody,
-                null,
-                React.createElement(
-                  'pre',
-                  { className: 'errorPane__detail' },
-                  detail
-                )
-              )
-            )
-          )
-        ) : null
-      );
-    }
-  }]);
-  return Error;
-}(React.Component);
-
-var ErrorPane = function (_React$Component2) {
-  inherits(ErrorPane, _React$Component2);
-
-  function ErrorPane() {
-    classCallCheck(this, ErrorPane);
-    return possibleConstructorReturn(this, (ErrorPane.__proto__ || Object.getPrototypeOf(ErrorPane)).apply(this, arguments));
-  }
-
-  createClass(ErrorPane, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      updateLocationHashIfNeeded(this.props);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var errors = this.props.value.errors;
-
-      if (!errors || errors.length === 0) {
-        return null;
-      }
-
-      return React.createElement(
-        'div',
-        { className: 'errorPane' },
-        errors.map(function (error, i) {
-          return React.createElement(Error, _extends({}, error, { key: i }));
-        })
-      );
-    }
-  }]);
-  return ErrorPane;
-}(React.Component);
-
-ErrorPane.propTypes = {
-  value: PropTypes.shape({
-    errors: PropTypes.array.isRequired,
-    meta: PropTypes.shape({
-      _ts_: PropTypes.isRequired
-    })
-  })
-};
-
-registerDocument("errorPane", ErrorPane);
-
-var Form = function (_React$Component) {
-  inherits(Form, _React$Component);
-
-  function Form(props) {
-    classCallCheck(this, Form);
-
-    var _this = possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
-
-    _this.state = _this.props.value;
-
-    _this._onFieldChange = _this._onFieldChange.bind(_this);
-    _this._setValue = _this._setValue.bind(_this);
-    _this._applyOnSubmit = _this._applyOnSubmit.bind(_this);
-    _this.apply = _this.apply.bind(_this);
-    return _this;
-  }
-
-  createClass(Form, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      updateLocationHashIfNeeded(this.props);
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      this.setState(Object.assign({}, nextProps.value, { wasValidated: false, submitted: false }));
-    }
-  }, {
-    key: 'getParams',
-    value: function getParams(values) {
-      var attributes = this.state.data.attributes;
-      return {
-        entity: attributes.entity,
-        query: attributes.query,
-        operation: attributes.operation,
-        operationParams: attributes.operationParams,
-        values: values
-      };
-    }
-  }, {
-    key: '_reloadOnChange',
-    value: function _reloadOnChange(controlName) {
-      var _this2 = this;
-
-      if (!this.state.submitted) {
-        this.setState({ submitted: true }, function () {
-          var values = Object.assign({}, _this2.state.data.attributes.bean.values, { '_reloadcontrol_': controlName });
-
-          forms.load(_this2.getParams(values), _this2.props.frontendParams);
-        });
-      }
-    }
-  }, {
-    key: 'apply',
-    value: function apply() {
-      var _this3 = this;
-
-      this.setState({ wasValidated: false });
-      if (!this.state.submitted) {
-        this.setState({ submitted: true }, function () {
-          forms.apply(_this3.getParams(_this3.state.data.attributes.bean.values), _this3.props.frontendParams);
-        });
-      }
-    }
-  }, {
-    key: '_applyOnSubmit',
-    value: function _applyOnSubmit(e) {
-      // Hitting <enter> in any textbox in Chrome triggers the form submit,
-      // even when there is no submit button.
-      // That's why I explicitly define the cancellation.
-      e.preventDefault();
-      this.apply();
-    }
-  }, {
-    key: '_setValue',
-    value: function _setValue(name, value) {
-      if (!this.state.submitted) {
-        JsonPointer.set(this.state.data.attributes.bean, "/values" + name, value);
-      }
-    }
-  }, {
-    key: '_onFieldChange',
-    value: function _onFieldChange(name, value) {
-      var _this4 = this;
-
-      var attributes = this.state.data.attributes;
-      this._setValue(name, value);
-
-      this.forceUpdate(function () {
-        if (attributes.bean.meta[name].reloadOnChange === true || attributes.bean.meta[name].autoRefresh === true) {
-          _this4._reloadOnChange(name);
-        }
-      });
-    }
-  }, {
-    key: '_createForm',
-    value: function _createForm() {
-      var attributes = this.state.data.attributes;
-      return React.createElement(
-        'form',
-        {
-          id: this.state.meta._ts_,
-          onSubmit: this._applyOnSubmit,
-          className: classNames(this.state.wasValidated ? 'was-validated' : '', attributes.layout.formClassName)
-        },
-        this._createFormContent()
-      );
-    }
-  }, {
-    key: '_createFormContent',
-    value: function _createFormContent() {
-      return React.createElement(
-        'div',
-        null,
-        this._createFormProperties(),
-        this._createFormActions()
-      );
-    }
-  }, {
-    key: '_createFormProperties',
-    value: function _createFormProperties() {
-      var attributes = this.state.data.attributes;
-      return React.createElement(PropertySet, {
-        bean: attributes.bean,
-        onChange: this._onFieldChange,
-        localization: be5.messages.property,
-        bsSize: attributes.layout.bsSize
-      });
-    }
-  }, {
-    key: '_createFormActions',
-    value: function _createFormActions() {
-      return React.createElement(
-        'div',
-        { className: 'formActions' },
-        this._createSubmitAction(),
-        ' ',
-        this._createCancelAction()
-      );
-    }
-  }, {
-    key: '_createSubmitAction',
-    value: function _createSubmitAction(actionData, name) {
-      var _this5 = this;
-
-      var _state$data$attribute = this.state.data.attributes.layout,
-          bsSize = _state$data$attribute.bsSize,
-          submitText = _state$data$attribute.submitText;
-
-      return React.createElement(
-        Transition,
-        { 'in': this.state.submitted, timeout: 200 },
-        function (state) {
-          return React.createElement(
-            'button',
-            {
-              type: 'submit',
-              className: classNames("btn btn-primary", { 'btn-sm': bsSize === 'sm' }, { 'btn-lg': bsSize === 'lg' }),
-              onClick: function onClick() {
-                return _this5.setState({
-                  wasValidated: true,
-                  formAction: actionData || 'defaultAction'
-                });
-              },
-              title: _this5.state.submitted ? be5.messages.submitted : "",
-              disabled: state === 'entered'
-            },
-            name || submitText || be5.messages.Submit
-          );
-        }
-      );
-    }
-
-    /**
-     * layout: '{"cancelActionText":"Back"}'
-     * layout: '{"cancelAction": {"type": "SET_URL","value":"text/test123"}}'
-     */
-
-  }, {
-    key: '_createCancelAction',
-    value: function _createCancelAction() {
-      var _this6 = this;
-
-      var layout = this.state.data.attributes.layout;
-
-      if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText) {
-        var action = layout.cancelAction || new FrontendAction(GO_BACK);
-        return React.createElement(
-          'button',
-          { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
-              return executeFrontendActions(action, _this6.props.frontendParams);
-            } },
-          layout.cancelActionText || be5.messages.cancel
-        );
-      } else {
-        return null;
-      }
-    }
-  }, {
-    key: '_getErrorPane',
-    value: function _getErrorPane() {
-      var errorModel = this.state.data.attributes.errorModel;
-
-      if (errorModel) {
-        return React.createElement(ErrorPane, { value: { errors: [errorModel], meta: this.state.meta } });
-      } else {
-        return null;
-      }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var attributes = this.state.data.attributes;
-
-      return React.createElement(
-        'div',
-        { className: 'row' },
-        React.createElement(
-          'div',
-          { className: 'formBox ' + (attributes.layout.formBoxCssClasses || 'col-12 max-width-970 formBoxDefault') },
-          React.createElement(
-            'h1',
-            { className: 'form-component__title' },
-            attributes.title
-          ),
-          this._createForm()
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-12' },
-          this._getErrorPane()
-        )
-      );
-    }
-  }]);
-  return Form;
-}(React.Component);
-
-Form.propTypes = {
-  value: PropTypes.object.isRequired,
-  frontendParams: PropTypes.object.isRequired
-};
-
-registerDocument('verticalForm', Form);
-
-var SubmitOnChangeForm = function (_Form) {
-  inherits(SubmitOnChangeForm, _Form);
-
-  function SubmitOnChangeForm(props) {
-    classCallCheck(this, SubmitOnChangeForm);
-
-    var _this = possibleConstructorReturn(this, (SubmitOnChangeForm.__proto__ || Object.getPrototypeOf(SubmitOnChangeForm)).call(this, props));
-
-    _this.state = _this.props.value;
-
-    _this._onFieldChangeAndSubmit = _this._onFieldChangeAndSubmit.bind(_this);
-    return _this;
-  }
-
-  createClass(SubmitOnChangeForm, [{
-    key: '_onFieldChangeAndSubmit',
-    value: function _onFieldChangeAndSubmit(name, value) {
-      get(SubmitOnChangeForm.prototype.__proto__ || Object.getPrototypeOf(SubmitOnChangeForm.prototype), '_setValue', this).call(this, name, value);
-      get(SubmitOnChangeForm.prototype.__proto__ || Object.getPrototypeOf(SubmitOnChangeForm.prototype), 'apply', this).call(this);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var attributes = this.state.data.attributes;
-      return React.createElement(
-        'form',
-        {
-          id: this.state.meta._ts_,
-          className: classNames('submit-onchange-form', this.state.wasValidated ? 'was-validated' : '', attributes.layout.formClassName)
-        },
-        React.createElement(PropertyInput, {
-          id: 0,
-          bean: attributes.bean,
-          localization: be5.messages.property,
-          onChange: this._onFieldChangeAndSubmit,
-          bsSize: attributes.layout.bsSize
-        }),
-        React.createElement(
-          'div',
-          { className: 'col-12' },
-          this._getErrorPane()
-        )
-      );
-    }
-  }]);
-  return SubmitOnChangeForm;
-}(Form);
-
-registerDocument('submitOnChange', SubmitOnChangeForm);
-
-var ModalForm = function (_Form) {
-  inherits(ModalForm, _Form);
-
-  function ModalForm() {
-    classCallCheck(this, ModalForm);
-    return possibleConstructorReturn(this, (ModalForm.__proto__ || Object.getPrototypeOf(ModalForm)).apply(this, arguments));
-  }
-
-  createClass(ModalForm, [{
-    key: '_createFormContent',
-    value: function _createFormContent() {
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(
-          ModalBody,
-          null,
-          this._createFormProperties()
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-12' },
-          this._getErrorPane()
-        ),
-        React.createElement(
-          ModalFooter,
-          null,
-          this._createSubmitAction()
-        )
-      );
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var attributes = this.state.data.attributes;
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(
-          ModalHeader,
-          { tag: 'h5', toggle: function toggle() {
-              return bus.fire("mainModalClose");
-            } },
-          attributes.title
-        ),
-        this._createForm()
-      );
-    }
-  }]);
-  return ModalForm;
-}(Form);
-
-registerDocument('modalForm', ModalForm);
-
-var InlineMiniForm = function (_Form) {
-  inherits(InlineMiniForm, _Form);
-
-  function InlineMiniForm() {
-    classCallCheck(this, InlineMiniForm);
-    return possibleConstructorReturn(this, (InlineMiniForm.__proto__ || Object.getPrototypeOf(InlineMiniForm)).apply(this, arguments));
-  }
-
-  createClass(InlineMiniForm, [{
-    key: 'render',
-    value: function render() {
-      var attributes = this.state.data.attributes;
-
-      var commonProps = {
-        bean: attributes.bean,
-        onChange: this._onFieldChange,
-        localization: be5.messages.property,
-        inline: true,
-        rowClass: "d-flex",
-        bsSize: attributes.layout.bsSize,
-        className: 'mr-sm-2'
-      };
-
-      var properties = attributes.bean.order.map(function (p) {
-        return React.createElement(Property, _extends({ key: p, path: p }, commonProps));
-      });
-
-      return React.createElement(
-        'form',
-        {
-          id: this.state.meta._ts_,
-          onSubmit: this._applyOnSubmit,
-          className: classNames('form-inline', this.state.wasValidated ? 'was-validated' : '', attributes.layout.formClassName || 'form-inline-mini')
-        },
-        React.createElement(
-          'label',
-          { className: classNames("mr-sm-2", { 'col-form-label-sm': attributes.layout.bsSize === "sm" }, { 'col-form-label-lg': attributes.layout.bsSize === "lg" }) },
-          React.createElement(
-            'strong',
-            null,
-            attributes.title
-          )
-        ),
-        properties,
-        this._createSubmitAction(),
-        this._getErrorPane()
-      );
-    }
-  }]);
-  return InlineMiniForm;
-}(Form);
-
-registerDocument('inlineMiniForm', InlineMiniForm);
-
-var HorizontalForm = function (_Form) {
-  inherits(HorizontalForm, _Form);
-
-  function HorizontalForm() {
-    classCallCheck(this, HorizontalForm);
-    return possibleConstructorReturn(this, (HorizontalForm.__proto__ || Object.getPrototypeOf(HorizontalForm)).apply(this, arguments));
-  }
-
-  createClass(HorizontalForm, [{
-    key: '_createFormProperties',
-    value: function _createFormProperties() {
-      var attributes = this.state.data.attributes;
-      return React.createElement(PropertySet, {
-        bean: attributes.bean,
-        onChange: this._onFieldChange,
-        localization: be5.messages.property,
-        bsSize: attributes.layout.bsSize,
-        horizontal: true,
-        horizontalColSize: attributes.layout.horizontalColSize || 2
-      });
-    }
-  }, {
-    key: '_createFormActions',
-    value: function _createFormActions() {
-      var horizontalColSize = this.state.data.attributes.layout.horizontalColSize || 2;
-
-      return React.createElement(
-        'div',
-        { className: 'formActions row' },
-        React.createElement(
-          'div',
-          { className: 'col-lg-' + horizontalColSize },
-          '\xA0'
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-lg-' + (12 - horizontalColSize) },
-          this._createSubmitAction(),
-          ' ',
-          this._createCancelAction()
-        )
-      );
-    }
-  }]);
-  return HorizontalForm;
-}(Form);
-
-registerDocument('form', HorizontalForm);
-
-var FinishedResult = function (_React$Component) {
-  inherits(FinishedResult, _React$Component);
-
-  function FinishedResult() {
-    classCallCheck(this, FinishedResult);
-    return possibleConstructorReturn(this, (FinishedResult.__proto__ || Object.getPrototypeOf(FinishedResult)).apply(this, arguments));
-  }
-
-  createClass(FinishedResult, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      updateLocationHashIfNeeded(this.props);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var attributes = this.props.value.data.attributes;
-
-      var message = attributes.message;
-      if (attributes.status === 'finished' && attributes.message === undefined) {
-        message = be5.messages.successfullyCompleted;
-      }
-
-      return React.createElement(
-        'div',
-        { className: 'finishedResult' },
-        React.createElement('div', { dangerouslySetInnerHTML: { __html: message } })
-      );
-      //    <div className="linkBack">
-      //              <button className="btn btn-secondary btn-sm" onClick={back}>
-      //                {be5.messages.back}
-      //              </button>
-      //            </div>
-    }
-  }]);
-  return FinishedResult;
-}(React.Component);
-
-FinishedResult.propTypes = {
-  value: PropTypes.shape({
-    data: PropTypes.shape({
-      attributes: PropTypes.object.isRequired,
-      meta: PropTypes.shape({
-        _ts_: PropTypes.isRequired
-      })
-    })
-  })
-};
-
-registerDocument('operationResult', FinishedResult);
-
 //import brace from 'brace';
 //todo create file for BE-SQL
 var QueryBuilder = function (_React$Component) {
@@ -3863,7 +5284,7 @@ var UiPanel = function UiPanel() {
 
 registerDocument("uiPanel", UiPanel);
 
-var be5init = {
+var be5init$$1 = {
   hashChange: function hashChange() {
     bus.fire("mainModalClose");
 
@@ -3880,6 +5301,9 @@ var be5init = {
     Preconditions.passed(store, 'store in required');
 
     be5.store = store;
+    be5.api = api;
+    window.be5 = be5;
+
     this.initGetUser(store);
 
     be5.net.request('languageSelector', {}, function (data) {
@@ -3914,1439 +5338,6 @@ var be5init = {
     var unsubscribe = store.subscribe(handleChange);
   }
 };
-
-var arraysEqual = function arraysEqual(a, b) {
-  if (a === b) return true;
-  if (a === null || b === null) return false;
-  if (a.length !== b.length) return false;
-
-  a.sort();
-  b.sort();
-
-  for (var i = 0; i < a.length; ++i) {
-    if (a[i] !== b[i]) return false;
-  }
-  return true;
-};
-
-var Role = function Role(props) {
-  var id = props.name + "-checkbox";
-
-  return React.createElement(
-    'div',
-    { className: "role" },
-    React.createElement('input', {
-      type: 'checkbox',
-      id: id,
-      checked: props.checked,
-      onChange: props.onChange
-    }),
-    React.createElement(
-      'label',
-      { htmlFor: id },
-      React.createElement('span', { className: "checkBox" }),
-      props.name
-    )
-  );
-};
-
-Role.propTypes = {
-  onChange: PropTypes.func.isRequired
-};
-
-var RoleSelector = function RoleSelector(props) {
-
-  function onRoleChange(name) {
-    var roles = [].concat(toConsumableArray(props.currentRoles));
-    var containRoleIndex = roles.indexOf(name);
-
-    if (containRoleIndex !== -1) {
-      roles.splice(roles.indexOf(name), 1);
-    } else {
-      roles.push(name);
-    }
-
-    props.toggleRoles(roles.join(","));
-  }
-
-  function handleSelectAll() {
-    props.toggleRoles(props.availableRoles.join(","));
-  }
-
-  function handleClear() {
-    props.toggleRoles("");
-  }
-
-  if (props.availableRoles.length < 1) {
-    return React.createElement('div', null);
-  }
-
-  var roleNodes = props.availableRoles.map(function (role) {
-    return React.createElement(Role, { key: role, name: role, checked: props.currentRoles.indexOf(role) !== -1, onChange: function onChange() {
-        return onRoleChange(role);
-      } });
-  });
-
-  return React.createElement(
-    UncontrolledDropdown,
-    { size: props.size, className: 'roleBox mr-sm-2', id: props.id },
-    React.createElement(
-      DropdownToggle,
-      { caret: true },
-      be5.messages.roles
-    ),
-    React.createElement(
-      DropdownMenu,
-      null,
-      roleNodes,
-      React.createElement(DropdownItem, { divider: true }),
-      React.createElement(
-        'div',
-        { className: 'roleBox_add-actions' },
-        be5.locale.msg('selectRoles') + ' ',
-        React.createElement(
-          Button,
-          { onClick: handleSelectAll, color: 'primary', className: 'enable-all', size: 'sm' },
-          be5.locale.msg('allRoles')
-        ),
-        ' ',
-        React.createElement(
-          Button,
-          { onClick: handleClear, color: 'secondary', className: 'disable-all', size: 'sm' },
-          be5.locale.msg('clearRoles')
-        )
-      )
-    )
-  );
-};
-
-RoleSelector.propTypes = {
-  id: PropTypes.string,
-  size: PropTypes.string,
-  className: PropTypes.string,
-  currentRoles: PropTypes.array.isRequired,
-  availableRoles: PropTypes.array.isRequired,
-  toggleRoles: PropTypes.func.isRequired
-};
-
-var UserControl = function UserControl(props) {
-  var _props$user = props.user,
-      userName = _props$user.userName,
-      loggedIn = _props$user.loggedIn,
-      currentRoles = _props$user.currentRoles,
-      availableRoles = _props$user.availableRoles;
-
-
-  if (!loggedIn) {
-    return null;
-  }
-
-  function reLogin() {
-    if (props.hasDevRole) {
-      return React.createElement(
-        'span',
-        { onClick: props.openReLoginForm, className: "document-reload float-right" },
-        React.createElement('img', { src: img, alt: "Login", title: "Login" })
-      );
-    }
-    return null;
-  }
-
-  return React.createElement(
-    'div',
-    { className: classNames('user-control', props.className || 'form-inline mb-2') },
-    React.createElement(RoleSelector, {
-      size: props.size,
-      currentRoles: currentRoles,
-      availableRoles: availableRoles,
-      toggleRoles: props.toggleRoles
-    }),
-    React.createElement(
-      'label',
-      null,
-      userName
-    ),
-    reLogin()
-  );
-};
-
-UserControl.propTypes = {
-  size: PropTypes.string,
-  className: PropTypes.string,
-  user: PropTypes.shape({})
-};
-
-var openReLoginForm = function openReLoginForm() {
-  openOperationByUrl('form/users/All records/Login/withoutUpdateUserInfo=true', {
-    documentName: be5.MAIN_MODAL_DOCUMENT
-  });
-};
-
-var mapStateToProps$1 = function mapStateToProps(state) {
-  return {
-    user: getUser(state),
-    hasDevRole: getCurrentRoles(state).indexOf(ROLE_SYSTEM_DEVELOPER) !== -1
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    toggleRoles: function toggleRoles$$1(roles) {
-      return dispatch(toggleRoles(roles));
-    },
-    openReLoginForm: openReLoginForm
-  };
-};
-
-var UserControlContainer = connect(mapStateToProps$1, mapDispatchToProps)(UserControl);
-
-var createUnknownActionException = function createUnknownActionException(actionName) {
-  return {
-    name: 'UnknownActionException',
-    message: 'Action \'' + actionName + '\' is unknown'
-  };
-};
-
-var actions = {
-  /**
-   * Returns an object with href and target.
-   */
-  parse: function parse(action) {
-    switch (action.name) {
-      case 'open':
-        return {
-          href: action.arg,
-          target: '_blank'
-        };
-      case 'call':
-        return {
-          href: '#!' + action.arg,
-          target: ''
-        };
-    }
-
-    throw createUnknownActionException(action.name);
-  }
-};
-
-var MenuNode = React.createClass({
-  displayName: 'MenuNode',
-
-  getInitialState: function getInitialState() {
-    return { href: '#', target: '', classes: '' };
-  },
-  componentDidMount: function componentDidMount() {
-    var href = '#';
-    var target = '';
-    var classes = '';
-    if (this.props.level == 1) {
-      classes += 'rootMenuItem';
-    } else {
-      classes += 'menuItem';
-    }
-    var hasAction = this.props.data.action != null;
-    if (hasAction) {
-      classes += ' menuItemWithRef';
-      var action = actions.parse(this.props.data.action);
-      href = action.href;
-      target = action.target;
-    } else {
-      classes += ' menuItemWithoutRef';
-    }
-    this.setState({ href: href, target: target, classes: classes, hasAction: hasAction });
-  },
-  render: function render() {
-    var hasChildren = this.props.data.children != null;
-
-    if (!hasChildren) {
-      var key = 'menu node ' + this.props.data.title;
-      return React.createElement(
-        'div',
-        { className: 'menuNode', key: key },
-        this._getHead(),
-        this._getOperations()
-      );
-    }
-
-    var nextLevel = this.props.level + 1;
-    var children = this.props.data.children.map(function (child) {
-      var childKey = 'li ' + child.title;
-      return React.createElement(
-        'li',
-        { key: childKey },
-        React.createElement(MenuNode, { key: child.title, data: child, level: nextLevel })
-      );
-    });
-
-    return React.DOM.div({ className: 'menuNode', key: 'menu node ' + this.props.data.title }, this._getHead(), this._getOperations(), React.DOM.ul({ key: 'ul ' + this.props.data.title }, children));
-  },
-  _onClick: function _onClick(event) {
-    if (/^#/.test(this.state.href)) {
-      be5.url.set(this.state.href);
-    }
-  },
-  _getHead: function _getHead() {
-    if (this.state.hasAction) {
-      return React.DOM.a({ href: this.state.href, className: this.state.classes, target: this.state.target,
-        onClick: this._onClick, key: 'a ' + this.props.data.title }, this.props.data.title);
-    } else {
-      return React.createElement(
-        'span',
-        { className: this.state.classes },
-        this.props.data.title
-      );
-    }
-  },
-  _getOperations: function _getOperations() {
-    var hasOperations = this.props.data.operations != null;
-
-    if (!hasOperations) {
-      var key = 'operations ' + this.props.data.title;
-      return React.createElement('div', { key: key });
-    }
-
-    return this.props.data.operations.map(function (operation) {
-      var href = '#!' + operation.action.arg;
-      var title = operation.title == 'Insert' ? '+' : operation.title;
-      var opBoxKey = 'operation box ' + title;
-      var opKey = 'operation a ' + title;
-      return React.createElement(
-        'div',
-        { className: 'menuOperationBox', key: opBoxKey },
-        React.createElement(
-          'a',
-          { href: href, className: 'menuOperation', key: opKey },
-          '[',
-          title,
-          ']'
-        )
-      );
-    });
-  }
-});
-
-var propTypes$2 = {
-  menu: PropTypes.shape({})
-};
-
-var MenuBody = function (_Component) {
-  inherits(MenuBody, _Component);
-
-  function MenuBody(props) {
-    classCallCheck(this, MenuBody);
-
-    var _this = possibleConstructorReturn(this, (MenuBody.__proto__ || Object.getPrototypeOf(MenuBody)).call(this, props));
-
-    _this.state = { query: '' };
-
-    _this._getFilteredRoot = _this._getFilteredRoot.bind(_this);
-    return _this;
-  }
-
-  createClass(MenuBody, [{
-    key: 'render',
-    value: function render() {
-      if (this.props.menu === null) {
-        return React.createElement(
-          'p',
-          null,
-          'Loading...'
-        );
-      }
-      var filteredRoot = this._getFilteredRoot();
-      var rootNodes = filteredRoot.map(function (node) {
-        return React.createElement(MenuNode, { key: JSON.stringify(node), data: node, level: 1 });
-      });
-      return React.createElement(
-        'div',
-        { className: 'menu' },
-        rootNodes
-      );
-    }
-  }, {
-    key: '_getFilteredRoot',
-    value: function _getFilteredRoot() {
-      var containsIgnoreCase = function containsIgnoreCase(str, substr) {
-        return str.toLowerCase().indexOf(substr.toLowerCase()) !== -1;
-      };
-      var anyChildContainsIgnoreCase = function anyChildContainsIgnoreCase(node, query) {
-        if (containsIgnoreCase(node.title, query)) {
-          return true;
-        }
-        return node.children && _.any(node.children, function (child) {
-          return anyChildContainsIgnoreCase(child, query);
-        });
-      };
-      var filterNodeContent = function filterNodeContent(node, query) {
-        if (!node.children) {
-          return node;
-        }
-        return _.extend({}, node, { children: filterByTitle(node.children, query) });
-      };
-      var filterByTitle = function filterByTitle(root, query) {
-        return root.filter(function (node) {
-          return anyChildContainsIgnoreCase(node, query);
-        }).map(function (node) {
-          return filterNodeContent(node, query);
-        });
-      };
-
-      return filterByTitle(this.props.menu.root, this.state.query);
-    }
-  }]);
-  return MenuBody;
-}(Component);
-
-MenuBody.propTypes = propTypes$2;
-
-var MenuSearchField = function (_React$Component) {
-  inherits(MenuSearchField, _React$Component);
-
-  function MenuSearchField(props) {
-    classCallCheck(this, MenuSearchField);
-
-    var _this = possibleConstructorReturn(this, (MenuSearchField.__proto__ || Object.getPrototypeOf(MenuSearchField)).call(this, props));
-
-    _this.state = { value: '' };
-
-    _this._handleChange = _this._handleChange.bind(_this);
-    return _this;
-  }
-
-  createClass(MenuSearchField, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement('input', { type: 'text', className: 'searchField form-control', onChange: this._handleChange, value: this.state.value, placeholder: be5.messages.filter });
-    }
-  }, {
-    key: '_handleChange',
-    value: function _handleChange(event) {
-      this.setState({ value: event.target.value });
-      this.props.onChange(event.target.value);
-    }
-  }]);
-  return MenuSearchField;
-}(React.Component);
-
-MenuSearchField.propTypes = {
-  onChange: PropTypes.func.isRequired
-};
-
-var propTypes$1 = {
-  menu: PropTypes.shape({}),
-  currentRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
-  fetchMenu: PropTypes.func.isRequired,
-  searchField: PropTypes.bool
-};
-
-var defaultProps = {
-  searchField: true
-};
-
-var Menu = function (_Component) {
-  inherits(Menu, _Component);
-
-  function Menu(props) {
-    classCallCheck(this, Menu);
-
-    var _this = possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
-
-    _this._handleQueryChange = _this._handleQueryChange.bind(_this);
-    return _this;
-  }
-
-  createClass(Menu, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      // this.props.fetchMenu();
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      var _props = this.props,
-          currentRoles = _props.currentRoles,
-          fetchMenu = _props.fetchMenu;
-
-      if (!arraysEqual(currentRoles, nextProps.currentRoles)) {
-        fetchMenu();
-      }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        { className: 'menuContainer' },
-        this.props.searchField ? React.createElement(MenuSearchField, { ref: 'searchfield', onChange: this._handleQueryChange }) : null,
-        React.createElement(MenuBody, { ref: 'menubody', menu: this.props.menu })
-      );
-    }
-  }, {
-    key: '_handleQueryChange',
-    value: function _handleQueryChange(query) {
-      this.refs.menubody.setState({ query: query });
-    }
-  }]);
-  return Menu;
-}(Component);
-
-Menu.propTypes = propTypes$1;
-
-Menu.defaultProps = defaultProps;
-
-var UPDATE_MENU = 'UPDATE_MENU';
-
-var fetchMenu = function fetchMenu(path) {
-  return function (dispatch) {
-    be5.net.request(path, {}, function (data) {
-      dispatch({ type: UPDATE_MENU, data: data });
-    });
-  };
-};
-
-var getMenu = function getMenu(state) {
-  return state.menu;
-};
-
-var MenuContainer = function MenuContainer(props) {
-  return React.createElement(Menu, props);
-};
-
-var mapStateToProps$2 = function mapStateToProps(state) {
-  return {
-    menu: getMenu(state),
-    currentRoles: getCurrentRoles(state)
-  };
-};
-
-var mapDispatchToProps$1 = function mapDispatchToProps(dispatch) {
-  return {
-    fetchMenu: function fetchMenu$$1(roles) {
-      return dispatch(fetchMenu('menu'));
-    }
-  };
-};
-
-var MenuContainer$1 = connect(mapStateToProps$2, mapDispatchToProps$1)(MenuContainer);
-
-var img$1 = 'data:image/png;base64,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';
-
-var MenuFooter = function MenuFooter() {
-  return React.createElement(
-    'div',
-    { className: 'menuFooter' },
-    React.createElement('img', { src: img$1 })
-  );
-};
-
-var Language = function (_React$Component) {
-  inherits(Language, _React$Component);
-
-  function Language(props) {
-    classCallCheck(this, Language);
-    return possibleConstructorReturn(this, (Language.__proto__ || Object.getPrototypeOf(Language)).call(this, props));
-  }
-
-  createClass(Language, [{
-    key: 'onClick',
-    value: function onClick(e) {
-      this.props.onLanguageClick(this.props.code);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      if (this.props.selected) {
-        return React.createElement(
-          'div',
-          { className: "language selectedLanguage" },
-          this.props.code
-        );
-      }
-      return React.createElement(
-        'div',
-        { className: "language", onClick: this.onClick },
-        this.props.code
-      );
-    }
-  }]);
-  return Language;
-}(React.Component);
-
-Language.propTypes = {
-  onLanguageClick: PropTypes.func.isRequired
-};
-
-var LanguageList = function (_React$Component2) {
-  inherits(LanguageList, _React$Component2);
-
-  function LanguageList(props) {
-    classCallCheck(this, LanguageList);
-    return possibleConstructorReturn(this, (LanguageList.__proto__ || Object.getPrototypeOf(LanguageList)).call(this, props));
-  }
-
-  createClass(LanguageList, [{
-    key: 'render',
-    value: function render() {
-      var selected = this.props.data.selected;
-      var onLanguageClick = this.props.onLanguageClick;
-      var languageNodes = this.props.data.languages.map(function (language) {
-        return React.createElement(Language, { key: language, code: language, selected: language === selected, onLanguageClick: onLanguageClick });
-      });
-      return React.createElement(
-        'div',
-        { className: "languageList" },
-        languageNodes
-      );
-    }
-  }]);
-  return LanguageList;
-}(React.Component);
-
-var LanguageBox = function (_React$Component3) {
-  inherits(LanguageBox, _React$Component3);
-
-  function LanguageBox(props) {
-    classCallCheck(this, LanguageBox);
-
-    var _this3 = possibleConstructorReturn(this, (LanguageBox.__proto__ || Object.getPrototypeOf(LanguageBox)).call(this, props));
-
-    _this3.state = { data: { languages: [], selected: '' } };
-    return _this3;
-  }
-
-  createClass(LanguageBox, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      //this.refresh();
-    }
-  }, {
-    key: 'changeLanguage',
-
-
-    // refresh() {
-    //   be5.net.request('languageSelector', {}, function(data) {
-    //       be5.locale.set(data.selected, data.messages);
-    //       this.setState({ data: {selected: data.selected, languages: data.languages} });
-    //     }.bind(this));
-    // };
-
-    value: function changeLanguage(language) {
-      be5.net.request('languageSelector/select', { language: language }, function (data) {
-        this.setState({ data: { selected: data.selected, languages: data.languages } });
-        be5.locale.set(language, data.messages);
-      }.bind(this));
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      if (this.state.data && this.state.data.languages.length <= 1) {
-        return null;
-      }
-      return React.createElement(
-        'div',
-        { className: "languageBox" },
-        React.createElement(LanguageList, { data: this.state.data, onLanguageClick: this.changeLanguage })
-      );
-    }
-  }]);
-  return LanguageBox;
-}(React.Component);
-
-var SideBar = function SideBar() {
-  return React.createElement(
-    'div',
-    { className: "side-bar" },
-    React.createElement(UserControlContainer, { size: 'sm' }),
-    React.createElement(MenuContainer$1, null),
-    React.createElement(MenuFooter, null),
-    React.createElement(LanguageBox, null)
-  );
-};
-
-var Be5Components = function (_React$Component) {
-  inherits(Be5Components, _React$Component);
-
-  function Be5Components(props) {
-    classCallCheck(this, Be5Components);
-
-    var _this = possibleConstructorReturn(this, (Be5Components.__proto__ || Object.getPrototypeOf(Be5Components)).call(this, props));
-
-    _this.state = {
-      modal: false
-    };
-
-    _this.open = _this.open.bind(_this);
-    _this.close = _this.close.bind(_this);
-    return _this;
-  }
-
-  createClass(Be5Components, [{
-    key: 'open',
-    value: function open() {
-      this.setState({ modal: true });
-    }
-  }, {
-    key: 'close',
-    value: function close() {
-      this.setState({ modal: false });
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      bus.listen("mainModalClose", this.close);
-      bus.listen("mainModalOpen", this.open);
-
-      bus.listen("alert", function (data) {
-        if (data.type === 'error') {
-          Alert.error(data.msg, {
-            position: 'top-right',
-            timeout: 5000
-          });
-        } else {
-          Alert.success(data.msg, {
-            position: 'top-right',
-            timeout: 5000
-          });
-        }
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(Alert, { stack: { limit: 10 } }),
-        React.createElement(
-          Modal,
-          { isOpen: this.state.modal, toggle: this.close, className: this.props.className },
-          React.createElement(Document$1, { ref: 'document', frontendParams: { documentName: be5.MAIN_MODAL_DOCUMENT } })
-        )
-      );
-    }
-  }]);
-  return Be5Components;
-}(React.Component);
-
-var Application = function Application() {
-  return React.createElement(
-    'div',
-    null,
-    React.createElement(Be5Components, null),
-    React.createElement(
-      SplitPane,
-      { split: 'vertical', defaultSize: 280, className: 'main-split-pane' },
-      React.createElement(
-        'div',
-        { className: 'side-pane' },
-        React.createElement(SideBar, null)
-      ),
-      React.createElement(
-        'div',
-        { className: 'main-pane' },
-        React.createElement(Document$1, { frontendParams: { documentName: be5.MAIN_DOCUMENT } })
-      )
-    )
-  );
-};
-
-var MainDocumentOnly = function MainDocumentOnly() {
-  return React.createElement(
-    'div',
-    { className: 'MainDocument-only' },
-    React.createElement(Be5Components, null),
-    React.createElement(Document$1, { frontendParams: { documentName: be5.MAIN_DOCUMENT } })
-  );
-};
-
-var NavbarMenu = React.createClass({
-  displayName: 'NavbarMenu',
-
-  propTypes: {
-    //show: PropTypes.bool,
-    menu: PropTypes.shape({}),
-    user: PropTypes.shape({}),
-    brand: PropTypes.string
-  },
-
-  // defaultProps: {
-  //   show: true
-  // },
-
-  getInitialState: function getInitialState() {
-    return { isOpen: false };
-  },
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    var _props$user = this.props.user,
-        loggedIn = _props$user.loggedIn,
-        currentRoles = _props$user.currentRoles;
-
-    if (!arraysEqual(currentRoles, nextProps.user.currentRoles) || loggedIn !== nextProps.user.loggedIn) {
-      this.props.fetchMenu();
-    }
-  },
-  toggle: function toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  },
-  render: function render() {
-    // if (!this.props.show) {
-    //   return null;
-    // }
-    if (this.props.menu === null) {
-      return null;
-    }
-
-    var rootMenuItems = this._renderMenuItems(this.props.menu.root, false);
-    var brand = this.props.brand ? React.createElement(
-      NavbarBrand,
-      { href: '#' },
-      this.props.brand
-    ) : undefined;
-    var rightButtons = this._renderRightButtons();
-
-    return React.createElement(
-      Navbar,
-      { color: 'dark', dark: true, expand: 'md' },
-      React.createElement(
-        'div',
-        { className: 'container' },
-        brand,
-        React.createElement(NavbarToggler, { onClick: this.toggle }),
-        React.createElement(
-          Collapse,
-          { isOpen: this.state.isOpen, navbar: true },
-          React.createElement(
-            Nav,
-            { className: '', navbar: true },
-            rootMenuItems
-          ),
-          rightButtons
-        )
-      )
-    );
-  },
-  _renderRightButtons: function _renderRightButtons() {
-    var _props$user2 = this.props.user,
-        userName = _props$user2.userName,
-        loggedIn = _props$user2.loggedIn,
-        currentRoles = _props$user2.currentRoles,
-        availableRoles = _props$user2.availableRoles;
-
-
-    if (!loggedIn) {
-      return React.createElement(
-        'form',
-        { className: 'form-inline ml-auto' },
-        React.createElement(
-          Button,
-          { onClick: this._onClick, href: '#!login', color: 'secondary' },
-          be5.messages.login
-        )
-      );
-    }
-    return React.createElement(
-      'form',
-      { className: 'form-inline ml-auto' },
-      React.createElement(
-        UncontrolledTooltip,
-        { placement: 'left', target: 'RoleSelector' },
-        userName
-      ),
-      React.createElement(RoleSelector, {
-        id: "RoleSelector",
-        availableRoles: availableRoles,
-        currentRoles: currentRoles,
-        toggleRoles: this.props.toggleRoles
-      }),
-      ' ',
-      React.createElement(
-        Button,
-        { onClick: this._onClick, href: '#!logout', color: 'secondary' },
-        be5.messages.logout
-      )
-    );
-  },
-  _onClick: function _onClick(e) {
-    if (/^#/.test(e.target.getAttribute("href"))) {
-      be5.url.set(e.target.getAttribute("href"));
-    }
-  },
-  _renderDropdownMenuItems: function _renderDropdownMenuItems(items) {
-    var _this = this;
-
-    var active = false;
-    var dropdownMenuItems = _(items).map(function (item) {
-      // if (item.default) {
-      //   return undefined;
-      // }
-      var _actions$parse = actions.parse(item.action),
-          href = _actions$parse.href,
-          target = _actions$parse.target;
-
-      //TODO after store url in redux if(this.props.url === href)active = true;
-
-
-      return React.createElement(
-        DropdownItem,
-        { onClick: _this._onClick, href: href, key: target + href },
-        item.title
-      );
-    });
-
-    return {
-      dropdownMenuItems: dropdownMenuItems,
-      active: active
-    };
-  },
-  _renderMenuItems: function _renderMenuItems(items, inDropdown) {
-    var _this2 = this;
-
-    return _(items).map(function (item) {
-      // if (item.default) {
-      //   return undefined;
-      // }
-
-      if (!item.children || item.children.length === 0) {
-        var _actions$parse2 = actions.parse(item.action),
-            href = _actions$parse2.href,
-            target = _actions$parse2.target;
-        // const liClass = inDropdown ? '' : 'nav-item';
-        // const aClass = inDropdown ? 'dropdown-item' : 'nav-link';
-        // return <li className={liClass} key={target+href}><a className={aClass} href={href} target={target}>{item.title}</a></li>;
-
-
-        var _active = false;
-        //if(this.props.url === href)active = true;
-        return React.createElement(
-          NavItem,
-          { key: target + href },
-          React.createElement(
-            NavLink,
-            { onClick: _this2._onClick, href: href, active: _active },
-            item.title
-          )
-        );
-      }
-
-      var _renderDropdownMenuIt = _this2._renderDropdownMenuItems(item.children, true),
-          dropdownMenuItems = _renderDropdownMenuIt.dropdownMenuItems,
-          active = _renderDropdownMenuIt.active;
-
-      return React.createElement(
-        UncontrolledDropdown,
-        { nav: true, inNavbar: true, key: item.title },
-        React.createElement(
-          DropdownToggle,
-          { nav: true, caret: true, className: classNames({ active: active }) },
-          item.title
-        ),
-        React.createElement(
-          DropdownMenu,
-          null,
-          dropdownMenuItems
-        )
-      );
-    });
-  }
-});
-
-var Sorter = React.createClass({
-  displayName: 'Sorter',
-
-  propTypes: {
-    /**
-     * An array of columns with name and title.
-     */
-    columns: React.PropTypes.array.isRequired,
-
-    /**
-     * A callback to call when the user clicks a sorting button.
-     */
-    onSelect: React.PropTypes.func.isRequired,
-
-    /**
-     * A name of the soring column, or undefined.
-     */
-    sortingColumnName: React.PropTypes.string,
-
-    /**
-     * A way to sort, or undefined.
-     */
-    sortingOrder: React.PropTypes.oneOf(['asc', 'desc'])
-  },
-
-  render: function render() {
-    if (this.props.columns.length === 0) {
-      return React.createElement('div', null);
-    }
-
-    return React.createElement(
-      'form',
-      { className: 'form-inline' },
-      React.createElement(
-        'div',
-        { className: 'form-group' },
-        React.createElement(
-          'label',
-          null,
-          'Sort by'
-        ),
-        ' ',
-        React.createElement(
-          'div',
-          { className: 'btn-group btn-group-sm', role: 'group', 'aria-label': 'Sorting' },
-          this.props.columns.map(this._renderColumn)
-        )
-      )
-    );
-  },
-  _renderColumn: function _renderColumn(column) {
-    var selected = this.props.sortingColumnName === column.name;
-    var klass = classNames({
-      'btn': true,
-      'btn-primary': selected,
-      'btn-secondary': !selected
-    });
-    var asc = this.props.sortingOrder === 'asc';
-    var iconClass = classNames({
-      'fa': true,
-      'fa-sort': !selected,
-      'fa-sort-asc': selected && asc,
-      'fa-sort-desc': selected && !asc
-    });
-    return React.createElement(
-      'button',
-      { type: 'button', className: klass, onClick: this._onSelect.bind(this, column) },
-      column.title,
-      ' ',
-      React.createElement('span', { className: iconClass })
-    );
-  },
-  _onSelect: function _onSelect(column) {
-    this.props.onSelect(column);
-  }
-});
-
-var TreeMenu = React.createClass({
-  displayName: 'TreeMenu',
-
-  propTypes: {
-    /*
-     * Example:
-     * [{ name: 'Menu', id: 1, children: [{ name: 'Child', id: 2 }] }]
-     */
-    rootItems: React.PropTypes.array.isRequired,
-    /*
-     * A node will be passed to the function.
-     */
-    onItemSelect: React.PropTypes.func.isRequired,
-    /*
-     * An item that should be highligted.
-     */
-    activeItemId: React.PropTypes.string.isRequired
-  },
-
-  render: function render() {
-    var _this = this;
-
-    return React.createElement(
-      'div',
-      { className: 'tree-menu' },
-      React.createElement(
-        'ul',
-        { className: 'tree-menu-node-children' },
-        this.props.rootItems.map(function (node) {
-          return _this._renderNode(node);
-        })
-      )
-    );
-  },
-  _renderNode: function _renderNode(node) {
-    var _this2 = this;
-
-    return React.createElement(
-      'li',
-      { className: 'tree-menu-node', key: node.name },
-      React.createElement(
-        'div',
-        { className: 'tree-menu-node-title' },
-        React.createElement(
-          'a',
-          { role: 'button', className: 'tree-menu-node-link' + (node.id === this.props.activeItemId ? ' active' : ''), href: 'javascript:void(0);', onClick: this._handleClick.bind(this, node) },
-          node.name
-        )
-      ),
-      node.children ? React.createElement(
-        'div',
-        { className: 'tree-menu-node-children-container' },
-        React.createElement(
-          'ul',
-          { className: 'tree-menu-node-children' },
-          node.children.map(function (node) {
-            return _this2._renderNode(node);
-          })
-        )
-      ) : undefined
-    );
-  },
-  _handleClick: function _handleClick(node) {
-    this.props.onItemSelect(node);
-  }
-});
-
-var FormWizard = function (_React$Component) {
-  inherits(FormWizard, _React$Component);
-
-  function FormWizard(props) {
-    classCallCheck(this, FormWizard);
-
-    var _this = possibleConstructorReturn(this, (FormWizard.__proto__ || Object.getPrototypeOf(FormWizard)).call(this, props));
-
-    _this.state = {
-      compState: _this.props.startAtStep,
-      navState: _this.getNavStates(_this.props.startAtStep, _this.props.steps.length)
-    };
-
-    _this.hidden = {
-      display: 'none'
-    };
-
-    _this.nextTextOnFinalActionStep = _this.props.nextTextOnFinalActionStep ? _this.props.nextTextOnFinalActionStep : _this.props.nextButtonText;
-    return _this;
-  }
-
-  createClass(FormWizard, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.init();
-    }
-  }, {
-    key: 'init',
-    value: function init() {
-      this.setState(this.getPrevNextBtnState(this.props.startAtStep));
-      be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
-    }
-  }, {
-    key: 'getNavStates',
-    value: function getNavStates(indx, length) {
-      var styles = [];
-      for (var i = 0; i < length; i++) {
-        if (i === indx) {
-          styles.push('doing');
-        } else if (i < indx) {
-          styles.push('done');
-        } else {
-          styles.push('todo');
-        }
-      }
-
-      return { current: indx, styles: styles };
-    }
-  }, {
-    key: 'getPrevNextBtnState',
-    value: function getPrevNextBtnState(currentStep) {
-      var showPreviousBtn = true;
-      var showNextBtn = true;
-      var nextStepText = this.props.nextButtonText;
-
-      if (currentStep === 0) {
-        showPreviousBtn = false;
-      }
-
-      if (currentStep === this.props.steps.length - 2) {
-        nextStepText = this.props.nextTextOnFinalActionStep || nextStepText;
-      }
-
-      if (currentStep >= this.props.steps.length - 1) {
-        showNextBtn = false;
-        showPreviousBtn = this.props.prevBtnOnLastStep === true;
-      }
-
-      return {
-        showPreviousBtn: showPreviousBtn,
-        showNextBtn: showNextBtn,
-        nextStepText: nextStepText
-      };
-    }
-  }, {
-    key: 'checkNavState',
-    value: function checkNavState(currentStep) {
-      this.setState(this.getPrevNextBtnState(currentStep));
-    }
-  }, {
-    key: 'setNavState',
-    value: function setNavState(next) {
-      this.setState({ navState: this.getNavStates(next, this.props.steps.length) });
-
-      if (next < this.props.steps.length) {
-        this.setState({ compState: next });
-      }
-
-      be5.url.process(this.props.documentName, this.props.steps[next].url);
-
-      this.checkNavState(next);
-    }
-  }, {
-    key: 'jumpToStep',
-    value: function jumpToStep(evt) {
-      this.setNavState(evt);
-    }
-  }, {
-    key: 'next',
-    value: function next() {
-      if (this.state.compState + 1 < this.props.steps.length) {
-        this.setNavState(this.state.compState + 1);
-      }
-    }
-  }, {
-    key: 'previous',
-    value: function previous() {
-      if (this.state.compState > 0) {
-        this.setNavState(this.state.compState - 1);
-      }
-    }
-  }, {
-    key: 'getClassName',
-    value: function getClassName(className, i) {
-      var liClassName = className + "-" + this.state.navState.styles[i];
-
-      // if step ui based navigation is disabled, then dont highlight step
-      if (!this.props.stepsNavigation) liClassName += " no-hl";
-
-      return liClassName;
-    }
-  }, {
-    key: 'renderSteps',
-    value: function renderSteps() {
-      var _this2 = this;
-
-      return this.props.steps.map(function (s, i) {
-        return React.createElement(
-          'li',
-          { className: _this2.getClassName("progtrckr", i), onClick: function onClick() {
-              return _this2.jumpToStep(i);
-            }, key: i, value: i },
-          React.createElement(
-            'em',
-            null,
-            i + 1
-          ),
-          React.createElement('span', { dangerouslySetInnerHTML: { __html: _this2.props.steps[i].title } })
-        )
-        //{this.props.steps[i].name}
-        ;
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this3 = this;
-
-      var props = this.props,
-          state = this.state;
-
-
-      return React.createElement(
-        'div',
-        { className: 'formWizard' },
-        this.props.showSteps ? React.createElement(
-          'ol',
-          { className: 'progtrckr clearfix' },
-          this.renderSteps()
-        ) : React.createElement('span', null),
-        React.createElement(Document$1, { frontendParams: { documentName: props.documentName } }),
-        React.createElement('br', null),
-        React.createElement(
-          'div',
-          { style: props.showNavigation ? {} : this.hidden, className: 'footer-buttons' },
-          React.createElement(
-            'button',
-            {
-              className: classNames(props.backButtonCls, { disabled: !state.showPreviousBtn }),
-              onClick: function onClick() {
-                _this3.previous();
-              },
-              id: 'prev-button'
-            },
-            props.backButtonText
-          ),
-          ' ',
-          React.createElement(
-            'button',
-            {
-              className: classNames(props.nextButtonCls, { disabled: !state.showNextBtn }),
-              onClick: function onClick() {
-                _this3.next();
-              },
-              id: 'next-button'
-            },
-            state.nextStepText
-          )
-        )
-      );
-    }
-  }]);
-  return FormWizard;
-}(React.Component);
-
-FormWizard.defaultProps = {
-  showSteps: true,
-  showNavigation: true,
-  stepsNavigation: true,
-  prevBtnOnLastStep: true,
-  startAtStep: 0,
-  nextButtonText: "Next",
-  nextButtonCls: "btn btn-prev btn-primary pull-right",
-  backButtonText: "Previous",
-  backButtonCls: "btn btn-next btn-primary pull-left",
-  documentName: "FormWizard"
-};
-
-FormWizard.propTypes = {
-  steps: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired
-  })).isRequired,
-  showSteps: PropTypes.bool,
-  showNavigation: PropTypes.bool,
-  stepsNavigation: PropTypes.bool,
-  prevBtnOnLastStep: PropTypes.bool,
-  startAtStep: PropTypes.number,
-  nextButtonText: PropTypes.string,
-  nextButtonCls: PropTypes.string,
-  backButtonCls: PropTypes.string,
-  backButtonText: PropTypes.string,
-  documentName: PropTypes.string
-};
-
-var Navs = function (_React$Component) {
-  inherits(Navs, _React$Component);
-
-  function Navs(props) {
-    classCallCheck(this, Navs);
-
-    var _this = possibleConstructorReturn(this, (Navs.__proto__ || Object.getPrototypeOf(Navs)).call(this, props));
-
-    _this.state = {
-      compState: _this.props.startAtStep
-    };
-
-    _this.init = _this.init.bind(_this);
-    return _this;
-  }
-
-  createClass(Navs, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.init();
-    }
-  }, {
-    key: 'init',
-    value: function init() {
-      be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
-    }
-  }, {
-    key: 'setNavState',
-    value: function setNavState(id) {
-      this.setState({ compState: id });
-      be5.url.process(this.props.documentName, this.props.steps[id].url);
-    }
-  }, {
-    key: 'renderSteps',
-    value: function renderSteps() {
-      var _this2 = this;
-
-      return this.props.steps.map(function (s, i) {
-        return React.createElement(
-          NavItem,
-          { key: "NavItem" + i },
-          React.createElement(
-            NavLink,
-            { href: '#', active: i === _this2.state.compState, onClick: function onClick() {
-                return _this2.setNavState(i);
-              },
-              key: "NavLink" + i },
-            _this2.props.steps[i].title
-          )
-        );
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var navProps = {
-        tabs: this.props.tabs,
-        pills: this.props.pills,
-        vertical: this.props.vertical,
-        navbar: this.props.navbar,
-        tag: this.props.tag
-      };
-
-      return React.createElement(
-        'div',
-        { className: 'navs-component' },
-        React.createElement(
-          Nav,
-          navProps,
-          this.renderSteps()
-        ),
-        React.createElement(
-          'div',
-          { className: 'tab-content' },
-          React.createElement(Document$1, { frontendParams: { documentName: this.props.documentName } })
-        )
-      );
-    }
-  }]);
-  return Navs;
-}(React.Component);
-
-Navs.defaultProps = {
-  startAtStep: 0,
-  documentName: "navs"
-};
-
-Navs.propTypes = {
-  tabs: PropTypes.bool,
-  pills: PropTypes.bool,
-  vertical: PropTypes.bool,
-  navbar: PropTypes.bool,
-  tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-
-  steps: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired
-  })).isRequired,
-  startAtStep: PropTypes.number,
-  documentName: PropTypes.string
-};
-
-var NavbarMenuContainer = function NavbarMenuContainer(props) {
-  return React.createElement(NavbarMenu, props);
-};
-
-var mapStateToProps$3 = function mapStateToProps(state) {
-  return {
-    menu: getMenu(state),
-    user: getUser(state),
-    url: be5.url.get()
-  };
-};
-
-var mapDispatchToProps$2 = function mapDispatchToProps(dispatch) {
-  return {
-    toggleRoles: function toggleRoles$$1(roles) {
-      return dispatch(toggleRoles(roles));
-    },
-    fetchMenu: function fetchMenu$$1(roles) {
-      return dispatch(fetchMenu('menu/withIds'));
-    }
-  };
-};
-
-var NavbarMenuContainer$1 = connect(mapStateToProps$3, mapDispatchToProps$2)(NavbarMenuContainer);
 
 var isProduction = "development" === 'production';
 
@@ -5405,12 +5396,64 @@ var index = combineReducers({
 
 //import be5styles from './be5styles.js';
 // core
-// components
-// forms
-// tables
-// menu
 // actions
 // services
 // store
 
-export { be5, be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, updateLocationHashIfNeeded };
+
+var api = Object.freeze({
+	be5init: be5init$$1,
+	constants: constants,
+	preconditions: Preconditions,
+	arraysEqual: arraysEqual,
+	getSelfUrl: getSelfUrl,
+	getModelByID: getModelByID,
+	createStaticValue: createStaticValue,
+	getResourceByID: getResourceByID,
+	setUrlForHash: setUrlForHash,
+	bus: bus,
+	changeDocument: changeDocument,
+	getDocument: getDocument,
+	registerDocument: registerDocument,
+	getAllDocumentTypes: getAllDocumentTypes,
+	registerRoute: registerRoute,
+	getRoute: getRoute,
+	getAllRoutes: getAllRoutes,
+	createBaseStore: createBaseStore,
+	rootReducer: index,
+	userReduser: users,
+	menuReduser: users$1,
+	toggleRoles: toggleRoles,
+	fetchUserInfo: fetchUserInfo,
+	updateUserInfo: updateUserInfo,
+	fetchMenu: fetchMenu,
+	getCurrentRoles: getCurrentRoles,
+	getUser: getUser,
+	getMenu: getMenu,
+	formAction: route$2,
+	loadingAction: route,
+	loginAction: route$4,
+	logoutAction: route$6,
+	queryBuilderAction: route$12,
+	staticAction: route$8,
+	tableAction: route$10,
+	textAction: route$14,
+	action: actions,
+	loadOperation: loadOperation,
+	submitOperation: submitOperation,
+	getOperationParams: getOperationParams,
+	openOperationByUrl: openOperationByUrl,
+	openOperationByUrlWithValues: openOperationByUrlWithValues,
+	fetchOperationByUrl: fetchOperationByUrl,
+	loadTable: loadTable,
+	updateTable: updateTable,
+	fetchTableByUrl: fetchTableByUrl,
+	updateLocationHashIfNeeded: updateLocationHashIfNeeded
+});
+
+// components
+// forms
+// tables
+// menu
+
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, setUrlForHash, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, updateLocationHashIfNeeded };

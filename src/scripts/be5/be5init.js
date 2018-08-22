@@ -1,4 +1,5 @@
 import be5 from './be5';
+import * as api from './api';
 import bus from './core/bus';
 import Preconditions from './utils/preconditions';
 import documentState      from './core/documentState';
@@ -62,6 +63,9 @@ export default {
     Preconditions.passed(store, 'store in required');
 
     be5.store = store;
+    be5.api = api;
+    window.be5 = be5;
+
     this.initGetUser(store);
 
     be5.net.request('languageSelector', {}, function(data) {
