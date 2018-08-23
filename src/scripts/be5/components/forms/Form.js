@@ -143,7 +143,7 @@ class Form extends React.Component
   _createSubmitAction(actionData, name) {
     const {bsSize, submitText} = this.state.data.attributes.layout;
     return (
-      <Transition in={this.state.submitted} timeout={200}>
+      <Transition in={this.state.submitted} timeout={600}>
         {(state) => (
           <button
             type="submit"
