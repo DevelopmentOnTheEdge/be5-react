@@ -62,6 +62,7 @@ export default {
   {
     Preconditions.passed(store, 'store in required');
 
+    be5.appInfo = {"title": document.title};
     be5.store = store;
     be5.api = api;
     window.be5 = be5;
@@ -76,12 +77,6 @@ export default {
     });
 
     window.addEventListener("hashchange", this.hashChange, false);
-
-    be5.net.request("appInfo", {}, function(data) {
-      be5.appInfo = data;
-      be5.ui.setTitle();
-    });
-
   },
 
   initGetUser(store){

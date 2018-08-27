@@ -3121,7 +3121,7 @@ var Form = function (_React$Component) {
 
       return React.createElement(
         Transition,
-        { 'in': this.state.submitted, timeout: 200 },
+        { 'in': this.state.submitted, timeout: 600 },
         function (state) {
           return React.createElement(
             'button',
@@ -5300,6 +5300,7 @@ var be5init$$1 = {
   init: function init(store) {
     Preconditions.passed(store, 'store in required');
 
+    be5.appInfo = { "title": document.title };
     be5.store = store;
     be5.api = api;
     window.be5 = be5;
@@ -5314,11 +5315,6 @@ var be5init$$1 = {
     });
 
     window.addEventListener("hashchange", this.hashChange, false);
-
-    be5.net.request("appInfo", {}, function (data) {
-      be5.appInfo = data;
-      be5.ui.setTitle();
-    });
   },
   initGetUser: function initGetUser(store) {
     this.initOnLoad(store, undefined, getDefaultRoute, function () {
