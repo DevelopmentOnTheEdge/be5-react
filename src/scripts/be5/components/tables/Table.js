@@ -461,7 +461,7 @@ class Table extends React.Component
 
     const topFormJson = value.included !== undefined ? getModelByID(value.included, value.meta, "topForm") : undefined;
     let topForm;
-    let hideOperations = [];
+    let hideOperations = data.attributes.layout.hideOperations || [];
     if(topFormJson){
       hideOperations.push(topFormJson.data.attributes.operation);
       topForm = <Document

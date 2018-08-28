@@ -4288,7 +4288,7 @@ var Table = function (_React$Component3) {
 
       var topFormJson = value.included !== undefined ? getModelByID(value.included, value.meta, "topForm") : undefined;
       var topForm = void 0;
-      var hideOperations = [];
+      var hideOperations = data.attributes.layout.hideOperations || [];
       if (topFormJson) {
         hideOperations.push(topFormJson.data.attributes.operation);
         topForm = React.createElement(Document$1, {
