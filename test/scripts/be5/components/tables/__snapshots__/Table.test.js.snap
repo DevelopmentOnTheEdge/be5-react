@@ -17,24 +17,24 @@ exports[`FormTable 1`] = `
         >
           Организации: Общие сведения
         </h1>
-        <div>
-          <div
-            className="operationList"
+        <div
+          className="operationList"
+        >
+          <button
+            className="btn btn-secondary btn-secondary-old btn-sm"
+            onClick={[Function]}
           >
-            <button
-              className="btn btn-secondary btn-secondary-old btn-sm"
-              onClick={[Function]}
-            >
-              Редактировать
-            </button>
-             
-            <button
-              className="btn btn-secondary btn-secondary-old btn-sm"
-              onClick={[Function]}
-            >
-              Добавить
-            </button>
-          </div>
+            Редактировать
+          </button>
+           
+          <button
+            className="btn btn-secondary btn-secondary-old btn-sm"
+            onClick={[Function]}
+          >
+            Добавить
+          </button>
+        </div>
+        <div>
           <div
             id="quickColumns"
           >
@@ -80,24 +80,24 @@ exports[`Table 1`] = `
   >
     Организации: Общие сведения
   </h1>
-  <div>
-    <div
-      className="operationList"
+  <div
+    className="operationList"
+  >
+    <button
+      className="btn btn-secondary btn-secondary-old btn-sm"
+      onClick={[Function]}
     >
-      <button
-        className="btn btn-secondary btn-secondary-old btn-sm"
-        onClick={[Function]}
-      >
-        Редактировать
-      </button>
-       
-      <button
-        className="btn btn-secondary btn-secondary-old btn-sm"
-        onClick={[Function]}
-      >
-        Добавить
-      </button>
-    </div>
+      Редактировать
+    </button>
+     
+    <button
+      className="btn btn-secondary btn-secondary-old btn-sm"
+      onClick={[Function]}
+    >
+      Добавить
+    </button>
+  </div>
+  <div>
     <div
       id="quickColumns"
     >
@@ -148,24 +148,24 @@ exports[`TableForm 1`] = `
         >
           Организации: Общие сведения
         </h1>
-        <div>
-          <div
-            className="operationList"
+        <div
+          className="operationList"
+        >
+          <button
+            className="btn btn-secondary btn-secondary-old btn-sm"
+            onClick={[Function]}
           >
-            <button
-              className="btn btn-secondary btn-secondary-old btn-sm"
-              onClick={[Function]}
-            >
-              Редактировать
-            </button>
-             
-            <button
-              className="btn btn-secondary btn-secondary-old btn-sm"
-              onClick={[Function]}
-            >
-              Добавить
-            </button>
-          </div>
+            Редактировать
+          </button>
+           
+          <button
+            className="btn btn-secondary btn-secondary-old btn-sm"
+            onClick={[Function]}
+          >
+            Добавить
+          </button>
+        </div>
+        <div>
           <div
             id="quickColumns"
           >
@@ -225,24 +225,24 @@ exports[`TableFormRow 1`] = `
           >
             Организации: Общие сведения
           </h1>
-          <div>
-            <div
-              className="operationList"
+          <div
+            className="operationList"
+          >
+            <button
+              className="btn btn-secondary btn-secondary-old btn-sm"
+              onClick={[Function]}
             >
-              <button
-                className="btn btn-secondary btn-secondary-old btn-sm"
-                onClick={[Function]}
-              >
-                Редактировать
-              </button>
-               
-              <button
-                className="btn btn-secondary btn-secondary-old btn-sm"
-                onClick={[Function]}
-              >
-                Добавить
-              </button>
-            </div>
+              Редактировать
+            </button>
+             
+            <button
+              className="btn btn-secondary btn-secondary-old btn-sm"
+              onClick={[Function]}
+            >
+              Добавить
+            </button>
+          </div>
+          <div>
             <div
               id="quickColumns"
             >

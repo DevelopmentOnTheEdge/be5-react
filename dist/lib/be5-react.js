@@ -3539,7 +3539,9 @@ var OperationBox = function (_React$Component) {
         });
         return out;
       };
-      var operations = this.props.operations.attributes.map(function (operation) {
+      var operations = this.props.operations.attributes.filter(function (operation) {
+        return _this3.props.hideOperations.indexOf(operation.name) === -1;
+      }).map(function (operation) {
         //      if (operation.isClientSide) {
         //        const action = Action.parse(operation.action);
         //        const attrs = {
@@ -3576,6 +3578,10 @@ var OperationBox = function (_React$Component) {
   return OperationBox;
 }(React.Component);
 
+OperationBox.defaultProps = {
+  hideOperations: []
+};
+
 var QuickColumns = function (_React$Component) {
   inherits(QuickColumns, _React$Component);
 
@@ -3596,7 +3602,9 @@ var QuickColumns = function (_React$Component) {
   }, {
     key: 'createStateFromProps',
     value: function createStateFromProps(props) {
-      return { quickColumns: props.firstRow.map(function (col, idx) {
+      if (props.rows.length === 0) return [];
+      var firstRow = props.rows[0].cells;
+      return { quickColumns: firstRow.map(function (col, idx) {
           if (col.options.quick) return { columnId: idx, visible: col.options.quick.visible === 'true' };else return null;
         }).filter(function (col) {
           return col !== null;
@@ -3619,8 +3627,8 @@ var QuickColumns = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      if (this.state.quickColumns.length === 0) {
-        return React.createElement('div', null);
+      if (this.state.quickColumns.length === 0 || this.props.rows.length === 0) {
+        return null;
       }
       if (this.state.table) {
         var dataTable = $(this.state.table).find('table').dataTable();
@@ -3854,11 +3862,7 @@ var TableBox = function (_React$Component) {
 
   function TableBox(props) {
     classCallCheck(this, TableBox);
-
-    var _this2 = possibleConstructorReturn(this, (TableBox.__proto__ || Object.getPrototypeOf(TableBox)).call(this, props));
-
-    _this2.onOperationClick = _this2.onOperationClick.bind(_this2);
-    return _this2;
+    return possibleConstructorReturn(this, (TableBox.__proto__ || Object.getPrototypeOf(TableBox)).call(this, props));
   }
 
   createClass(TableBox, [{
@@ -3872,40 +3876,6 @@ var TableBox = function (_React$Component) {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       if (this.refs.table) this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
-    }
-  }, {
-    key: 'onOperationClick',
-    value: function onOperationClick(operation) {
-      var frontendParams = {
-        documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
-        parentDocumentName: this.props.frontendParams.documentName
-      };
-
-      if (operation.clientSide === true) {
-        executeFrontendActions(JSON.parse(operation.action), frontendParams);
-        return;
-      }
-
-      var name = operation.name;
-      var attr = this.props.value.data.attributes;
-
-      var operationParams = void 0;
-
-      if (be5.tableState.selectedRows.length > 0) {
-        operationParams = Object.assign({}, attr.parameters, { "_selectedRows_": be5.tableState.selectedRows.join() });
-      } else {
-        operationParams = attr.parameters;
-      }
-
-      var params = {
-        entity: attr.category,
-        query: attr.page || 'All records',
-        operation: name,
-        values: {},
-        operationParams: operationParams
-      };
-
-      forms.load(params, frontendParams);
     }
   }, {
     key: 'onSelectionChange',
@@ -4172,26 +4142,13 @@ var TableBox = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _props$value = this.props.value,
-          data = _props$value.data,
-          included = _props$value.included;
+      var attributes = this.props.value.data.attributes;
 
-      var hasRows = data.attributes.rows.length;
 
-      if (!hasRows) {
+      if (this.props.value.data.attributes.rows.length === 0) {
         return React.createElement(
           'div',
           null,
-          React.createElement(CategoryNavigation, {
-            data: getResourceByType(included, "documentCategories"),
-            url: getSelfUrl(this.props.value)
-          }),
-          React.createElement(OperationBox, {
-            ref: 'operations',
-            operations: getResourceByType(included, "documentOperations"),
-            onOperationClick: this.onOperationClick,
-            hasRows: hasRows
-          }),
           be5.messages.emptyTable
         );
       }
@@ -4199,22 +4156,12 @@ var TableBox = function (_React$Component) {
       return React.createElement(
         'div',
         null,
-        React.createElement(CategoryNavigation, {
-          data: getResourceByType(included, "documentCategories"),
-          url: getSelfUrl(this.props.value)
-        }),
-        React.createElement(OperationBox, {
-          ref: 'operations',
-          operations: getResourceByType(included, "documentOperations"),
-          onOperationClick: this.onOperationClick,
-          hasRows: hasRows
-        }),
         React.createElement(QuickColumns, {
           ref: 'quickColumns',
-          columns: data.attributes.columns,
-          firstRow: data.attributes.rows[0].cells,
+          columns: attributes.columns,
+          rows: attributes.rows,
           table: this.refs.table,
-          selectable: data.attributes.selectable
+          selectable: attributes.selectable
         }),
         React.createElement(
           'div',
@@ -4271,10 +4218,45 @@ var Table = function (_React$Component3) {
     var _this5 = possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).call(this, props));
 
     _this5.state = { runReload: "" };
+    _this5.onOperationClick = _this5.onOperationClick.bind(_this5);
     return _this5;
   }
 
   createClass(Table, [{
+    key: 'onOperationClick',
+    value: function onOperationClick(operation) {
+      var frontendParams = {
+        documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
+        parentDocumentName: this.props.frontendParams.documentName
+      };
+
+      if (operation.clientSide === true) {
+        executeFrontendActions(JSON.parse(operation.action), frontendParams);
+        return;
+      }
+
+      var name = operation.name;
+      var attr = this.props.value.data.attributes;
+
+      var operationParams = void 0;
+
+      if (be5.tableState.selectedRows.length > 0) {
+        operationParams = Object.assign({}, attr.parameters, { "_selectedRows_": be5.tableState.selectedRows.join() });
+      } else {
+        operationParams = attr.parameters;
+      }
+
+      var params = {
+        entity: attr.category,
+        query: attr.page || 'All records',
+        operation: name,
+        values: {},
+        operationParams: operationParams
+      };
+
+      forms.load(params, frontendParams);
+    }
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       updateLocationHashIfNeeded(this.props);
@@ -4283,6 +4265,12 @@ var Table = function (_React$Component3) {
     key: 'render',
     value: function render() {
       var value = this.props.value;
+      var _props$value = this.props.value,
+          data = _props$value.data,
+          included = _props$value.included;
+
+      var hasRows = data.attributes.rows.length !== 0;
+
       //const reloadClass = "table-reload float-xs-right " + this.state.runReload;
       var table = null;
 
@@ -4300,7 +4288,9 @@ var Table = function (_React$Component3) {
 
       var topFormJson = value.included !== undefined ? getModelByID(value.included, value.meta, "topForm") : undefined;
       var topForm = void 0;
+      var hideOperations = [];
       if (topFormJson) {
+        hideOperations.push(topFormJson.data.attributes.operation);
         topForm = React.createElement(Document$1, {
           frontendParams: { documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName },
           value: topFormJson
@@ -4316,6 +4306,17 @@ var Table = function (_React$Component3) {
           { className: 'table-component__title' },
           value.data.attributes.title
         ),
+        React.createElement(CategoryNavigation, {
+          data: getResourceByType(included, "documentCategories"),
+          url: getSelfUrl(this.props.value)
+        }),
+        React.createElement(OperationBox, {
+          ref: 'operations',
+          operations: getResourceByType(included, "documentOperations"),
+          onOperationClick: this.onOperationClick,
+          hasRows: hasRows,
+          hideOperations: hideOperations
+        }),
         table
       );
     }

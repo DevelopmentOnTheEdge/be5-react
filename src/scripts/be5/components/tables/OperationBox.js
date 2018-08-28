@@ -59,7 +59,9 @@ class OperationBox extends React.Component
       });
       return out;
     };
-    const operations = this.props.operations.attributes.map(operation => {
+    const operations = this.props.operations.attributes
+        .filter(operation => this.props.hideOperations.indexOf(operation.name) === -1 )
+        .map(operation => {
 //      if (operation.isClientSide) {
 //        const action = Action.parse(operation.action);
 //        const attrs = {
@@ -95,5 +97,9 @@ class OperationBox extends React.Component
     );
   }
 }
+
+OperationBox.defaultProps = {
+  hideOperations: []
+};
 
 export default OperationBox;

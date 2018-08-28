@@ -53,7 +53,6 @@ class TableBox extends React.Component {
   constructor(props) {
     super(props);
 
-    this.onOperationClick = this.onOperationClick.bind(this);
   }
 
   componentDidMount() {
@@ -66,40 +65,6 @@ class TableBox extends React.Component {
   componentDidUpdate() {
     if(this.refs.table)
       this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
-  }
-
-  onOperationClick(operation) {
-    const frontendParams = {
-      documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
-      parentDocumentName: this.props.frontendParams.documentName
-    };
-
-    if(operation.clientSide === true)
-    {
-      executeFrontendActions(JSON.parse(operation.action), frontendParams);
-      return;
-    }
-
-    const name = operation.name;
-    const attr = this.props.value.data.attributes;
-
-    let operationParams;
-
-    if (be5.tableState.selectedRows.length > 0) {
-      operationParams = Object.assign({}, attr.parameters, {"_selectedRows_": be5.tableState.selectedRows.join()});
-    } else {
-      operationParams = attr.parameters;
-    }
-
-    const params = {
-      entity: attr.category,
-      query: attr.page || 'All records',
-      operation: name,
-      values: {},
-      operationParams: operationParams
-    };
-
-    forms.load(params, frontendParams);
   }
 
   onSelectionChange() {
@@ -371,22 +336,11 @@ class TableBox extends React.Component {
   }
 
   render() {
-    const {data, included} = this.props.value;
-    const hasRows = data.attributes.rows.length;
+    const {attributes} = this.props.value.data;
 
-    if (!hasRows) {
+    if (this.props.value.data.attributes.rows.length === 0) {
       return (
         <div>
-          <CategoryNavigation
-            data={getResourceByType(included, "documentCategories")}
-            url={getSelfUrl(this.props.value)}
-          />
-          <OperationBox
-            ref="operations"
-            operations={getResourceByType(included, "documentOperations")}
-            onOperationClick={this.onOperationClick}
-            hasRows={hasRows}
-          />
           {be5.messages.emptyTable}
         </div>
       );
@@ -394,22 +348,12 @@ class TableBox extends React.Component {
 
     return (
       <div>
-        <CategoryNavigation
-          data={getResourceByType(included, "documentCategories")}
-          url={getSelfUrl(this.props.value)}
-        />
-        <OperationBox
-          ref="operations"
-          operations={getResourceByType(included, "documentOperations")}
-          onOperationClick={this.onOperationClick}
-          hasRows={hasRows}
-        />
         <QuickColumns
           ref="quickColumns"
-          columns={data.attributes.columns}
-          firstRow={data.attributes.rows[0].cells}
+          columns={attributes.columns}
+          rows={attributes.rows}
           table={this.refs.table}
-          selectable={data.attributes.selectable}
+          selectable={attributes.selectable}
         />
         <div className="">
           <div ref="table" className="row"/>
@@ -446,7 +390,42 @@ class Table extends React.Component
   constructor(props) {
     super(props);
 
-    this.state = {runReload: ""}
+    this.state = {runReload: ""};
+    this.onOperationClick = this.onOperationClick.bind(this);
+  }
+
+  onOperationClick(operation) {
+    const frontendParams = {
+      documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
+      parentDocumentName: this.props.frontendParams.documentName
+    };
+
+    if(operation.clientSide === true)
+    {
+      executeFrontendActions(JSON.parse(operation.action), frontendParams);
+      return;
+    }
+
+    const name = operation.name;
+    const attr = this.props.value.data.attributes;
+
+    let operationParams;
+
+    if (be5.tableState.selectedRows.length > 0) {
+      operationParams = Object.assign({}, attr.parameters, {"_selectedRows_": be5.tableState.selectedRows.join()});
+    } else {
+      operationParams = attr.parameters;
+    }
+
+    const params = {
+      entity: attr.category,
+      query: attr.page || 'All records',
+      operation: name,
+      values: {},
+      operationParams: operationParams
+    };
+
+    forms.load(params, frontendParams);
   }
 
   componentDidMount() {
@@ -455,6 +434,9 @@ class Table extends React.Component
 
   render() {
     const value = this.props.value;
+    const {data, included} = this.props.value;
+    const hasRows = data.attributes.rows.length !== 0;
+
     //const reloadClass = "table-reload float-xs-right " + this.state.runReload;
     let table = null;
 
@@ -479,7 +461,9 @@ class Table extends React.Component
 
     const topFormJson = value.included !== undefined ? getModelByID(value.included, value.meta, "topForm") : undefined;
     let topForm;
+    let hideOperations = [];
     if(topFormJson){
+      hideOperations.push(topFormJson.data.attributes.operation);
       topForm = <Document
         frontendParams={{documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName}}
         value={topFormJson}
@@ -490,6 +474,17 @@ class Table extends React.Component
       <div className="table-component">
         {topForm}
         <TitleTag className="table-component__title">{value.data.attributes.title}</TitleTag>
+        <CategoryNavigation
+          data={getResourceByType(included, "documentCategories")}
+          url={getSelfUrl(this.props.value)}
+        />
+        <OperationBox
+          ref="operations"
+          operations={getResourceByType(included, "documentOperations")}
+          onOperationClick={this.onOperationClick}
+          hasRows={hasRows}
+          hideOperations={hideOperations}
+        />
         {table}
       </div>
     );

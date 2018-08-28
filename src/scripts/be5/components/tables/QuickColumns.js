@@ -13,9 +13,11 @@ class QuickColumns extends React.Component
     this.setState(this.createStateFromProps(nextProps));
   }
 
-  createStateFromProps(props){
+  createStateFromProps(props) {
+    if(props.rows.length === 0)return [];
+    const firstRow=props.rows[0].cells;
     return {quickColumns:
-      props.firstRow
+      firstRow
         .map( (col, idx) => {
           if(col.options.quick)
             return {columnId: idx, visible: col.options.quick.visible === 'true'};
@@ -35,8 +37,8 @@ class QuickColumns extends React.Component
   }
 
   render() {
-    if(this.state.quickColumns.length === 0){
-      return (<div/>)
+    if(this.state.quickColumns.length === 0 || this.props.rows.length === 0){
+      return null;
     }
     if(this.state.table){
       const dataTable = $(this.state.table).find('table').dataTable();
