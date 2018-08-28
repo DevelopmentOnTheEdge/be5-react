@@ -10,8 +10,9 @@ const route = function(documentName, page)
     _ts_: new Date().getTime()
   };
 
-  be5.net.request('static/' + page, requestParams, data => {
-    changeDocument(documentName, { value: data })
+  be5.net.request('static/' + page, requestParams, json => {
+    if(documentName === be5.MAIN_DOCUMENT)be5.ui.setTitle(json.data.attributes.title);
+    changeDocument(documentName, { value: json })
   });
 };
 

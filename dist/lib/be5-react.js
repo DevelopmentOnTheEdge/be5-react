@@ -1195,6 +1195,7 @@ var isActions = function isActions(attributes) {
 };
 
 var _performForm = function _performForm(json, frontendParams) {
+  if (frontendParams.documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
   var operationResult = json.data.attributes.operationResult;
 
   if (operationResult.status === 'error') {
@@ -3669,10 +3670,11 @@ var QuickColumns = function (_React$Component) {
 }(React.Component);
 
 var loadTable = function loadTable(params, frontendParams) {
-  getTable(params, function (data) {
-    changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
-  }, function (data) {
-    changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
+  getTable(params, function (json) {
+    if (frontendParams.documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
+    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+  }, function (json) {
+    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   });
 };
 
@@ -4503,8 +4505,9 @@ var route$8 = function route(documentName, page) {
     _ts_: new Date().getTime()
   };
 
-  be5.net.request('static/' + page, requestParams, function (data) {
-    changeDocument(documentName, { value: data });
+  be5.net.request('static/' + page, requestParams, function (json) {
+    if (documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
+    changeDocument(documentName, { value: json });
   });
 };
 
@@ -4529,6 +4532,7 @@ var route$12 = function route(documentName, params) {
   };
 
   be5.net.request('queryBuilder', requestParams, function (data) {
+    if (documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle("Query Builder");
     changeDocument(documentName, { value: Object.assign({}, data, { params: be5.net.paramString(params) }) });
   });
 };
@@ -4536,12 +4540,14 @@ var route$12 = function route(documentName, params) {
 registerRoute("queryBuilder", route$12);
 
 var route$14 = function route(documentName, text) {
+  if (documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle();
   changeDocument(documentName, { value: createStaticValue(undefined, text) });
 };
 
 registerRoute("text", route$14);
 
 var route$16 = function route(documentName) {
+  if (documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle("UI panel");
   changeDocument(documentName, { value: {}, frontendParams: { type: 'uiPanel' } });
 };
 

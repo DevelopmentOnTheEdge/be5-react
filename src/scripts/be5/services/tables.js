@@ -4,10 +4,11 @@ import Preconditions       from '../utils/preconditions';
 
 
 export const loadTable = (params, frontendParams) => {
-  getTable(params, data => {
-    changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
-  }, (data) => {
-    changeDocument(frontendParams.documentName, { value: data, frontendParams: frontendParams });
+  getTable(params, json => {
+    if(frontendParams.documentName === be5.MAIN_DOCUMENT)be5.ui.setTitle(json.data.attributes.title);
+    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+  }, (json) => {
+    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   })
 };
 

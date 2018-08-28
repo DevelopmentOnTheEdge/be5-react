@@ -142,6 +142,7 @@ const isActions = (attributes) =>
 
 const _performForm = (json, frontendParams) =>
 {
+  if(frontendParams.documentName === be5.MAIN_DOCUMENT)be5.ui.setTitle(json.data.attributes.title);
   let operationResult = json.data.attributes.operationResult;
 
   if(operationResult.status === 'error')

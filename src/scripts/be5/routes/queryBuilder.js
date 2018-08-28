@@ -12,6 +12,7 @@ const route = function(documentName, params)
   };
 
   be5.net.request('queryBuilder', requestParams, data => {
+    if(documentName === be5.MAIN_DOCUMENT)be5.ui.setTitle("Query Builder");
     changeDocument(documentName, { value: Object.assign({}, data, {params: be5.net.paramString(params)}) })
   });
 };
