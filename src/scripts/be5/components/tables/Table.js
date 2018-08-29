@@ -52,14 +52,13 @@ const formatCell = (data, options, isColumn) =>
 class TableBox extends React.Component {
   constructor(props) {
     super(props);
-
   }
 
   componentDidMount() {
     if(this.refs.table)
       this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
 
-    this._refreshEnablementIfNeeded();
+    this.props._refreshEnablementIfNeeded();
   }
 
   componentDidUpdate() {
@@ -68,7 +67,7 @@ class TableBox extends React.Component {
   }
 
   onSelectionChange() {
-    this._refreshEnablementIfNeeded();
+    this.props._refreshEnablementIfNeeded();
 
     if (this.props.hasOwnProperty('callbacks') && this.props.callbacks !== undefined
       && this.props.callbacks.hasOwnProperty('onSelectionChange'))
@@ -310,7 +309,7 @@ class TableBox extends React.Component {
 
     tableDiv.on( 'draw.dt', function () {
       be5.tableState.selectedRows = [];
-      _this._refreshEnablementIfNeeded();
+      _this.props._refreshEnablementIfNeeded();
     } );
 
     // $('#rowCheckboxAll').click(function (e) {
@@ -362,11 +361,6 @@ class TableBox extends React.Component {
     );
   }
 
-  _refreshEnablementIfNeeded() {
-    if (this.refs !== undefined && this.refs.operations !== undefined) {
-      this.refs.operations.refreshEnablement();
-    }
-  }
 }
 
 //todo add register new component and move to condo, add base types
@@ -392,6 +386,7 @@ class Table extends React.Component
 
     this.state = {runReload: ""};
     this.onOperationClick = this.onOperationClick.bind(this);
+    this._refreshEnablementIfNeeded = this._refreshEnablementIfNeeded.bind(this);
   }
 
   onOperationClick(operation) {
@@ -450,6 +445,7 @@ class Table extends React.Component
     {
       table = (
         <TableBox
+          _refreshEnablementIfNeeded={this._refreshEnablementIfNeeded}
           ref="tableBox"
           value={value}
           frontendParams={this.props.frontendParams}
@@ -490,6 +486,9 @@ class Table extends React.Component
     );
   }
 
+  _refreshEnablementIfNeeded() {
+    this.refs.operations.refreshEnablement();
+  }
 }
 
 Table.propTypes = {
