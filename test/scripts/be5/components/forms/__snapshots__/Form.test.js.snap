@@ -229,6 +229,14 @@ exports[`ModalForm 1`] = `
         className="modal-footer"
       >
         <button
+          className="btn btn-secondary"
+          onClick={[Function]}
+          type="button"
+        >
+          Close
+        </button>
+         
+        <button
           className="btn btn-primary"
           disabled={false}
           onClick={[Function]}
