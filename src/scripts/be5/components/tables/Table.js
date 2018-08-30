@@ -13,6 +13,8 @@ import {updateTable}      from "../../services/tables";
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions} from "../../services/frontendActions";
 import {updateLocationHashIfNeeded} from "../../services/documents";
+import FrontendAction from "../../services/model/FrontendAction";
+import {GO_BACK, OPEN_DEFAULT_ROUTE} from "../../constants";
 
 
 const formatCell = (data, options, isColumn) =>
@@ -482,8 +484,39 @@ class Table extends React.Component
           hideOperations={hideOperations}
         />
         {table}
+        {this._createCancelAction()}
       </div>
     );
+  }
+
+  /**
+   * layout: '{"cancelActionText":"Back"}'
+   * layout: '{"cancelAction": {"type": "SET_URL","value":"text/test123"}}'
+   */
+  _createCancelAction() {
+    const layout = this.props.value.data.attributes.layout;
+
+    if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText ||
+        this.props.frontendParams.documentName === be5.MAIN_DOCUMENT)
+    {
+      const action = layout.cancelAction || this.getDefaultCancelAction();
+
+      return (
+        <button type="button" className="btn btn-light mt-2" onClick={() => executeFrontendActions(action, this.props.frontendParams)}>
+          {layout.cancelActionText || be5.messages.back}
+        </button>
+      );
+    }else{
+      return null;
+    }
+  }
+
+  getDefaultCancelAction() {
+    if(window.history.length > 1){
+      return new FrontendAction(GO_BACK);
+    }else{
+      return new FrontendAction(OPEN_DEFAULT_ROUTE);
+    }
   }
 
   _refreshEnablementIfNeeded() {

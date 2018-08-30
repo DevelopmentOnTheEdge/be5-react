@@ -96,6 +96,7 @@ var messages = {
     back: 'Back',
     error: 'Error:',
     cancel: 'Cancel',
+    close: 'Close',
     login: 'Login',
     logout: 'Logout',
     reload: 'reload',
@@ -138,6 +139,7 @@ var messages = {
     back: 'Назад',
     error: 'Ошибка:',
     cancel: 'Отмена',
+    close: 'Закрыть',
     login: 'Вход',
     logout: 'Выход',
     reload: 'Перезагрузить',
@@ -2044,7 +2046,7 @@ var Be5Components = function (_React$Component) {
         React.createElement(Alert, { stack: { limit: 10 } }),
         React.createElement(
           Modal,
-          { isOpen: this.state.modal, toggle: this.close, className: this.props.className },
+          { isOpen: this.state.modal, toggle: this.close, className: this.props.className, backdrop: "static" },
           React.createElement(Document$1, { ref: 'document', frontendParams: { documentName: be5.MAIN_MODAL_DOCUMENT } })
         )
       );
@@ -3156,17 +3158,26 @@ var Form = function (_React$Component) {
 
       var layout = this.state.data.attributes.layout;
 
-      if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText) {
-        var action = layout.cancelAction || new FrontendAction(GO_BACK);
+      if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText || this.props.frontendParams.documentName === be5.MAIN_DOCUMENT) {
+        var action = layout.cancelAction || this.getDefaultCancelAction();
         return React.createElement(
           'button',
           { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
               return executeFrontendActions(action, _this6.props.frontendParams);
             } },
-          layout.cancelActionText || be5.messages.cancel
+          layout.cancelActionText || be5.messages.back
         );
       } else {
         return null;
+      }
+    }
+  }, {
+    key: 'getDefaultCancelAction',
+    value: function getDefaultCancelAction() {
+      if (window.history.length > 1) {
+        return new FrontendAction(GO_BACK);
+      } else {
+        return new FrontendAction(OPEN_DEFAULT_ROUTE);
       }
     }
   }, {
@@ -3339,8 +3350,25 @@ var ModalForm = function (_Form) {
         React.createElement(
           ModalFooter,
           null,
+          this._createCancelAction(),
+          ' ',
           this._createSubmitAction()
         )
+      );
+    }
+  }, {
+    key: '_createCancelAction',
+    value: function _createCancelAction() {
+      var _this2 = this;
+
+      var layout = this.state.data.attributes.layout;
+      var action = layout.cancelAction || new FrontendAction(CLOSE_MAIN_MODAL);
+      return React.createElement(
+        'button',
+        { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
+            return executeFrontendActions(action, _this2.props.frontendParams);
+          } },
+        layout.cancelActionText || be5.messages.close
       );
     }
   }, {
@@ -3870,7 +3898,7 @@ var TableBox = function (_React$Component) {
     value: function componentDidMount() {
       if (this.refs.table) this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
 
-      this._refreshEnablementIfNeeded();
+      this.props._refreshEnablementIfNeeded();
     }
   }, {
     key: 'componentDidUpdate',
@@ -3880,7 +3908,7 @@ var TableBox = function (_React$Component) {
   }, {
     key: 'onSelectionChange',
     value: function onSelectionChange() {
-      this._refreshEnablementIfNeeded();
+      this.props._refreshEnablementIfNeeded();
 
       if (this.props.hasOwnProperty('callbacks') && this.props.callbacks !== undefined && this.props.callbacks.hasOwnProperty('onSelectionChange')) {
         this.props.callbacks.onSelectionChange(be5.tableState.selectedRows);
@@ -4115,7 +4143,7 @@ var TableBox = function (_React$Component) {
 
       tableDiv.on('draw.dt', function () {
         be5.tableState.selectedRows = [];
-        _this._refreshEnablementIfNeeded();
+        _this.props._refreshEnablementIfNeeded();
       });
 
       // $('#rowCheckboxAll').click(function (e) {
@@ -4170,13 +4198,6 @@ var TableBox = function (_React$Component) {
         )
       );
     }
-  }, {
-    key: '_refreshEnablementIfNeeded',
-    value: function _refreshEnablementIfNeeded() {
-      if (this.refs !== undefined && this.refs.operations !== undefined) {
-        this.refs.operations.refreshEnablement();
-      }
-    }
   }]);
   return TableBox;
 }(React.Component);
@@ -4219,6 +4240,7 @@ var Table = function (_React$Component3) {
 
     _this5.state = { runReload: "" };
     _this5.onOperationClick = _this5.onOperationClick.bind(_this5);
+    _this5._refreshEnablementIfNeeded = _this5._refreshEnablementIfNeeded.bind(_this5);
     return _this5;
   }
 
@@ -4278,6 +4300,7 @@ var Table = function (_React$Component3) {
         table = React.createElement(ListTableBox, { ref: 'tableBox', value: value });
       } else {
         table = React.createElement(TableBox, {
+          _refreshEnablementIfNeeded: this._refreshEnablementIfNeeded,
           ref: 'tableBox',
           value: value,
           frontendParams: this.props.frontendParams
@@ -4317,8 +4340,50 @@ var Table = function (_React$Component3) {
           hasRows: hasRows,
           hideOperations: hideOperations
         }),
-        table
+        table,
+        this._createCancelAction()
       );
+    }
+
+    /**
+     * layout: '{"cancelActionText":"Back"}'
+     * layout: '{"cancelAction": {"type": "SET_URL","value":"text/test123"}}'
+     */
+
+  }, {
+    key: '_createCancelAction',
+    value: function _createCancelAction() {
+      var _this6 = this;
+
+      var layout = this.props.value.data.attributes.layout;
+
+      if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText || this.props.frontendParams.documentName === be5.MAIN_DOCUMENT) {
+        var action = layout.cancelAction || this.getDefaultCancelAction();
+
+        return React.createElement(
+          'button',
+          { type: 'button', className: 'btn btn-light mt-2', onClick: function onClick() {
+              return executeFrontendActions(action, _this6.props.frontendParams);
+            } },
+          layout.cancelActionText || be5.messages.back
+        );
+      } else {
+        return null;
+      }
+    }
+  }, {
+    key: 'getDefaultCancelAction',
+    value: function getDefaultCancelAction() {
+      if (window.history.length > 1) {
+        return new FrontendAction(GO_BACK);
+      } else {
+        return new FrontendAction(OPEN_DEFAULT_ROUTE);
+      }
+    }
+  }, {
+    key: '_refreshEnablementIfNeeded',
+    value: function _refreshEnablementIfNeeded() {
+      this.refs.operations.refreshEnablement();
     }
   }]);
   return Table;

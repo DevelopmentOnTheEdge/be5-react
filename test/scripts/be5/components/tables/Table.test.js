@@ -42,7 +42,15 @@ test('Table', () => {
       <Table value={testData.simpleTable} frontendParams={{documentName: 'test'}} />
     </TestProvider>
   );
+  expect(component.toJSON()).toMatchSnapshot();
+});
 
+test('Table on MAIN_DOCUMENT', () => {
+  const component = renderer.create(
+    <TestProvider>
+      <Table value={testData.simpleTable} frontendParams={{documentName: be5.MAIN_DOCUMENT}} />
+    </TestProvider>
+  );
   expect(component.toJSON()).toMatchSnapshot();
 });
 
@@ -52,7 +60,6 @@ test('TableForm', () => {
       <TableForm value={testData.simpleTable} frontendParams={{documentName: 'test'}} />
     </TestProvider>
   );
-
   expect(component.toJSON()).toMatchSnapshot();
 });
 
@@ -62,7 +69,6 @@ test('FormTable', () => {
       <FormTable value={testData.simpleTable} frontendParams={{documentName: 'test'}} />
     </TestProvider>
   );
-
   expect(component.toJSON()).toMatchSnapshot();
 });
 
@@ -72,6 +78,5 @@ test('TableFormRow', () => {
       <TableFormRow value={testData.simpleTable} frontendParams={{documentName: 'test'}} />
     </TestProvider>
   );
-
   expect(component.toJSON()).toMatchSnapshot();
 });

@@ -10,7 +10,7 @@ import Transition      from 'react-transition-group/Transition';
 import {registerDocument} from '../../core/documents';
 import {executeFrontendActions} from "../../services/frontendActions";
 import FrontendAction from "../../services/model/FrontendAction";
-import {GO_BACK} from "../../constants";
+import {GO_BACK, OPEN_DEFAULT_ROUTE} from "../../constants";
 import {updateLocationHashIfNeeded} from "../../services/documents";
 
 
@@ -173,15 +173,24 @@ class Form extends React.Component
   _createCancelAction() {
     const layout = this.state.data.attributes.layout;
 
-    if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText) {
-      const action = layout.cancelAction || new FrontendAction(GO_BACK);
+    if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText
+         || this.props.frontendParams.documentName === be5.MAIN_DOCUMENT) {
+      const action = layout.cancelAction || this.getDefaultCancelAction();
       return (
         <button type="button" className="btn btn-secondary" onClick={() => executeFrontendActions(action, this.props.frontendParams)}>
-          {layout.cancelActionText || be5.messages.cancel}
+          {layout.cancelActionText || be5.messages.back}
         </button>
       );
     }else{
       return null;
+    }
+  }
+
+  getDefaultCancelAction() {
+    if(window.history.length > 1){
+      return new FrontendAction(GO_BACK);
+    }else{
+      return new FrontendAction(OPEN_DEFAULT_ROUTE);
     }
   }
 

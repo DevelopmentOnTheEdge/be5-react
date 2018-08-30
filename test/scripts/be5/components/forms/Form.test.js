@@ -8,13 +8,20 @@ import SubmitOnChangeForm           from '../../../../../src/scripts/be5/compone
 import testData       from '../../testData.json'
 import forms from '../../../../../src/scripts/be5/services/forms';
 import {shallow, mount} from 'enzyme';
+import be5 from "../../../../../src/scripts/be5/be5";
 
 
 test('Form', () => {
   const component = renderer.create(
     <Form value={testData.emptyForm} frontendParams={{documentName: 'test'}} />
   );
+  expect(component.toJSON()).toMatchSnapshot();
+});
 
+test('Form on MAIN_DOCUMENT', () => {
+  const component = renderer.create(
+    <Form value={testData.emptyForm} frontendParams={{documentName: be5.MAIN_DOCUMENT}} />
+  );
   expect(component.toJSON()).toMatchSnapshot();
 });
 
@@ -22,7 +29,6 @@ test('HorizontalForm', () => {
   const component = renderer.create(
     <HorizontalForm value={testData.emptyForm} frontendParams={{documentName: 'test'}} />
   );
-
   expect(component.toJSON()).toMatchSnapshot();
 });
 
@@ -30,7 +36,6 @@ test('Form errorOnApply', () => {
   const component = renderer.create(
     <Form value={testData.errorOnApply} frontendParams={{documentName: 'test'}} />
   );
-
   expect(component.toJSON()).toMatchSnapshot();
 });
 
@@ -38,7 +43,6 @@ test('ModalForm', () => {
   const component = renderer.create(
     <ModalForm value={testData.emptyForm} frontendParams={{documentName: 'test'}} />
   );
-
   expect(component.toJSON()).toMatchSnapshot();
 });
 
@@ -46,7 +50,6 @@ test('InlineForm', () => {
   const component = renderer.create(
     <InlineForm value={testData.emptyForm} frontendParams={{documentName: 'test'}} />
   );
-
   expect(component.toJSON()).toMatchSnapshot();
 });
 
@@ -54,7 +57,6 @@ test('SubmitOnChangeForm', () => {
   const component = renderer.create(
     <SubmitOnChangeForm value={testData.simpleForm} frontendParams={{documentName: 'test'}} />
   );
-
   expect(component.toJSON()).toMatchSnapshot();
 });
 

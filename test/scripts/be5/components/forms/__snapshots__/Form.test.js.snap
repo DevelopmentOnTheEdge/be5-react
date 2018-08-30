@@ -113,6 +113,57 @@ exports[`Form errorOnApply 1`] = `
 </div>
 `;
 
+exports[`Form on MAIN_DOCUMENT 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="formBox col-12 max-width-970 formBoxDefault"
+  >
+    <h1
+      className="form-component__title"
+    >
+      SelectCompany
+    </h1>
+    <form
+      className=""
+      id="1507198229686"
+      onSubmit={[Function]}
+    >
+      <div>
+        <div
+          className="property-set form-row"
+        />
+        <div
+          className="formActions"
+        >
+          <button
+            className="btn btn-primary"
+            disabled={false}
+            onClick={[Function]}
+            title=""
+            type="submit"
+          >
+            Submit
+          </button>
+           
+          <button
+            className="btn btn-secondary"
+            onClick={[Function]}
+            type="button"
+          >
+            Back
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div
+    className="col-12"
+  />
+</div>
+`;
+
 exports[`HorizontalForm 1`] = `
 <div
   className="row"
