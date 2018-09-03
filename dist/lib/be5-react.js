@@ -1070,6 +1070,14 @@ var getActionsMap = function getActionsMap(actionsArrayOrOneObject) {
   return map;
 };
 
+var getBackOrOpenDefaultRouteAction = function getBackOrOpenDefaultRouteAction() {
+  if (window.history.length > 1) {
+    return new FrontendAction(GO_BACK);
+  } else {
+    return new FrontendAction(OPEN_DEFAULT_ROUTE);
+  }
+};
+
 var loadOperation = function loadOperation(params, frontendParams) {
   _send('form', params, frontendParams);
 };
@@ -4358,26 +4366,20 @@ var Table = function (_React$Component3) {
       var layout = this.props.value.data.attributes.layout;
 
       if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText || this.props.frontendParams.documentName === be5.MAIN_DOCUMENT) {
-        var action = layout.cancelAction || this.getDefaultCancelAction();
-
+        var action = layout.cancelAction || getBackOrOpenDefaultRouteAction();
         return React.createElement(
           'button',
-          { type: 'button', className: 'btn btn-light mt-2', onClick: function onClick() {
+          {
+            type: 'button',
+            className: 'btn btn-light mt-2',
+            onClick: function onClick() {
               return executeFrontendActions(action, _this6.props.frontendParams);
-            } },
+            }
+          },
           layout.cancelActionText || be5.messages.back
         );
       } else {
         return null;
-      }
-    }
-  }, {
-    key: 'getDefaultCancelAction',
-    value: function getDefaultCancelAction() {
-      if (window.history.length > 1) {
-        return new FrontendAction(GO_BACK);
-      } else {
-        return new FrontendAction(OPEN_DEFAULT_ROUTE);
       }
     }
   }, {
@@ -5516,7 +5518,11 @@ var api = Object.freeze({
 	loadTable: loadTable,
 	updateTable: updateTable,
 	fetchTableByUrl: fetchTableByUrl,
-	updateLocationHashIfNeeded: updateLocationHashIfNeeded
+	updateLocationHashIfNeeded: updateLocationHashIfNeeded,
+	executeFrontendActions: executeFrontendActions,
+	getActionsMap: getActionsMap,
+	getBackOrOpenDefaultRouteAction: getBackOrOpenDefaultRouteAction,
+	FrontendAction: FrontendAction
 });
 
 // components
@@ -5524,4 +5530,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, setUrlForHash, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, updateLocationHashIfNeeded };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, setUrlForHash, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, updateLocationHashIfNeeded, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction };

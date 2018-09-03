@@ -44,6 +44,9 @@ import {fetchMenu} from './store/actions/menu.actions'
 import {getCurrentRoles, getUser} from './store/selectors/user.selectors'
 import {getMenu} from './store/selectors/menu.selectors'
 
+import {executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction} from './services/frontendActions'
+import FrontendAction from './services/model/FrontendAction'
+
 
 export {
   be5init,
@@ -83,5 +86,8 @@ export {
 
   loadTable, updateTable, fetchTableByUrl,
 
-  updateLocationHashIfNeeded
+  updateLocationHashIfNeeded,
+
+  executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction,
+  FrontendAction
 }

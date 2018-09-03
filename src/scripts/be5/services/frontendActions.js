@@ -11,6 +11,7 @@ import {
   UPDATE_PARENT_DOCUMENT
 } from "../constants";
 import {openOperationByUrl} from './forms';
+import FrontendAction from "./model/FrontendAction";
 
 function simpleFinishInModalDocument(actions, documentName) {
   return actions.length === 0 && documentName === be5.MAIN_MODAL_DOCUMENT
@@ -121,4 +122,12 @@ export const getActionsMap = (actionsArrayOrOneObject) => {
   }
 
   return map;
+};
+
+export const getBackOrOpenDefaultRouteAction = () => {
+  if(window.history.length > 1){
+    return new FrontendAction(GO_BACK);
+  }else{
+    return new FrontendAction(OPEN_DEFAULT_ROUTE);
+  }
 };
