@@ -309,6 +309,8 @@ var CLOSE_MAIN_MODAL = 'CLOSE_MAIN_MODAL';
 var UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
 var UPDATE_PARENT_DOCUMENT = 'UPDATE_PARENT_DOCUMENT';
 
+var REFRESH_PARENT_DOCUMENT = 'REFRESH_PARENT_DOCUMENT';
+
 var constants = Object.freeze({
 	API_URL_PREFIX: API_URL_PREFIX,
 	DEFAULT_VIEW: DEFAULT_VIEW,
@@ -322,7 +324,8 @@ var constants = Object.freeze({
 	GO_BACK: GO_BACK,
 	CLOSE_MAIN_MODAL: CLOSE_MAIN_MODAL,
 	UPDATE_DOCUMENT: UPDATE_DOCUMENT,
-	UPDATE_PARENT_DOCUMENT: UPDATE_PARENT_DOCUMENT
+	UPDATE_PARENT_DOCUMENT: UPDATE_PARENT_DOCUMENT,
+	REFRESH_PARENT_DOCUMENT: REFRESH_PARENT_DOCUMENT
 });
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -1038,16 +1041,17 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
   if (actions[UPDATE_PARENT_DOCUMENT] !== undefined) {
     var tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], { meta: { _ts_: new Date().getTime() } });
     changeDocument(frontendParams.parentDocumentName || documentName, { value: tableJson });
-
-    //usually used in filters
-    if (documentName === be5.MAIN_MODAL_DOCUMENT) {
-      bus.fire("mainModalClose");
-    }
   }
 
   if (actions[UPDATE_DOCUMENT] !== undefined) {
     var _tableJson = Object.assign({}, actions[UPDATE_DOCUMENT], { meta: { _ts_: new Date().getTime() } });
     changeDocument(documentName, { value: _tableJson });
+  }
+
+  if (actions.hasOwnProperty(REFRESH_PARENT_DOCUMENT)) {
+    if (frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
+      bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX);
+    }
   }
 
   bus.fire("executeFrontendActions", { actions: actions, frontendParams: frontendParams });

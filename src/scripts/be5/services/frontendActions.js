@@ -7,7 +7,8 @@ import {getDefaultRoute} from "../store/selectors/user.selectors";
 import {UPDATE_USER_INFO} from "../store/constants/user.constants";
 import {
   CLOSE_MAIN_MODAL,
-  GO_BACK, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, REDIRECT, SET_URL, UPDATE_DOCUMENT,
+  GO_BACK, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, REDIRECT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SET_URL,
+  UPDATE_DOCUMENT,
   UPDATE_PARENT_DOCUMENT
 } from "../constants";
 import {openOperationByUrl} from './forms';
@@ -85,18 +86,20 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
   {
     const tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], {meta: {_ts_: new Date().getTime()}});
     changeDocument(frontendParams.parentDocumentName || documentName, {value: tableJson});
-
-    //usually used in filters
-    if(documentName === be5.MAIN_MODAL_DOCUMENT)
-    {
-      bus.fire("mainModalClose");
-    }
   }
 
   if(actions[UPDATE_DOCUMENT] !== undefined)
   {
     const tableJson = Object.assign({}, actions[UPDATE_DOCUMENT], {meta: {_ts_: new Date().getTime()}});
     changeDocument(documentName, {value: tableJson});
+  }
+
+  if(actions.hasOwnProperty(REFRESH_PARENT_DOCUMENT))
+  {
+    if (frontendParams.parentDocumentName !== undefined &&
+        frontendParams.parentDocumentName !== frontendParams.documentName) {
+      bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX);
+    }
   }
 
   bus.fire("executeFrontendActions", {actions, frontendParams});
