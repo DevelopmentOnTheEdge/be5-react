@@ -5146,6 +5146,7 @@ var QueryBuilder = function (_React$Component) {
 
       var requestParams = {
         sql: this.state.sql,
+        updateWithoutBeSql: this.state.updateWithoutBeSql,
         values: this.props.value.params,
         _ts_: new Date().getTime()
       };
@@ -5167,6 +5168,8 @@ var QueryBuilder = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       var _state = this.state,
           value = _state.value,
           sql = _state.sql;
@@ -5185,6 +5188,23 @@ var QueryBuilder = function (_React$Component) {
               'h1',
               null,
               'Query Builder'
+            ),
+            React.createElement(
+              'div',
+              { className: 'form-group form-check' },
+              React.createElement('input', {
+                type: 'checkbox',
+                className: 'form-check-input',
+                id: 'updateWithoutBeSql',
+                onChange: function onChange() {
+                  _this3.setState({ updateWithoutBeSql: !_this3.state.updateWithoutBeSql });
+                },
+                checked: this.state.updateWithoutBeSql === true }),
+              React.createElement(
+                'label',
+                { className: 'form-check-label', htmlFor: 'updateWithoutBeSql' },
+                'update without be sql'
+              )
             )
           ),
           React.createElement(
