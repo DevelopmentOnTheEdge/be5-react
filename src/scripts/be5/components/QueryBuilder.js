@@ -45,6 +45,7 @@ class QueryBuilder extends React.Component
   submit(){
     const requestParams = {
       sql: this.state.sql,
+      updateWithoutBeSql: this.state.updateWithoutBeSql,
       values: this.props.value.params,
       _ts_: new Date().getTime()
     };
@@ -73,6 +74,17 @@ class QueryBuilder extends React.Component
         <div className="row">
           <div className="col-md-6">
             <h1>Query Builder</h1>
+            <div className="form-group form-check">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="updateWithoutBeSql"
+                onChange={()=>{
+                  this.setState({updateWithoutBeSql: !this.state.updateWithoutBeSql});
+                }}
+                checked={this.state.updateWithoutBeSql === true}/>
+              <label className="form-check-label" htmlFor="updateWithoutBeSql">update without be sql</label>
+            </div>
           </div>
           <div className="col-md-6">
             <select
