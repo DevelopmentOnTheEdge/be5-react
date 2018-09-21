@@ -71,3 +71,11 @@ export const setUrlForHash = (e) => {
     be5.url.set(e.target.getAttribute("href"));
   }
 };
+
+export const openInModal = (e) => {
+  if(/^#/.test(e.target.getAttribute("href"))) {
+    e.preventDefault();
+    be5.url.process(be5.MAIN_MODAL_DOCUMENT, e.target.getAttribute("href"));
+  }
+};
+
