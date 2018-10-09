@@ -34,7 +34,7 @@ const formatCell = (data, options, isColumn) =>
     }
     if(!isColumn && options.link) {
       data = $('<a>',{
-        text: data,
+        html: data,
         href: "#!" + options.link.url
       });
     }
