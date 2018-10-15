@@ -211,6 +211,8 @@ class TableBox extends React.Component {
               return row[0]; // default behavior
             }
             const val = row[0];
+            if(val === 'aggregate') return '';
+
             const id = "row-" + val + "-checkbox";
             const dataTable = $(this.refs.table).find('table').dataTable();
             let display = dataTable.api().page.info().start + meta.row+1;
@@ -220,7 +222,7 @@ class TableBox extends React.Component {
             }
             // Pure HTML! Have no idea how to convert some react.js to string.
             return '\
-                <input id="{id}" type="checkbox" class="rowCheckbox"></input>\
+                <input id="{id}" type="checkbox" class="rowCheckbox"/>\
                 <label for="{id}" class="rowIndex"><span class="checkBox" ></span>{val}</label>'
               .replace('{id}', id)
               .replace('{id}', id)
