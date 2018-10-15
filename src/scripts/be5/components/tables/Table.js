@@ -92,7 +92,8 @@ class TableBox extends React.Component {
     const tfoot = $('<tfoot>');
     const tfootrow = $('<tr>').appendTo(tfoot);
     const hasCheckBoxes = attributes.selectable;
-    //const editable = attributes.operations.filter((op) => op.name === 'Edit').length === 1;
+    const editable = getResourceByType(this.props.value.included, "documentOperations").attributes
+                          .filter((op) => op.name === 'Edit').length === 1;
     let columnIndexShift = 0;
 
     if (hasCheckBoxes) {
@@ -213,9 +214,9 @@ class TableBox extends React.Component {
             const id = "row-" + val + "-checkbox";
             let display = meta.row+1;
 
-            // if(editable) {
-            //   display = '<a href="#!'+be5.url.create(['form', attributes.category, attributes.page, 'Edit'], {selectedRows: val})+'">'+display+'</a>';
-            // }
+            if(editable && _this.props.frontendParams.documentName === be5.MAIN_DOCUMENT) {
+              display = '<a href="#!'+be5.url.create(['form', attributes.category, attributes.page, 'Edit'], {_selectedRows_: val})+'">'+display+'</a>';
+            }
             // Pure HTML! Have no idea how to convert some react.js to string.
             return '\
                 <input id="{id}" type="checkbox" class="rowCheckbox"></input>\
