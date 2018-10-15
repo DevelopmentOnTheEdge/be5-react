@@ -2122,6 +2122,9 @@ var NavbarMenu = React.createClass({
   getInitialState: function getInitialState() {
     return { isOpen: false };
   },
+  componentWillMount: function componentWillMount() {
+    this.props.fetchMenu();
+  },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     var _props$user = this.props.user,
         loggedIn = _props$user.loggedIn,

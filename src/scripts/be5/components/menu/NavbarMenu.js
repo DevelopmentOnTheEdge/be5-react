@@ -40,6 +40,10 @@ export default React.createClass({
     return { isOpen: false };
   },
 
+  componentWillMount() {
+    this.props.fetchMenu();
+  },
+
   componentWillReceiveProps(nextProps) {
     const { loggedIn, currentRoles } = this.props.user;
     if (!arraysEqual(currentRoles, nextProps.user.currentRoles) || loggedIn !== nextProps.user.loggedIn ) {
