@@ -117,3 +117,6 @@ table.dataTable.table-sm .sorting:after, table.dataTable.table-sm .sorting_asc:a
   font-size: 13px;
   line-height: 1.5;
 }
+.dataTable tr td:first-child {
+  white-space: nowrap;
+}
