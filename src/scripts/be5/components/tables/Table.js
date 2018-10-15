@@ -212,7 +212,8 @@ class TableBox extends React.Component {
             }
             const val = row[0];
             const id = "row-" + val + "-checkbox";
-            let display = meta.row+1;
+            const dataTable = $(this.refs.table).find('table').dataTable();
+            let display = dataTable.api().page.info().start + meta.row+1;
 
             if(editable && _this.props.frontendParams.documentName === be5.MAIN_DOCUMENT) {
               display = '<a href="#!'+be5.url.create(['form', attributes.category, attributes.page, 'Edit'], {_selectedRows_: val})+'">'+display+'</a>';

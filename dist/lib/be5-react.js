@@ -79,6 +79,13 @@ var setUrlForHash = function setUrlForHash(e) {
   }
 };
 
+var openInModal = function openInModal(e) {
+  if (/^#/.test(e.target.getAttribute("href"))) {
+    e.preventDefault();
+    be5.url.process(be5.MAIN_MODAL_DOCUMENT, e.target.getAttribute("href"));
+  }
+};
+
 var messages = {
   en: {
     errorCannotConnect: 'Cannot connect to server',
@@ -3945,7 +3952,9 @@ var TableBox = function (_React$Component) {
       var tfoot = $('<tfoot>');
       var tfootrow = $('<tr>').appendTo(tfoot);
       var hasCheckBoxes = attributes.selectable;
-      //const editable = attributes.operations.filter((op) => op.name === 'Edit').length === 1;
+      var editable = getResourceByType(this.props.value.included, "documentOperations").attributes.filter(function (op) {
+        return op.name === 'Edit';
+      }).length === 1;
       var columnIndexShift = 0;
 
       if (hasCheckBoxes) {
@@ -4059,11 +4068,12 @@ var TableBox = function (_React$Component) {
             }
             var val = row[0];
             var id = "row-" + val + "-checkbox";
-            var display = meta.row + 1;
+            var dataTable = $(_this3.refs.table).find('table').dataTable();
+            var display = dataTable.api().page.info().start + meta.row + 1;
 
-            // if(editable) {
-            //   display = '<a href="#!'+be5.url.create(['form', attributes.category, attributes.page, 'Edit'], {selectedRows: val})+'">'+display+'</a>';
-            // }
+            if (editable && _this.props.frontendParams.documentName === be5.MAIN_DOCUMENT) {
+              display = '<a href="#!' + be5.url.create(['form', attributes.category, attributes.page, 'Edit'], { _selectedRows_: val }) + '">' + display + '</a>';
+            }
             // Pure HTML! Have no idea how to convert some react.js to string.
             return '\
                 <input id="{id}" type="checkbox" class="rowCheckbox"></input>\
@@ -5505,6 +5515,7 @@ var api = Object.freeze({
 	createStaticValue: createStaticValue,
 	getResourceByID: getResourceByID,
 	setUrlForHash: setUrlForHash,
+	openInModal: openInModal,
 	bus: bus,
 	changeDocument: changeDocument,
 	getDocument: getDocument,
@@ -5554,4 +5565,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, setUrlForHash, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, updateLocationHashIfNeeded, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, setUrlForHash, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, updateLocationHashIfNeeded, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction };
