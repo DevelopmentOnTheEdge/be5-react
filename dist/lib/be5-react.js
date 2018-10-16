@@ -3904,7 +3904,7 @@ var formatCell = function formatCell(data, options, isColumn) {
   if (data instanceof $) {
     data = $('<div>').append($(data).clone()).html();
   }
-  return data || '';
+  return data === undefined || data === null ? '' : data;
 };
 
 var TableBox = function (_React$Component) {

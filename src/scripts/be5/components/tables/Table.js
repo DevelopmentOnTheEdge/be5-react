@@ -48,7 +48,7 @@ const formatCell = (data, options, isColumn) =>
   if(data instanceof $){
     data = $('<div>').append($(data).clone()).html();
   }
-  return data || '';
+  return (data === undefined || data === null) ? '' : data;
 };
 
 class TableBox extends React.Component {
