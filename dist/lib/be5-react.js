@@ -3955,7 +3955,8 @@ var TableBox = function (_React$Component) {
       var tfoot = $('<tfoot>');
       var tfootrow = $('<tr>').appendTo(tfoot);
       var hasCheckBoxes = attributes.selectable;
-      var editable = getResourceByType(this.props.value.included, "documentOperations").attributes.filter(function (op) {
+      var documentOperations = getResourceByType(this.props.value.included, "documentOperations");
+      var editable = documentOperations !== undefined && documentOperations.attributes.filter(function (op) {
         return op.name === 'Edit';
       }).length === 1;
       var columnIndexShift = 0;
