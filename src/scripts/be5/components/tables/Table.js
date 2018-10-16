@@ -218,9 +218,11 @@ class TableBox extends React.Component {
             const dataTable = $(this.refs.table).find('table').dataTable();
             let display = dataTable.api().page.info().start + meta.row+1;
 
-            if(editable && _this.props.frontendParams.documentName === be5.MAIN_DOCUMENT) {
-              display = '<a href="#!'+be5.url.create(['form', attributes.category, attributes.page, 'Edit'], {_selectedRows_: val})+'">'+display+'</a>';
-            }
+            // нужно добавлять operationParams
+            // if(editable && _this.props.frontendParams.documentName === be5.MAIN_DOCUMENT) {
+            //   display = '<a href="#!'+be5.url.create(['form', attributes.category, attributes.page, 'Edit'], {_selectedRows_: val})+'">'+display+'</a>';
+            // }
+
             // Pure HTML! Have no idea how to convert some react.js to string.
             return '\
                 <input id="{id}" type="checkbox" class="rowCheckbox"/>\
