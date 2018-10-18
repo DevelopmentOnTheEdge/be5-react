@@ -359,7 +359,8 @@ class TableBox extends React.Component {
         <QuickColumns
           ref="quickColumns"
           columns={attributes.columns}
-          rows={attributes.rows}
+          category={attributes.category}
+          page={attributes.page}
           table={this.refs.table}
           selectable={attributes.selectable}
         />

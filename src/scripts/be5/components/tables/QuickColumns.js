@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import be5                from '../../be5';
 
 class QuickColumns extends React.Component
 {
@@ -14,13 +14,13 @@ class QuickColumns extends React.Component
   }
 
   createStateFromProps(props) {
-    if(props.rows.length === 0)return [];
-    const firstRow=props.rows[0].cells;
+    if(props.columns.length === 0)return [];
+    //const firstRow=props.rows[0].cells;
     return {quickColumns:
-      firstRow
+      props.columns
         .map( (col, idx) => {
-          if(col.options.quick)
-            return {columnId: idx, visible: col.options.quick.visible === 'true'};
+          if(col.quick)
+            return {columnId: idx, visible: col.quick === 'yes'};
           else return null;
         })
         .filter((col) => {return col !== null})
@@ -32,12 +32,20 @@ class QuickColumns extends React.Component
   }
 
   quickHandleChange(idx) {
-    this.state.quickColumns[idx].visible = !this.state.quickColumns[idx].visible;
+    const quickColumn = this.state.quickColumns[idx];
+    quickColumn.visible = !quickColumn.visible;
+    const value = quickColumn.visible === true ? "yes" : "no";
+    be5.net.request("quick", {
+      "table_name": this.props.category,
+      "query_name": this.props.page,
+      "column_name": this.props.columns[quickColumn.columnId].name,
+      "quick": value
+    });
     this.forceUpdate();
   }
 
   render() {
-    if(this.state.quickColumns.length === 0 || this.props.rows.length === 0){
+    if(this.state.quickColumns.length === 0){
       return null;
     }
     if(this.state.table){
@@ -54,7 +62,7 @@ class QuickColumns extends React.Component
 
     const checks = this.state.quickColumns.map(function(cell, idx) {
       const column = this.props.columns[cell.columnId];
-      const title = column.replace(/<br\s*[\/]?>/gi, " ");
+      const title = column.title.replace(/<br\s*[\/]?>/gi, " ");
       return (
         <span key={idx}>
             <input id={"quick" + idx} type="checkbox" checked={cell.visible} onChange={() => this.quickHandleChange(idx)} />
