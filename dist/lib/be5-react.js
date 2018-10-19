@@ -98,7 +98,6 @@ var messages = {
     welcome: 'Hello!',
     loading: 'Page is loading...',
     settings: 'Settings',
-    emptyTable: 'Nothing found',
     roles: 'Roles',
     back: 'Back',
     error: 'Error:',
@@ -127,7 +126,14 @@ var messages = {
     helpInfo: "Help",
     details: "Details",
 
-    NotFound: "Not Found"
+    NotFound: "Not Found",
+
+    table: {
+      noRecordsOnThePage: 'No records on page {0}',
+      emptyTable: 'Nothing found',
+      previousPage: 'Previous',
+      nextPage: 'Next'
+    }
   },
 
   ru: {
@@ -141,7 +147,6 @@ var messages = {
     welcome: 'Добро пожаловать!',
     loading: 'Загрузка...',
     settings: 'Настройки',
-    emptyTable: 'Нет данных',
     roles: 'Роли',
     back: 'Назад',
     error: 'Ошибка:',
@@ -186,7 +191,13 @@ var messages = {
     helpInfo: "Справка",
     details: "Подробнее",
 
-    NotFound: "Не найдено"
+    NotFound: "Не найдено",
+    table: {
+      noRecordsOnThePage: 'Нет записей на {0} странице',
+      emptyTable: 'Нет данных',
+      previousPage: 'Предыдущая',
+      nextPage: 'Следующая'
+    }
   }
 };
 
@@ -3652,10 +3663,10 @@ var QuickColumns = function (_React$Component) {
   }, {
     key: 'createStateFromProps',
     value: function createStateFromProps(props) {
-      if (props.rows.length === 0) return [];
-      var firstRow = props.rows[0].cells;
-      return { quickColumns: firstRow.map(function (col, idx) {
-          if (col.options.quick) return { columnId: idx, visible: col.options.quick.visible === 'true' };else return null;
+      if (props.columns.length === 0) return [];
+      //const firstRow=props.rows[0].cells;
+      return { quickColumns: props.columns.map(function (col, idx) {
+          if (col.quick) return { columnId: idx, visible: col.quick === 'yes' };else return null;
         }).filter(function (col) {
           return col !== null;
         })
@@ -3669,7 +3680,15 @@ var QuickColumns = function (_React$Component) {
   }, {
     key: 'quickHandleChange',
     value: function quickHandleChange(idx) {
-      this.state.quickColumns[idx].visible = !this.state.quickColumns[idx].visible;
+      var quickColumn = this.state.quickColumns[idx];
+      quickColumn.visible = !quickColumn.visible;
+      var value = quickColumn.visible === true ? "yes" : "no";
+      be5.net.request("quick", {
+        "table_name": this.props.category,
+        "query_name": this.props.page,
+        "column_name": this.props.columns[quickColumn.columnId].name,
+        "quick": value
+      });
       this.forceUpdate();
     }
   }, {
@@ -3677,7 +3696,7 @@ var QuickColumns = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      if (this.state.quickColumns.length === 0 || this.props.rows.length === 0) {
+      if (this.state.quickColumns.length === 0) {
         return null;
       }
       if (this.state.table) {
@@ -3696,7 +3715,7 @@ var QuickColumns = function (_React$Component) {
         var _this3 = this;
 
         var column = this.props.columns[cell.columnId];
-        var title = column.replace(/<br\s*[\/]?>/gi, " ");
+        var title = column.title.replace(/<br\s*[\/]?>/gi, " ");
         return React.createElement(
           'span',
           { key: idx },
@@ -3729,6 +3748,15 @@ var QuickColumns = function (_React$Component) {
 
 var loadTable = function loadTable(params, frontendParams) {
   getTable(params, function (json) {
+    if (frontendParams.documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
+    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+  }, function (json) {
+    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+  });
+};
+
+var loadTableByUrl = function loadTableByUrl(url, frontendParams) {
+  getTable(getTableParams(url), function (json) {
     if (frontendParams.documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   }, function (json) {
@@ -4200,14 +4228,74 @@ var TableBox = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var attributes = this.props.value.data.attributes;
+      var _this4 = this;
+
+      var a = this.props.value.data.attributes;
 
 
-      if (this.props.value.data.attributes.rows.length === 0) {
+      if (a.rows.length === 0) {
+        console.log(a);
+        var currentPage = a.offset / a.length + 1;
+        if (a.totalNumberOfRows > 0) {
+          return React.createElement(
+            'div',
+            null,
+            React.createElement(
+              'p',
+              null,
+              be5.messages.table.noRecordsOnThePage.replace('{0}', currentPage)
+            ),
+            React.createElement(
+              'ul',
+              { className: 'pagination' },
+              React.createElement(
+                'li',
+                { className: 'paginate_button page-item' },
+                React.createElement(
+                  'a',
+                  {
+                    href: '#',
+                    className: 'page-link',
+                    onClick: function onClick(e) {
+                      e.preventDefault();
+                      loadTableByUrl("table/equipments/All records/_offset_=" + (a.offset - a.length), _this4.props.frontendParams);
+                    }
+                  },
+                  be5.messages.table.previousPage
+                )
+              ),
+              React.createElement(
+                'li',
+                { className: 'paginate_button page-item' },
+                React.createElement(
+                  'a',
+                  {
+                    href: '#',
+                    className: 'page-link',
+                    onClick: function onClick(e) {
+                      e.preventDefault();
+                      loadTableByUrl("table/equipments/All records/_offset_=0", _this4.props.frontendParams);
+                    }
+                  },
+                  '1'
+                )
+              ),
+              React.createElement(
+                'li',
+                { className: 'paginate_button page-item disabled' },
+                React.createElement(
+                  'a',
+                  { href: '#', className: 'page-link' },
+                  be5.messages.table.nextPage
+                )
+              )
+            )
+          );
+        }
         return React.createElement(
           'div',
           null,
-          be5.messages.emptyTable
+          be5.messages.table.emptyTable
         );
       }
 
@@ -4216,10 +4304,11 @@ var TableBox = function (_React$Component) {
         null,
         React.createElement(QuickColumns, {
           ref: 'quickColumns',
-          columns: attributes.columns,
-          rows: attributes.rows,
+          columns: a.columns,
+          category: a.category,
+          page: a.page,
           table: this.refs.table,
-          selectable: attributes.selectable
+          selectable: a.selectable
         }),
         React.createElement(
           'div',
@@ -4266,12 +4355,12 @@ var Table = function (_React$Component3) {
   function Table(props) {
     classCallCheck(this, Table);
 
-    var _this5 = possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).call(this, props));
+    var _this6 = possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).call(this, props));
 
-    _this5.state = { runReload: "" };
-    _this5.onOperationClick = _this5.onOperationClick.bind(_this5);
-    _this5._refreshEnablementIfNeeded = _this5._refreshEnablementIfNeeded.bind(_this5);
-    return _this5;
+    _this6.state = { runReload: "" };
+    _this6.onOperationClick = _this6.onOperationClick.bind(_this6);
+    _this6._refreshEnablementIfNeeded = _this6._refreshEnablementIfNeeded.bind(_this6);
+    return _this6;
   }
 
   createClass(Table, [{
@@ -4383,7 +4472,7 @@ var Table = function (_React$Component3) {
   }, {
     key: '_createCancelAction',
     value: function _createCancelAction() {
-      var _this6 = this;
+      var _this7 = this;
 
       var layout = this.props.value.data.attributes.layout;
 
@@ -4395,7 +4484,7 @@ var Table = function (_React$Component3) {
             type: 'button',
             className: 'btn btn-light mt-2',
             onClick: function onClick() {
-              return executeFrontendActions(action, _this6.props.frontendParams);
+              return executeFrontendActions(action, _this7.props.frontendParams);
             }
           },
           layout.cancelActionText || be5.messages.back

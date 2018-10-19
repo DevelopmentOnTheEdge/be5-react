@@ -10,7 +10,6 @@ export default {
     welcome: 'Hello!',
     loading: 'Page is loading...',
     settings: 'Settings',
-    emptyTable: 'Nothing found',
     roles: 'Roles',
     back: 'Back',
     error: 'Error:',
@@ -40,6 +39,13 @@ export default {
     details: "Details",
 
     NotFound: "Not Found",
+
+    table: {
+      noRecordsOnThePage: 'No records on page {0}',
+      emptyTable: 'Nothing found',
+      previousPage: 'Previous',
+      nextPage: 'Next',
+    }
   },
 
   ru: {
@@ -53,7 +59,6 @@ export default {
     welcome: 'Добро пожаловать!',
     loading: 'Загрузка...',
     settings: 'Настройки',
-    emptyTable: 'Нет данных',
     roles: 'Роли',
     back: 'Назад',
     error: 'Ошибка:',
@@ -99,5 +104,11 @@ export default {
     details: "Подробнее",
 
     NotFound: "Не найдено",
+    table: {
+      noRecordsOnThePage: 'Нет записей на {0} странице',
+      emptyTable: 'Нет данных',
+      previousPage: 'Предыдущая',
+      nextPage: 'Следующая',
+    }
   }
 };

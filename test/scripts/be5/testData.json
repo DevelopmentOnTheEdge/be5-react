@@ -4,7 +4,7 @@
       "attributes": {
         "category": "companies",
         "columns": [
-          "Наименование"
+          {"title":"Наименование", "name":"name", "quick": "no"}
         ],
         "hasAggregate": false,
         "layout": {},
@@ -16,11 +16,7 @@
             "cells": [
               {
                 "content": "adfd",
-                "options": {
-                  "quick": {
-                    "visible": "false"
-                  }
-                }
+                "options": {}
               }
             ],
             "id": "19"

@@ -12,6 +12,15 @@ export const loadTable = (params, frontendParams) => {
   })
 };
 
+export const loadTableByUrl = (url, frontendParams) => {
+  getTable(getTableParams(url), json => {
+    if(frontendParams.documentName === be5.MAIN_DOCUMENT)be5.ui.setTitle(json.data.attributes.title);
+    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+  }, (json) => {
+    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+  })
+};
+
 export const fetchTableByUrl = (url, callback, failure) => {
   getTable(getTableParams(url), callback, failure);
 };

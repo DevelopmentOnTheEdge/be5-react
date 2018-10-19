@@ -9,7 +9,7 @@ import OperationBox       from './OperationBox';
 import QuickColumns       from './QuickColumns';
 import Document           from "../../containers/Document";
 import {registerDocument} from '../../core/documents';
-import {updateTable}      from "../../services/tables";
+import {loadTableByUrl, updateTable} from "../../services/tables";
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions, getBackOrOpenDefaultRouteAction} from "../../services/frontendActions";
 import {updateLocationHashIfNeeded} from "../../services/documents";
@@ -344,12 +344,46 @@ class TableBox extends React.Component {
   }
 
   render() {
-    const {attributes} = this.props.value.data;
+    const {attributes: a} = this.props.value.data;
 
-    if (this.props.value.data.attributes.rows.length === 0) {
+    if (a.rows.length === 0) {
+      console.log(a);
+      const currentPage = a.offset/a.length + 1;
+      if (a.totalNumberOfRows > 0) {
+        return (
+          <div>
+            <p>{be5.messages.table.noRecordsOnThePage.replace('{0}', currentPage)}</p>
+            <ul className="pagination">
+              <li className="paginate_button page-item">
+                <a
+                  href="#"
+                  className="page-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    loadTableByUrl("table/equipments/All records/_offset_=" + (a.offset - a.length), this.props.frontendParams);
+                  }}
+                >{be5.messages.table.previousPage}</a>
+              </li>
+              <li className="paginate_button page-item">
+                <a
+                  href="#"
+                  className="page-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    loadTableByUrl("table/equipments/All records/_offset_=0", this.props.frontendParams);
+                  }}
+                >1</a>
+              </li>
+              <li className="paginate_button page-item disabled">
+                <a href="#" className="page-link">{be5.messages.table.nextPage}</a>
+              </li>
+            </ul>
+          </div>
+        );
+      }
       return (
         <div>
-          {be5.messages.emptyTable}
+          {be5.messages.table.emptyTable}
         </div>
       );
     }
@@ -358,11 +392,11 @@ class TableBox extends React.Component {
       <div>
         <QuickColumns
           ref="quickColumns"
-          columns={attributes.columns}
-          category={attributes.category}
-          page={attributes.page}
+          columns={a.columns}
+          category={a.category}
+          page={a.page}
           table={this.refs.table}
-          selectable={attributes.selectable}
+          selectable={a.selectable}
         />
         <div className="">
           <div ref="table" className="row"/>
