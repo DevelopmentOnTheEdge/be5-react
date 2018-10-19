@@ -95,28 +95,20 @@ class TableBox extends React.Component {
     const documentOperations = getResourceByType(this.props.value.included, "documentOperations");
     const editable = documentOperations !== undefined && documentOperations.attributes
                           .filter((op) => op.name === 'Edit').length === 1;
-    let columnIndexShift = 0;
 
-    if (hasCheckBoxes) {
-      //theadrow.append($("<th>").html('<input id="rowCheckboxAll" type="checkbox" class=""/>'));
-      theadrow.append($("<th>").text("#"));
-      tfootrow.append($("<th>").text("#"));
-      columnIndexShift = 1;
-    }
-
-    attributes.columns.forEach((column, idx) => {
+    theadrow.append($("<th>").text("#"));
+    tfootrow.append($("<th>").text("#"));
+    attributes.columns.forEach((column) => {
       const title = typeof column === 'object' ? column.title : column;
       theadrow.append($("<th>").html( formatCell(title, 'th', true) ));
       tfootrow.append($("<th>").html( formatCell(title, 'th', true) ));
     });
-    attributes.rows.forEach((row, rowId, rows) => {
+    attributes.rows.forEach((row) => {
       const tr = $('<tr>');
-      row.cells.forEach((cell, idx) => {
+      row.cells.forEach((cell) => {
         tr.append($('<td>').html(formatCell(cell.content, cell.options)));
       });
-      if (hasCheckBoxes) {
-        tr.prepend($('<td>').text(row.id));
-      }
+      tr.prepend($('<td>').text(row.id));
       tbody.append(tr);
     });
 
@@ -183,8 +175,8 @@ class TableBox extends React.Component {
             be5.log.error(json.value.code + "\n" + json.value.message);
           }else{
             for(let i=0; i < json.data.length; i++){
-              for(let j=0; j < json.data[0].length - columnIndexShift; j++){
-                json.data[i][j + columnIndexShift] = formatCell(json.data[i][j + columnIndexShift].content, json.data[i][j + columnIndexShift].options)
+              for(let j=0; j < json.data[0].length; j++){
+                json.data[i][j] = formatCell(json.data[i][j].content, json.data[i][j].options)
               }
             }
           }
@@ -208,25 +200,23 @@ class TableBox extends React.Component {
       columnDefs: [
         {
           render: (data, type, row, meta) => {
-            if (!hasCheckBoxes) {
-              return row[0]; // default behavior
-            }
             const val = row[0];
             if(val === 'aggregate') return '';
 
             const id = "row-" + val + "-checkbox";
             const dataTable = $(this.refs.table).find('table').dataTable();
             let display = dataTable.api().page.info().start + meta.row+1;
+            if (!hasCheckBoxes) {
+              return display;
+            }
 
             // нужно добавлять operationParams
             // if(editable && _this.props.frontendParams.documentName === be5.MAIN_DOCUMENT) {
             //   display = '<a href="#!'+be5.url.create(['form', attributes.category, attributes.page, 'Edit'], {_selectedRows_: val})+'">'+display+'</a>';
             // }
 
-            // Pure HTML! Have no idea how to convert some react.js to string.
-            return '\
-                <input id="{id}" type="checkbox" class="rowCheckbox"/>\
-                <label for="{id}" class="rowIndex"><span class="checkBox" ></span>{val}</label>'
+            return ('<input id="{id}" type="checkbox" class="rowCheckbox"/> ' +
+                '<label for="{id}" class="rowIndex"><span class="checkBox" ></span>{val}</label>')
               .replace('{id}', id)
               .replace('{id}', id)
               .replace('{val}', display);
@@ -288,7 +278,7 @@ class TableBox extends React.Component {
     let drawGrouping;
 
     if (groupingColumn !== null) {
-      const resultGroupingColumn = columnIndexShift + groupingColumn;
+      const resultGroupingColumn = groupingColumn + 1;
       tableConfiguration.columnDefs.push({ visible: false, targets: resultGroupingColumn });
       drawGrouping = (api) => {
         const rows = api.rows({ page:'current' }).nodes();
