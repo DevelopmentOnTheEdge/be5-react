@@ -13,8 +13,6 @@ import {loadTableByUrl, updateTable} from "../../services/tables";
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions, getBackOrOpenDefaultRouteAction} from "../../services/frontendActions";
 import {updateLocationHashIfNeeded} from "../../services/documents";
-import FrontendAction from "../../services/model/FrontendAction";
-import {GO_BACK, OPEN_DEFAULT_ROUTE} from "../../constants";
 
 
 const formatCell = (data, options, isColumn) =>
@@ -92,9 +90,8 @@ class TableBox extends React.Component {
     const tfoot = $('<tfoot>');
     const tfootrow = $('<tr>').appendTo(tfoot);
     const hasCheckBoxes = attributes.selectable;
-    const documentOperations = getResourceByType(this.props.value.included, "documentOperations");
-    const editable = documentOperations !== undefined && documentOperations.attributes
-                          .filter((op) => op.name === 'Edit').length === 1;
+    const editOperation = this.props.operations === undefined ? undefined :
+              this.props.operations.attributes.find(operation => operation.name === 'Edit');
 
     theadrow.append($("<th>").text("#"));
     tfootrow.append($("<th>").text("#"));
@@ -210,13 +207,12 @@ class TableBox extends React.Component {
               return display;
             }
 
-            // нужно добавлять operationParams
-            // if(editable && _this.props.frontendParams.documentName === be5.MAIN_DOCUMENT) {
-            //   display = '<a href="#!'+be5.url.create(['form', attributes.category, attributes.page, 'Edit'], {_selectedRows_: val})+'">'+display+'</a>';
-            // }
+            if(editOperation !== undefined) {
+              display = '<a href="#" data-val="'+val+'" class="edit-operation-btn">'+display+'</a>';
+            }
 
             return ('<input id="{id}" type="checkbox" class="rowCheckbox"/> ' +
-                '<label for="{id}" class="rowIndex"><span class="checkBox" ></span>{val}</label>')
+                '<label for="{id}" class="rowIndex">{val}</label>')
               .replace('{id}', id)
               .replace('{id}', id)
               .replace('{val}', display);
@@ -305,6 +301,12 @@ class TableBox extends React.Component {
     tableDiv.dataTable(tableConfiguration);
 
     $('.dataTables_length select').removeClass('form-control-sm');
+
+    $(node).on("click", '.edit-operation-btn', function (e) {
+        e.preventDefault();
+        console.log($(this).data("val"));
+        _this.props.onOperationClick(editOperation, $(this).data("val"));
+    });
 
     tableDiv.on( 'draw.dt', function () {
       be5.tableState.selectedRows = [];
@@ -423,7 +425,7 @@ class Table extends React.Component
     this._refreshEnablementIfNeeded = this._refreshEnablementIfNeeded.bind(this);
   }
 
-  onOperationClick(operation) {
+  onOperationClick(operation, selectedRow) {
     const frontendParams = {
       documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
       parentDocumentName: this.props.frontendParams.documentName
@@ -440,8 +442,8 @@ class Table extends React.Component
 
     let operationParams;
 
-    if (be5.tableState.selectedRows.length > 0) {
-      operationParams = Object.assign({}, attr.parameters, {"_selectedRows_": be5.tableState.selectedRows.join()});
+    if (be5.tableState.selectedRows.length > 0 || selectedRow) {
+      operationParams = Object.assign({}, attr.parameters, {"_selectedRows_": selectedRow || be5.tableState.selectedRows.join()});
     } else {
       operationParams = attr.parameters;
     }
@@ -465,6 +467,7 @@ class Table extends React.Component
     const value = this.props.value;
     const {data, included} = this.props.value;
     const hasRows = data.attributes.rows.length !== 0;
+    const operations = getResourceByType(included, "documentOperations");
 
     //const reloadClass = "table-reload float-xs-right " + this.state.runReload;
     let table = null;
@@ -482,6 +485,8 @@ class Table extends React.Component
           _refreshEnablementIfNeeded={this._refreshEnablementIfNeeded}
           ref="tableBox"
           value={value}
+          operations={operations}
+          onOperationClick={this.onOperationClick}
           frontendParams={this.props.frontendParams}
         />
       );
@@ -510,7 +515,7 @@ class Table extends React.Component
         />
         <OperationBox
           ref="operations"
-          operations={getResourceByType(included, "documentOperations")}
+          operations={operations}
           onOperationClick={this.onOperationClick}
           hasRows={hasRows}
           hideOperations={hideOperations}
