@@ -13,6 +13,7 @@ import {loadTableByUrl, updateTable} from "../../services/tables";
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions, getBackOrOpenDefaultRouteAction} from "../../services/frontendActions";
 import {updateLocationHashIfNeeded} from "../../services/documents";
+import FilterUI from "./FilterUI";
 
 
 const formatCell = (data, options, isColumn) =>
@@ -339,7 +340,6 @@ class TableBox extends React.Component {
     const {attributes: a} = this.props.value.data;
 
     if (a.rows.length === 0) {
-      console.log(a);
       const currentPage = a.offset/a.length + 1;
       if (a.totalNumberOfRows > 0) {
         return (
@@ -519,6 +519,12 @@ class Table extends React.Component
           onOperationClick={this.onOperationClick}
           hasRows={hasRows}
           hideOperations={hideOperations}
+        />
+        <FilterUI
+          entity={data.attributes.category}
+          query={data.attributes.page}
+          params={data.attributes.parameters}
+          frontendParams={this.props.frontendParams}
         />
         {table}
         {this._createCancelAction()}

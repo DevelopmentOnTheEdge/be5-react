@@ -45,6 +45,7 @@ export default {
       emptyTable: 'Nothing found',
       previousPage: 'Previous',
       nextPage: 'Next',
+      clearFilter: 'Clear filter'
     }
   },
 
@@ -109,6 +110,7 @@ export default {
       emptyTable: 'Нет данных',
       previousPage: 'Предыдущая',
       nextPage: 'Следующая',
+      clearFilter: 'Очистить фильтр'
     }
   }
 };
