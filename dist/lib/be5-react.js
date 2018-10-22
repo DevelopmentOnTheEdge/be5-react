@@ -132,7 +132,8 @@ var messages = {
       noRecordsOnThePage: 'No records on page {0}',
       emptyTable: 'Nothing found',
       previousPage: 'Previous',
-      nextPage: 'Next'
+      nextPage: 'Next',
+      clearFilter: 'Clear filter'
     }
   },
 
@@ -196,7 +197,8 @@ var messages = {
       noRecordsOnThePage: 'Нет записей на {0} странице',
       emptyTable: 'Нет данных',
       previousPage: 'Предыдущая',
-      nextPage: 'Следующая'
+      nextPage: 'Следующая',
+      clearFilter: 'Очистить фильтр'
     }
   }
 };
@@ -329,6 +331,9 @@ var UPDATE_PARENT_DOCUMENT = 'UPDATE_PARENT_DOCUMENT';
 
 var REFRESH_PARENT_DOCUMENT = 'REFRESH_PARENT_DOCUMENT';
 
+var SEARCH_PARAM = "_search_";
+var SEARCH_PRESETS_PARAM = "_search_presets_";
+
 var constants = Object.freeze({
 	API_URL_PREFIX: API_URL_PREFIX,
 	DEFAULT_VIEW: DEFAULT_VIEW,
@@ -343,7 +348,9 @@ var constants = Object.freeze({
 	CLOSE_MAIN_MODAL: CLOSE_MAIN_MODAL,
 	UPDATE_DOCUMENT: UPDATE_DOCUMENT,
 	UPDATE_PARENT_DOCUMENT: UPDATE_PARENT_DOCUMENT,
-	REFRESH_PARENT_DOCUMENT: REFRESH_PARENT_DOCUMENT
+	REFRESH_PARENT_DOCUMENT: REFRESH_PARENT_DOCUMENT,
+	SEARCH_PARAM: SEARCH_PARAM,
+	SEARCH_PRESETS_PARAM: SEARCH_PRESETS_PARAM
 });
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -3901,6 +3908,68 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
 
 CategoryNavigation.propTypes = propTypes$2;
 
+var getFilterParams = function getFilterParams(params) {
+  if (params[SEARCH_PARAM] !== "true") {
+    return {};
+  }
+
+  var searchPresets = params[SEARCH_PRESETS_PARAM] === undefined ? [] : params[SEARCH_PRESETS_PARAM].split(',');
+  return Object.keys(params).filter(function (key) {
+    return !key.startsWith("_");
+  }).filter(function (key) {
+    return !searchPresets.includes(key);
+  }).reduce(function (obj, key) {
+    obj[key] = params[key];
+    return obj;
+  }, {});
+};
+
+var propTypes$3 = {};
+
+var FilterUI = function FilterUI(_ref) {
+  var entity = _ref.entity,
+      query = _ref.query,
+      params = _ref.params,
+      frontendParams = _ref.frontendParams;
+
+  var filterParams = getFilterParams(params);
+
+  function clearFilter(e) {
+    e.preventDefault();
+    var searchPresets = params['_search_presets_'] === undefined ? [] : params['_search_presets_'].split(',');
+    var newParams = {};
+    searchPresets.forEach(function (x) {
+      return newParams[x] = params[x];
+    });
+    newParams['_search_'] = "true";
+    newParams['_search_presets_'] = params['_search_presets_'];
+    console.log(newParams);
+
+    var paramsObject = {
+      entity: entity,
+      query: query || 'All records',
+      params: newParams
+    };
+    loadTable(paramsObject, frontendParams);
+  }
+
+  if (Object.keys(filterParams).length > 0) {
+    return React.createElement(
+      'div',
+      { className: 'table-filter-ui mb-2' },
+      React.createElement(
+        'a',
+        { href: '#', onClick: clearFilter },
+        be5.messages.table.clearFilter
+      )
+    );
+  }
+
+  return null;
+};
+
+FilterUI.propTypes = propTypes$3;
+
 var formatCell = function formatCell(data, options, isColumn) {
   if (!Array.isArray(data)) {
     if (data === '') {
@@ -3983,32 +4052,23 @@ var TableBox = function (_React$Component) {
       var tfoot = $('<tfoot>');
       var tfootrow = $('<tr>').appendTo(tfoot);
       var hasCheckBoxes = attributes.selectable;
-      var documentOperations = getResourceByType(this.props.value.included, "documentOperations");
-      var editable = documentOperations !== undefined && documentOperations.attributes.filter(function (op) {
-        return op.name === 'Edit';
-      }).length === 1;
-      var columnIndexShift = 0;
+      var editOperation = this.props.operations === undefined ? undefined : this.props.operations.attributes.find(function (operation) {
+        return operation.name === 'Edit';
+      });
 
-      if (hasCheckBoxes) {
-        //theadrow.append($("<th>").html('<input id="rowCheckboxAll" type="checkbox" class=""/>'));
-        theadrow.append($("<th>").text("#"));
-        tfootrow.append($("<th>").text("#"));
-        columnIndexShift = 1;
-      }
-
-      attributes.columns.forEach(function (column, idx) {
+      theadrow.append($("<th>").text("#"));
+      tfootrow.append($("<th>").text("#"));
+      attributes.columns.forEach(function (column) {
         var title = (typeof column === 'undefined' ? 'undefined' : _typeof(column)) === 'object' ? column.title : column;
         theadrow.append($("<th>").html(formatCell(title, 'th', true)));
         tfootrow.append($("<th>").html(formatCell(title, 'th', true)));
       });
-      attributes.rows.forEach(function (row, rowId, rows) {
+      attributes.rows.forEach(function (row) {
         var tr = $('<tr>');
-        row.cells.forEach(function (cell, idx) {
+        row.cells.forEach(function (cell) {
           tr.append($('<td>').html(formatCell(cell.content, cell.options)));
         });
-        if (hasCheckBoxes) {
-          tr.prepend($('<td>').text(row.id));
-        }
+        tr.prepend($('<td>').text(row.id));
         tbody.append(tr);
       });
 
@@ -4071,8 +4131,8 @@ var TableBox = function (_React$Component) {
               be5.log.error(json.value.code + "\n" + json.value.message);
             } else {
               for (var i = 0; i < json.data.length; i++) {
-                for (var j = 0; j < json.data[0].length - columnIndexShift; j++) {
-                  json.data[i][j + columnIndexShift] = formatCell(json.data[i][j + columnIndexShift].content, json.data[i][j + columnIndexShift].options);
+                for (var j = 0; j < json.data[0].length; j++) {
+                  json.data[i][j] = formatCell(json.data[i][j].content, json.data[i][j].options);
                 }
               }
             }
@@ -4095,25 +4155,21 @@ var TableBox = function (_React$Component) {
         deferLoading: attributes.totalNumberOfRows,
         columnDefs: [{
           render: function render(data, type, row, meta) {
-            if (!hasCheckBoxes) {
-              return row[0]; // default behavior
-            }
             var val = row[0];
             if (val === 'aggregate') return '';
 
             var id = "row-" + val + "-checkbox";
             var dataTable = $(_this3.refs.table).find('table').dataTable();
             var display = dataTable.api().page.info().start + meta.row + 1;
+            if (!hasCheckBoxes) {
+              return display;
+            }
 
-            // нужно добавлять operationParams
-            // if(editable && _this.props.frontendParams.documentName === be5.MAIN_DOCUMENT) {
-            //   display = '<a href="#!'+be5.url.create(['form', attributes.category, attributes.page, 'Edit'], {_selectedRows_: val})+'">'+display+'</a>';
-            // }
+            if (editOperation !== undefined) {
+              display = '<a href="#" data-val="' + val + '" class="edit-operation-btn">' + display + '</a>';
+            }
 
-            // Pure HTML! Have no idea how to convert some react.js to string.
-            return '\
-                <input id="{id}" type="checkbox" class="rowCheckbox"/>\
-                <label for="{id}" class="rowIndex"><span class="checkBox" ></span>{val}</label>'.replace('{id}', id).replace('{id}', id).replace('{val}', display);
+            return ('<input id="{id}" type="checkbox" class="rowCheckbox"/> ' + '<label for="{id}" class="rowIndex">{val}</label>').replace('{id}', id).replace('{id}', id).replace('{val}', display);
           },
           targets: 0
         }, {
@@ -4172,7 +4228,7 @@ var TableBox = function (_React$Component) {
       var drawGrouping = void 0;
 
       if (groupingColumn !== null) {
-        var resultGroupingColumn = columnIndexShift + groupingColumn;
+        var resultGroupingColumn = groupingColumn + 1;
         tableConfiguration.columnDefs.push({ visible: false, targets: resultGroupingColumn });
         drawGrouping = function drawGrouping(api) {
           var rows = api.rows({ page: 'current' }).nodes();
@@ -4198,6 +4254,12 @@ var TableBox = function (_React$Component) {
       tableDiv.dataTable(tableConfiguration);
 
       $('.dataTables_length select').removeClass('form-control-sm');
+
+      $(node).on("click", '.edit-operation-btn', function (e) {
+        e.preventDefault();
+        console.log($(this).data("val"));
+        _this.props.onOperationClick(editOperation, $(this).data("val"));
+      });
 
       tableDiv.on('draw.dt', function () {
         be5.tableState.selectedRows = [];
@@ -4234,7 +4296,6 @@ var TableBox = function (_React$Component) {
 
 
       if (a.rows.length === 0) {
-        console.log(a);
         var currentPage = a.offset / a.length + 1;
         if (a.totalNumberOfRows > 0) {
           return React.createElement(
@@ -4365,7 +4426,7 @@ var Table = function (_React$Component3) {
 
   createClass(Table, [{
     key: 'onOperationClick',
-    value: function onOperationClick(operation) {
+    value: function onOperationClick(operation, selectedRow) {
       var frontendParams = {
         documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
         parentDocumentName: this.props.frontendParams.documentName
@@ -4381,8 +4442,8 @@ var Table = function (_React$Component3) {
 
       var operationParams = void 0;
 
-      if (be5.tableState.selectedRows.length > 0) {
-        operationParams = Object.assign({}, attr.parameters, { "_selectedRows_": be5.tableState.selectedRows.join() });
+      if (be5.tableState.selectedRows.length > 0 || selectedRow) {
+        operationParams = Object.assign({}, attr.parameters, { "_selectedRows_": selectedRow || be5.tableState.selectedRows.join() });
       } else {
         operationParams = attr.parameters;
       }
@@ -4411,6 +4472,7 @@ var Table = function (_React$Component3) {
           included = _props$value.included;
 
       var hasRows = data.attributes.rows.length !== 0;
+      var operations = getResourceByType(included, "documentOperations");
 
       //const reloadClass = "table-reload float-xs-right " + this.state.runReload;
       var table = null;
@@ -4422,6 +4484,8 @@ var Table = function (_React$Component3) {
           _refreshEnablementIfNeeded: this._refreshEnablementIfNeeded,
           ref: 'tableBox',
           value: value,
+          operations: operations,
+          onOperationClick: this.onOperationClick,
           frontendParams: this.props.frontendParams
         });
       }
@@ -4454,10 +4518,16 @@ var Table = function (_React$Component3) {
         }),
         React.createElement(OperationBox, {
           ref: 'operations',
-          operations: getResourceByType(included, "documentOperations"),
+          operations: operations,
           onOperationClick: this.onOperationClick,
           hasRows: hasRows,
           hideOperations: hideOperations
+        }),
+        React.createElement(FilterUI, {
+          entity: data.attributes.category,
+          query: data.attributes.page,
+          params: data.attributes.parameters,
+          frontendParams: this.props.frontendParams
         }),
         table,
         this._createCancelAction()
