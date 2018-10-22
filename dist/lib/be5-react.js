@@ -4255,9 +4255,8 @@ var TableBox = function (_React$Component) {
 
       $('.dataTables_length select').removeClass('form-control-sm');
 
-      $(node).on("click", '.edit-operation-btn', function (e) {
+      tableDiv.on("click", '.edit-operation-btn', function (e) {
         e.preventDefault();
-        console.log($(this).data("val"));
         _this.props.onOperationClick(editOperation, $(this).data("val"));
       });
 
