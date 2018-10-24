@@ -1,91 +1,92 @@
-import React  from 'react';
+import React, {Component} from 'react';
 import actions from '../../services/actions';
 import {setUrlForHash} from "../../utils/documentUtils";
 
+const MenuNode = (props) => {
 
-const MenuNode = React.createClass({
-  displayName: 'MenuNode',
-  
-  getInitialState() {
-    return { href: '#', target: '', classes: '' };
-  },
-  
-  componentDidMount() {
-    var href = '#';
-    var target = '';
-    var classes = '';
-    if (this.props.level == 1) {
+  function getData(node){
+    let href = '#';
+    let target = '';
+    let classes = '';
+    if (node.level === 1) {
       classes += 'rootMenuItem';
     } else {
       classes += 'menuItem';
     }
-    var hasAction = this.props.data.action != null;
+    const hasAction = node.data.action !== undefined;
     if (hasAction) {
       classes += ' menuItemWithRef';
-      const action = actions.parse(this.props.data.action);
+      const action = actions.parse(node.data.action);
       href = action.href;
       target = action.target;
     } else {
       classes += ' menuItemWithoutRef';
     }
-    this.setState({href: href, target: target, classes: classes, hasAction:hasAction});
-  },
-  
-  render() {
-    const hasChildren = this.props.data.children != null;
-    
-    if (!hasChildren) {
-      const key = 'menu node ' + this.props.data.title;
-      return (
-        <div className='menuNode' key={key}>
-          {this._getHead()}
-          {this._getOperations()}
-        </div>
-      );
-    }
-    
-    const nextLevel = this.props.level + 1;
-    const children = this.props.data.children.map(child => {
-      const childKey = 'li ' + child.title;
-      return (
-        <li key={childKey}>
-          <MenuNode key={child.title} data={child} level={nextLevel}/>
-        </li>
-      );
-    });
-    
-    return (
-      React.DOM.div({className: 'menuNode', key: 'menu node ' + this.props.data.title}, 
-        this._getHead(), this._getOperations(), 
-        React.DOM.ul({key: 'ul ' + this.props.data.title}, children)
-      )
-    );
-  },
+    return {href: href, target: target, classes: classes, hasAction: hasAction};
+  }
 
-  _getHead() {
-    if(this.state.hasAction) {
+  const hasChildren = props.data.children !== undefined;
+
+  if (!hasChildren) {
+    const key = 'menu node ' + props.data.title;
+    return (
+      <div className='menuNode' key={key}>
+        {_getHead()}
+        {_getOperations()}
+      </div>
+    );
+  }
+
+  const nextLevel = props.level + 1;
+  const children = props.data.children.map(child => {
+    const childKey = 'li ' + child.title;
+    return (
+      <li key={childKey}>
+        <MenuNode key={child.title} data={child} level={nextLevel}/>
+      </li>
+    );
+  });
+
+  return (
+    <div className="menuNode" key={'menu node ' + props.data.title}>
+      {_getHead()}
+      {_getOperations()}
+      <ul key={'ul ' + props.data.title}>{children}</ul>
+    </div>
+  );
+
+  function _getHead() {
+    const data = getData(props);
+    if(data.hasAction) {
         return (
-            React.DOM.a({ href: this.state.href, className: this.state.classes, target: this.state.target,
-                onClick: setUrlForHash, key: 'a ' + this.props.data.title }, this.props.data.title)
+            <a
+              href={data.href}
+              className={data.classes}
+              target={data.target}
+              onClick={setUrlForHash}
+              key={'a ' + props.data.title}
+            >
+              {props.data.title}
+            </a>
         );
     }else{
         return (
-            <span className={this.state.classes}>{this.props.data.title}</span>
+            <span className={data.classes}>{props.data.title}</span>
         );
     }
-  },
-  
-  _getOperations() {
-    const hasOperations = this.props.data.operations != null;
+  }
+
+  function _getOperations() {
+    const hasOperations = props.data.operations !== undefined;
     
     if (!hasOperations) {
-      const key = 'operations ' + this.props.data.title
+      const key = 'operations ' + props.data.title;
       return <div key={key}/>;
     }
     
-    return this.props.data.operations.map(operation => {
+    return props.data.operations.map(operation => {
       const href = '#!'+operation.action.arg;
-      const title = operation.title == 'Insert' ? '+' : operation.title;
+      const title = operation.title === 'Insert' ? '+' : operation.title;
       const opBoxKey = 'operation box ' + title;
       const opKey = 'operation a ' + title;
       return (
@@ -97,6 +98,7 @@ const MenuNode = React.createClass({
       );
     });
   }
-});
+
+};
 
 export default MenuNode;
