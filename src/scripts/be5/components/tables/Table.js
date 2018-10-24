@@ -13,6 +13,7 @@ import {loadTableByUrl, updateTable} from "../../services/tables";
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions, getBackOrOpenDefaultRouteAction} from "../../services/frontendActions";
 import {updateLocationHashIfNeeded} from "../../services/documents";
+import {processHashUrl} from "../../utils/documentUtils";
 import FilterUI from "./FilterUI";
 
 
@@ -34,7 +35,8 @@ const formatCell = (data, options, isColumn) =>
     if(!isColumn && options.link) {
       data = $('<a>',{
         html: data,
-        href: "#!" + options.link.url
+        href: "#!" + options.link.url,
+        class: "be-link"
       });
     }
     if(options.css || options === 'th') {
@@ -306,6 +308,11 @@ class TableBox extends React.Component {
     tableDiv.on("click", '.edit-operation-btn', function (e) {
         e.preventDefault();
         _this.props.onOperationClick(editOperation, $(this).data("val"));
+    });
+
+    tableDiv.on("click", '.be-link', function (e) {
+      e.preventDefault();
+      processHashUrl(_this.props.frontendParams.documentName, e);
     });
 
     tableDiv.on( 'draw.dt', function () {

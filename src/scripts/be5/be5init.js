@@ -47,12 +47,8 @@ export default {
     //todo move to redux
     const state = documentState.get(be5.MAIN_DOCUMENT);
 
-    if(state.value && state.value.data && state.value.data.links && "#!" + state.value.data.links.self === be5.url.get()
-      && state.value.data.links.self.startsWith('form'))
-    {
-      //console.log('skip - form already opened');
-    }
-    else
+    if(state.value && state.value.data && state.value.data.links &&
+      "#!" + state.value.data.links.self !== be5.url.get())
     {
       be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
     }
