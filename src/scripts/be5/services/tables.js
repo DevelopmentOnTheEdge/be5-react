@@ -5,7 +5,8 @@ import Preconditions       from '../utils/preconditions';
 
 export const loadTable = (params, frontendParams) => {
   getTable(params, json => {
-    if(frontendParams.documentName === be5.MAIN_DOCUMENT)be5.ui.setTitle(json.data.attributes.title);
+    //todo remove 'json.data' check after change error code
+    if(json.data && frontendParams.documentName === be5.MAIN_DOCUMENT)be5.ui.setTitle(json.data.attributes.title);
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   }, (json) => {
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });

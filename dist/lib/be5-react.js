@@ -54,10 +54,10 @@ var createStaticValue = function createStaticValue(title, text, meta, links) {
       attributes: {
         title: title,
         content: text
-      }
+      },
+      links: links || {}
     },
-    meta: meta || { _ts_: new Date().getTime() },
-    links: links || {}
+    meta: meta || { _ts_: new Date().getTime() }
   };
 };
 
@@ -75,7 +75,16 @@ var getSelfUrl = function getSelfUrl(value) {
 
 var setUrlForHash = function setUrlForHash(e) {
   if (/^#/.test(e.target.getAttribute("href"))) {
-    be5.url.set(e.target.getAttribute("href"));
+    console.log(e.target.getAttribute("href"));
+    e.preventDefault();
+    be5.url.process(be5.MAIN_DOCUMENT, e.target.getAttribute("href"));
+  }
+};
+
+var processHashUrl = function processHashUrl(documentName, e) {
+  if (/^#/.test(e.target.getAttribute("href"))) {
+    e.preventDefault();
+    be5.url.process(documentName, e.target.getAttribute("href"));
   }
 };
 
@@ -1326,80 +1335,97 @@ var actions = {
   }
 };
 
-var MenuNode = React.createClass({
-  displayName: 'MenuNode',
+var MenuNode = function MenuNode(props) {
 
-  getInitialState: function getInitialState() {
-    return { href: '#', target: '', classes: '' };
-  },
-  componentDidMount: function componentDidMount() {
+  function getData(node) {
     var href = '#';
     var target = '';
     var classes = '';
-    if (this.props.level == 1) {
+    if (node.level === 1) {
       classes += 'rootMenuItem';
     } else {
       classes += 'menuItem';
     }
-    var hasAction = this.props.data.action != null;
+    var hasAction = node.data.action !== undefined;
     if (hasAction) {
       classes += ' menuItemWithRef';
-      var action = actions.parse(this.props.data.action);
+      var action = actions.parse(node.data.action);
       href = action.href;
       target = action.target;
     } else {
       classes += ' menuItemWithoutRef';
     }
-    this.setState({ href: href, target: target, classes: classes, hasAction: hasAction });
-  },
-  render: function render() {
-    var hasChildren = this.props.data.children != null;
+    return { href: href, target: target, classes: classes, hasAction: hasAction };
+  }
 
-    if (!hasChildren) {
-      var key = 'menu node ' + this.props.data.title;
+  var hasChildren = props.data.children !== undefined;
+
+  if (!hasChildren) {
+    var key = 'menu node ' + props.data.title;
+    return React.createElement(
+      'div',
+      { className: 'menuNode', key: key },
+      _getHead(),
+      _getOperations()
+    );
+  }
+
+  var nextLevel = props.level + 1;
+  var children = props.data.children.map(function (child) {
+    var childKey = 'li ' + child.title;
+    return React.createElement(
+      'li',
+      { key: childKey },
+      React.createElement(MenuNode, { key: child.title, data: child, level: nextLevel })
+    );
+  });
+
+  return React.createElement(
+    'div',
+    { className: 'menuNode', key: 'menu node ' + props.data.title },
+    _getHead(),
+    _getOperations(),
+    React.createElement(
+      'ul',
+      { key: 'ul ' + props.data.title },
+      children
+    )
+  );
+
+  function _getHead() {
+    var data = getData(props);
+    if (data.hasAction) {
       return React.createElement(
-        'div',
-        { className: 'menuNode', key: key },
-        this._getHead(),
-        this._getOperations()
+        'a',
+        {
+          href: data.href,
+          className: data.classes,
+          target: data.target,
+          onClick: setUrlForHash,
+          key: 'a ' + props.data.title
+        },
+        props.data.title
       );
-    }
-
-    var nextLevel = this.props.level + 1;
-    var children = this.props.data.children.map(function (child) {
-      var childKey = 'li ' + child.title;
-      return React.createElement(
-        'li',
-        { key: childKey },
-        React.createElement(MenuNode, { key: child.title, data: child, level: nextLevel })
-      );
-    });
-
-    return React.DOM.div({ className: 'menuNode', key: 'menu node ' + this.props.data.title }, this._getHead(), this._getOperations(), React.DOM.ul({ key: 'ul ' + this.props.data.title }, children));
-  },
-  _getHead: function _getHead() {
-    if (this.state.hasAction) {
-      return React.DOM.a({ href: this.state.href, className: this.state.classes, target: this.state.target,
-        onClick: setUrlForHash, key: 'a ' + this.props.data.title }, this.props.data.title);
     } else {
       return React.createElement(
         'span',
-        { className: this.state.classes },
-        this.props.data.title
+        { className: data.classes },
+        props.data.title
       );
     }
-  },
-  _getOperations: function _getOperations() {
-    var hasOperations = this.props.data.operations != null;
+  }
+
+  function _getOperations() {
+    var hasOperations = props.data.operations !== undefined;
 
     if (!hasOperations) {
-      var key = 'operations ' + this.props.data.title;
-      return React.createElement('div', { key: key });
+      var _key = 'operations ' + props.data.title;
+      return React.createElement('div', { key: _key });
     }
 
-    return this.props.data.operations.map(function (operation) {
+    return props.data.operations.map(function (operation) {
       var href = '#!' + operation.action.arg;
-      var title = operation.title == 'Insert' ? '+' : operation.title;
+      var title = operation.title === 'Insert' ? '+' : operation.title;
       var opBoxKey = 'operation box ' + title;
       var opKey = 'operation a ' + title;
       return React.createElement(
@@ -1415,7 +1441,7 @@ var MenuNode = React.createClass({
       );
     });
   }
-});
+};
 
 var propTypes$1 = {
   menu: PropTypes.shape({})
@@ -1874,6 +1900,9 @@ var Document = function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      documentState.set(this.props.frontendParams.documentName, this.state);
+      Document.updateLocationHashIfNeeded(this.props.frontendParams.documentName, this.state);
+
       bus.replaceListeners(this.props.frontendParams.documentName, function (data) {
         if (_this2.state.value && _this2.state.value.meta && !Number.isInteger(Number.parseInt(_this2.state.value.meta._ts_))) {
           console.error("meta._ts_ mast be string of Integer " + _this2.state.value.meta._ts_);
@@ -1891,6 +1920,12 @@ var Document = function (_React$Component) {
       });
     }
   }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      documentState.set(this.props.frontendParams.documentName, this.state);
+      Document.updateLocationHashIfNeeded(this.props.frontendParams.documentName, this.state);
+    }
+  }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       bus.replaceListeners(this.props.frontendParams.documentName, function (data) {});
@@ -1899,8 +1934,6 @@ var Document = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      documentState.set(this.props.frontendParams.documentName, this.state);
-
       var loadingItem = null; //this.state.loading
       //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
 
@@ -2003,6 +2036,24 @@ var Document = function (_React$Component) {
     key: 'getComponentFrontendParams',
     value: function getComponentFrontendParams() {
       return Object.assign({}, this.state.frontendParams, this.props.frontendParams);
+    }
+  }], [{
+    key: 'updateLocationHashIfNeeded',
+    value: function updateLocationHashIfNeeded(documentName, props) {
+      var self = void 0;
+      if (props.value === null || !props.value.data && !props.value.errors) return;
+
+      console.log(props.value);
+      if (props.value.data !== undefined) {
+        self = props.value.data.links.self;
+      } else {
+        self = props.value.errors[0].links.self;
+      }
+
+      if (documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
+        console.log(self);
+        be5.url.set(self);
+      }
     }
   }]);
   return Document;
@@ -2464,19 +2515,6 @@ var Sorter = React.createClass({
   }
 });
 
-var updateLocationHashIfNeeded = function updateLocationHashIfNeeded(props) {
-  var self = void 0;
-  if (props.value.data !== undefined) {
-    self = props.value.data.links.self;
-  } else {
-    self = props.value.errors[0].links.self;
-  }
-
-  if (props.frontendParams && props.frontendParams.documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
-    be5.url.set(self);
-  }
-};
-
 var Error = function (_React$Component) {
   inherits(Error, _React$Component);
 
@@ -2558,11 +2596,6 @@ var ErrorPane = function (_React$Component2) {
   }
 
   createClass(ErrorPane, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      updateLocationHashIfNeeded(this.props);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var errors = this.props.value.errors;
@@ -3031,11 +3064,6 @@ var Form = function (_React$Component) {
   }
 
   createClass(Form, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      updateLocationHashIfNeeded(this.props);
-    }
-  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       this.setState(Object.assign({}, nextProps.value, { wasValidated: false, submitted: false }));
@@ -3497,11 +3525,6 @@ var FinishedResult = function (_React$Component) {
   }
 
   createClass(FinishedResult, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      updateLocationHashIfNeeded(this.props);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var attributes = this.props.value.data.attributes;
@@ -3755,7 +3778,8 @@ var QuickColumns = function (_React$Component) {
 
 var loadTable = function loadTable(params, frontendParams) {
   getTable(params, function (json) {
-    if (frontendParams.documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
+    //todo remove 'json.data' check after change error code
+    if (json.data && frontendParams.documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   }, function (json) {
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
@@ -3988,7 +4012,8 @@ var formatCell = function formatCell(data, options, isColumn) {
     if (!isColumn && options.link) {
       data = $('<a>', {
         html: data,
-        href: "#!" + options.link.url
+        href: "#!" + options.link.url,
+        class: "be-link"
       });
     }
     if (options.css || options === 'th') {
@@ -4260,6 +4285,11 @@ var TableBox = function (_React$Component) {
         _this.props.onOperationClick(editOperation, $(this).data("val"));
       });
 
+      tableDiv.on("click", '.be-link', function (e) {
+        e.preventDefault();
+        processHashUrl(_this.props.frontendParams.documentName, e);
+      });
+
       tableDiv.on('draw.dt', function () {
         be5.tableState.selectedRows = [];
         _this.props._refreshEnablementIfNeeded();
@@ -4456,11 +4486,6 @@ var Table = function (_React$Component3) {
       };
 
       forms.load(params, frontendParams);
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      updateLocationHashIfNeeded(this.props);
     }
   }, {
     key: 'render',
@@ -4789,7 +4814,8 @@ registerRoute("queryBuilder", route$12);
 
 var route$14 = function route(documentName, text) {
   if (documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle();
-  changeDocument(documentName, { value: createStaticValue(undefined, text) });
+  var data = createStaticValue(undefined, text, null, { self: "text/" + text });
+  changeDocument(documentName, { value: data });
 };
 
 registerRoute("text", route$14);
@@ -5565,9 +5591,8 @@ var be5init$$1 = {
     //todo move to redux
     var state = documentState.get(be5.MAIN_DOCUMENT);
 
-    if (state.value && state.value.data && state.value.data.links && "#!" + state.value.data.links.self === be5.url.get() && state.value.data.links.self.startsWith('form')) {
-      //console.log('skip - form already opened');
-    } else {
+    if (!state.value || !state.value.data || !state.value.data.links || "#!" + state.value.data.links.self !== be5.url.get()) {
+      console.log(state.value, be5.url.get());
       be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
     }
   },
@@ -5719,7 +5744,6 @@ var api = Object.freeze({
 	loadTable: loadTable,
 	updateTable: updateTable,
 	fetchTableByUrl: fetchTableByUrl,
-	updateLocationHashIfNeeded: updateLocationHashIfNeeded,
 	executeFrontendActions: executeFrontendActions,
 	getActionsMap: getActionsMap,
 	getBackOrOpenDefaultRouteAction: getBackOrOpenDefaultRouteAction,
@@ -5731,4 +5755,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, setUrlForHash, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, updateLocationHashIfNeeded, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, setUrlForHash, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction };

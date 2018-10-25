@@ -1,9 +1,8 @@
-import React          from 'react';
-import PropTypes      from 'prop-types';
-import be5            from '../be5';
-import { Collapse, Button, CardBody, Card } from 'reactstrap';
+import React from 'react';
+import PropTypes from 'prop-types';
+import be5 from '../be5';
+import {Button, Card, CardBody, Collapse} from 'reactstrap';
 import {registerDocument} from "../core/documents";
-import {updateLocationHashIfNeeded} from "../services/documents";
 
 
 class Error extends React.Component
@@ -53,10 +52,6 @@ class Error extends React.Component
 
 class ErrorPane extends React.Component
 {
-  componentDidMount() {
-    updateLocationHashIfNeeded(this.props);
-  }
-
   render() {
     const errors = this.props.value.errors;
 

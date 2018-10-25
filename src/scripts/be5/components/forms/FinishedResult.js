@@ -1,16 +1,11 @@
-import React          from 'react';
-import PropTypes      from 'prop-types';
-import be5            from '../../be5';
+import React from 'react';
+import PropTypes from 'prop-types';
+import be5 from '../../be5';
 import {registerDocument} from "../../core/documents";
-import {updateLocationHashIfNeeded} from "../../services/documents";
 
 
 class FinishedResult extends React.Component
 {
-  componentDidMount() {
-    updateLocationHashIfNeeded(this.props);
-  }
-
   render() {
     const back = () => { history.back(); };
     const attributes = this.props.value.data.attributes;

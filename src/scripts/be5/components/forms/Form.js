@@ -1,17 +1,16 @@
-import React           from 'react';
-import PropTypes       from 'prop-types';
-import classNames      from 'classnames';
-import be5             from '../../be5';
-import forms           from '../../services/forms';
-import PropertySet     from 'beanexplorer-react';
-import JsonPointer     from 'json-pointer';
-import ErrorPane       from "../ErrorPane";
-import Transition      from 'react-transition-group/Transition';
+import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import be5 from '../../be5';
+import forms from '../../services/forms';
+import PropertySet from 'beanexplorer-react';
+import JsonPointer from 'json-pointer';
+import ErrorPane from "../ErrorPane";
+import Transition from 'react-transition-group/Transition';
 import {registerDocument} from '../../core/documents';
 import {executeFrontendActions} from "../../services/frontendActions";
 import FrontendAction from "../../services/model/FrontendAction";
 import {GO_BACK, OPEN_DEFAULT_ROUTE} from "../../constants";
-import {updateLocationHashIfNeeded} from "../../services/documents";
 
 
 class Form extends React.Component
@@ -24,10 +23,6 @@ class Form extends React.Component
     this._setValue = this._setValue.bind(this);
     this._applyOnSubmit = this._applyOnSubmit.bind(this);
     this.apply = this.apply.bind(this);
-  }
-
-  componentDidMount() {
-    updateLocationHashIfNeeded(this.props);
   }
 
   componentWillReceiveProps(nextProps) {

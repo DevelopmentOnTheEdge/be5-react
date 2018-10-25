@@ -7,7 +7,8 @@ import {createStaticValue} from '../utils/documentUtils';
 const route = function(documentName, text)
 {
   if(documentName === be5.MAIN_DOCUMENT)be5.ui.setTitle();
-  changeDocument(documentName, { value: createStaticValue(undefined, text) });
+  const data = createStaticValue(undefined, text, null, {self: "text/" + text});
+  changeDocument(documentName, {value: data});
 };
 
 registerRoute("text", route);

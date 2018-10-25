@@ -10,7 +10,7 @@ import {getDocument} from "../core/documents";
 
 import reloadImg from '../../../images/reload.png';
 import StaticPage from "../components/StaticPage";
-import {createStaticValue, getSelfUrl} from "../utils/documentUtils";
+import {createStaticValue, getSelfUrl, updateLocationHashIfNeeded} from "../utils/documentUtils";
 
 
 class Document extends React.Component
@@ -39,6 +39,9 @@ class Document extends React.Component
   }
 
   componentDidMount() {
+    documentState.set(this.props.frontendParams.documentName, this.state);
+    Document.updateLocationHashIfNeeded(this.props.frontendParams.documentName, this.state);
+
     bus.replaceListeners(this.props.frontendParams.documentName, data =>
     {
       if(this.state.value && this.state.value.meta && !Number.isInteger(Number.parseInt(this.state.value.meta._ts_)))
@@ -63,14 +66,33 @@ class Document extends React.Component
     });
   }
 
+  componentDidUpdate() {
+    documentState.set(this.props.frontendParams.documentName, this.state);
+    Document.updateLocationHashIfNeeded(this.props.frontendParams.documentName, this.state);
+  }
+
+  static updateLocationHashIfNeeded(documentName, props){
+    let self;
+    if(props.value === null || (!props.value.data && !props.value.errors)) return;
+
+    if (props.value.data !== undefined) {
+      self = props.value.data.links.self;
+    } else {
+      self = props.value.errors[0].links.self;
+    }
+
+    if (documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
+      console.log(self);
+      be5.url.set(self)
+    }
+  }
+
   componentWillUnmount(){
     bus.replaceListeners(this.props.frontendParams.documentName, data => {});
     bus.replaceListeners(this.props.frontendParams.documentName + be5.DOCUMENT_REFRESH_SUFFIX, data => {});
   }
 
   render() {
-    documentState.set(this.props.frontendParams.documentName, this.state);
-
     const loadingItem = null;//this.state.loading
       //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
 

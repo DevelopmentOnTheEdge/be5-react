@@ -30,7 +30,6 @@ import {
 } from './services/forms.js';
 
 import {loadTable, updateTable, fetchTableByUrl} from './services/tables.js';
-import {updateLocationHashIfNeeded} from './services/documents.js';
 
 // store
 import createBaseStore from './store';
@@ -85,8 +84,6 @@ export {
   openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl,
 
   loadTable, updateTable, fetchTableByUrl,
-
-  updateLocationHashIfNeeded,
 
   executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction,
   FrontendAction

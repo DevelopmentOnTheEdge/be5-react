@@ -42,10 +42,10 @@ export const createStaticValue = (title, text, meta, links) => {
       attributes: {
         title: title,
         content: text
-      }
+      },
+      links: links || {}
     },
-    meta: meta || {_ts_: new Date().getTime()},
-    links: links || {}
+    meta: meta || {_ts_: new Date().getTime()}
   }
 };
 
@@ -68,6 +68,8 @@ export const getSelfUrl = (value) => {
 
 export const setUrlForHash = (e) => {
   if(/^#/.test(e.target.getAttribute("href"))) {
+    console.log(e.target.getAttribute("href"));
+    e.preventDefault();
     be5.url.process(be5.MAIN_DOCUMENT, e.target.getAttribute("href"));
   }
 };
@@ -85,4 +87,3 @@ export const openInModal = (e) => {
     be5.url.process(be5.MAIN_MODAL_DOCUMENT, e.target.getAttribute("href"));
   }
 };
-

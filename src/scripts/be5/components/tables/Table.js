@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
-import PropTypes          from 'prop-types';
-import ReactDOM           from 'react-dom';
-import be5                from '../../be5';
-import {getModelByID, getResourceByType, getSelfUrl} from '../../utils/documentUtils';
-import forms              from '../../services/forms';
-import numberFormatter    from 'number-format.js';
-import OperationBox       from './OperationBox';
-import QuickColumns       from './QuickColumns';
-import Document           from "../../containers/Document";
+import PropTypes from 'prop-types';
+import ReactDOM from 'react-dom';
+import be5 from '../../be5';
+import {getModelByID, getResourceByType, getSelfUrl, processHashUrl} from '../../utils/documentUtils';
+import forms from '../../services/forms';
+import numberFormatter from 'number-format.js';
+import OperationBox from './OperationBox';
+import QuickColumns from './QuickColumns';
+import Document from "../../containers/Document";
 import {registerDocument} from '../../core/documents';
 import {loadTableByUrl, updateTable} from "../../services/tables";
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions, getBackOrOpenDefaultRouteAction} from "../../services/frontendActions";
-import {updateLocationHashIfNeeded} from "../../services/documents";
-import {processHashUrl} from "../../utils/documentUtils";
 import FilterUI from "./FilterUI";
 
 
@@ -463,10 +461,6 @@ class Table extends React.Component
     };
 
     forms.load(params, frontendParams);
-  }
-
-  componentDidMount() {
-    updateLocationHashIfNeeded(this.props);
   }
 
   render() {
