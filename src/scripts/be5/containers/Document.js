@@ -82,7 +82,6 @@ class Document extends React.Component
     }
 
     if (documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
-      console.log(self);
       be5.url.set(self)
     }
   }
@@ -123,8 +122,8 @@ class Document extends React.Component
 
     if(DocumentContent === undefined)
     {
-      const value = createStaticValue(
-        be5.messages.componentForTypeNotRegistered.replace( '$type', documentType), '');
+      const title = be5.messages.componentForTypeNotRegistered.replace( '$type', documentType);
+      const value = createStaticValue(title, '', {self: "#!"});
 
       return (
         <StaticPage

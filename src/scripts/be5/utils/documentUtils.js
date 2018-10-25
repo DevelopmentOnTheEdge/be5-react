@@ -1,5 +1,5 @@
 import be5 from "../be5";
-
+import Preconditions from '../utils/preconditions';
 
 export const getResourceByID = (included, id) => {
   if(included === undefined) return undefined;
@@ -35,7 +35,8 @@ export const getModelByID = (included, meta, id) => {
   }
 };
 
-export const createStaticValue = (title, text, meta, links) => {
+export const createStaticValue = (title, text, links, meta) => {
+  Preconditions.passed(links.self);
   return {
     data: {
       type: 'static',
@@ -68,7 +69,6 @@ export const getSelfUrl = (value) => {
 
 export const setUrlForHash = (e) => {
   if(/^#/.test(e.target.getAttribute("href"))) {
-    console.log(e.target.getAttribute("href"));
     e.preventDefault();
     be5.url.process(be5.MAIN_DOCUMENT, e.target.getAttribute("href"));
   }

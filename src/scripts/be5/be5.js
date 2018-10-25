@@ -200,7 +200,7 @@ const be5 = {
         action.apply(be5, positional);
       }else{
         const msg = be5.messages.errorUnknownRoute.replace('$action', actionName);
-        changeDocument(documentName, { value: createStaticValue(msg) });
+        changeDocument(documentName, { value: createStaticValue(msg, null, {self: url}) });
         console.info(msg);
       }
     }
