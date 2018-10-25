@@ -1,7 +1,9 @@
 import React        from 'react';
 import {getAllDocumentTypes, registerDocument, getDocument} from '../core/documents'
-import {getAllRoutes, getRoute} from '../core/routes'
+import {getAllRoutes, getRoute, registerRoute} from '../core/routes'
 import classNames   from 'classnames';
+import changeDocument from "../core/changeDocument";
+import be5 from "../be5";
 
 
 const UiPanel = () => {
@@ -63,4 +65,7 @@ const UiPanel = () => {
 
 registerDocument("uiPanel", UiPanel);
 
-export default UiPanel;
+registerRoute("uiPanel", function(documentName) {
+  if (documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle("UI panel");
+  changeDocument(documentName, {value: {}, frontendParams: {type: 'uiPanel'}});
+});

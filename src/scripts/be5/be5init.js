@@ -13,7 +13,6 @@ import './routes/table';
 import './routes/queryBuilder';
 import './routes/text';
 import './routes/login';
-import './routes/uiPanel';
 import './routes/categories';
 
 
@@ -33,7 +32,7 @@ import './components/forms/FinishedResult';
 import './components/QueryBuilder';
 import './components/StaticPage';
 import './components/ErrorPane';
-import './components/UiPanel';
+import './pages/UiPanel';
 import './pages/SystemCard';
 import {fetchUserInfo} from "./store/actions/user.actions";
 import {getDefaultRoute} from "./store/selectors/user.selectors";
