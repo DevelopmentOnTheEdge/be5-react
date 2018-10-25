@@ -10,7 +10,7 @@ import {getDocument} from "../core/documents";
 
 import reloadImg from '../../../images/reload.png';
 import StaticPage from "../components/StaticPage";
-import {createStaticValue, getSelfUrl, updateLocationHashIfNeeded} from "../utils/documentUtils";
+import {createStaticValue, getSelfUrl} from "../utils/documentUtils";
 
 
 class Document extends React.Component

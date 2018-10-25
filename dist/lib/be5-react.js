@@ -105,9 +105,9 @@ var getSelfUrl = function getSelfUrl(value) {
 };
 
 var processHashUrl = function processHashUrl(e, documentName) {
-  var url = e.target.getAttribute("href");
+  var url = e.target ? e.target.getAttribute("href") : e;
   if (/^#/.test(url)) {
-    e.preventDefault();
+    if (e.target) e.preventDefault();
     if (url.startsWith("#!table/")) {
       url = url + "/_cleanNav_=true";
     }
@@ -2435,83 +2435,6 @@ HelpInfo.defaultProps = {
   documentName: "helpInfo"
 };
 
-var Sorter = React.createClass({
-  displayName: 'Sorter',
-
-  propTypes: {
-    /**
-     * An array of columns with name and title.
-     */
-    columns: React.PropTypes.array.isRequired,
-
-    /**
-     * A callback to call when the user clicks a sorting button.
-     */
-    onSelect: React.PropTypes.func.isRequired,
-
-    /**
-     * A name of the soring column, or undefined.
-     */
-    sortingColumnName: React.PropTypes.string,
-
-    /**
-     * A way to sort, or undefined.
-     */
-    sortingOrder: React.PropTypes.oneOf(['asc', 'desc'])
-  },
-
-  render: function render() {
-    if (this.props.columns.length === 0) {
-      return React.createElement('div', null);
-    }
-
-    return React.createElement(
-      'form',
-      { className: 'form-inline' },
-      React.createElement(
-        'div',
-        { className: 'form-group' },
-        React.createElement(
-          'label',
-          null,
-          'Sort by'
-        ),
-        ' ',
-        React.createElement(
-          'div',
-          { className: 'btn-group btn-group-sm', role: 'group', 'aria-label': 'Sorting' },
-          this.props.columns.map(this._renderColumn)
-        )
-      )
-    );
-  },
-  _renderColumn: function _renderColumn(column) {
-    var selected = this.props.sortingColumnName === column.name;
-    var klass = classNames({
-      'btn': true,
-      'btn-primary': selected,
-      'btn-secondary': !selected
-    });
-    var asc = this.props.sortingOrder === 'asc';
-    var iconClass = classNames({
-      'fa': true,
-      'fa-sort': !selected,
-      'fa-sort-asc': selected && asc,
-      'fa-sort-desc': selected && !asc
-    });
-    return React.createElement(
-      'button',
-      { type: 'button', className: klass, onClick: this._onSelect.bind(this, column) },
-      column.title,
-      ' ',
-      React.createElement('span', { className: iconClass })
-    );
-  },
-  _onSelect: function _onSelect(column) {
-    this.props.onSelect(column);
-  }
-});
-
 var Error = function (_React$Component) {
   inherits(Error, _React$Component);
 
@@ -2624,73 +2547,6 @@ ErrorPane.propTypes = {
 
 registerDocument("errorPane", ErrorPane);
 
-var TreeMenu = React.createClass({
-  displayName: 'TreeMenu',
-
-  propTypes: {
-    /*
-     * Example:
-     * [{ name: 'Menu', id: 1, children: [{ name: 'Child', id: 2 }] }]
-     */
-    rootItems: React.PropTypes.array.isRequired,
-    /*
-     * A node will be passed to the function.
-     */
-    onItemSelect: React.PropTypes.func.isRequired,
-    /*
-     * An item that should be highligted.
-     */
-    activeItemId: React.PropTypes.string.isRequired
-  },
-
-  render: function render() {
-    var _this = this;
-
-    return React.createElement(
-      'div',
-      { className: 'tree-menu' },
-      React.createElement(
-        'ul',
-        { className: 'tree-menu-node-children' },
-        this.props.rootItems.map(function (node) {
-          return _this._renderNode(node);
-        })
-      )
-    );
-  },
-  _renderNode: function _renderNode(node) {
-    var _this2 = this;
-
-    return React.createElement(
-      'li',
-      { className: 'tree-menu-node', key: node.name },
-      React.createElement(
-        'div',
-        { className: 'tree-menu-node-title' },
-        React.createElement(
-          'a',
-          { role: 'button', className: 'tree-menu-node-link' + (node.id === this.props.activeItemId ? ' active' : ''), href: 'javascript:void(0);', onClick: this._handleClick.bind(this, node) },
-          node.name
-        )
-      ),
-      node.children ? React.createElement(
-        'div',
-        { className: 'tree-menu-node-children-container' },
-        React.createElement(
-          'ul',
-          { className: 'tree-menu-node-children' },
-          node.children.map(function (node) {
-            return _this2._renderNode(node);
-          })
-        )
-      ) : undefined
-    );
-  },
-  _handleClick: function _handleClick(node) {
-    this.props.onItemSelect(node);
-  }
-});
-
 var FormWizard = function (_React$Component) {
   inherits(FormWizard, _React$Component);
 
@@ -2721,7 +2577,7 @@ var FormWizard = function (_React$Component) {
     key: 'init',
     value: function init() {
       this.setState(this.getPrevNextBtnState(this.props.startAtStep));
-      be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
+      processHashUrl(this.props.steps[this.state.compState].url, this.props.documentName);
     }
   }, {
     key: 'getNavStates',
@@ -2779,7 +2635,7 @@ var FormWizard = function (_React$Component) {
         this.setState({ compState: next });
       }
 
-      be5.url.process(this.props.documentName, this.props.steps[next].url);
+      processHashUrl(this.props.steps[next].url, this.props.documentName);
 
       this.checkNavState(next);
     }
@@ -2929,6 +2785,7 @@ var Navs = function (_React$Component) {
     };
 
     _this.init = _this.init.bind(_this);
+    _this.setNavState = _this.setNavState.bind(_this);
     return _this;
   }
 
@@ -2940,13 +2797,22 @@ var Navs = function (_React$Component) {
   }, {
     key: 'init',
     value: function init() {
-      be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
+      processHashUrl(this.props.steps[this.state.compState].url, this.props.documentName);
     }
   }, {
     key: 'setNavState',
-    value: function setNavState(id) {
+    value: function setNavState(e) {
+      processHashUrl(e, this.props.documentName);
+      var id = this.getIDbyUrl(e.target.getAttribute("href"));
       this.setState({ compState: id });
-      be5.url.process(this.props.documentName, this.props.steps[id].url);
+    }
+  }, {
+    key: 'getIDbyUrl',
+    value: function getIDbyUrl(url) {
+      for (var i = 0; i < this.props.steps.length; i++) {
+        if (this.props.steps[i].url === url) return i;
+      }
+      return 0;
     }
   }, {
     key: 'renderSteps',
@@ -2959,9 +2825,7 @@ var Navs = function (_React$Component) {
           { key: "NavItem" + i },
           React.createElement(
             NavLink,
-            { href: '#', active: i === _this2.state.compState, onClick: function onClick() {
-                return _this2.setNavState(i);
-              },
+            { href: _this2.props.steps[i].url, active: i === _this2.state.compState, onClick: _this2.setNavState,
               key: "NavLink" + i },
             _this2.props.steps[i].title
           )
@@ -5581,6 +5445,33 @@ var UiPanel = function UiPanel() {
 
 registerDocument("uiPanel", UiPanel);
 
+var SystemCard = function SystemCard(props) {
+  var title = props.value.title;
+
+  be5.ui.setTitle(title);
+  var steps = [{ title: 'Cache', url: '#!table/_system_/Cache' }, { title: 'Daemons', url: '#!table/_system_/Daemons' }, { title: 'Entities', url: '#!table/_system_/Entities' }, { title: 'Session variables', url: '#!table/_system_/Session variables' }, { title: 'Query builder', url: '#!queryBuilder' }];
+
+  return React.createElement(
+    "div",
+    { className: "info-card" },
+    React.createElement(
+      "h1",
+      { style: { marginBottom: 13 + 'px' } },
+      title
+    ),
+    React.createElement(Navs, { steps: steps, tabs: true, startAtStep: 0 })
+  );
+};
+
+registerDocument('SystemCard', SystemCard);
+
+registerRoute('systemCard', function (documentName) {
+  changeDocument(documentName, {
+    value: { title: "System card" },
+    frontendParams: { type: 'SystemCard' }
+  });
+});
+
 var be5init$$1 = {
   hashChange: function hashChange() {
     bus.fire("mainModalClose");
@@ -5614,7 +5505,7 @@ var be5init$$1 = {
   },
   initGetUser: function initGetUser(store) {
     this.initOnLoad(store, undefined, getDefaultRoute, function () {
-      be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
+      processHashUrl(be5.url.get(), be5.MAIN_DOCUMENT);
     });
   },
   initOnLoad: function initOnLoad(store, initState, select, onChange) {
@@ -5752,4 +5643,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction };

@@ -21,6 +21,15 @@ exports[`snapshot 1`] = `
       <span
         className="badge badge-primary"
       >
+        SystemCard
+      </span>
+       - 
+      SystemCard
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
         errorPane
       </span>
        - 
@@ -266,6 +275,18 @@ exports[`snapshot 1`] = `
       <span>
         , 
         page
+      </span>
+      )
+    </div>
+    <div>
+      <span
+        className="badge badge-primary"
+      >
+        systemCard
+      </span>
+      (
+      <span>
+        documentName
       </span>
       )
     </div>

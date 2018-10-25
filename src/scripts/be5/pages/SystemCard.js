@@ -1,5 +1,9 @@
 import React from 'react';
-import {be5, changeDocument, fetchTableByUrl, Navs, registerDocument, registerRoute} from '../index';
+import be5 from "../be5";
+import Navs from "../components/Navs";
+import {registerDocument} from "../core/documents";
+import {registerRoute} from "../core/routes";
+import changeDocument from "../core/changeDocument";
 
 
 const SystemCard = (props) =>

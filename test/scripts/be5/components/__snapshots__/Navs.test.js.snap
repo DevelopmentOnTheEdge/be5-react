@@ -12,7 +12,7 @@ exports[`test 1`] = `
     >
       <a
         className="nav-link active"
-        href="#"
+        href="#!text/A"
         onClick={[Function]}
       >
         Companies
@@ -23,7 +23,7 @@ exports[`test 1`] = `
     >
       <a
         className="nav-link"
-        href="#"
+        href="#!text/B"
         onClick={[Function]}
       >
         EgissoDocs
