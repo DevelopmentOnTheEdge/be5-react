@@ -18,6 +18,36 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 
+var createMandatoryArgumentError = function createMandatoryArgumentError(message) {
+  return {
+    name: 'MandatoryArgumentError',
+    message: message
+  };
+};
+
+var createArgumentEqualityError = function createArgumentEqualityError(message) {
+  return {
+    name: 'ArgumentEqualityError',
+    message: message
+  };
+};
+
+var Preconditions = {
+  passed: function passed(argument, message) {
+    if (!argument) {
+      console.trace();
+      throw createMandatoryArgumentError(message || 'argument is missing');
+    }
+    return argument;
+  },
+  eq: function eq(arg1, arg2, message) {
+    if (arg1 !== arg2) {
+      console.trace();
+      throw createArgumentEqualityError(message || arg1 + ' should be equal to ' + arg2);
+    }
+  }
+};
+
 var getResourceByID = function getResourceByID(included, id) {
   if (included === undefined) return undefined;
 
@@ -47,7 +77,8 @@ var getModelByID = function getModelByID(included, meta, id) {
   }
 };
 
-var createStaticValue = function createStaticValue(title, text, meta, links) {
+var createStaticValue = function createStaticValue(title, text, links, meta) {
+  Preconditions.passed(links.self);
   return {
     data: {
       type: 'static',
@@ -73,18 +104,15 @@ var getSelfUrl = function getSelfUrl(value) {
   return undefined;
 };
 
-var setUrlForHash = function setUrlForHash(e) {
-  if (/^#/.test(e.target.getAttribute("href"))) {
-    console.log(e.target.getAttribute("href"));
+var processHashUrl = function processHashUrl(e, documentName) {
+  var url = e.target.getAttribute("href");
+  if (/^#/.test(url)) {
     e.preventDefault();
-    be5.url.process(be5.MAIN_DOCUMENT, e.target.getAttribute("href"));
-  }
-};
-
-var processHashUrl = function processHashUrl(documentName, e) {
-  if (/^#/.test(e.target.getAttribute("href"))) {
-    e.preventDefault();
-    be5.url.process(documentName, e.target.getAttribute("href"));
+    if (url.startsWith("#!table/")) {
+      url = url + "/_cleanNav_=true";
+    }
+    console.log(url, documentName);
+    be5.url.process(documentName || be5.MAIN_DOCUMENT, url);
   }
 };
 
@@ -256,36 +284,6 @@ var bus = {
   fire: fire,
   /* function(eventType: string, listener: function(event: object)) */
   replaceListeners: replaceListeners
-};
-
-var createMandatoryArgumentError = function createMandatoryArgumentError(message) {
-  return {
-    name: 'MandatoryArgumentError',
-    message: message
-  };
-};
-
-var createArgumentEqualityError = function createArgumentEqualityError(message) {
-  return {
-    name: 'ArgumentEqualityError',
-    message: message
-  };
-};
-
-var Preconditions = {
-  passed: function passed(argument, message) {
-    if (!argument) {
-      console.trace();
-      throw createMandatoryArgumentError(message || 'argument is missing');
-    }
-    return argument;
-  },
-  eq: function eq(arg1, arg2, message) {
-    if (arg1 !== arg2) {
-      console.trace();
-      throw createArgumentEqualityError(message || arg1 + ' should be equal to ' + arg2);
-    }
-  }
 };
 
 var changeDocument = function changeDocument(documentName, value) {
@@ -695,7 +693,7 @@ var be5 = {
         action.apply(be5, positional);
       } else {
         var msg = be5.messages.errorUnknownRoute.replace('$action', actionName);
-        changeDocument(documentName, { value: createStaticValue(msg) });
+        changeDocument(documentName, { value: createStaticValue(msg, null, { self: url }) });
         console.info(msg);
       }
     }
@@ -1401,7 +1399,7 @@ var MenuNode = function MenuNode(props) {
           href: data.href,
           className: data.classes,
           target: data.target,
-          onClick: setUrlForHash,
+          onClick: processHashUrl,
           key: 'a ' + props.data.title
         },
         props.data.title
@@ -1962,7 +1960,8 @@ var Document = function (_React$Component) {
       var DocumentContent = getDocument(documentType);
 
       if (DocumentContent === undefined) {
-        var value = createStaticValue(be5.messages.componentForTypeNotRegistered.replace('$type', documentType), '');
+        var title = be5.messages.componentForTypeNotRegistered.replace('$type', documentType);
+        var value = createStaticValue(title, '', { self: "#!" });
 
         return React.createElement(StaticPage, {
           value: value,
@@ -2043,7 +2042,6 @@ var Document = function (_React$Component) {
       var self = void 0;
       if (props.value === null || !props.value.data && !props.value.errors) return;
 
-      console.log(props.value);
       if (props.value.data !== undefined) {
         self = props.value.data.links.self;
       } else {
@@ -2051,7 +2049,6 @@ var Document = function (_React$Component) {
       }
 
       if (documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
-        console.log(self);
         be5.url.set(self);
       }
     }
@@ -2216,7 +2213,7 @@ var NavbarMenu = React.createClass({
     var rootMenuItems = this._renderMenuItems(this.props.menu.root, false);
     var brand = this.props.brand ? React.createElement(
       'a',
-      { href: '#!', onClick: setUrlForHash, className: 'navbar-brand' },
+      { href: '#!', onClick: processHashUrl, className: 'navbar-brand' },
       this.props.brand
     ) : undefined;
     var rightButtons = this._renderRightButtons();
@@ -2256,7 +2253,7 @@ var NavbarMenu = React.createClass({
         { className: 'form-inline ml-auto' },
         React.createElement(
           Button,
-          { onClick: setUrlForHash, href: '#!login', color: 'secondary' },
+          { onClick: processHashUrl, href: '#!login', color: 'secondary' },
           be5.messages.login
         )
       );
@@ -2278,7 +2275,7 @@ var NavbarMenu = React.createClass({
       ' ',
       React.createElement(
         Button,
-        { onClick: setUrlForHash, href: '#!logout', color: 'secondary' },
+        { onClick: processHashUrl, href: '#!logout', color: 'secondary' },
         be5.messages.logout
       )
     );
@@ -2298,7 +2295,7 @@ var NavbarMenu = React.createClass({
 
       return React.createElement(
         DropdownItem,
-        { onClick: setUrlForHash, href: href, key: target + href },
+        { onClick: processHashUrl, href: href, key: target + href },
         item.title
       );
     });
@@ -2332,7 +2329,7 @@ var NavbarMenu = React.createClass({
           { key: target + href },
           React.createElement(
             NavLink,
-            { onClick: setUrlForHash, href: href, active: _active },
+            { onClick: processHashUrl, href: href, active: _active },
             item.title
           )
         );
@@ -4287,7 +4284,7 @@ var TableBox = function (_React$Component) {
 
       tableDiv.on("click", '.be-link', function (e) {
         e.preventDefault();
-        processHashUrl(_this.props.frontendParams.documentName, e);
+        processHashUrl(e, _this.props.frontendParams.documentName);
       });
 
       tableDiv.on('draw.dt', function () {
@@ -4814,7 +4811,7 @@ registerRoute("queryBuilder", route$12);
 
 var route$14 = function route(documentName, text) {
   if (documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle();
-  var data = createStaticValue(undefined, text, null, { self: "text/" + text });
+  var data = createStaticValue(undefined, text, { self: "text/" + text });
   changeDocument(documentName, { value: data });
 };
 
@@ -5705,7 +5702,7 @@ var api = Object.freeze({
 	getModelByID: getModelByID,
 	createStaticValue: createStaticValue,
 	getResourceByID: getResourceByID,
-	setUrlForHash: setUrlForHash,
+	processHashUrl: processHashUrl,
 	openInModal: openInModal,
 	bus: bus,
 	changeDocument: changeDocument,
@@ -5755,4 +5752,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, setUrlForHash, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, Sorter, StaticPage, ErrorPane, TreeMenu, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction };

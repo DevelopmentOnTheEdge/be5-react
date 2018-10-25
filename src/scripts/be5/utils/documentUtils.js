@@ -67,17 +67,15 @@ export const getSelfUrl = (value) => {
   return undefined;
 };
 
-export const setUrlForHash = (e) => {
-  if(/^#/.test(e.target.getAttribute("href"))) {
+export const processHashUrl = (e, documentName) => {
+  let url = e.target.getAttribute("href");
+  if (/^#/.test(url)) {
     e.preventDefault();
-    be5.url.process(be5.MAIN_DOCUMENT, e.target.getAttribute("href"));
-  }
-};
-
-export const processHashUrl = (documentName, e) => {
-  if(/^#/.test(e.target.getAttribute("href"))) {
-    e.preventDefault();
-    be5.url.process(documentName, e.target.getAttribute("href"));
+    if (url.startsWith("#!table/")) {
+      url = url + "/_cleanNav_=true";
+    }
+    console.log(url, documentName);
+    be5.url.process(documentName || be5.MAIN_DOCUMENT, url);
   }
 };
 

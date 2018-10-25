@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import actions from '../../services/actions';
-import {setUrlForHash} from "../../utils/documentUtils";
+import {processHashUrl} from "../../utils/documentUtils";
 
 const MenuNode = (props) => {
 
@@ -63,7 +63,7 @@ const MenuNode = (props) => {
               href={data.href}
               className={data.classes}
               target={data.target}
-              onClick={setUrlForHash}
+              onClick={processHashUrl}
               key={'a ' + props.data.title}
             >
               {props.data.title}

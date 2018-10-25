@@ -310,7 +310,7 @@ class TableBox extends React.Component {
 
     tableDiv.on("click", '.be-link', function (e) {
       e.preventDefault();
-      processHashUrl(_this.props.frontendParams.documentName, e);
+      processHashUrl(e, _this.props.frontendParams.documentName);
     });
 
     tableDiv.on( 'draw.dt', function () {
