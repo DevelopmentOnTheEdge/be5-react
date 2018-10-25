@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes            from 'prop-types';
 import classNames           from 'classnames';
 import Document             from '../containers/Document';
-import {processHashUrl} from "../utils/documentUtils";
+import {processHashUrlForDocument} from "../utils/documentUtils";
 
 
 class FormWizard extends React.Component
@@ -28,7 +28,7 @@ class FormWizard extends React.Component
 
   init() {
     this.setState(this.getPrevNextBtnState(this.props.startAtStep));
-    processHashUrl(this.props.steps[this.state.compState].url, this.props.documentName);
+    processHashUrlForDocument(this.props.steps[this.state.compState].url, this.props.documentName);
   }
 
   getNavStates(indx, length) {
@@ -85,7 +85,7 @@ class FormWizard extends React.Component
       this.setState({compState: next});
     }
 
-    processHashUrl(this.props.steps[next].url, this.props.documentName);
+    processHashUrlForDocument(this.props.steps[next].url, this.props.documentName);
 
     this.checkNavState(next);
   }

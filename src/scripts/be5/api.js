@@ -3,7 +3,7 @@ import be5init from './be5init.js';
 //import be5styles from './be5styles.js';
 import * as constants from './constants.js';
 import preconditions from './utils/preconditions.js';
-import {getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl,
+import {getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument,
   openInModal} from './utils/documentUtils.js';
 import {arraysEqual} from './utils/utils.js';
 
@@ -53,7 +53,7 @@ export {
   constants,
   preconditions,
   arraysEqual,
-  getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, openInModal,
+  getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal,
 
   // core
   bus,

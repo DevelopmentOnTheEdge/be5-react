@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes            from 'prop-types';
 import Document             from '../containers/Document';
 import { Nav, NavItem, NavLink } from 'reactstrap';
-import {processHashUrl} from "../utils/documentUtils";
+import {processHashUrlForDocument} from "../utils/documentUtils";
 
 
 class Navs extends React.Component
@@ -23,11 +23,11 @@ class Navs extends React.Component
   }
 
   init() {
-    processHashUrl(this.props.steps[this.state.compState].url, this.props.documentName);
+    processHashUrlForDocument(this.props.steps[this.state.compState].url, this.props.documentName);
   }
 
   setNavState(e) {
-    processHashUrl(e, this.props.documentName);
+    processHashUrlForDocument(e, this.props.documentName);
     const id = this.getIDbyUrl(e.target.getAttribute("href"));
     this.setState({compState: id});
   }

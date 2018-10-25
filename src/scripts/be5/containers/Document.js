@@ -73,6 +73,7 @@ class Document extends React.Component
 
   static updateLocationHashIfNeeded(documentName, props){
     let self;
+    console.log(props);
     if(props.value === null || (!props.value.data && !props.value.errors)) return;
 
     if (props.value.data !== undefined) {

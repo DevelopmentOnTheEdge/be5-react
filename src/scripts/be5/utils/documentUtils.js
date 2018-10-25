@@ -67,7 +67,11 @@ export const getSelfUrl = (value) => {
   return undefined;
 };
 
-export const processHashUrl = (e, documentName) => {
+export const processHashUrl = (e) => {
+  processHashUrlForDocument(e, be5.MAIN_DOCUMENT);
+};
+
+export const processHashUrlForDocument = (e, documentName) => {
   let url = e.target ? e.target.getAttribute("href") : e;
   if (/^#/.test(url) || url === '' || url === '#' || url === '#!') {
     if (e.target) e.preventDefault();
