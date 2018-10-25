@@ -34,7 +34,7 @@ const formatCell = (data, options, isColumn) =>
       data = $('<a>',{
         html: data,
         href: "#!" + options.link.url,
-        class: "be-link"
+        class: "process-hash-url"
       });
     }
     if(options.css || options === 'th') {
@@ -308,7 +308,7 @@ class TableBox extends React.Component {
         _this.props.onOperationClick(editOperation, $(this).data("val"));
     });
 
-    tableDiv.on("click", '.be-link', function (e) {
+    tableDiv.on("click", '.process-hash-url', function (e) {
       e.preventDefault();
       processHashUrl(e, _this.props.frontendParams.documentName);
     });
