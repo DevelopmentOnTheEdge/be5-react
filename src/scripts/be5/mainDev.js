@@ -9,24 +9,24 @@ import be5init          from './be5init';
 import './be5styles';
 
 const store = createBaseStore(rootReducer);
-be5init.init(store);
+be5init.init(store, function () {
+  const render = Component => {
+    ReactDOM.render(
+      <AppContainer>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </AppContainer>,
+      document.getElementById('app'),
+    )
+  };
 
-const render = Component => {
-  ReactDOM.render(
-    <AppContainer>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </AppContainer>,
-    document.getElementById('app'),
-  )
-};
-
-render(App);
+  render(App);
 
 // Webpack Hot Module Replacement API
-if (module.hot) {
-  module.hot.accept('./components/Application', () => {
-    render(App)
-  })
-}
+  if (module.hot) {
+    module.hot.accept('./components/Application', () => {
+      render(App)
+    })
+  }
+});

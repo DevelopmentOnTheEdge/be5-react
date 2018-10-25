@@ -9,11 +9,12 @@ import './be5styles';
 
 
 const store = createBaseStore(rootReducer);
-be5init.init(store);
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App/>
-  </Provider>,
-  document.getElementById('app')
-);
+be5init.init(store, () => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <App/>
+    </Provider>,
+    document.getElementById('app')
+  );
+});

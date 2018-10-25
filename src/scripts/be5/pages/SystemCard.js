@@ -8,7 +8,7 @@ import changeDocument from "../core/changeDocument";
 
 const SystemCard = (props) =>
 {
-  const {title} = props.value;
+  const title = props.value.data.attributes.title;
   be5.ui.setTitle(title);
   const steps = [
     {title: 'Cache', url: '#!table/_system_/Cache'},
@@ -30,7 +30,7 @@ registerDocument('SystemCard', SystemCard);
 
 registerRoute('systemCard', (documentName) => {
     changeDocument(documentName, {
-      value: {title: "System card"},
+      value: {data: {attributes: {title: "System card"}, links:{self: "systemCard"}}},
       frontendParams: {type: 'SystemCard'}
     })
 });

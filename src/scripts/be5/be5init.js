@@ -36,7 +36,7 @@ import './pages/UiPanel';
 import './pages/SystemCard';
 import {fetchUserInfo} from "./store/actions/user.actions";
 import {getDefaultRoute} from "./store/selectors/user.selectors";
-import {processHashUrl} from "./utils/documentUtils";
+import {processHashUrlForDocument} from "./utils/documentUtils";
 
 
 export default {
@@ -51,12 +51,14 @@ export default {
     if(!state.value || !state.value.data || !state.value.data.links ||
       "#!" + state.value.data.links.self !== be5.url.get())
     {
-      console.log(state.value, be5.url.get());
+      if (getDefaultRoute(be5.store.getState()) === state.value.data.links.self
+        && (be5.url.get() === "" || be5.url.get() === "#!")) return;
+      //console.log(state.value, be5.url.get());
       be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
     }
   },
 
-  init(store)
+  init(store, callback)
   {
     Preconditions.passed(store, 'store in required');
 
@@ -65,7 +67,7 @@ export default {
     be5.api = api;
     window.be5 = be5;
 
-    this.initGetUser(store);
+    this.initGetUser(store, callback);
 
     be5.net.request('languageSelector', {}, function(data) {
       be5.locale.set(data.selected, data.messages);
@@ -77,9 +79,10 @@ export default {
     window.addEventListener("hashchange", this.hashChange, false);
   },
 
-  initGetUser(store){
+  initGetUser(store, callback){
     this.initOnLoad(store, undefined, getDefaultRoute, () => {
-      processHashUrl(be5.url.get(), be5.MAIN_DOCUMENT);
+      if (callback) callback();
+      processHashUrlForDocument(be5.url.get(), be5.MAIN_DOCUMENT);
     });
   },
 

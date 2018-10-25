@@ -46,7 +46,7 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
     {
       if (documentName === be5.MAIN_DOCUMENT)
       {
-        be5.url.set(url);
+        be5.url.process(documentName, '#!' + url);
       }
       else
       {
@@ -69,12 +69,12 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 
   if(actions[SET_URL])
   {
-    be5.url.set(actions[SET_URL]);
+    be5.url.process(documentName, '#!' + actions[SET_URL]);
   }
 
   if(actions.hasOwnProperty(OPEN_DEFAULT_ROUTE))
   {
-    be5.url.set(getDefaultRoute(be5.getStoreState()));
+    be5.url.process(documentName, '#!' + getDefaultRoute(be5.getStoreState()));
   }
 
   if(actions.hasOwnProperty(GO_BACK))

@@ -6,8 +6,9 @@ import changeDocument from "../core/changeDocument";
 import be5 from "../be5";
 
 
-const UiPanel = () => {
-
+const UiPanel = (props) =>
+{
+  be5.ui.setTitle(props.value.data.attributes.title);
   const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
   const ARGUMENT_NAMES = /([^\s,]+)/g;
 
@@ -66,6 +67,8 @@ const UiPanel = () => {
 registerDocument("uiPanel", UiPanel);
 
 registerRoute("uiPanel", function(documentName) {
-  if (documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle("UI panel");
-  changeDocument(documentName, {value: {}, frontendParams: {type: 'uiPanel'}});
+  changeDocument(documentName, {
+    value: {data: {attributes: {title: "UI panel"}, links:{self: "systemCard"}}},
+    frontendParams: {type: 'uiPanel'}
+  });
 });

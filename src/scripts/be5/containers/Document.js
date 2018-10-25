@@ -4,7 +4,7 @@ import be5 from '../be5';
 import bus from '../core/bus';
 import documentState from '../core/documentState';
 import { connect }    from 'react-redux'
-import { getCurrentRoles } from '../store/selectors/user.selectors'
+import {getCurrentRoles, getDefaultRoute} from '../store/selectors/user.selectors'
 import {ROLE_SYSTEM_DEVELOPER} from "../constants";
 import {getDocument} from "../core/documents";
 
@@ -40,7 +40,7 @@ class Document extends React.Component
 
   componentDidMount() {
     documentState.set(this.props.frontendParams.documentName, this.state);
-    Document.updateLocationHashIfNeeded(this.props.frontendParams.documentName, this.state);
+    this.updateLocationHashIfNeeded();
 
     bus.replaceListeners(this.props.frontendParams.documentName, data =>
     {
@@ -68,22 +68,26 @@ class Document extends React.Component
 
   componentDidUpdate() {
     documentState.set(this.props.frontendParams.documentName, this.state);
-    Document.updateLocationHashIfNeeded(this.props.frontendParams.documentName, this.state);
+    this.updateLocationHashIfNeeded();
   }
 
-  static updateLocationHashIfNeeded(documentName, props){
+  updateLocationHashIfNeeded(){
+    const value = this.state.value;
     let self;
-    console.log(props);
-    if(props.value === null || (!props.value.data && !props.value.errors)) return;
-
-    if (props.value.data !== undefined) {
-      self = props.value.data.links.self;
+    if(value === null || (!value.data && !value.errors)) return;
+    if (value.data !== undefined) {
+      self = value.data.links.self;
     } else {
-      self = props.value.errors[0].links.self;
+      self = value.errors[0].links.self;
     }
 
-    if (documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
-      be5.url.set(self)
+    if (this.props.frontendParams.documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
+      console.log(be5.url.get(), self);
+      if (self === this.props.defaultRoute) {
+        if (be5.url.get() !== "") be5.url.set("")
+      } else {
+        be5.url.set(self)
+      }
     }
   }
 
@@ -225,7 +229,8 @@ export {
 };
 
 const mapStateToProps = state => ({
-  hasDevRole: getCurrentRoles(state).indexOf(ROLE_SYSTEM_DEVELOPER) !== -1
+  hasDevRole: getCurrentRoles(state).indexOf(ROLE_SYSTEM_DEVELOPER) !== -1,
+  defaultRoute: getDefaultRoute(state)
 });
 
 export default connect(

@@ -102,12 +102,7 @@ const be5 = {
       if (url.substring(0, 1) !== '!')
         url = '!' + url;
       url = '#' + url;
-      if(be5.url.get() !== url){
-        document.location.hash = url;
-        //todo be5.store.dispatch(setUrl(url))
-      }else{
-        be5.url.process(be5.MAIN_DOCUMENT, url);
-      }
+      document.location.hash = url;
     },
 
     empty() {
