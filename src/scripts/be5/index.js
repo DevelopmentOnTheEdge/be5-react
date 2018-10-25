@@ -7,10 +7,8 @@ import Be5Menu          from './components/menu/NavbarMenu.js';
 import HelpInfo         from './components/HelpInfo.js';
 import LanguageSelector from './components/LanguageSelector.js';
 import SideBar          from './components/SideBar.js';
-import Sorter           from './components/Sorter.js';
 import StaticPage       from './components/StaticPage.js';
 import ErrorPane        from './components/ErrorPane.js';
-import TreeMenu         from './components/TreeMenu.js';
 import FormWizard       from './components/FormWizard.js';
 import Navs             from './components/Navs.js';
 import Be5Components    from './components/Be5Components.js';
@@ -57,10 +55,8 @@ export {
   HelpInfo,
   LanguageSelector,
   SideBar,
-  Sorter,
   StaticPage,
   ErrorPane,
-  TreeMenu,
   FormWizard,
   Navs,
   RoleSelector,

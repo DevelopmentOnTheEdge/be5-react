@@ -34,8 +34,10 @@ import './components/QueryBuilder';
 import './components/StaticPage';
 import './components/ErrorPane';
 import './components/UiPanel';
+import './pages/SystemCard';
 import {fetchUserInfo} from "./store/actions/user.actions";
 import {getDefaultRoute} from "./store/selectors/user.selectors";
+import {processHashUrl} from "./utils/documentUtils";
 
 
 export default {
@@ -78,7 +80,7 @@ export default {
 
   initGetUser(store){
     this.initOnLoad(store, undefined, getDefaultRoute, () => {
-      be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
+      processHashUrl(be5.url.get(), be5.MAIN_DOCUMENT);
     });
   },
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes            from 'prop-types';
-import be5                  from '../be5';
 import Document             from '../containers/Document';
 import { Nav, NavItem, NavLink } from 'reactstrap';
+import {processHashUrl} from "../utils/documentUtils";
 
 
 class Navs extends React.Component
@@ -15,6 +15,7 @@ class Navs extends React.Component
     };
 
     this.init = this.init.bind(this);
+    this.setNavState = this.setNavState.bind(this);
   }
 
   componentDidMount(){
@@ -22,18 +23,26 @@ class Navs extends React.Component
   }
 
   init() {
-    be5.url.process(this.props.documentName, this.props.steps[this.state.compState].url);
+    processHashUrl(this.props.steps[this.state.compState].url, this.props.documentName);
   }
-  
-  setNavState(id) {
+
+  setNavState(e) {
+    processHashUrl(e, this.props.documentName);
+    const id = this.getIDbyUrl(e.target.getAttribute("href"));
     this.setState({compState: id});
-    be5.url.process(this.props.documentName, this.props.steps[id].url);
   }
-  
+
+  getIDbyUrl(url) {
+    for (let i=0; i< this.props.steps.length; i++) {
+      if (this.props.steps[i].url === url) return i;
+    }
+    return 0;
+  }
+
   renderSteps(){
     return this.props.steps.map((s, i)=> (
         <NavItem key={"NavItem"+i}>
-          <NavLink href="#" active={i === this.state.compState} onClick={() => this.setNavState(i)}
+          <NavLink href={this.props.steps[i].url} active={i === this.state.compState} onClick={this.setNavState}
                    key={"NavLink"+i} >{this.props.steps[i].title}</NavLink>
         </NavItem>
     ));

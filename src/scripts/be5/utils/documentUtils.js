@@ -68,9 +68,9 @@ export const getSelfUrl = (value) => {
 };
 
 export const processHashUrl = (e, documentName) => {
-  let url = e.target.getAttribute("href");
+  let url = e.target ? e.target.getAttribute("href") : e;
   if (/^#/.test(url)) {
-    e.preventDefault();
+    if (e.target) e.preventDefault();
     if (url.startsWith("#!table/")) {
       url = url + "/_cleanNav_=true";
     }
