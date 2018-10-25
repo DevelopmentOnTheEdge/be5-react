@@ -69,7 +69,7 @@ export const getSelfUrl = (value) => {
 
 export const processHashUrl = (e, documentName) => {
   let url = e.target ? e.target.getAttribute("href") : e;
-  if (/^#/.test(url)) {
+  if (/^#/.test(url) || url === '' || url === '#' || url === '#!') {
     if (e.target) e.preventDefault();
     if (url.startsWith("#!table/")) {
       url = url + "/_cleanNav_=true";
