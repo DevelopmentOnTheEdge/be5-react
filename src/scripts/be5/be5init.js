@@ -2,7 +2,7 @@ import be5 from './be5';
 import * as api from './api';
 import bus from './core/bus';
 import Preconditions from './utils/preconditions';
-import documentState      from './core/documentState';
+import documentState from './core/documentState';
 
 import './routes/loading';
 import './routes/form';
@@ -12,7 +12,6 @@ import './routes/static';
 import './routes/table';
 import './routes/queryBuilder';
 import './routes/text';
-import './routes/login';
 import './routes/categories';
 
 
@@ -37,6 +36,7 @@ import './pages/SystemCard';
 import {fetchUserInfo} from "./store/actions/user.actions";
 import {getDefaultRoute} from "./store/selectors/user.selectors";
 import {processHashUrlForDocument} from "./utils/documentUtils";
+import {MAIN_DOCUMENT} from "./constants";
 
 
 export default {
@@ -46,7 +46,7 @@ export default {
     bus.fire("mainModalClose");
 
     //todo move to redux
-    const state = documentState.get(be5.MAIN_DOCUMENT);
+    const state = documentState.get(MAIN_DOCUMENT);
 
     if(!state.value || !state.value.data || !state.value.data.links ||
       "#!" + state.value.data.links.self !== be5.url.get())
@@ -57,7 +57,7 @@ export default {
         return;
       }
       //console.log(state.value, be5.url.get());
-      be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
+      be5.url.process(MAIN_DOCUMENT, be5.url.get());
     }
   },
 
@@ -74,7 +74,7 @@ export default {
 
     be5.net.request('languageSelector', {}, function(data) {
       be5.locale.set(data.selected, data.messages);
-      //be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
+      //be5.url.process(MAIN_DOCUMENT, be5.url.get());
 
       store.dispatch(fetchUserInfo());
     });
@@ -85,7 +85,7 @@ export default {
   initGetUser(store, callback){
     this.initOnLoad(store, undefined, getDefaultRoute, () => {
       if (callback) callback();
-      processHashUrlForDocument(be5.url.get(), be5.MAIN_DOCUMENT);
+      processHashUrlForDocument(be5.url.get(), MAIN_DOCUMENT);
     });
   },
 

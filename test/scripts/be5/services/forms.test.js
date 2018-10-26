@@ -14,6 +14,7 @@ import testData       from '../testData.json';
 import {getUser} from "../../../../src/scripts/be5/store/selectors/user.selectors";
 import bus from "../../../../src/scripts/be5/core/bus";
 import FrontendAction from "../../../../src/scripts/be5/services/model/FrontendAction";
+import {MAIN_DOCUMENT} from "../../../../src/scripts/be5/constants";
 
 
 test('load', () => {
@@ -151,7 +152,7 @@ test('performOperationResult redirect', () => {
   //expect(mockFunc.mock.calls.length).toBe(1);
 });
 
-test('performOperationResult redirect be5.MAIN_DOCUMENT', () => {
+test('performOperationResult redirect MAIN_DOCUMENT', () => {
   be5.url.process = jest.fn();
 
   const res = {
@@ -162,10 +163,10 @@ test('performOperationResult redirect be5.MAIN_DOCUMENT', () => {
     },
     "meta":{"_ts_":"1503244989281"}
   };
-  _performOperationResult(res, {documentName: be5.MAIN_DOCUMENT});
+  _performOperationResult(res, {documentName: MAIN_DOCUMENT});
 
   expect(be5.url.process.mock.calls.length).toBe(1);
-  expect(be5.url.process.mock.calls[0]).toEqual(["MainDocument", "#!static/welcome.be"]);
+  expect(be5.url.process.mock.calls[0]).toEqual(["MAIN_DOCUMENT", "#!static/welcome.be"]);
 });
 
 test('load and _performForm test', () => {

@@ -1,7 +1,8 @@
-import React          from 'react';
-import be5            from '../be5';
+import React from 'react';
+import be5 from '../be5';
 import changeDocument from '../core/changeDocument';
 import {registerRoute} from '../core/routes'
+import {MAIN_DOCUMENT} from "../constants";
 
 
 const route = function(documentName, params)
@@ -12,7 +13,7 @@ const route = function(documentName, params)
   };
 
   be5.net.request('queryBuilder', requestParams, data => {
-    if(documentName === be5.MAIN_DOCUMENT)be5.ui.setTitle("Query Builder");
+    if(documentName === MAIN_DOCUMENT)be5.ui.setTitle("Query Builder");
     changeDocument(documentName, { value: Object.assign({}, data, {params: be5.net.paramString(params)}) })
   });
 };

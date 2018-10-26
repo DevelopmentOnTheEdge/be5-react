@@ -1,5 +1,6 @@
 import be5 from "../be5";
 import Preconditions from '../utils/preconditions';
+import {MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT} from "../constants";
 
 export const getResourceByID = (included, id) => {
   if(included === undefined) return undefined;
@@ -68,7 +69,7 @@ export const getSelfUrl = (value) => {
 };
 
 export const processHashUrl = (e) => {
-  processHashUrlForDocument(e, be5.MAIN_DOCUMENT);
+  processHashUrlForDocument(e, MAIN_DOCUMENT);
 };
 
 export const processHashUrlForDocument = (e, documentName) => {
@@ -79,13 +80,13 @@ export const processHashUrlForDocument = (e, documentName) => {
       url = url + "/_cleanNav_=true";
     }
     console.log(url, documentName);
-    be5.url.process(documentName || be5.MAIN_DOCUMENT, url);
+    be5.url.process(documentName || MAIN_DOCUMENT, url);
   }
 };
 
 export const openInModal = (e) => {
   if(/^#/.test(e.target.getAttribute("href"))) {
     e.preventDefault();
-    be5.url.process(be5.MAIN_MODAL_DOCUMENT, e.target.getAttribute("href"));
+    be5.url.process(MAIN_MODAL_DOCUMENT, e.target.getAttribute("href"));
   }
 };

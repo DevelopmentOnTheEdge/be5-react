@@ -1,16 +1,18 @@
-import React          from 'react';
-import renderer       from 'react-test-renderer';
-import {TestProvider}      from "../../testUtils";
-import be5            from '../../../../../src/scripts/be5/be5';
-import forms          from '../../../../../src/scripts/be5/services/forms';
-import Table          from '../../../../../src/scripts/be5/components/tables/Table';
-import TableForm      from '../../../../../src/scripts/be5/components/tables/TableForm';
-import FormTable      from '../../../../../src/scripts/be5/components/tables/FormTable';
-import TableFormRow   from '../../../../../src/scripts/be5/components/tables/TableFormRow';
-import {shallow, mount, render} from 'enzyme';
-import testData       from '../../testData.json'
+import React from 'react';
+import renderer from 'react-test-renderer';
+import {TestProvider} from "../../testUtils";
+import be5 from '../../../../../src/scripts/be5/be5';
+import forms from '../../../../../src/scripts/be5/services/forms';
+import Table from '../../../../../src/scripts/be5/components/tables/Table';
+import TableForm from '../../../../../src/scripts/be5/components/tables/TableForm';
+import FormTable from '../../../../../src/scripts/be5/components/tables/FormTable';
+import TableFormRow from '../../../../../src/scripts/be5/components/tables/TableFormRow';
+import {mount, render, shallow} from 'enzyme';
+import testData from '../../testData.json'
 
 import dt from 'datatables.net';
+import {MAIN_DOCUMENT} from "../../../../../src/scripts/be5/constants";
+
 dt(window, $);
 
 
@@ -48,7 +50,7 @@ test('Table', () => {
 test('Table on MAIN_DOCUMENT', () => {
   const component = renderer.create(
     <TestProvider>
-      <Table value={testData.simpleTable} frontendParams={{documentName: be5.MAIN_DOCUMENT}} />
+      <Table value={testData.simpleTable} frontendParams={{documentName: MAIN_DOCUMENT}} />
     </TestProvider>
   );
   expect(component.toJSON()).toMatchSnapshot();

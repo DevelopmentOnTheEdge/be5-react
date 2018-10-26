@@ -48,6 +48,56 @@ var Preconditions = {
   }
 };
 
+var API_URL_PREFIX = '/api/';
+
+var DEFAULT_VIEW = 'All records';
+
+var ROLE_ADMINISTRATOR = "Administrator";
+var ROLE_SYSTEM_DEVELOPER = "SystemDeveloper";
+var ROLE_GUEST = "Guest";
+
+var SET_URL = 'SET_URL';
+var REDIRECT = 'REDIRECT';
+var OPEN_DEFAULT_ROUTE = 'OPEN_DEFAULT_ROUTE';
+var OPEN_NEW_WINDOW = 'OPEN_NEW_WINDOW';
+var GO_BACK = 'GO_BACK';
+
+var CLOSE_MAIN_MODAL = 'CLOSE_MAIN_MODAL';
+
+var UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
+var UPDATE_PARENT_DOCUMENT = 'UPDATE_PARENT_DOCUMENT';
+
+var REFRESH_PARENT_DOCUMENT = 'REFRESH_PARENT_DOCUMENT';
+
+var SEARCH_PARAM = "_search_";
+var SEARCH_PRESETS_PARAM = "_search_presets_";
+
+var MAIN_DOCUMENT = "MAIN_DOCUMENT";
+var MAIN_MODAL_DOCUMENT = "MAIN_MODAL_DOCUMENT";
+var DOCUMENT_REFRESH_SUFFIX = "_refresh";
+
+var constants = Object.freeze({
+	API_URL_PREFIX: API_URL_PREFIX,
+	DEFAULT_VIEW: DEFAULT_VIEW,
+	ROLE_ADMINISTRATOR: ROLE_ADMINISTRATOR,
+	ROLE_SYSTEM_DEVELOPER: ROLE_SYSTEM_DEVELOPER,
+	ROLE_GUEST: ROLE_GUEST,
+	SET_URL: SET_URL,
+	REDIRECT: REDIRECT,
+	OPEN_DEFAULT_ROUTE: OPEN_DEFAULT_ROUTE,
+	OPEN_NEW_WINDOW: OPEN_NEW_WINDOW,
+	GO_BACK: GO_BACK,
+	CLOSE_MAIN_MODAL: CLOSE_MAIN_MODAL,
+	UPDATE_DOCUMENT: UPDATE_DOCUMENT,
+	UPDATE_PARENT_DOCUMENT: UPDATE_PARENT_DOCUMENT,
+	REFRESH_PARENT_DOCUMENT: REFRESH_PARENT_DOCUMENT,
+	SEARCH_PARAM: SEARCH_PARAM,
+	SEARCH_PRESETS_PARAM: SEARCH_PRESETS_PARAM,
+	MAIN_DOCUMENT: MAIN_DOCUMENT,
+	MAIN_MODAL_DOCUMENT: MAIN_MODAL_DOCUMENT,
+	DOCUMENT_REFRESH_SUFFIX: DOCUMENT_REFRESH_SUFFIX
+});
+
 var getResourceByID = function getResourceByID(included, id) {
   if (included === undefined) return undefined;
 
@@ -104,22 +154,26 @@ var getSelfUrl = function getSelfUrl(value) {
   return undefined;
 };
 
-var processHashUrl = function processHashUrl(e, documentName) {
+var processHashUrl = function processHashUrl(e) {
+  processHashUrlForDocument(e, MAIN_DOCUMENT);
+};
+
+var processHashUrlForDocument = function processHashUrlForDocument(e, documentName) {
   var url = e.target ? e.target.getAttribute("href") : e;
-  if (/^#/.test(url)) {
+  if (/^#/.test(url) || url === '' || url === '#' || url === '#!') {
     if (e.target) e.preventDefault();
     if (url.startsWith("#!table/")) {
       url = url + "/_cleanNav_=true";
     }
     console.log(url, documentName);
-    be5.url.process(documentName || be5.MAIN_DOCUMENT, url);
+    be5.url.process(documentName || MAIN_DOCUMENT, url);
   }
 };
 
 var openInModal = function openInModal(e) {
   if (/^#/.test(e.target.getAttribute("href"))) {
     e.preventDefault();
-    be5.url.process(be5.MAIN_MODAL_DOCUMENT, e.target.getAttribute("href"));
+    be5.url.process(MAIN_MODAL_DOCUMENT, e.target.getAttribute("href"));
   }
 };
 
@@ -317,49 +371,6 @@ var getDefaultRoute = function getDefaultRoute(state) {
   return state.user.defaultRoute;
 };
 
-var API_URL_PREFIX = '/api/';
-
-var DEFAULT_VIEW = 'All records';
-
-var ROLE_ADMINISTRATOR = "Administrator";
-var ROLE_SYSTEM_DEVELOPER = "SystemDeveloper";
-var ROLE_GUEST = "Guest";
-
-var SET_URL = 'SET_URL';
-var REDIRECT = 'REDIRECT';
-var OPEN_DEFAULT_ROUTE = 'OPEN_DEFAULT_ROUTE';
-var OPEN_NEW_WINDOW = 'OPEN_NEW_WINDOW';
-var GO_BACK = 'GO_BACK';
-
-var CLOSE_MAIN_MODAL = 'CLOSE_MAIN_MODAL';
-
-var UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
-var UPDATE_PARENT_DOCUMENT = 'UPDATE_PARENT_DOCUMENT';
-
-var REFRESH_PARENT_DOCUMENT = 'REFRESH_PARENT_DOCUMENT';
-
-var SEARCH_PARAM = "_search_";
-var SEARCH_PRESETS_PARAM = "_search_presets_";
-
-var constants = Object.freeze({
-	API_URL_PREFIX: API_URL_PREFIX,
-	DEFAULT_VIEW: DEFAULT_VIEW,
-	ROLE_ADMINISTRATOR: ROLE_ADMINISTRATOR,
-	ROLE_SYSTEM_DEVELOPER: ROLE_SYSTEM_DEVELOPER,
-	ROLE_GUEST: ROLE_GUEST,
-	SET_URL: SET_URL,
-	REDIRECT: REDIRECT,
-	OPEN_DEFAULT_ROUTE: OPEN_DEFAULT_ROUTE,
-	OPEN_NEW_WINDOW: OPEN_NEW_WINDOW,
-	GO_BACK: GO_BACK,
-	CLOSE_MAIN_MODAL: CLOSE_MAIN_MODAL,
-	UPDATE_DOCUMENT: UPDATE_DOCUMENT,
-	UPDATE_PARENT_DOCUMENT: UPDATE_PARENT_DOCUMENT,
-	REFRESH_PARENT_DOCUMENT: REFRESH_PARENT_DOCUMENT,
-	SEARCH_PARAM: SEARCH_PARAM,
-	SEARCH_PRESETS_PARAM: SEARCH_PRESETS_PARAM
-});
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
@@ -519,11 +530,6 @@ var be5 = {
 
   messages: messages.en,
 
-  //todo move to constants
-  MAIN_DOCUMENT: 'MainDocument',
-  MAIN_MODAL_DOCUMENT: 'MainModalDocument',
-  DOCUMENT_REFRESH_SUFFIX: "_refresh",
-
   appInfo: {},
   be5ServerUrl: window.be5ServerUrl || "",
 
@@ -596,12 +602,7 @@ var be5 = {
       if (url.substring(0, 1) === '#') url = url.substring(1);
       if (url.substring(0, 1) !== '!') url = '!' + url;
       url = '#' + url;
-      if (be5.url.get() !== url) {
-        document.location.hash = url;
-        //todo be5.store.dispatch(setUrl(url))
-      } else {
-        be5.url.process(be5.MAIN_DOCUMENT, url);
-      }
+      document.location.hash = url;
     },
     empty: function empty() {
       var url = be5.url.get();
@@ -1020,7 +1021,7 @@ var FrontendAction = function FrontendAction(type, value) {
 };
 
 function simpleFinishInModalDocument(actions, documentName) {
-  return actions.length === 0 && documentName === be5.MAIN_MODAL_DOCUMENT;
+  return actions.length === 0 && documentName === MAIN_MODAL_DOCUMENT;
 }
 
 var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneObject, frontendParams) {
@@ -1042,8 +1043,8 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
     if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://")) {
       window.location.href = url;
     } else {
-      if (documentName === be5.MAIN_DOCUMENT) {
-        be5.url.set(url);
+      if (documentName === MAIN_DOCUMENT) {
+        be5.url.process(documentName, '#!' + url);
       } else {
         if (be5.url.parse(url).positional[0] === 'form') {
           openOperationByUrl(url, frontendParams);
@@ -1059,11 +1060,11 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
   }
 
   if (actions[SET_URL]) {
-    be5.url.set(actions[SET_URL]);
+    be5.url.process(documentName, '#!' + actions[SET_URL]);
   }
 
   if (actions.hasOwnProperty(OPEN_DEFAULT_ROUTE)) {
-    be5.url.set(getDefaultRoute(be5.getStoreState()));
+    be5.url.process(documentName, '#!' + getDefaultRoute(be5.getStoreState()));
   }
 
   if (actions.hasOwnProperty(GO_BACK)) {
@@ -1082,7 +1083,7 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
 
   if (actions.hasOwnProperty(REFRESH_PARENT_DOCUMENT)) {
     if (frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
-      bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX);
+      bus.fire(frontendParams.parentDocumentName + DOCUMENT_REFRESH_SUFFIX);
     }
   }
 
@@ -1187,7 +1188,7 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
 
         if (!isActions(attributes) && frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
           //console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
-          bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX);
+          bus.fire(frontendParams.parentDocumentName + DOCUMENT_REFRESH_SUFFIX);
         }
 
         switch (attributes.status) {
@@ -1205,7 +1206,7 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
                 bus.fire("alert", { msg: attributes.message, type: 'success' });
               }
             } else {
-              if (documentName === be5.MAIN_MODAL_DOCUMENT) {
+              if (documentName === MAIN_MODAL_DOCUMENT) {
                 bus.fire("mainModalClose");
                 bus.fire("alert", { msg: attributes.message || be5.messages.successfullyCompleted, type: 'success' });
               } else {
@@ -1241,7 +1242,7 @@ var isActions = function isActions(attributes) {
 };
 
 var _performForm = function _performForm(json, frontendParams) {
-  if (frontendParams.documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
+  if (frontendParams.documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
   var operationResult = json.data.attributes.operationResult;
 
   if (operationResult.status === 'error') {
@@ -1250,10 +1251,10 @@ var _performForm = function _performForm(json, frontendParams) {
 
   var formComponentName = json.data.attributes.layout.type;
 
-  if (formComponentName === 'modalForm' || frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
+  if (formComponentName === 'modalForm' || frontendParams.documentName === MAIN_MODAL_DOCUMENT) {
     bus.fire("mainModalOpen");
 
-    changeDocument(be5.MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
+    changeDocument(MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
   } else {
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   }
@@ -1282,7 +1283,7 @@ var forms = {
 
 var openReLoginForm = function openReLoginForm() {
   openOperationByUrl('form/users/All records/Login/withoutUpdateUserInfo=true', {
-    documentName: be5.MAIN_MODAL_DOCUMENT
+    documentName: MAIN_MODAL_DOCUMENT
   });
 };
 
@@ -1899,7 +1900,7 @@ var Document = function (_React$Component) {
       var _this2 = this;
 
       documentState.set(this.props.frontendParams.documentName, this.state);
-      Document.updateLocationHashIfNeeded(this.props.frontendParams.documentName, this.state);
+      this.updateLocationHashIfNeeded();
 
       bus.replaceListeners(this.props.frontendParams.documentName, function (data) {
         if (_this2.state.value && _this2.state.value.meta && !Number.isInteger(Number.parseInt(_this2.state.value.meta._ts_))) {
@@ -1913,7 +1914,7 @@ var Document = function (_React$Component) {
         // if(!data.error)this.setState({ error: null });
       });
 
-      bus.replaceListeners(this.props.frontendParams.documentName + be5.DOCUMENT_REFRESH_SUFFIX, function () {
+      bus.replaceListeners(this.props.frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX, function () {
         _this2.refresh();
       });
     }
@@ -1921,13 +1922,34 @@ var Document = function (_React$Component) {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       documentState.set(this.props.frontendParams.documentName, this.state);
-      Document.updateLocationHashIfNeeded(this.props.frontendParams.documentName, this.state);
+      this.updateLocationHashIfNeeded();
+    }
+  }, {
+    key: 'updateLocationHashIfNeeded',
+    value: function updateLocationHashIfNeeded() {
+      var value = this.state.value;
+      var self = void 0;
+      if (value === null || !value.data && !value.errors) return;
+      if (value.data !== undefined) {
+        self = value.data.links.self;
+      } else {
+        self = value.errors[0].links.self;
+      }
+
+      if (this.props.frontendParams.documentName === MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
+        console.log(be5.url.get(), self);
+        if (self === this.props.defaultRoute) {
+          if (be5.url.get() !== "") be5.url.set("");
+        } else {
+          be5.url.set(self);
+        }
+      }
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       bus.replaceListeners(this.props.frontendParams.documentName, function (data) {});
-      bus.replaceListeners(this.props.frontendParams.documentName + be5.DOCUMENT_REFRESH_SUFFIX, function (data) {});
+      bus.replaceListeners(this.props.frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX, function (data) {});
     }
   }, {
     key: 'render',
@@ -1999,7 +2021,7 @@ var Document = function (_React$Component) {
           return this.state.value.data.attributes.layout.type;
         }
 
-        if (this.state.value.data.type === 'form' && this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT) {
+        if (this.state.value.data.type === 'form' && this.props.frontendParams.documentName === MAIN_MODAL_DOCUMENT) {
           return 'modalForm';
         }
 
@@ -2036,22 +2058,6 @@ var Document = function (_React$Component) {
     value: function getComponentFrontendParams() {
       return Object.assign({}, this.state.frontendParams, this.props.frontendParams);
     }
-  }], [{
-    key: 'updateLocationHashIfNeeded',
-    value: function updateLocationHashIfNeeded(documentName, props) {
-      var self = void 0;
-      if (props.value === null || !props.value.data && !props.value.errors) return;
-
-      if (props.value.data !== undefined) {
-        self = props.value.data.links.self;
-      } else {
-        self = props.value.errors[0].links.self;
-      }
-
-      if (documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
-        be5.url.set(self);
-      }
-    }
   }]);
   return Document;
 }(React.Component);
@@ -2069,7 +2075,8 @@ Document.propTypes = {
 
 var mapStateToProps$2 = function mapStateToProps(state) {
   return {
-    hasDevRole: getCurrentRoles(state).indexOf(ROLE_SYSTEM_DEVELOPER) !== -1
+    hasDevRole: getCurrentRoles(state).indexOf(ROLE_SYSTEM_DEVELOPER) !== -1,
+    defaultRoute: getDefaultRoute(state)
   };
 };
 
@@ -2132,7 +2139,7 @@ var Be5Components = function (_React$Component) {
         React.createElement(
           Modal,
           { isOpen: this.state.modal, toggle: this.close, className: this.props.className, backdrop: "static" },
-          React.createElement(Document$1, { ref: 'document', frontendParams: { documentName: be5.MAIN_MODAL_DOCUMENT } })
+          React.createElement(Document$1, { ref: 'document', frontendParams: { documentName: MAIN_MODAL_DOCUMENT } })
         )
       );
     }
@@ -2156,7 +2163,7 @@ var Application = function Application() {
       React.createElement(
         'div',
         { className: 'main-pane' },
-        React.createElement(Document$1, { frontendParams: { documentName: be5.MAIN_DOCUMENT } })
+        React.createElement(Document$1, { frontendParams: { documentName: MAIN_DOCUMENT } })
       )
     )
   );
@@ -2167,7 +2174,7 @@ var MainDocumentOnly = function MainDocumentOnly() {
     'div',
     { className: 'MainDocument-only' },
     React.createElement(Be5Components, null),
-    React.createElement(Document$1, { frontendParams: { documentName: be5.MAIN_DOCUMENT } })
+    React.createElement(Document$1, { frontendParams: { documentName: MAIN_DOCUMENT } })
   );
 };
 
@@ -2577,7 +2584,7 @@ var FormWizard = function (_React$Component) {
     key: 'init',
     value: function init() {
       this.setState(this.getPrevNextBtnState(this.props.startAtStep));
-      processHashUrl(this.props.steps[this.state.compState].url, this.props.documentName);
+      processHashUrlForDocument(this.props.steps[this.state.compState].url, this.props.documentName);
     }
   }, {
     key: 'getNavStates',
@@ -2635,7 +2642,7 @@ var FormWizard = function (_React$Component) {
         this.setState({ compState: next });
       }
 
-      processHashUrl(this.props.steps[next].url, this.props.documentName);
+      processHashUrlForDocument(this.props.steps[next].url, this.props.documentName);
 
       this.checkNavState(next);
     }
@@ -2797,12 +2804,12 @@ var Navs = function (_React$Component) {
   }, {
     key: 'init',
     value: function init() {
-      processHashUrl(this.props.steps[this.state.compState].url, this.props.documentName);
+      processHashUrlForDocument(this.props.steps[this.state.compState].url, this.props.documentName);
     }
   }, {
     key: 'setNavState',
     value: function setNavState(e) {
-      processHashUrl(e, this.props.documentName);
+      processHashUrlForDocument(e, this.props.documentName);
       var id = this.getIDbyUrl(e.target.getAttribute("href"));
       this.setState({ compState: id });
     }
@@ -3087,7 +3094,7 @@ var Form = function (_React$Component) {
 
       var layout = this.state.data.attributes.layout;
 
-      if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText || this.props.frontendParams.documentName === be5.MAIN_DOCUMENT) {
+      if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText || this.props.frontendParams.documentName === MAIN_DOCUMENT) {
         var action = layout.cancelAction || this.getDefaultCancelAction();
         return React.createElement(
           'button',
@@ -3640,7 +3647,7 @@ var QuickColumns = function (_React$Component) {
 var loadTable = function loadTable(params, frontendParams) {
   getTable(params, function (json) {
     //todo remove 'json.data' check after change error code
-    if (json.data && frontendParams.documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
+    if (json.data && frontendParams.documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   }, function (json) {
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
@@ -3649,7 +3656,7 @@ var loadTable = function loadTable(params, frontendParams) {
 
 var loadTableByUrl = function loadTableByUrl(url, frontendParams) {
   getTable(getTableParams(url), function (json) {
-    if (frontendParams.documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
+    if (frontendParams.documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   }, function (json) {
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
@@ -3657,7 +3664,7 @@ var loadTableByUrl = function loadTableByUrl(url, frontendParams) {
 };
 
 var fetchTableByUrl = function fetchTableByUrl(url, callback, failure) {
-  getTable(getTableParams(url), callback, failure);
+  getTable(getTableParams(url + "/_cleanNav_=true"), callback, failure);
 };
 
 var getTableParams = function getTableParams(url) {
@@ -3874,7 +3881,7 @@ var formatCell = function formatCell(data, options, isColumn) {
       data = $('<a>', {
         html: data,
         href: "#!" + options.link.url,
-        class: "be-link"
+        class: "process-hash-url"
       });
     }
     if (options.css || options === 'th') {
@@ -4146,9 +4153,9 @@ var TableBox = function (_React$Component) {
         _this.props.onOperationClick(editOperation, $(this).data("val"));
       });
 
-      tableDiv.on("click", '.be-link', function (e) {
+      tableDiv.on("click", '.process-hash-url', function (e) {
         e.preventDefault();
-        processHashUrl(e, _this.props.frontendParams.documentName);
+        processHashUrlForDocument(e, _this.props.frontendParams.documentName);
       });
 
       tableDiv.on('draw.dt', function () {
@@ -4431,7 +4438,7 @@ var Table = function (_React$Component3) {
 
       var layout = this.props.value.data.attributes.layout;
 
-      if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText || this.props.frontendParams.documentName === be5.MAIN_DOCUMENT) {
+      if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText || this.props.frontendParams.documentName === MAIN_DOCUMENT) {
         var action = layout.cancelAction || getBackOrOpenDefaultRouteAction();
         return React.createElement(
           'button',
@@ -4616,7 +4623,7 @@ registerRoute("form", route$2);
 
 var route$4 = function route() {
   openOperationByUrl('form/users/All records/Login', {
-    documentName: be5.MAIN_MODAL_DOCUMENT
+    documentName: MAIN_MODAL_DOCUMENT
   });
 };
 
@@ -4624,7 +4631,7 @@ registerRoute("login", route$4);
 
 var route$6 = function route() {
   openOperationByUrl('form/users/All records/Logout', {
-    documentName: be5.MAIN_DOCUMENT, onSuccess: function onSuccess(result, applyParams) {
+    documentName: MAIN_DOCUMENT, onSuccess: function onSuccess(result, applyParams) {
       //not used document.cookie = 'be_auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 
     }
@@ -4640,7 +4647,7 @@ var route$8 = function route(documentName, page) {
   };
 
   be5.net.request('static/' + page, requestParams, function (json) {
-    if (documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
+    if (documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
     changeDocument(documentName, { value: json });
   });
 };
@@ -4666,7 +4673,7 @@ var route$12 = function route(documentName, params) {
   };
 
   be5.net.request('queryBuilder', requestParams, function (data) {
-    if (documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle("Query Builder");
+    if (documentName === MAIN_DOCUMENT) be5.ui.setTitle("Query Builder");
     changeDocument(documentName, { value: Object.assign({}, data, { params: be5.net.paramString(params) }) });
   });
 };
@@ -4674,21 +4681,14 @@ var route$12 = function route(documentName, params) {
 registerRoute("queryBuilder", route$12);
 
 var route$14 = function route(documentName, text) {
-  if (documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle();
+  if (documentName === MAIN_DOCUMENT) be5.ui.setTitle();
   var data = createStaticValue(undefined, text, { self: "text/" + text });
   changeDocument(documentName, { value: data });
 };
 
 registerRoute("text", route$14);
 
-var route$16 = function route(documentName) {
-  if (documentName === be5.MAIN_DOCUMENT) be5.ui.setTitle("UI panel");
-  changeDocument(documentName, { value: {}, frontendParams: { type: 'uiPanel' } });
-};
-
-registerRoute("uiPanel", route$16);
-
-var route$18 = function route(documentName, entity) {
+var route$16 = function route(documentName, entity) {
   var requestParams = {
     entity: entity
   };
@@ -4700,7 +4700,7 @@ var route$18 = function route(documentName, entity) {
   });
 };
 
-registerRoute("categories", route$18);
+registerRoute("categories", route$16);
 
 var TableBox$1 = function (_React$Component) {
   inherits(TableBox, _React$Component);
@@ -5347,8 +5347,8 @@ var QueryBuilder = function (_React$Component) {
 
 registerDocument("queryBuilder", QueryBuilder);
 
-var UiPanel = function UiPanel() {
-
+var UiPanel = function UiPanel(props) {
+  be5.ui.setTitle(props.value.data.attributes.title);
   var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
   var ARGUMENT_NAMES = /([^\s,]+)/g;
 
@@ -5445,9 +5445,15 @@ var UiPanel = function UiPanel() {
 
 registerDocument("uiPanel", UiPanel);
 
-var SystemCard = function SystemCard(props) {
-  var title = props.value.title;
+registerRoute("uiPanel", function (documentName) {
+  changeDocument(documentName, {
+    value: { data: { attributes: { title: "UI panel" }, links: { self: "systemCard" } } },
+    frontendParams: { type: 'uiPanel' }
+  });
+});
 
+var SystemCard = function SystemCard(props) {
+  var title = props.value.data.attributes.title;
   be5.ui.setTitle(title);
   var steps = [{ title: 'Cache', url: '#!table/_system_/Cache' }, { title: 'Daemons', url: '#!table/_system_/Daemons' }, { title: 'Entities', url: '#!table/_system_/Entities' }, { title: 'Session variables', url: '#!table/_system_/Session variables' }, { title: 'Query builder', url: '#!queryBuilder' }];
 
@@ -5467,7 +5473,7 @@ registerDocument('SystemCard', SystemCard);
 
 registerRoute('systemCard', function (documentName) {
   changeDocument(documentName, {
-    value: { title: "System card" },
+    value: { data: { attributes: { title: "System card" }, links: { self: "systemCard" } } },
     frontendParams: { type: 'SystemCard' }
   });
 });
@@ -5477,14 +5483,17 @@ var be5init$$1 = {
     bus.fire("mainModalClose");
 
     //todo move to redux
-    var state = documentState.get(be5.MAIN_DOCUMENT);
+    var state = documentState.get(MAIN_DOCUMENT);
 
     if (!state.value || !state.value.data || !state.value.data.links || "#!" + state.value.data.links.self !== be5.url.get()) {
-      console.log(state.value, be5.url.get());
-      be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
+      if (state.value && state.value.data && state.value.data.links && getDefaultRoute(be5.store.getState()) === state.value.data.links.self && (be5.url.get() === "" || be5.url.get() === "#!")) {
+        return;
+      }
+      //console.log(state.value, be5.url.get());
+      be5.url.process(MAIN_DOCUMENT, be5.url.get());
     }
   },
-  init: function init(store) {
+  init: function init(store, callback) {
     Preconditions.passed(store, 'store in required');
 
     be5.appInfo = { "title": document.title };
@@ -5492,20 +5501,21 @@ var be5init$$1 = {
     be5.api = api;
     window.be5 = be5;
 
-    this.initGetUser(store);
+    this.initGetUser(store, callback);
 
     be5.net.request('languageSelector', {}, function (data) {
       be5.locale.set(data.selected, data.messages);
-      //be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
+      //be5.url.process(MAIN_DOCUMENT, be5.url.get());
 
       store.dispatch(fetchUserInfo());
     });
 
     window.addEventListener("hashchange", this.hashChange, false);
   },
-  initGetUser: function initGetUser(store) {
+  initGetUser: function initGetUser(store, callback) {
     this.initOnLoad(store, undefined, getDefaultRoute, function () {
-      processHashUrl(be5.url.get(), be5.MAIN_DOCUMENT);
+      if (callback) callback();
+      processHashUrlForDocument(be5.url.get(), MAIN_DOCUMENT);
     });
   },
   initOnLoad: function initOnLoad(store, initState, select, onChange) {
@@ -5594,6 +5604,7 @@ var api = Object.freeze({
 	createStaticValue: createStaticValue,
 	getResourceByID: getResourceByID,
 	processHashUrl: processHashUrl,
+	processHashUrlForDocument: processHashUrlForDocument,
 	openInModal: openInModal,
 	bus: bus,
 	changeDocument: changeDocument,
@@ -5643,4 +5654,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction };

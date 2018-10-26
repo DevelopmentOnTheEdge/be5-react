@@ -5,7 +5,7 @@ exports[`snapshot 1`] = `null`;
 exports[`snapshot 2`] = `
 <div
   className="document-content"
-  id="document-content___MainDocument"
+  id="document-content___MAIN_DOCUMENT"
 >
   <div
     className="staticPage"

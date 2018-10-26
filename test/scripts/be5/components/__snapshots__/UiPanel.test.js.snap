@@ -3,7 +3,7 @@
 exports[`snapshot 1`] = `
 <div
   className="document-content"
-  id="document-content___MainDocument"
+  id="document-content___MAIN_DOCUMENT"
 >
   <div>
     <div

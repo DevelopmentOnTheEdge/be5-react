@@ -1,22 +1,23 @@
-import React          from 'react';
-import renderer       from 'react-test-renderer';
-import Document, {Document as RawDocument}       from '../../../../src/scripts/be5/containers/Document';
+import React from 'react';
+import renderer from 'react-test-renderer';
+import Document, {Document as RawDocument} from '../../../../src/scripts/be5/containers/Document';
 import changeDocument from '../../../../src/scripts/be5/core/changeDocument';
-import {shallow, mount} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 import {getTestStore, TestProvider} from "../testUtils";
-import { Provider }   from 'react-redux';
+import {Provider} from 'react-redux';
+import {MAIN_DOCUMENT} from "../../../../src/scripts/be5/constants";
 
 
 test('snapshot', () => {
   const component = renderer.create(
     <TestProvider>
-      <Document frontendParams={{documentName: "MainDocument"}}/>
+      <Document frontendParams={{documentName: MAIN_DOCUMENT}}/>
     </TestProvider>
   );
 
   expect(component.toJSON()).toMatchSnapshot();
 
-  changeDocument('MainDocument', { value: "Page loaded." } );
+  changeDocument(MAIN_DOCUMENT, { value: "Page loaded." } );
   expect(component.toJSON()).toMatchSnapshot();
 });
 

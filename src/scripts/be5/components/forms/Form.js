@@ -10,7 +10,7 @@ import Transition from 'react-transition-group/Transition';
 import {registerDocument} from '../../core/documents';
 import {executeFrontendActions} from "../../services/frontendActions";
 import FrontendAction from "../../services/model/FrontendAction";
-import {GO_BACK, OPEN_DEFAULT_ROUTE} from "../../constants";
+import {GO_BACK, MAIN_DOCUMENT, OPEN_DEFAULT_ROUTE} from "../../constants";
 
 
 class Form extends React.Component
@@ -169,7 +169,7 @@ class Form extends React.Component
     const layout = this.state.data.attributes.layout;
 
     if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText
-         || this.props.frontendParams.documentName === be5.MAIN_DOCUMENT) {
+         || this.props.frontendParams.documentName === MAIN_DOCUMENT) {
       const action = layout.cancelAction || this.getDefaultCancelAction();
       return (
         <button type="button" className="btn btn-secondary" onClick={() => executeFrontendActions(action, this.props.frontendParams)}>

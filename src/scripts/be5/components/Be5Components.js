@@ -1,10 +1,10 @@
-import React           from 'react';
-import { connect }     from 'react-redux'
-import bus             from '../core/bus';
-import be5             from '../be5';
-import Document        from '../containers/Document';
-import Alert           from 'react-s-alert';
-import { Modal }       from 'reactstrap';
+import React from 'react';
+import {connect} from 'react-redux'
+import bus from '../core/bus';
+import Document from '../containers/Document';
+import Alert from 'react-s-alert';
+import {Modal} from 'reactstrap';
+import {MAIN_MODAL_DOCUMENT} from "../constants";
 
 
 class Be5Components extends React.Component
@@ -51,7 +51,7 @@ class Be5Components extends React.Component
       <div>
         <Alert stack={{limit: 10}}/>
         <Modal isOpen={this.state.modal} toggle={this.close} className={this.props.className} backdrop={"static"}>
-          <Document ref="document" frontendParams={{documentName: be5.MAIN_MODAL_DOCUMENT}}/>
+          <Document ref="document" frontendParams={{documentName: MAIN_MODAL_DOCUMENT}}/>
         </Modal>
       </div>
     );

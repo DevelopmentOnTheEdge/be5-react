@@ -15,12 +15,12 @@
 .document-content {
   margin-bottom: 15px;
 }
-#document-content___MainDocument {
+#document-content___MAIN_DOCUMENT {
   padding: 15px;
   width: 100%;
   max-width: 100%;
 }
-#document-content___MainModalDocument {
+#document-content___MAIN_MODAL_DOCUMENT {
   margin: 0;
 }
 

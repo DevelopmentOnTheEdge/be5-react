@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import be5 from '../be5';
 import bus from '../core/bus';
 import documentState from '../core/documentState';
-import { connect }    from 'react-redux'
+import {connect} from 'react-redux'
 import {getCurrentRoles, getDefaultRoute} from '../store/selectors/user.selectors'
-import {ROLE_SYSTEM_DEVELOPER} from "../constants";
+import {DOCUMENT_REFRESH_SUFFIX, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, ROLE_SYSTEM_DEVELOPER} from "../constants";
 import {getDocument} from "../core/documents";
 
 import reloadImg from '../../../images/reload.png';
@@ -61,7 +61,7 @@ class Document extends React.Component
       // if(!data.error)this.setState({ error: null });
     });
 
-    bus.replaceListeners(this.props.frontendParams.documentName + be5.DOCUMENT_REFRESH_SUFFIX, () => {
+    bus.replaceListeners(this.props.frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX, () => {
       this.refresh();
     });
   }
@@ -81,7 +81,7 @@ class Document extends React.Component
       self = value.errors[0].links.self;
     }
 
-    if (this.props.frontendParams.documentName === be5.MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
+    if (this.props.frontendParams.documentName === MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
       console.log(be5.url.get(), self);
       if (self === this.props.defaultRoute) {
         if (be5.url.get() !== "") be5.url.set("")
@@ -93,7 +93,7 @@ class Document extends React.Component
 
   componentWillUnmount(){
     bus.replaceListeners(this.props.frontendParams.documentName, data => {});
-    bus.replaceListeners(this.props.frontendParams.documentName + be5.DOCUMENT_REFRESH_SUFFIX, data => {});
+    bus.replaceListeners(this.props.frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX, data => {});
   }
 
   render() {
@@ -174,7 +174,7 @@ class Document extends React.Component
         return this.state.value.data.attributes.layout.type;
       }
 
-      if(this.state.value.data.type === 'form' && this.props.frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT)
+      if(this.state.value.data.type === 'form' && this.props.frontendParams.documentName === MAIN_MODAL_DOCUMENT)
       {
         return 'modalForm';
       }

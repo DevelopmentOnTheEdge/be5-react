@@ -21,3 +21,7 @@ export const REFRESH_PARENT_DOCUMENT = 'REFRESH_PARENT_DOCUMENT';
 
 export const SEARCH_PARAM = "_search_";
 export const SEARCH_PRESETS_PARAM = "_search_presets_";
+
+export const MAIN_DOCUMENT = "MAIN_DOCUMENT";
+export const MAIN_MODAL_DOCUMENT = "MAIN_MODAL_DOCUMENT";
+export const DOCUMENT_REFRESH_SUFFIX = "_refresh";

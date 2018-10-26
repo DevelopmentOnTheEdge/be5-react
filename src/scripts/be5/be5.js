@@ -1,7 +1,7 @@
-import React    from 'react';
+import React from 'react';
 import {createStaticValue} from './utils/documentUtils';
 import messages from './core/messages';
-import bus      from './core/bus';
+import bus from './core/bus';
 import changeDocument from './core/changeDocument';
 import {getRoute} from './core/routes';
 import {getDefaultRoute} from "./store/selectors/user.selectors";
@@ -18,11 +18,6 @@ const be5 = {
   debug: true,
 
   messages: messages.en,
-
-  //todo move to constants
-  MAIN_DOCUMENT: 'MainDocument',
-  MAIN_MODAL_DOCUMENT: 'MainModalDocument',
-  DOCUMENT_REFRESH_SUFFIX: "_refresh",
 
   appInfo: {},
   be5ServerUrl: window.be5ServerUrl || "",

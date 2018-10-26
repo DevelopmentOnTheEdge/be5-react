@@ -13,6 +13,7 @@ import {loadTableByUrl, updateTable} from "../../services/tables";
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions, getBackOrOpenDefaultRouteAction} from "../../services/frontendActions";
 import FilterUI from "./FilterUI";
+import {MAIN_DOCUMENT} from "../../constants";
 
 
 const formatCell = (data, options, isColumn) =>
@@ -540,7 +541,7 @@ class Table extends React.Component
     const layout = this.props.value.data.attributes.layout;
 
     if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText ||
-        this.props.frontendParams.documentName === be5.MAIN_DOCUMENT)
+        this.props.frontendParams.documentName === MAIN_DOCUMENT)
     {
       const action = layout.cancelAction || getBackOrOpenDefaultRouteAction();
       return (

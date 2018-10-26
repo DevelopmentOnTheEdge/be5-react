@@ -1,9 +1,9 @@
-import React         from 'react';
-import be5           from '../be5';
-import SideBar       from './SideBar';
-import Document      from '../containers/Document';
-import SplitPane     from 'react-split-pane';
+import React from 'react';
+import SideBar from './SideBar';
+import Document from '../containers/Document';
+import SplitPane from 'react-split-pane';
 import Be5Components from "./Be5Components";
+import {MAIN_DOCUMENT} from "../constants";
 
 
 const Application = () => {
@@ -15,7 +15,7 @@ const Application = () => {
           <SideBar/>
         </div>
         <div className="main-pane">
-          <Document frontendParams={{documentName: be5.MAIN_DOCUMENT}} />
+          <Document frontendParams={{documentName: MAIN_DOCUMENT}} />
         </div>
       </SplitPane>
     </div>

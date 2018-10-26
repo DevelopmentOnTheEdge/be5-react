@@ -1,14 +1,14 @@
-import React          from 'react';
-import renderer       from 'react-test-renderer';
-import Form           from '../../../../../src/scripts/be5/components/forms/Form';
+import React from 'react';
+import renderer from 'react-test-renderer';
+import Form from '../../../../../src/scripts/be5/components/forms/Form';
 import HorizontalForm from '../../../../../src/scripts/be5/components/forms/HorizontalForm';
-import ModalForm      from '../../../../../src/scripts/be5/components/forms/ModalForm';
-import InlineForm     from '../../../../../src/scripts/be5/components/forms/InlineForm';
-import SubmitOnChangeForm           from '../../../../../src/scripts/be5/components/forms/SubmitOnChangeForm';
-import testData       from '../../testData.json'
+import ModalForm from '../../../../../src/scripts/be5/components/forms/ModalForm';
+import InlineForm from '../../../../../src/scripts/be5/components/forms/InlineForm';
+import SubmitOnChangeForm from '../../../../../src/scripts/be5/components/forms/SubmitOnChangeForm';
+import testData from '../../testData.json'
 import forms from '../../../../../src/scripts/be5/services/forms';
-import {shallow, mount} from 'enzyme';
-import be5 from "../../../../../src/scripts/be5/be5";
+import {mount, shallow} from 'enzyme';
+import {MAIN_DOCUMENT} from "../../../../../src/scripts/be5/constants";
 
 
 test('Form', () => {
@@ -20,7 +20,7 @@ test('Form', () => {
 
 test('Form on MAIN_DOCUMENT', () => {
   const component = renderer.create(
-    <Form value={testData.emptyForm} frontendParams={{documentName: be5.MAIN_DOCUMENT}} />
+    <Form value={testData.emptyForm} frontendParams={{documentName: MAIN_DOCUMENT}} />
   );
   expect(component.toJSON()).toMatchSnapshot();
 });

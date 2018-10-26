@@ -1,14 +1,14 @@
-import React         from 'react';
-import be5           from '../be5';
-import Document      from '../containers/Document';
+import React from 'react';
+import Document from '../containers/Document';
 import Be5Components from "./Be5Components";
+import {MAIN_DOCUMENT} from "../constants";
 
 
 const MainDocumentOnly = () => {
   return (
     <div className="MainDocument-only">
       <Be5Components/>
-      <Document frontendParams={{documentName: be5.MAIN_DOCUMENT}} />
+      <Document frontendParams={{documentName: MAIN_DOCUMENT}} />
     </div>
   );
 };

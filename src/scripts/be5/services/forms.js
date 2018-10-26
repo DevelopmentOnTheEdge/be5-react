@@ -1,8 +1,8 @@
-import be5              from '../be5';
-import bus              from '../core/bus';
-import Preconditions    from '../utils/preconditions';
-import changeDocument   from '../core/changeDocument';
-import {REDIRECT} from "../constants";
+import be5 from '../be5';
+import bus from '../core/bus';
+import Preconditions from '../utils/preconditions';
+import changeDocument from '../core/changeDocument';
+import {DOCUMENT_REFRESH_SUFFIX, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, REDIRECT} from "../constants";
 import FrontendAction from "./model/FrontendAction";
 import {executeFrontendActions} from "./frontendActions";
 
@@ -79,7 +79,7 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
           && frontendParams.parentDocumentName !== frontendParams.documentName)
         {
           //console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
-          bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX)
+          bus.fire(frontendParams.parentDocumentName + DOCUMENT_REFRESH_SUFFIX)
         }
 
         switch (attributes.status) {
@@ -101,7 +101,7 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
             }
             else
             {
-              if(documentName === be5.MAIN_MODAL_DOCUMENT)
+              if(documentName === MAIN_MODAL_DOCUMENT)
               {
                 bus.fire("mainModalClose");
                 bus.fire("alert", {msg: attributes.message || be5.messages.successfullyCompleted, type: 'success'});
@@ -142,7 +142,7 @@ const isActions = (attributes) =>
 
 const _performForm = (json, frontendParams) =>
 {
-  if(frontendParams.documentName === be5.MAIN_DOCUMENT)be5.ui.setTitle(json.data.attributes.title);
+  if(frontendParams.documentName === MAIN_DOCUMENT)be5.ui.setTitle(json.data.attributes.title);
   let operationResult = json.data.attributes.operationResult;
 
   if(operationResult.status === 'error')
@@ -152,11 +152,11 @@ const _performForm = (json, frontendParams) =>
 
   const formComponentName = json.data.attributes.layout.type;
 
-  if(formComponentName === 'modalForm' || frontendParams.documentName === be5.MAIN_MODAL_DOCUMENT)
+  if(formComponentName === 'modalForm' || frontendParams.documentName === MAIN_MODAL_DOCUMENT)
   {
     bus.fire("mainModalOpen");
 
-    changeDocument(be5.MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
+    changeDocument(MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
   }
   else
   {

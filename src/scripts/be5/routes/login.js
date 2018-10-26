@@ -2,12 +2,13 @@ import React          from 'react';
 import be5            from '../be5';
 import {openOperationByUrl} from '../services/forms';
 import {registerRoute} from '../core/routes'
+import {MAIN_MODAL_DOCUMENT} from "../constants";
 
 
 const route = function()
 {
   openOperationByUrl('form/users/All records/Login', {
-    documentName: be5.MAIN_MODAL_DOCUMENT
+    documentName: MAIN_MODAL_DOCUMENT
   });
 };
 

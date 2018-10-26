@@ -1,13 +1,21 @@
-import be5              from '../be5';
-import bus              from '../core/bus';
-import Preconditions    from '../utils/preconditions';
-import changeDocument   from '../core/changeDocument';
+import be5 from '../be5';
+import bus from '../core/bus';
+import Preconditions from '../utils/preconditions';
+import changeDocument from '../core/changeDocument';
 import {updateUserInfo} from "../store/actions/user.actions";
 import {getDefaultRoute} from "../store/selectors/user.selectors";
 import {UPDATE_USER_INFO} from "../store/constants/user.constants";
 import {
   CLOSE_MAIN_MODAL,
-  GO_BACK, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, REDIRECT, REFRESH_PARENT_DOCUMENT, SET_URL,
+  DOCUMENT_REFRESH_SUFFIX,
+  GO_BACK,
+  MAIN_DOCUMENT,
+  MAIN_MODAL_DOCUMENT,
+  OPEN_DEFAULT_ROUTE,
+  OPEN_NEW_WINDOW,
+  REDIRECT,
+  REFRESH_PARENT_DOCUMENT,
+  SET_URL,
   UPDATE_DOCUMENT,
   UPDATE_PARENT_DOCUMENT
 } from "../constants";
@@ -15,7 +23,7 @@ import {openOperationByUrl} from './forms';
 import FrontendAction from "./model/FrontendAction";
 
 function simpleFinishInModalDocument(actions, documentName) {
-  return actions.length === 0 && documentName === be5.MAIN_MODAL_DOCUMENT
+  return actions.length === 0 && documentName === MAIN_MODAL_DOCUMENT
 }
 
 export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) =>
@@ -44,7 +52,7 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
     }
     else
     {
-      if (documentName === be5.MAIN_DOCUMENT)
+      if (documentName === MAIN_DOCUMENT)
       {
         be5.url.process(documentName, '#!' + url);
       }
@@ -98,7 +106,7 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
   {
     if (frontendParams.parentDocumentName !== undefined &&
         frontendParams.parentDocumentName !== frontendParams.documentName) {
-      bus.fire(frontendParams.parentDocumentName + be5.DOCUMENT_REFRESH_SUFFIX);
+      bus.fire(frontendParams.parentDocumentName + DOCUMENT_REFRESH_SUFFIX);
     }
   }
 
