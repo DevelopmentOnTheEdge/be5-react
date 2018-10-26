@@ -1,6 +1,5 @@
 import bus from "../../../../src/scripts/be5/core/bus";
 import be5 from "../../../../src/scripts/be5/be5";
-import FrontendAction from "../../../../src/scripts/be5/services/model/FrontendAction";
 import {executeFrontendActions} from "../../../../src/scripts/be5/services/frontendActions";
 import changeDocument from "../../../../src/scripts/be5/core/changeDocument";
 import be5init from "../../../../src/scripts/be5/be5init";
@@ -20,7 +19,7 @@ test('SET_URL', () => {
   executeFrontendActions(JSON.parse('{"type":"SET_URL", "value": "table/testtable/Test 1D"}'),
     {documentName: "test"});
 
-  expect(be5.url.process.mock.calls[0]).toEqual(["test", "#!table/testtable/Test 1D"]);
+  expect(be5.url.process.mock.calls[0]).toEqual(["MAIN_DOCUMENT", "#!table/testtable/Test 1D"]);
 });
 
 test('OPEN_DEFAULT_ROUTE', () => {
@@ -32,27 +31,23 @@ test('OPEN_DEFAULT_ROUTE', () => {
   executeFrontendActions(JSON.parse('{"type":"OPEN_DEFAULT_ROUTE"}'),
     {documentName: "test"});
 
-  expect(be5.url.process.mock.calls[0]).toEqual(["test", "#!static/welcome.be"]);
+  expect(be5.url.process.mock.calls[0]).toEqual(["MAIN_DOCUMENT", "#!static/welcome.be"]);
 });
 
 test('UPDATE_PARENT_DOCUMENT', () => {
-
   executeFrontendActions(JSON.parse('{"type":"UPDATE_PARENT_DOCUMENT", "value": {"data": "test data"}}'),
     {parentDocumentName: "test"});
 
   expect(changeDocument.mock.calls.length).toEqual(1);
   expect(changeDocument.mock.calls[0]).toEqual(["test", {"value": {"data": "test data", "meta": {"_ts_": expect.any(Number)}}}]);
-
 });
 
 test('UPDATE_DOCUMENT', () => {
-
   executeFrontendActions(JSON.parse('{"type":"UPDATE_DOCUMENT", "value": {"data": "test data"}}'),
     {documentName: "test"});
 
   expect(changeDocument.mock.calls.length).toEqual(1);
   expect(changeDocument.mock.calls[0]).toEqual(["test", {"value": {"data": "test data", "meta": {"_ts_": expect.any(Number)}}}]);
-
 });
 
 test('executeFrontendActions test', () => {

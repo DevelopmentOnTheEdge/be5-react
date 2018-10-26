@@ -143,7 +143,7 @@ var processHashUrlForDocument = function processHashUrlForDocument(e, documentNa
     if (url.startsWith("#!table/")) {
       url = url + "/_cleanNav_=true";
     }
-    console.log(url, documentName);
+    //console.log(url, documentName);
     be5.url.process(documentName || MAIN_DOCUMENT, url);
   }
 };
@@ -1031,7 +1031,7 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
       window.location.href = url;
     } else {
       if (documentName === MAIN_DOCUMENT) {
-        be5.url.process(documentName, '#!' + url);
+        be5.url.process(MAIN_DOCUMENT, '#!' + url);
       } else {
         if (be5.url.parse(url).positional[0] === 'form') {
           openOperationByUrl(url, frontendParams);
@@ -1047,11 +1047,11 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
   }
 
   if (actions[SET_URL]) {
-    be5.url.process(documentName, '#!' + actions[SET_URL]);
+    be5.url.process(MAIN_DOCUMENT, '#!' + actions[SET_URL]);
   }
 
   if (actions.hasOwnProperty(OPEN_DEFAULT_ROUTE)) {
-    be5.url.process(documentName, '#!' + getDefaultRoute(be5.getStoreState()));
+    be5.url.process(MAIN_DOCUMENT, '#!' + getDefaultRoute(be5.getStoreState()));
   }
 
   if (actions.hasOwnProperty(GO_BACK)) {
@@ -1936,7 +1936,7 @@ var Document = function (_React$Component) {
       }
 
       if (this.props.frontendParams.documentName === MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
-        console.log(be5.url.get(), self);
+        //console.log(be5.url.get(), self);
         if (self === this.props.defaultRoute) {
           if (be5.url.get() !== "") be5.url.set("");
         } else {
@@ -3834,7 +3834,7 @@ var FilterUI = function FilterUI(_ref) {
     });
     newParams['_search_'] = "true";
     newParams['_search_presets_'] = params['_search_presets_'];
-    console.log(newParams);
+    //console.log(newParams);
 
     var paramsObject = {
       entity: entity,

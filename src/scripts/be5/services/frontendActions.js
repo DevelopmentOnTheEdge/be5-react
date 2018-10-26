@@ -54,7 +54,7 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
     {
       if (documentName === MAIN_DOCUMENT)
       {
-        be5.url.process(documentName, '#!' + url);
+        be5.url.process(MAIN_DOCUMENT, '#!' + url);
       }
       else
       {
@@ -77,12 +77,12 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 
   if(actions[SET_URL])
   {
-    be5.url.process(documentName, '#!' + actions[SET_URL]);
+    be5.url.process(MAIN_DOCUMENT, '#!' + actions[SET_URL]);
   }
 
   if(actions.hasOwnProperty(OPEN_DEFAULT_ROUTE))
   {
-    be5.url.process(documentName, '#!' + getDefaultRoute(be5.getStoreState()));
+    be5.url.process(MAIN_DOCUMENT, '#!' + getDefaultRoute(be5.getStoreState()));
   }
 
   if(actions.hasOwnProperty(GO_BACK))
