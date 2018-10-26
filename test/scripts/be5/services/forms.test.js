@@ -152,8 +152,7 @@ test('performOperationResult redirect', () => {
 });
 
 test('performOperationResult redirect be5.MAIN_DOCUMENT', () => {
-  //const mockFunc = jest.fn();
-  be5.url.set = jest.fn();
+  be5.url.process = jest.fn();
 
   const res = {
     "data":{
@@ -165,8 +164,8 @@ test('performOperationResult redirect be5.MAIN_DOCUMENT', () => {
   };
   _performOperationResult(res, {documentName: be5.MAIN_DOCUMENT});
 
-  expect(be5.url.set.mock.calls.length).toBe(1);
-  //expect(mockFunc.mock.calls.length).toBe(1);
+  expect(be5.url.process.mock.calls.length).toBe(1);
+  expect(be5.url.process.mock.calls[0]).toEqual(["MainDocument", "#!static/welcome.be"]);
 });
 
 test('load and _performForm test', () => {

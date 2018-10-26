@@ -51,8 +51,11 @@ export default {
     if(!state.value || !state.value.data || !state.value.data.links ||
       "#!" + state.value.data.links.self !== be5.url.get())
     {
-      if (getDefaultRoute(be5.store.getState()) === state.value.data.links.self
-        && (be5.url.get() === "" || be5.url.get() === "#!")) return;
+      if (state.value && state.value.data && state.value.data.links &&
+        getDefaultRoute(be5.store.getState()) === state.value.data.links.self
+        && (be5.url.get() === "" || be5.url.get() === "#!")) {
+        return;
+      }
       //console.log(state.value, be5.url.get());
       be5.url.process(be5.MAIN_DOCUMENT, be5.url.get());
     }
