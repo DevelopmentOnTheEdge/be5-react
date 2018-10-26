@@ -24,7 +24,7 @@ class Menu extends Component {
   }
 
   componentWillMount() {
-    // this.props.fetchMenu();
+    this.props.fetchMenu();
   }
 
   componentWillReceiveProps(nextProps) {

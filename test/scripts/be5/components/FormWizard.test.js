@@ -23,6 +23,6 @@ test('test', () => {
 
   expect(component.toJSON()).toMatchSnapshot();
 
-  //changeDocument('MainDocument', { value: "Page loaded." } );
+  //changeDocument('MAIN_DOCUMENT', { value: "Page loaded." } );
   //expect(component.toJSON()).toMatchSnapshot();
 });

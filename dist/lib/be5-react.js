@@ -1606,7 +1606,7 @@ var Menu = function (_Component) {
   createClass(Menu, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      // this.props.fetchMenu();
+      this.props.fetchMenu();
     }
   }, {
     key: 'componentWillReceiveProps',

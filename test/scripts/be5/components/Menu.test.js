@@ -32,7 +32,7 @@ test('snapshot NavbarMenu', () => {
 
   expect(component.toJSON()).toMatchSnapshot();
 
-  // changeDocument('MainDocument', { component: StaticPage, value: "test" });
+  // changeDocument('MAIN_DOCUMENT', { component: StaticPage, value: "test" });
   // expect(component.toJSON()).toMatchSnapshot();
 
 });

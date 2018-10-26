@@ -54,9 +54,77 @@ exports[`snapshot 1`] = `
               type="text"
               value=""
             />
-            <p>
-              Loading...
-            </p>
+            <div
+              className="menu"
+            >
+              <div
+                className="menuNode"
+              >
+                <a
+                  className="rootMenuItem menuItemWithRef"
+                  href="#!static/welcome.be"
+                  onClick={[Function]}
+                  target=""
+                >
+                  Добро пожаловать
+                </a>
+                <div />
+              </div>
+              <div
+                className="menuNode"
+              >
+                <span
+                  className="rootMenuItem menuItemWithoutRef"
+                >
+                  Пользователи
+                </span>
+                <div />
+                <ul>
+                  <li>
+                    <div
+                      className="menuNode"
+                    >
+                      <a
+                        className="menuItem menuItemWithRef"
+                        href="#!login"
+                        onClick={[Function]}
+                        target=""
+                      >
+                        Вход
+                      </a>
+                      <div />
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div
+                className="menuNode"
+              >
+                <span
+                  className="rootMenuItem menuItemWithoutRef"
+                >
+                  Услуги
+                </span>
+                <div />
+                <ul>
+                  <li>
+                    <div
+                      className="menuNode"
+                    >
+                      <a
+                        className="menuItem menuItemWithRef"
+                        href="#!table/users/TestQuery"
+                        onClick={[Function]}
+                        target=""
+                      >
+                        Test query
+                      </a>
+                      <div />
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
           <div
             className="menuFooter"

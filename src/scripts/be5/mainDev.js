@@ -2,7 +2,8 @@ import ReactDOM         from 'react-dom';
 import React            from 'react';
 import { Provider }     from 'react-redux'
 import { AppContainer } from 'react-hot-loader'
-import App              from './components/test/ApplicationWithBe5Menu';
+import ApplicationWithBe5Menu              from './components/test/ApplicationWithBe5Menu';
+import Application from './components/Application';
 import rootReducer      from './store/reducers'
 import createBaseStore  from './store'
 import be5init          from './be5init';
@@ -14,19 +15,20 @@ be5init.init(store, function () {
     ReactDOM.render(
       <AppContainer>
         <Provider store={store}>
-          <App />
+          <Component />
         </Provider>
       </AppContainer>,
       document.getElementById('app'),
     )
   };
 
-  render(App);
+  render(ApplicationWithBe5Menu);
 
 // Webpack Hot Module Replacement API
   if (module.hot) {
     module.hot.accept('./components/Application', () => {
-      render(App)
+      render(ApplicationWithBe5Menu)
     })
   }
 });
+
