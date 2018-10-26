@@ -42,17 +42,6 @@ const be5 = {
           be5.messages[key] = addMessages[key];
         }
       }
-
-      let dataTablesLocal = 'en';
-      switch(be5.locale.value){
-        case "ru": dataTablesLocal = 'Russian'; break;
-        case "ja": dataTablesLocal = 'Japanese'; break;
-      }
-      if(dataTablesLocal !== 'en'){
-        $.getJSON( "//cdn.datatables.net/plug-ins/1.10.13/i18n/" + dataTablesLocal + ".json", function( data ) {
-          be5.messages['dataTables'] = data;
-        });
-      }
     },
 
     msg(key) {
