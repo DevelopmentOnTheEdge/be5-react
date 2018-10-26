@@ -1,7 +1,6 @@
 import be5 from './be5.js';
 import be5init from './be5init.js';
 //import be5styles from './be5styles.js';
-import * as constants from './constants.js';
 import preconditions from './utils/preconditions.js';
 import {getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument,
   openInModal} from './utils/documentUtils.js';
@@ -47,10 +46,10 @@ import {getMenu} from './store/selectors/menu.selectors'
 import {executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction} from './services/frontendActions'
 import FrontendAction from './services/model/FrontendAction'
 
+export * from './constants.js';
 
 export {
   be5init,
-  constants,
   preconditions,
   arraysEqual, createPageValue, registerPage,
   getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal,

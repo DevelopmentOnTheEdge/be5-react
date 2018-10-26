@@ -76,28 +76,6 @@ var MAIN_DOCUMENT = "MAIN_DOCUMENT";
 var MAIN_MODAL_DOCUMENT = "MAIN_MODAL_DOCUMENT";
 var DOCUMENT_REFRESH_SUFFIX = "_refresh";
 
-var constants = Object.freeze({
-	API_URL_PREFIX: API_URL_PREFIX,
-	DEFAULT_VIEW: DEFAULT_VIEW,
-	ROLE_ADMINISTRATOR: ROLE_ADMINISTRATOR,
-	ROLE_SYSTEM_DEVELOPER: ROLE_SYSTEM_DEVELOPER,
-	ROLE_GUEST: ROLE_GUEST,
-	SET_URL: SET_URL,
-	REDIRECT: REDIRECT,
-	OPEN_DEFAULT_ROUTE: OPEN_DEFAULT_ROUTE,
-	OPEN_NEW_WINDOW: OPEN_NEW_WINDOW,
-	GO_BACK: GO_BACK,
-	CLOSE_MAIN_MODAL: CLOSE_MAIN_MODAL,
-	UPDATE_DOCUMENT: UPDATE_DOCUMENT,
-	UPDATE_PARENT_DOCUMENT: UPDATE_PARENT_DOCUMENT,
-	REFRESH_PARENT_DOCUMENT: REFRESH_PARENT_DOCUMENT,
-	SEARCH_PARAM: SEARCH_PARAM,
-	SEARCH_PRESETS_PARAM: SEARCH_PRESETS_PARAM,
-	MAIN_DOCUMENT: MAIN_DOCUMENT,
-	MAIN_MODAL_DOCUMENT: MAIN_MODAL_DOCUMENT,
-	DOCUMENT_REFRESH_SUFFIX: DOCUMENT_REFRESH_SUFFIX
-});
-
 var getResourceByID = function getResourceByID(included, id) {
   if (included === undefined) return undefined;
 
@@ -290,6 +268,28 @@ var messages = {
       previousPage: 'Предыдущая',
       nextPage: 'Следующая',
       clearFilter: 'Очистить фильтр'
+    },
+    dataTables: {
+      "processing": "Подождите...",
+      "search": "Поиск:",
+      "lengthMenu": "Показать _MENU_ записей",
+      "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+      "infoEmpty": "Записи с 0 до 0 из 0 записей",
+      "infoFiltered": "(отфильтровано из _MAX_ записей)",
+      "infoPostFix": "",
+      "loadingRecords": "Загрузка записей...",
+      "zeroRecords": "Записи отсутствуют.",
+      "emptyTable": "В таблице отсутствуют данные",
+      "paginate": {
+        "first": "Первая",
+        "previous": "Предыдущая",
+        "next": "Следующая",
+        "last": "Последняя"
+      },
+      "aria": {
+        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+        "sortDescending": ": активировать для сортировки столбца по убыванию"
+      }
     }
   }
 };
@@ -551,19 +551,6 @@ var be5 = {
         for (var _key in addMessages) {
           be5.messages[_key] = addMessages[_key];
         }
-      }
-
-      var dataTablesLocal = 'en';
-      switch (be5.locale.value) {
-        case "ru":
-          dataTablesLocal = 'Russian';break;
-        case "ja":
-          dataTablesLocal = 'Japanese';break;
-      }
-      if (dataTablesLocal !== 'en') {
-        $.getJSON("//cdn.datatables.net/plug-ins/1.10.13/i18n/" + dataTablesLocal + ".json", function (data) {
-          be5.messages['dataTables'] = data;
-        });
       }
     },
     msg: function msg(key) {
@@ -5603,7 +5590,6 @@ var index = combineReducers({
 
 var api = Object.freeze({
 	be5init: be5init$$1,
-	constants: constants,
 	preconditions: Preconditions,
 	arraysEqual: arraysEqual,
 	createPageValue: createPageValue,
@@ -5655,7 +5641,26 @@ var api = Object.freeze({
 	executeFrontendActions: executeFrontendActions,
 	getActionsMap: getActionsMap,
 	getBackOrOpenDefaultRouteAction: getBackOrOpenDefaultRouteAction,
-	FrontendAction: FrontendAction
+	FrontendAction: FrontendAction,
+	API_URL_PREFIX: API_URL_PREFIX,
+	DEFAULT_VIEW: DEFAULT_VIEW,
+	ROLE_ADMINISTRATOR: ROLE_ADMINISTRATOR,
+	ROLE_SYSTEM_DEVELOPER: ROLE_SYSTEM_DEVELOPER,
+	ROLE_GUEST: ROLE_GUEST,
+	SET_URL: SET_URL,
+	REDIRECT: REDIRECT,
+	OPEN_DEFAULT_ROUTE: OPEN_DEFAULT_ROUTE,
+	OPEN_NEW_WINDOW: OPEN_NEW_WINDOW,
+	GO_BACK: GO_BACK,
+	CLOSE_MAIN_MODAL: CLOSE_MAIN_MODAL,
+	UPDATE_DOCUMENT: UPDATE_DOCUMENT,
+	UPDATE_PARENT_DOCUMENT: UPDATE_PARENT_DOCUMENT,
+	REFRESH_PARENT_DOCUMENT: REFRESH_PARENT_DOCUMENT,
+	SEARCH_PARAM: SEARCH_PARAM,
+	SEARCH_PRESETS_PARAM: SEARCH_PRESETS_PARAM,
+	MAIN_DOCUMENT: MAIN_DOCUMENT,
+	MAIN_MODAL_DOCUMENT: MAIN_MODAL_DOCUMENT,
+	DOCUMENT_REFRESH_SUFFIX: DOCUMENT_REFRESH_SUFFIX
 });
 
 // components
@@ -5663,4 +5668,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, constants, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX };
