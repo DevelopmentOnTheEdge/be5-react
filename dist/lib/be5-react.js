@@ -1549,6 +1549,24 @@ MenuSearchField.propTypes = {
   onChange: PropTypes.func.isRequired
 };
 
+var documents = {};
+
+var getDocument = function getDocument(type) {
+  return documents[type];
+};
+
+// createDocument(type, props) {
+//   return documents[type](props);
+// };
+
+var registerDocument = function registerDocument(type, component) {
+  documents[type] = component;
+};
+
+var getAllDocumentTypes = function getAllDocumentTypes() {
+  return Object.keys(documents);
+};
+
 var arraysEqual = function arraysEqual(a, b) {
   if (a === b) return true;
   if (a === null || b === null) return false;
@@ -1561,6 +1579,18 @@ var arraysEqual = function arraysEqual(a, b) {
     if (a[i] !== b[i]) return false;
   }
   return true;
+};
+
+var registerPage = function registerPage(actionName, component, fn) {
+  registerDocument(actionName, component);
+  registerRoute(actionName, fn);
+};
+
+var createPageValue = function createPageValue(actionName, data) {
+  return {
+    value: { data: Object.assign({}, data, { links: { self: actionName } }) },
+    frontendParams: { type: actionName }
+  };
 };
 
 var propTypes = {
@@ -1812,24 +1842,6 @@ var documentState = {
   set: set$1,
   get: get$1,
   getAll: getAll
-};
-
-var documents = {};
-
-var getDocument = function getDocument(type) {
-  return documents[type];
-};
-
-// createDocument(type, props) {
-//   return documents[type](props);
-// };
-
-var registerDocument = function registerDocument(type, component) {
-  documents[type] = component;
-};
-
-var getAllDocumentTypes = function getAllDocumentTypes() {
-  return Object.keys(documents);
 };
 
 var StaticPage = function StaticPage(props) {
@@ -5443,13 +5455,8 @@ var UiPanel = function UiPanel(props) {
   );
 };
 
-registerDocument("uiPanel", UiPanel);
-
-registerRoute("uiPanel", function (documentName) {
-  changeDocument(documentName, {
-    value: { data: { attributes: { title: "UI panel" }, links: { self: "systemCard" } } },
-    frontendParams: { type: 'uiPanel' }
-  });
+registerPage("uiPanel", UiPanel, function (documentName) {
+  changeDocument(documentName, createPageValue("uiPanel", { attributes: { title: "UI panel" } }));
 });
 
 var SystemCard = function SystemCard(props) {
@@ -5599,6 +5606,8 @@ var api = Object.freeze({
 	constants: constants,
 	preconditions: Preconditions,
 	arraysEqual: arraysEqual,
+	createPageValue: createPageValue,
+	registerPage: registerPage,
 	getSelfUrl: getSelfUrl,
 	getModelByID: getModelByID,
 	createStaticValue: createStaticValue,
@@ -5654,4 +5663,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, constants, Preconditions as preconditions, arraysEqual, getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, constants, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction };

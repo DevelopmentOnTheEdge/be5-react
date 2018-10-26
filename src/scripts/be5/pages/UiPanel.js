@@ -1,9 +1,10 @@
-import React        from 'react';
-import {getAllDocumentTypes, registerDocument, getDocument} from '../core/documents'
-import {getAllRoutes, getRoute, registerRoute} from '../core/routes'
-import classNames   from 'classnames';
+import React from 'react';
+import {getAllDocumentTypes, getDocument} from '../core/documents'
+import {getAllRoutes, getRoute} from '../core/routes'
+import classNames from 'classnames';
 import changeDocument from "../core/changeDocument";
 import be5 from "../be5";
+import {createPageValue, registerPage} from "../utils/utils";
 
 
 const UiPanel = (props) =>
@@ -64,11 +65,8 @@ const UiPanel = (props) =>
   );
 };
 
-registerDocument("uiPanel", UiPanel);
-
-registerRoute("uiPanel", function(documentName) {
-  changeDocument(documentName, {
-    value: {data: {attributes: {title: "UI panel"}, links:{self: "systemCard"}}},
-    frontendParams: {type: 'uiPanel'}
-  });
+registerPage("uiPanel", UiPanel, function(documentName) {
+  changeDocument(documentName, createPageValue("uiPanel",
+    {attributes: {title: "UI panel"}}
+  ));
 });

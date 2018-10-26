@@ -5,7 +5,7 @@ import * as constants from './constants.js';
 import preconditions from './utils/preconditions.js';
 import {getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument,
   openInModal} from './utils/documentUtils.js';
-import {arraysEqual} from './utils/utils.js';
+import {arraysEqual, createPageValue, registerPage} from './utils/utils.js';
 
 // core
 import bus from './core/bus.js';
@@ -52,7 +52,7 @@ export {
   be5init,
   constants,
   preconditions,
-  arraysEqual,
+  arraysEqual, createPageValue, registerPage,
   getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal,
 
   // core

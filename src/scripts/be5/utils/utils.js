@@ -1,3 +1,6 @@
+import {registerDocument} from "../core/documents";
+import {registerRoute} from "../core/routes";
+
 export const arraysEqual = function(a, b)
 {
   if (a === b) return true;
@@ -11,4 +14,16 @@ export const arraysEqual = function(a, b)
     if (a[i] !== b[i]) return false;
   }
   return true;
+};
+
+export const registerPage = (actionName, component, fn) => {
+  registerDocument(actionName, component);
+  registerRoute(actionName, fn);
+};
+
+export const createPageValue = (actionName, data) => {
+  return {
+    value: {data: Object.assign({}, data, {links: {self: actionName}})},
+    frontendParams: {type: actionName}
+  }
 };
