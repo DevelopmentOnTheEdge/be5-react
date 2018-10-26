@@ -79,7 +79,7 @@ export const processHashUrlForDocument = (e, documentName) => {
     if (url.startsWith("#!table/")) {
       url = url + "/_cleanNav_=true";
     }
-    console.log(url, documentName);
+    //console.log(url, documentName);
     be5.url.process(documentName || MAIN_DOCUMENT, url);
   }
 };

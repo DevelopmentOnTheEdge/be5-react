@@ -82,7 +82,7 @@ class Document extends React.Component
     }
 
     if (this.props.frontendParams.documentName === MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
-      console.log(be5.url.get(), self);
+      //console.log(be5.url.get(), self);
       if (self === this.props.defaultRoute) {
         if (be5.url.get() !== "") be5.url.set("")
       } else {

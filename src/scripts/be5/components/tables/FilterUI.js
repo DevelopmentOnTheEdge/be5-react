@@ -20,7 +20,7 @@ const FilterUI = ({entity, query, params, frontendParams}) =>
     searchPresets.forEach(x => newParams[x] = params[x]);
     newParams['_search_'] = "true";
     newParams['_search_presets_'] = params['_search_presets_'];
-    console.log(newParams);
+    //console.log(newParams);
 
     const paramsObject = {
       entity: entity,
