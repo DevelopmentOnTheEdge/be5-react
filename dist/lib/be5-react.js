@@ -933,7 +933,7 @@ var UserControl = function UserControl(props) {
   }
 
   function reLogin() {
-    if (props.hasDevRole) {
+    if (Document.hasDevRole) {
       return React.createElement(
         'span',
         { onClick: props.openReLoginForm, className: "document-reload float-right" },
@@ -1007,8 +1007,8 @@ var FrontendAction = function FrontendAction(type, value) {
   this.value = value;
 };
 
-function simpleFinishInModalDocument(actions, documentName) {
-  return actions.length === 0 && documentName === MAIN_MODAL_DOCUMENT;
+function simpleFinishInModalDocument(documentName) {
+  return documentName === MAIN_MODAL_DOCUMENT;
 }
 
 var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneObject, frontendParams) {
@@ -1016,7 +1016,7 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
 
   var actions = getActionsMap(actionsArrayOrOneObject);
 
-  if (simpleFinishInModalDocument(actions, documentName) || actions.hasOwnProperty(CLOSE_MAIN_MODAL)) {
+  if (simpleFinishInModalDocument(documentName) || actions.hasOwnProperty(CLOSE_MAIN_MODAL)) {
     bus.fire("mainModalClose");
   }
 
@@ -1866,7 +1866,7 @@ StaticPage.propTypes = {
 
 registerDocument("static", StaticPage);
 
-var Document = function (_React$Component) {
+var Document$1 = function (_React$Component) {
   inherits(Document, _React$Component);
 
   function Document(props) {
@@ -1937,7 +1937,7 @@ var Document = function (_React$Component) {
 
       if (this.props.frontendParams.documentName === MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
         //console.log(be5.url.get(), self);
-        if (self === this.props.defaultRoute) {
+        if (self === defaultRoute()) {
           if (be5.url.get() !== "") be5.url.set("");
         } else {
           be5.url.set(self);
@@ -2036,7 +2036,7 @@ var Document = function (_React$Component) {
   }, {
     key: 'getDevTools',
     value: function getDevTools() {
-      if (!this.props.hasDevRole || !getSelfUrl(this.state.value)) {
+      if (!hasDevRole() || !getSelfUrl(this.state.value)) {
         return null;
       }
 
@@ -2061,7 +2061,15 @@ var Document = function (_React$Component) {
   return Document;
 }(React.Component);
 
-Document.propTypes = {
+function hasDevRole() {
+  return be5.store && getCurrentRoles(be5.store.getState()).indexOf(ROLE_SYSTEM_DEVELOPER) !== -1;
+}
+
+function defaultRoute() {
+  return be5.store ? getDefaultRoute(be5.store.getState()) : undefined;
+}
+
+Document$1.propTypes = {
   frontendParams: PropTypes.shape({
     documentName: PropTypes.string.isRequired,
     operationDocumentName: PropTypes.string,
@@ -2071,15 +2079,6 @@ Document.propTypes = {
   value: PropTypes.object,
   type: PropTypes.string
 };
-
-var mapStateToProps$2 = function mapStateToProps(state) {
-  return {
-    hasDevRole: getCurrentRoles(state).indexOf(ROLE_SYSTEM_DEVELOPER) !== -1,
-    defaultRoute: getDefaultRoute(state)
-  };
-};
-
-var Document$1 = connect(mapStateToProps$2)(Document);
 
 var Be5Components = function (_React$Component) {
   inherits(Be5Components, _React$Component);
@@ -2892,7 +2891,7 @@ var NavbarMenuContainer = function NavbarMenuContainer(props) {
   return React.createElement(NavbarMenu, props);
 };
 
-var mapStateToProps$3 = function mapStateToProps(state) {
+var mapStateToProps$2 = function mapStateToProps(state) {
   return {
     menu: getMenu(state),
     user: getUser(state),
@@ -2911,7 +2910,7 @@ var mapDispatchToProps$2 = function mapDispatchToProps(dispatch) {
   };
 };
 
-var NavbarMenuContainer$1 = connect(mapStateToProps$3, mapDispatchToProps$2)(NavbarMenuContainer);
+var NavbarMenuContainer$1 = connect(mapStateToProps$2, mapDispatchToProps$2)(NavbarMenuContainer);
 
 var Form = function (_React$Component) {
   inherits(Form, _React$Component);
@@ -5474,8 +5473,6 @@ registerRoute('systemCard', function (documentName) {
 
 var be5init$$1 = {
   hashChange: function hashChange() {
-    bus.fire("mainModalClose");
-
     //todo move to redux
     var state = documentState.get(MAIN_DOCUMENT);
 
