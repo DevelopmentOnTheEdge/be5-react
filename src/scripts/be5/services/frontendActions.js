@@ -22,8 +22,8 @@ import {
 import {openOperationByUrl} from './forms';
 import FrontendAction from "./model/FrontendAction";
 
-function simpleFinishInModalDocument(actions, documentName) {
-  return actions.length === 0 && documentName === MAIN_MODAL_DOCUMENT
+function simpleFinishInModalDocument(documentName) {
+  return documentName === MAIN_MODAL_DOCUMENT
 }
 
 export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) =>
@@ -32,7 +32,7 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 
   const actions = getActionsMap(actionsArrayOrOneObject);
 
-  if(simpleFinishInModalDocument(actions, documentName) || actions.hasOwnProperty(CLOSE_MAIN_MODAL))
+  if(simpleFinishInModalDocument(documentName) || actions.hasOwnProperty(CLOSE_MAIN_MODAL))
   {
     bus.fire("mainModalClose");
   }

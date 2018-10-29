@@ -18,7 +18,7 @@ const UserControl = (props) => {
   }
 
   function reLogin(){
-    if(props.hasDevRole)
+    if(Document.hasDevRole)
     {
       return (
         <span onClick={props.openReLoginForm} className={"document-reload float-right"}>

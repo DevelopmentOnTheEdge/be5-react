@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Document, {Document as RawDocument} from '../../../../src/scripts/be5/containers/Document';
+import Document from '../../../../src/scripts/be5/containers/Document';
 import changeDocument from '../../../../src/scripts/be5/core/changeDocument';
 import {mount, shallow} from 'enzyme';
 import {getTestStore, TestProvider} from "../testUtils";
@@ -22,7 +22,7 @@ test('snapshot', () => {
 });
 
 test('frontendParams init state, props', () => {
-  const wrapper = mount( <RawDocument frontendParams={{documentName: "test"}} store={getTestStore()}/> );
+  const wrapper = mount( <Document frontendParams={{documentName: "test"}} store={getTestStore()}/> );
 
   expect(wrapper.props()).toEqual({"frontendParams": {"documentName": "test"}, store: expect.any(Object)});
   expect(wrapper.state()).toEqual({"frontendParams": {"documentName": "test"}, "value": null});
@@ -31,7 +31,7 @@ test('frontendParams init state, props', () => {
 });
 
 test('frontendParams state', () => {
-  const wrapper = mount( <RawDocument frontendParams={{documentName: "test"}}/> );
+  const wrapper = mount( <Document frontendParams={{documentName: "test"}}/> );
 
   const onSuccess = function onSuccess(json, applyParams){};
 
@@ -55,7 +55,7 @@ test('frontendParams state', () => {
 test('frontendParams state with value in props', () => {
   const propsOnSuccess = function onSuccess(json, applyParams){};
 
-  const wrapper = mount( <RawDocument frontendParams={{documentName: "test", parentDocumentName: "propsParentDoc", onSuccess: propsOnSuccess}}/> );
+  const wrapper = mount( <Document frontendParams={{documentName: "test", parentDocumentName: "propsParentDoc", onSuccess: propsOnSuccess}}/> );
 
   changeDocument("test", {value: "Text"});
 
@@ -65,7 +65,7 @@ test('frontendParams state with value in props', () => {
 });
 
 test('others props value', () => {
-  const wrapper = mount( <RawDocument frontendParams={{documentName: "test", operationDocumentName: "form", parentDocumentName: "propsParentDoc"}} /> );
+  const wrapper = mount( <Document frontendParams={{documentName: "test", operationDocumentName: "form", parentDocumentName: "propsParentDoc"}} /> );
 
   expect(wrapper.instance().getComponentFrontendParams()).toEqual({
     "documentName": "test", "operationDocumentName": "form", "parentDocumentName": "propsParentDoc"

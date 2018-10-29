@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import be5 from '../be5';
 import bus from '../core/bus';
 import documentState from '../core/documentState';
-import {connect} from 'react-redux'
 import {getCurrentRoles, getDefaultRoute} from '../store/selectors/user.selectors'
 import {DOCUMENT_REFRESH_SUFFIX, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, ROLE_SYSTEM_DEVELOPER} from "../constants";
 import {getDocument} from "../core/documents";
@@ -83,7 +82,7 @@ class Document extends React.Component
 
     if (this.props.frontendParams.documentName === MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
       //console.log(be5.url.get(), self);
-      if (self === this.props.defaultRoute) {
+      if (self === defaultRoute()) {
         if (be5.url.get() !== "") be5.url.set("")
       } else {
         be5.url.set(self)
@@ -191,7 +190,7 @@ class Document extends React.Component
   }
 
   getDevTools(){
-    if(!this.props.hasDevRole || !getSelfUrl(this.state.value))
+    if(!hasDevRole() || !getSelfUrl(this.state.value))
     {
       return null;
     }
@@ -213,6 +212,14 @@ class Document extends React.Component
   }
 }
 
+function hasDevRole() {
+  return be5.store && getCurrentRoles(be5.store.getState()).indexOf(ROLE_SYSTEM_DEVELOPER) !== -1
+}
+
+function defaultRoute() {
+  return be5.store ? getDefaultRoute(be5.store.getState()) : undefined;
+}
+
 Document.propTypes = {
   frontendParams: PropTypes.shape({
     documentName: PropTypes.string.isRequired,
@@ -228,11 +235,4 @@ export {
   Document
 };
 
-const mapStateToProps = state => ({
-  hasDevRole: getCurrentRoles(state).indexOf(ROLE_SYSTEM_DEVELOPER) !== -1,
-  defaultRoute: getDefaultRoute(state)
-});
-
-export default connect(
-  mapStateToProps,
-)(Document)
+export default Document;
