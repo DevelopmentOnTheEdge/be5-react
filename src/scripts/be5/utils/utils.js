@@ -27,3 +27,10 @@ export const createPageValue = (actionName, data) => {
     frontendParams: {type: actionName}
   }
 };
+
+export const createPageValue = (actionName, data, url) => {
+  return {
+    value: {data: Object.assign({}, data, {links: {self: url}})},
+    frontendParams: {type: actionName}
+  }
+};
