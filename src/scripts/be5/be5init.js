@@ -1,4 +1,5 @@
 import be5 from './be5';
+import bus from "./core/bus";
 import * as api from './api';
 import Preconditions from './utils/preconditions';
 import documentState from './core/documentState';
@@ -42,7 +43,8 @@ export default {
 
   hashChange()
   {
-    //todo move to redux
+    bus.fire("mainModalClose");
+
     const state = documentState.get(MAIN_DOCUMENT);
 
     if(!state.value || !state.value.data || !state.value.data.links ||
