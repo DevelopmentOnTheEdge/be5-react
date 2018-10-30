@@ -21,16 +21,9 @@ export const registerPage = (actionName, component, fn) => {
   registerRoute(actionName, fn);
 };
 
-export const createPageValue = (actionName, data) => {
-  return {
-    value: {data: Object.assign({}, data, {links: {self: actionName}})},
-    frontendParams: {type: actionName}
-  }
-};
-
 export const createPageValue = (actionName, data, url) => {
   return {
-    value: {data: Object.assign({}, data, {links: {self: url}})},
+    value: {data: Object.assign({}, data, {links: {self: url || actionName}})},
     frontendParams: {type: actionName}
   }
 };

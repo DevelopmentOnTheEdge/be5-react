@@ -1573,9 +1573,9 @@ var registerPage = function registerPage(actionName, component, fn) {
   registerRoute(actionName, fn);
 };
 
-var createPageValue = function createPageValue(actionName, data) {
+var createPageValue = function createPageValue(actionName, data, url) {
   return {
-    value: { data: Object.assign({}, data, { links: { self: actionName } }) },
+    value: { data: Object.assign({}, data, { links: { self: url || actionName } }) },
     frontendParams: { type: actionName }
   };
 };
@@ -5473,7 +5473,8 @@ registerRoute('systemCard', function (documentName) {
 
 var be5init$$1 = {
   hashChange: function hashChange() {
-    //todo move to redux
+    bus.fire("mainModalClose");
+
     var state = documentState.get(MAIN_DOCUMENT);
 
     if (!state.value || !state.value.data || !state.value.data.links || "#!" + state.value.data.links.self !== be5.url.get()) {
