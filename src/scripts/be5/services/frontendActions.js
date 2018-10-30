@@ -13,7 +13,7 @@ import {
   MAIN_MODAL_DOCUMENT,
   OPEN_DEFAULT_ROUTE,
   OPEN_NEW_WINDOW,
-  REDIRECT,
+  REDIRECT, REFRESH_DOCUMENT,
   REFRESH_PARENT_DOCUMENT,
   SET_URL,
   UPDATE_DOCUMENT,
@@ -102,10 +102,15 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
     changeDocument(documentName, {value: tableJson});
   }
 
+  if(actions.hasOwnProperty(REFRESH_DOCUMENT))
+  {
+    bus.fire(frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX);
+  }
+
   if(actions.hasOwnProperty(REFRESH_PARENT_DOCUMENT))
   {
     if (frontendParams.parentDocumentName !== undefined &&
-        frontendParams.parentDocumentName !== frontendParams.documentName) {
+      frontendParams.parentDocumentName !== frontendParams.documentName) {
       bus.fire(frontendParams.parentDocumentName + DOCUMENT_REFRESH_SUFFIX);
     }
   }
