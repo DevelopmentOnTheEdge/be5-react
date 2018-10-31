@@ -509,7 +509,10 @@ class Table extends React.Component
     return (
       <div className="table-component">
         {topForm}
-        <TitleTag className="table-component__title">{value.data.attributes.title}</TitleTag>
+        <TitleTag className="table-component__title">
+          {value.data.attributes.title}{' '}
+          {this.getOperationParamsInfo()}
+        </TitleTag>
         <CategoryNavigation
           data={getResourceByType(included, "documentCategories")}
           url={getSelfUrl(this.props.value)}
@@ -531,6 +534,17 @@ class Table extends React.Component
         {this._createCancelAction()}
       </div>
     );
+  }
+
+  getOperationParamsInfo() {
+    const filterInfo = getResourceByType(this.props.value.included, "filterInfo");
+    if (filterInfo.attributes.operationParamsInfo && filterInfo.attributes.operationParamsInfo.length > 0)
+    {
+      console.log(filterInfo.attributes.operationParamsInfo, Object.entries(filterInfo.attributes.operationParamsInfo));
+      const text = filterInfo.attributes.operationParamsInfo.map(r => r.key ? r.key + ': ' + r.value : r.value).join(', ');
+      return <small>{be5.messages.table.tableFor + ' ' + text}</small>
+    }
+    return null;
   }
 
   /**

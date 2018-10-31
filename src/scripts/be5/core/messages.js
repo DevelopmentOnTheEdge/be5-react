@@ -45,7 +45,8 @@ export default {
       emptyTable: 'Nothing found',
       previousPage: 'Previous',
       nextPage: 'Next',
-      clearFilter: 'Clear filter'
+      clearFilter: 'Clear filter',
+      tableFor: 'for'
     }
   },
 
@@ -110,7 +111,8 @@ export default {
       emptyTable: 'Нет данных',
       previousPage: 'Предыдущая',
       nextPage: 'Следующая',
-      clearFilter: 'Очистить фильтр'
+      clearFilter: 'Очистить фильтр',
+      tableFor: 'для'
     },
     dataTables: {
       "processing": "Подождите...",
