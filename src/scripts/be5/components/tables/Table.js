@@ -467,6 +467,7 @@ class Table extends React.Component
   render() {
     const value = this.props.value;
     const {data, included} = this.props.value;
+    if(this.props.frontendParams.documentName === MAIN_DOCUMENT)be5.ui.setTitle(data.attributes.title + ' ' + this.getOperationParamsInfo());
     const hasRows = data.attributes.rows.length !== 0;
     const operations = getResourceByType(included, "documentOperations");
 
@@ -510,8 +511,8 @@ class Table extends React.Component
       <div className="table-component">
         {topForm}
         <TitleTag className="table-component__title">
-          {value.data.attributes.title}{' '}
-          {this.getOperationParamsInfo()}
+          {value.data.attributes.title}
+          {this.getOperationParamsInfo().length > 0 ? <small>{' '}{this.getOperationParamsInfo()}</small> : null}
         </TitleTag>
         <CategoryNavigation
           data={getResourceByType(included, "documentCategories")}
@@ -538,13 +539,12 @@ class Table extends React.Component
 
   getOperationParamsInfo() {
     const filterInfo = getResourceByType(this.props.value.included, "filterInfo");
-    if (filterInfo.attributes.operationParamsInfo && filterInfo.attributes.operationParamsInfo.length > 0)
+    if (filterInfo && filterInfo.attributes.operationParamsInfo && filterInfo.attributes.operationParamsInfo.length > 0)
     {
-      console.log(filterInfo.attributes.operationParamsInfo, Object.entries(filterInfo.attributes.operationParamsInfo));
       const text = filterInfo.attributes.operationParamsInfo.map(r => r.key ? r.key + ': ' + r.value : r.value).join(', ');
-      return <small>{be5.messages.table.tableFor + ' ' + text}</small>
+      return be5.messages.table.tableFor + ' ' + text
     }
-    return null;
+    return '';
   }
 
   /**

@@ -1,13 +1,11 @@
-import be5                 from '../be5';
-import changeDocument      from '../core/changeDocument';
-import Preconditions       from '../utils/preconditions';
-import {MAIN_DOCUMENT} from "../constants";
+import be5 from '../be5';
+import changeDocument from '../core/changeDocument';
+import Preconditions from '../utils/preconditions';
 
 
 export const loadTable = (params, frontendParams) => {
   getTable(params, json => {
     //todo remove 'json.data' check after change error code
-    if(json.data && frontendParams.documentName === MAIN_DOCUMENT)be5.ui.setTitle(json.data.attributes.title);
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   }, (json) => {
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
@@ -16,7 +14,6 @@ export const loadTable = (params, frontendParams) => {
 
 export const loadTableByUrl = (url, frontendParams) => {
   getTable(getTableParams(url), json => {
-    if(frontendParams.documentName === MAIN_DOCUMENT)be5.ui.setTitle(json.data.attributes.title);
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   }, (json) => {
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });

@@ -203,7 +203,8 @@ var messages = {
       emptyTable: 'Nothing found',
       previousPage: 'Previous',
       nextPage: 'Next',
-      clearFilter: 'Clear filter'
+      clearFilter: 'Clear filter',
+      tableFor: 'for'
     }
   },
 
@@ -268,7 +269,8 @@ var messages = {
       emptyTable: 'Нет данных',
       previousPage: 'Предыдущая',
       nextPage: 'Следующая',
-      clearFilter: 'Очистить фильтр'
+      clearFilter: 'Очистить фильтр',
+      tableFor: 'для'
     },
     dataTables: {
       "processing": "Подождите...",
@@ -3650,7 +3652,6 @@ var QuickColumns = function (_React$Component) {
 var loadTable = function loadTable(params, frontendParams) {
   getTable(params, function (json) {
     //todo remove 'json.data' check after change error code
-    if (json.data && frontendParams.documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   }, function (json) {
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
@@ -3659,7 +3660,6 @@ var loadTable = function loadTable(params, frontendParams) {
 
 var loadTableByUrl = function loadTableByUrl(url, frontendParams) {
   getTable(getTableParams(url), function (json) {
-    if (frontendParams.documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   }, function (json) {
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
@@ -4366,6 +4366,7 @@ var Table = function (_React$Component3) {
           data = _props$value.data,
           included = _props$value.included;
 
+      if (this.props.frontendParams.documentName === MAIN_DOCUMENT) be5.ui.setTitle(data.attributes.title + ' ' + this.getOperationParamsInfo());
       var hasRows = data.attributes.rows.length !== 0;
       var operations = getResourceByType(included, "documentOperations");
 
@@ -4405,7 +4406,13 @@ var Table = function (_React$Component3) {
         React.createElement(
           TitleTag,
           { className: 'table-component__title' },
-          value.data.attributes.title
+          value.data.attributes.title,
+          this.getOperationParamsInfo().length > 0 ? React.createElement(
+            'small',
+            null,
+            ' ',
+            this.getOperationParamsInfo()
+          ) : null
         ),
         React.createElement(CategoryNavigation, {
           data: getResourceByType(included, "documentCategories"),
@@ -4427,6 +4434,18 @@ var Table = function (_React$Component3) {
         table,
         this._createCancelAction()
       );
+    }
+  }, {
+    key: 'getOperationParamsInfo',
+    value: function getOperationParamsInfo() {
+      var filterInfo = getResourceByType(this.props.value.included, "filterInfo");
+      if (filterInfo && filterInfo.attributes.operationParamsInfo && filterInfo.attributes.operationParamsInfo.length > 0) {
+        var text = filterInfo.attributes.operationParamsInfo.map(function (r) {
+          return r.key ? r.key + ': ' + r.value : r.value;
+        }).join(', ');
+        return be5.messages.table.tableFor + ' ' + text;
+      }
+      return '';
     }
 
     /**
