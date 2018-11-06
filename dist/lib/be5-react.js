@@ -4081,8 +4081,9 @@ var TableBox = function (_React$Component) {
         }],
         createdRow: function createdRow(row, data, index) {
           // see http://datatables.net/examples/advanced_init/row_callback.html
+          var rowId = data[0];
+          $(row).addClass("table-row-" + rowId);
           $('input', row).change(function () {
-            var rowId = data[0];
             var checked = this.checked;
             if (checked && $.inArray(rowId, be5.tableState.selectedRows) === -1) {
               be5.tableState.selectedRows.push(rowId);
