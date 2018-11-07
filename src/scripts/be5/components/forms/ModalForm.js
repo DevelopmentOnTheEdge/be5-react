@@ -21,9 +21,9 @@ class ModalForm extends Form
           {this._getErrorPane()}
         </div>
         <ModalFooter>
-          {this._createCancelAction()}
-          {' '}
           {this._createSubmitAction()}
+          {' '}
+          {this._createCancelAction()}
         </ModalFooter>
       </div>
     )
