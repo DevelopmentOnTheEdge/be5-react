@@ -73,7 +73,7 @@ test('performOperationResult finished FinishedResult', () => {
   const res = {
     data: {
       type: "operationResult",
-      attributes: {"status":"finished"},
+      attributes: {"operationResult": {"status":"finished"}},
       links: {"self":"form/categories/Doc categories/Edit"},
     },
     meta: {"_ts_":"1503244989281"},
@@ -96,9 +96,10 @@ test('performOperationResult UPDATE_USER_INFO', () => {
   const res = {
     data: {
       type: "operationResult",
-      attributes: {"status":"finished", details:
-        new FrontendAction("UPDATE_USER_INFO", getTestUser())
-      },
+      attributes: {"operationResult": {
+        status:  "finished",
+        details: new FrontendAction("UPDATE_USER_INFO", getTestUser())
+      }},
       links: {"self":"form/categories/Doc categories/Edit"},
     },
     meta: {"_ts_":"1503244989281"},
@@ -121,9 +122,10 @@ test('executeFrontendActions TEST', () => {
   const res = {
     data: {
       type: "operationResult",
-      attributes: {"status":"finished", details:
-        [new FrontendAction("TEST", "test data")]
-      },
+      attributes: {"operationResult": {
+        "status": "finished",
+        "details": [new FrontendAction("TEST", "test data")]
+      }},
       links: {"self":"form/categories/Doc categories/Edit"},
     },
     meta: {"_ts_":"1503244989281"},
@@ -141,7 +143,7 @@ test('performOperationResult redirect', () => {
   const res = {
     "data":{
       "type":"operationResult",
-      "attributes":{"details":"static/welcome.be","status":"redirect"},
+      "attributes":{"operationResult": {"details":"static/welcome.be","status":"redirect"}},
       "links":{"self":"form/categories/Doc categories/Edit"}
     },
     "meta":{"_ts_":"1503244989281"}
@@ -158,7 +160,7 @@ test('performOperationResult redirect MAIN_DOCUMENT', () => {
   const res = {
     "data":{
       "type":"operationResult",
-      "attributes":{"details":"static/welcome.be","status":"redirect"},
+      "attributes":{"operationResult": {"details":"static/welcome.be","status":"redirect"}},
       "links":{"self":"form/categories/Doc categories/Edit"}
     },
     "meta":{"_ts_":"1503244989281"}

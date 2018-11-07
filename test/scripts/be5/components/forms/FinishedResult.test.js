@@ -6,7 +6,7 @@ import FinishedResult from '../../../../../src/scripts/be5/components/forms/Fini
 test('snapshot', () => {
   const json = {
     "data":{
-      "attributes":{"status":"finished"},
+      "attributes":{"operationResult": {"status":"finished"}},
       "type":"operationResult",
       "links":{"self":"form/categories/Doc categories/Delete/selectedRows=105"}
     },
@@ -23,7 +23,7 @@ test('snapshot', () => {
 test('snapshot custom message', () => {
   const json = {
     "data":{
-      "attributes":{"status":"finished", "message":"Test message."},
+      "attributes":{"operationResult": {"status":"finished", "message":"Test message."}},
       "type":"operationResult",
       "links":{"self":"form/categories/Doc categories/Delete/selectedRows=105"}
     },

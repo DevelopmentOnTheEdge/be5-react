@@ -65,9 +65,10 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
         return;
       case 'operationResult':
         const attributes = json.data.attributes;
+        const result = attributes.operationResult;
 
-        if (attributes.status === 'error') {
-          bus.fire("alert", {msg: attributes.message, type: 'error'});
+        if (result.status === 'error') {
+          bus.fire("alert", {msg: result.message, type: 'error'});
           return;
         }
 
@@ -75,29 +76,30 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
           frontendParams.onSuccess(json, applyParams);
         }
 
-        switch (attributes.status) {
+        switch (result.status) {
           case 'redirect':
-            bus.fire("alert", {msg: attributes.message || be5.messages.successfullyCompleted, type: 'success'});
+            bus.fire("alert", {msg: result.message || be5.messages.successfullyCompleted, type: 'success'});
 
-            executeFrontendActions(new FrontendAction(REDIRECT, attributes.details), frontendParams);
+            executeFrontendActions(new FrontendAction(REDIRECT, result.details), frontendParams);
 
             return;
           case 'finished':
-            if(attributes.details !== undefined)
+            if(result.details !== undefined)
             {
-              executeFrontendActions(attributes.details, frontendParams);
+              executeFrontendActions(result.details, frontendParams);
 
-              if(attributes.message !== undefined)
+              if(result.message !== undefined)
               {
-                bus.fire("alert", {msg: attributes.message, type: 'success'});
+                bus.fire("alert", {msg: result.message, type: 'success'});
               }
             }
             else
             {
-              if(documentName === MAIN_MODAL_DOCUMENT)
+              const formComponentName = attributes.layout && attributes.layout.type;
+              if(formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT)
               {
                 bus.fire("mainModalClose");
-                bus.fire("alert", {msg: attributes.message || be5.messages.successfullyCompleted, type: 'success'});
+                bus.fire("alert", {msg: result.message || be5.messages.successfullyCompleted, type: 'success'});
               }
               else
               {
@@ -111,7 +113,7 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
               }
               else
               {
-                if (frontendParams.documentName === MAIN_MODAL_DOCUMENT)
+                if (formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT)
                 {
                   executeFrontendActions(new FrontendAction(REFRESH_DOCUMENT, MAIN_DOCUMENT), frontendParams);
                 }
@@ -120,10 +122,9 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
             return;
           default:
             bus.fire("alert", {
-              msg: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + attributes.status),
+              msg: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + result.status),
               type: 'error'
             });
-          //changeDocument(documentName, {  value: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + attributes.status) });
         }
         return;
       default:
@@ -143,7 +144,8 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
 
 const _performForm = (json, frontendParams) =>
 {
-  if(frontendParams.documentName === MAIN_DOCUMENT)be5.ui.setTitle(json.data.attributes.title);
+  const documentName = frontendParams.documentName;
+  if(documentName === MAIN_DOCUMENT)be5.ui.setTitle(json.data.attributes.title);
   let operationResult = json.data.attributes.operationResult;
 
   if(operationResult.status === 'error')
@@ -153,7 +155,7 @@ const _performForm = (json, frontendParams) =>
 
   const formComponentName = json.data.attributes.layout.type;
 
-  if(formComponentName === 'modalForm' || frontendParams.documentName === MAIN_MODAL_DOCUMENT)
+  if(formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT)
   {
     bus.fire("mainModalOpen");
 
@@ -161,7 +163,7 @@ const _performForm = (json, frontendParams) =>
   }
   else
   {
-    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+    changeDocument(documentName, { value: json, frontendParams: frontendParams });
   }
 };
 

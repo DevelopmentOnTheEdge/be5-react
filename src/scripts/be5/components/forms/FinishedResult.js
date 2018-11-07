@@ -9,9 +9,10 @@ class FinishedResult extends React.Component
   render() {
     const back = () => { history.back(); };
     const attributes = this.props.value.data.attributes;
+    const result = attributes.operationResult;
 
-    let message = attributes.message;
-    if(attributes.status === 'finished' && attributes.message === undefined){
+    let message = result.message;
+    if(result.status === 'finished' && result.message === undefined){
       message = be5.messages.successfullyCompleted;
     }
 
