@@ -2,7 +2,7 @@ import be5 from '../be5';
 import bus from '../core/bus';
 import Preconditions from '../utils/preconditions';
 import changeDocument from '../core/changeDocument';
-import {DOCUMENT_REFRESH_SUFFIX, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, REDIRECT} from "../constants";
+import {MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, REDIRECT, REFRESH_PARENT_DOCUMENT} from "../constants";
 import FrontendAction from "./model/FrontendAction";
 import {executeFrontendActions} from "./frontendActions";
 
@@ -75,13 +75,6 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
           frontendParams.onSuccess(json, applyParams);
         }
 
-        if (!isActions(attributes) && frontendParams.parentDocumentName !== undefined
-          && frontendParams.parentDocumentName !== frontendParams.documentName)
-        {
-          //console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
-          bus.fire(frontendParams.parentDocumentName + DOCUMENT_REFRESH_SUFFIX)
-        }
-
         switch (attributes.status) {
           case 'redirect':
             bus.fire("alert", {msg: attributes.message || be5.messages.successfullyCompleted, type: 'success'});
@@ -110,6 +103,12 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
               {
                 changeDocument(documentName, { value: json, frontendParams: frontendParams});
               }
+
+              if (frontendParams.parentDocumentName !== undefined)
+              {
+                //for TableForm
+                executeFrontendActions(new FrontendAction(REFRESH_PARENT_DOCUMENT), frontendParams);
+              }
             }
             return;
           default:
@@ -133,11 +132,6 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
 
     changeDocument(documentName, {value: json, frontendParams: frontendParams});
   }
-};
-
-const isActions = (attributes) =>
-{
-  return attributes.status === 'finished' && attributes.details !== undefined
 };
 
 const _performForm = (json, frontendParams) =>
