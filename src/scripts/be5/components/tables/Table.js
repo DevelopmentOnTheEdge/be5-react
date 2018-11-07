@@ -238,6 +238,7 @@ class TableBox extends React.Component {
       createdRow(row, data, index) { // see http://datatables.net/examples/advanced_init/row_callback.html
         const rowId = data[0];
         $(row).addClass( "table-row-" + rowId );
+        $(row).attr( "data-table-row", rowId );
         $('input', row).change(function() {
           const checked = this.checked;
           if (checked && $.inArray(rowId, be5.tableState.selectedRows) === -1) {
