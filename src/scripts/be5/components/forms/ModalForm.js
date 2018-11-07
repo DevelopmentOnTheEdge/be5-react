@@ -23,13 +23,13 @@ class ModalForm extends Form
         <ModalFooter>
           {this._createSubmitAction()}
           {' '}
-          {this._createCancelAction()}
+          {this._createModalCancelAction()}
         </ModalFooter>
       </div>
     )
   }
 
-  _createCancelAction() {
+  _createModalCancelAction() {
     const layout = this.state.data.attributes.layout;
     const action = layout.cancelAction || new FrontendAction(CLOSE_MAIN_MODAL);
     return (

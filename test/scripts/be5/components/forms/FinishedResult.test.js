@@ -1,6 +1,7 @@
 import React          from 'react';
 import renderer       from 'react-test-renderer';
 import FinishedResult from '../../../../../src/scripts/be5/components/forms/FinishedResult';
+import {MAIN_DOCUMENT} from "../../../../../src/scripts/be5/constants";
 
 
 test('snapshot', () => {
@@ -31,7 +32,7 @@ test('snapshot custom message', () => {
   };
 
   const component = renderer.create(
-    <FinishedResult value={json} frontendParams={{documentName: 'test'}} />
+    <FinishedResult value={json} frontendParams={{documentName: MAIN_DOCUMENT}} />
   );
 
   expect(component.toJSON()).toMatchSnapshot();

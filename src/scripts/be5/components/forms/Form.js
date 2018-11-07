@@ -8,9 +8,7 @@ import JsonPointer from 'json-pointer';
 import ErrorPane from "../ErrorPane";
 import Transition from 'react-transition-group/Transition';
 import {registerDocument} from '../../core/documents';
-import {executeFrontendActions} from "../../services/frontendActions";
-import FrontendAction from "../../services/model/FrontendAction";
-import {GO_BACK, MAIN_DOCUMENT, OPEN_DEFAULT_ROUTE} from "../../constants";
+import {_createBackAction} from "../../utils/documentUtils";
 
 
 class Form extends React.Component
@@ -130,7 +128,7 @@ class Form extends React.Component
       <div className="formActions">
         {this._createSubmitAction()}
         {' '}
-        {this._createCancelAction()}
+        {_createBackAction(this.state.data.attributes.layout, this.props.frontendParams)}
       </div>
     );
   }
@@ -159,34 +157,6 @@ class Form extends React.Component
         )}
       </Transition>
     );
-  }
-
-  /**
-   * layout: '{"cancelActionText":"Back"}'
-   * layout: '{"cancelAction": {"type": "SET_URL","value":"text/test123"}}'
-   */
-  _createCancelAction() {
-    const layout = this.state.data.attributes.layout;
-
-    if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText
-         || this.props.frontendParams.documentName === MAIN_DOCUMENT) {
-      const action = layout.cancelAction || this.getDefaultCancelAction();
-      return (
-        <button type="button" className="btn btn-secondary" onClick={() => executeFrontendActions(action, this.props.frontendParams)}>
-          {layout.cancelActionText || be5.messages.back}
-        </button>
-      );
-    }else{
-      return null;
-    }
-  }
-
-  getDefaultCancelAction() {
-    if(window.history.length > 1){
-      return new FrontendAction(GO_BACK);
-    }else{
-      return new FrontendAction(OPEN_DEFAULT_ROUTE);
-    }
   }
 
   _getErrorPane(){

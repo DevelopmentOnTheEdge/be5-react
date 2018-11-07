@@ -1,6 +1,9 @@
+import React from 'react';
 import be5 from "../be5";
 import Preconditions from '../utils/preconditions';
-import {MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT} from "../constants";
+import {GO_BACK, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, OPEN_DEFAULT_ROUTE} from "../constants";
+import FrontendAction from "../services/model/FrontendAction";
+import {executeFrontendActions} from "../services/frontendActions";
 
 export const getResourceByID = (included, id) => {
   if(included === undefined) return undefined;
@@ -85,5 +88,32 @@ export const processHashUrlForDocument = (e, documentName) => {
     }
     //console.log(url, documentName);
     be5.url.process(documentName || MAIN_DOCUMENT, url);
+  }
+};
+
+/**
+ * layout: '{"cancelActionText":"Back"}'
+ * layout: '{"cancelAction": {"type": "SET_URL","value":"text/test123"}}'
+ */
+export const _createBackAction = (layout, frontendParams) => {
+  if (layout === undefined) layout = {};
+  if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText
+    || frontendParams.documentName === MAIN_DOCUMENT) {
+    const action = layout.cancelAction || getDefaultCancelAction();
+    return (
+      <button type="button" className="btn btn-secondary" onClick={() => executeFrontendActions(action, frontendParams)}>
+        {layout.cancelActionText || be5.messages.back}
+      </button>
+    );
+  }else{
+    return null;
+  }
+};
+
+const getDefaultCancelAction = () => {
+  if(window.history.length > 1){
+    return new FrontendAction(GO_BACK);
+  }else{
+    return new FrontendAction(OPEN_DEFAULT_ROUTE);
   }
 };

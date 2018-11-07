@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import be5 from '../../be5';
 import {registerDocument} from "../../core/documents";
+import {_createBackAction} from "../../utils/documentUtils";
 
 
 class FinishedResult extends React.Component
@@ -18,14 +19,10 @@ class FinishedResult extends React.Component
 
     return (
       <div className="finishedResult">
-        <div dangerouslySetInnerHTML={{__html: message}}/>
+        <div dangerouslySetInnerHTML={{__html: message}} className="mb-3"/>
+        {_createBackAction(attributes.layout, this.props.frontendParams)}
       </div>
     );
-//    <div className="linkBack">
-//              <button className="btn btn-secondary btn-sm" onClick={back}>
-//                {be5.messages.back}
-//              </button>
-//            </div>
   }
 }
 

@@ -5,6 +5,7 @@ exports[`snapshot 1`] = `
   className="finishedResult"
 >
   <div
+    className="mb-3"
     dangerouslySetInnerHTML={
       Object {
         "__html": "Successfully completed.",
@@ -19,11 +20,19 @@ exports[`snapshot custom message 1`] = `
   className="finishedResult"
 >
   <div
+    className="mb-3"
     dangerouslySetInnerHTML={
       Object {
         "__html": "Test message.",
       }
     }
   />
+  <button
+    className="btn btn-secondary"
+    onClick={[Function]}
+    type="button"
+  >
+    Back
+  </button>
 </div>
 `;

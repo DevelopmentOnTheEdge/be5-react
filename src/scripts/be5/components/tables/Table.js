@@ -547,7 +547,7 @@ class Table extends React.Component
           frontendParams={this.props.frontendParams}
         />
         {table}
-        {this._createCancelAction()}
+        {this._createTableCancelAction()}
       </div>
     );
   }
@@ -566,7 +566,7 @@ class Table extends React.Component
    * layout: '{"cancelActionText":"Back"}'
    * layout: '{"cancelAction": {"type": "SET_URL","value":"text/test123"}}'
    */
-  _createCancelAction() {
+  _createTableCancelAction() {
     const layout = this.props.value.data.attributes.layout;
 
     if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText ||

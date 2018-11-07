@@ -120,6 +120,7 @@ exports[`performOperationResult finished FinishedResult 1`] = `
       className="finishedResult"
     >
       <div
+        className="mb-3"
         dangerouslySetInnerHTML={
           Object {
             "__html": "Successfully completed.",

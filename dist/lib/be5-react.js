@@ -77,303 +77,6 @@ var MAIN_DOCUMENT = "MAIN_DOCUMENT";
 var MAIN_MODAL_DOCUMENT = "MAIN_MODAL_DOCUMENT";
 var DOCUMENT_REFRESH_SUFFIX = "_refresh";
 
-var getResourceByID = function getResourceByID(included, id) {
-  if (included === undefined) return undefined;
-
-  for (var i = 0; i < included.length; i++) {
-    if (included[i].id === id) return included[i];
-  }
-  return undefined;
-};
-
-var getResourceByType = function getResourceByType(included, type) {
-  if (included === undefined) return undefined;
-
-  for (var i = 0; i < included.length; i++) {
-    if (included[i].type === type) return included[i];
-  }
-  return undefined;
-};
-
-var getModelByID = function getModelByID(included, meta, id) {
-  if (included === undefined) return undefined;
-
-  var res = getResourceByID(included, id);
-  if (res !== undefined) {
-    return { data: res, included: included, meta: meta };
-  } else {
-    return undefined;
-  }
-};
-
-var createStaticValue = function createStaticValue(title, text, links, meta) {
-  Preconditions.passed(links.self);
-  return {
-    data: {
-      type: 'static',
-      attributes: {
-        title: title,
-        content: text
-      },
-      links: links || {}
-    },
-    meta: meta || { _ts_: new Date().getTime() }
-  };
-};
-
-var getSelfUrl = function getSelfUrl(value) {
-  if (value) {
-    if (value.data && value.data.links && value.data.links.self !== undefined) {
-      return "#!" + value.data.links.self;
-    } else if (value.errors && value.errors.length > 0 && value.errors[0].links && value.errors[0].links.self !== undefined) {
-      return "#!" + value.errors[0].links.self;
-    }
-  }
-
-  return undefined;
-};
-
-var processHashUrl = function processHashUrl(e) {
-  processHashUrlForDocument(e, MAIN_DOCUMENT);
-};
-
-var processHashUrlForDocument = function processHashUrlForDocument(e, documentName) {
-  var url = e.target ? e.target.getAttribute("href") : e;
-  if (/^#/.test(url) || url === '' || url === '#' || url === '#!') {
-    if (e.target) e.preventDefault();
-    if (url.startsWith("#!table/")) {
-      url = url + "/_cleanNav_=true";
-    }
-    //console.log(url, documentName);
-    be5.url.process(documentName || MAIN_DOCUMENT, url);
-  }
-};
-
-var openInModal = function openInModal(e) {
-  if (/^#/.test(e.target.getAttribute("href"))) {
-    e.preventDefault();
-    be5.url.process(MAIN_MODAL_DOCUMENT, e.target.getAttribute("href"));
-  }
-};
-
-var messages = {
-  en: {
-    errorCannotConnect: 'Cannot connect to server',
-    errorServerQueryException: 'Error during server query: $message',
-    errorInvalidErrorResponse: 'Server returned unknown error',
-    errorNoData: 'Error communicating with server: no data received',
-    errorUnknownRoute: 'Unknown route: $action',
-    errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
-
-    welcome: 'Hello!',
-    loading: 'Page is loading...',
-    settings: 'Settings',
-    roles: 'Roles',
-    back: 'Back',
-    error: 'Error:',
-    cancel: 'Cancel',
-    close: 'Close',
-    login: 'Login',
-    logout: 'Logout',
-    reload: 'reload',
-    All: 'All',
-    successfullyCompleted: 'Successfully completed.',
-
-    filter: 'Filter...',
-    entries: 'entries',
-
-    selectRoles: 'Select',
-    allRoles: 'all',
-    clearRoles: 'clear',
-
-    Submit: 'Submit',
-    submitted: 'In progress...',
-
-    formComponentNotFound: 'Document component not found: ',
-    tableComponentNotFound: 'Table component not found: ',
-    componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
-
-    helpInfo: "Help",
-    details: "Details",
-
-    NotFound: "Not Found",
-
-    table: {
-      noRecordsOnThePage: 'No records on page {0}',
-      emptyTable: 'Nothing found',
-      previousPage: 'Previous',
-      nextPage: 'Next',
-      clearFilter: 'Clear filter',
-      tableFor: 'for'
-    }
-  },
-
-  ru: {
-    errorCannotConnect: 'Не могу подключиться к серверу',
-    errorServerQueryException: 'Ошибка сервера: $message',
-    errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
-    errorNoData: 'Ошибка связи с сервером: ответ не получен',
-    errorUnknownRoute: 'Неизвестный путь: $action',
-    errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
-
-    welcome: 'Добро пожаловать!',
-    loading: 'Загрузка...',
-    settings: 'Настройки',
-    roles: 'Роли',
-    back: 'Назад',
-    error: 'Ошибка:',
-    cancel: 'Отмена',
-    close: 'Закрыть',
-    login: 'Вход',
-    logout: 'Выход',
-    reload: 'Перезагрузить',
-    All: 'Все',
-    successfullyCompleted: 'Успешно выполнено.',
-
-    filter: 'Фильтр...',
-    entries: 'записей',
-
-    selectRoles: 'Выбрать',
-    allRoles: 'Всё',
-    clearRoles: 'Ничего',
-
-    Submit: 'Выполнить',
-    submitted: 'Выполняется...',
-
-    property: {
-      locale: 'ru',
-      clearAllText: 'Очистить всё',
-      clearValueText: 'Очистить',
-      noResultsText: 'Нет результатов',
-      searchPromptText: 'Начните вводить для поиска',
-      placeholder: 'Выберите...',
-      loadingPlaceholder: 'Загрузка...',
-      stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
-      numberTypeMismatch: 'Введите число.',
-      simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
-      rangeOverflow: 'Значение должно быть меньше или равно {0}.',
-      rangeUnderflow: 'Значение должно быть больше или равно {0}.',
-      datePatternError: 'Введите дату в формате дд.мм.гггг'
-    },
-
-    formComponentNotFound: 'Компонент формы не найден: ',
-    tableComponentNotFound: 'Компонент таблицы не найден: ',
-    componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
-
-    helpInfo: "Справка",
-    details: "Подробнее",
-
-    NotFound: "Не найдено",
-    table: {
-      noRecordsOnThePage: 'Нет записей на {0} странице',
-      emptyTable: 'Нет данных',
-      previousPage: 'Предыдущая',
-      nextPage: 'Следующая',
-      clearFilter: 'Очистить фильтр',
-      tableFor: 'для'
-    },
-    dataTables: {
-      "processing": "Подождите...",
-      "search": "Поиск:",
-      "lengthMenu": "Показать _MENU_ записей",
-      "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
-      "infoEmpty": "Записи с 0 до 0 из 0 записей",
-      "infoFiltered": "(отфильтровано из _MAX_ записей)",
-      "infoPostFix": "",
-      "loadingRecords": "Загрузка записей...",
-      "zeroRecords": "Записи отсутствуют.",
-      "emptyTable": "В таблице отсутствуют данные",
-      "paginate": {
-        "first": "Первая",
-        "previous": "Предыдущая",
-        "next": "Следующая",
-        "last": "Последняя"
-      },
-      "aria": {
-        "sortAscending": ": активировать для сортировки столбца по возрастанию",
-        "sortDescending": ": активировать для сортировки столбца по убыванию"
-      }
-    }
-  }
-};
-
-var listeners = function () {
-  var listenersObject = {};
-
-  return function (key, replacement) {
-    if (replacement) {
-      listenersObject[key] = replacement;
-    }
-    if (!listenersObject[key]) {
-      listenersObject[key] = [];
-    }
-    return listenersObject[key];
-  };
-}();
-
-function listen(eventType, listener) {
-  listeners(eventType).push(listener);
-  //console.log("listen: " + eventType + " " + listener);
-}
-
-//function notListen(eventType, listener) {//fix not work
-//  delete listeners(eventType);
-//  //console.log("notListen: " + eventType + " " + listener);
-//};
-
-function fire(type) {
-  var event = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-  listeners(type).forEach(function (listener) {
-    return listener(event);
-  });
-}
-
-function replaceListeners(eventType, listener) {
-  listeners(eventType, [listener]);
-}
-
-var bus = {
-  /* function(eventType: string, listener: function(event: object)) */
-  listen: listen,
-  //notListen: notListen,
-  /* function(type: string, event: object) */
-  fire: fire,
-  /* function(eventType: string, listener: function(event: object)) */
-  replaceListeners: replaceListeners
-};
-
-var changeDocument = function changeDocument(documentName, value) {
-  Preconditions.passed(documentName);
-  bus.fire(documentName, value);
-};
-
-var routes = {};
-
-var getRoute = function getRoute(actionName) {
-  return routes[actionName];
-};
-
-var registerRoute = function registerRoute(actionName, fn) {
-  routes[actionName] = fn;
-};
-
-var getAllRoutes = function getAllRoutes() {
-  return Object.keys(routes);
-};
-
-var getUser = function getUser(state) {
-  return state.user;
-};
-
-var getCurrentRoles = function getCurrentRoles(state) {
-  return state.user.currentRoles;
-};
-
-var getDefaultRoute = function getDefaultRoute(state) {
-  return state.user.defaultRoute;
-};
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
@@ -519,6 +222,640 @@ var toConsumableArray = function (arr) {
   } else {
     return Array.from(arr);
   }
+};
+
+var FrontendAction = function FrontendAction(type, value) {
+  classCallCheck(this, FrontendAction);
+
+  this.type = type;
+  this.value = value;
+};
+
+var listeners = function () {
+  var listenersObject = {};
+
+  return function (key, replacement) {
+    if (replacement) {
+      listenersObject[key] = replacement;
+    }
+    if (!listenersObject[key]) {
+      listenersObject[key] = [];
+    }
+    return listenersObject[key];
+  };
+}();
+
+function listen(eventType, listener) {
+  listeners(eventType).push(listener);
+  //console.log("listen: " + eventType + " " + listener);
+}
+
+//function notListen(eventType, listener) {//fix not work
+//  delete listeners(eventType);
+//  //console.log("notListen: " + eventType + " " + listener);
+//};
+
+function fire(type) {
+  var event = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  listeners(type).forEach(function (listener) {
+    return listener(event);
+  });
+}
+
+function replaceListeners(eventType, listener) {
+  listeners(eventType, [listener]);
+}
+
+var bus = {
+  /* function(eventType: string, listener: function(event: object)) */
+  listen: listen,
+  //notListen: notListen,
+  /* function(type: string, event: object) */
+  fire: fire,
+  /* function(eventType: string, listener: function(event: object)) */
+  replaceListeners: replaceListeners
+};
+
+var changeDocument = function changeDocument(documentName, value) {
+  Preconditions.passed(documentName);
+  bus.fire(documentName, value);
+};
+
+var UPDATE_USER_INFO = 'UPDATE_USER_INFO';
+
+var SELECT_ROLES = 'SELECT_ROLES';
+
+//LOGIN_REQUEST: 'USERS_LOGIN_REQUEST',
+//LOGIN_SUCCESS: 'USERS_LOGIN_SUCCESS',
+//LOGIN_FAILURE: 'USERS_LOGIN_FAILURE',
+
+var fetchUserInfo = function fetchUserInfo() {
+  return function (dispatch) {
+    be5.net.request('userInfo', {}, function (data) {
+      dispatch({ type: UPDATE_USER_INFO, user: data });
+    });
+  };
+};
+
+var updateUserInfo = function updateUserInfo(data) {
+  return { type: UPDATE_USER_INFO, user: data };
+};
+
+// function logout() {
+//   userService.logout();
+//   return { type: userConstants.LOGOUT };
+// }
+
+var toggleRoles = function toggleRoles(roles) {
+  return function (dispatch) {
+    be5.net.request('userInfo/selectRoles', { roles: roles }, function (data) {
+      dispatch({ type: SELECT_ROLES, currentRoles: data });
+    });
+  };
+};
+
+var getUser = function getUser(state) {
+  return state.user;
+};
+
+var getCurrentRoles = function getCurrentRoles(state) {
+  return state.user.currentRoles;
+};
+
+var getDefaultRoute = function getDefaultRoute(state) {
+  return state.user.defaultRoute;
+};
+
+var loadOperation = function loadOperation(params, frontendParams) {
+  _send('form', params, frontendParams);
+};
+
+var submitOperation = function submitOperation(params, frontendParams) {
+  _send('form/apply', params, frontendParams);
+};
+
+var _send = function _send(action, params, frontendParams) {
+  _request(action, params, function (data) {
+    _performOperationResult(data, frontendParams, params);
+  }, function (data) {
+    bus.fire("alert", { msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error' });
+  });
+};
+
+var openOperationByUrl = function openOperationByUrl(url, frontendParams) {
+  _send('form', getOperationParams(url), frontendParams);
+};
+
+var openOperationByUrlWithValues = function openOperationByUrlWithValues(url, values, frontendParams) {
+  _send('form', getOperationParams(url, values), frontendParams);
+};
+
+var fetchOperationByUrl = function fetchOperationByUrl(url, callback, failure) {
+  _request('form', getOperationParams(url), callback, failure);
+};
+
+var _request = function _request(action, params, callback, failure) {
+  Preconditions.passed(params.entity);
+  Preconditions.passed(params.query);
+  Preconditions.passed(params.operation);
+
+  var requestParams = {
+    entity: params.entity,
+    query: params.query,
+    operation: params.operation,
+    values: be5.net.paramString(params.values),
+    operationParams: be5.net.paramString(params.operationParams),
+    _ts_: new Date().getTime()
+  };
+
+  be5.net.request(action, requestParams, function (data) {
+    return callback(data);
+  }, function (data) {
+    return failure(data);
+  });
+};
+
+var _performOperationResult = function _performOperationResult(json, frontendParams, applyParams) {
+  var documentName = frontendParams.documentName;
+
+  Preconditions.passed(documentName);
+
+  if (json.data !== undefined) {
+    switch (json.data.type) {
+      case 'form':
+        _performForm(json, frontendParams);
+        return;
+      case 'operationResult':
+        var attributes = json.data.attributes;
+        var result = attributes.operationResult;
+
+        if (result.status === 'error') {
+          bus.fire("alert", { msg: result.message, type: 'error' });
+          return;
+        }
+
+        if (frontendParams.onSuccess) {
+          frontendParams.onSuccess(json, applyParams);
+        }
+
+        switch (result.status) {
+          case 'redirect':
+            bus.fire("alert", { msg: result.message || be5.messages.successfullyCompleted, type: 'success' });
+
+            executeFrontendActions(new FrontendAction(REDIRECT, result.details), frontendParams);
+
+            return;
+          case 'finished':
+            if (result.details !== undefined) {
+              executeFrontendActions(result.details, frontendParams);
+
+              if (result.message !== undefined) {
+                bus.fire("alert", { msg: result.message, type: 'success' });
+              }
+            } else {
+              var formComponentName = attributes.layout && attributes.layout.type;
+              if (formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT) {
+                bus.fire("mainModalClose");
+                bus.fire("alert", { msg: result.message || be5.messages.successfullyCompleted, type: 'success' });
+              } else {
+                changeDocument(documentName, { value: json, frontendParams: frontendParams });
+              }
+
+              if (frontendParams.parentDocumentName !== undefined) {
+                //for TableForm
+                executeFrontendActions(new FrontendAction(REFRESH_PARENT_DOCUMENT), frontendParams);
+              } else {
+                if (formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT) {
+                  executeFrontendActions(new FrontendAction(REFRESH_DOCUMENT, MAIN_DOCUMENT), frontendParams);
+                }
+              }
+            }
+            return;
+          default:
+            bus.fire("alert", {
+              msg: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + result.status),
+              type: 'error'
+            });
+        }
+        return;
+      default:
+        bus.fire("alert", {
+          msg: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type),
+          type: 'error'
+        });
+      //changeDocument(documentName, { value: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type) });
+    }
+  } else {
+    var error = json.errors[0];
+    bus.fire("alert", { msg: error.status + " " + error.title, type: 'error' });
+
+    changeDocument(documentName, { value: json, frontendParams: frontendParams });
+  }
+};
+
+var _performForm = function _performForm(json, frontendParams) {
+  var documentName = frontendParams.documentName;
+  if (documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
+  var operationResult = json.data.attributes.operationResult;
+
+  if (operationResult.status === 'error') {
+    bus.fire("alert", { msg: operationResult.message, type: 'error' });
+  }
+
+  var formComponentName = json.data.attributes.layout.type;
+
+  if (formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT) {
+    bus.fire("mainModalOpen");
+
+    changeDocument(MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
+  } else {
+    changeDocument(documentName, { value: json, frontendParams: frontendParams });
+  }
+};
+
+var getOperationParams = function getOperationParams(url) {
+  var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  var attr = be5.url.parse(url);
+
+  return {
+    entity: attr.positional[1],
+    query: attr.positional[2],
+    operation: attr.positional[3],
+    values: values,
+    operationParams: attr.named
+  };
+};
+
+var forms = {
+  load: loadOperation,
+
+  apply: submitOperation
+
+};
+
+function simpleFinishInModalDocument(documentName) {
+  return documentName === MAIN_MODAL_DOCUMENT;
+}
+
+var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneObject, frontendParams) {
+  var documentName = frontendParams.documentName;
+
+  var actions = getActionsMap(actionsArrayOrOneObject);
+
+  if (simpleFinishInModalDocument(documentName) || actions.hasOwnProperty(CLOSE_MAIN_MODAL)) {
+    bus.fire("mainModalClose");
+  }
+
+  if (actions[UPDATE_USER_INFO] !== undefined) {
+    be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
+  }
+
+  if (actions[REDIRECT] !== undefined) {
+    var url = actions[REDIRECT];
+
+    if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://")) {
+      window.location.href = url;
+    } else {
+      if (documentName === MAIN_DOCUMENT) {
+        be5.url.process(MAIN_DOCUMENT, '#!' + url);
+      } else {
+        if (be5.url.parse(url).positional[0] === 'form') {
+          openOperationByUrl(url, frontendParams);
+        } else {
+          be5.url.process(documentName, '#!' + url);
+        }
+      }
+    }
+  }
+
+  if (actions[OPEN_NEW_WINDOW] !== undefined) {
+    window.open(actions[OPEN_NEW_WINDOW]);
+  }
+
+  if (actions[SET_URL]) {
+    be5.url.process(MAIN_DOCUMENT, '#!' + actions[SET_URL]);
+  }
+
+  if (actions.hasOwnProperty(OPEN_DEFAULT_ROUTE)) {
+    be5.url.process(MAIN_DOCUMENT, '#!' + getDefaultRoute(be5.getStoreState()));
+  }
+
+  if (actions.hasOwnProperty(GO_BACK)) {
+    window.history.back();
+  }
+
+  if (actions[UPDATE_PARENT_DOCUMENT] !== undefined) {
+    var tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], { meta: { _ts_: new Date().getTime() } });
+    changeDocument(frontendParams.parentDocumentName || documentName, { value: tableJson });
+  }
+
+  if (actions[UPDATE_DOCUMENT] !== undefined) {
+    var _tableJson = Object.assign({}, actions[UPDATE_DOCUMENT], { meta: { _ts_: new Date().getTime() } });
+    changeDocument(documentName, { value: _tableJson });
+  }
+
+  if (actions.hasOwnProperty(REFRESH_DOCUMENT)) {
+    if (actions[REFRESH_DOCUMENT] !== undefined) {
+      console.log(actions[REFRESH_DOCUMENT]);
+      bus.fire(actions[REFRESH_DOCUMENT] + DOCUMENT_REFRESH_SUFFIX);
+    } else {
+      bus.fire(frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX);
+    }
+  }
+
+  if (actions.hasOwnProperty(REFRESH_PARENT_DOCUMENT)) {
+    if (frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
+      bus.fire(frontendParams.parentDocumentName + DOCUMENT_REFRESH_SUFFIX);
+    }
+  }
+
+  bus.fire("executeFrontendActions", { actions: actions, frontendParams: frontendParams });
+};
+
+var getActionsMap = function getActionsMap(actionsArrayOrOneObject) {
+  var map = {};
+  if (Array.isArray(actionsArrayOrOneObject)) {
+    for (var i = 0; i < actionsArrayOrOneObject.length; i++) {
+      Preconditions.passed(typeof actionsArrayOrOneObject[i].type === "string", "Actions must be object with string 'type' field: " + actionsArrayOrOneObject);
+
+      map[actionsArrayOrOneObject[i].type] = actionsArrayOrOneObject[i].value;
+    }
+  } else {
+    Preconditions.passed(typeof actionsArrayOrOneObject.type === "string", "Actions must be object with string 'type' field: " + actionsArrayOrOneObject);
+
+    map[actionsArrayOrOneObject.type] = actionsArrayOrOneObject.value;
+  }
+
+  return map;
+};
+
+var getBackOrOpenDefaultRouteAction = function getBackOrOpenDefaultRouteAction() {
+  if (window.history.length > 1) {
+    return new FrontendAction(GO_BACK);
+  } else {
+    return new FrontendAction(OPEN_DEFAULT_ROUTE);
+  }
+};
+
+var getResourceByID = function getResourceByID(included, id) {
+  if (included === undefined) return undefined;
+
+  for (var i = 0; i < included.length; i++) {
+    if (included[i].id === id) return included[i];
+  }
+  return undefined;
+};
+
+var getResourceByType = function getResourceByType(included, type) {
+  if (included === undefined) return undefined;
+
+  for (var i = 0; i < included.length; i++) {
+    if (included[i].type === type) return included[i];
+  }
+  return undefined;
+};
+
+var getModelByID = function getModelByID(included, meta, id) {
+  if (included === undefined) return undefined;
+
+  var res = getResourceByID(included, id);
+  if (res !== undefined) {
+    return { data: res, included: included, meta: meta };
+  } else {
+    return undefined;
+  }
+};
+
+var createStaticValue = function createStaticValue(title, text, links, meta) {
+  Preconditions.passed(links.self);
+  return {
+    data: {
+      type: 'static',
+      attributes: {
+        title: title,
+        content: text
+      },
+      links: links || {}
+    },
+    meta: meta || { _ts_: new Date().getTime() }
+  };
+};
+
+var getSelfUrl = function getSelfUrl(value) {
+  if (value) {
+    if (value.data && value.data.links && value.data.links.self !== undefined) {
+      return "#!" + value.data.links.self;
+    } else if (value.errors && value.errors.length > 0 && value.errors[0].links && value.errors[0].links.self !== undefined) {
+      return "#!" + value.errors[0].links.self;
+    }
+  }
+
+  return undefined;
+};
+
+var processHashUrl = function processHashUrl(e) {
+  processHashUrlForDocument(e, MAIN_DOCUMENT);
+};
+
+var openInModal = function openInModal(e) {
+  processHashUrlForDocument(e, MAIN_MODAL_DOCUMENT);
+};
+
+var processHashUrlForDocument = function processHashUrlForDocument(e, documentName) {
+  var url = e.target ? e.target.getAttribute("href") : e;
+  if (/^#/.test(url) || url === '' || url === '#' || url === '#!') {
+    if (e.target) e.preventDefault();
+    if (url.startsWith("#!table/")) {
+      url = url + "/_cleanNav_=true";
+    }
+    //console.log(url, documentName);
+    be5.url.process(documentName || MAIN_DOCUMENT, url);
+  }
+};
+
+/**
+ * layout: '{"cancelActionText":"Back"}'
+ * layout: '{"cancelAction": {"type": "SET_URL","value":"text/test123"}}'
+ */
+var _createBackAction = function _createBackAction(layout, frontendParams) {
+  if (layout === undefined) layout = {};
+  if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText || frontendParams.documentName === MAIN_DOCUMENT) {
+    var action = layout.cancelAction || getDefaultCancelAction();
+    return React.createElement(
+      'button',
+      { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
+          return executeFrontendActions(action, frontendParams);
+        } },
+      layout.cancelActionText || be5.messages.back
+    );
+  } else {
+    return null;
+  }
+};
+
+var getDefaultCancelAction = function getDefaultCancelAction() {
+  if (window.history.length > 1) {
+    return new FrontendAction(GO_BACK);
+  } else {
+    return new FrontendAction(OPEN_DEFAULT_ROUTE);
+  }
+};
+
+var messages = {
+  en: {
+    errorCannotConnect: 'Cannot connect to server',
+    errorServerQueryException: 'Error during server query: $message',
+    errorInvalidErrorResponse: 'Server returned unknown error',
+    errorNoData: 'Error communicating with server: no data received',
+    errorUnknownRoute: 'Unknown route: $action',
+    errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
+
+    welcome: 'Hello!',
+    loading: 'Page is loading...',
+    settings: 'Settings',
+    roles: 'Roles',
+    back: 'Back',
+    error: 'Error:',
+    cancel: 'Cancel',
+    close: 'Close',
+    login: 'Login',
+    logout: 'Logout',
+    reload: 'reload',
+    All: 'All',
+    successfullyCompleted: 'Successfully completed.',
+
+    filter: 'Filter...',
+    entries: 'entries',
+
+    selectRoles: 'Select',
+    allRoles: 'all',
+    clearRoles: 'clear',
+
+    Submit: 'Submit',
+    submitted: 'In progress...',
+
+    formComponentNotFound: 'Document component not found: ',
+    tableComponentNotFound: 'Table component not found: ',
+    componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
+
+    helpInfo: "Help",
+    details: "Details",
+
+    NotFound: "Not Found",
+
+    table: {
+      noRecordsOnThePage: 'No records on page {0}',
+      emptyTable: 'Nothing found',
+      previousPage: 'Previous',
+      nextPage: 'Next',
+      clearFilter: 'Clear filter',
+      tableFor: 'for'
+    }
+  },
+
+  ru: {
+    errorCannotConnect: 'Не могу подключиться к серверу',
+    errorServerQueryException: 'Ошибка сервера: $message',
+    errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
+    errorNoData: 'Ошибка связи с сервером: ответ не получен',
+    errorUnknownRoute: 'Неизвестный путь: $action',
+    errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
+
+    welcome: 'Добро пожаловать!',
+    loading: 'Загрузка...',
+    settings: 'Настройки',
+    roles: 'Роли',
+    back: 'Назад',
+    error: 'Ошибка:',
+    cancel: 'Отмена',
+    close: 'Закрыть',
+    login: 'Вход',
+    logout: 'Выход',
+    reload: 'Перезагрузить',
+    All: 'Все',
+    successfullyCompleted: 'Успешно выполнено.',
+
+    filter: 'Фильтр...',
+    entries: 'записей',
+
+    selectRoles: 'Выбрать',
+    allRoles: 'Всё',
+    clearRoles: 'Ничего',
+
+    Submit: 'Выполнить',
+    submitted: 'Выполняется...',
+
+    property: {
+      locale: 'ru',
+      clearAllText: 'Очистить всё',
+      clearValueText: 'Очистить',
+      noResultsText: 'Нет результатов',
+      searchPromptText: 'Начните вводить для поиска',
+      placeholder: 'Выберите...',
+      loadingPlaceholder: 'Загрузка...',
+      stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
+      numberTypeMismatch: 'Введите число.',
+      simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
+      rangeOverflow: 'Значение должно быть меньше или равно {0}.',
+      rangeUnderflow: 'Значение должно быть больше или равно {0}.',
+      datePatternError: 'Введите дату в формате дд.мм.гггг'
+    },
+
+    formComponentNotFound: 'Компонент формы не найден: ',
+    tableComponentNotFound: 'Компонент таблицы не найден: ',
+    componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
+
+    helpInfo: "Справка",
+    details: "Подробнее",
+
+    NotFound: "Не найдено",
+    table: {
+      noRecordsOnThePage: 'Нет записей на {0} странице',
+      emptyTable: 'Нет данных',
+      previousPage: 'Предыдущая',
+      nextPage: 'Следующая',
+      clearFilter: 'Очистить фильтр',
+      tableFor: 'для'
+    },
+    dataTables: {
+      "processing": "Подождите...",
+      "search": "Поиск:",
+      "lengthMenu": "Показать _MENU_ записей",
+      "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+      "infoEmpty": "Записи с 0 до 0 из 0 записей",
+      "infoFiltered": "(отфильтровано из _MAX_ записей)",
+      "infoPostFix": "",
+      "loadingRecords": "Загрузка записей...",
+      "zeroRecords": "Записи отсутствуют.",
+      "emptyTable": "В таблице отсутствуют данные",
+      "paginate": {
+        "first": "Первая",
+        "previous": "Предыдущая",
+        "next": "Следующая",
+        "last": "Последняя"
+      },
+      "aria": {
+        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+        "sortDescending": ": активировать для сортировки столбца по убыванию"
+      }
+    }
+  }
+};
+
+var routes = {};
+
+var getRoute = function getRoute(actionName) {
+  return routes[actionName];
+};
+
+var registerRoute = function registerRoute(actionName, fn) {
+  routes[actionName] = fn;
+};
+
+var getAllRoutes = function getAllRoutes() {
+  return Object.keys(routes);
 };
 
 var be5 = {
@@ -968,316 +1305,6 @@ UserControl.propTypes = {
   size: PropTypes.string,
   className: PropTypes.string,
   user: PropTypes.shape({})
-};
-
-var UPDATE_USER_INFO = 'UPDATE_USER_INFO';
-
-var SELECT_ROLES = 'SELECT_ROLES';
-
-//LOGIN_REQUEST: 'USERS_LOGIN_REQUEST',
-//LOGIN_SUCCESS: 'USERS_LOGIN_SUCCESS',
-//LOGIN_FAILURE: 'USERS_LOGIN_FAILURE',
-
-var fetchUserInfo = function fetchUserInfo() {
-  return function (dispatch) {
-    be5.net.request('userInfo', {}, function (data) {
-      dispatch({ type: UPDATE_USER_INFO, user: data });
-    });
-  };
-};
-
-var updateUserInfo = function updateUserInfo(data) {
-  return { type: UPDATE_USER_INFO, user: data };
-};
-
-// function logout() {
-//   userService.logout();
-//   return { type: userConstants.LOGOUT };
-// }
-
-var toggleRoles = function toggleRoles(roles) {
-  return function (dispatch) {
-    be5.net.request('userInfo/selectRoles', { roles: roles }, function (data) {
-      dispatch({ type: SELECT_ROLES, currentRoles: data });
-    });
-  };
-};
-
-var FrontendAction = function FrontendAction(type, value) {
-  classCallCheck(this, FrontendAction);
-
-  this.type = type;
-  this.value = value;
-};
-
-function simpleFinishInModalDocument(documentName) {
-  return documentName === MAIN_MODAL_DOCUMENT;
-}
-
-var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneObject, frontendParams) {
-  var documentName = frontendParams.documentName;
-
-  var actions = getActionsMap(actionsArrayOrOneObject);
-
-  if (simpleFinishInModalDocument(documentName) || actions.hasOwnProperty(CLOSE_MAIN_MODAL)) {
-    bus.fire("mainModalClose");
-  }
-
-  if (actions[UPDATE_USER_INFO] !== undefined) {
-    be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
-  }
-
-  if (actions[REDIRECT] !== undefined) {
-    var url = actions[REDIRECT];
-
-    if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://")) {
-      window.location.href = url;
-    } else {
-      if (documentName === MAIN_DOCUMENT) {
-        be5.url.process(MAIN_DOCUMENT, '#!' + url);
-      } else {
-        if (be5.url.parse(url).positional[0] === 'form') {
-          openOperationByUrl(url, frontendParams);
-        } else {
-          be5.url.process(documentName, '#!' + url);
-        }
-      }
-    }
-  }
-
-  if (actions[OPEN_NEW_WINDOW] !== undefined) {
-    window.open(actions[OPEN_NEW_WINDOW]);
-  }
-
-  if (actions[SET_URL]) {
-    be5.url.process(MAIN_DOCUMENT, '#!' + actions[SET_URL]);
-  }
-
-  if (actions.hasOwnProperty(OPEN_DEFAULT_ROUTE)) {
-    be5.url.process(MAIN_DOCUMENT, '#!' + getDefaultRoute(be5.getStoreState()));
-  }
-
-  if (actions.hasOwnProperty(GO_BACK)) {
-    window.history.back();
-  }
-
-  if (actions[UPDATE_PARENT_DOCUMENT] !== undefined) {
-    var tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], { meta: { _ts_: new Date().getTime() } });
-    changeDocument(frontendParams.parentDocumentName || documentName, { value: tableJson });
-  }
-
-  if (actions[UPDATE_DOCUMENT] !== undefined) {
-    var _tableJson = Object.assign({}, actions[UPDATE_DOCUMENT], { meta: { _ts_: new Date().getTime() } });
-    changeDocument(documentName, { value: _tableJson });
-  }
-
-  if (actions.hasOwnProperty(REFRESH_DOCUMENT)) {
-    if (actions[REFRESH_DOCUMENT] !== undefined) {
-      console.log(actions[REFRESH_DOCUMENT]);
-      bus.fire(actions[REFRESH_DOCUMENT] + DOCUMENT_REFRESH_SUFFIX);
-    } else {
-      bus.fire(frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX);
-    }
-  }
-
-  if (actions.hasOwnProperty(REFRESH_PARENT_DOCUMENT)) {
-    if (frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
-      bus.fire(frontendParams.parentDocumentName + DOCUMENT_REFRESH_SUFFIX);
-    }
-  }
-
-  bus.fire("executeFrontendActions", { actions: actions, frontendParams: frontendParams });
-};
-
-var getActionsMap = function getActionsMap(actionsArrayOrOneObject) {
-  var map = {};
-  if (Array.isArray(actionsArrayOrOneObject)) {
-    for (var i = 0; i < actionsArrayOrOneObject.length; i++) {
-      Preconditions.passed(typeof actionsArrayOrOneObject[i].type === "string", "Actions must be object with string 'type' field: " + actionsArrayOrOneObject);
-
-      map[actionsArrayOrOneObject[i].type] = actionsArrayOrOneObject[i].value;
-    }
-  } else {
-    Preconditions.passed(typeof actionsArrayOrOneObject.type === "string", "Actions must be object with string 'type' field: " + actionsArrayOrOneObject);
-
-    map[actionsArrayOrOneObject.type] = actionsArrayOrOneObject.value;
-  }
-
-  return map;
-};
-
-var getBackOrOpenDefaultRouteAction = function getBackOrOpenDefaultRouteAction() {
-  if (window.history.length > 1) {
-    return new FrontendAction(GO_BACK);
-  } else {
-    return new FrontendAction(OPEN_DEFAULT_ROUTE);
-  }
-};
-
-var loadOperation = function loadOperation(params, frontendParams) {
-  _send('form', params, frontendParams);
-};
-
-var submitOperation = function submitOperation(params, frontendParams) {
-  _send('form/apply', params, frontendParams);
-};
-
-var _send = function _send(action, params, frontendParams) {
-  _request(action, params, function (data) {
-    _performOperationResult(data, frontendParams, params);
-  }, function (data) {
-    bus.fire("alert", { msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error' });
-  });
-};
-
-var openOperationByUrl = function openOperationByUrl(url, frontendParams) {
-  _send('form', getOperationParams(url), frontendParams);
-};
-
-var openOperationByUrlWithValues = function openOperationByUrlWithValues(url, values, frontendParams) {
-  _send('form', getOperationParams(url, values), frontendParams);
-};
-
-var fetchOperationByUrl = function fetchOperationByUrl(url, callback, failure) {
-  _request('form', getOperationParams(url), callback, failure);
-};
-
-var _request = function _request(action, params, callback, failure) {
-  Preconditions.passed(params.entity);
-  Preconditions.passed(params.query);
-  Preconditions.passed(params.operation);
-
-  var requestParams = {
-    entity: params.entity,
-    query: params.query,
-    operation: params.operation,
-    values: be5.net.paramString(params.values),
-    operationParams: be5.net.paramString(params.operationParams),
-    _ts_: new Date().getTime()
-  };
-
-  be5.net.request(action, requestParams, function (data) {
-    return callback(data);
-  }, function (data) {
-    return failure(data);
-  });
-};
-
-var _performOperationResult = function _performOperationResult(json, frontendParams, applyParams) {
-  var documentName = frontendParams.documentName;
-
-  Preconditions.passed(documentName);
-
-  if (json.data !== undefined) {
-    switch (json.data.type) {
-      case 'form':
-        _performForm(json, frontendParams);
-        return;
-      case 'operationResult':
-        var attributes = json.data.attributes;
-
-        if (attributes.status === 'error') {
-          bus.fire("alert", { msg: attributes.message, type: 'error' });
-          return;
-        }
-
-        if (frontendParams.onSuccess) {
-          frontendParams.onSuccess(json, applyParams);
-        }
-
-        switch (attributes.status) {
-          case 'redirect':
-            bus.fire("alert", { msg: attributes.message || be5.messages.successfullyCompleted, type: 'success' });
-
-            executeFrontendActions(new FrontendAction(REDIRECT, attributes.details), frontendParams);
-
-            return;
-          case 'finished':
-            if (attributes.details !== undefined) {
-              executeFrontendActions(attributes.details, frontendParams);
-
-              if (attributes.message !== undefined) {
-                bus.fire("alert", { msg: attributes.message, type: 'success' });
-              }
-            } else {
-              if (documentName === MAIN_MODAL_DOCUMENT) {
-                bus.fire("mainModalClose");
-                bus.fire("alert", { msg: attributes.message || be5.messages.successfullyCompleted, type: 'success' });
-              } else {
-                changeDocument(documentName, { value: json, frontendParams: frontendParams });
-              }
-
-              if (frontendParams.parentDocumentName !== undefined) {
-                //for TableForm
-                executeFrontendActions(new FrontendAction(REFRESH_PARENT_DOCUMENT), frontendParams);
-              } else {
-                if (frontendParams.documentName === MAIN_MODAL_DOCUMENT) {
-                  executeFrontendActions(new FrontendAction(REFRESH_DOCUMENT, MAIN_DOCUMENT), frontendParams);
-                }
-              }
-            }
-            return;
-          default:
-            bus.fire("alert", {
-              msg: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + attributes.status),
-              type: 'error'
-            });
-          //changeDocument(documentName, {  value: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + attributes.status) });
-        }
-        return;
-      default:
-        bus.fire("alert", {
-          msg: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type),
-          type: 'error'
-        });
-      //changeDocument(documentName, { value: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type) });
-    }
-  } else {
-    var error = json.errors[0];
-    bus.fire("alert", { msg: error.status + " " + error.title, type: 'error' });
-
-    changeDocument(documentName, { value: json, frontendParams: frontendParams });
-  }
-};
-
-var _performForm = function _performForm(json, frontendParams) {
-  if (frontendParams.documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
-  var operationResult = json.data.attributes.operationResult;
-
-  if (operationResult.status === 'error') {
-    bus.fire("alert", { msg: operationResult.message, type: 'error' });
-  }
-
-  var formComponentName = json.data.attributes.layout.type;
-
-  if (formComponentName === 'modalForm' || frontendParams.documentName === MAIN_MODAL_DOCUMENT) {
-    bus.fire("mainModalOpen");
-
-    changeDocument(MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
-  } else {
-    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
-  }
-};
-
-var getOperationParams = function getOperationParams(url) {
-  var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-  var attr = be5.url.parse(url);
-
-  return {
-    entity: attr.positional[1],
-    query: attr.positional[2],
-    operation: attr.positional[3],
-    values: values,
-    operationParams: attr.named
-  };
-};
-
-var forms = {
-  load: loadOperation,
-
-  apply: submitOperation
-
 };
 
 var openReLoginForm = function openReLoginForm() {
@@ -3056,7 +3083,7 @@ var Form = function (_React$Component) {
         { className: 'formActions' },
         this._createSubmitAction(),
         ' ',
-        this._createCancelAction()
+        _createBackAction(this.state.data.attributes.layout, this.props.frontendParams)
       );
     }
   }, {
@@ -3090,41 +3117,6 @@ var Form = function (_React$Component) {
           );
         }
       );
-    }
-
-    /**
-     * layout: '{"cancelActionText":"Back"}'
-     * layout: '{"cancelAction": {"type": "SET_URL","value":"text/test123"}}'
-     */
-
-  }, {
-    key: '_createCancelAction',
-    value: function _createCancelAction() {
-      var _this6 = this;
-
-      var layout = this.state.data.attributes.layout;
-
-      if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText || this.props.frontendParams.documentName === MAIN_DOCUMENT) {
-        var action = layout.cancelAction || this.getDefaultCancelAction();
-        return React.createElement(
-          'button',
-          { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
-              return executeFrontendActions(action, _this6.props.frontendParams);
-            } },
-          layout.cancelActionText || be5.messages.back
-        );
-      } else {
-        return null;
-      }
-    }
-  }, {
-    key: 'getDefaultCancelAction',
-    value: function getDefaultCancelAction() {
-      if (window.history.length > 1) {
-        return new FrontendAction(GO_BACK);
-      } else {
-        return new FrontendAction(OPEN_DEFAULT_ROUTE);
-      }
     }
   }, {
     key: '_getErrorPane',
@@ -3209,7 +3201,7 @@ var HorizontalForm = function (_Form) {
           { className: classNames(colTag, offsetTag) },
           this._createSubmitAction(),
           ' ',
-          this._createCancelAction()
+          _createBackAction(this.state.data.attributes.layout, this.props.frontendParams)
         )
       );
     }
@@ -3298,13 +3290,13 @@ var ModalForm = function (_Form) {
           null,
           this._createSubmitAction(),
           ' ',
-          this._createCancelAction()
+          this._createModalCancelAction()
         )
       );
     }
   }, {
-    key: '_createCancelAction',
-    value: function _createCancelAction() {
+    key: '_createModalCancelAction',
+    value: function _createModalCancelAction() {
       var _this2 = this;
 
       var layout = this.state.data.attributes.layout;
@@ -3406,22 +3398,19 @@ var FinishedResult = function (_React$Component) {
     key: 'render',
     value: function render() {
       var attributes = this.props.value.data.attributes;
+      var result = attributes.operationResult;
 
-      var message = attributes.message;
-      if (attributes.status === 'finished' && attributes.message === undefined) {
+      var message = result.message;
+      if (result.status === 'finished' && result.message === undefined) {
         message = be5.messages.successfullyCompleted;
       }
 
       return React.createElement(
         'div',
         { className: 'finishedResult' },
-        React.createElement('div', { dangerouslySetInnerHTML: { __html: message } })
+        React.createElement('div', { dangerouslySetInnerHTML: { __html: message }, className: 'mb-3' }),
+        _createBackAction(attributes.layout, this.props.frontendParams)
       );
-      //    <div className="linkBack">
-      //              <button className="btn btn-secondary btn-sm" onClick={back}>
-      //                {be5.messages.back}
-      //              </button>
-      //            </div>
     }
   }]);
   return FinishedResult;
@@ -4170,7 +4159,12 @@ var TableBox = function (_React$Component) {
 
       tableDiv.on("click", '.open-hash-url', function (e) {
         e.preventDefault();
-        processHashUrl(e, MAIN_DOCUMENT);
+        processHashUrl(e);
+      });
+
+      tableDiv.on("click", '.open-in-modal', function (e) {
+        e.preventDefault();
+        openInModal(e);
       });
 
       tableDiv.on('draw.dt', function () {
@@ -4444,7 +4438,7 @@ var Table = function (_React$Component3) {
           frontendParams: this.props.frontendParams
         }),
         table,
-        this._createCancelAction()
+        this._createTableCancelAction()
       );
     }
   }, {
@@ -4466,8 +4460,8 @@ var Table = function (_React$Component3) {
      */
 
   }, {
-    key: '_createCancelAction',
-    value: function _createCancelAction() {
+    key: '_createTableCancelAction',
+    value: function _createTableCancelAction() {
       var _this7 = this;
 
       var layout = this.props.value.data.attributes.layout;

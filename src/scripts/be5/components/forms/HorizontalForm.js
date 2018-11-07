@@ -4,6 +4,7 @@ import Form from './Form';
 import classNames from 'classnames';
 import PropertySet from 'beanexplorer-react';
 import {registerDocument} from '../../core/documents';
+import {_createBackAction} from "../../utils/documentUtils";
 
 
 class HorizontalForm extends Form
@@ -32,7 +33,7 @@ class HorizontalForm extends Form
         <div className={classNames(colTag, offsetTag)}>
           {this._createSubmitAction()}
           {' '}
-          {this._createCancelAction()}
+          {_createBackAction(this.state.data.attributes.layout, this.props.frontendParams)}
         </div>
       </div>
     );
