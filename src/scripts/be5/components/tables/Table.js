@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import be5 from '../../be5';
 import {
-  getModelByID, getResourceByType, getSelfUrl, processHashUrl,
+  getModelByID, getResourceByType, getSelfUrl, openInModal, processHashUrl,
   processHashUrlForDocument
 } from '../../utils/documentUtils';
 import forms from '../../services/forms';
@@ -321,7 +321,12 @@ class TableBox extends React.Component {
 
     tableDiv.on("click", '.open-hash-url', function (e) {
       e.preventDefault();
-      processHashUrl(e, MAIN_DOCUMENT);
+      processHashUrl(e);
+    });
+
+    tableDiv.on("click", '.open-in-modal', function (e) {
+      e.preventDefault();
+      openInModal(e);
     });
 
     tableDiv.on( 'draw.dt', function () {

@@ -72,6 +72,10 @@ export const processHashUrl = (e) => {
   processHashUrlForDocument(e, MAIN_DOCUMENT);
 };
 
+export const openInModal = (e) => {
+  processHashUrlForDocument(e, MAIN_MODAL_DOCUMENT);
+};
+
 export const processHashUrlForDocument = (e, documentName) => {
   let url = e.target ? e.target.getAttribute("href") : e;
   if (/^#/.test(url) || url === '' || url === '#' || url === '#!') {
@@ -81,12 +85,5 @@ export const processHashUrlForDocument = (e, documentName) => {
     }
     //console.log(url, documentName);
     be5.url.process(documentName || MAIN_DOCUMENT, url);
-  }
-};
-
-export const openInModal = (e) => {
-  if(/^#/.test(e.target.getAttribute("href"))) {
-    e.preventDefault();
-    be5.url.process(MAIN_MODAL_DOCUMENT, e.target.getAttribute("href"));
   }
 };
