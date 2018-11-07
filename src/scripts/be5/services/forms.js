@@ -2,7 +2,7 @@ import be5 from '../be5';
 import bus from '../core/bus';
 import Preconditions from '../utils/preconditions';
 import changeDocument from '../core/changeDocument';
-import {MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, REDIRECT, REFRESH_PARENT_DOCUMENT} from "../constants";
+import {MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, REDIRECT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT} from "../constants";
 import FrontendAction from "./model/FrontendAction";
 import {executeFrontendActions} from "./frontendActions";
 
@@ -108,6 +108,13 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
               {
                 //for TableForm
                 executeFrontendActions(new FrontendAction(REFRESH_PARENT_DOCUMENT), frontendParams);
+              }
+              else
+              {
+                if (frontendParams.documentName === MAIN_MODAL_DOCUMENT)
+                {
+                  executeFrontendActions(new FrontendAction(REFRESH_DOCUMENT, MAIN_DOCUMENT), frontendParams);
+                }
               }
             }
             return;

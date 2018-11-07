@@ -1072,7 +1072,12 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
   }
 
   if (actions.hasOwnProperty(REFRESH_DOCUMENT)) {
-    bus.fire(frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX);
+    if (actions[REFRESH_DOCUMENT] !== undefined) {
+      console.log(actions[REFRESH_DOCUMENT]);
+      bus.fire(actions[REFRESH_DOCUMENT] + DOCUMENT_REFRESH_SUFFIX);
+    } else {
+      bus.fire(frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX);
+    }
   }
 
   if (actions.hasOwnProperty(REFRESH_PARENT_DOCUMENT)) {
@@ -1180,11 +1185,6 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
           frontendParams.onSuccess(json, applyParams);
         }
 
-        if (!isActions(attributes) && frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
-          //console.log("bus.fire() " + frontendParams.parentDocumentName + be5.documentRefreshSuffix);
-          bus.fire(frontendParams.parentDocumentName + DOCUMENT_REFRESH_SUFFIX);
-        }
-
         switch (attributes.status) {
           case 'redirect':
             bus.fire("alert", { msg: attributes.message || be5.messages.successfullyCompleted, type: 'success' });
@@ -1205,6 +1205,15 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
                 bus.fire("alert", { msg: attributes.message || be5.messages.successfullyCompleted, type: 'success' });
               } else {
                 changeDocument(documentName, { value: json, frontendParams: frontendParams });
+              }
+
+              if (frontendParams.parentDocumentName !== undefined) {
+                //for TableForm
+                executeFrontendActions(new FrontendAction(REFRESH_PARENT_DOCUMENT), frontendParams);
+              } else {
+                if (frontendParams.documentName === MAIN_MODAL_DOCUMENT) {
+                  executeFrontendActions(new FrontendAction(REFRESH_DOCUMENT, MAIN_DOCUMENT), frontendParams);
+                }
               }
             }
             return;
@@ -1229,10 +1238,6 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
 
     changeDocument(documentName, { value: json, frontendParams: frontendParams });
   }
-};
-
-var isActions = function isActions(attributes) {
-  return attributes.status === 'finished' && attributes.details !== undefined;
 };
 
 var _performForm = function _performForm(json, frontendParams) {
@@ -3291,9 +3296,9 @@ var ModalForm = function (_Form) {
         React.createElement(
           ModalFooter,
           null,
-          this._createCancelAction(),
+          this._createSubmitAction(),
           ' ',
-          this._createSubmitAction()
+          this._createCancelAction()
         )
       );
     }
@@ -4160,6 +4165,11 @@ var TableBox = function (_React$Component) {
       tableDiv.on("click", '.process-hash-url', function (e) {
         e.preventDefault();
         processHashUrlForDocument(e, _this.props.frontendParams.documentName);
+      });
+
+      tableDiv.on("click", '.open-hash-url', function (e) {
+        e.preventDefault();
+        processHashUrl(e, MAIN_DOCUMENT);
       });
 
       tableDiv.on('draw.dt', function () {
