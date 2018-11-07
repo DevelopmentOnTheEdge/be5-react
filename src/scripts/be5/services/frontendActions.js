@@ -104,7 +104,15 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 
   if(actions.hasOwnProperty(REFRESH_DOCUMENT))
   {
-    bus.fire(frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX);
+    if (actions[REFRESH_DOCUMENT] !== undefined)
+    {
+      console.log(actions[REFRESH_DOCUMENT]);
+      bus.fire(actions[REFRESH_DOCUMENT] + DOCUMENT_REFRESH_SUFFIX);
+    }
+    else
+    {
+      bus.fire(frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX);
+    }
   }
 
   if(actions.hasOwnProperty(REFRESH_PARENT_DOCUMENT))
