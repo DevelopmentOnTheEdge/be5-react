@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import be5 from '../../be5';
-import {getModelByID, getResourceByType, getSelfUrl, processHashUrlForDocument} from '../../utils/documentUtils';
+import {
+  getModelByID, getResourceByType, getSelfUrl, processHashUrl,
+  processHashUrlForDocument
+} from '../../utils/documentUtils';
 import forms from '../../services/forms';
 import numberFormatter from 'number-format.js';
 import OperationBox from './OperationBox';
@@ -313,6 +316,11 @@ class TableBox extends React.Component {
     tableDiv.on("click", '.process-hash-url', function (e) {
       e.preventDefault();
       processHashUrlForDocument(e, _this.props.frontendParams.documentName);
+    });
+
+    tableDiv.on("click", '.open-hash-url', function (e) {
+      e.preventDefault();
+      processHashUrl(e, MAIN_DOCUMENT);
     });
 
     tableDiv.on( 'draw.dt', function () {
