@@ -71,21 +71,23 @@ class Document extends React.Component
   }
 
   updateLocationHashIfNeeded(){
-    const value = this.state.value;
-    let self;
-    if(value === null || (!value.data && !value.errors)) return;
-    if (value.data !== undefined) {
-      self = value.data.links.self;
-    } else {
-      self = value.errors[0].links.self;
-    }
-
-    if (this.props.frontendParams.documentName === MAIN_DOCUMENT && be5.url.get() !== '#!' + self) {
-      //console.log(be5.url.get(), self);
-      if (self === defaultRoute()) {
-        if (be5.url.get() !== "") be5.url.set("")
+    if (this.props.frontendParams.documentName === MAIN_DOCUMENT) {
+      const value = this.state.value;
+      let self;
+      if (value === null || (!value.data && !value.errors)) return;
+      if (value.data !== undefined) {
+        self = value.data.links.self;
       } else {
-        be5.url.set(self)
+        self = value.errors[0].links.self;
+      }
+
+      if (be5.url.get() !== '#!' + self) {
+        //console.log(be5.url.get(), self);
+        if (self === defaultRoute()) {
+          if (be5.url.get() !== "") be5.url.set("")
+        } else {
+          be5.url.set(self)
+        }
       }
     }
   }
