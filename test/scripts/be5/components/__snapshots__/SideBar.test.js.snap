@@ -88,10 +88,6 @@ exports[`snapshot sideBar 1`] = `
   </div>
   <div
     className="menuFooter"
-  >
-    <img
-      src={Object {}}
-    />
-  </div>
+  />
 </div>
 `;
