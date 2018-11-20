@@ -180,6 +180,11 @@ class Document extends React.Component
         return 'modalForm';
       }
 
+      if(this.state.value.data.type === 'table' && this.props.frontendParams.documentName === MAIN_MODAL_DOCUMENT)
+      {
+        return 'modalTable';
+      }
+
       return this.state.value.data.type;
     }
 

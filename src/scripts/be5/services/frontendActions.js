@@ -10,7 +10,6 @@ import {
   DOCUMENT_REFRESH_SUFFIX,
   GO_BACK,
   MAIN_DOCUMENT,
-  MAIN_MODAL_DOCUMENT,
   OPEN_DEFAULT_ROUTE,
   OPEN_NEW_WINDOW,
   REDIRECT, REFRESH_DOCUMENT,
@@ -22,17 +21,13 @@ import {
 import {openOperationByUrl} from './forms';
 import FrontendAction from "./model/FrontendAction";
 
-function simpleFinishInModalDocument(documentName) {
-  return documentName === MAIN_MODAL_DOCUMENT
-}
-
 export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) =>
 {
   const documentName = frontendParams.documentName;
 
   const actions = getActionsMap(actionsArrayOrOneObject);
 
-  if(simpleFinishInModalDocument(documentName) || actions.hasOwnProperty(CLOSE_MAIN_MODAL))
+  if(actions.hasOwnProperty(CLOSE_MAIN_MODAL))
   {
     bus.fire("mainModalClose");
   }
