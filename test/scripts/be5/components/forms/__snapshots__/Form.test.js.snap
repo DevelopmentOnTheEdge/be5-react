@@ -92,7 +92,7 @@ exports[`Form errorOnApply 1`] = `
         className="errorPane__error"
       >
         <h1
-          className="errorPane__title"
+          className="errorPane__title errorPane__title_500"
         >
           500
            - 

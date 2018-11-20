@@ -487,16 +487,12 @@ var forms = {
 
 };
 
-function simpleFinishInModalDocument(documentName) {
-  return documentName === MAIN_MODAL_DOCUMENT;
-}
-
 var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneObject, frontendParams) {
   var documentName = frontendParams.documentName;
 
   var actions = getActionsMap(actionsArrayOrOneObject);
 
-  if (simpleFinishInModalDocument(documentName) || actions.hasOwnProperty(CLOSE_MAIN_MODAL)) {
+  if (actions.hasOwnProperty(CLOSE_MAIN_MODAL)) {
     bus.fire("mainModalClose");
   }
 
@@ -740,6 +736,7 @@ var messages = {
 
     helpInfo: "Help",
     details: "Details",
+    goToHomepage: "Go to homepage",
 
     NotFound: "Not Found",
 
@@ -807,6 +804,7 @@ var messages = {
 
     helpInfo: "Справка",
     details: "Подробнее",
+    goToHomepage: "Перейти на главную страницу",
 
     NotFound: "Не найдено",
     table: {
@@ -2057,6 +2055,10 @@ var Document$1 = function (_React$Component) {
           return 'modalForm';
         }
 
+        if (this.state.value.data.type === 'table' && this.props.frontendParams.documentName === MAIN_MODAL_DOCUMENT) {
+          return 'modalTable';
+        }
+
         return this.state.value.data.type;
       }
 
@@ -2506,11 +2508,12 @@ var Error = function (_React$Component) {
         { className: 'errorPane__error' },
         React.createElement(
           'h1',
-          { className: 'errorPane__title' },
+          { className: 'errorPane__title errorPane__title_' + status },
           status,
           ' - ',
           title
         ),
+        this.frontendHelp(),
         React.createElement('br', null),
         code !== undefined ? React.createElement('pre', { className: 'errorPane__code', dangerouslySetInnerHTML: { __html: code } }) : null,
         detail !== undefined ? React.createElement(
@@ -2540,6 +2543,48 @@ var Error = function (_React$Component) {
           )
         ) : null
       );
+    }
+  }, {
+    key: 'frontendHelp',
+    value: function frontendHelp() {
+      var status = this.props.status;
+
+      var content = void 0;
+      if (status === '404' || status === '403') {
+        if (status === '404') {
+          content = React.createElement(
+            'div',
+            null,
+            React.createElement(
+              'a',
+              { href: '#!', className: 'btn btn-primary' },
+              be5.messages.goToHomepage
+            )
+          );
+        }
+        if (status === '403') {
+          content = React.createElement(
+            'div',
+            null,
+            React.createElement(
+              'a',
+              { href: '/', className: 'btn btn-primary' },
+              be5.messages.goToHomepage
+            )
+          );
+        }
+        return React.createElement(
+          'div',
+          null,
+          React.createElement('br', null),
+          React.createElement(
+            'h6',
+            null,
+            content
+          )
+        );
+      }
+      return null;
     }
   }]);
   return Error;
@@ -3284,13 +3329,13 @@ var ModalForm = function (_Form) {
           null,
           this._createSubmitAction(),
           ' ',
-          this._createModalCancelAction()
+          this._createModalCloseAction()
         )
       );
     }
   }, {
-    key: '_createModalCancelAction',
-    value: function _createModalCancelAction() {
+    key: '_createModalCloseAction',
+    value: function _createModalCloseAction() {
       var _this2 = this;
 
       var layout = this.state.data.attributes.layout;
@@ -4592,6 +4637,61 @@ TableFormRow.propTypes = {
 
 registerDocument('tableFormRow', TableFormRow);
 
+var ModalTable = function (_Table) {
+  inherits(ModalTable, _Table);
+
+  function ModalTable() {
+    classCallCheck(this, ModalTable);
+    return possibleConstructorReturn(this, (ModalTable.__proto__ || Object.getPrototypeOf(ModalTable)).apply(this, arguments));
+  }
+
+  createClass(ModalTable, [{
+    key: 'render',
+    value: function render() {
+      var attributes = this.props.value.data.attributes;
+      return React.createElement(
+        'div',
+        null,
+        React.createElement(
+          ModalHeader,
+          { tag: 'h5', toggle: function toggle() {
+              return bus.fire("mainModalClose");
+            } },
+          attributes.title
+        ),
+        React.createElement(
+          ModalBody,
+          null,
+          get(ModalTable.prototype.__proto__ || Object.getPrototypeOf(ModalTable.prototype), 'render', this).call(this)
+        ),
+        React.createElement(
+          ModalFooter,
+          null,
+          this._createModalCloseAction()
+        )
+      );
+    }
+  }, {
+    key: '_createModalCloseAction',
+    value: function _createModalCloseAction() {
+      var _this2 = this;
+
+      var layout = this.props.value.data.attributes.layout;
+      var action = layout.cancelAction || new FrontendAction(CLOSE_MAIN_MODAL);
+      return React.createElement(
+        'button',
+        { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
+            return executeFrontendActions(action, _this2.props.frontendParams);
+          } },
+        layout.cancelActionText || be5.messages.close
+      );
+    }
+  }]);
+  return ModalTable;
+}(Table);
+
+registerDocument('modalTable', ModalTable);
+
 var route = function route(documentName, page) {
   changeDocument(documentName, {});
 };
@@ -5678,4 +5778,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX };
