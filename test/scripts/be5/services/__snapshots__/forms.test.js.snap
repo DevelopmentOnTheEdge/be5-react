@@ -110,7 +110,9 @@ exports[`openOperationByUrl 1`] = `
 </div>
 `;
 
-exports[`performOperationResult finished FinishedResult 1`] = `
+exports[`performOperationResult UPDATE_USER_INFO 1`] = `null`;
+
+exports[`performOperationResult finished 1`] = `
 <div
   className="document-content"
   id="document-content___test"
@@ -124,6 +126,50 @@ exports[`performOperationResult finished FinishedResult 1`] = `
         dangerouslySetInnerHTML={
           Object {
             "__html": "Successfully completed.",
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`performOperationResult finished with message 1`] = `
+<div
+  className="document-content"
+  id="document-content___test"
+>
+  <div>
+    <div
+      className="finishedResult"
+    >
+      <div
+        className="mb-3"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "Finish message<br/>with html",
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`performOperationResult finished with message and actions 1`] = `
+<div
+  className="document-content"
+  id="document-content___test"
+>
+  <div>
+    <div
+      className="finishedResult"
+    >
+      <div
+        className="mb-3"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "Finish message<br/>with html",
           }
         }
       />

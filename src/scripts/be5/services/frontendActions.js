@@ -37,6 +37,12 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
     bus.fire("mainModalClose");
   }
 
+  // todo action for alert
+  // if(result.message !== undefined)
+  // {
+  //   bus.fire("alert", {msg: result.message, type: 'success'});
+  // }
+
   if(actions[UPDATE_USER_INFO] !== undefined)
   {
     be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));

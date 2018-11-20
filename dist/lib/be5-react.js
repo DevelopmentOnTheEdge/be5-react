@@ -402,28 +402,21 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
         switch (result.status) {
           case 'redirect':
             bus.fire("alert", { msg: result.message || be5.messages.successfullyCompleted, type: 'success' });
-
             executeFrontendActions(new FrontendAction(REDIRECT, result.details), frontendParams);
-
             return;
           case 'finished':
+            var formComponentName = attributes.layout && attributes.layout.type;
+            if (formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT || result.message === undefined && result.details !== undefined) {
+              bus.fire("mainModalClose");
+              bus.fire("alert", { msg: result.message || be5.messages.successfullyCompleted, type: 'success' });
+            } else {
+              changeDocument(documentName, { value: json, frontendParams: frontendParams });
+            }
+
             if (result.details !== undefined) {
               executeFrontendActions(result.details, frontendParams);
-
-              if (result.message !== undefined) {
-                bus.fire("alert", { msg: result.message, type: 'success' });
-              }
             } else {
-              var formComponentName = attributes.layout && attributes.layout.type;
-              if (formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT) {
-                bus.fire("mainModalClose");
-                bus.fire("alert", { msg: result.message || be5.messages.successfullyCompleted, type: 'success' });
-              } else {
-                changeDocument(documentName, { value: json, frontendParams: frontendParams });
-              }
-
               if (frontendParams.parentDocumentName !== undefined) {
-                //for TableForm
                 executeFrontendActions(new FrontendAction(REFRESH_PARENT_DOCUMENT), frontendParams);
               } else {
                 if (formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT) {
@@ -444,7 +437,6 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
           msg: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type),
           type: 'error'
         });
-      //changeDocument(documentName, { value: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type) });
     }
   } else {
     var error = json.errors[0];
@@ -507,6 +499,12 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
   if (simpleFinishInModalDocument(documentName) || actions.hasOwnProperty(CLOSE_MAIN_MODAL)) {
     bus.fire("mainModalClose");
   }
+
+  // todo action for alert
+  // if(result.message !== undefined)
+  // {
+  //   bus.fire("alert", {msg: result.message, type: 'success'});
+  // }
 
   if (actions[UPDATE_USER_INFO] !== undefined) {
     be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
@@ -3382,35 +3380,22 @@ var InlineMiniForm = function (_Form) {
 
 registerDocument('inlineMiniForm', InlineMiniForm);
 
-var FinishedResult = function (_React$Component) {
-  inherits(FinishedResult, _React$Component);
+var FinishedResult = function FinishedResult(props) {
+  var attributes = props.value.data.attributes;
+  var result = attributes.operationResult;
 
-  function FinishedResult() {
-    classCallCheck(this, FinishedResult);
-    return possibleConstructorReturn(this, (FinishedResult.__proto__ || Object.getPrototypeOf(FinishedResult)).apply(this, arguments));
+  var message = result.message;
+  if (result.status === 'finished' && result.message === undefined) {
+    message = be5.messages.successfullyCompleted;
   }
 
-  createClass(FinishedResult, [{
-    key: 'render',
-    value: function render() {
-      var attributes = this.props.value.data.attributes;
-      var result = attributes.operationResult;
-
-      var message = result.message;
-      if (result.status === 'finished' && result.message === undefined) {
-        message = be5.messages.successfullyCompleted;
-      }
-
-      return React.createElement(
-        'div',
-        { className: 'finishedResult' },
-        React.createElement('div', { dangerouslySetInnerHTML: { __html: message }, className: 'mb-3' }),
-        _createBackAction(attributes.layout, this.props.frontendParams)
-      );
-    }
-  }]);
-  return FinishedResult;
-}(React.Component);
+  return React.createElement(
+    'div',
+    { className: 'finishedResult' },
+    React.createElement('div', { dangerouslySetInnerHTML: { __html: message }, className: 'mb-3' }),
+    _createBackAction(attributes.layout, props.frontendParams)
+  );
+};
 
 FinishedResult.propTypes = {
   value: PropTypes.shape({
