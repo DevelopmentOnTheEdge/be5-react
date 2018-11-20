@@ -8,7 +8,6 @@ import {_createBackAction} from "../../utils/documentUtils";
 class FinishedResult extends React.Component
 {
   render() {
-    const back = () => { history.back(); };
     const attributes = this.props.value.data.attributes;
     const result = attributes.operationResult;
 
