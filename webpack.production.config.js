@@ -55,7 +55,6 @@ let config = {
         new OptimizeCssAssetsPlugin(),
         new HtmlWebpackPlugin({
             chunks: ['be5-react'],
-            favicon: './src/images/favicon.ico',
             template: './src/template.html',
             files: {
                 css: ['style.css'],
