@@ -37,6 +37,7 @@ export default {
 
     helpInfo: "Help",
     details: "Details",
+    goToHomepage: "Go to homepage",
 
     NotFound: "Not Found",
 
@@ -104,6 +105,7 @@ export default {
 
     helpInfo: "Справка",
     details: "Подробнее",
+    goToHomepage: "Перейти на главную страницу",
 
     NotFound: "Не найдено",
     table: {

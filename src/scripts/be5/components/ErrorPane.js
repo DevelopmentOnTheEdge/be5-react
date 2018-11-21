@@ -26,7 +26,8 @@ class Error extends React.Component
     } = this.props;
 
     return <div className='errorPane__error'>
-      <h1 className='errorPane__title' >{status} - {title}</h1>
+      <h1 className={'errorPane__title errorPane__title_' + status} >{status} - {title}</h1>
+      {this.frontendHelp()}
       <br/>
       {code !== undefined ?
         <pre className='errorPane__code' dangerouslySetInnerHTML={ {__html: code} }/> : null
@@ -47,6 +48,29 @@ class Error extends React.Component
         </div>
         : null}
     </div>;
+  }
+
+  frontendHelp() {
+    const {status} = this.props;
+    let content;
+    if (status === '404' || status === '403')
+    {
+      if (status === '404') {
+        content = <div>
+          <a href="#!" className="btn btn-primary">{be5.messages.goToHomepage}</a>
+        </div>
+      }
+      if (status === '403') {
+        content = <div>
+          <a href="/" className="btn btn-primary">{be5.messages.goToHomepage}</a>
+        </div>
+      }
+      return <div>
+        <br/>
+        <h6>{content}</h6>
+      </div>
+    }
+    return null;
   }
 }
 

@@ -80,6 +80,15 @@ exports[`snapshot 1`] = `
           <span
             className="badge badge-primary"
           >
+            modalTable
+          </span>
+           - 
+          ModalTable
+        </div>
+        <div>
+          <span
+            className="badge badge-primary"
+          >
             operationResult
           </span>
            - 

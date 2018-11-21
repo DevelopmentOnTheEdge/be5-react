@@ -123,3 +123,6 @@ table.dataTable.table-sm .sorting:after, table.dataTable.table-sm .sorting_asc:a
 .table-component__title small {
   font-size: 0.7em;
 }
+#document-content___MAIN_MODAL_DOCUMENT .table-component__title {
+  display: none;
+}

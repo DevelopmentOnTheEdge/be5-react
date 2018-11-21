@@ -8,12 +8,25 @@ exports[`snapshot 1`] = `
     className="errorPane__error"
   >
     <h1
-      className="errorPane__title"
+      className="errorPane__title errorPane__title_404"
     >
       404
        - 
       Query not found: testtable.Test 1D2
     </h1>
+    <div>
+      <br />
+      <h6>
+        <div>
+          <a
+            className="btn btn-primary"
+            href="#!"
+          >
+            Go to homepage
+          </a>
+        </div>
+      </h6>
+    </div>
     <br />
     <pre
       className="errorPane__code"

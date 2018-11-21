@@ -20,6 +20,7 @@ import './components/tables/TableFormRow';
 import './components/tables/FormTable';
 import './components/tables/Table';
 import './components/tables/ReactTable';
+import './components/tables/ModalTable';
 
 import './components/forms/SubmitOnChangeForm';
 import './components/forms/ModalForm';

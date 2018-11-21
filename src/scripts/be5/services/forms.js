@@ -79,36 +79,29 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
         switch (result.status) {
           case 'redirect':
             bus.fire("alert", {msg: result.message || be5.messages.successfullyCompleted, type: 'success'});
-
             executeFrontendActions(new FrontendAction(REDIRECT, result.details), frontendParams);
-
             return;
           case 'finished':
-            if(result.details !== undefined)
+            const formComponentName = attributes.layout && attributes.layout.type;
+            if(formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT
+                || (result.message === undefined && result.details !== undefined))
             {
-              executeFrontendActions(result.details, frontendParams);
-
-              if(result.message !== undefined)
-              {
-                bus.fire("alert", {msg: result.message, type: 'success'});
-              }
+              bus.fire("mainModalClose");
+              bus.fire("alert", {msg: result.message || be5.messages.successfullyCompleted, type: 'success'});
             }
             else
             {
-              const formComponentName = attributes.layout && attributes.layout.type;
-              if(formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT)
-              {
-                bus.fire("mainModalClose");
-                bus.fire("alert", {msg: result.message || be5.messages.successfullyCompleted, type: 'success'});
-              }
-              else
-              {
-                changeDocument(documentName, { value: json, frontendParams: frontendParams});
-              }
+              changeDocument(documentName, {value: json, frontendParams: frontendParams});
+            }
 
+            if(result.details !== undefined)
+            {
+              executeFrontendActions(result.details, frontendParams);
+            }
+            else
+            {
               if (frontendParams.parentDocumentName !== undefined)
               {
-                //for TableForm
                 executeFrontendActions(new FrontendAction(REFRESH_PARENT_DOCUMENT), frontendParams);
               }
               else
@@ -132,7 +125,6 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
           msg: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type),
           type: 'error'
         });
-      //changeDocument(documentName, { value: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type) });
     }
   }else{
     const error = json.errors[0];

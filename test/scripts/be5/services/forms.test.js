@@ -63,26 +63,70 @@ test('load', () => {
 
 });
 
-test('performOperationResult finished FinishedResult', () => {
+test('performOperationResult finished', () => {
   const component = renderer.create(
     <TestProvider>
       <Document frontendParams={{documentName: "test"}}/>
     </TestProvider>
   );
-  //const mockFunc = jest.fn();
   const res = {
     data: {
       type: "operationResult",
-      attributes: {"operationResult": {"status":"finished"}},
+      attributes: {"operationResult": {
+        "status":"finished"
+      }},
       links: {"self":"form/categories/Doc categories/Edit"},
     },
     meta: {"_ts_":"1503244989281"},
   };
-
   _performOperationResult(res, {documentName: "test"});
-
   expect(component.toJSON()).toMatchSnapshot();
-  //expect(mockFunc.mock.calls.length).toBe(1);
+});
+
+test('performOperationResult finished with message', () => {
+  const component = renderer.create(
+    <TestProvider>
+      <Document frontendParams={{documentName: "test"}}/>
+    </TestProvider>
+  );
+  const res = {
+    data: {
+      type: "operationResult",
+      attributes: {"operationResult": {
+        "status":"finished",
+        "message": "Finish message<br/>with html"
+      }},
+      links: {"self":"form/categories/Doc categories/Edit"},
+    },
+    meta: {"_ts_":"1503244989281"},
+  };
+  _performOperationResult(res, {documentName: "test"});
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('performOperationResult finished with message and actions', () => {
+  const store = getTestStore();
+  be5.store = store;
+  const component = renderer.create(
+    <TestProvider>
+      <Document frontendParams={{documentName: "test"}}/>
+    </TestProvider>
+  );
+  const res = {
+    data: {
+      type: "operationResult",
+      attributes: {"operationResult": {
+        "status":"finished",
+        "message": "Finish message<br/>with html",
+        "details": new FrontendAction("UPDATE_USER_INFO", getTestUser())
+      }},
+      links: {"self":"form/categories/Doc categories/Edit"},
+    },
+    meta: {"_ts_":"1503244989281"},
+  };
+  _performOperationResult(res, {documentName: "test"});
+  expect(component.toJSON()).toMatchSnapshot();
+  expect(getUser(store.getState())).toEqual(getTestUser());
 });
 
 test('performOperationResult UPDATE_USER_INFO', () => {
@@ -92,7 +136,11 @@ test('performOperationResult UPDATE_USER_INFO', () => {
   expect(getUser(store.getState()))
     .toEqual({"availableRoles": ["FrontendInit"], "currentRoles": ["FrontendInit"], "loggedIn": false, "userName": "Guest",
       "getCreationTime": "0", "defaultRoute": undefined});
-
+  const component = renderer.create(
+    <TestProvider>
+      <Document frontendParams={{documentName: "test"}}/>
+    </TestProvider>
+  );
   const res = {
     data: {
       type: "operationResult",
@@ -105,7 +153,7 @@ test('performOperationResult UPDATE_USER_INFO', () => {
     meta: {"_ts_":"1503244989281"},
   };
   _performOperationResult(res, {documentName: "test"});
-
+  expect(component.toJSON()).toMatchSnapshot();
   expect(getUser(store.getState())).toEqual(getTestUser());
 });
 

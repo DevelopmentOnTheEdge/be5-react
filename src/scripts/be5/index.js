@@ -36,6 +36,7 @@ import CategoryNavigation from './components/tables/CategoryNavigation.js';
 import FormTable       from './components/tables/FormTable.js';
 import TableForm       from './components/tables/TableForm.js';
 import TableFormRow    from './components/tables/TableFormRow.js';
+import ModalTable      from './components/tables/ModalTable';
 
 // menu
 import Menu            from './components/menu/Menu.js';
@@ -84,6 +85,7 @@ export {
   FormTable,
   TableForm,
   TableFormRow,
+  ModalTable,
 
   // menu
   Menu,

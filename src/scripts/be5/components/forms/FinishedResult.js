@@ -5,26 +5,23 @@ import {registerDocument} from "../../core/documents";
 import {_createBackAction} from "../../utils/documentUtils";
 
 
-class FinishedResult extends React.Component
+const FinishedResult = (props) =>
 {
-  render() {
-    const back = () => { history.back(); };
-    const attributes = this.props.value.data.attributes;
-    const result = attributes.operationResult;
+  const attributes = props.value.data.attributes;
+  const result = attributes.operationResult;
 
-    let message = result.message;
-    if(result.status === 'finished' && result.message === undefined){
-      message = be5.messages.successfullyCompleted;
-    }
-
-    return (
-      <div className="finishedResult">
-        <div dangerouslySetInnerHTML={{__html: message}} className="mb-3"/>
-        {_createBackAction(attributes.layout, this.props.frontendParams)}
-      </div>
-    );
+  let message = result.message;
+  if(result.status === 'finished' && result.message === undefined){
+    message = be5.messages.successfullyCompleted;
   }
-}
+
+  return (
+    <div className="finishedResult">
+      <div dangerouslySetInnerHTML={{__html: message}} className="mb-3"/>
+      {_createBackAction(attributes.layout, props.frontendParams)}
+    </div>
+  );
+};
 
 FinishedResult.propTypes =  {
   value: PropTypes.shape({
