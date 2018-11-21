@@ -51,6 +51,7 @@
     "babel-preset-react": "^6.24.1",
     "coveralls": "2.13.1",
     "css-loader": "1.0.1",
+    "cssnano": "4.1.7",
     "enzyme": "2.8.2",
     "extract-text-webpack-plugin": "2.1.2",
     "file-loader": "0.10.0",
