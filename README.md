@@ -21,10 +21,10 @@ npm run build
 ```
 
 ### Development
-[local-web-server](https://github.com/lwsjs/local-web-server) is used for proxy api.
+[local-web-server](https://github.com/lwsjs/local-web-server) is used for proxy api. (old/not updated)
 
 ```sh
-$ npm start //or run you be5-application
+$ npm run dev //or run you be5-application
 $ npm start
 serving at http://localhost:8888
 ```
