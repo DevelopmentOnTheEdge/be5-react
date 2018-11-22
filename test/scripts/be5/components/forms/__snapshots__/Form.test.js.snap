@@ -186,10 +186,10 @@ exports[`HorizontalForm 1`] = `
           className="property-set form-row"
         />
         <div
-          className="formActions row"
+          className="formActions form-row"
         >
           <div
-            className="col-lg-10 offset-lg-2"
+            className="col-lg-9 offset-lg-3"
           >
             <button
               className="btn btn-primary"
@@ -213,32 +213,38 @@ exports[`HorizontalForm 1`] = `
 `;
 
 exports[`InlineForm 1`] = `
-<form
-  className="form-inline form-inline-mini"
-  id="1507198229686"
-  onSubmit={[Function]}
+<div
+  className="form-inline-mini"
 >
-  <label
-    className="mr-sm-2"
+  <form
+    className="form-inline"
+    id="1507198229686"
+    onSubmit={[Function]}
   >
-    <strong>
-      SelectCompany
-    </strong>
-  </label>
-  <button
-    className="btn btn-primary"
-    disabled={false}
-    onClick={[Function]}
-    title=""
-    type="submit"
-  >
-    Submit
-  </button>
-</form>
+    <label
+      className="mr-sm-2"
+    >
+      <strong>
+        SelectCompany
+      </strong>
+    </label>
+    <button
+      className="btn btn-primary"
+      disabled={false}
+      onClick={[Function]}
+      title=""
+      type="submit"
+    >
+      Submit
+    </button>
+  </form>
+</div>
 `;
 
 exports[`ModalForm 1`] = `
-<div>
+<div
+  className=""
+>
   <div
     className="modal-header"
   >

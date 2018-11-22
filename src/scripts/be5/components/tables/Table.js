@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
+import classNames from 'classnames';
 import be5 from '../../be5';
 import {
   getModelByID, getResourceByType, getSelfUrl, openInModal, processHashUrl,
@@ -523,7 +524,7 @@ class Table extends React.Component
     }
 
     return (
-      <div className="table-component">
+      <div className={classNames("table-component", data.attributes.layout.classes)}>
         {topForm}
         <TitleTag className="table-component__title">
           {value.data.attributes.title}

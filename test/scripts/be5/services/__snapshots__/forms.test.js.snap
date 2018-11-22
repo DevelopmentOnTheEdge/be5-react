@@ -27,10 +27,10 @@ exports[`load and _performForm test 1`] = `
               className="property-set form-row"
             />
             <div
-              className="formActions row"
+              className="formActions form-row"
             >
               <div
-                className="col-lg-10 offset-lg-2"
+                className="col-lg-9 offset-lg-3"
               >
                 <button
                   className="btn btn-primary"
@@ -82,10 +82,10 @@ exports[`openOperationByUrl 1`] = `
               className="property-set form-row"
             />
             <div
-              className="formActions row"
+              className="formActions form-row"
             >
               <div
-                className="col-lg-10 offset-lg-2"
+                className="col-lg-9 offset-lg-3"
               >
                 <button
                   className="btn btn-primary"

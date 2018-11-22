@@ -3082,13 +3082,12 @@ var Form = function (_React$Component) {
   }, {
     key: '_createForm',
     value: function _createForm() {
-      var attributes = this.state.data.attributes;
       return React.createElement(
         'form',
         {
           id: this.state.meta._ts_,
           onSubmit: this._applyOnSubmit,
-          className: classNames(this.state.wasValidated ? 'was-validated' : '', attributes.layout.formClassName)
+          className: classNames(this.state.wasValidated ? 'was-validated' : '')
         },
         this._createFormContent()
       );
@@ -3172,13 +3171,13 @@ var Form = function (_React$Component) {
     key: 'render',
     value: function render() {
       var attributes = this.state.data.attributes;
-
+      var baseClasses = attributes.layout.baseClasses || 'col-12 max-width-970 formBoxDefault';
       return React.createElement(
         'div',
         { className: 'row' },
         React.createElement(
           'div',
-          { className: 'formBox ' + (attributes.layout.formBoxCssClasses || 'col-12 max-width-970 formBoxDefault') },
+          { className: classNames('formBox', baseClasses, attributes.layout.classes) },
           React.createElement(
             'h1',
             { className: 'form-component__title' },
@@ -3222,19 +3221,19 @@ var HorizontalForm = function (_Form) {
         localization: be5.messages.property,
         bsSize: attributes.layout.bsSize,
         horizontal: true,
-        horizontalColSize: attributes.layout.horizontalColSize || 2
+        horizontalColSize: attributes.layout.horizontalColSize || 3
       });
     }
   }, {
     key: '_createFormActions',
     value: function _createFormActions() {
-      var horizontalColSize = this.state.data.attributes.layout.horizontalColSize || 2;
+      var horizontalColSize = this.state.data.attributes.layout.horizontalColSize || 3;
       var colTag = 'col-lg-' + (12 - horizontalColSize);
       var offsetTag = 'offset-lg-' + horizontalColSize;
 
       return React.createElement(
         'div',
-        { className: 'formActions row' },
+        { className: 'formActions form-row' },
         React.createElement(
           'div',
           { className: classNames(colTag, offsetTag) },
@@ -3278,7 +3277,7 @@ var SubmitOnChangeForm = function (_Form) {
         'form',
         {
           id: this.state.meta._ts_,
-          className: classNames('submit-onchange-form', this.state.wasValidated ? 'was-validated' : '', attributes.layout.formClassName)
+          className: classNames('submit-onchange-form', this.state.wasValidated ? 'was-validated' : '', attributes.layout.classes)
         },
         React.createElement(PropertyInput, {
           id: 0,
@@ -3354,7 +3353,7 @@ var ModalForm = function (_Form) {
       var attributes = this.state.data.attributes;
       return React.createElement(
         'div',
-        null,
+        { className: classNames(attributes.layout.classes) },
         React.createElement(
           ModalHeader,
           { tag: 'h5', toggle: function toggle() {
@@ -3399,24 +3398,28 @@ var InlineMiniForm = function (_Form) {
       });
 
       return React.createElement(
-        'form',
-        {
-          id: this.state.meta._ts_,
-          onSubmit: this._applyOnSubmit,
-          className: classNames('form-inline', this.state.wasValidated ? 'was-validated' : '', attributes.layout.formClassName || 'form-inline-mini')
-        },
+        'div',
+        { className: attributes.layout.classes || 'form-inline-mini' },
         React.createElement(
-          'label',
-          { className: classNames("mr-sm-2", { 'col-form-label-sm': attributes.layout.bsSize === "sm" }, { 'col-form-label-lg': attributes.layout.bsSize === "lg" }) },
+          'form',
+          {
+            id: this.state.meta._ts_,
+            onSubmit: this._applyOnSubmit,
+            className: classNames('form-inline', this.state.wasValidated ? 'was-validated' : '')
+          },
           React.createElement(
-            'strong',
-            null,
-            attributes.title
-          )
-        ),
-        properties,
-        this._createSubmitAction(),
-        this._getErrorPane()
+            'label',
+            { className: classNames("mr-sm-2", { 'col-form-label-sm': attributes.layout.bsSize === "sm" }, { 'col-form-label-lg': attributes.layout.bsSize === "lg" }) },
+            React.createElement(
+              'strong',
+              null,
+              attributes.title
+            )
+          ),
+          properties,
+          this._createSubmitAction(),
+          this._getErrorPane()
+        )
       );
     }
   }]);
@@ -4433,7 +4436,7 @@ var Table = function (_React$Component3) {
 
       return React.createElement(
         'div',
-        { className: 'table-component' },
+        { className: classNames("table-component", data.attributes.layout.classes) },
         topForm,
         React.createElement(
           TitleTag,
