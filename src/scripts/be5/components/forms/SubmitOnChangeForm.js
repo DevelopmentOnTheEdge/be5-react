@@ -28,7 +28,7 @@ class SubmitOnChangeForm extends Form
           className={classNames(
             'submit-onchange-form',
             this.state.wasValidated ? 'was-validated' : '',
-            attributes.layout.formClassName
+            attributes.layout.classes
           )}
         >
           <PropertyInput

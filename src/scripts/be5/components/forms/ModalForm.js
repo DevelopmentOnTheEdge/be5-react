@@ -1,6 +1,7 @@
 import React from 'react';
 import bus from '../../core/bus';
 import Form from './Form';
+import classNames from 'classnames';
 import {ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 import {registerDocument} from '../../core/documents';
 import FrontendAction from "../../services/model/FrontendAction";
@@ -42,7 +43,7 @@ class ModalForm extends Form
   render() {
     const attributes = this.state.data.attributes;
     return (
-      <div>
+      <div className={classNames(attributes.layout.classes)}>
         <ModalHeader tag='h5' toggle={() => bus.fire("mainModalClose")} >{attributes.title}</ModalHeader>
         {this._createForm()}
       </div>

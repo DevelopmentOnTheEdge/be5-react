@@ -26,26 +26,27 @@ class InlineMiniForm extends Form
     ));
 
     return (
-      <form
-        id={this.state.meta._ts_}
-        onSubmit={this._applyOnSubmit}
-        className={classNames(
-          'form-inline',
-          this.state.wasValidated ? 'was-validated' : '',
-          attributes.layout.formClassName || 'form-inline-mini'
-        )}
-      >
-        <label className={classNames(
-          "mr-sm-2",
-          {'col-form-label-sm' : attributes.layout.bsSize === "sm"},
-          {'col-form-label-lg' : attributes.layout.bsSize === "lg"}
-        )}>
-          <strong>{attributes.title}</strong>
-        </label>
-        {properties}
-        {this._createSubmitAction()}
-        {this._getErrorPane()}
-      </form>
+      <div className={attributes.layout.classes || 'form-inline-mini'}>
+        <form
+          id={this.state.meta._ts_}
+          onSubmit={this._applyOnSubmit}
+          className={classNames(
+            'form-inline',
+            this.state.wasValidated ? 'was-validated' : ''
+          )}
+        >
+          <label className={classNames(
+            "mr-sm-2",
+            {'col-form-label-sm' : attributes.layout.bsSize === "sm"},
+            {'col-form-label-lg' : attributes.layout.bsSize === "lg"}
+          )}>
+            <strong>{attributes.title}</strong>
+          </label>
+          {properties}
+          {this._createSubmitAction()}
+          {this._getErrorPane()}
+        </form>
+      </div>
     );
   }
 

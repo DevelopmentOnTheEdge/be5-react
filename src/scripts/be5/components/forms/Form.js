@@ -87,14 +87,12 @@ class Form extends React.Component
   }
 
   _createForm() {
-    const attributes = this.state.data.attributes;
     return (
       <form
         id={this.state.meta._ts_}
         onSubmit={this._applyOnSubmit}
         className={classNames(
-          this.state.wasValidated ? 'was-validated' : '',
-          attributes.layout.formClassName
+          this.state.wasValidated ? 'was-validated' : ''
         )}
       >
         {this._createFormContent()}
@@ -171,10 +169,10 @@ class Form extends React.Component
 
   render() {
     const attributes = this.state.data.attributes;
-
+    const baseClasses = attributes.layout.baseClasses || 'col-12 max-width-970 formBoxDefault';
     return (
       <div className="row">
-        <div className={'formBox ' + (attributes.layout.formBoxCssClasses || 'col-12 max-width-970 formBoxDefault')}>
+        <div className={classNames('formBox', baseClasses, attributes.layout.classes)}>
           <h1 className="form-component__title">{attributes.title}</h1>
           {this._createForm()}
         </div>
