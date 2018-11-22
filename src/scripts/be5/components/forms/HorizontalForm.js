@@ -18,18 +18,18 @@ class HorizontalForm extends Form
         localization={be5.messages.property}
         bsSize={attributes.layout.bsSize}
         horizontal={true}
-        horizontalColSize={attributes.layout.horizontalColSize || 2}
+        horizontalColSize={attributes.layout.horizontalColSize || 3}
       />
     );
   }
 
   _createFormActions() {
-    const horizontalColSize = this.state.data.attributes.layout.horizontalColSize || 2;
+    const horizontalColSize = this.state.data.attributes.layout.horizontalColSize || 3;
     const colTag = 'col-lg-' + (12-horizontalColSize);
     const offsetTag = 'offset-lg-' + horizontalColSize;
 
     return (
-      <div className="formActions row">
+      <div className="formActions form-row">
         <div className={classNames(colTag, offsetTag)}>
           {this._createSubmitAction()}
           {' '}
