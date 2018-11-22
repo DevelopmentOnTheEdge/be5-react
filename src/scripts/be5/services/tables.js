@@ -1,12 +1,14 @@
 import be5 from '../be5';
 import changeDocument from '../core/changeDocument';
 import Preconditions from '../utils/preconditions';
+import {MAIN_MODAL_DOCUMENT} from "../constants";
+import bus from "../core/bus";
 
 
 export const loadTable = (params, frontendParams) => {
   getTable(params, json => {
     //todo remove 'json.data' check after change error code
-    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+    _performTable(json, frontendParams);
   }, (json) => {
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   })
@@ -14,7 +16,7 @@ export const loadTable = (params, frontendParams) => {
 
 export const loadTableByUrl = (url, frontendParams) => {
   getTable(getTableParams(url), json => {
-    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+    _performTable(json, frontendParams);
   }, (json) => {
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   })
@@ -44,6 +46,22 @@ export const updateTable = (params, callback) => {
   }, (data) => {
     console.error(data);
   });
+};
+
+const _performTable = (json, frontendParams) =>
+{
+  const documentName = frontendParams.documentName;
+  const formComponentName = json.data.attributes.layout.type;
+
+  if(formComponentName === 'modalTable' || documentName === MAIN_MODAL_DOCUMENT)
+  {
+    bus.fire("mainModalOpen");
+    changeDocument(MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
+  }
+  else
+  {
+    changeDocument(documentName, { value: json, frontendParams: frontendParams });
+  }
 };
 
 const getRequestParams = (params) => {

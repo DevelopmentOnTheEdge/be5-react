@@ -150,7 +150,6 @@ const _performForm = (json, frontendParams) =>
   if(formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT)
   {
     bus.fire("mainModalOpen");
-
     changeDocument(MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
   }
   else
