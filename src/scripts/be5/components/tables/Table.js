@@ -39,7 +39,7 @@ const formatCell = (data, options, isColumn) =>
       data = $('<a>',{
         html: data,
         href: "#!" + options.link.url,
-        class: "process-hash-url"
+        class: options.link.class || "process-hash-url"
       });
     }
     if(options.css || options === 'th') {
