@@ -26,3 +26,5 @@ export const SEARCH_PRESETS_PARAM = "_search_presets_";
 export const MAIN_DOCUMENT = "MAIN_DOCUMENT";
 export const MAIN_MODAL_DOCUMENT = "MAIN_MODAL_DOCUMENT";
 export const DOCUMENT_REFRESH_SUFFIX = "_refresh";
+
+export const DOWNLOAD_OPERATION = "DOWNLOAD_OPERATION";

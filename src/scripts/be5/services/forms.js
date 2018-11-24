@@ -36,11 +36,15 @@ export const fetchOperationByUrl = (url, callback, failure) => {
 };
 
 const _request = (action, params, callback, failure) => {
+  be5.net.request(action, getFormRequestParams(params), data => callback(data), data => failure(data));
+};
+
+export const getFormRequestParams = (params) => {
   Preconditions.passed(params.entity);
   Preconditions.passed(params.query);
   Preconditions.passed(params.operation);
 
-  const requestParams = {
+  return {
     entity: params.entity,
     query: params.query,
     operation: params.operation,
@@ -48,8 +52,6 @@ const _request = (action, params, callback, failure) => {
     operationParams: be5.net.paramString(params.operationParams),
     _ts_: new Date().getTime()
   };
-
-  be5.net.request(action, requestParams, data => callback(data), data => failure(data));
 };
 
 export const _performOperationResult = (json, frontendParams, applyParams) => {

@@ -8,17 +8,19 @@ import {UPDATE_USER_INFO} from "../store/constants/user.constants";
 import {
   CLOSE_MAIN_MODAL,
   DOCUMENT_REFRESH_SUFFIX,
+  DOWNLOAD_OPERATION,
   GO_BACK,
   MAIN_DOCUMENT,
   OPEN_DEFAULT_ROUTE,
   OPEN_NEW_WINDOW,
-  REDIRECT, REFRESH_DOCUMENT,
+  REDIRECT,
+  REFRESH_DOCUMENT,
   REFRESH_PARENT_DOCUMENT,
   SET_URL,
   UPDATE_DOCUMENT,
   UPDATE_PARENT_DOCUMENT
 } from "../constants";
-import {openOperationByUrl} from './forms';
+import {getFormRequestParams, openOperationByUrl} from './forms';
 import FrontendAction from "./model/FrontendAction";
 
 export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) =>
@@ -122,6 +124,19 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
       frontendParams.parentDocumentName !== frontendParams.documentName) {
       bus.fire(frontendParams.parentDocumentName + DOCUMENT_REFRESH_SUFFIX);
     }
+  }
+
+  if(actions[DOWNLOAD_OPERATION] !== undefined)
+  {
+    const operationRequestParams = getFormRequestParams(actions[DOWNLOAD_OPERATION]);
+    let url = "";
+    for (let key in operationRequestParams) {
+      if (url !== "") {
+        url += "&";
+      }
+      url += key + "=" + encodeURIComponent(operationRequestParams[key]);
+    }
+    window.location = "/api/downloadOperation?" + url;
   }
 
   bus.fire("executeFrontendActions", {actions, frontendParams});
