@@ -47,30 +47,7 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 
   if(actions[REDIRECT] !== undefined)
   {
-    const url = actions[REDIRECT];
-
-    if(url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://"))
-    {
-      window.location.href = url;
-    }
-    else
-    {
-      if (documentName === MAIN_DOCUMENT)
-      {
-        be5.url.process(MAIN_DOCUMENT, '#!' + url);
-      }
-      else
-      {
-        if(be5.url.parse(url).positional[0] === 'form')
-        {
-          openOperationByUrl(url, frontendParams);
-        }
-        else
-        {
-          be5.url.process(documentName, '#!' + url);
-        }
-      }
-    }
+    redirect(actions[REDIRECT], frontendParams);
   }
 
   if(actions[OPEN_NEW_WINDOW] !== undefined)
@@ -90,7 +67,11 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 
   if(actions.hasOwnProperty(GO_BACK))
   {
-    window.history.back();
+    if (actions[GO_BACK] !== undefined && documentName !== MAIN_DOCUMENT) {
+      redirect(actions[GO_BACK], frontendParams);
+    } else {
+      window.history.back();
+    }
   }
 
   if(actions[UPDATE_PARENT_DOCUMENT] !== undefined)
@@ -141,6 +122,25 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 
   bus.fire("executeFrontendActions", {actions, frontendParams});
 };
+
+function redirect(url, frontendParams) {
+  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://")) {
+    window.location.href = url;
+  }
+  else {
+    if (frontendParams.documentName === MAIN_DOCUMENT) {
+      be5.url.process(MAIN_DOCUMENT, '#!' + url);
+    }
+    else {
+      if (be5.url.parse(url).positional[0] === 'form') {
+        openOperationByUrl(url, frontendParams);
+      }
+      else {
+        be5.url.process(frontendParams.documentName, '#!' + url);
+      }
+    }
+  }
+}
 
 export const getActionsMap = (actionsArrayOrOneObject) => {
   let map = {};
