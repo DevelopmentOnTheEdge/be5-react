@@ -77,6 +77,8 @@ var MAIN_DOCUMENT = "MAIN_DOCUMENT";
 var MAIN_MODAL_DOCUMENT = "MAIN_MODAL_DOCUMENT";
 var DOCUMENT_REFRESH_SUFFIX = "_refresh";
 
+var DOWNLOAD_OPERATION = "DOWNLOAD_OPERATION";
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
@@ -356,11 +358,19 @@ var fetchOperationByUrl = function fetchOperationByUrl(url, callback, failure) {
 };
 
 var _request = function _request(action, params, callback, failure) {
+  be5.net.request(action, getFormRequestParams(params), function (data) {
+    return callback(data);
+  }, function (data) {
+    return failure(data);
+  });
+};
+
+var getFormRequestParams = function getFormRequestParams(params) {
   Preconditions.passed(params.entity);
   Preconditions.passed(params.query);
   Preconditions.passed(params.operation);
 
-  var requestParams = {
+  return {
     entity: params.entity,
     query: params.query,
     operation: params.operation,
@@ -368,12 +378,6 @@ var _request = function _request(action, params, callback, failure) {
     operationParams: be5.net.paramString(params.operationParams),
     _ts_: new Date().getTime()
   };
-
-  be5.net.request(action, requestParams, function (data) {
-    return callback(data);
-  }, function (data) {
-    return failure(data);
-  });
 };
 
 var _performOperationResult = function _performOperationResult(json, frontendParams, applyParams) {
@@ -459,7 +463,6 @@ var _performForm = function _performForm(json, frontendParams) {
 
   if (formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT) {
     bus.fire("mainModalOpen");
-
     changeDocument(MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
   } else {
     changeDocument(documentName, { value: json, frontendParams: frontendParams });
@@ -507,21 +510,7 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
   }
 
   if (actions[REDIRECT] !== undefined) {
-    var url = actions[REDIRECT];
-
-    if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://")) {
-      window.location.href = url;
-    } else {
-      if (documentName === MAIN_DOCUMENT) {
-        be5.url.process(MAIN_DOCUMENT, '#!' + url);
-      } else {
-        if (be5.url.parse(url).positional[0] === 'form') {
-          openOperationByUrl(url, frontendParams);
-        } else {
-          be5.url.process(documentName, '#!' + url);
-        }
-      }
-    }
+    redirect(actions[REDIRECT], frontendParams);
   }
 
   if (actions[OPEN_NEW_WINDOW] !== undefined) {
@@ -537,7 +526,11 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
   }
 
   if (actions.hasOwnProperty(GO_BACK)) {
-    window.history.back();
+    if (actions[GO_BACK] !== undefined && documentName !== MAIN_DOCUMENT) {
+      redirect(actions[GO_BACK], frontendParams);
+    } else {
+      window.history.back();
+    }
   }
 
   if (actions[UPDATE_PARENT_DOCUMENT] !== undefined) {
@@ -565,8 +558,36 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
     }
   }
 
+  if (actions[DOWNLOAD_OPERATION] !== undefined) {
+    var operationRequestParams = getFormRequestParams(actions[DOWNLOAD_OPERATION]);
+    var url = "";
+    for (var key in operationRequestParams) {
+      if (url !== "") {
+        url += "&";
+      }
+      url += key + "=" + encodeURIComponent(operationRequestParams[key]);
+    }
+    window.location = "/api/downloadOperation?" + url;
+  }
+
   bus.fire("executeFrontendActions", { actions: actions, frontendParams: frontendParams });
 };
+
+function redirect(url, frontendParams) {
+  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://")) {
+    window.location.href = url;
+  } else {
+    if (frontendParams.documentName === MAIN_DOCUMENT) {
+      be5.url.process(MAIN_DOCUMENT, '#!' + url);
+    } else {
+      if (be5.url.parse(url).positional[0] === 'form') {
+        openOperationByUrl(url, frontendParams);
+      } else {
+        be5.url.process(frontendParams.documentName, '#!' + url);
+      }
+    }
+  }
+}
 
 var getActionsMap = function getActionsMap(actionsArrayOrOneObject) {
   var map = {};
@@ -3675,7 +3696,7 @@ var QuickColumns = function (_React$Component) {
 var loadTable = function loadTable(params, frontendParams) {
   getTable(params, function (json) {
     //todo remove 'json.data' check after change error code
-    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+    _performTable(json, frontendParams);
   }, function (json) {
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   });
@@ -3683,7 +3704,7 @@ var loadTable = function loadTable(params, frontendParams) {
 
 var loadTableByUrl = function loadTableByUrl(url, frontendParams) {
   getTable(getTableParams(url), function (json) {
-    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+    _performTable(json, frontendParams);
   }, function (json) {
     changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   });
@@ -3717,6 +3738,18 @@ var updateTable = function updateTable(params, callback) {
   }, function (data) {
     console.error(data);
   });
+};
+
+var _performTable = function _performTable(json, frontendParams) {
+  var documentName = frontendParams.documentName;
+  var formComponentName = json.data.attributes.layout.type;
+
+  if (formComponentName === 'modalTable' || documentName === MAIN_MODAL_DOCUMENT) {
+    bus.fire("mainModalOpen");
+    changeDocument(MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
+  } else {
+    changeDocument(documentName, { value: json, frontendParams: frontendParams });
+  }
 };
 
 var getRequestParams = function getRequestParams(params) {
@@ -3907,7 +3940,7 @@ var formatCell = function formatCell(data, options, isColumn) {
       data = $('<a>', {
         html: data,
         href: "#!" + options.link.url,
-        class: "process-hash-url"
+        class: options.link.class || "process-hash-url"
       });
     }
     if (options.css || options === 'th') {
@@ -5773,7 +5806,8 @@ var api = Object.freeze({
 	SEARCH_PRESETS_PARAM: SEARCH_PRESETS_PARAM,
 	MAIN_DOCUMENT: MAIN_DOCUMENT,
 	MAIN_MODAL_DOCUMENT: MAIN_MODAL_DOCUMENT,
-	DOCUMENT_REFRESH_SUFFIX: DOCUMENT_REFRESH_SUFFIX
+	DOCUMENT_REFRESH_SUFFIX: DOCUMENT_REFRESH_SUFFIX,
+	DOWNLOAD_OPERATION: DOWNLOAD_OPERATION
 });
 
 // components
@@ -5781,4 +5815,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationParams, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, FrontendAction, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION };
