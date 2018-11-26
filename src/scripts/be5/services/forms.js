@@ -104,6 +104,7 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
             {
               if (frontendParams.parentDocumentName !== undefined)
               {
+                //for TableForm
                 executeFrontendActions(new FrontendAction(REFRESH_PARENT_DOCUMENT), frontendParams);
               }
               else
