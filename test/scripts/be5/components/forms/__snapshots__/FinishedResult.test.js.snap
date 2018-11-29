@@ -28,7 +28,7 @@ exports[`snapshot custom message 1`] = `
     }
   />
   <button
-    className="btn btn-secondary"
+    className="btn btn-secondary back-action-btn"
     onClick={[Function]}
     type="button"
   >

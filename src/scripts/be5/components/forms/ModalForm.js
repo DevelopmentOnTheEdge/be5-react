@@ -34,7 +34,7 @@ class ModalForm extends Form
     const layout = this.state.data.attributes.layout;
     const action = layout.cancelAction || new FrontendAction(CLOSE_MAIN_MODAL);
     return (
-      <button type="button" className="btn btn-secondary" onClick={() => executeFrontendActions(action, this.props.frontendParams)}>
+      <button type="button" className="btn btn-secondary close-action-btn" onClick={() => executeFrontendActions(action, this.props.frontendParams)}>
         {layout.cancelActionText || be5.messages.close}
       </button>
     );

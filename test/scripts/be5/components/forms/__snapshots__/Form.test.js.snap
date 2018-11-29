@@ -148,7 +148,7 @@ exports[`Form on MAIN_DOCUMENT 1`] = `
           </button>
            
           <button
-            className="btn btn-secondary"
+            className="btn btn-secondary back-action-btn"
             onClick={[Function]}
             type="button"
           >
@@ -296,7 +296,7 @@ exports[`ModalForm 1`] = `
         </button>
          
         <button
-          className="btn btn-secondary"
+          className="btn btn-secondary close-action-btn"
           onClick={[Function]}
           type="button"
         >

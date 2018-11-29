@@ -421,6 +421,7 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
               executeFrontendActions(result.details, frontendParams);
             } else {
               if (frontendParams.parentDocumentName !== undefined) {
+                //for TableForm
                 executeFrontendActions(new FrontendAction(REFRESH_PARENT_DOCUMENT), frontendParams);
               } else {
                 if (formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT) {
@@ -700,7 +701,7 @@ var _createBackAction = function _createBackAction(layout, frontendParams) {
     var action = layout.cancelAction || getDefaultCancelAction();
     return React.createElement(
       'button',
-      { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
+      { type: 'button', className: 'btn btn-secondary back-action-btn', onClick: function onClick() {
           return executeFrontendActions(action, frontendParams);
         } },
       layout.cancelActionText || be5.messages.back
@@ -3362,7 +3363,7 @@ var ModalForm = function (_Form) {
       var action = layout.cancelAction || new FrontendAction(CLOSE_MAIN_MODAL);
       return React.createElement(
         'button',
-        { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
+        { type: 'button', className: 'btn btn-secondary close-action-btn', onClick: function onClick() {
             return executeFrontendActions(action, _this2.props.frontendParams);
           } },
         layout.cancelActionText || be5.messages.close
@@ -4461,6 +4462,9 @@ var Table = function (_React$Component3) {
       var hideOperations = data.attributes.layout.hideOperations || [];
       if (topFormJson) {
         hideOperations.push(topFormJson.data.attributes.operation);
+        var layout = topFormJson.data.attributes.layout;
+        if (layout.type === undefined) layout.type = 'inlineMiniForm';
+        if (layout.bsSize === undefined) layout.bsSize = 'sm';
         topForm = React.createElement(Document$1, {
           frontendParams: { documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName },
           value: topFormJson
