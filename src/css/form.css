@@ -39,8 +39,7 @@
 }
 
 @media (min-width: 992px) {
-  .horizontal-input .col-form-label {
-    width: 100%;
+  .horizontal-input .col-form-control-label {
     text-align: right;
   }
 }
