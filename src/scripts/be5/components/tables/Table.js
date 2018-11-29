@@ -517,6 +517,9 @@ class Table extends React.Component
     let hideOperations = data.attributes.layout.hideOperations || [];
     if(topFormJson){
       hideOperations.push(topFormJson.data.attributes.operation);
+      const layout = topFormJson.data.attributes.layout;
+      if (layout.type === undefined) layout.type = 'inlineMiniForm';
+      if (layout.bsSize === undefined) layout.bsSize = 'sm';
       topForm = <Document
         frontendParams={{documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName}}
         value={topFormJson}
