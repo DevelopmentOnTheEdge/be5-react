@@ -101,7 +101,7 @@ export const _createBackAction = (layout, frontendParams) => {
     || frontendParams.documentName === MAIN_DOCUMENT) {
     const action = layout.cancelAction || getDefaultCancelAction();
     return (
-      <button type="button" className="btn btn-secondary" onClick={() => executeFrontendActions(action, frontendParams)}>
+      <button type="button" className="btn btn-secondary back-action-btn" onClick={() => executeFrontendActions(action, frontendParams)}>
         {layout.cancelActionText || be5.messages.back}
       </button>
     );
