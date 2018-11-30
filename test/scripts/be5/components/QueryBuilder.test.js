@@ -12,6 +12,7 @@ test('snapshot', () => {
     "data": {
       "attributes": {
         sql: "select * from users",
+        finalSql: "SELECT * FROM users",
         history: ["select * from users"]
       },
       "links": {
@@ -21,14 +22,6 @@ test('snapshot', () => {
     },
     "errors": [],
     "included": [
-      {
-        "attributes": {
-          "content": "SELECT * FROM users LIMIT 2147483647",
-          "title": "Final sql"
-        },
-        "id": "finalSql",
-        "type": "static"
-      },
       Object.assign({id: "result"}, testData.simpleTable.data)
     ],
     meta: testData.simpleTable.meta

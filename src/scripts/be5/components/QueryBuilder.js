@@ -4,7 +4,6 @@ import be5            from '../be5';
 import Document       from '../containers/Document';
 import AceEditor from 'react-ace';
 import SplitPane from 'react-split-pane';
-import StaticPage from "./StaticPage";
 import ErrorPane from "./ErrorPane";
 import {registerDocument} from "../core/documents";
 import {getModelByID} from "../utils/documentUtils";
@@ -136,7 +135,7 @@ class QueryBuilder extends React.Component
               value={getModelByID(value.included, value.meta, "result")}
               frontendParams={{documentName: "queryBuilder-result"}}
             />
-            <StaticPage value={getModelByID(value.included, value.meta, "finalSql")} />
+            <div>{this.state.value.data.attributes.finalSql}</div>
             <br/>
             <ErrorPane value={value} />
           </div>
