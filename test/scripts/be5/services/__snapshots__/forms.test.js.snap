@@ -10,7 +10,7 @@ exports[`load and _performForm test 1`] = `
       className="row"
     >
       <div
-        className="formBox col-12 max-width-970 formBoxDefault"
+        className="formBox companies_SelectCompany col-12 max-width-970 formBoxDefault"
       >
         <h1
           className="form-component__title"
@@ -65,7 +65,7 @@ exports[`openOperationByUrl 1`] = `
       className="row"
     >
       <div
-        className="formBox col-12 max-width-970 formBoxDefault"
+        className="formBox companies_SelectCompany col-12 max-width-970 formBoxDefault"
       >
         <h1
           className="form-component__title"

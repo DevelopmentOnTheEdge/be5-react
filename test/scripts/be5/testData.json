@@ -9,7 +9,7 @@
         "hasAggregate": false,
         "layout": {},
         "length": 1,
-        "page": "Общие сведения",
+        "page": "All records",
         "parameters": {},
         "rows": [
           {
@@ -28,7 +28,7 @@
       },
       "type": "table",
       "links": {
-        "self": "table/companies/Общие сведения"
+        "self": "table/companies/All records"
       }
     },
     "included": [

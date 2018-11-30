@@ -1637,6 +1637,15 @@ var createPageValue = function createPageValue(actionName, data, url) {
   };
 };
 
+/* https://stackoverflow.com/a/7627603 */
+var makeSafeForClassName = function makeSafeForClassName(name) {
+  return name.replace(/[^a-zA-Z0-9]/g, function (s) {
+    var c = s.charCodeAt(0);
+    if (c === 32) return '-';
+    return '__' + ('000' + c.toString(16)).slice(-4);
+  });
+};
+
 var propTypes = {
   menu: PropTypes.shape({}),
   currentRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -2190,7 +2199,7 @@ var Be5Components = function (_React$Component) {
       return React.createElement(
         'div',
         null,
-        React.createElement(Alert, { stack: { limit: 10 } }),
+        React.createElement(Alert, { stack: { limit: 10 }, html: true }),
         React.createElement(
           Modal,
           { isOpen: this.state.modal, toggle: this.close, className: this.props.className, backdrop: "static" },
@@ -3190,6 +3199,14 @@ var Form = function (_React$Component) {
       }
     }
   }, {
+    key: 'getFormClass',
+    value: function getFormClass() {
+      var attributes = this.state.data.attributes;
+      var entity = makeSafeForClassName(attributes.entity);
+      var operation = makeSafeForClassName(attributes.operation);
+      return entity + '_' + operation;
+    }
+  }, {
     key: 'render',
     value: function render() {
       var attributes = this.state.data.attributes;
@@ -3199,7 +3216,7 @@ var Form = function (_React$Component) {
         { className: 'row' },
         React.createElement(
           'div',
-          { className: classNames('formBox', baseClasses, attributes.layout.classes) },
+          { className: classNames('formBox', this.getFormClass(), baseClasses, attributes.layout.classes) },
           React.createElement(
             'h1',
             { className: 'form-component__title' },
@@ -4473,7 +4490,7 @@ var Table = function (_React$Component3) {
 
       return React.createElement(
         'div',
-        { className: classNames("table-component", data.attributes.layout.classes) },
+        { className: classNames("table-component", this.getTableClass(), data.attributes.layout.classes) },
         topForm,
         React.createElement(
           TitleTag,
@@ -4506,6 +4523,14 @@ var Table = function (_React$Component3) {
         table,
         this._createTableCancelAction()
       );
+    }
+  }, {
+    key: 'getTableClass',
+    value: function getTableClass() {
+      var attributes = this.props.value.data.attributes;
+      var entity = makeSafeForClassName(attributes.category);
+      var query = makeSafeForClassName(attributes.page);
+      return entity + '_' + query;
     }
   }, {
     key: 'getOperationParamsInfo',

@@ -18,6 +18,7 @@ import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions, getBackOrOpenDefaultRouteAction} from "../../services/frontendActions";
 import FilterUI from "./FilterUI";
 import {MAIN_DOCUMENT} from "../../constants";
+import {makeSafeForClassName} from "../../utils/utils";
 
 
 const formatCell = (data, options, isColumn) =>
@@ -527,7 +528,7 @@ class Table extends React.Component
     }
 
     return (
-      <div className={classNames("table-component", data.attributes.layout.classes)}>
+      <div className={classNames("table-component", this.getTableClass(), data.attributes.layout.classes)}>
         {topForm}
         <TitleTag className="table-component__title">
           {value.data.attributes.title}
@@ -554,6 +555,13 @@ class Table extends React.Component
         {this._createTableCancelAction()}
       </div>
     );
+  }
+
+  getTableClass() {
+    const attributes = this.props.value.data.attributes;
+    const entity = makeSafeForClassName(attributes.category);
+    const query = makeSafeForClassName(attributes.page);
+    return entity + '_' + query;
   }
 
   getOperationParamsInfo() {

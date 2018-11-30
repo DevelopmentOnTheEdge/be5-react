@@ -27,3 +27,12 @@ export const createPageValue = (actionName, data, url) => {
     frontendParams: {type: actionName}
   }
 };
+
+/* https://stackoverflow.com/a/7627603 */
+export const makeSafeForClassName = (name) => {
+  return name.replace(/[^a-zA-Z0-9]/g, function(s) {
+    const c = s.charCodeAt(0);
+    if (c === 32) return '-';
+    return '__' + ('000' + c.toString(16)).slice(-4);
+  });
+};

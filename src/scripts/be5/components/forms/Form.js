@@ -9,6 +9,7 @@ import ErrorPane from "../ErrorPane";
 import Transition from 'react-transition-group/Transition';
 import {registerDocument} from '../../core/documents';
 import {_createBackAction} from "../../utils/documentUtils";
+import {makeSafeForClassName} from "../../utils/utils";
 
 
 class Form extends React.Component
@@ -167,12 +168,19 @@ class Form extends React.Component
     }
   }
 
+  getFormClass() {
+    const attributes = this.state.data.attributes;
+    const entity = makeSafeForClassName(attributes.entity);
+    const operation = makeSafeForClassName(attributes.operation);
+    return entity + '_' + operation
+  }
+
   render() {
     const attributes = this.state.data.attributes;
     const baseClasses = attributes.layout.baseClasses || 'col-12 max-width-970 formBoxDefault';
     return (
       <div className="row">
-        <div className={classNames('formBox', baseClasses, attributes.layout.classes)}>
+        <div className={classNames('formBox', this.getFormClass(), baseClasses, attributes.layout.classes)}>
           <h1 className="form-component__title">{attributes.title}</h1>
           {this._createForm()}
         </div>

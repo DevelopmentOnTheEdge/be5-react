@@ -24,7 +24,7 @@ test('test operation click', () => {
   wrapper.find('.btn').last().simulate('click');
 
   expect(handle.mock.calls[0]).toEqual([
-    {"entity": "companies", "operation": "Insert", "operationParams": {}, "query": "Общие сведения", "values": {}},
+    {"entity": "companies", "operation": "Insert", "operationParams": {}, "query": "All records", "values": {}},
     {"documentName": "test", "parentDocumentName": "test"}]);
 
   be5.tableState.selectedRows = [12];
@@ -33,7 +33,7 @@ test('test operation click', () => {
   wrapper.find('.btn').first().simulate('click');
 
   expect(handle.mock.calls[1]).toEqual([
-    {"entity": "companies", "operation": "Edit", "operationParams": {"_selectedRows_":"12"}, "query": "Общие сведения", "values": {}},
+    {"entity": "companies", "operation": "Edit", "operationParams": {"_selectedRows_":"12"}, "query": "All records", "values": {}},
     {"documentName": "test", "parentDocumentName": "test"}]);
 });
 

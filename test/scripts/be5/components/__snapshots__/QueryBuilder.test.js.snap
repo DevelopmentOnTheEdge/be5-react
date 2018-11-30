@@ -130,7 +130,7 @@ exports[`snapshot 1`] = `
         >
           <div>
             <div
-              className="table-component"
+              className="table-component companies_All-records"
             >
               <h1
                 className="table-component__title"
