@@ -679,6 +679,23 @@ var openInModal = function openInModal(e) {
   processHashUrlForDocument(e, MAIN_MODAL_DOCUMENT);
 };
 
+var processHashUrls = function processHashUrls(element, documentName) {
+  element.on("click", '.process-hash-url', function (e) {
+    e.preventDefault();
+    processHashUrlForDocument(e, documentName);
+  });
+
+  element.on("click", '.open-hash-url', function (e) {
+    e.preventDefault();
+    processHashUrl(e);
+  });
+
+  element.on("click", '.open-in-modal', function (e) {
+    e.preventDefault();
+    openInModal(e);
+  });
+};
+
 var processHashUrlForDocument = function processHashUrlForDocument(e, documentName) {
   var url = e.target ? e.target.getAttribute("href") : e;
   if (/^#/.test(url) || url === '' || url === '#' || url === '#!') {
@@ -1891,24 +1908,40 @@ var documentState = {
   getAll: getAll
 };
 
-var StaticPage = function StaticPage(props) {
-  if (!props.value) return null;
+var StaticPage = function (_React$Component) {
+  inherits(StaticPage, _React$Component);
 
-  var attributes = props.value.data.attributes;
+  function StaticPage() {
+    classCallCheck(this, StaticPage);
+    return possibleConstructorReturn(this, (StaticPage.__proto__ || Object.getPrototypeOf(StaticPage)).apply(this, arguments));
+  }
 
-  var title = attributes.title ? React.createElement(
-    'h1',
-    { className: 'staticPage__title' },
-    attributes.title
-  ) : null;
+  createClass(StaticPage, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      processHashUrls($('.staticPage'), this.props.frontendParams.documentName);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      if (!this.props.value) return null;
+      var attributes = this.props.value.data.attributes;
+      var title = attributes.title ? React.createElement(
+        'h1',
+        { className: 'staticPage__title' },
+        attributes.title
+      ) : null;
 
-  return React.createElement(
-    'div',
-    { className: 'staticPage' },
-    title,
-    React.createElement('div', { className: 'staticPage__text', dangerouslySetInnerHTML: { __html: attributes.content } })
-  );
-};
+      return React.createElement(
+        'div',
+        { className: 'staticPage' },
+        title,
+        React.createElement('div', { className: 'staticPage__text', dangerouslySetInnerHTML: { __html: attributes.content } })
+      );
+    }
+  }]);
+  return StaticPage;
+}(React.Component);
 
 StaticPage.propTypes = {
   value: PropTypes.shape({
@@ -3467,22 +3500,40 @@ var InlineMiniForm = function (_Form) {
 
 registerDocument('inlineMiniForm', InlineMiniForm);
 
-var FinishedResult = function FinishedResult(props) {
-  var attributes = props.value.data.attributes;
-  var result = attributes.operationResult;
+var FinishedResult = function (_React$Component) {
+  inherits(FinishedResult, _React$Component);
 
-  var message = result.message;
-  if (result.status === 'finished' && result.message === undefined) {
-    message = be5.messages.successfullyCompleted;
+  function FinishedResult() {
+    classCallCheck(this, FinishedResult);
+    return possibleConstructorReturn(this, (FinishedResult.__proto__ || Object.getPrototypeOf(FinishedResult)).apply(this, arguments));
   }
 
-  return React.createElement(
-    'div',
-    { className: 'finishedResult' },
-    React.createElement('div', { dangerouslySetInnerHTML: { __html: message }, className: 'mb-3' }),
-    _createBackAction(attributes.layout, props.frontendParams)
-  );
-};
+  createClass(FinishedResult, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      processHashUrls($('.finishedResult'), this.props.frontendParams.documentName);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var attributes = this.props.value.data.attributes;
+      var result = attributes.operationResult;
+
+      var message = result.message;
+      if (result.status === 'finished' && result.message === undefined) {
+        message = be5.messages.successfullyCompleted;
+      }
+
+      return React.createElement(
+        'div',
+        { className: 'finishedResult' },
+        React.createElement('div', { dangerouslySetInnerHTML: { __html: message }, className: 'mb-3' }),
+        _createBackAction(attributes.layout, this.props.frontendParams)
+      );
+    }
+  }]);
+  return FinishedResult;
+}(React.Component);
 
 FinishedResult.propTypes = {
   value: PropTypes.shape({
@@ -4232,20 +4283,7 @@ var TableBox = function (_React$Component) {
         _this.props.onOperationClick(editOperation, $(this).data("val"));
       });
 
-      tableDiv.on("click", '.process-hash-url', function (e) {
-        e.preventDefault();
-        processHashUrlForDocument(e, _this.props.frontendParams.documentName);
-      });
-
-      tableDiv.on("click", '.open-hash-url', function (e) {
-        e.preventDefault();
-        processHashUrl(e);
-      });
-
-      tableDiv.on("click", '.open-in-modal', function (e) {
-        e.preventDefault();
-        openInModal(e);
-      });
+      processHashUrls(tableDiv, _this.props.frontendParams.documentName);
 
       tableDiv.on('draw.dt', function () {
         be5.tableState.selectedRows = [];
@@ -5508,7 +5546,11 @@ var QueryBuilder = function (_React$Component) {
               value: getModelByID(value.included, value.meta, "result"),
               frontendParams: { documentName: "queryBuilder-result" }
             }),
-            React.createElement(StaticPage, { value: getModelByID(value.included, value.meta, "finalSql") }),
+            React.createElement(
+              'div',
+              null,
+              this.state.value.data.attributes.finalSql
+            ),
             React.createElement('br', null),
             React.createElement(ErrorPane, { value: value })
           )

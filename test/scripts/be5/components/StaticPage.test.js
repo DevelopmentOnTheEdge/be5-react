@@ -7,7 +7,7 @@ test('snapshot', () => {
   const pageContent = createStaticValue("Test", 'test content', {self: "test"});
 
   const tree = renderer.create(
-      <StaticPage value={pageContent} />
+      <StaticPage value={pageContent} frontendParams={{documentName: "test"}}/>
   ).toJSON();
   expect(tree).toMatchSnapshot();
 });

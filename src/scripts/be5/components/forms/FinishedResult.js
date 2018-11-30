@@ -2,26 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import be5 from '../../be5';
 import {registerDocument} from "../../core/documents";
-import {_createBackAction} from "../../utils/documentUtils";
+import {_createBackAction, processHashUrls} from "../../utils/documentUtils";
 
 
-const FinishedResult = (props) =>
+class FinishedResult extends React.Component
 {
-  const attributes = props.value.data.attributes;
-  const result = attributes.operationResult;
-
-  let message = result.message;
-  if(result.status === 'finished' && result.message === undefined){
-    message = be5.messages.successfullyCompleted;
+  componentDidMount() {
+    processHashUrls($('.finishedResult'), this.props.frontendParams.documentName);
   }
 
-  return (
-    <div className="finishedResult">
-      <div dangerouslySetInnerHTML={{__html: message}} className="mb-3"/>
-      {_createBackAction(attributes.layout, props.frontendParams)}
-    </div>
-  );
-};
+  render() {
+    const attributes = this.props.value.data.attributes;
+    const result = attributes.operationResult;
+
+    let message = result.message;
+    if(result.status === 'finished' && result.message === undefined){
+      message = be5.messages.successfullyCompleted;
+    }
+
+    return (
+      <div className="finishedResult">
+        <div dangerouslySetInnerHTML={{__html: message}} className="mb-3"/>
+        {_createBackAction(attributes.layout, this.props.frontendParams)}
+      </div>
+    );
+  }
+}
 
 FinishedResult.propTypes =  {
   value: PropTypes.shape({

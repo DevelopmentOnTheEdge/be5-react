@@ -79,6 +79,23 @@ export const openInModal = (e) => {
   processHashUrlForDocument(e, MAIN_MODAL_DOCUMENT);
 };
 
+export const processHashUrls = (element, documentName) => {
+  element.on("click", '.process-hash-url', function (e) {
+    e.preventDefault();
+    processHashUrlForDocument(e, documentName);
+  });
+
+  element.on("click", '.open-hash-url', function (e) {
+    e.preventDefault();
+    processHashUrl(e);
+  });
+
+  element.on("click", '.open-in-modal', function (e) {
+    e.preventDefault();
+    openInModal(e);
+  });
+};
+
 export const processHashUrlForDocument = (e, documentName) => {
   let url = e.target ? e.target.getAttribute("href") : e;
   if (/^#/.test(url) || url === '' || url === '#' || url === '#!') {

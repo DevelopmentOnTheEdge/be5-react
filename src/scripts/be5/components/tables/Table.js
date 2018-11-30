@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import be5 from '../../be5';
-import {
-  getModelByID, getResourceByType, getSelfUrl, openInModal, processHashUrl,
-  processHashUrlForDocument
-} from '../../utils/documentUtils';
+import {getModelByID, getResourceByType, getSelfUrl, processHashUrls} from '../../utils/documentUtils';
 import forms from '../../services/forms';
 import numberFormatter from 'number-format.js';
 import OperationBox from './OperationBox';
@@ -316,20 +313,7 @@ class TableBox extends React.Component {
         _this.props.onOperationClick(editOperation, $(this).data("val"));
     });
 
-    tableDiv.on("click", '.process-hash-url', function (e) {
-      e.preventDefault();
-      processHashUrlForDocument(e, _this.props.frontendParams.documentName);
-    });
-
-    tableDiv.on("click", '.open-hash-url', function (e) {
-      e.preventDefault();
-      processHashUrl(e);
-    });
-
-    tableDiv.on("click", '.open-in-modal', function (e) {
-      e.preventDefault();
-      openInModal(e);
-    });
+    processHashUrls(tableDiv, _this.props.frontendParams.documentName);
 
     tableDiv.on( 'draw.dt', function () {
       be5.tableState.selectedRows = [];

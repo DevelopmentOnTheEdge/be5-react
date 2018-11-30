@@ -1,23 +1,28 @@
 import React          from 'react';
 import PropTypes      from 'prop-types';
 import {registerDocument} from '../core/documents';
+import {processHashUrls} from "../utils/documentUtils";
 
 
-const StaticPage = (props) =>
+class StaticPage extends React.Component
 {
-  if(!props.value)return null;
+  componentDidMount() {
+    processHashUrls($('.staticPage'), this.props.frontendParams.documentName);
+  }
 
-  const attributes = props.value.data.attributes;
+  render() {
+    if (!this.props.value) return null;
+    const attributes = this.props.value.data.attributes;
+    const title = attributes.title ? (<h1 className='staticPage__title'>{attributes.title}</h1>) : null;
 
-  const title = attributes.title ? (<h1 className='staticPage__title' >{attributes.title}</h1>) : null;
-
-  return (
-    <div className='staticPage'>
-      {title}
-      <div className='staticPage__text' dangerouslySetInnerHTML={ {__html: attributes.content} } />
-    </div>
-  );
-};
+    return (
+      <div className='staticPage'>
+        {title}
+        <div className='staticPage__text' dangerouslySetInnerHTML={{__html: attributes.content}}/>
+      </div>
+    );
+  }
+}
 
 StaticPage.propTypes =  {
   value: PropTypes.shape({
