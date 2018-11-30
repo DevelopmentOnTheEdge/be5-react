@@ -49,7 +49,7 @@ class Be5Components extends React.Component
   render() {
     return (
       <div>
-        <Alert stack={{limit: 10}}/>
+        <Alert stack={{limit: 10}} html={true}/>
         <Modal isOpen={this.state.modal} toggle={this.close} className={this.props.className} backdrop={"static"}>
           <Document ref="document" frontendParams={{documentName: MAIN_MODAL_DOCUMENT}}/>
         </Modal>

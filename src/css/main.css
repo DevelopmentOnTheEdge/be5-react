@@ -63,6 +63,14 @@ a.menuItemWithRef {
 .s-alert-box {
   z-index: 1500;
 }
+.s-alert-box a {
+  text-decoration: underline;
+  color: #fff;
+  opacity: 1;
+}
+.s-alert-box a:hover {
+  text-decoration: none;
+}
 
 .helpInfo .btn {
   margin-bottom: 12px;
