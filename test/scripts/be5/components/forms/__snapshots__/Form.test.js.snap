@@ -317,6 +317,7 @@ exports[`SubmitOnChangeForm 1`] = `
     className="property-input form-control"
     id="companyIDPropertyInput"
     maxLength={undefined}
+    onBlur={[Function]}
     onChange={[Function]}
     onInput={[Function]}
     onInvalid={[Function]}

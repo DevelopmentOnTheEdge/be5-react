@@ -19,6 +19,7 @@ class Form extends React.Component
     this.state = this.props.value;
 
     this._onFieldChange = this._onFieldChange.bind(this);
+    this._onReloadOnChange = this._onReloadOnChange.bind(this);
     this._setValue = this._setValue.bind(this);
     this._applyOnSubmit = this._applyOnSubmit.bind(this);
     this.apply = this.apply.bind(this);
@@ -76,12 +77,17 @@ class Form extends React.Component
   }
 
   _onFieldChange(name, value) {
-    const attributes = this.state.data.attributes;
     this._setValue(name, value);
+    this.forceUpdate();
+  }
+
+  _onReloadOnChange(name, value) {
+    const attributes = this.state.data.attributes;
+    if (value !== undefined) this._setValue(name, value);
 
     this.forceUpdate(() => {
       if (attributes.bean.meta[name].reloadOnChange === true ||
-          attributes.bean.meta[name].autoRefresh === true ) {
+        attributes.bean.meta[name].autoRefresh === true ) {
         this._reloadOnChange(name);
       }
     });
@@ -116,6 +122,7 @@ class Form extends React.Component
       <PropertySet
         bean={attributes.bean}
         onChange={this._onFieldChange}
+        reloadOnChange={this._onReloadOnChange}
         localization={be5.messages.property}
         bsSize={attributes.layout.bsSize}
       />

@@ -3065,6 +3065,7 @@ var Form = function (_React$Component) {
     _this.state = _this.props.value;
 
     _this._onFieldChange = _this._onFieldChange.bind(_this);
+    _this._onReloadOnChange = _this._onReloadOnChange.bind(_this);
     _this._setValue = _this._setValue.bind(_this);
     _this._applyOnSubmit = _this._applyOnSubmit.bind(_this);
     _this.apply = _this.apply.bind(_this);
@@ -3132,10 +3133,16 @@ var Form = function (_React$Component) {
   }, {
     key: '_onFieldChange',
     value: function _onFieldChange(name, value) {
+      this._setValue(name, value);
+      this.forceUpdate();
+    }
+  }, {
+    key: '_onReloadOnChange',
+    value: function _onReloadOnChange(name, value) {
       var _this4 = this;
 
       var attributes = this.state.data.attributes;
-      this._setValue(name, value);
+      if (value !== undefined) this._setValue(name, value);
 
       this.forceUpdate(function () {
         if (attributes.bean.meta[name].reloadOnChange === true || attributes.bean.meta[name].autoRefresh === true) {
@@ -3173,6 +3180,7 @@ var Form = function (_React$Component) {
       return React.createElement(PropertySet, {
         bean: attributes.bean,
         onChange: this._onFieldChange,
+        reloadOnChange: this._onReloadOnChange,
         localization: be5.messages.property,
         bsSize: attributes.layout.bsSize
       });
@@ -3290,6 +3298,7 @@ var HorizontalForm = function (_Form) {
       return React.createElement(PropertySet, {
         bean: attributes.bean,
         onChange: this._onFieldChange,
+        reloadOnChange: this._onReloadOnChange,
         localization: be5.messages.property,
         bsSize: attributes.layout.bsSize,
         horizontal: true,
@@ -3355,7 +3364,8 @@ var SubmitOnChangeForm = function (_Form) {
           id: 0,
           bean: attributes.bean,
           localization: be5.messages.property,
-          onChange: this._onFieldChangeAndSubmit,
+          onChange: function onChange() {},
+          reloadOnChange: this._onFieldChangeAndSubmit,
           bsSize: attributes.layout.bsSize
         }),
         React.createElement(
@@ -3458,6 +3468,7 @@ var InlineMiniForm = function (_Form) {
       var commonProps = {
         bean: attributes.bean,
         onChange: this._onFieldChange,
+        reloadOnChange: this._onReloadOnChange,
         localization: be5.messages.property,
         inline: true,
         rowClass: "d-flex",

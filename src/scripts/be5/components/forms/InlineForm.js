@@ -14,6 +14,7 @@ class InlineMiniForm extends Form
     const commonProps = {
       bean: attributes.bean,
       onChange: this._onFieldChange,
+      reloadOnChange: this._onReloadOnChange,
       localization: be5.messages.property,
       inline: true,
       rowClass:"d-flex",

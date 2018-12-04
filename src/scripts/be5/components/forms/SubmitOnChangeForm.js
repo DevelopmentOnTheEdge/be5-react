@@ -35,7 +35,8 @@ class SubmitOnChangeForm extends Form
             id={0}
             bean={attributes.bean}
             localization={be5.messages.property}
-            onChange={this._onFieldChangeAndSubmit}
+            onChange={() => {}}
+            reloadOnChange={this._onFieldChangeAndSubmit}
             bsSize={attributes.layout.bsSize}
           />
           <div className="col-12">

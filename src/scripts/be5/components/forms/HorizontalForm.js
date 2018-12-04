@@ -15,6 +15,7 @@ class HorizontalForm extends Form
       <PropertySet
         bean={attributes.bean}
         onChange={this._onFieldChange}
+        reloadOnChange={this._onReloadOnChange}
         localization={be5.messages.property}
         bsSize={attributes.layout.bsSize}
         horizontal={true}
