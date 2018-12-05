@@ -161,6 +161,9 @@ const be5 = {
         if (pos >= 0) {
           let name = decodeURIComponent(urlPart.substring(0, pos).replace(/\+/g, ' '));
           let value = decodeURIComponent(urlPart.substring(pos + 1).replace(/\+/g, ' '));
+          if (value.includes(',')) {
+            value = value.split(',');
+          }
           hashParams[name] = value;
           hasHashParam = true;
         } else {
