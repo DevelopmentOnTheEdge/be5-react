@@ -338,10 +338,10 @@ var submitOperation = function submitOperation(params, frontendParams) {
 };
 
 var _send = function _send(action, params, frontendParams) {
-  _request(action, params, function (data) {
-    _performOperationResult(data, frontendParams, params);
-  }, function (data) {
-    bus.fire("alert", { msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error' });
+  _request(action, params, function (json) {
+    _performOperationResult(json, frontendParams, params);
+  }, function (json) {
+    _performOperationResult(json, frontendParams, params);
   });
 };
 
@@ -1075,13 +1075,11 @@ var be5 = {
     request: function request(path, params, success, failure) {
       return be5.net.requestUrl(be5.net.url(path), 'json', params, success, failure);
     },
-    requestUrl: function requestUrl(url, type, params, _success, failureFunc) {
-      var result = null;
-      var failure = function failure(data) {
-        result = data;
-        be5.log.error(data);
-        if (typeof failureFunc === 'function') failureFunc(data);
-      };
+    requestUrl: function requestUrl(url, type, params, _success, failure) {
+      // const failure = function(data) {
+      //   be5.log.error(data);
+      //   if (typeof (failureFunc) === 'function')failureFunc(data);
+      // };
 
       $.ajax({
         url: be5.be5ServerUrl + url,
@@ -1128,36 +1126,49 @@ var be5 = {
               return;
             }
           }
-          if (_success) {
-            _success(data);
-          } else {
-            result = data;
-          }
+          _success(data);
         },
         error: function error(xhr, status, errorThrown) {
-          var data = {
-            type: 'error',
-            value: {
-              code: 'CLIENT_ERROR'
-            }
-          };
-          if (errorThrown && errorThrown.result === 0x80004005)
-            // Special case for FireFox
-            // see http://helpful.knobs-dials.com/index.php/0x80004005_%28NS_ERROR_FAILURE%29_and_other_firefox_errors
-            data.value.message = be5.messages.errorCannotConnect;else data.value.message = be5.messages.errorServerQueryException.replace("$message", errorThrown === undefined ? status + (xhr.status >= 500 ? " " + xhr.status + " " + xhr.statusText : "") : errorThrown.message === undefined ? errorThrown.toString() : errorThrown.message);
-          failure(data);
+          // let data = {
+          //   type : 'error',
+          //   value : {
+          //     code : 'CLIENT_ERROR'
+          //   }
+          // };
+          // if (errorThrown && errorThrown.result === 0x80004005)
+          //   // Special case for FireFox
+          //   // see http://helpful.knobs-dials.com/index.php/0x80004005_%28NS_ERROR_FAILURE%29_and_other_firefox_errors
+          //   data.value.message = be5.messages.errorCannotConnect;
+          // else
+          //   data.value.message = be5.messages.errorServerQueryException
+          //       .replace(
+          //           "$message",
+          //           errorThrown === undefined ? status
+          //               + (xhr.status >= 500 ? " "
+          //                   + xhr.status
+          //                   + " "
+          //                   + xhr.statusText
+          //                   : "")
+          //               : (errorThrown.message === undefined ? errorThrown
+          //                   .toString()
+          //                   : errorThrown.message));
+          var response = JSON.parse(xhr.responseText);
+          if (typeof failure === 'function' && typeof response !== 'string') {
+            failure(response);
+          } else {
+            be5.log.error(response);
+          }
         }
       });
-      return result;
     },
 
     errorHandlers: {}
   },
 
   log: {
-    error: function error(data) {
-      bus.fire("alert", { msg: data.value.message, type: 'error' }); //, time: 0
-      console.error(data);
+    error: function error(value) {
+      bus.fire("alert", { msg: value, type: 'error' });
+      console.error(value);
     }
   },
 
@@ -4872,6 +4883,8 @@ var route$8 = function route(documentName, page) {
   be5.net.request('static/' + page, requestParams, function (json) {
     if (documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
     changeDocument(documentName, { value: json });
+  }, function (error) {
+    changeDocument(documentName, { value: error });
   });
 };
 
