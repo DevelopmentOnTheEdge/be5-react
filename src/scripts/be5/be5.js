@@ -201,13 +201,11 @@ const be5 = {
       return be5.net.requestUrl(be5.net.url(path), 'json', params, success, failure);
     },
 
-    requestUrl(url, type, params, success, failureFunc) {
-      let result = null;
-      const failure = function(data) {
-        result = data;
-        be5.log.error(data);
-        if (typeof (failureFunc) === 'function')failureFunc(data);
-      };
+    requestUrl(url, type, params, success, failure) {
+      // const failure = function(data) {
+      //   be5.log.error(data);
+      //   if (typeof (failureFunc) === 'function')failureFunc(data);
+      // };
 
       $.ajax({
         url : be5.be5ServerUrl + url,
@@ -255,48 +253,48 @@ const be5 = {
               return;
             }
           }
-          if(success) {
-            success(data);
-          } else {
-            result = data;
-          }
+          success(data);
         },
         error(xhr, status, errorThrown) {
-          let data = {
-            type : 'error',
-            value : {
-              code : 'CLIENT_ERROR'
-            }
-          };
-          if (errorThrown && errorThrown.result === 0x80004005)
-            // Special case for FireFox
-            // see http://helpful.knobs-dials.com/index.php/0x80004005_%28NS_ERROR_FAILURE%29_and_other_firefox_errors
-            data.value.message = be5.messages.errorCannotConnect;
-          else
-            data.value.message = be5.messages.errorServerQueryException
-                .replace(
-                    "$message",
-                    errorThrown === undefined ? status
-                        + (xhr.status >= 500 ? " "
-                            + xhr.status
-                            + " "
-                            + xhr.statusText
-                            : "")
-                        : (errorThrown.message === undefined ? errorThrown
-                            .toString()
-                            : errorThrown.message));
-          failure(data);
+          // let data = {
+          //   type : 'error',
+          //   value : {
+          //     code : 'CLIENT_ERROR'
+          //   }
+          // };
+          // if (errorThrown && errorThrown.result === 0x80004005)
+          //   // Special case for FireFox
+          //   // see http://helpful.knobs-dials.com/index.php/0x80004005_%28NS_ERROR_FAILURE%29_and_other_firefox_errors
+          //   data.value.message = be5.messages.errorCannotConnect;
+          // else
+          //   data.value.message = be5.messages.errorServerQueryException
+          //       .replace(
+          //           "$message",
+          //           errorThrown === undefined ? status
+          //               + (xhr.status >= 500 ? " "
+          //                   + xhr.status
+          //                   + " "
+          //                   + xhr.statusText
+          //                   : "")
+          //               : (errorThrown.message === undefined ? errorThrown
+          //                   .toString()
+          //                   : errorThrown.message));
+          const response = JSON.parse(xhr.responseText);
+          if (typeof (failure) === 'function' && typeof response !== 'string') {
+            failure(response);
+          } else {
+            be5.log.error(response);
+          }
         }
       });
-      return result;
     },
     errorHandlers: {}
   },
 
   log: {
-    error(data) {
-      bus.fire("alert", {msg: data.value.message, type: 'error'}); //, time: 0
-      console.error(data);
+    error(value) {
+      bus.fire("alert", {msg: value, type: 'error'});
+      console.error(value);
     }
   },
 

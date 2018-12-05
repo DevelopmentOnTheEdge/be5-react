@@ -16,10 +16,10 @@ export const submitOperation = (params, frontendParams) => {
 };
 
 const _send = (action, params, frontendParams) => {
-  _request(action, params, data => {
-    _performOperationResult(data, frontendParams, params);
-  },(data)=> {
-    bus.fire("alert", {msg: be5.messages.errorServerQueryException.replace('$message', data.value.code), type: 'error'});
+  _request(action, params, json => {
+    _performOperationResult(json, frontendParams, params);
+  },(json)=> {
+    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
   })
 };
 
