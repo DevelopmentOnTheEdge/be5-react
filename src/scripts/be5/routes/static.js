@@ -14,6 +14,8 @@ const route = function(documentName, page)
   be5.net.request('static/' + page, requestParams, json => {
     if(documentName === MAIN_DOCUMENT)be5.ui.setTitle(json.data.attributes.title);
     changeDocument(documentName, { value: json })
+  }, error => {
+    changeDocument(documentName, { value: error });
   });
 };
 

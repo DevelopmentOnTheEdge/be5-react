@@ -99,6 +99,7 @@ test('static', () => {
     "static/users.be", {
       "_ts_": expect.any(Number),
     },
+    expect.any(Function),
     expect.any(Function)
   ]);
 });

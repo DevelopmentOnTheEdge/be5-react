@@ -19,7 +19,7 @@ const _send = (action, params, frontendParams) => {
   _request(action, params, json => {
     _performOperationResult(json, frontendParams, params);
   },(json)=> {
-    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+    _performOperationResult(json, frontendParams, params);
   })
 };
 
