@@ -1038,6 +1038,9 @@ var be5 = {
         if (pos >= 0) {
           var name = decodeURIComponent(urlPart.substring(0, pos).replace(/\+/g, ' '));
           var value = decodeURIComponent(urlPart.substring(pos + 1).replace(/\+/g, ' '));
+          if (value.includes(',')) {
+            value = value.split(',');
+          }
           hashParams[name] = value;
           hasHashParam = true;
         } else {
@@ -3579,67 +3582,28 @@ var OperationBox = function (_React$Component) {
   }
 
   createClass(OperationBox, [{
-    key: 'onClick',
-    value: function onClick(name, e) {
-      if (!$(ReactDOM.findDOMNode(this.refs[name])).hasClass('disabled')) {
-        var operation = this.props.operations.attributes.find(function (operation) {
-          return operation.name === name;
-        });
-        if (!operation.requiresConfirmation || confirm(operation.title + "?")) {
-          this.props.onOperationClick(operation);
-        }
-      }
-      e.preventDefault();
-    }
-  }, {
-    key: 'refreshEnablement',
-    value: function refreshEnablement() {
-      var _this2 = this;
-
-      if (!this.props.operations) return;
-      this.props.operations.attributes.forEach(function (operation) {
-        var visible = false;
-        switch (operation.visibleWhen) {
-          case 'always':
-            visible = true;
-            break;
-          case 'oneSelected':
-            visible = be5.tableState.selectedRows.length === 1;
-            break;
-          case 'anySelected':
-            visible = be5.tableState.selectedRows.length !== 0;
-            break;
-          case 'hasRecords':
-            visible = _this2.props.hasRows;
-            break;
-        }
-        if (visible) {
-          $(ReactDOM.findDOMNode(_this2.refs[operation.name])).addClass('enabled');
-          $(ReactDOM.findDOMNode(_this2.refs[operation.name])).removeClass('disabled');
-        } else {
-          $(ReactDOM.findDOMNode(_this2.refs[operation.name])).addClass('disabled');
-          $(ReactDOM.findDOMNode(_this2.refs[operation.name])).removeClass('enabled');
-        }
-      });
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
-
       if (!this.props.operations) return null;
-      var splitWithSpaces = function splitWithSpaces(elements) {
-        var out = [];
-        _(elements).each(function (e) {
-          if (out.length !== 0) {
-            out.push(' ');
-          }
-          out.push(e);
-        });
-        return out;
-      };
-      var operations = this.props.operations.attributes.filter(function (operation) {
-        return _this3.props.hideOperations.indexOf(operation.name) === -1;
+
+      var operationItems = this.splitWithSpaces(this.getOperations());
+      if (operationItems === 0) {
+        return null;
+      } else {
+        return React.createElement(
+          'div',
+          { className: 'operationList' },
+          operationItems
+        );
+      }
+    }
+  }, {
+    key: 'getOperations',
+    value: function getOperations() {
+      var _this2 = this;
+
+      return this.props.operations.attributes.filter(function (operation) {
+        return _this2.props.hideOperations.indexOf(operation.name) === -1;
       }).map(function (operation) {
         //      if (operation.isClientSide) {
         //        const action = Action.parse(operation.action);
@@ -3657,21 +3621,68 @@ var OperationBox = function (_React$Component) {
           {
             key: operation.name,
             ref: operation.name,
-            onClick: _this3.onClick.bind(_this3, operation.name),
+            onClick: _this2.onClick.bind(_this2, operation.name),
             className: 'btn btn-secondary btn-secondary-old btn-sm'
           },
           operation.title
         );
       });
-
-      if (this.props.operations.attributes.length === 0) {
-        return React.createElement('div', null);
+    }
+  }, {
+    key: 'onClick',
+    value: function onClick(name, e) {
+      if (!$(ReactDOM.findDOMNode(this.refs[name])).hasClass('disabled')) {
+        var operation = this.props.operations.attributes.find(function (operation) {
+          return operation.name === name;
+        });
+        if (!operation.requiresConfirmation || confirm(operation.title + "?")) {
+          this.props.onOperationClick(operation);
+        }
       }
-      return React.createElement(
-        'div',
-        { className: 'operationList' },
-        splitWithSpaces(operations)
-      );
+      e.preventDefault();
+    }
+  }, {
+    key: 'refreshEnablement',
+    value: function refreshEnablement() {
+      var _this3 = this;
+
+      if (!this.props.operations) return;
+      this.props.operations.attributes.forEach(function (operation) {
+        var visible = false;
+        switch (operation.visibleWhen) {
+          case 'always':
+            visible = true;
+            break;
+          case 'oneSelected':
+            visible = be5.tableState.selectedRows.length === 1;
+            break;
+          case 'anySelected':
+            visible = be5.tableState.selectedRows.length !== 0;
+            break;
+          case 'hasRecords':
+            visible = _this3.props.hasRows;
+            break;
+        }
+        if (visible) {
+          $(ReactDOM.findDOMNode(_this3.refs[operation.name])).addClass('enabled');
+          $(ReactDOM.findDOMNode(_this3.refs[operation.name])).removeClass('disabled');
+        } else {
+          $(ReactDOM.findDOMNode(_this3.refs[operation.name])).addClass('disabled');
+          $(ReactDOM.findDOMNode(_this3.refs[operation.name])).removeClass('enabled');
+        }
+      });
+    }
+  }, {
+    key: 'splitWithSpaces',
+    value: function splitWithSpaces(elements) {
+      var out = [];
+      _(elements).each(function (e) {
+        if (out.length !== 0) {
+          out.push(' ');
+        }
+        out.push(e);
+      });
+      return out;
     }
   }]);
   return OperationBox;
@@ -3732,8 +3743,6 @@ var QuickColumns = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       if (this.state.quickColumns.length === 0) {
         return null;
       }
@@ -3741,7 +3750,7 @@ var QuickColumns = function (_React$Component) {
         var dataTable = $(this.state.table).find('table').dataTable();
         var columnsCount = dataTable.fnSettings().aoColumns.length;
         this.state.quickColumns.forEach(function (col) {
-          var columnId = col.columnId + (_this2.props.selectable ? 1 : 0);
+          var columnId = col.columnId + 1;
           if (columnId < columnsCount) {
             var dtColumn = dataTable.api().column(columnId);
             if (dtColumn.visible) dtColumn.visible(col.visible);
@@ -3750,7 +3759,7 @@ var QuickColumns = function (_React$Component) {
       }
 
       var checks = this.state.quickColumns.map(function (cell, idx) {
-        var _this3 = this;
+        var _this2 = this;
 
         var column = this.props.columns[cell.columnId];
         var title = column.title.replace(/<br\s*[\/]?>/gi, " ");
@@ -3758,7 +3767,7 @@ var QuickColumns = function (_React$Component) {
           'span',
           { key: idx },
           React.createElement('input', { id: "quick" + idx, type: 'checkbox', checked: cell.visible, onChange: function onChange() {
-              return _this3.quickHandleChange(idx);
+              return _this2.quickHandleChange(idx);
             } }),
           React.createElement(
             'label',
