@@ -52,7 +52,7 @@ class QuickColumns extends React.Component
       const dataTable = $(this.state.table).find('table').dataTable();
       const columnsCount = dataTable.fnSettings().aoColumns.length ;
       this.state.quickColumns.forEach((col) => {
-        const columnId = col.columnId + (this.props.selectable ? 1 : 0);
+        const columnId = col.columnId + 1;
         if(columnId < columnsCount){
           const dtColumn = dataTable.api().column( columnId );
           if(dtColumn.visible)dtColumn.visible( col.visible );
