@@ -5,7 +5,7 @@ exports[`Form 1`] = `
   className="row"
 >
   <div
-    className="formBox companies_SelectCompany col-12 max-width-970 formBoxDefault"
+    className="be5-form companies_SelectCompany formBox col-12 max-width-970 formBoxDefault"
   >
     <h1
       className="form-component__title"
@@ -49,7 +49,7 @@ exports[`Form errorOnApply 1`] = `
   className="row"
 >
   <div
-    className="formBox testtable_TestOperation col-12 max-width-970 formBoxDefault"
+    className="be5-form testtable_TestOperation formBox col-12 max-width-970 formBoxDefault"
   >
     <h1
       className="form-component__title"
@@ -118,7 +118,7 @@ exports[`Form on MAIN_DOCUMENT 1`] = `
   className="row"
 >
   <div
-    className="formBox companies_SelectCompany col-12 max-width-970 formBoxDefault"
+    className="be5-form companies_SelectCompany formBox col-12 max-width-970 formBoxDefault"
   >
     <h1
       className="form-component__title"
@@ -169,7 +169,7 @@ exports[`HorizontalForm 1`] = `
   className="row"
 >
   <div
-    className="formBox companies_SelectCompany col-12 max-width-970 formBoxDefault"
+    className="be5-form companies_SelectCompany formBox col-12 max-width-970 formBoxDefault"
   >
     <h1
       className="form-component__title"
@@ -214,7 +214,7 @@ exports[`HorizontalForm 1`] = `
 
 exports[`InlineForm 1`] = `
 <div
-  className="form-inline-mini"
+  className="be5-form companies_SelectCompany form-inline-mini"
 >
   <form
     className="form-inline"
@@ -243,7 +243,7 @@ exports[`InlineForm 1`] = `
 
 exports[`ModalForm 1`] = `
 <div
-  className=""
+  className="be5-form companies_SelectCompany"
 >
   <div
     className="modal-header"

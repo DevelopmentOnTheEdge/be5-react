@@ -184,10 +184,10 @@ class Form extends React.Component
 
   render() {
     const attributes = this.state.data.attributes;
-    const baseClasses = attributes.layout.baseClasses || 'col-12 max-width-970 formBoxDefault';
+    const baseClasses = attributes.layout.baseClasses || 'formBox col-12 max-width-970 formBoxDefault';
     return (
       <div className="row">
-        <div className={classNames('formBox', this.getFormClass(), baseClasses, attributes.layout.classes)}>
+        <div className={classNames('be5-form', this.getFormClass(), baseClasses, attributes.layout.classes)}>
           <h1 className="form-component__title">{attributes.title}</h1>
           {this._createForm()}
         </div>

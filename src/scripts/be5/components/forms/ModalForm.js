@@ -43,7 +43,7 @@ class ModalForm extends Form
   render() {
     const attributes = this.state.data.attributes;
     return (
-      <div className={classNames(attributes.layout.classes)}>
+      <div className={classNames('be5-form', this.getFormClass(), attributes.layout.classes)}>
         <ModalHeader tag='h5' toggle={() => bus.fire("mainModalClose")} >{attributes.title}</ModalHeader>
         {this._createForm()}
       </div>
