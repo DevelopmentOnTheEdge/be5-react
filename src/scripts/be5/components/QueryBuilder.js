@@ -131,18 +131,35 @@ class QueryBuilder extends React.Component
             >
               Выполнить
             </button>
-            <Document
-              value={getModelByID(value.included, value.meta, "result")}
-              frontendParams={{documentName: "queryBuilder-result"}}
+            <QueryBuilderOutput
+              value={value}
+              finalSql={this.state.value.data.attributes.finalSql}
             />
-            <div>{this.state.value.data.attributes.finalSql}</div>
-            <br/>
-            <ErrorPane value={value} />
           </div>
         </SplitPane>
 
       </div>
     );
+  }
+}
+
+class QueryBuilderOutput extends React.Component
+{
+  shouldComponentUpdate(nextProps) {
+    return nextProps.value.meta._ts_ > this.props.value.meta._ts_;
+  }
+
+  render() {
+    const {value} = this.props;
+    return <div>
+      <Document
+        value={getModelByID(value.included, value.meta, "result")}
+        frontendParams={{documentName: "queryBuilder-result"}}
+      />
+      <div>{value.data.attributes.finalSql}</div>
+      <br/>
+      <ErrorPane value={value} />
+    </div>
   }
 }
 
