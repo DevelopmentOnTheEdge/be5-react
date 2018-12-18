@@ -140,7 +140,6 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
 const _performForm = (json, frontendParams) =>
 {
   const documentName = frontendParams.documentName;
-  if(documentName === MAIN_DOCUMENT)be5.ui.setTitle(json.data.attributes.title);
   let operationResult = json.data.attributes.operationResult;
 
   if(operationResult.status === 'error')
@@ -157,6 +156,7 @@ const _performForm = (json, frontendParams) =>
   }
   else
   {
+    if(documentName === MAIN_DOCUMENT)be5.ui.setTitle(json.data.attributes.title);
     changeDocument(documentName, { value: json, frontendParams: frontendParams });
   }
 };
