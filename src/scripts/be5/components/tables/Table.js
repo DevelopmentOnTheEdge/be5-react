@@ -26,7 +26,16 @@ const formatCell = (data, options, isColumn) =>
         return options.blankNulls.value;
     }
   }else{
-    data = data.map(row => row.join(', ')).join('<br/>');
+    try {
+      data = data.map(row => row.join !== undefined ? row.join(', ') : errorData()).join('<br/>');
+    } catch (e) {
+      console.error(e.message);
+      data = e.message;
+    }
+  }
+
+  function errorData() {
+    throw new Error('Error data in cell.');
   }
 
   if(options){
