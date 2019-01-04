@@ -14,3 +14,7 @@
 .queryBuilder .table-component__title {
   display: none;
 }
+#document-content___queryBuilder-result .dataTables_paginate,
+#document-content___queryBuilder-result .dataTables_length {
+    display: none;
+}
