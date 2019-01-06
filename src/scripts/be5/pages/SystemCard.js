@@ -13,9 +13,13 @@ const SystemCard = (props) =>
   const steps = [
     {title: 'Cache', url: '#!table/_system_/Cache'},
     {title: 'Daemons', url: '#!table/_system_/Daemons'},
+    {title: 'DataSource', url: '#!table/_system_/DataSource'},
     {title: 'Entities', url: '#!table/_system_/Entities'},
+    {title: 'Http Headers', url: '#!table/_system_/Http Headers'},
     {title: 'Session variables', url: '#!table/_system_/Session variables'},
-    {title: 'Query builder', url: '#!queryBuilder'},
+    {title: 'System properties', url: '#!table/_system_/System properties'},
+    {title: 'System Settings', url: '#!table/systemSettings/All%20records'},
+    {title: 'Threads', url: '#!table/_system_/Threads'},
   ];
 
   return (
