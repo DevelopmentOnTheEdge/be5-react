@@ -36,7 +36,7 @@ import './pages/UiPanel';
 import './pages/SystemCard';
 import {fetchUserInfo} from "./store/actions/user.actions";
 import {getDefaultRoute} from "./store/selectors/user.selectors";
-import {processHashUrlForDocument} from "./utils/documentUtils";
+import {getSelfUrl, processHashUrlForDocument} from "./utils/documentUtils";
 import {MAIN_DOCUMENT} from "./constants";
 
 
@@ -48,15 +48,13 @@ export default {
 
     const state = documentState.get(MAIN_DOCUMENT);
 
-    if(!state.value || !state.value.data || !state.value.data.links ||
-      "#!" + state.value.data.links.self !== be5.url.get())
+    if(getSelfUrl(state.value) !== be5.url.get())
     {
-      if (state.value && state.value.data && state.value.data.links &&
-        getDefaultRoute(be5.store.getState()) === state.value.data.links.self
+      if (getSelfUrl(state.value) === "#!" + getDefaultRoute(be5.store.getState())
         && (be5.url.get() === "" || be5.url.get() === "#!")) {
         return;
       }
-      //console.log(state.value, be5.url.get());
+      console.log(getSelfUrl(state.value), be5.url.get(), "#!" + getDefaultRoute(be5.store.getState()));
       be5.url.process(MAIN_DOCUMENT, be5.url.get());
     }
   },
