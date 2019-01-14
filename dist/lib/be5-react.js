@@ -453,7 +453,6 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
 
 var _performForm = function _performForm(json, frontendParams) {
   var documentName = frontendParams.documentName;
-  if (documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
   var operationResult = json.data.attributes.operationResult;
 
   if (operationResult.status === 'error') {
@@ -466,6 +465,7 @@ var _performForm = function _performForm(json, frontendParams) {
     bus.fire("mainModalOpen");
     changeDocument(MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
   } else {
+    if (documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
     changeDocument(documentName, { value: json, frontendParams: frontendParams });
   }
 };
@@ -697,13 +697,13 @@ var processHashUrls = function processHashUrls(element, documentName) {
 };
 
 var processHashUrlForDocument = function processHashUrlForDocument(e, documentName) {
-  var url = e.target ? e.target.getAttribute("href") : e;
+  var url = e.currentTarget ? e.currentTarget.getAttribute("href") : e;
   if (/^#/.test(url) || url === '' || url === '#' || url === '#!') {
-    if (e.target) e.preventDefault();
+    if (e.currentTarget) e.preventDefault();
     if (url.startsWith("#!table/")) {
       url = url + "/_cleanNav_=true";
     }
-    //console.log(url, documentName);
+    console.log(url, documentName);
     be5.url.process(documentName || MAIN_DOCUMENT, url);
   }
 };
@@ -2553,7 +2553,7 @@ HelpInfo.defaultProps = {
   documentName: "helpInfo"
 };
 
-var Error = function (_React$Component) {
+var Error$1 = function (_React$Component) {
   inherits(Error, _React$Component);
 
   function Error() {
@@ -2689,7 +2689,7 @@ var ErrorPane = function (_React$Component2) {
         'div',
         { className: 'errorPane' },
         errors.map(function (error, i) {
-          return React.createElement(Error, _extends({}, error, { key: i }));
+          return React.createElement(Error$1, _extends({}, error, { key: i }));
         })
       );
     }
@@ -3265,13 +3265,13 @@ var Form = function (_React$Component) {
     key: 'render',
     value: function render() {
       var attributes = this.state.data.attributes;
-      var baseClasses = attributes.layout.baseClasses || 'col-12 max-width-970 formBoxDefault';
+      var baseClasses = attributes.layout.baseClasses || 'formBox col-12 max-width-970 formBoxDefault';
       return React.createElement(
         'div',
         { className: 'row' },
         React.createElement(
           'div',
-          { className: classNames('formBox', this.getFormClass(), baseClasses, attributes.layout.classes) },
+          { className: classNames('be5-form', this.getFormClass(), baseClasses, attributes.layout.classes) },
           React.createElement(
             'h1',
             { className: 'form-component__title' },
@@ -3449,7 +3449,7 @@ var ModalForm = function (_Form) {
       var attributes = this.state.data.attributes;
       return React.createElement(
         'div',
-        { className: classNames(attributes.layout.classes) },
+        { className: classNames('be5-form', this.getFormClass(), attributes.layout.classes) },
         React.createElement(
           ModalHeader,
           { tag: 'h5', toggle: function toggle() {
@@ -3494,9 +3494,10 @@ var InlineMiniForm = function (_Form) {
         return React.createElement(Property, _extends({ key: p, path: p }, commonProps));
       });
 
+      var baseClasses = attributes.layout.baseClasses || 'form-inline-mini';
       return React.createElement(
         'div',
-        { className: attributes.layout.classes || 'form-inline-mini' },
+        { className: classNames('be5-form', this.getFormClass(), baseClasses, attributes.layout.classes) },
         React.createElement(
           'form',
           {
@@ -4027,9 +4028,18 @@ var formatCell = function formatCell(data, options, isColumn) {
       if (options && options.blankNulls && options.blankNulls.value) return options.blankNulls.value;
     }
   } else {
-    data = data.map(function (row) {
-      return row.join(', ');
-    }).join('<br/>');
+    try {
+      data = data.map(function (row) {
+        return row.join !== undefined ? row.join(', ') : errorData();
+      }).join('<br/>');
+    } catch (e) {
+      console.error(e.message);
+      data = e.message;
+    }
+  }
+
+  function errorData() {
+    throw new Error('Error data in cell.');
   }
 
   if (options) {
@@ -5575,23 +5585,54 @@ var QueryBuilder = function (_React$Component) {
               },
               '\u0412\u044B\u043F\u043E\u043B\u043D\u0438\u0442\u044C'
             ),
-            React.createElement(Document$1, {
-              value: getModelByID(value.included, value.meta, "result"),
-              frontendParams: { documentName: "queryBuilder-result" }
-            }),
-            React.createElement(
-              'div',
-              null,
-              this.state.value.data.attributes.finalSql
-            ),
-            React.createElement('br', null),
-            React.createElement(ErrorPane, { value: value })
+            React.createElement(QueryBuilderOutput, {
+              value: value,
+              finalSql: this.state.value.data.attributes.finalSql
+            })
           )
         )
       );
     }
   }]);
   return QueryBuilder;
+}(React.Component);
+
+var QueryBuilderOutput = function (_React$Component2) {
+  inherits(QueryBuilderOutput, _React$Component2);
+
+  function QueryBuilderOutput() {
+    classCallCheck(this, QueryBuilderOutput);
+    return possibleConstructorReturn(this, (QueryBuilderOutput.__proto__ || Object.getPrototypeOf(QueryBuilderOutput)).apply(this, arguments));
+  }
+
+  createClass(QueryBuilderOutput, [{
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps) {
+      return nextProps.value.meta._ts_ > this.props.value.meta._ts_;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var value = this.props.value;
+
+      return React.createElement(
+        'div',
+        null,
+        React.createElement(Document$1, {
+          value: getModelByID(value.included, value.meta, "result"),
+          frontendParams: { documentName: "queryBuilder-result" }
+        }),
+        React.createElement(
+          'div',
+          null,
+          value.data.attributes.finalSql
+        ),
+        React.createElement('br', null),
+        React.createElement(ErrorPane, { value: value })
+      );
+    }
+  }]);
+  return QueryBuilderOutput;
 }(React.Component);
 
 registerDocument("queryBuilder", QueryBuilder);
@@ -5699,7 +5740,7 @@ registerPage("uiPanel", UiPanel, function (documentName) {
 var SystemCard = function SystemCard(props) {
   var title = props.value.data.attributes.title;
   be5.ui.setTitle(title);
-  var steps = [{ title: 'Cache', url: '#!table/_system_/Cache' }, { title: 'Daemons', url: '#!table/_system_/Daemons' }, { title: 'Entities', url: '#!table/_system_/Entities' }, { title: 'Session variables', url: '#!table/_system_/Session variables' }, { title: 'Query builder', url: '#!queryBuilder' }];
+  var steps = [{ title: 'Cache', url: '#!table/_system_/Cache' }, { title: 'Daemons', url: '#!table/_system_/Daemons' }, { title: 'DataSource', url: '#!table/_system_/DataSource' }, { title: 'Entities', url: '#!table/_system_/Entities' }, { title: 'Http Headers', url: '#!table/_system_/Http Headers' }, { title: 'Session', url: '#!table/_system_/Session variables' }, { title: 'Properties', url: '#!table/_system_/System properties' }, { title: 'System Settings', url: '#!table/systemSettings/All%20records' }, { title: 'Threads', url: '#!table/_system_/Threads' }, { title: 'UI panel', url: '#!uiPanel' }];
 
   return React.createElement(
     "div",
@@ -5728,11 +5769,11 @@ var be5init$$1 = {
 
     var state = documentState.get(MAIN_DOCUMENT);
 
-    if (!state.value || !state.value.data || !state.value.data.links || "#!" + state.value.data.links.self !== be5.url.get()) {
-      if (state.value && state.value.data && state.value.data.links && getDefaultRoute(be5.store.getState()) === state.value.data.links.self && (be5.url.get() === "" || be5.url.get() === "#!")) {
+    if (getSelfUrl(state.value) !== be5.url.get()) {
+      if (getSelfUrl(state.value) === "#!" + getDefaultRoute(be5.store.getState()) && (be5.url.get() === "" || be5.url.get() === "#!")) {
         return;
       }
-      //console.log(state.value, be5.url.get());
+      console.log(getSelfUrl(state.value), be5.url.get(), "#!" + getDefaultRoute(be5.store.getState()));
       be5.url.process(MAIN_DOCUMENT, be5.url.get());
     }
   },
