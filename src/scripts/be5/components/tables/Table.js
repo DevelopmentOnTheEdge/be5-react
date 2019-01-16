@@ -220,8 +220,10 @@ class TableBox extends React.Component {
               return display;
             }
 
+            const params = Object.assign({}, attributes.parameters, {_selectedRows_: val});
+            const url = be5.url.create(['form', attributes.category, attributes.page, 'Edit'], params);
             if(editOperation !== undefined) {
-              display = '<a href="#" data-val="'+val+'" class="edit-operation-btn">'+display+'</a>';
+              display = '<a href="#!' + url + '" data-val="'+val+'" class="edit-operation-btn">'+display+'</a>';
             }
 
             return ('<input id="{id}" type="checkbox" class="rowCheckbox"/> ' +
