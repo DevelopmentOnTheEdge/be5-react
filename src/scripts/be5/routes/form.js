@@ -1,19 +1,16 @@
 import React             from 'react';
-import forms             from '../services/forms';
+import forms, {getOperationParams} from '../services/forms';
 import {registerRoute} from '../core/routes'
 
 
-const route = function(documentName, entity, query, operation, operationParams) {
-
-  const params = {
+const route = function(documentName, entity, query, operation, contextParams) {
+  const formParams = {
     entity: entity,
     query: query || 'All records',
     operation: operation,
-    values: {},
-    operationParams: operationParams
+    contextParams: contextParams || {}
   };
-
-  forms.load(params, {documentName: documentName});
+  forms.load(getOperationParams(formParams), {documentName: documentName});
 };
 
 registerRoute("form", route);

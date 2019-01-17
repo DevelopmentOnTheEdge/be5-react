@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import be5 from '../../be5';
 import {getModelByID, getResourceByType, getSelfUrl, processHashUrls} from '../../utils/documentUtils';
-import forms from '../../services/forms';
+import forms, {getOperationParams} from '../../services/forms';
 import numberFormatter from 'number-format.js';
 import OperationBox from './OperationBox';
 import QuickColumns from './QuickColumns';
@@ -457,23 +457,20 @@ class Table extends React.Component
     const name = operation.name;
     const attr = this.props.value.data.attributes;
 
-    let operationParams;
-
+    let contextParams;
     if (be5.tableState.selectedRows.length > 0 || selectedRow) {
-      operationParams = Object.assign({}, attr.parameters, {"_selectedRows_": selectedRow || be5.tableState.selectedRows.join()});
+      contextParams = Object.assign({}, attr.parameters, {"_selectedRows_": selectedRow || be5.tableState.selectedRows.join()});
     } else {
-      operationParams = attr.parameters;
+      contextParams = attr.parameters;
     }
 
     const params = {
       entity: attr.category,
       query: attr.page || 'All records',
       operation: name,
-      values: {},
-      operationParams: operationParams
+      contextParams: contextParams
     };
-
-    forms.load(params, frontendParams);
+    forms.load(getOperationParams(params), frontendParams);
   }
 
   render() {

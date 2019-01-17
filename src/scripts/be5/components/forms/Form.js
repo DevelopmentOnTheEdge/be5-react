@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import be5 from '../../be5';
-import forms from '../../services/forms';
+import forms, {getOperationParams} from '../../services/forms';
 import PropertySet from 'beanexplorer-react';
 import JsonPointer from 'json-pointer';
 import ErrorPane from "../ErrorPane";
@@ -29,15 +29,15 @@ class Form extends React.Component
     this.setState(Object.assign({}, nextProps.value, {wasValidated: false, submitted: false}));
   }
 
-  getParams(values){
-    const attributes = this.state.data.attributes;
-    return {
-      entity: attributes.entity,
-      query: attributes.query,
-      operation: attributes.operation,
-      operationParams: attributes.operationParams,
-      values: values,
+  getParams(values) {
+    const attr = this.state.data.attributes;
+    const formParams = {
+      entity: attr.entity,
+      query: attr.query,
+      operation: attr.operation,
+      contextParams: attr.operationParams
     };
+    return getOperationParams(formParams, values);
   }
 
   _reloadOnChange(controlName) {
@@ -96,7 +96,7 @@ class Form extends React.Component
   _createForm() {
     return (
       <form
-        id={this.state.meta._ts_}
+        ref={el => (this.form = el)}
         onSubmit={this._applyOnSubmit}
         className={classNames(
           this.state.wasValidated ? 'was-validated' : ''
