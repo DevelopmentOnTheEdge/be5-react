@@ -51,8 +51,7 @@ class TableBox extends React.Component {
       entity: attr.category,
       query: attr.page || 'All records',
       operation: name,
-      values: {},
-      operationParams: attr.parameters
+      contextParams: attr.parameters
     };
 
     forms.load(params, {
@@ -118,7 +117,7 @@ class TableBox extends React.Component {
   //       data: {
   //         entity: attributes.category,
   //         query: attributes.page,
-  //         values: be5.net.paramString(attributes.parameters),
+  //         contextParams: be5.net.paramString(attributes.parameters),
   //         selectable: attributes.selectable,
   //         totalNumberOfRows: attributes.totalNumberOfRows
   //       },

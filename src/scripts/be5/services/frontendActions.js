@@ -20,7 +20,7 @@ import {
   UPDATE_DOCUMENT,
   UPDATE_PARENT_DOCUMENT
 } from "../constants";
-import {getFormRequestParams, openOperationByUrl} from './forms';
+import {openOperationByUrl} from './forms';
 import FrontendAction from "./model/FrontendAction";
 
 export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) =>
@@ -109,14 +109,19 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 
   if(actions[DOWNLOAD_OPERATION] !== undefined)
   {
-    const operationRequestParams = getFormRequestParams(actions[DOWNLOAD_OPERATION]);
+    const operationRequestParams = actions[DOWNLOAD_OPERATION];
     let url = "";
     for (let key in operationRequestParams) {
       if (url !== "") {
         url += "&";
       }
-      url += key + "=" + encodeURIComponent(operationRequestParams[key]);
+      if (key === 'operationParams') {
+        url += "operationParams=" + be5.net.paramString(operationRequestParams[key]);
+      } else {
+        url += key + "=" + encodeURIComponent(operationRequestParams[key]);
+      }
     }
+    //console.log("/api/downloadOperation?" + url)
     window.location = "/api/downloadOperation?" + url;
   }
 

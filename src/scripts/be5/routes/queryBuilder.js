@@ -8,7 +8,7 @@ import {MAIN_DOCUMENT} from "../constants";
 const route = function(documentName, params)
 {
   const requestParams = {
-    values: be5.net.paramString(params),
+    contextParams: be5.net.paramString(params),
     _ts_: new Date().getTime()
   };
 

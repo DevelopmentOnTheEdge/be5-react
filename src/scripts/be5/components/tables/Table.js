@@ -464,13 +464,13 @@ class Table extends React.Component
       contextParams = attr.parameters;
     }
 
-    const params = {
+    const formParams = {
       entity: attr.category,
       query: attr.page || 'All records',
       operation: name,
       contextParams: contextParams
     };
-    forms.load(getOperationParams(params), frontendParams);
+    forms.load(getOperationParams(formParams), frontendParams);
   }
 
   render() {

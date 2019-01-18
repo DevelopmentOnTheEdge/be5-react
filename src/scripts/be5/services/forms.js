@@ -52,20 +52,6 @@ const _request = (action, data, callback, failure) => {
   });
 };
 
-export const getFormRequestParams = (params) => {
-  Preconditions.passed(params.entity);
-  Preconditions.passed(params.query);
-  Preconditions.passed(params.operation);
-
-  return {
-    entity: params.entity,
-    query: params.query,
-    operation: params.operation,
-    values: be5.net.paramString(params.values),
-    operationParams: be5.net.paramString(params.operationParams),
-  };
-};
-
 export const _performOperationResult = (json, frontendParams, data) => {
   const documentName = frontendParams.documentName;
 

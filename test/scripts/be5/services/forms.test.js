@@ -23,7 +23,7 @@ test('load', () => {
     entity: 'users',
     query: 'All records',
     operation: 'Insert',
-    values: {},
+    contextParams: {},
     operationParams: {'user_name':'Guest',_selectedRows_: '12'}
   };
   forms.load(params, {documentName: 'testDoc',parentDocumentName: 'parentTestDoc'});
@@ -45,7 +45,7 @@ test('load', () => {
     entity: 'users',
     query: 'All records',
     operation: 'Insert',
-    values: {},
+    contextParams: {},
     operationParams: {'user_name':'Guest'},
   };
   forms.apply(params, {documentName: 'testDoc',parentDocumentName: 'parentTestDoc'});
@@ -232,7 +232,7 @@ test('load and _performForm test', () => {
     entity: 'users',
     query: 'All records',
     operation: 'Insert',
-    values: {},
+    contextParams: {},
     operationParams: {'user_name':'Guest',_selectedRows_: '12'}
   };
   forms.load(params, {documentName: "test"});

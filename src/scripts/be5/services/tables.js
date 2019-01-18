@@ -71,7 +71,7 @@ const getRequestParams = (params) => {
   return {
     entity: params.entity,
     query: params.query,
-    values: be5.net.paramString(params.params),
+    contextParams: be5.net.paramString(params.params),
     _ts_: new Date().getTime()
   }
 };

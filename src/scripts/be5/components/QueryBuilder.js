@@ -45,7 +45,7 @@ class QueryBuilder extends React.Component
     const requestParams = {
       sql: this.state.sql,
       updateWithoutBeSql: this.state.updateWithoutBeSql,
-      values: this.props.value.params,
+      contextParams: this.props.value.params,
       _ts_: new Date().getTime()
     };
 
