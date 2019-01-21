@@ -10,65 +10,32 @@ import '../../../../src/scripts/be5/routes/queryBuilder';
 import {getRoute} from "../../../../src/scripts/be5/core/routes";
 import {MAIN_DOCUMENT} from "../../../../src/scripts/be5/constants";
 
+jest.mock("../../../../src/scripts/be5/services/forms", () => ({
+  __esModule: true, // this property makes it work
+  default: {load: jest.fn()},
+  _request: jest.fn(),
+  getOperationInfo: jest.fn(),
+  openOperationByUrl: jest.fn()
+}));
+import forms, {getOperationInfo, openOperationByUrl} from "../../../../src/scripts/be5/services/forms";
 
-test('login', () => {
-  be5.net.request = jest.fn();
 
+test('login, logout', () => {
   getRoute('login')();
-
-  expect(be5.net.request.mock.calls.length).toBe(1);
-  expect(be5.net.request.mock.calls[0]).toEqual([
-    "form", {
-      "_ts_": expect.any(Number),
-      "entity": "users",
-      "operation": "Login",
-      "operationParams": '{}',
-      "query": "All records",
-      "values": "{}"
-    },
-    expect.any(Function),
-    expect.any(Function)
-  ]);
-});
-
-test('logout', () => {
-  be5.net.request = jest.fn();
+  expect(openOperationByUrl.mock.calls.length).toBe(1);
+  expect(openOperationByUrl.mock.calls[0]).toEqual(
+    ["form/users/All records/Login", {"documentName": "MAIN_MODAL_DOCUMENT"}]);
 
   getRoute('logout')();
-
-  expect(be5.net.request.mock.calls.length).toBe(1);
-  expect(be5.net.request.mock.calls[0]).toEqual([
-    "form", {
-      "_ts_": expect.any(Number),
-      "entity": "users",
-      "operation": "Logout",
-      "operationParams": '{}',
-      "query": "All records",
-      "values": "{}"
-    },
-    expect.any(Function),
-    expect.any(Function)
-  ]);
+  expect(openOperationByUrl.mock.calls.length).toBe(2);
+  expect(openOperationByUrl.mock.calls[1]).toEqual(
+    ["form/users/All records/Logout", {"documentName": "MAIN_DOCUMENT"}]);
 });
 
 test('form', () => {
-  be5.net.request = jest.fn();
-
   getRoute('form')(MAIN_DOCUMENT, "users", "All records", "Test",{});
-
-  expect(be5.net.request.mock.calls.length).toBe(1);
-  expect(be5.net.request.mock.calls[0]).toEqual([
-    "form", {
-      "_ts_": expect.any(Number),
-      "entity": "users",
-      "operation": "Test",
-      "operationParams": '{}',
-      "query": "All records",
-      "values": "{}"
-    },
-    expect.any(Function),
-    expect.any(Function)
-  ]);
+  expect(getOperationInfo.mock.calls.length).toBe(1);
+  expect(forms.load.mock.calls.length).toBe(1);
 });
 
 test('table', () => {
@@ -82,7 +49,7 @@ test('table', () => {
       "_ts_": expect.any(Number),
       "entity": "users",
       "query": "All records",
-      "values": "{}"
+      "contextParams": "{}"
     },
     expect.any(Function),
     expect.any(Function)
@@ -126,7 +93,7 @@ test('queryBuilder', () => {
   expect(be5.net.request.mock.calls.length).toBe(1);
   expect(be5.net.request.mock.calls[0]).toEqual([
     "queryBuilder", {
-      "values": "{}",
+      "contextParams": "{}",
       "_ts_": expect.any(Number),
     },
     expect.any(Function)

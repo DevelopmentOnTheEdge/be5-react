@@ -99,7 +99,7 @@ test('reloadOnChange', () => {
       "operation": "SelectCompany",
       "operationParams": undefined,
       "query": "Selection view SelectCompany",
-      "values": {"_reloadcontrol_": "/companyID", "companyID": "newValue"}
+      "values": {"_reloadControl_": "/companyID", "companyID": "newValue"}
     },
     {"documentName": "test"}
   ]);

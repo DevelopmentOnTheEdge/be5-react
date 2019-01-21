@@ -28,3 +28,7 @@ export const MAIN_MODAL_DOCUMENT = "MAIN_MODAL_DOCUMENT";
 export const DOCUMENT_REFRESH_SUFFIX = "_refresh";
 
 export const DOWNLOAD_OPERATION = "DOWNLOAD_OPERATION";
+
+export const OPERATION_INFO = "_operationInfo_";
+export const RELOAD_CONTROL_NAME = "_reloadControl_";
+export const SELECTED_ROWS = "_selectedRows_";

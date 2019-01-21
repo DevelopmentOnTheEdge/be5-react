@@ -222,7 +222,7 @@ exports[`snapshot 1`] = `
           </span>
           <span>
             , 
-            operationParams
+            contextParams
           </span>
           )
         </div>

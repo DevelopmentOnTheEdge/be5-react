@@ -2,7 +2,10 @@ import be5 from '../be5';
 import bus from '../core/bus';
 import Preconditions from '../utils/preconditions';
 import changeDocument from '../core/changeDocument';
-import {MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, REDIRECT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT} from "../constants";
+import {
+  MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, OPERATION_INFO, REDIRECT, REFRESH_DOCUMENT,
+  REFRESH_PARENT_DOCUMENT
+} from "../constants";
 import FrontendAction from "./model/FrontendAction";
 import {executeFrontendActions} from "./frontendActions";
 import 'formdata-polyfill';
@@ -25,18 +28,18 @@ const _send = (action, data, frontendParams) => {
 };
 
 export const openOperationByUrl = (url, frontendParams) => {
-  _send('form', getOperationParamsFromUrl(url), frontendParams);
+  _send('form', getOperationInfoFromUrl(url), frontendParams);
 };
 
 export const openOperationByUrlWithValues = (url, values, frontendParams) => {
-  _send('form', getOperationParamsFromUrl(url, values), frontendParams);
+  _send('form', getOperationInfoFromUrl(url, values), frontendParams);
 };
 
 export const fetchOperationByUrl = (url, callback, failure) => {
-  _request('form', getOperationParamsFromUrl(url), callback, failure);
+  _request('form', getOperationInfoFromUrl(url), callback, failure);
 };
 
-const _request = (action, data, callback, failure) => {
+export let _request = (action, data, callback, failure) => {
   $.ajax({
     url: be5.net.url(action),
     method: 'POST',
@@ -162,18 +165,18 @@ const _performForm = (json, frontendParams) =>
   }
 };
 
-export const getOperationParamsFromUrl = (url, values = {}) => {
+export const getOperationInfoFromUrl = (url, values = {}) => {
   const attr = be5.url.parse(url);
-  const formParams = {
+  const operationInfo = {
     entity: attr.positional[1],
     query: attr.positional[2],
     operation: attr.positional[3],
     contextParams: attr.named
   };
-  return getOperationParams(formParams, values)
+  return getOperationInfo(operationInfo, values)
 };
 
-export const getOperationParams = (formParams, values = {}) => {
+export const getOperationInfo = (operationInfo, values = {}) => {
   let formData = new FormData();
   for (let k in values) {
     const value = values[k];
@@ -185,9 +188,9 @@ export const getOperationParams = (formParams, values = {}) => {
       formData.append(k, value);
     }
   }
-  formData.append("operationParams", JSON.stringify(formParams));
+  formData.append(OPERATION_INFO, JSON.stringify(operationInfo));
   formData.append("_ts_", new Date().getTime());
-  console.log(formData.get("operationParams"), formData.get("_ts_"), values);
+  console.log(formData.get(OPERATION_INFO), formData.get("_ts_"), values);
   return formData;
 };
 

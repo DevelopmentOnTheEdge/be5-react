@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import be5 from '../../be5';
 import {getModelByID, getResourceByType, getSelfUrl, processHashUrls} from '../../utils/documentUtils';
-import forms, {getOperationParams} from '../../services/forms';
+import forms, {getOperationInfo} from '../../services/forms';
 import numberFormatter from 'number-format.js';
 import OperationBox from './OperationBox';
 import QuickColumns from './QuickColumns';
@@ -14,7 +14,7 @@ import {loadTableByUrl, updateTable} from "../../services/tables";
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions, getBackOrOpenDefaultRouteAction} from "../../services/frontendActions";
 import FilterUI from "./FilterUI";
-import {MAIN_DOCUMENT} from "../../constants";
+import {MAIN_DOCUMENT, SELECTED_ROWS} from "../../constants";
 import {makeSafeForClassName} from "../../utils/utils";
 
 
@@ -459,18 +459,19 @@ class Table extends React.Component
 
     let contextParams;
     if (be5.tableState.selectedRows.length > 0 || selectedRow) {
-      contextParams = Object.assign({}, attr.parameters, {"_selectedRows_": selectedRow || be5.tableState.selectedRows.join()});
+      contextParams = Object.assign({}, attr.parameters);
+      contextParams[SELECTED_ROWS] = selectedRow || be5.tableState.selectedRows.join();
     } else {
       contextParams = attr.parameters;
     }
 
-    const formParams = {
+    const operationInfo = {
       entity: attr.category,
       query: attr.page || 'All records',
       operation: name,
       contextParams: contextParams
     };
-    forms.load(getOperationParams(formParams), frontendParams);
+    forms.load(getOperationInfo(operationInfo), frontendParams);
   }
 
   render() {

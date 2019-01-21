@@ -20,7 +20,7 @@ test('load', () => {
       "_ts_": expect.any(Number),
       "entity": "users",
       "query": "All records",
-      "values": '{"user_name":"demo"}'
+      "contextParams": '{"user_name":"demo"}'
     },
     expect.any(Function),
     expect.any(Function)
@@ -40,7 +40,7 @@ test('fetchTableByUrl', () => {
       "_ts_": expect.any(Number),
       "entity": "users",
       "query": "All records",
-      "values": '{"user_name":"demo","_cleanNav_":"true"}'
+      "contextParams": '{"user_name":"demo","_cleanNav_":"true"}'
     },
     expect.any(Function),
     expect.any(Function)

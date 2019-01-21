@@ -25,7 +25,7 @@ import textAction      from './routes/text.js';
 // services
 import action            from './services/actions.js';
 import {
-  loadOperation, submitOperation, getOperationParamsFromUrl,
+  loadOperation, submitOperation, getOperationInfoFromUrl,
   openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl
 } from './services/forms.js';
 
@@ -80,7 +80,7 @@ export {
   // services
   action,
 
-  loadOperation, submitOperation, getOperationParamsFromUrl,
+  loadOperation, submitOperation, getOperationInfoFromUrl,
   openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl,
 
   loadTable, updateTable, fetchTableByUrl,

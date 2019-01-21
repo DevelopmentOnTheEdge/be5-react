@@ -12,7 +12,7 @@ import {
   GO_BACK,
   MAIN_DOCUMENT,
   OPEN_DEFAULT_ROUTE,
-  OPEN_NEW_WINDOW,
+  OPEN_NEW_WINDOW, OPERATION_INFO,
   REDIRECT,
   REFRESH_DOCUMENT,
   REFRESH_PARENT_DOCUMENT,
@@ -115,8 +115,8 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
       if (url !== "") {
         url += "&";
       }
-      if (key === 'operationParams') {
-        url += "operationParams=" + be5.net.paramString(operationRequestParams[key]);
+      if (key === OPERATION_INFO) {
+        url += OPERATION_INFO + "=" + be5.net.paramString(operationRequestParams[key]);
       } else {
         url += key + "=" + encodeURIComponent(operationRequestParams[key]);
       }

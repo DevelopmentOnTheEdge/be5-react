@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import be5 from '../../be5';
-import forms, {getOperationParams} from '../../services/forms';
+import forms, {getOperationInfo} from '../../services/forms';
 import PropertySet from 'beanexplorer-react';
 import JsonPointer from 'json-pointer';
 import ErrorPane from "../ErrorPane";
@@ -10,6 +10,7 @@ import Transition from 'react-transition-group/Transition';
 import {registerDocument} from '../../core/documents';
 import {_createBackAction} from "../../utils/documentUtils";
 import {makeSafeForClassName} from "../../utils/utils";
+import {RELOAD_CONTROL_NAME} from "../../constants";
 
 
 class Form extends React.Component
@@ -31,20 +32,21 @@ class Form extends React.Component
 
   getParams(values) {
     const attr = this.state.data.attributes;
-    const formParams = {
+    const operationInfo = {
       entity: attr.entity,
       query: attr.query,
       operation: attr.operation,
       contextParams: attr.operationParams
     };
-    return getOperationParams(formParams, values);
+    return getOperationInfo(operationInfo, values);
   }
 
   _reloadOnChange(controlName) {
     if(!this.state.submitted)
     {
       this.setState({submitted: true}, () => {
-        const values = Object.assign({}, this.state.data.attributes.bean.values, {'_reloadcontrol_': controlName});
+        const values = Object.assign({}, this.state.data.attributes.bean.values);
+        values[RELOAD_CONTROL_NAME] = controlName;
 
         forms.load(this.getParams(values), this.props.frontendParams);
       });
