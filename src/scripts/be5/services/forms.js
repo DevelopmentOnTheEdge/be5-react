@@ -184,6 +184,10 @@ export const getOperationInfo = (operationInfo, values = {}) => {
       value.forEach(function(e) {
         formData.append(k, e);
       });
+    } else if (value instanceof FileList) {
+      for (let i = 0; i < value.length; i++) {
+        formData.append(k, value[i]);
+      }
     } else {
       formData.append(k, value);
     }
