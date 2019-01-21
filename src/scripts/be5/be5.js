@@ -213,7 +213,7 @@ const be5 = {
       $.ajax({
         url : be5.be5ServerUrl + url,
         dataType : type,
-        type : 'POST',
+        type : 'GET',
         data : params,
         async: true,
         xhrFields: {

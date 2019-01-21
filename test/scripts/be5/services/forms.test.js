@@ -32,10 +32,10 @@ test('load', () => {
   expect(be5.net.request.mock.calls[0]).toEqual([
     "form", {
       "_ts_": expect.any(Number),
-      "entity": "users",
-      "operation": "Insert",
-      "operationParams": '{"user_name":"Guest","_selectedRows_":"12"}',
-      "query": "All records",
+      "_en_": "users",
+      "_on_": "Insert",
+      "_params_": '{"user_name":"Guest","_selectedRows_":"12"}',
+      "_qn_": "All records",
       "values": "{}"},
     expect.any(Function),
     expect.any(Function)
@@ -52,10 +52,10 @@ test('load', () => {
   expect(be5.net.request.mock.calls[1]).toEqual([
     "form/apply", {
       "_ts_": expect.any(Number),
-      "entity": "users",
-      "operation": "Insert",
-      "operationParams": '{"user_name":"Guest"}',
-      "query": "All records",
+      "_en_": "users",
+      "_on_": "Insert",
+      "_params_": '{"user_name":"Guest"}',
+      "_qn_": "All records",
       "values": "{}"},
     expect.any(Function),
     expect.any(Function)
@@ -265,10 +265,10 @@ test('fetchOperationByUrl', () => {
   expect(be5.net.request.mock.calls[0]).toEqual([
     "form", {
       "_ts_": expect.any(Number),
-      "entity": "users",
-      "operation": "Insert",
-      "operationParams": '{"user_name":"Guest","_selectedRows_":"12"}',
-      "query": "All records",
+      "_en_": "users",
+      "_on_": "Insert",
+      "_params_": '{"user_name":"Guest","_selectedRows_":"12"}',
+      "_qn_": "All records",
       "values": "{}"},
     expect.any(Function),
     expect.any(Function)

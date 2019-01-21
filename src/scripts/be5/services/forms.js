@@ -3,8 +3,10 @@ import bus from '../core/bus';
 import Preconditions from '../utils/preconditions';
 import changeDocument from '../core/changeDocument';
 import {
-  MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, OPERATION_INFO, REDIRECT, REFRESH_DOCUMENT,
-  REFRESH_PARENT_DOCUMENT
+  CONTEXT_PARAMS, ENTITY_NAME_PARAM,
+  MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, OPERATION_NAME_PARAM, QUERY_NAME_PARAM, REDIRECT,
+  REFRESH_DOCUMENT,
+  REFRESH_PARENT_DOCUMENT, TIMESTAMP_PARAM
 } from "../constants";
 import FrontendAction from "./model/FrontendAction";
 import {executeFrontendActions} from "./frontendActions";
@@ -20,7 +22,7 @@ export const submitOperation = (params, frontendParams) => {
 };
 
 const _send = (action, data, frontendParams) => {
-  _request(action, data, json => {
+  _post(action, data, json => {
     _performOperationResult(json, frontendParams, data);
   },(json)=> {
     _performOperationResult(json, frontendParams, data);
@@ -36,10 +38,34 @@ export const openOperationByUrlWithValues = (url, values, frontendParams) => {
 };
 
 export const fetchOperationByUrl = (url, callback, failure) => {
-  _request('form', getOperationInfoFromUrl(url), callback, failure);
+  _post('form', getOperationInfoFromUrl(url), callback, failure);
 };
 
-export let _request = (action, data, callback, failure) => {
+export const loadForm = (data, frontendParams) => {
+  _get(data, json => {
+    _performOperationResult(json, frontendParams, data);
+  },(json)=> {
+    _performOperationResult(json, frontendParams, data);
+  })
+};
+
+export const _get = (operationInfo, callback, failure) => {
+  const data = Object.assign({}, operationInfo, {
+    [TIMESTAMP_PARAM]: new Date().getTime()
+  });
+
+  $.ajax({
+    url: be5.net.url('form'),
+    data: data,
+    success(data) {callback(data)},
+    error(xhr, status, error) {
+      const response = JSON.parse(xhr.responseText);
+      failure(response);
+    }
+  });
+};
+
+export let _post = (action, data, callback, failure) => {
   $.ajax({
     url: be5.net.url(action),
     method: 'POST',
@@ -168,10 +194,10 @@ const _performForm = (json, frontendParams) =>
 export const getOperationInfoFromUrl = (url, values = {}) => {
   const attr = be5.url.parse(url);
   const operationInfo = {
-    entity: attr.positional[1],
-    query: attr.positional[2],
-    operation: attr.positional[3],
-    contextParams: attr.named
+    [ENTITY_NAME_PARAM]: attr.positional[1],
+    [QUERY_NAME_PARAM]: attr.positional[2],
+    [OPERATION_NAME_PARAM]: attr.positional[3],
+    [CONTEXT_PARAMS]: JSON.stringify(attr.named)
   };
   return getOperationInfo(operationInfo, values)
 };
@@ -192,9 +218,12 @@ export const getOperationInfo = (operationInfo, values = {}) => {
       formData.append(k, value);
     }
   }
-  formData.append(OPERATION_INFO, JSON.stringify(operationInfo));
-  formData.append("_ts_", new Date().getTime());
-  console.log(formData.get(OPERATION_INFO), formData.get("_ts_"), values);
+  formData.append(ENTITY_NAME_PARAM, operationInfo[ENTITY_NAME_PARAM]);
+  formData.append(QUERY_NAME_PARAM, operationInfo[QUERY_NAME_PARAM]);
+  formData.append(OPERATION_NAME_PARAM, operationInfo[OPERATION_NAME_PARAM]);
+  formData.append(CONTEXT_PARAMS, operationInfo[CONTEXT_PARAMS]);
+  formData.append(TIMESTAMP_PARAM, new Date().getTime());
+  console.log(operationInfo, values);
   return formData;
 };
 

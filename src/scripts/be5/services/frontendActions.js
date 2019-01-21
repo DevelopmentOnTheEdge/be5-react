@@ -7,12 +7,13 @@ import {getDefaultRoute} from "../store/selectors/user.selectors";
 import {UPDATE_USER_INFO} from "../store/constants/user.constants";
 import {
   CLOSE_MAIN_MODAL,
+  CONTEXT_PARAMS,
   DOCUMENT_REFRESH_SUFFIX,
   DOWNLOAD_OPERATION,
   GO_BACK,
   MAIN_DOCUMENT,
   OPEN_DEFAULT_ROUTE,
-  OPEN_NEW_WINDOW, OPERATION_INFO,
+  OPEN_NEW_WINDOW,
   REDIRECT,
   REFRESH_DOCUMENT,
   REFRESH_PARENT_DOCUMENT,
@@ -115,8 +116,9 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
       if (url !== "") {
         url += "&";
       }
-      if (key === OPERATION_INFO) {
-        url += OPERATION_INFO + "=" + be5.net.paramString(operationRequestParams[key]);
+
+      if (key === CONTEXT_PARAMS) {
+        url += CONTEXT_PARAMS + "=" + be5.net.paramString(operationRequestParams[CONTEXT_PARAMS]);
       } else {
         url += key + "=" + encodeURIComponent(operationRequestParams[key]);
       }

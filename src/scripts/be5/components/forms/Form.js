@@ -10,7 +10,10 @@ import Transition from 'react-transition-group/Transition';
 import {registerDocument} from '../../core/documents';
 import {_createBackAction} from "../../utils/documentUtils";
 import {makeSafeForClassName} from "../../utils/utils";
-import {RELOAD_CONTROL_NAME} from "../../constants";
+import {
+  CONTEXT_PARAMS, ENTITY_NAME_PARAM, OPERATION_NAME_PARAM, QUERY_NAME_PARAM,
+  RELOAD_CONTROL_NAME
+} from "../../constants";
 
 
 class Form extends React.Component
@@ -33,10 +36,10 @@ class Form extends React.Component
   getParams(values) {
     const attr = this.state.data.attributes;
     const operationInfo = {
-      entity: attr.entity,
-      query: attr.query,
-      operation: attr.operation,
-      contextParams: attr.operationParams
+      [ENTITY_NAME_PARAM]: attr.entity,
+      [QUERY_NAME_PARAM]: attr.query,
+      [OPERATION_NAME_PARAM]: attr.operation,
+      [CONTEXT_PARAMS]: JSON.stringify(attr.operationParams)
     };
     return getOperationInfo(operationInfo, values);
   }
@@ -179,8 +182,8 @@ class Form extends React.Component
 
   getFormClass() {
     const attributes = this.state.data.attributes;
-    const entity = makeSafeForClassName(attributes.entity);
-    const operation = makeSafeForClassName(attributes.operation);
+    const entity = makeSafeForClassName(attributes[ENTITY_NAME_PARAM]);
+    const operation = makeSafeForClassName(attributes[OPERATION_NAME_PARAM]);
     return entity + '_' + operation
   }
 

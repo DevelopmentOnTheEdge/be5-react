@@ -83,13 +83,13 @@
             "/companyID"
           ]
         },
-        "entity": "companies",
+        "_en_": "companies",
         "layout": {},
-        "operation": "SelectCompany",
+        "_on_": "SelectCompany",
         "operationResult": {
           "status": "open"
         },
-        "query": "Selection view SelectCompany",
+        "_qn_": "Selection view SelectCompany",
         "_selectedRows_": "",
         "title": "SelectCompany"
       },
@@ -119,13 +119,13 @@
             "/companyID"
           ]
         },
-        "entity": "companies",
+        "_en_": "companies",
         "layout": {},
-        "operation": "SelectCompany",
+        "_on_": "SelectCompany",
         "operationResult": {
           "status": "open"
         },
-        "query": "Selection view SelectCompany",
+        "_qn_": "Selection view SelectCompany",
         "_selectedRows_": "",
         "title": "SelectCompany"
       },
@@ -146,13 +146,13 @@
           "meta": {},
           "order": []
         },
-        "entity": "companies",
+        "_en_": "companies",
         "layout": {},
-        "operation": "SelectCompany",
+        "_on_": "SelectCompany",
         "operationResult": {
           "status": "open"
         },
-        "query": "Selection view SelectCompany",
+        "_qn_": "Selection view SelectCompany",
         "_selectedRows_": "",
         "title": "SelectCompany"
       },
@@ -168,7 +168,7 @@
   "errorOnApply": {
     "data":{
       "attributes":{"bean":{"values":{},"meta":{},"order":[]},
-      "entity":"testtable",
+      "_en_":"testtable",
         "errorModel":{
           "code":"Be5Exception: Internal error occurred during operation... ",
           "status":"500",
@@ -176,10 +176,10 @@
           "links":{"self":"form/testtable/Test 1D/TestOperation"}
         },
         "layout":{},
-        "operation":"TestOperation",
-        "operationParams":{},
+        "_on_":"TestOperation",
+        "_params_":{},
         "operationResult":{"message":"Internal error occurred during operation testtable.TestOperation","status":"error"},
-        "query":"Test 1D",
+        "_qn_":"Test 1D",
         "_selectedRows_":"",
         "title":"Тестовая операция"},
       "links":{"self":"form/testtable/Test 1D/TestOperation"},

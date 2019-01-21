@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import be5 from '../../be5';
 import {getModelByID, getResourceByType, getSelfUrl, processHashUrls} from '../../utils/documentUtils';
-import forms, {getOperationInfo} from '../../services/forms';
+import {loadForm} from '../../services/forms';
 import numberFormatter from 'number-format.js';
 import OperationBox from './OperationBox';
 import QuickColumns from './QuickColumns';
@@ -14,7 +14,10 @@ import {loadTableByUrl, updateTable} from "../../services/tables";
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions, getBackOrOpenDefaultRouteAction} from "../../services/frontendActions";
 import FilterUI from "./FilterUI";
-import {MAIN_DOCUMENT, SELECTED_ROWS} from "../../constants";
+import {
+  CONTEXT_PARAMS, ENTITY_NAME_PARAM, MAIN_DOCUMENT, OPERATION_NAME_PARAM, QUERY_NAME_PARAM,
+  SELECTED_ROWS
+} from "../../constants";
 import {makeSafeForClassName} from "../../utils/utils";
 
 
@@ -466,12 +469,12 @@ class Table extends React.Component
     }
 
     const operationInfo = {
-      entity: attr.category,
-      query: attr.page || 'All records',
-      operation: name,
-      contextParams: contextParams
+      [ENTITY_NAME_PARAM]: attr.category,
+      [QUERY_NAME_PARAM]: attr.page || 'All records',
+      [OPERATION_NAME_PARAM]: name,
+      [CONTEXT_PARAMS]: JSON.stringify(contextParams)
     };
-    forms.load(getOperationInfo(operationInfo), frontendParams);
+    loadForm(operationInfo, frontendParams);
   }
 
   render() {

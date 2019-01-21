@@ -7,9 +7,9 @@ test('load', () => {
   be5.net.request = jest.fn();
 
   const paramsObject = {
-    entity: 'users',
-    query: 'All records',
-    params: {'user_name': 'demo'}
+    "_en_": 'users',
+    "_qn_": 'All records',
+    "_params_": {'user_name': 'demo'}
   };
   loadTable(paramsObject, {documentName: 'testDoc'});
 
@@ -18,9 +18,9 @@ test('load', () => {
     "table",
     {
       "_ts_": expect.any(Number),
-      "entity": "users",
-      "query": "All records",
-      "contextParams": '{"user_name":"demo"}'
+      "_en_": "users",
+      "_qn_": "All records",
+      "_params_": '{"user_name":"demo"}'
     },
     expect.any(Function),
     expect.any(Function)
@@ -38,9 +38,9 @@ test('fetchTableByUrl', () => {
     "table",
     {
       "_ts_": expect.any(Number),
-      "entity": "users",
-      "query": "All records",
-      "contextParams": '{"user_name":"demo","_cleanNav_":"true"}'
+      "_en_": "users",
+      "_qn_": "All records",
+      "_params_": '{"user_name":"demo","_cleanNav_":"true"}'
     },
     expect.any(Function),
     expect.any(Function)

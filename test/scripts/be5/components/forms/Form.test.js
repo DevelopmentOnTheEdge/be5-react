@@ -73,10 +73,10 @@ test('submit form', () => {
 
   expect(handle.mock.calls[0]).toEqual([
       {
-        "entity": "companies",
-        "operation": "SelectCompany",
-        "operationParams": undefined,
-        "query": "Selection view SelectCompany",
+        "_en_": "companies",
+        "_on_": "SelectCompany",
+        "_params_": undefined,
+        "_qn_": "Selection view SelectCompany",
         "values": {"companyID": "newValue"}
       },
       {"documentName": "test"}
@@ -95,10 +95,10 @@ test('reloadOnChange', () => {
 
   expect(handle.mock.calls[0]).toEqual([
     {
-      "entity": "companies",
-      "operation": "SelectCompany",
-      "operationParams": undefined,
-      "query": "Selection view SelectCompany",
+      "_en_": "companies",
+      "_on_": "SelectCompany",
+      "_params_": undefined,
+      "_qn_": "Selection view SelectCompany",
       "values": {"_reloadControl_": "/companyID", "companyID": "newValue"}
     },
     {"documentName": "test"}
@@ -117,10 +117,10 @@ test('reloadOnChange', () => {
 //
 //   expect(handle.mock.calls[0]).toEqual([
 //     {
-//       "entity": "companies",
-//       "operation": "SelectCompany",
-//       "operationParams": undefined,
-//       "query": "Selection view SelectCompany",
+//       "_en_": "companies",
+//       "_on_": "SelectCompany",
+//       "_params_": undefined,
+//       "_qn_": "Selection view SelectCompany",
 //       "values": {"companyID": "newValue"}
 //     },
 //     {"documentName": "test"}

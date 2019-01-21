@@ -35,12 +35,12 @@
         "type": "application/json",
         "body": {"loggedIn":true,"root":[
           {"title":"Main page","default":true,"action":{"name":"call","arg":"static/welcome.be"}},
-          {"id":{"entity":"testtable"},"title":"testtable","default":false,"children":[
+          {"id":{"_en_":"testtable"},"title":"testtable","default":false,"children":[
             {"title":"Test 1D","action":{"name":"call","arg":"table/testtable/Test 1D"},"default":false},
             {"title":"Test 1D unknown","action":{"name":"call","arg":"table/testtable/Test 1D unknown"},"default":false}
           ]},
           {"title":"Logout","default":false,"action":{"name":"call","arg":"logout"}},
-          {"id":{"entity":"_system_"},"title":"System","default":false,"children":[{"title":"Pool","action":{"name":"call","arg":"pool"},"default":false}]},
+          {"id":{"_en_":"_system_"},"title":"System","default":false,"children":[{"title":"Pool","action":{"name":"call","arg":"pool"},"default":false}]},
           {"title":"users","default":false,"action":{"name":"call","arg":"table/users/All records"}}]}
       }
     },
@@ -228,13 +228,13 @@
                   "/companyID"
                 ]
               },
-              "entity": "companies",
+              "_en_": "companies",
               "layout": {},
-              "operation": "SelectCompany",
+              "_on_": "SelectCompany",
               "operationResult": {
                 "status": "open"
               },
-              "query": "Selection view SelectCompany",
+              "_qn_": "Selection view SelectCompany",
               "_selectedRows_": "",
               "title": "SelectCompany"
             },

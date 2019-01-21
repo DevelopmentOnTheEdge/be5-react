@@ -3,12 +3,13 @@ import be5            from '../be5';
 import changeDocument from '../core/changeDocument';
 import {registerRoute} from '../core/routes'
 import {createStaticValue} from "../utils/documentUtils";
+import {ENTITY_NAME_PARAM} from "../constants";
 
 
 const route = function(documentName, entity)
 {
   const requestParams = {
-    entity: entity
+    [ENTITY_NAME_PARAM]: entity
   };
 
   be5.net.request('categories/forest/', requestParams, data => {
