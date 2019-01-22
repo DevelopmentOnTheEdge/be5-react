@@ -54,7 +54,7 @@ export default {
         && (be5.url.get() === "" || be5.url.get() === "#!")) {
         return;
       }
-      console.log(getSelfUrl(state.value), be5.url.get(), "#!" + getDefaultRoute(be5.store.getState()));
+      //console.log(getSelfUrl(state.value), be5.url.get(), "#!" + getDefaultRoute(be5.store.getState()));
       be5.url.process(MAIN_DOCUMENT, be5.url.get());
     }
   },
