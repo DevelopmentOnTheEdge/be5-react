@@ -4,7 +4,7 @@ be5.locale.set = () => {};
 
 be5.net.request = function (path, attr, callback) {
   if (path === 'menu') {
-    callback({"root":[{"action":{"arg":"static/welcome.be","name":"call"},"default":false,"title":"Добро пожаловать"},{"children":[{"action":{"arg":"login","name":"call"},"default":false,"title":"Вход"}],"default":false,"id":{"entity":"users"},"title":"Пользователи"},{"children":[{"action":{"arg":"table/users/TestQuery","name":"call"},"default":false,"title":"Test query"}],"default":false,"id":{"entity":"_welfareGroups_"},"title":"Услуги"}]});
+    callback({"root":[{"action":{"arg":"static/welcome.be","name":"call"},"default":false,"title":"Добро пожаловать"},{"children":[{"action":{"arg":"login","name":"call"},"default":false,"title":"Вход"}],"default":false,"id":{"_en_":"users"},"title":"Пользователи"},{"children":[{"action":{"arg":"table/users/TestQuery","name":"call"},"default":false,"title":"Test query"}],"default":false,"id":{"_en_":"_welfareGroups_"},"title":"Услуги"}]});
     return;
   }
 

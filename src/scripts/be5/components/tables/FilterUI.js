@@ -1,8 +1,8 @@
-import React      from 'react';
-import PropTypes  from 'prop-types';
+import React from 'react';
 import be5 from "../../be5";
 import {loadTable} from "../../services/tables";
 import {getFilterParams} from "../../utils/filterUtils";
+import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, QUERY_NAME_PARAM} from "../../constants";
 
 
 const propTypes = {
@@ -23,9 +23,9 @@ const FilterUI = ({entity, query, params, frontendParams}) =>
     //console.log(newParams);
 
     const paramsObject = {
-      entity: entity,
-      query: query || 'All records',
-      params: newParams
+      [ENTITY_NAME_PARAM]: entity,
+      [QUERY_NAME_PARAM]: query || 'All records',
+      [CONTEXT_PARAMS]: newParams
     };
     loadTable(paramsObject, frontendParams)
   }

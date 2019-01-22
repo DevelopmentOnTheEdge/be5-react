@@ -1,7 +1,7 @@
 import be5 from '../be5';
 import changeDocument from '../core/changeDocument';
 import Preconditions from '../utils/preconditions';
-import {MAIN_MODAL_DOCUMENT} from "../constants";
+import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, MAIN_MODAL_DOCUMENT, QUERY_NAME_PARAM, TIMESTAMP_PARAM} from "../constants";
 import bus from "../core/bus";
 
 
@@ -30,9 +30,9 @@ export const getTableParams = (url) => {
   const attr = be5.url.parse(url);
 
   return {
-    entity: attr.positional[1],
-    query: attr.positional[2],
-    params: attr.named
+    [ENTITY_NAME_PARAM]: attr.positional[1],
+    [QUERY_NAME_PARAM]: attr.positional[2],
+    [CONTEXT_PARAMS]: attr.named
   };
 };
 
@@ -65,13 +65,13 @@ const _performTable = (json, frontendParams) =>
 };
 
 const getRequestParams = (params) => {
-  Preconditions.passed(params.entity);
-  Preconditions.passed(params.query);
+  Preconditions.passed(params[ENTITY_NAME_PARAM]);
+  Preconditions.passed(params[QUERY_NAME_PARAM]);
 
   return {
-    entity: params.entity,
-    query: params.query,
-    values: be5.net.paramString(params.params),
-    _ts_: new Date().getTime()
+    [ENTITY_NAME_PARAM]: params[ENTITY_NAME_PARAM],
+    [QUERY_NAME_PARAM]: params[QUERY_NAME_PARAM],
+    [CONTEXT_PARAMS]: be5.net.paramString(params[CONTEXT_PARAMS]),
+    [TIMESTAMP_PARAM]: new Date().getTime()
   }
 };

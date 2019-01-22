@@ -13,6 +13,7 @@ import 'brace/mode/mysql';
 
 import 'brace/theme/xcode';
 import 'brace/ext/language_tools';
+import {CONTEXT_PARAMS, TIMESTAMP_PARAM} from "../constants";
 
 
 class QueryBuilder extends React.Component
@@ -45,8 +46,8 @@ class QueryBuilder extends React.Component
     const requestParams = {
       sql: this.state.sql,
       updateWithoutBeSql: this.state.updateWithoutBeSql,
-      values: this.props.value.params,
-      _ts_: new Date().getTime()
+      [CONTEXT_PARAMS]: this.props.value.params,
+      [TIMESTAMP_PARAM]: new Date().getTime()
     };
 
     be5.net.request('queryBuilder', requestParams, json => {

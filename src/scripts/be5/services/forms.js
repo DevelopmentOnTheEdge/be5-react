@@ -2,9 +2,16 @@ import be5 from '../be5';
 import bus from '../core/bus';
 import Preconditions from '../utils/preconditions';
 import changeDocument from '../core/changeDocument';
-import {MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, REDIRECT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT} from "../constants";
+import {
+  CONTEXT_PARAMS, ENTITY_NAME_PARAM,
+  MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, OPERATION_NAME_PARAM, QUERY_NAME_PARAM, REDIRECT,
+  REFRESH_DOCUMENT,
+  REFRESH_PARENT_DOCUMENT, TIMESTAMP_PARAM
+} from "../constants";
 import FrontendAction from "./model/FrontendAction";
 import {executeFrontendActions} from "./frontendActions";
+import 'formdata-polyfill';
+import {_get, _post} from "./formsRequests";
 
 
 export const loadOperation = (params, frontendParams) => {
@@ -15,46 +22,35 @@ export const submitOperation = (params, frontendParams) => {
   _send('form/apply', params, frontendParams);
 };
 
-const _send = (action, params, frontendParams) => {
-  _request(action, params, json => {
-    _performOperationResult(json, frontendParams, params);
+const _send = (action, data, frontendParams) => {
+  _post(action, data, json => {
+    _performOperationResult(json, frontendParams, data);
   },(json)=> {
-    _performOperationResult(json, frontendParams, params);
+    _performOperationResult(json, frontendParams, data);
   })
 };
 
 export const openOperationByUrl = (url, frontendParams) => {
-  _send('form', getOperationParams(url), frontendParams);
+  _send('form', getOperationInfoFromUrl(url), frontendParams);
 };
 
 export const openOperationByUrlWithValues = (url, values, frontendParams) => {
-  _send('form', getOperationParams(url, values), frontendParams);
+  _send('form', getOperationInfoFromUrl(url, values), frontendParams);
 };
 
 export const fetchOperationByUrl = (url, callback, failure) => {
-  _request('form', getOperationParams(url), callback, failure);
+  _post('form', getOperationInfoFromUrl(url), callback, failure);
 };
 
-const _request = (action, params, callback, failure) => {
-  be5.net.request(action, getFormRequestParams(params), data => callback(data), data => failure(data));
+export const loadForm = (data, frontendParams) => {
+  _get(data, json => {
+    _performOperationResult(json, frontendParams, data);
+  },(json)=> {
+    _performOperationResult(json, frontendParams, data);
+  })
 };
 
-export const getFormRequestParams = (params) => {
-  Preconditions.passed(params.entity);
-  Preconditions.passed(params.query);
-  Preconditions.passed(params.operation);
-
-  return {
-    entity: params.entity,
-    query: params.query,
-    operation: params.operation,
-    values: be5.net.paramString(params.values),
-    operationParams: be5.net.paramString(params.operationParams),
-    _ts_: new Date().getTime()
-  };
-};
-
-export const _performOperationResult = (json, frontendParams, applyParams) => {
+export const _performOperationResult = (json, frontendParams, data) => {
   const documentName = frontendParams.documentName;
 
   Preconditions.passed(documentName);
@@ -75,7 +71,7 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
         }
 
         if(frontendParams.onSuccess){
-          frontendParams.onSuccess(json, applyParams);
+          frontendParams.onSuccess(json, data);
         }
 
         switch (result.status) {
@@ -129,10 +125,13 @@ export const _performOperationResult = (json, frontendParams, applyParams) => {
           type: 'error'
         });
     }
-  }else{
-    const error = json.errors[0];
-    bus.fire("alert", {msg: error.status + " "+ error.title, type: 'error'});
-
+  } else {
+    if (json.errors !== undefined) {
+      const error = json.errors[0];
+      bus.fire("alert", {msg: error.status + " "+ error.title, type: 'error'});
+    } else {
+      bus.fire("alert", {msg: json, type: 'error'});
+    }
     changeDocument(documentName, {value: json, frontendParams: frontendParams});
   }
 };
@@ -161,16 +160,40 @@ const _performForm = (json, frontendParams) =>
   }
 };
 
-export const getOperationParams = (url, values = {}) => {
+export const getOperationInfoFromUrl = (url, values = {}) => {
   const attr = be5.url.parse(url);
-
-  return {
-    entity: attr.positional[1],
-    query: attr.positional[2],
-    operation: attr.positional[3],
-    values: values,
-    operationParams: attr.named
+  const operationInfo = {
+    [ENTITY_NAME_PARAM]: attr.positional[1],
+    [QUERY_NAME_PARAM]: attr.positional[2],
+    [OPERATION_NAME_PARAM]: attr.positional[3],
+    [CONTEXT_PARAMS]: JSON.stringify(attr.named)
   };
+  return getOperationInfo(operationInfo, values)
+};
+
+export const getOperationInfo = (operationInfo, values = {}) => {
+  let formData = new FormData();
+  for (let k in values) {
+    const value = values[k];
+    if (Array.isArray(value)) {
+      value.forEach(function(e) {
+        formData.append(k, e);
+      });
+    } else if (value instanceof FileList) {
+      for (let i = 0; i < value.length; i++) {
+        formData.append(k, value[i]);
+      }
+    } else {
+      formData.append(k, value);
+    }
+  }
+  formData.append(ENTITY_NAME_PARAM, operationInfo[ENTITY_NAME_PARAM]);
+  formData.append(QUERY_NAME_PARAM, operationInfo[QUERY_NAME_PARAM]);
+  formData.append(OPERATION_NAME_PARAM, operationInfo[OPERATION_NAME_PARAM]);
+  formData.append(CONTEXT_PARAMS, operationInfo[CONTEXT_PARAMS]);
+  formData.append(TIMESTAMP_PARAM, new Date().getTime());
+  console.log(operationInfo, values);
+  return formData;
 };
 
 export default

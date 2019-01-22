@@ -7,6 +7,7 @@ import {getDefaultRoute} from "../store/selectors/user.selectors";
 import {UPDATE_USER_INFO} from "../store/constants/user.constants";
 import {
   CLOSE_MAIN_MODAL,
+  CONTEXT_PARAMS,
   DOCUMENT_REFRESH_SUFFIX,
   DOWNLOAD_OPERATION,
   GO_BACK,
@@ -20,7 +21,7 @@ import {
   UPDATE_DOCUMENT,
   UPDATE_PARENT_DOCUMENT
 } from "../constants";
-import {getFormRequestParams, openOperationByUrl} from './forms';
+import {openOperationByUrl} from './forms';
 import FrontendAction from "./model/FrontendAction";
 
 export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) =>
@@ -109,14 +110,20 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 
   if(actions[DOWNLOAD_OPERATION] !== undefined)
   {
-    const operationRequestParams = getFormRequestParams(actions[DOWNLOAD_OPERATION]);
+    const operationRequestParams = actions[DOWNLOAD_OPERATION];
     let url = "";
     for (let key in operationRequestParams) {
       if (url !== "") {
         url += "&";
       }
-      url += key + "=" + encodeURIComponent(operationRequestParams[key]);
+
+      if (key === CONTEXT_PARAMS) {
+        url += CONTEXT_PARAMS + "=" + be5.net.paramString(operationRequestParams[CONTEXT_PARAMS]);
+      } else {
+        url += key + "=" + encodeURIComponent(operationRequestParams[key]);
+      }
     }
+    //console.log("/api/downloadOperation?" + url)
     window.location = "/api/downloadOperation?" + url;
   }
 

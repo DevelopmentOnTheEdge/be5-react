@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import be5 from '../../be5';
-import forms from '../../services/forms';
+import forms, {getOperationInfo} from '../../services/forms';
 import PropertySet from 'beanexplorer-react';
 import JsonPointer from 'json-pointer';
 import ErrorPane from "../ErrorPane";
@@ -10,6 +10,10 @@ import Transition from 'react-transition-group/Transition';
 import {registerDocument} from '../../core/documents';
 import {_createBackAction} from "../../utils/documentUtils";
 import {makeSafeForClassName} from "../../utils/utils";
+import {
+  CONTEXT_PARAMS, ENTITY_NAME_PARAM, OPERATION_NAME_PARAM, QUERY_NAME_PARAM,
+  RELOAD_CONTROL_NAME
+} from "../../constants";
 
 
 class Form extends React.Component
@@ -29,22 +33,23 @@ class Form extends React.Component
     this.setState(Object.assign({}, nextProps.value, {wasValidated: false, submitted: false}));
   }
 
-  getParams(values){
-    const attributes = this.state.data.attributes;
-    return {
-      entity: attributes.entity,
-      query: attributes.query,
-      operation: attributes.operation,
-      operationParams: attributes.operationParams,
-      values: values,
+  getParams(values) {
+    const attr = this.state.data.attributes;
+    const operationInfo = {
+      [ENTITY_NAME_PARAM]: attr.entity,
+      [QUERY_NAME_PARAM]: attr.query,
+      [OPERATION_NAME_PARAM]: attr.operation,
+      [CONTEXT_PARAMS]: JSON.stringify(attr.operationParams)
     };
+    return getOperationInfo(operationInfo, values);
   }
 
   _reloadOnChange(controlName) {
     if(!this.state.submitted)
     {
       this.setState({submitted: true}, () => {
-        const values = Object.assign({}, this.state.data.attributes.bean.values, {'_reloadcontrol_': controlName});
+        const values = Object.assign({}, this.state.data.attributes.bean.values);
+        values[RELOAD_CONTROL_NAME] = controlName;
 
         forms.load(this.getParams(values), this.props.frontendParams);
       });
@@ -96,7 +101,7 @@ class Form extends React.Component
   _createForm() {
     return (
       <form
-        id={this.state.meta._ts_}
+        ref={el => (this.form = el)}
         onSubmit={this._applyOnSubmit}
         className={classNames(
           this.state.wasValidated ? 'was-validated' : ''

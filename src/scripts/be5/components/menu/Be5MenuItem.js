@@ -40,7 +40,7 @@
 //     }
 //   },
 //
-//   // Translates "op" to "operation" and "view" to "query"
+//   // Translates "op" to "_on_" and "view" to "_qn_"
 //   // Don't read it, it's boring.
 //   _getCoordinates() {
 //     if (this.props.view && this.props.op) {

@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import {TestProvider} from "../../testUtils";
 import be5 from '../../../../../src/scripts/be5/be5';
-import forms from '../../../../../src/scripts/be5/services/forms';
+import {loadForm} from '../../../../../src/scripts/be5/services/forms';
 import Table from '../../../../../src/scripts/be5/components/tables/Table';
 import TableForm from '../../../../../src/scripts/be5/components/tables/TableForm';
 import FormTable from '../../../../../src/scripts/be5/components/tables/FormTable';
@@ -15,16 +15,19 @@ import {MAIN_DOCUMENT} from "../../../../../src/scripts/be5/constants";
 
 dt(window, $);
 
+jest.mock('../../../../../src/scripts/be5/services/forms', () => ({
+  __esModule: true, // this property makes it work
+  loadForm: jest.fn()
+}));
+
 
 test('test operation click', () => {
-  const handle = forms.load = jest.fn();
-
   const wrapper = mount( <Table value={testData.simpleTable} frontendParams={{documentName: 'test'}}/> );
 
   wrapper.find('.btn').last().simulate('click');
 
-  expect(handle.mock.calls[0]).toEqual([
-    {"entity": "companies", "operation": "Insert", "operationParams": {}, "query": "All records", "values": {}},
+  expect(loadForm.mock.calls[0]).toEqual([
+    {"_en_": "companies", "_on_": "Insert", "_params_": "{}", "_qn_": "All records"},
     {"documentName": "test", "parentDocumentName": "test"}]);
 
   be5.tableState.selectedRows = [12];
@@ -32,8 +35,8 @@ test('test operation click', () => {
 
   wrapper.find('.btn').first().simulate('click');
 
-  expect(handle.mock.calls[1]).toEqual([
-    {"entity": "companies", "operation": "Edit", "operationParams": {"_selectedRows_":"12"}, "query": "All records", "values": {}},
+  expect(loadForm.mock.calls[1]).toEqual([
+    {"_en_": "companies", "_on_": "Edit", "_params_": "{\"_selectedRows_\":\"12\"}", "_qn_": "All records"},
     {"documentName": "test", "parentDocumentName": "test"}]);
 });
 

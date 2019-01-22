@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import be5 from '../../be5';
 import {getModelByID, getResourceByType, getSelfUrl, processHashUrls} from '../../utils/documentUtils';
-import forms from '../../services/forms';
+import {loadForm} from '../../services/forms';
 import numberFormatter from 'number-format.js';
 import OperationBox from './OperationBox';
 import QuickColumns from './QuickColumns';
@@ -14,7 +14,10 @@ import {loadTableByUrl, updateTable} from "../../services/tables";
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions, getBackOrOpenDefaultRouteAction} from "../../services/frontendActions";
 import FilterUI from "./FilterUI";
-import {MAIN_DOCUMENT} from "../../constants";
+import {
+  CONTEXT_PARAMS, ENTITY_NAME_PARAM, MAIN_DOCUMENT, OPERATION_NAME_PARAM, QUERY_NAME_PARAM,
+  SELECTED_ROWS
+} from "../../constants";
 import {makeSafeForClassName} from "../../utils/utils";
 
 
@@ -220,8 +223,10 @@ class TableBox extends React.Component {
               return display;
             }
 
+            const params = Object.assign({}, attributes.parameters, {_selectedRows_: val});
+            const url = be5.url.create(['form', attributes.category, attributes.page, 'Edit'], params);
             if(editOperation !== undefined) {
-              display = '<a href="#" data-val="'+val+'" class="edit-operation-btn">'+display+'</a>';
+              display = '<a href="#!' + url + '" data-val="'+val+'" class="edit-operation-btn">'+display+'</a>';
             }
 
             return ('<input id="{id}" type="checkbox" class="rowCheckbox"/> ' +
@@ -455,23 +460,21 @@ class Table extends React.Component
     const name = operation.name;
     const attr = this.props.value.data.attributes;
 
-    let operationParams;
-
+    let contextParams;
     if (be5.tableState.selectedRows.length > 0 || selectedRow) {
-      operationParams = Object.assign({}, attr.parameters, {"_selectedRows_": selectedRow || be5.tableState.selectedRows.join()});
+      contextParams = Object.assign({}, attr.parameters);
+      contextParams[SELECTED_ROWS] = selectedRow || be5.tableState.selectedRows.join();
     } else {
-      operationParams = attr.parameters;
+      contextParams = attr.parameters;
     }
 
-    const params = {
-      entity: attr.category,
-      query: attr.page || 'All records',
-      operation: name,
-      values: {},
-      operationParams: operationParams
+    const operationInfo = {
+      [ENTITY_NAME_PARAM]: attr.category,
+      [QUERY_NAME_PARAM]: attr.page || 'All records',
+      [OPERATION_NAME_PARAM]: name,
+      [CONTEXT_PARAMS]: JSON.stringify(contextParams)
     };
-
-    forms.load(params, frontendParams);
+    loadForm(operationInfo, frontendParams);
   }
 
   render() {
