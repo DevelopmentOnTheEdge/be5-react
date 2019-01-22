@@ -83,9 +83,9 @@
             "/companyID"
           ]
         },
-        "_en_": "companies",
+        "entity": "companies",
         "layout": {},
-        "_on_": "SelectCompany",
+        "operation": "SelectCompany",
         "operationResult": {
           "status": "open"
         },
@@ -119,9 +119,9 @@
             "/companyID"
           ]
         },
-        "_en_": "companies",
+        "entity": "companies",
         "layout": {},
-        "_on_": "SelectCompany",
+        "operation": "SelectCompany",
         "operationResult": {
           "status": "open"
         },
@@ -146,9 +146,9 @@
           "meta": {},
           "order": []
         },
-        "_en_": "companies",
+        "entity": "companies",
         "layout": {},
-        "_on_": "SelectCompany",
+        "operation": "SelectCompany",
         "operationResult": {
           "status": "open"
         },
@@ -168,20 +168,20 @@
   "errorOnApply": {
     "data":{
       "attributes":{"bean":{"values":{},"meta":{},"order":[]},
-      "_en_":"testtable",
-        "errorModel":{
-          "code":"Be5Exception: Internal error occurred during operation... ",
-          "status":"500",
-          "title":"Internal error occurred during operation testtable.TestOperation",
-          "links":{"self":"form/testtable/Test 1D/TestOperation"}
-        },
-        "layout":{},
-        "_on_":"TestOperation",
-        "_params_":{},
-        "operationResult":{"message":"Internal error occurred during operation testtable.TestOperation","status":"error"},
-        "_qn_":"Test 1D",
-        "_selectedRows_":"",
-        "title":"Тестовая операция"},
+      "entity":"testtable",
+      "errorModel":{
+        "code":"Be5Exception: Internal error occurred during operation... ",
+        "status":"500",
+        "title":"Internal error occurred during operation testtable.TestOperation",
+        "links":{"self":"form/testtable/Test 1D/TestOperation"}
+      },
+      "layout":{},
+      "operation":"TestOperation",
+      "_params_":{},
+      "operationResult":{"message":"Internal error occurred during operation testtable.TestOperation","status":"error"},
+      "_qn_":"Test 1D",
+      "_selectedRows_":"",
+      "title":"Тестовая операция"},
       "links":{"self":"form/testtable/Test 1D/TestOperation"},
       "type":"form"
     },

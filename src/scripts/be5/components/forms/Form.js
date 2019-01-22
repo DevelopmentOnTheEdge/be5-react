@@ -182,8 +182,8 @@ class Form extends React.Component
 
   getFormClass() {
     const attributes = this.state.data.attributes;
-    const entity = makeSafeForClassName(attributes[ENTITY_NAME_PARAM]);
-    const operation = makeSafeForClassName(attributes[OPERATION_NAME_PARAM]);
+    const entity = makeSafeForClassName(attributes.entity);
+    const operation = makeSafeForClassName(attributes.operation);
     return entity + '_' + operation
   }
 
