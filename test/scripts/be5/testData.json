@@ -86,11 +86,11 @@
         "entity": "companies",
         "layout": {},
         "operation": "SelectCompany",
+        "operationParams": {},
         "operationResult": {
           "status": "open"
         },
-        "_qn_": "Selection view SelectCompany",
-        "_selectedRows_": "",
+        "query": "Selection view SelectCompany",
         "title": "SelectCompany"
       },
       "links": {
@@ -122,11 +122,11 @@
         "entity": "companies",
         "layout": {},
         "operation": "SelectCompany",
+        "operationParams": {},
         "operationResult": {
           "status": "open"
         },
-        "_qn_": "Selection view SelectCompany",
-        "_selectedRows_": "",
+        "query": "Selection view SelectCompany",
         "title": "SelectCompany"
       },
       "links": {
@@ -152,8 +152,7 @@
         "operationResult": {
           "status": "open"
         },
-        "_qn_": "Selection view SelectCompany",
-        "_selectedRows_": "",
+        "query": "Selection view SelectCompany",
         "title": "SelectCompany"
       },
       "links": {
@@ -177,10 +176,9 @@
       },
       "layout":{},
       "operation":"TestOperation",
-      "_params_":{},
+      "operationParams":{},
       "operationResult":{"message":"Internal error occurred during operation testtable.TestOperation","status":"error"},
-      "_qn_":"Test 1D",
-      "_selectedRows_":"",
+      "query":"Test 1D",
       "title":"Тестовая операция"},
       "links":{"self":"form/testtable/Test 1D/TestOperation"},
       "type":"form"

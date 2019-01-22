@@ -71,16 +71,13 @@ test('submit form', () => {
 
   wrapper.instance()._applyOnSubmit({ preventDefault: () => {} });
 
-  expect(handle.mock.calls[0]).toEqual([
-      {
-        "_en_": "companies",
-        "_on_": "SelectCompany",
-        "_params_": undefined,
-        "_qn_": "Selection view SelectCompany",
-        "values": {"companyID": "newValue"}
-      },
-      {"documentName": "test"}
-  ]);
+  const formData = handle.mock.calls[0][0];
+  expect(formData.get("_en_")).toEqual("companies");
+  expect(formData.get("_on_")).toEqual("SelectCompany");
+  expect(formData.get("_params_")).toEqual("{}");
+  expect(formData.get("_qn_")).toEqual("Selection view SelectCompany");
+  expect(formData.get("companyID")).toEqual("newValue");
+  expect(handle.mock.calls[0][1]).toEqual({"documentName": "test"});
 });
 
 test('reloadOnChange', () => {
@@ -93,16 +90,14 @@ test('reloadOnChange', () => {
   wrapper.find('input').simulate('change', {target: {value: 'newValue'}});
   wrapper.find('input').simulate('blur');
 
-  expect(handle.mock.calls[0]).toEqual([
-    {
-      "_en_": "companies",
-      "_on_": "SelectCompany",
-      "_params_": undefined,
-      "_qn_": "Selection view SelectCompany",
-      "values": {"_reloadControl_": "/companyID", "companyID": "newValue"}
-    },
-    {"documentName": "test"}
-  ]);
+  const formData = handle.mock.calls[0][0];
+  expect(formData.get("_en_")).toEqual("companies");
+  expect(formData.get("_on_")).toEqual("SelectCompany");
+  expect(formData.get("_params_")).toEqual("{}");
+  expect(formData.get("_qn_")).toEqual("Selection view SelectCompany");
+  expect(formData.get("_reloadControl_")).toEqual("/companyID");
+  expect(formData.get("companyID")).toEqual("newValue");
+  expect(handle.mock.calls[0][1]).toEqual({"documentName": "test"});
 });
 
 //TODO поменять на radio select input

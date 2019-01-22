@@ -11,6 +11,7 @@ import {
 import FrontendAction from "./model/FrontendAction";
 import {executeFrontendActions} from "./frontendActions";
 import 'formdata-polyfill';
+import {_get, _post} from "./formsRequests";
 
 
 export const loadOperation = (params, frontendParams) => {
@@ -47,38 +48,6 @@ export const loadForm = (data, frontendParams) => {
   },(json)=> {
     _performOperationResult(json, frontendParams, data);
   })
-};
-
-export const _get = (operationInfo, callback, failure) => {
-  const data = Object.assign({}, operationInfo, {
-    [TIMESTAMP_PARAM]: new Date().getTime()
-  });
-
-  $.ajax({
-    url: be5.net.url('form'),
-    data: data,
-    success(data) {callback(data)},
-    error(xhr, status, error) {
-      const response = JSON.parse(xhr.responseText);
-      failure(response);
-    }
-  });
-};
-
-export let _post = (action, data, callback, failure) => {
-  $.ajax({
-    url: be5.net.url(action),
-    method: 'POST',
-    data: data,
-    cache: false,
-    contentType: false,
-    processData: false,
-    success(data) {callback(data)},
-    error(xhr, status, error) {
-      const response = JSON.parse(xhr.responseText);
-      failure(response);
-    }
-  });
 };
 
 export const _performOperationResult = (json, frontendParams, data) => {
