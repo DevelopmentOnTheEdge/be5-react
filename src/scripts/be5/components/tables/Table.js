@@ -171,16 +171,16 @@ class TableBox extends React.Component {
       order: attributes.orderColumn >= 0 ? [[ attributes.orderColumn, attributes.orderDir ]] : undefined,
       ajax: function (data, callback, settings) {
         const params = {
-          entity: attributes.category,
-          query: attributes.page,
-          params: Object.assign({}, attributes.parameters, {
+          [ENTITY_NAME_PARAM]: attributes.category,
+          [QUERY_NAME_PARAM]: attributes.page,
+          [CONTEXT_PARAMS]: Object.assign({}, attributes.parameters, {
             _offset_     : data.start,
             _limit_      : data.length,
           })
         };
         if(data.order && data.order.length > 0){
-          params.params._orderColumn_ = data.order[0].column;
-          params.params._orderDir_    = data.order[0].dir;
+          params[CONTEXT_PARAMS]._orderColumn_ = data.order[0].column;
+          params[CONTEXT_PARAMS]._orderDir_    = data.order[0].dir;
         }
         updateTable(params, function(jsonApiModel){
           const json = jsonApiModel.data.attributes;

@@ -4249,17 +4249,15 @@ var TableBox = function (_React$Component) {
         displayStart: attributes.offset,
         order: attributes.orderColumn >= 0 ? [[attributes.orderColumn, attributes.orderDir]] : undefined,
         ajax: function ajax(data, callback, settings) {
-          var params = {
-            entity: attributes.category,
-            query: attributes.page,
-            params: Object.assign({}, attributes.parameters, {
-              _offset_: data.start,
-              _limit_: data.length
-            })
-          };
+          var _params;
+
+          var params = (_params = {}, defineProperty(_params, ENTITY_NAME_PARAM, attributes.category), defineProperty(_params, QUERY_NAME_PARAM, attributes.page), defineProperty(_params, CONTEXT_PARAMS, Object.assign({}, attributes.parameters, {
+            _offset_: data.start,
+            _limit_: data.length
+          })), _params);
           if (data.order && data.order.length > 0) {
-            params.params._orderColumn_ = data.order[0].column;
-            params.params._orderDir_ = data.order[0].dir;
+            params[CONTEXT_PARAMS]._orderColumn_ = data.order[0].column;
+            params[CONTEXT_PARAMS]._orderDir_ = data.order[0].dir;
           }
           updateTable(params, function (jsonApiModel) {
             var json = jsonApiModel.data.attributes;
