@@ -256,7 +256,7 @@ const be5 = {
               return;
             }
           }
-          success(data);
+          if (success !== undefined) success(data);
         },
         error(xhr, status, errorThrown) {
           // let data = {
