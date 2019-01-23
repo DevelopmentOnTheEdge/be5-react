@@ -29,7 +29,7 @@ import {
   openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl
 } from './services/forms.js';
 
-import {loadTable, updateTable, fetchTableByUrl} from './services/tables.js';
+import {loadTable, loadTableByUrl, updateTable, fetchTableByUrl} from './services/tables.js';
 
 // store
 import createBaseStore from './store';
@@ -83,7 +83,7 @@ export {
   loadOperation, submitOperation, getOperationInfoFromUrl,
   openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl,
 
-  loadTable, updateTable, fetchTableByUrl,
+  loadTable, loadTableByUrl, updateTable, fetchTableByUrl,
 
   executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction,
   FrontendAction
