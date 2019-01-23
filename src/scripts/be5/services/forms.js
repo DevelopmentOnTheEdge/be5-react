@@ -192,7 +192,6 @@ export const getOperationInfo = (operationInfo, values = {}) => {
   formData.append(OPERATION_NAME_PARAM, operationInfo[OPERATION_NAME_PARAM]);
   formData.append(CONTEXT_PARAMS, operationInfo[CONTEXT_PARAMS]);
   formData.append(TIMESTAMP_PARAM, new Date().getTime());
-  console.log(operationInfo, values);
   return formData;
 };
 
