@@ -97,15 +97,21 @@ export const processHashUrls = (element, documentName) => {
 };
 
 export const processHashUrlForDocument = (e, documentName) => {
-  let url = e.currentTarget ? e.currentTarget.getAttribute("href") : e;
-  if (/^#/.test(url) || url === '' || url === '#' || url === '#!') {
-    if (e.currentTarget) e.preventDefault();
-    if (url.startsWith("#!table/")) {
-      url = url + "/_cleanNav_=true";
-    }
-    //console.log(url, documentName);
-    be5.url.process(documentName || MAIN_DOCUMENT, url);
+  let url;
+  if (e.currentTarget) {
+    url = e.currentTarget.getAttribute("href");
+    if (!(/^#/.test(url) || url === '' || url === '#' || url === '#!')) return;
+    e.preventDefault();
+  } else {
+    url = e;
+    if (!url.startsWith("#!")) url = "#!" + url;
   }
+
+  if (url.startsWith("#!table/")) {
+    url = url + "/_cleanNav_=true";
+  }
+  //console.log(url, documentName);
+  be5.url.process(documentName || MAIN_DOCUMENT, url);
 };
 
 /**

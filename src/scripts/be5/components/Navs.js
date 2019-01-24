@@ -3,6 +3,7 @@ import PropTypes            from 'prop-types';
 import Document             from '../containers/Document';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import {processHashUrlForDocument} from "../utils/documentUtils";
+import be5 from "../be5";
 
 
 class Navs extends React.Component
@@ -22,14 +23,32 @@ class Navs extends React.Component
     this.init();
   }
 
+  componentDidUpdate(){
+    if (this.state.compState !== this.props.startAtStep)
+    {
+      this.setState({compState: this.props.startAtStep}, () => {
+        this.init();
+      });
+    }
+  }
+
   init() {
     processHashUrlForDocument(this.props.steps[this.state.compState].url, this.props.documentName);
   }
 
   setNavState(e) {
-    processHashUrlForDocument(e, this.props.documentName);
+    e.preventDefault();
     const id = this.getIDbyUrl(e.target.getAttribute("href"));
-    this.setState({compState: id});
+    if (this.props.baseUrl !== undefined && this.getUrl(id) !== be5.url.get()) {
+      processHashUrlForDocument(this.getUrl(id), this.props.parentDocumentName);
+    } else {
+      processHashUrlForDocument(e, this.props.documentName);
+      this.setState({compState: id});
+    }
+  }
+
+  getUrl(id) {
+    return "#!" + this.props.baseUrl + "/" + id;
   }
 
   getIDbyUrl(url) {
@@ -88,6 +107,8 @@ Navs.propTypes = {
     url: PropTypes.string.isRequired
   })).isRequired,
   startAtStep: PropTypes.number,
+  baseUrl: PropTypes.string,
+  parentDocumentName: PropTypes.string,
   documentName: PropTypes.string
 };
 

@@ -8,8 +8,9 @@ import changeDocument from "../core/changeDocument";
 
 const SystemCard = (props) =>
 {
-  const title = props.value.data.attributes.title;
-  be5.ui.setTitle(title);
+  const {title, documentName, page} = props.value.data.attributes;
+  const pageID = parseInt(page || 0);
+  be5.ui.setTitle(title + " " + (pageID + 1));
   const steps = [
     {title: 'Cache', url: '#!table/_system_/Cache'},
     {title: 'Daemons', url: '#!table/_system_/Daemons'},
@@ -26,16 +27,32 @@ const SystemCard = (props) =>
   return (
     <div className="info-card">
       <h1 style={{marginBottom: 13 + 'px'}}>{title}</h1>
-      <Navs steps={steps} tabs startAtStep={0} />
+      <Navs
+        steps={steps}
+        tabs
+        startAtStep={pageID}
+        baseUrl={"systemCard"}
+        parentDocumentName={documentName}
+      />
     </div>
   );
 };
 
 registerDocument('SystemCard', SystemCard);
 
-registerRoute('systemCard', (documentName) => {
-    changeDocument(documentName, {
-      value: {data: {attributes: {title: "System card"}, links:{self: "systemCard"}}},
-      frontendParams: {type: 'SystemCard'}
-    })
+registerRoute('systemCard', (documentName, page) => {
+  const url = "systemCard" + ((page !== undefined && page !== "0") ? ("/" + page) : "");
+  changeDocument(documentName, {
+    value: {
+      data: {
+        attributes: {
+          title: "System card",
+          documentName: documentName,
+          page: page,
+        },
+        links: {self: url}
+      }
+    },
+    frontendParams: {type: 'SystemCard'}
+  })
 });
