@@ -116,14 +116,12 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
       if (url !== "") {
         url += "&";
       }
-
       if (key === CONTEXT_PARAMS) {
-        url += CONTEXT_PARAMS + "=" + be5.net.paramString(operationRequestParams[CONTEXT_PARAMS]);
+        url += CONTEXT_PARAMS + "=" + encodeURIComponent(be5.net.paramString(operationRequestParams[CONTEXT_PARAMS]));
       } else {
         url += key + "=" + encodeURIComponent(operationRequestParams[key]);
       }
     }
-    //console.log("/api/downloadOperation?" + url)
     window.location = "/api/downloadOperation?" + url;
   }
 
