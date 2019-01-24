@@ -553,7 +553,6 @@ var getOperationInfo = function getOperationInfo(operationInfo) {
   formData.append(OPERATION_NAME_PARAM, operationInfo[OPERATION_NAME_PARAM]);
   formData.append(CONTEXT_PARAMS, operationInfo[CONTEXT_PARAMS]);
   formData.append(TIMESTAMP_PARAM, new Date().getTime());
-  console.log(operationInfo, values);
   return formData;
 };
 
@@ -639,14 +638,12 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
       if (url !== "") {
         url += "&";
       }
-
       if (key === CONTEXT_PARAMS) {
-        url += CONTEXT_PARAMS + "=" + be5.net.paramString(operationRequestParams[CONTEXT_PARAMS]);
+        url += CONTEXT_PARAMS + "=" + encodeURIComponent(be5.net.paramString(operationRequestParams[CONTEXT_PARAMS]));
       } else {
         url += key + "=" + encodeURIComponent(operationRequestParams[key]);
       }
     }
-    //console.log("/api/downloadOperation?" + url)
     window.location = "/api/downloadOperation?" + url;
   }
 
@@ -776,15 +773,21 @@ var processHashUrls = function processHashUrls(element, documentName) {
 };
 
 var processHashUrlForDocument = function processHashUrlForDocument(e, documentName) {
-  var url = e.currentTarget ? e.currentTarget.getAttribute("href") : e;
-  if (/^#/.test(url) || url === '' || url === '#' || url === '#!') {
-    if (e.currentTarget) e.preventDefault();
-    if (url.startsWith("#!table/")) {
-      url = url + "/_cleanNav_=true";
-    }
-    //console.log(url, documentName);
-    be5.url.process(documentName || MAIN_DOCUMENT, url);
+  var url = void 0;
+  if (e.currentTarget) {
+    url = e.currentTarget.getAttribute("href");
+    if (!(/^#/.test(url) || url === '' || url === '#' || url === '#!')) return;
+    e.preventDefault();
+  } else {
+    url = e;
+    if (!url.startsWith("#!")) url = "#!" + url;
   }
+
+  if (url.startsWith("#!table/")) {
+    url = url + "/_cleanNav_=true";
+  }
+  //console.log(url, documentName);
+  be5.url.process(documentName || MAIN_DOCUMENT, url);
 };
 
 /**
@@ -3035,6 +3038,17 @@ var Navs = function (_React$Component) {
       this.init();
     }
   }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      var _this2 = this;
+
+      if (this.state.compState !== this.props.startAtStep) {
+        this.setState({ compState: this.props.startAtStep }, function () {
+          _this2.init();
+        });
+      }
+    }
+  }, {
     key: 'init',
     value: function init() {
       processHashUrlForDocument(this.props.steps[this.state.compState].url, this.props.documentName);
@@ -3042,9 +3056,19 @@ var Navs = function (_React$Component) {
   }, {
     key: 'setNavState',
     value: function setNavState(e) {
-      processHashUrlForDocument(e, this.props.documentName);
+      e.preventDefault();
       var id = this.getIDbyUrl(e.target.getAttribute("href"));
-      this.setState({ compState: id });
+      if (this.props.baseUrl !== undefined && this.getUrl(id) !== be5.url.get()) {
+        processHashUrlForDocument(this.getUrl(id), this.props.parentDocumentName);
+      } else {
+        processHashUrlForDocument(e, this.props.documentName);
+        this.setState({ compState: id });
+      }
+    }
+  }, {
+    key: 'getUrl',
+    value: function getUrl(id) {
+      return "#!" + this.props.baseUrl + "/" + id;
     }
   }, {
     key: 'getIDbyUrl',
@@ -3057,7 +3081,7 @@ var Navs = function (_React$Component) {
   }, {
     key: 'renderSteps',
     value: function renderSteps() {
-      var _this2 = this;
+      var _this3 = this;
 
       return this.props.steps.map(function (s, i) {
         return React.createElement(
@@ -3065,9 +3089,9 @@ var Navs = function (_React$Component) {
           { key: "NavItem" + i },
           React.createElement(
             NavLink,
-            { href: _this2.props.steps[i].url, active: i === _this2.state.compState, onClick: _this2.setNavState,
+            { href: _this3.props.steps[i].url, active: i === _this3.state.compState, onClick: _this3.setNavState,
               key: "NavLink" + i },
-            _this2.props.steps[i].title
+            _this3.props.steps[i].title
           )
         );
       });
@@ -3119,6 +3143,8 @@ Navs.propTypes = {
     url: PropTypes.string.isRequired
   })).isRequired,
   startAtStep: PropTypes.number,
+  baseUrl: PropTypes.string,
+  parentDocumentName: PropTypes.string,
   documentName: PropTypes.string
 };
 
@@ -5785,8 +5811,13 @@ registerPage("uiPanel", UiPanel, function (documentName) {
 });
 
 var SystemCard = function SystemCard(props) {
-  var title = props.value.data.attributes.title;
-  be5.ui.setTitle(title);
+  var _props$value$data$att = props.value.data.attributes,
+      title = _props$value$data$att.title,
+      documentName = _props$value$data$att.documentName,
+      page = _props$value$data$att.page;
+
+  var pageID = parseInt(page || 0);
+  be5.ui.setTitle(title + " " + (pageID + 1));
   var steps = [{ title: 'Cache', url: '#!table/_system_/Cache' }, { title: 'Daemons', url: '#!table/_system_/Daemons' }, { title: 'DataSource', url: '#!table/_system_/DataSource' }, { title: 'Entities', url: '#!table/_system_/Entities' }, { title: 'Http Headers', url: '#!table/_system_/Http Headers' }, { title: 'Session', url: '#!table/_system_/Session variables' }, { title: 'Properties', url: '#!table/_system_/System properties' }, { title: 'System Settings', url: '#!table/systemSettings/All%20records' }, { title: 'Threads', url: '#!table/_system_/Threads' }, { title: 'UI panel', url: '#!uiPanel' }];
 
   return React.createElement(
@@ -5797,15 +5828,31 @@ var SystemCard = function SystemCard(props) {
       { style: { marginBottom: 13 + 'px' } },
       title
     ),
-    React.createElement(Navs, { steps: steps, tabs: true, startAtStep: 0 })
+    React.createElement(Navs, {
+      steps: steps,
+      tabs: true,
+      startAtStep: pageID,
+      baseUrl: "systemCard",
+      parentDocumentName: documentName
+    })
   );
 };
 
 registerDocument('SystemCard', SystemCard);
 
-registerRoute('systemCard', function (documentName) {
+registerRoute('systemCard', function (documentName, page) {
+  var url = "systemCard" + (page !== undefined && page !== "0" ? "/" + page : "");
   changeDocument(documentName, {
-    value: { data: { attributes: { title: "System card" }, links: { self: "systemCard" } } },
+    value: {
+      data: {
+        attributes: {
+          title: "System card",
+          documentName: documentName,
+          page: page
+        },
+        links: { self: url }
+      }
+    },
     frontendParams: { type: 'SystemCard' }
   });
 });
