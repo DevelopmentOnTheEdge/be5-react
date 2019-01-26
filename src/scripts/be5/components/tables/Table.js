@@ -487,7 +487,9 @@ class Table extends React.Component
     //const reloadClass = "table-reload float-xs-right " + this.state.runReload;
     let table = null;
 
-    if(value.data.attributes.parameters && value.data.attributes.parameters._displayType_ === 'list')
+    const displayType = (value.data.attributes.parameters && value.data.attributes.parameters._displayType_)
+                        || data.attributes.layout._displayType_;
+    if(displayType === 'list')
     {
       table = (
         <ListTableBox ref="tableBox" value={value} />
