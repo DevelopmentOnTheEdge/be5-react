@@ -3,6 +3,7 @@ import be5 from '../be5';
 import changeDocument from '../core/changeDocument';
 import {registerRoute} from '../core/routes'
 import {CONTEXT_PARAMS, MAIN_DOCUMENT, TIMESTAMP_PARAM} from "../constants";
+import {initBeSqlEditor} from "../utils/BeSqlMode";
 
 
 const route = function(documentName, params)
@@ -12,9 +13,11 @@ const route = function(documentName, params)
     [TIMESTAMP_PARAM]: new Date().getTime()
   };
 
-  be5.net.request('queryBuilder', requestParams, data => {
-    if (documentName === MAIN_DOCUMENT) be5.ui.setTitle("Query Builder");
-    changeDocument(documentName, { value: Object.assign({}, data, {params: be5.net.paramString(params)}) })
+  initBeSqlEditor(() => {
+    be5.net.request('queryBuilder', requestParams, data => {
+      if (documentName === MAIN_DOCUMENT) be5.ui.setTitle("Query Builder");
+      changeDocument(documentName, { value: Object.assign({}, data, {params: be5.net.paramString(params)}) })
+    });
   });
 };
 

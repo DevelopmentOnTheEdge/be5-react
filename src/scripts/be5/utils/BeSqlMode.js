@@ -1,4 +1,22 @@
+import 'brace';
 import 'brace/mode/sql';
+
+let beSqlFunctions = '';
+
+export let initBeSqlEditor = function (callback) {
+  if (beSqlFunctions === '') {
+    $.ajax({
+      url: 'api/queryBuilder/editor',
+      data: '',
+      success(json) {
+        beSqlFunctions = json.data.attributes.functions.map(x => x.toUpperCase()  ).join('|');
+        callback();
+      },
+    });
+  } else {
+    callback();
+  }
+};
 
 export class BeSqlHighlightRules extends window.ace.acequire("ace/mode/text_highlight_rules").TextHighlightRules {
   constructor() {
@@ -15,7 +33,7 @@ export class BeSqlHighlightRules extends window.ace.acequire("ace/mode/text_high
 
     const builtinFunctions = (
       "avg|count|first|last|max|min|sum|ucase|lcase|mid|len|round|rank|now|format|" +
-      "coalesce|ifnull|isnull|nvl"
+      "coalesce|ifnull|isnull|nvl|" + beSqlFunctions
     );
 
     const dataTypes = (
