@@ -8,12 +8,10 @@ import ErrorPane from "./ErrorPane";
 import {registerDocument} from "../core/documents";
 import {getModelByID} from "../utils/documentUtils";
 
-//todo create file for BE-SQL
-import 'brace/mode/mysql';
-
 import 'brace/theme/xcode';
 import 'brace/ext/language_tools';
 import {CONTEXT_PARAMS, TIMESTAMP_PARAM} from "../constants";
+import BeSqlMode from "../utils/BeSqlMode";
 
 
 class QueryBuilder extends React.Component
@@ -31,6 +29,8 @@ class QueryBuilder extends React.Component
   }
 
   componentDidMount(){
+    const beSqlMode = new BeSqlMode();
+    this.refs.aceEditor.editor.getSession().setMode(beSqlMode);
     this.update(this.props.value);
   }
 
@@ -102,8 +102,9 @@ class QueryBuilder extends React.Component
         </div>
         <SplitPane split="horizontal" defaultSize={300} >
           <AceEditor
+            ref="aceEditor"
             value={sql}
-            mode="mysql"
+            mode="sql"
             theme="xcode"
             fontSize={13}
             onChange={this.updateCode}
