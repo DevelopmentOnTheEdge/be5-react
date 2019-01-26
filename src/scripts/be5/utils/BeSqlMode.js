@@ -76,3 +76,25 @@ export default class BeSqlMode extends window.ace.acequire("ace/mode/sql").Mode 
     this.HighlightRules = BeSqlHighlightRules;
   }
 }
+
+export const upperCaseKeyWordCompleter = {
+  getCompletions(editor, session, pos, prefix, callback) {
+    if (session.$mode.completer) {
+      return session.$mode.completer.getCompletions(editor, session, pos, prefix, callback);
+    }
+    const state = editor.session.getState(pos.row);
+    let keywordCompletions;
+    if (prefix === prefix.toUpperCase()) {
+      keywordCompletions = session.$mode.getCompletions(state, session, pos, prefix);
+      keywordCompletions = keywordCompletions.map((obj) => {
+        const copy = obj;
+        copy.value = obj.value.toUpperCase();
+        copy.score = obj.score + 10;
+        return copy;
+      });
+    } else {
+      keywordCompletions = session.$mode.getCompletions(state, session, pos, prefix);
+    }
+    return callback(null, keywordCompletions);
+  },
+};

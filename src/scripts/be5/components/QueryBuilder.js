@@ -1,5 +1,4 @@
 import React          from 'react';
-//import brace from 'brace';
 import be5            from '../be5';
 import Document       from '../containers/Document';
 import AceEditor from 'react-ace';
@@ -8,10 +7,11 @@ import ErrorPane from "./ErrorPane";
 import {registerDocument} from "../core/documents";
 import {getModelByID} from "../utils/documentUtils";
 
+import 'brace/mode/sql';
 import 'brace/theme/xcode';
 import 'brace/ext/language_tools';
 import {CONTEXT_PARAMS, TIMESTAMP_PARAM} from "../constants";
-import BeSqlMode from "../utils/BeSqlMode";
+import BeSqlMode, {upperCaseKeyWordCompleter} from "../utils/BeSqlMode";
 
 
 class QueryBuilder extends React.Component
@@ -29,9 +29,15 @@ class QueryBuilder extends React.Component
   }
 
   componentDidMount(){
+    this.initBeSqlMode();
+    this.update(this.props.value);
+  }
+
+  initBeSqlMode() {
     const beSqlMode = new BeSqlMode();
     this.refs.aceEditor.editor.getSession().setMode(beSqlMode);
-    this.update(this.props.value);
+    const langTools = window.ace.acequire('ace/ext/language_tools');
+    langTools.addCompleter(upperCaseKeyWordCompleter);
   }
 
   componentWillReceiveProps(nextProps){
