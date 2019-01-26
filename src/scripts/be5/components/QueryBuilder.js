@@ -110,13 +110,18 @@ class QueryBuilder extends React.Component
             name="queryBuilder_editor"
             width='100%'
             height='100%'
-            enableBasicAutocompletion={false}
-            enableLiveAutocompletion={false}
+            showPrintMargin={true}
+            showGutter={true}
+            highlightActiveLine={true}
             editorProps={{
               $blockScrolling: Infinity,
-              enableSnippets: false,
+            }}
+            setOptions={{
+              enableBasicAutocompletion: true,
+              enableLiveAutocompletion: true,
+              enableSnippets: true,
               showLineNumbers: true,
-              tabSize: 2,
+              tabSize: 2
             }}
             commands={[{
               name: 'Submit',
@@ -128,9 +133,9 @@ class QueryBuilder extends React.Component
             <button
               className="btn btn-primary btn-sm mt-2 mb-2"
               onClick={this.submit}
-              title='Alt-Enter'
+              title='Alt-Enter - submit, Ctrl + space - auto completion'
             >
-              Выполнить
+              Submit
             </button>
             <QueryBuilderOutput
               value={value}
