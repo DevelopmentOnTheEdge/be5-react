@@ -9,6 +9,7 @@ import FormTable from '../../../../../src/scripts/be5/components/tables/FormTabl
 import TableFormRow from '../../../../../src/scripts/be5/components/tables/TableFormRow';
 import {mount, render, shallow} from 'enzyme';
 import testData from '../../testData.json'
+import '../../../../../src/scripts/be5/registers'
 
 import dt from 'datatables.net';
 import {MAIN_DOCUMENT} from "../../../../../src/scripts/be5/constants";

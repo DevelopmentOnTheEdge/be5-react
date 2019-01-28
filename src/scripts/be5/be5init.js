@@ -3,43 +3,7 @@ import bus from "./core/bus";
 import * as api from './api';
 import Preconditions from './utils/preconditions';
 import documentState from './core/documentState';
-
-import './routes/loading';
-import './routes/form';
-import './routes/login';
-import './routes/logout';
-import './routes/static';
-import './routes/table';
-import './routes/queryBuilder';
-import './routes/text';
-import './routes/categories';
-
-
-import './components/tables/TableForm';
-import './components/tables/TableFormRow';
-import './components/tables/FormTable';
-import './components/tables/Table';
-import './components/tables/ModalTable';
-import './components/tables/tableBoxes/DataTablesTableBox';
-import './components/tables/tableBoxes/ListTableBox';
-import './components/tables/tableBoxes/ReactTableBox';
-
-import './components/forms/SubmitOnChangeForm';
-import './components/forms/ModalForm';
-import './components/forms/InlineForm';
-import './components/forms/Form';
-import './components/forms/HorizontalForm';
-import './components/forms/FinishedResult';
-
-import './components/QueryBuilder';
-import './components/StaticPage';
-import './components/ErrorPane';
-import './pages/UiPanel';
-import './pages/SystemCard';
-
-import './components/tables/tableBoxes/DataTablesTableBox';
-import './components/tables/tableBoxes/ListTableBox';
-import './components/tables/tableBoxes/ReactTableBox';
+import './registers'
 
 import {fetchUserInfo} from "./store/actions/user.actions";
 import {getDefaultRoute} from "./store/selectors/user.selectors";

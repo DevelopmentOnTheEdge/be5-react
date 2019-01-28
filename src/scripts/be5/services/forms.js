@@ -75,7 +75,7 @@ export const _performOperationResult = (json, frontendParams, data) => {
         }
 
         switch (result.status) {
-          case 'REDIRECT':
+          case 'REDIRECTED':
             bus.fire("alert", {msg: result.message || be5.messages.successfullyCompleted, type: 'success'});
             executeFrontendActions(new FrontendAction(REDIRECT, result.details), frontendParams);
             return;

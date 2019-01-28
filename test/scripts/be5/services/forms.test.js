@@ -197,7 +197,7 @@ test('performOperationResult redirect', () => {
   const res = {
     "data":{
       "type":"operationResult",
-      "attributes":{"operationResult": {"details":"static/welcome.be","status":"REDIRECT"}},
+      "attributes":{"operationResult": {"details":"static/welcome.be","status":"REDIRECTED"}},
       "links":{"self":"form/categories/Doc categories/Edit"}
     },
     "meta":{"_ts_":"1503244989281"}
@@ -214,7 +214,7 @@ test('performOperationResult redirect MAIN_DOCUMENT', () => {
   const res = {
     "data":{
       "type":"operationResult",
-      "attributes":{"operationResult": {"details":"static/welcome.be","status":"REDIRECT"}},
+      "attributes":{"operationResult": {"details":"static/welcome.be","status":"REDIRECTED"}},
       "links":{"self":"form/categories/Doc categories/Edit"}
     },
     "meta":{"_ts_":"1503244989281"}

@@ -259,7 +259,7 @@
           "value":{
             "details":"table/testtable/Test 1D",
             "message":null,
-            "status":"REDIRECT"
+            "status":"REDIRECTED"
           }
         }
       }

@@ -190,7 +190,7 @@
       "attributes":{
         "details":"form/categories/Doc categories/Edit/selectedRows=31",
         "message":"REDIRECTED",
-        "status":"REDIRECT"
+        "status":"REDIRECTED"
       },
       "links":{"self":"form/categories/Doc categories/Edit/selectedRows=31"},
       "type":"operationResult"

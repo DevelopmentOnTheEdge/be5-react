@@ -5,7 +5,7 @@ import '../../../../src/scripts/be5/components/tables/Table';
 import {shallow, mount, render} from 'enzyme';
 import {TestProvider}      from "../testUtils";
 import testData       from '../testData.json'
-
+import '../../../../src/scripts/be5/registers'
 
 test('snapshot', () => {
   const json = {
