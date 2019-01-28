@@ -1,6 +1,6 @@
 import React from 'react';
 import {loadForm} from '../services/forms';
-import {registerRoute} from '../core/routes'
+import {registerRoute} from '../core/registers/routes'
 import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, OPERATION_NAME_PARAM, QUERY_NAME_PARAM} from "../constants";
 
 

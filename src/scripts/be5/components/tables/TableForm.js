@@ -3,7 +3,7 @@ import PropTypes        from 'prop-types';
 import Document         from '../../containers/Document';
 import changeDocument   from '../../core/changeDocument';
 import HelpInfo         from '../../components/HelpInfo';
-import {registerDocument} from '../../core/documents';
+import {registerDocument} from '../../core/registers/documents';
 
 
 class TableForm extends React.Component

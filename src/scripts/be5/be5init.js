@@ -36,6 +36,11 @@ import './components/StaticPage';
 import './components/ErrorPane';
 import './pages/UiPanel';
 import './pages/SystemCard';
+
+import './components/tables/tableBoxes/DataTablesTableBox';
+import './components/tables/tableBoxes/ListTableBox';
+import './components/tables/tableBoxes/ReactTableBox';
+
 import {fetchUserInfo} from "./store/actions/user.actions";
 import {getDefaultRoute} from "./store/selectors/user.selectors";
 import {getSelfUrl, processHashUrlForDocument} from "./utils/documentUtils";

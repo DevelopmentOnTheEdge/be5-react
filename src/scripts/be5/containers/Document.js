@@ -5,7 +5,7 @@ import bus from '../core/bus';
 import documentState from '../core/documentState';
 import {getCurrentRoles, getDefaultRoute} from '../store/selectors/user.selectors'
 import {DOCUMENT_REFRESH_SUFFIX, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, ROLE_SYSTEM_DEVELOPER} from "../constants";
-import {getDocument} from "../core/documents";
+import {getDocument} from "../core/registers/documents";
 
 import reloadImg from '../../../images/reload.png';
 import StaticPage from "../components/StaticPage";

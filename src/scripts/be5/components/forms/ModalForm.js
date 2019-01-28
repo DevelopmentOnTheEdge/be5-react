@@ -3,7 +3,7 @@ import bus from '../../core/bus';
 import Form from './Form';
 import classNames from 'classnames';
 import {ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
-import {registerDocument} from '../../core/documents';
+import {registerDocument} from '../../core/registers/documents';
 import FrontendAction from "../../services/model/FrontendAction";
 import {CLOSE_MAIN_MODAL} from "../../constants";
 import {executeFrontendActions} from "../../services/frontendActions";

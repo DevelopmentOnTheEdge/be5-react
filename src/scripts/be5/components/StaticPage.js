@@ -1,6 +1,6 @@
 import React          from 'react';
 import PropTypes      from 'prop-types';
-import {registerDocument} from '../core/documents';
+import {registerDocument} from '../core/registers/documents';
 import {processHashUrls} from "../utils/documentUtils";
 
 

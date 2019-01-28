@@ -3,7 +3,7 @@ import be5 from '../../be5';
 import Form from './Form';
 import classNames from 'classnames';
 import PropertySet from 'beanexplorer-react';
-import {registerDocument} from '../../core/documents';
+import {registerDocument} from '../../core/registers/documents';
 import {_createBackAction} from "../../utils/documentUtils";
 
 

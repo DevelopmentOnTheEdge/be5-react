@@ -3,7 +3,7 @@ import be5             from '../../be5';
 import classNames      from 'classnames';
 import Form            from './Form';
 import {PropertyInput} from 'beanexplorer-react';
-import {registerDocument} from '../../core/documents';
+import {registerDocument} from '../../core/registers/documents';
 
 
 class SubmitOnChangeForm extends Form

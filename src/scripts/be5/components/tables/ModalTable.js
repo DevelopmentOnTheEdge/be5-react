@@ -1,7 +1,7 @@
 import React from 'react';
 import bus from '../../core/bus';
 import {ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
-import {registerDocument} from '../../core/documents';
+import {registerDocument} from '../../core/registers/documents';
 import Table from "./Table";
 import be5 from "../../be5";
 import FrontendAction from "../../services/model/FrontendAction";

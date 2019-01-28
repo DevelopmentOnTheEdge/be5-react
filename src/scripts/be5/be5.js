@@ -3,7 +3,7 @@ import {createStaticValue} from './utils/documentUtils';
 import messages from './core/messages';
 import bus from './core/bus';
 import changeDocument from './core/changeDocument';
-import {getRoute} from './core/routes';
+import {getRoute} from './core/registers/routes';
 import {getDefaultRoute} from "./store/selectors/user.selectors";
 import {API_URL_PREFIX} from "./constants";
 

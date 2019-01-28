@@ -1,6 +1,6 @@
 import React          from 'react';
 import changeDocument from '../core/changeDocument';
-import {registerRoute} from '../core/routes'
+import {registerRoute} from '../core/registers/routes'
 
 
 const route = function(documentName, page) {

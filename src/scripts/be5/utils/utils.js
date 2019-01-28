@@ -1,5 +1,5 @@
-import {registerDocument} from "../core/documents";
-import {registerRoute} from "../core/routes";
+import {registerDocument} from "../core/registers/documents";
+import {registerRoute} from "../core/registers/routes";
 import FrontendAction from "../services/model/FrontendAction";
 import {GO_BACK, OPEN_DEFAULT_ROUTE} from "../constants";
 

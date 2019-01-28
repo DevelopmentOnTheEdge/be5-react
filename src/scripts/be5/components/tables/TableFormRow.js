@@ -2,7 +2,7 @@ import React            from 'react';
 import PropTypes        from 'prop-types';
 import Document         from '../../containers/Document';
 import TableForm        from './TableForm';
-import {registerDocument} from '../../core/documents';
+import {registerDocument} from '../../core/registers/documents';
 
 
 class TableFormRow extends TableForm

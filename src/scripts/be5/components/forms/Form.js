@@ -7,7 +7,7 @@ import PropertySet from 'beanexplorer-react';
 import JsonPointer from 'json-pointer';
 import ErrorPane from "../ErrorPane";
 import Transition from 'react-transition-group/Transition';
-import {registerDocument} from '../../core/documents';
+import {registerDocument} from '../../core/registers/documents';
 import {_createBackAction} from "../../utils/documentUtils";
 import {makeSafeForClassName} from "../../utils/utils";
 import {

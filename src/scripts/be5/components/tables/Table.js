@@ -6,7 +6,7 @@ import {getModelByID, getResourceByType, getSelfUrl} from '../../utils/documentU
 import {loadForm} from '../../services/forms';
 import OperationBox from './OperationBox';
 import Document from "../../containers/Document";
-import {registerDocument} from '../../core/documents';
+import {registerDocument} from '../../core/registers/documents';
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions} from "../../services/frontendActions";
 import FilterUI from "./FilterUI";
@@ -19,7 +19,7 @@ import {
   SELECTED_ROWS
 } from "../../constants";
 import {getBackAction, makeSafeForClassName} from "../../utils/utils";
-import {getTableBox} from "../../core/tableBoxes";
+import {getTableBox} from "../../core/registers/tableBoxes";
 
 
 class Table extends Component

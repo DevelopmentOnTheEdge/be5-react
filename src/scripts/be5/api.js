@@ -9,8 +9,9 @@ import {arraysEqual, createPageValue, registerPage} from './utils/utils.js';
 // core
 import bus from './core/bus.js';
 import changeDocument from './core/changeDocument.js';
-import {getDocument, registerDocument, getAllDocumentTypes} from './core/documents.js';
-import {registerRoute,getRoute,getAllRoutes} from "./core/routes";
+import {getDocument, registerDocument, getAllDocumentTypes} from './core/registers/documents.js';
+import {registerRoute,getRoute,getAllRoutes} from "./core/registers/routes";
+import {registerTableBox, getTableBox, getAllTypes} from "./core/registers/tableBoxes";
 
 // actions
 import formAction      from './routes/form.js';
@@ -60,6 +61,7 @@ export {
   changeDocument,
   getDocument, registerDocument, getAllDocumentTypes,
   registerRoute, getRoute, getAllRoutes,
+  registerTableBox, getTableBox, getAllTypes,
 
   // store
   createBaseStore, rootReducer, userReduser, menuReduser,

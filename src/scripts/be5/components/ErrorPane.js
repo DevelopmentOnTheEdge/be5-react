@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import be5 from '../be5';
 import {Button, Card, CardBody, Collapse} from 'reactstrap';
-import {registerDocument} from "../core/documents";
+import {registerDocument} from "../core/registers/documents";
 
 
 class Error extends React.Component

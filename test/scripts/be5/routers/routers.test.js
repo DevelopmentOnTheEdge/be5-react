@@ -7,7 +7,7 @@ import '../../../../src/scripts/be5/routes/table';
 import '../../../../src/scripts/be5/routes/static';
 import '../../../../src/scripts/be5/routes/categories';
 import '../../../../src/scripts/be5/routes/queryBuilder';
-import {getRoute} from "../../../../src/scripts/be5/core/routes";
+import {getRoute} from "../../../../src/scripts/be5/core/registers/routes";
 import {MAIN_DOCUMENT} from "../../../../src/scripts/be5/constants";
 
 jest.mock("../../../../src/scripts/be5/services/forms", () => ({

@@ -1,6 +1,6 @@
 import React from 'react';
 import {openOperationByUrl} from '../services/forms';
-import {registerRoute} from '../core/routes'
+import {registerRoute} from '../core/registers/routes'
 import {MAIN_DOCUMENT} from "../constants";
 
 

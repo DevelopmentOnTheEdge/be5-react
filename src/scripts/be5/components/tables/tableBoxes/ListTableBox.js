@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {registerTableBox} from "../../../core/tableBoxes";
+import {registerTableBox} from "../../../core/registers/tableBoxes";
 
 //todo add register new component and move to condo, add base types
 class OneColumnListTableBox extends Component

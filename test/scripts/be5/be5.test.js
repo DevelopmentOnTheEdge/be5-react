@@ -1,6 +1,6 @@
 import React from 'react';
 import be5               from '../../../src/scripts/be5/be5';
-import {getRoute, registerRoute} from '../../../src/scripts/be5/core/routes';
+import {getRoute, registerRoute} from '../../../src/scripts/be5/core/registers/routes';
 
 
 test('be5.locale', () => {

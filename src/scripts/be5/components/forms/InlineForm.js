@@ -3,7 +3,7 @@ import classNames      from 'classnames';
 import be5             from '../../be5';
 import Form            from './Form';
 import {Property}      from 'beanexplorer-react';
-import {registerDocument} from '../../core/documents';
+import {registerDocument} from '../../core/registers/documents';
 
 
 class InlineMiniForm extends Form

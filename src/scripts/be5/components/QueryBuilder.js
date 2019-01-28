@@ -4,7 +4,7 @@ import Document from '../containers/Document';
 import AceEditor from 'react-ace';
 import SplitPane from 'react-split-pane';
 import ErrorPane from "./ErrorPane";
-import {registerDocument} from "../core/documents";
+import {registerDocument} from "../core/registers/documents";
 import {getModelByID} from "../utils/documentUtils";
 
 import 'brace/mode/sql';

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import be5 from '../../be5';
-import {registerDocument} from "../../core/documents";
+import {registerDocument} from "../../core/registers/documents";
 import {_createBackAction, processHashUrls} from "../../utils/documentUtils";
 
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import {getAllDocumentTypes, getDocument} from '../core/documents'
-import {getAllRoutes, getRoute} from '../core/routes'
+import {getAllDocumentTypes, getDocument} from '../core/registers/documents'
+import {getAllRoutes, getRoute} from '../core/registers/routes'
 import classNames from 'classnames';
 import changeDocument from "../core/changeDocument";
 import be5 from "../be5";

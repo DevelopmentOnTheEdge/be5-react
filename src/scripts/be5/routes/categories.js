@@ -1,7 +1,7 @@
 import React          from 'react';
 import be5            from '../be5';
 import changeDocument from '../core/changeDocument';
-import {registerRoute} from '../core/routes'
+import {registerRoute} from '../core/registers/routes'
 import {createStaticValue} from "../utils/documentUtils";
 import {ENTITY_NAME_PARAM} from "../constants";
 

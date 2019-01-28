@@ -4,7 +4,7 @@ import forms from '../../../services/forms';
 import numberFormatter from 'number-format.js';
 import OperationBox from '../OperationBox';
 import QuickColumns from '../QuickColumns';
-import {registerTableBox} from "../../../core/tableBoxes";
+import {registerTableBox} from "../../../core/registers/tableBoxes";
 
 
 class ReactTableBox extends Component {
