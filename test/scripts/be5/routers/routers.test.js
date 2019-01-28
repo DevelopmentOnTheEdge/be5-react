@@ -89,10 +89,7 @@ test('queryBuilder', () => {
 
   expect(be5.net.request.mock.calls.length).toBe(1);
   expect(be5.net.request.mock.calls[0]).toEqual([
-    "queryBuilder", {
-      "_params_": "{}",
-      "_ts_": expect.any(Number),
-    },
+    "queryBuilder/editor", null,
     expect.any(Function)
   ]);
 });

@@ -1,17 +1,14 @@
 import 'brace';
 import 'brace/mode/sql';
+import be5 from "../be5";
 
 let beSqlFunctions = '';
 
 export let initBeSqlEditor = function (callback) {
   if (beSqlFunctions === '') {
-    $.ajax({
-      url: 'api/queryBuilder/editor',
-      data: '',
-      success(json) {
+    be5.net.request('queryBuilder/editor', null, json => {
         beSqlFunctions = json.data.attributes.functions.map(x => x.toUpperCase()  ).join('|');
         callback();
-      },
     });
   } else {
     callback();

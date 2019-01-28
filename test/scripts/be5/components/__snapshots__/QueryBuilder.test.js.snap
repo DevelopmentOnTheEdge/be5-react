@@ -120,9 +120,9 @@ exports[`snapshot 1`] = `
         <button
           className="btn btn-primary btn-sm mt-2 mb-2"
           onClick={[Function]}
-          title="Alt-Enter"
+          title="Alt-Enter - submit, Ctrl + space - auto completion"
         >
-          Выполнить
+          Submit
         </button>
         <div>
           <div
