@@ -88,7 +88,7 @@
         "operation": "SelectCompany",
         "operationParams": {},
         "operationResult": {
-          "status": "open"
+          "status": "OPEN"
         },
         "query": "Selection view SelectCompany",
         "title": "SelectCompany"
@@ -124,7 +124,7 @@
         "operation": "SelectCompany",
         "operationParams": {},
         "operationResult": {
-          "status": "open"
+          "status": "OPEN"
         },
         "query": "Selection view SelectCompany",
         "title": "SelectCompany"
@@ -150,7 +150,7 @@
         "layout": {},
         "operation": "SelectCompany",
         "operationResult": {
-          "status": "open"
+          "status": "OPEN"
         },
         "query": "Selection view SelectCompany",
         "title": "SelectCompany"
@@ -190,7 +190,7 @@
       "attributes":{
         "details":"form/categories/Doc categories/Edit/selectedRows=31",
         "message":"REDIRECTED",
-        "status":"redirect"
+        "status":"REDIRECT"
       },
       "links":{"self":"form/categories/Doc categories/Edit/selectedRows=31"},
       "type":"operationResult"

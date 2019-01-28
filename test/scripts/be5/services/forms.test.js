@@ -79,7 +79,7 @@ test('performOperationResult finished', () => {
     data: {
       type: "operationResult",
       attributes: {"operationResult": {
-        "status":"finished"
+        "status": "FINISHED"
       }},
       links: {"self":"form/categories/Doc categories/Edit"},
     },
@@ -99,7 +99,7 @@ test('performOperationResult finished with message', () => {
     data: {
       type: "operationResult",
       attributes: {"operationResult": {
-        "status":"finished",
+        "status":"FINISHED",
         "message": "Finish message<br/>with html"
       }},
       links: {"self":"form/categories/Doc categories/Edit"},
@@ -122,7 +122,7 @@ test('performOperationResult finished with message and actions', () => {
     data: {
       type: "operationResult",
       attributes: {"operationResult": {
-        "status":"finished",
+        "status":"FINISHED",
         "message": "Finish message<br/>with html",
         "details": new FrontendAction("UPDATE_USER_INFO", getTestUser())
       }},
@@ -151,7 +151,7 @@ test('performOperationResult UPDATE_USER_INFO', () => {
     data: {
       type: "operationResult",
       attributes: {"operationResult": {
-        status:  "finished",
+        status:  "FINISHED",
         details: new FrontendAction("UPDATE_USER_INFO", getTestUser())
       }},
       links: {"self":"form/categories/Doc categories/Edit"},
@@ -177,7 +177,7 @@ test('executeFrontendActions TEST', () => {
     data: {
       type: "operationResult",
       attributes: {"operationResult": {
-        "status": "finished",
+        "status": "FINISHED",
         "details": [new FrontendAction("TEST", "test data")]
       }},
       links: {"self":"form/categories/Doc categories/Edit"},
@@ -197,7 +197,7 @@ test('performOperationResult redirect', () => {
   const res = {
     "data":{
       "type":"operationResult",
-      "attributes":{"operationResult": {"details":"static/welcome.be","status":"redirect"}},
+      "attributes":{"operationResult": {"details":"static/welcome.be","status":"REDIRECT"}},
       "links":{"self":"form/categories/Doc categories/Edit"}
     },
     "meta":{"_ts_":"1503244989281"}
@@ -214,7 +214,7 @@ test('performOperationResult redirect MAIN_DOCUMENT', () => {
   const res = {
     "data":{
       "type":"operationResult",
-      "attributes":{"operationResult": {"details":"static/welcome.be","status":"redirect"}},
+      "attributes":{"operationResult": {"details":"static/welcome.be","status":"REDIRECT"}},
       "links":{"self":"form/categories/Doc categories/Edit"}
     },
     "meta":{"_ts_":"1503244989281"}

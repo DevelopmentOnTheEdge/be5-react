@@ -232,7 +232,7 @@
               "layout": {},
               "_on_": "SelectCompany",
               "operationResult": {
-                "status": "open"
+                "status": "OPEN"
               },
               "_qn_": "Selection view SelectCompany",
               "_selectedRows_": "",
@@ -259,7 +259,7 @@
           "value":{
             "details":"table/testtable/Test 1D",
             "message":null,
-            "status":"redirect"
+            "status":"REDIRECT"
           }
         }
       }

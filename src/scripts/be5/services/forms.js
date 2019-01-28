@@ -65,7 +65,7 @@ export const _performOperationResult = (json, frontendParams, data) => {
         const attributes = json.data.attributes;
         const result = attributes.operationResult;
 
-        if (result.status === 'error') {
+        if (result.status === 'ERROR') {
           bus.fire("alert", {msg: result.message, type: 'error'});
           return;
         }
@@ -75,11 +75,11 @@ export const _performOperationResult = (json, frontendParams, data) => {
         }
 
         switch (result.status) {
-          case 'redirect':
+          case 'REDIRECT':
             bus.fire("alert", {msg: result.message || be5.messages.successfullyCompleted, type: 'success'});
             executeFrontendActions(new FrontendAction(REDIRECT, result.details), frontendParams);
             return;
-          case 'finished':
+          case 'FINISHED':
             const formComponentName = attributes.layout && attributes.layout.type;
             if(formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT
                 || (result.message === undefined && result.details !== undefined))
@@ -141,7 +141,7 @@ const _performForm = (json, frontendParams) =>
   const documentName = frontendParams.documentName;
   let operationResult = json.data.attributes.operationResult;
 
-  if(operationResult.status === 'error')
+  if(operationResult.status === 'ERROR')
   {
     bus.fire("alert", {msg: operationResult.message, type: 'error'});
   }

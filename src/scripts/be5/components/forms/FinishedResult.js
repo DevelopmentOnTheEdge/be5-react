@@ -16,7 +16,7 @@ class FinishedResult extends React.Component
     const result = attributes.operationResult;
 
     let message = result.message;
-    if(result.status === 'finished' && result.message === undefined){
+    if(result.status === 'FINISHED' && result.message === undefined){
       message = be5.messages.successfullyCompleted;
     }
 

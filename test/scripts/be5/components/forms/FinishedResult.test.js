@@ -7,7 +7,7 @@ import {MAIN_DOCUMENT} from "../../../../../src/scripts/be5/constants";
 test('snapshot', () => {
   const json = {
     "data":{
-      "attributes":{"operationResult": {"status":"finished"}},
+      "attributes":{"operationResult": {"status":"FINISHED"}},
       "type":"operationResult",
       "links":{"self":"form/categories/Doc categories/Delete/selectedRows=105"}
     },
@@ -24,7 +24,7 @@ test('snapshot', () => {
 test('snapshot custom message', () => {
   const json = {
     "data":{
-      "attributes":{"operationResult": {"status":"finished", "message":"Test message."}},
+      "attributes":{"operationResult": {"status":"FINISHED", "message":"Test message."}},
       "type":"operationResult",
       "links":{"self":"form/categories/Doc categories/Delete/selectedRows=105"}
     },
