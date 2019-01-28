@@ -107,15 +107,6 @@ exports[`snapshot 1`] = `
           <span
             className="badge badge-primary"
           >
-            rTable
-          </span>
-           - 
-          ReactTable
-        </div>
-        <div>
-          <span
-            className="badge badge-primary"
-          >
             static
           </span>
            - 

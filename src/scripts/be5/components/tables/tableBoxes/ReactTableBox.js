@@ -1,16 +1,12 @@
 import React, {Component} from 'react';
-import PropTypes          from 'prop-types';
-import be5                from '../../be5';
-import {getModelByID}     from '../../utils/documentUtils';
-import forms              from '../../services/forms';
-import numberFormatter    from 'number-format.js';
-import OperationBox       from './OperationBox';
-import QuickColumns       from './QuickColumns';
-import Document           from "../../containers/Document";
-import {registerDocument} from '../../core/documents';
+import be5 from '../../../be5';
+import forms from '../../../services/forms';
+import numberFormatter from 'number-format.js';
+import OperationBox from '../OperationBox';
+import QuickColumns from '../QuickColumns';
 
 
-class TableBox extends React.Component {
+class ReactTableBox extends Component {
   constructor(props) {
     super(props);
 
@@ -338,88 +334,6 @@ class TableBox extends React.Component {
       </div>
     );
   }
-
-  // _refreshEnablementIfNeeded() {
-  //   if (this.refs !== undefined && this.refs.operations !== undefined) {
-  //     this.refs.operations.refreshEnablement();
-  //   }
-  // }
 }
 
-//todo add register new component and move to condo, add base types
-// class ListTableBox extends React.Component
-// {
-//   render(){
-//     const list = this.props.value.data.attributes.rows.map( (col, idx) => {
-//       return <li key={idx} dangerouslySetInnerHTML={ {__html: col.cells[0].content}}/>;
-//     });
-//
-//     return (
-//       <ul className="listTableBox">
-//         {list}
-//       </ul>
-//     );
-//   }
-// }
-
-class ReactTable extends React.Component
-{
-  constructor(props) {
-    super(props);
-
-    this.state = {runReload: ""}
-  }
-
-  render() {
-    const value = this.props.value;
-    //const reloadClass = "table-reload float-xs-right " + this.state.runReload;
-    let table = null;
-
-    // if(value.data.attributes.parameters && value.data.attributes.parameters._displayType_ === 'list')
-    // {
-    //   table = (
-    //     <ListTableBox ref="tableBox" value={value} />
-    //   )
-    // }
-    // else
-    {
-      table = (
-        <TableBox
-          ref="tableBox"
-          value={value}
-          frontendParams={this.props.frontendParams}
-        />
-      );
-    }
-
-    const TitleTag = `h${(value.data.attributes.parameters && value.data.attributes.parameters._titleLevel_) || 1}`;
-
-    //todo use getModelByID() instead getResourceByID()
-    const topFormJson = value.included !== undefined ? getModelByID(value.included, value.meta, "topForm") : undefined;
-    let topForm;
-    if(topFormJson){
-      topForm = <Document
-        frontendParams={{documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName}}
-        value={topFormJson}
-      />
-    }
-
-    return (
-      <div className="table-component">
-        {topForm}
-        <TitleTag className="table-component__title">{value.data.attributes.title}</TitleTag>
-        {table}
-      </div>
-    );
-  }
-
-
-}
-
-ReactTable.propTypes = {
-  value: PropTypes.object.isRequired
-};
-
-registerDocument('rTable', ReactTable);
-
-export default ReactTable;
+export default ReactTableBox;
