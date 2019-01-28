@@ -47,6 +47,7 @@ import {getMenu} from './store/selectors/menu.selectors'
 import {executeFrontendActions, getActionsMap} from './services/frontendActions'
 import FrontendAction from './services/model/FrontendAction'
 import {getBackOrOpenDefaultRouteAction, getBackAction} from "./utils/utils";
+import {getFilterParams, addFilterParams} from "./utils/filterUtils";
 
 export * from './constants.js';
 
@@ -89,5 +90,7 @@ export {
   loadTable, loadTableByUrl, updateTable, fetchTableByUrl,
 
   executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction,
-  FrontendAction
+  FrontendAction,
+
+  getFilterParams, addFilterParams
 }
