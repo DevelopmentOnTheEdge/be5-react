@@ -10,7 +10,7 @@ import DataTablesTableBox from "./tableBoxes/DataTablesTableBox";
 import ListTableBox from "./tableBoxes/ListTableBox";
 import {registerDocument} from '../../core/documents';
 import CategoryNavigation from "./CategoryNavigation";
-import {executeFrontendActions, getBackOrOpenDefaultRouteAction} from "../../services/frontendActions";
+import {executeFrontendActions} from "../../services/frontendActions";
 import FilterUI from "./FilterUI";
 import {
   CONTEXT_PARAMS,
@@ -20,7 +20,7 @@ import {
   QUERY_NAME_PARAM,
   SELECTED_ROWS
 } from "../../constants";
-import {makeSafeForClassName} from "../../utils/utils";
+import {getBackAction, makeSafeForClassName} from "../../utils/utils";
 
 
 class Table extends Component
@@ -160,19 +160,20 @@ class Table extends Component
     if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText ||
         this.props.frontendParams.documentName === MAIN_DOCUMENT)
     {
-      const action = layout.cancelAction || getBackOrOpenDefaultRouteAction();
-      return (
-        <button
-          type="button"
-          className="btn btn-light mt-2"
-          onClick={() => executeFrontendActions(action, this.props.frontendParams)}
-        >
-          {layout.cancelActionText || be5.messages.back}
-        </button>
-      );
-    }else{
-      return null;
+      const action = layout.cancelAction || getBackAction();
+      if (action !== undefined) {
+        return (
+          <button
+            type="button"
+            className="btn btn-light mt-2"
+            onClick={() => executeFrontendActions(action, this.props.frontendParams)}
+          >
+            {layout.cancelActionText || be5.messages.back}
+          </button>
+        );
+      }
     }
+    return null;
   }
 
   _refreshEnablementIfNeeded() {

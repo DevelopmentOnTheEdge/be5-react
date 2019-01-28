@@ -1,5 +1,7 @@
 import {registerDocument} from "../core/documents";
 import {registerRoute} from "../core/routes";
+import FrontendAction from "../services/model/FrontendAction";
+import {GO_BACK, OPEN_DEFAULT_ROUTE} from "../constants";
 
 export const arraysEqual = function(a, b)
 {
@@ -35,4 +37,20 @@ export const makeSafeForClassName = (name) => {
     if (c === 32) return '-';
     return '__' + ('000' + c.toString(16)).slice(-4);
   });
+};
+
+export const getBackOrOpenDefaultRouteAction = () => {
+  if (window.history.length > 1) {
+    return new FrontendAction(GO_BACK);
+  } else {
+    return new FrontendAction(OPEN_DEFAULT_ROUTE);
+  }
+};
+
+export const getBackAction = () => {
+  if (window.history.length > 1) {
+    return new FrontendAction(GO_BACK);
+  } else {
+    return undefined;
+  }
 };

@@ -43,8 +43,9 @@ import {fetchMenu} from './store/actions/menu.actions'
 import {getCurrentRoles, getUser} from './store/selectors/user.selectors'
 import {getMenu} from './store/selectors/menu.selectors'
 
-import {executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction} from './services/frontendActions'
+import {executeFrontendActions, getActionsMap} from './services/frontendActions'
 import FrontendAction from './services/model/FrontendAction'
+import {getBackOrOpenDefaultRouteAction, getBackAction} from "./utils/utils";
 
 export * from './constants.js';
 
@@ -85,6 +86,6 @@ export {
 
   loadTable, loadTableByUrl, updateTable, fetchTableByUrl,
 
-  executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction,
+  executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction,
   FrontendAction
 }
