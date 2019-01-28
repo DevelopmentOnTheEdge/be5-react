@@ -5,6 +5,7 @@ import {processHashUrls} from '../../../utils/documentUtils';
 import QuickColumns from '../QuickColumns';
 import {jQueryFormatCell, loadTableByUrl, updateTable} from "../../../services/tables";
 import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, QUERY_NAME_PARAM} from "../../../constants";
+import {registerTableBox} from "../../../core/tableBoxes";
 
 /**
  * https://datatables.net/
@@ -362,5 +363,7 @@ class DataTablesTableBox extends Component {
   }
 
 }
+
+registerTableBox('dataTable', DataTablesTableBox);
 
 export default DataTablesTableBox;

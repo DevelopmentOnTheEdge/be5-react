@@ -6,8 +6,6 @@ import {getModelByID, getResourceByType, getSelfUrl} from '../../utils/documentU
 import {loadForm} from '../../services/forms';
 import OperationBox from './OperationBox';
 import Document from "../../containers/Document";
-import DataTablesTableBox from "./tableBoxes/DataTablesTableBox";
-import ListTableBox from "./tableBoxes/ListTableBox";
 import {registerDocument} from '../../core/documents';
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions} from "../../services/frontendActions";
@@ -21,6 +19,7 @@ import {
   SELECTED_ROWS
 } from "../../constants";
 import {getBackAction, makeSafeForClassName} from "../../utils/utils";
+import {getTableBox} from "../../core/tableBoxes";
 
 
 class Table extends Component
@@ -113,24 +112,24 @@ class Table extends Component
 
   tableBox(value, data, operations) {
     const displayType = (value.data.attributes.parameters && value.data.attributes.parameters._displayType_)
-      || data.attributes.layout._displayType_;
-    if (displayType === 'list') {
+      || data.attributes.layout._displayType_ || 'dataTable';
+
+    const TableBox = getTableBox(displayType);
+    if(TableBox === undefined) {
       return (
-        <ListTableBox ref="tableBox" value={value}/>
+        <div>{be5.messages.tableBoxForTypeNotRegistered.replace( '$type', displayType)}</div>
       )
     }
-    else {
-      return (
-        <DataTablesTableBox
-          _refreshEnablementIfNeeded={this._refreshEnablementIfNeeded}
-          ref="tableBox"
-          value={value}
-          operations={operations}
-          onOperationClick={this.onOperationClick}
-          frontendParams={this.props.frontendParams}
-        />
-      );
-    }
+    return (
+      <TableBox
+        _refreshEnablementIfNeeded={this._refreshEnablementIfNeeded}
+        ref="tableBox"
+        value={value}
+        operations={operations}
+        onOperationClick={this.onOperationClick}
+        frontendParams={this.props.frontendParams}
+      />
+    );
   }
 
   getTableClass() {

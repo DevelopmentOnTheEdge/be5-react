@@ -4,6 +4,7 @@ import forms from '../../../services/forms';
 import numberFormatter from 'number-format.js';
 import OperationBox from '../OperationBox';
 import QuickColumns from '../QuickColumns';
+import {registerTableBox} from "../../../core/tableBoxes";
 
 
 class ReactTableBox extends Component {
@@ -335,5 +336,7 @@ class ReactTableBox extends Component {
     );
   }
 }
+
+registerTableBox('reactTable', ReactTableBox);
 
 export default ReactTableBox;

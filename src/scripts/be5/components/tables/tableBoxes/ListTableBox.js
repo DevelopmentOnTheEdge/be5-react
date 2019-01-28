@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-
+import {registerTableBox} from "../../../core/tableBoxes";
 
 //todo add register new component and move to condo, add base types
-class ListTableBox extends Component
+class OneColumnListTableBox extends Component
 {
   render(){
     const list = this.props.value.data.attributes.rows.map( (col, idx) => {
@@ -17,4 +17,6 @@ class ListTableBox extends Component
   }
 }
 
-export default ListTableBox;
+registerTableBox('oneColumnList', OneColumnListTableBox);
+
+export default OneColumnListTableBox;

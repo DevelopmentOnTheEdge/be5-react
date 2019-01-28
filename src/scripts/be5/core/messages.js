@@ -34,6 +34,7 @@ export default {
     formComponentNotFound:  'Document component not found: ',
     tableComponentNotFound: 'Table component not found: ',
     componentForTypeNotRegistered:  'Component for type "$type" is not registered.',
+    tableBoxForTypeNotRegistered:  'TableBox for type "$type" is not registered.',
 
     helpInfo: "Help",
     details: "Details",
@@ -102,6 +103,7 @@ export default {
     formComponentNotFound:  'Компонент формы не найден: ',
     tableComponentNotFound: 'Компонент таблицы не найден: ',
     componentForTypeNotRegistered:  'Компонент для типа "$type" не зарегистрирован.',
+    tableBoxForTypeNotRegistered:  'TableBox для типа "$type" не зарегистрирован.',
 
     helpInfo: "Справка",
     details: "Подробнее",
