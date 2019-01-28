@@ -3,11 +3,13 @@ import 'brace/mode/sql';
 import be5 from "../be5";
 
 let beSqlFunctions = '';
+let tableNames = [];
 
 export let initBeSqlEditor = function (callback) {
   if (beSqlFunctions === '') {
     be5.net.request('queryBuilder/editor', null, json => {
         beSqlFunctions = json.data.attributes.functions.map(x => x.toUpperCase()  ).join('|');
+        tableNames = json.data.attributes.tableNames;
         callback();
     });
   } else {
@@ -109,6 +111,18 @@ export const upperCaseKeyWordCompleter = {
       });
     } else {
       keywordCompletions = session.$mode.getCompletions(state, session, pos, prefix);
+    }
+    return callback(null, keywordCompletions);
+  },
+};
+
+export const tableNamesCompleter = {
+  getCompletions(editor, session, pos, prefix, callback) {
+    let keywordCompletions = [];
+    for (let i in tableNames) {
+      keywordCompletions.push({
+        value: tableNames[i], score: 9, meta: "table"
+      })
     }
     return callback(null, keywordCompletions);
   },
