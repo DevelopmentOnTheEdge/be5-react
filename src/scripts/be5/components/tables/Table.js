@@ -68,31 +68,22 @@ class Table extends Component
   render() {
     const value = this.props.value;
     const {data, included} = this.props.value;
-    if(this.props.frontendParams.documentName === MAIN_DOCUMENT)be5.ui.setTitle(data.attributes.title + ' ' + this.getOperationParamsInfo());
+    if (this.props.frontendParams.documentName === MAIN_DOCUMENT)
+    {
+      be5.ui.setTitle(data.attributes.title + ' ' + this.getOperationParamsInfo());
+    }
     const hasRows = data.attributes.rows.length !== 0;
     const operations = getResourceByType(included, "documentOperations");
-
-    let table = this.getTableBox(value, data, table, operations);
 
     const TitleTag = `h${(value.data.attributes.parameters && value.data.attributes.parameters._titleLevel_) || 1}`;
 
     const topFormJson = value.included !== undefined ? getModelByID(value.included, value.meta, "topForm") : undefined;
-    let topForm;
     let hideOperations = data.attributes.layout.hideOperations || [];
-    if(topFormJson){
-      hideOperations.push(topFormJson.data.attributes.operation);
-      const layout = topFormJson.data.attributes.layout;
-      if (layout.type === undefined) layout.type = 'inlineMiniForm';
-      if (layout.bsSize === undefined) layout.bsSize = 'sm';
-      topForm = <Document
-        frontendParams={{documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName}}
-        value={topFormJson}
-      />
-    }
+    if (topFormJson) hideOperations.push(topFormJson.data.attributes.operation);
 
     return (
       <div className={classNames("table-component", this.getTableClass(), data.attributes.layout.classes)}>
-        {topForm}
+        {this.topForm(topFormJson, hideOperations)}
         <TitleTag className="table-component__title">
           {value.data.attributes.title}
           {this.getOperationParamsInfo().length > 0 ? <small>{' '}{this.getOperationParamsInfo()}</small> : null}
@@ -114,13 +105,13 @@ class Table extends Component
           params={data.attributes.parameters}
           frontendParams={this.props.frontendParams}
         />
-        {table}
+        {this.tableBox(value, data, operations)}
         {this._createTableCancelAction()}
       </div>
     );
   }
 
-  getTableBox(value, data, operations) {
+  tableBox(value, data, operations) {
     const displayType = (value.data.attributes.parameters && value.data.attributes.parameters._displayType_)
       || data.attributes.layout._displayType_;
     if (displayType === 'list') {
@@ -186,6 +177,19 @@ class Table extends Component
 
   _refreshEnablementIfNeeded() {
     this.refs.operations.refreshEnablement();
+  }
+
+  topForm(topFormJson) {
+    if (topFormJson) {
+      const layout = topFormJson.data.attributes.layout;
+      if (layout.type === undefined) layout.type = 'inlineMiniForm';
+      if (layout.bsSize === undefined) layout.bsSize = 'sm';
+      return <Document
+        frontendParams={{documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName}}
+        value={topFormJson}
+      />
+    }
+    return null;
   }
 }
 
