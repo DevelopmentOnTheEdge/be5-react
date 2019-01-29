@@ -1,44 +1,52 @@
-import be5 from './be5.js';
+import './be5.js';
 import be5init from './be5init.js';
 //import be5styles from './be5styles.js';
 import preconditions from './utils/preconditions.js';
-import {getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument,
-  openInModal} from './utils/documentUtils.js';
+import {
+  createStaticValue,
+  getModelByID,
+  getResourceByID,
+  getSelfUrl,
+  loadDocumentByUrl,
+  openInModal,
+  processHashUrl,
+  processHashUrlForDocument
+} from './utils/documentUtils.js';
 import {arraysEqual, createPageValue, registerPage} from './utils/utils.js';
-
 // core
 import bus from './core/bus.js';
 import changeDocument from './core/changeDocument.js';
-import {getDocument, registerDocument, getAllDocumentTypes} from './core/registers/documents.js';
-import {registerRoute,getRoute,getAllRoutes} from "./core/registers/routes";
-import {registerTableBox, getTableBox, getAllTypes} from "./core/registers/tableBoxes";
-
+import {getAllDocumentTypes, getDocument, registerDocument} from './core/registers/documents.js';
+import {getAllRoutes, getRoute, registerRoute} from "./core/registers/routes";
+import {getAllTypes, getTableBox, registerTableBox} from "./core/registers/tableBoxes";
 // actions
-import formAction      from './routes/form.js';
-import loadingAction   from './routes/loading.js';
-import loginAction     from './routes/login.js';
-import logoutAction    from './routes/logout.js';
-import queryBuilderAction  from './routes/queryBuilder.js';
-import staticAction    from './routes/static.js';
-import tableAction     from './routes/table.js';
-import textAction      from './routes/text.js';
-
+import formAction from './routes/form.js';
+import loadingAction from './routes/loading.js';
+import loginAction from './routes/login.js';
+import logoutAction from './routes/logout.js';
+import queryBuilderAction from './routes/queryBuilder.js';
+import staticAction from './routes/static.js';
+import tableAction from './routes/table.js';
+import textAction from './routes/text.js';
 // services
-import action            from './services/actions.js';
+import action from './services/actions.js';
 import {
-  loadOperation, submitOperation, getOperationInfoFromUrl,
-  openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl
+  fetchOperationByUrl,
+  getOperationInfoFromUrl,
+  loadOperation,
+  openOperationByUrl,
+  openOperationByUrlWithValues,
+  submitOperation
 } from './services/forms.js';
 
-import {loadTable, loadTableByUrl, updateTable, fetchTableByUrl} from './services/tables.js';
-
+import {fetchTableByUrl, loadTable, loadTableByUrl, updateTable} from './services/tables.js';
 // store
 import createBaseStore from './store';
-import rootReducer     from './store/reducers';
-import userReduser     from './store/reducers/user.reduser';
-import menuReduser     from './store/reducers/menu.reduser';
+import rootReducer from './store/reducers';
+import userReduser from './store/reducers/user.reduser';
+import menuReduser from './store/reducers/menu.reduser';
 
-import {toggleRoles,fetchUserInfo,updateUserInfo} from './store/actions/user.actions'
+import {fetchUserInfo, toggleRoles, updateUserInfo} from './store/actions/user.actions'
 import {fetchMenu} from './store/actions/menu.actions'
 
 import {getCurrentRoles, getUser} from './store/selectors/user.selectors'
@@ -46,8 +54,8 @@ import {getMenu} from './store/selectors/menu.selectors'
 
 import {executeFrontendActions, getActionsMap} from './services/frontendActions'
 import FrontendAction from './services/model/FrontendAction'
-import {getBackOrOpenDefaultRouteAction, getBackAction} from "./utils/utils";
-import {getFilterParams, addFilterParams} from "./utils/filterUtils";
+import {getBackAction, getBackOrOpenDefaultRouteAction} from "./utils/utils";
+import {addFilterParams, getFilterParams} from "./utils/filterUtils";
 
 export * from './constants.js';
 
@@ -55,7 +63,8 @@ export {
   be5init,
   preconditions,
   arraysEqual, createPageValue, registerPage,
-  getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal,
+  getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument,
+  openInModal, loadDocumentByUrl,
 
   // core
   bus,
