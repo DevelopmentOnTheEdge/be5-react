@@ -9,6 +9,7 @@ import pkg         from './package.json'
 const external = Object.keys(pkg.dependencies || {});
 
 external.push('react-transition-group/Transition');
+external.push('brace');
 external.push('brace/mode/sql');
 external.push('brace/theme/xcode');
 external.push('brace/ext/language_tools');
