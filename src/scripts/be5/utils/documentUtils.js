@@ -1,9 +1,10 @@
 import React from 'react';
 import be5 from "../be5";
 import Preconditions from '../utils/preconditions';
-import {GO_BACK, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, OPEN_DEFAULT_ROUTE} from "../constants";
+import {GO_BACK, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, OPEN_DEFAULT_ROUTE, TIMESTAMP_PARAM} from "../constants";
 import FrontendAction from "../services/model/FrontendAction";
 import {executeFrontendActions} from "../services/frontendActions";
+import changeDocument from "../core/changeDocument";
 
 export const getResourceByID = (included, id) => {
   if(included === undefined) return undefined;
@@ -112,6 +113,16 @@ export const processHashUrlForDocument = (e, documentName) => {
   }
   //console.log(url, documentName);
   be5.url.process(documentName || MAIN_DOCUMENT, url);
+};
+
+export const loadDocumentByUrl = (url, frontendParams) => {
+  const attr = be5.url.parse(url);
+  const params = Object.assign(attr.named, {[TIMESTAMP_PARAM]: new Date().getTime()});
+  be5.net.request(be5.url.form(attr.positional), params, json => {
+    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+  }, (json) => {
+    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+  })
 };
 
 /**
