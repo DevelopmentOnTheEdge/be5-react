@@ -98,6 +98,7 @@ export default {
       rangeOverflow: 'Значение должно быть меньше или равно {0}.',
       rangeUnderflow: 'Значение должно быть больше или равно {0}.',
       datePatternError: 'Введите дату в формате дд.мм.гггг',
+      timestampPatternError: 'Введите дату и время в формате дд.мм.гггг чч:мм',
     },
 
     formComponentNotFound:  'Компонент формы не найден: ',
