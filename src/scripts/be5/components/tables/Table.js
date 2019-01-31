@@ -164,7 +164,7 @@ class Table extends Component
         return (
           <button
             type="button"
-            className="btn btn-light mt-2"
+            className="btn btn-light mt-2 btn-back"
             onClick={() => executeFrontendActions(action, this.props.frontendParams)}
           >
             {layout.cancelActionText || be5.messages.back}
