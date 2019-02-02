@@ -40,7 +40,7 @@ class QueryBuilder extends React.Component
   }
 
   initBeSqlMode() {
-    if (BeSqlMode !== undefined) {
+    if (AceEditor !== undefined) {
       const beSqlMode = new BeSqlMode();
       this.refs.aceEditor.editor.getSession().setMode(beSqlMode);
       const langTools = window.ace.acequire('ace/ext/language_tools');
@@ -84,11 +84,6 @@ class QueryBuilder extends React.Component
       sql
     } = this.state;
 
-    if (AceEditor === undefined)
-    {
-      return <div>react-ace or brace not found</div>;
-    }
-
     return (
       <div className="queryBuilder">
         <div className="row">
@@ -99,7 +94,7 @@ class QueryBuilder extends React.Component
                 type="checkbox"
                 className="form-check-input"
                 id="updateWithoutBeSql"
-                onChange={()=>{
+                onChange={() => {
                   this.setState({updateWithoutBeSql: !this.state.updateWithoutBeSql});
                 }}
                 checked={this.state.updateWithoutBeSql === true}/>
@@ -120,36 +115,8 @@ class QueryBuilder extends React.Component
             <br/>
           </div>
         </div>
-        <SplitPane split="horizontal" defaultSize={300} >
-          <AceEditor
-            ref="aceEditor"
-            value={sql}
-            mode="sql"
-            theme="xcode"
-            fontSize={13}
-            onChange={this.updateCode}
-            name="queryBuilder_editor"
-            width='100%'
-            height='100%'
-            showPrintMargin={true}
-            showGutter={true}
-            highlightActiveLine={true}
-            editorProps={{
-              $blockScrolling: Infinity,
-            }}
-            setOptions={{
-              enableBasicAutocompletion: true,
-              enableLiveAutocompletion: true,
-              enableSnippets: true,
-              showLineNumbers: true,
-              tabSize: 2
-            }}
-            commands={[{
-              name: 'Submit',
-              bindKey: {win: 'Alt-Enter', mac: 'Command-Enter'},
-              exec: this.submit
-            }]}
-          />
+        <SplitPane split="horizontal" defaultSize={300}>
+          {this.getEditor(sql)}
           <div>
             <button
               className="btn btn-primary btn-sm mt-2 mb-2"
@@ -167,6 +134,48 @@ class QueryBuilder extends React.Component
 
       </div>
     );
+  }
+
+  getEditor(sql) {
+    if (AceEditor === undefined)
+    {
+      return <textarea
+        rows={10}
+        onChange={(e) => this.updateCode(e.target.value)}
+        value={sql}
+        style={{width: '100%'}}
+      />;
+    }
+
+    return <AceEditor
+      ref="aceEditor"
+      value={sql}
+      mode="sql"
+      theme="xcode"
+      fontSize={13}
+      onChange={this.updateCode}
+      name="queryBuilder_editor"
+      width='100%'
+      height='100%'
+      showPrintMargin={true}
+      showGutter={true}
+      highlightActiveLine={true}
+      editorProps={{
+        $blockScrolling: Infinity,
+      }}
+      setOptions={{
+        enableBasicAutocompletion: true,
+        enableLiveAutocompletion: true,
+        enableSnippets: true,
+        showLineNumbers: true,
+        tabSize: 2
+      }}
+      commands={[{
+        name: 'Submit',
+        bindKey: {win: 'Alt-Enter', mac: 'Command-Enter'},
+        exec: this.submit
+      }]}
+    />;
   }
 }
 
