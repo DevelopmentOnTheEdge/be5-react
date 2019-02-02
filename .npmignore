@@ -1,0 +1,12 @@
+node_modules/
+coverage/
+test/
+dist/compressed/
+dist/uncompressed/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+*.log
