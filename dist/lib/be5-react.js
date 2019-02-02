@@ -11,11 +11,6 @@ import JsonPointer from 'json-pointer';
 import Transition from 'react-transition-group/Transition';
 import ReactDOM from 'react-dom';
 import numberFormatter from 'number-format.js';
-import 'brace';
-import 'brace/mode/sql';
-import AceEditor from 'react-ace';
-import 'brace/theme/xcode';
-import 'brace/ext/language_tools';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
@@ -822,148 +817,149 @@ var getDefaultCancelAction = function getDefaultCancelAction() {
 };
 
 var messages = {
-  en: {
-    errorCannotConnect: 'Cannot connect to server',
-    errorServerQueryException: 'Error during server query: $message',
-    errorInvalidErrorResponse: 'Server returned unknown error',
-    errorNoData: 'Error communicating with server: no data received',
-    errorUnknownRoute: 'Unknown route: $action',
-    errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
+    en: {
+        errorCannotConnect: 'Cannot connect to server',
+        errorServerQueryException: 'Error during server query: $message',
+        errorInvalidErrorResponse: 'Server returned unknown error',
+        errorNoData: 'Error communicating with server: no data received',
+        errorUnknownRoute: 'Unknown route: $action',
+        errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
 
-    welcome: 'Hello!',
-    loading: 'Page is loading...',
-    settings: 'Settings',
-    roles: 'Roles',
-    back: 'Back',
-    error: 'Error:',
-    cancel: 'Cancel',
-    close: 'Close',
-    login: 'Login',
-    logout: 'Logout',
-    reload: 'reload',
-    All: 'All',
-    successfullyCompleted: 'Successfully completed.',
+        welcome: 'Hello!',
+        loading: 'Page is loading...',
+        settings: 'Settings',
+        roles: 'Roles',
+        back: 'Back',
+        error: 'Error:',
+        cancel: 'Cancel',
+        close: 'Close',
+        login: 'Login',
+        logout: 'Logout',
+        reload: 'reload',
+        All: 'All',
+        successfullyCompleted: 'Successfully completed.',
 
-    filter: 'Filter...',
-    entries: 'entries',
+        filter: 'Filter...',
+        entries: 'entries',
 
-    selectRoles: 'Select',
-    allRoles: 'all',
-    clearRoles: 'clear',
+        selectRoles: 'Select',
+        allRoles: 'all',
+        clearRoles: 'clear',
 
-    Submit: 'Submit',
-    submitted: 'In progress...',
+        Submit: 'Submit',
+        submitted: 'In progress...',
 
-    formComponentNotFound: 'Document component not found: ',
-    tableComponentNotFound: 'Table component not found: ',
-    componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
-    tableBoxForTypeNotRegistered: 'TableBox for type "$type" is not registered.',
+        formComponentNotFound: 'Document component not found: ',
+        tableComponentNotFound: 'Table component not found: ',
+        componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
+        tableBoxForTypeNotRegistered: 'TableBox for type "$type" is not registered.',
 
-    helpInfo: "Help",
-    details: "Details",
-    goToHomepage: "Go to homepage",
+        helpInfo: "Help",
+        details: "Details",
+        goToHomepage: "Go to homepage",
 
-    NotFound: "Not Found",
+        NotFound: "Not Found",
 
-    table: {
-      noRecordsOnThePage: 'No records on page {0}',
-      emptyTable: 'Nothing found',
-      previousPage: 'Previous',
-      nextPage: 'Next',
-      clearFilter: 'Clear filter',
-      tableFor: 'for'
-    }
-  },
-
-  ru: {
-    errorCannotConnect: 'Не могу подключиться к серверу',
-    errorServerQueryException: 'Ошибка сервера: $message',
-    errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
-    errorNoData: 'Ошибка связи с сервером: ответ не получен',
-    errorUnknownRoute: 'Неизвестный путь: $action',
-    errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
-
-    welcome: 'Добро пожаловать!',
-    loading: 'Загрузка...',
-    settings: 'Настройки',
-    roles: 'Роли',
-    back: 'Назад',
-    error: 'Ошибка:',
-    cancel: 'Отмена',
-    close: 'Закрыть',
-    login: 'Вход',
-    logout: 'Выход',
-    reload: 'Перезагрузить',
-    All: 'Все',
-    successfullyCompleted: 'Успешно выполнено.',
-
-    filter: 'Фильтр...',
-    entries: 'записей',
-
-    selectRoles: 'Выбрать',
-    allRoles: 'Всё',
-    clearRoles: 'Ничего',
-
-    Submit: 'Выполнить',
-    submitted: 'Выполняется...',
-
-    property: {
-      locale: 'ru',
-      clearAllText: 'Очистить всё',
-      clearValueText: 'Очистить',
-      noResultsText: 'Нет результатов',
-      searchPromptText: 'Начните вводить для поиска',
-      placeholder: 'Выберите...',
-      loadingPlaceholder: 'Загрузка...',
-      stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
-      numberTypeMismatch: 'Введите число.',
-      simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
-      rangeOverflow: 'Значение должно быть меньше или равно {0}.',
-      rangeUnderflow: 'Значение должно быть больше или равно {0}.',
-      datePatternError: 'Введите дату в формате дд.мм.гггг'
+        table: {
+            noRecordsOnThePage: 'No records on page {0}',
+            emptyTable: 'Nothing found',
+            previousPage: 'Previous',
+            nextPage: 'Next',
+            clearFilter: 'Clear filter',
+            tableFor: 'for'
+        }
     },
 
-    formComponentNotFound: 'Компонент формы не найден: ',
-    tableComponentNotFound: 'Компонент таблицы не найден: ',
-    componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
-    tableBoxForTypeNotRegistered: 'TableBox для типа "$type" не зарегистрирован.',
+    ru: {
+        errorCannotConnect: 'Не могу подключиться к серверу',
+        errorServerQueryException: 'Ошибка сервера: $message',
+        errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
+        errorNoData: 'Ошибка связи с сервером: ответ не получен',
+        errorUnknownRoute: 'Неизвестный путь: $action',
+        errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
 
-    helpInfo: "Справка",
-    details: "Подробнее",
-    goToHomepage: "Перейти на главную страницу",
+        welcome: 'Добро пожаловать!',
+        loading: 'Загрузка...',
+        settings: 'Настройки',
+        roles: 'Роли',
+        back: 'Назад',
+        error: 'Ошибка:',
+        cancel: 'Отмена',
+        close: 'Закрыть',
+        login: 'Вход',
+        logout: 'Выход',
+        reload: 'Перезагрузить',
+        All: 'Все',
+        successfullyCompleted: 'Успешно выполнено.',
 
-    NotFound: "Не найдено",
-    table: {
-      noRecordsOnThePage: 'Нет записей на {0} странице',
-      emptyTable: 'Нет данных',
-      previousPage: 'Предыдущая',
-      nextPage: 'Следующая',
-      clearFilter: 'Очистить фильтр',
-      tableFor: 'для'
-    },
-    dataTables: {
-      "processing": "Подождите...",
-      "search": "Поиск:",
-      "lengthMenu": "Показать _MENU_ записей",
-      "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
-      "infoEmpty": "Записи с 0 до 0 из 0 записей",
-      "infoFiltered": "(отфильтровано из _MAX_ записей)",
-      "infoPostFix": "",
-      "loadingRecords": "Загрузка записей...",
-      "zeroRecords": "Записи отсутствуют.",
-      "emptyTable": "В таблице отсутствуют данные",
-      "paginate": {
-        "first": "Первая",
-        "previous": "Предыдущая",
-        "next": "Следующая",
-        "last": "Последняя"
-      },
-      "aria": {
-        "sortAscending": ": активировать для сортировки столбца по возрастанию",
-        "sortDescending": ": активировать для сортировки столбца по убыванию"
-      }
+        filter: 'Фильтр...',
+        entries: 'записей',
+
+        selectRoles: 'Выбрать',
+        allRoles: 'Всё',
+        clearRoles: 'Ничего',
+
+        Submit: 'Выполнить',
+        submitted: 'Выполняется...',
+
+        property: {
+            locale: 'ru',
+            clearAllText: 'Очистить всё',
+            clearValueText: 'Очистить',
+            noResultsText: 'Нет результатов',
+            searchPromptText: 'Начните вводить для поиска',
+            placeholder: 'Выберите...',
+            loadingPlaceholder: 'Загрузка...',
+            stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
+            numberTypeMismatch: 'Введите число.',
+            simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
+            rangeOverflow: 'Значение должно быть меньше или равно {0}.',
+            rangeUnderflow: 'Значение должно быть больше или равно {0}.',
+            datePatternError: 'Введите дату в формате дд.мм.гггг',
+            timestampPatternError: 'Введите дату и время в формате дд.мм.гггг чч:мм'
+        },
+
+        formComponentNotFound: 'Компонент формы не найден: ',
+        tableComponentNotFound: 'Компонент таблицы не найден: ',
+        componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
+        tableBoxForTypeNotRegistered: 'TableBox для типа "$type" не зарегистрирован.',
+
+        helpInfo: "Справка",
+        details: "Подробнее",
+        goToHomepage: "Перейти на главную страницу",
+
+        NotFound: "Не найдено",
+        table: {
+            noRecordsOnThePage: 'Нет записей на {0} странице',
+            emptyTable: 'Нет данных',
+            previousPage: 'Предыдущая',
+            nextPage: 'Следующая',
+            clearFilter: 'Очистить фильтр',
+            tableFor: 'для'
+        },
+        dataTables: {
+            "processing": "Подождите...",
+            "search": "Поиск:",
+            "lengthMenu": "Показать _MENU_ записей",
+            "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+            "infoEmpty": "Записи с 0 до 0 из 0 записей",
+            "infoFiltered": "(отфильтровано из _MAX_ записей)",
+            "infoPostFix": "",
+            "loadingRecords": "Загрузка записей...",
+            "zeroRecords": "Записи отсутствуют.",
+            "emptyTable": "В таблице отсутствуют данные",
+            "paginate": {
+                "first": "Первая",
+                "previous": "Предыдущая",
+                "next": "Следующая",
+                "last": "Последняя"
+            },
+            "aria": {
+                "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                "sortDescending": ": активировать для сортировки столбца по убыванию"
+            }
+        }
     }
-  }
 };
 
 var routes = {};
@@ -978,6 +974,79 @@ var registerRoute = function registerRoute(actionName, fn) {
 
 var getAllRoutes = function getAllRoutes() {
   return Object.keys(routes);
+};
+
+var documents = {};
+
+var getDocument = function getDocument(type) {
+  return documents[type];
+};
+
+// createDocument(type, props) {
+//   return documents[type](props);
+// };
+
+var registerDocument = function registerDocument(type, component) {
+  documents[type] = component;
+};
+
+var getAllDocumentTypes = function getAllDocumentTypes() {
+  return Object.keys(documents);
+};
+
+var arraysEqual = function arraysEqual(a, b) {
+  if (a === b) return true;
+  if (a === null || b === null) return false;
+  if (a.length !== b.length) return false;
+
+  a.sort();
+  b.sort();
+
+  for (var i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+};
+
+var registerPage = function registerPage(actionName, component, fn) {
+  registerDocument(actionName, component);
+  registerRoute(actionName, fn);
+};
+
+var createPageValue = function createPageValue(actionName, data, url) {
+  return {
+    value: { data: Object.assign({}, data, { links: { self: url || actionName } }) },
+    frontendParams: { type: actionName }
+  };
+};
+
+/* https://stackoverflow.com/a/7627603 */
+var makeSafeForClassName = function makeSafeForClassName(name) {
+  return name.replace(/[^a-zA-Z0-9]/g, function (s) {
+    var c = s.charCodeAt(0);
+    if (c === 32) return '-';
+    return '__' + ('000' + c.toString(16)).slice(-4);
+  });
+};
+
+var getBackOrOpenDefaultRouteAction = function getBackOrOpenDefaultRouteAction() {
+  if (window.history.length > 1) {
+    return new FrontendAction(GO_BACK);
+  } else {
+    return new FrontendAction(OPEN_DEFAULT_ROUTE);
+  }
+};
+
+var getBackAction = function getBackAction() {
+  if (window.history.length > 1) {
+    return new FrontendAction(GO_BACK);
+  } else {
+    return undefined;
+  }
+};
+
+var hashUrlIsEmpty = function hashUrlIsEmpty(url) {
+  return url === '' || url === '#' || url === '#!';
 };
 
 var be5 = {
@@ -1055,7 +1124,7 @@ var be5 = {
     },
     empty: function empty() {
       var url = be5.url.get();
-      return url === '' || url === '#' || url === '!' || url === '#!';
+      return hashUrlIsEmpty(url);
     },
     clear: function clear() {
       document.location.hash = '';
@@ -1711,75 +1780,6 @@ MenuSearchField.propTypes = {
   onChange: PropTypes.func.isRequired
 };
 
-var documents = {};
-
-var getDocument = function getDocument(type) {
-  return documents[type];
-};
-
-// createDocument(type, props) {
-//   return documents[type](props);
-// };
-
-var registerDocument = function registerDocument(type, component) {
-  documents[type] = component;
-};
-
-var getAllDocumentTypes = function getAllDocumentTypes() {
-  return Object.keys(documents);
-};
-
-var arraysEqual = function arraysEqual(a, b) {
-  if (a === b) return true;
-  if (a === null || b === null) return false;
-  if (a.length !== b.length) return false;
-
-  a.sort();
-  b.sort();
-
-  for (var i = 0; i < a.length; ++i) {
-    if (a[i] !== b[i]) return false;
-  }
-  return true;
-};
-
-var registerPage = function registerPage(actionName, component, fn) {
-  registerDocument(actionName, component);
-  registerRoute(actionName, fn);
-};
-
-var createPageValue = function createPageValue(actionName, data, url) {
-  return {
-    value: { data: Object.assign({}, data, { links: { self: url || actionName } }) },
-    frontendParams: { type: actionName }
-  };
-};
-
-/* https://stackoverflow.com/a/7627603 */
-var makeSafeForClassName = function makeSafeForClassName(name) {
-  return name.replace(/[^a-zA-Z0-9]/g, function (s) {
-    var c = s.charCodeAt(0);
-    if (c === 32) return '-';
-    return '__' + ('000' + c.toString(16)).slice(-4);
-  });
-};
-
-var getBackOrOpenDefaultRouteAction = function getBackOrOpenDefaultRouteAction() {
-  if (window.history.length > 1) {
-    return new FrontendAction(GO_BACK);
-  } else {
-    return new FrontendAction(OPEN_DEFAULT_ROUTE);
-  }
-};
-
-var getBackAction = function getBackAction() {
-  if (window.history.length > 1) {
-    return new FrontendAction(GO_BACK);
-  } else {
-    return undefined;
-  }
-};
-
 var propTypes = {
   menu: PropTypes.shape({}),
   currentRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -2392,191 +2392,211 @@ var MainDocumentOnly = function MainDocumentOnly() {
   );
 };
 
-var NavbarMenu = React.createClass({
-  displayName: 'NavbarMenu',
+var propTypes$2 = {
+  menu: PropTypes.shape({}),
+  user: PropTypes.shape({}).isRequired,
+  defaultRoute: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  brand: PropTypes.string
+};
 
-  propTypes: {
-    //show: PropTypes.bool,
-    menu: PropTypes.shape({}),
-    user: PropTypes.shape({}),
-    brand: PropTypes.string
-  },
+var NavbarMenu = function (_Component) {
+  inherits(NavbarMenu, _Component);
 
-  // defaultProps: {
-  //   show: true
-  // },
+  function NavbarMenu(props) {
+    classCallCheck(this, NavbarMenu);
 
-  getInitialState: function getInitialState() {
-    return { isOpen: false };
-  },
-  componentWillMount: function componentWillMount() {
-    this.props.fetchMenu();
-  },
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    var _props$user = this.props.user,
-        loggedIn = _props$user.loggedIn,
-        currentRoles = _props$user.currentRoles;
+    var _this = possibleConstructorReturn(this, (NavbarMenu.__proto__ || Object.getPrototypeOf(NavbarMenu)).call(this, props));
 
-    if (!arraysEqual(currentRoles, nextProps.user.currentRoles) || loggedIn !== nextProps.user.loggedIn) {
+    _this.state = { isOpen: false };
+
+    _this.toggle = _this.toggle.bind(_this);
+    return _this;
+  }
+
+  createClass(NavbarMenu, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
       this.props.fetchMenu();
     }
-  },
-  toggle: function toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  },
-  render: function render() {
-    if (this.props.menu === null) {
-      return null;
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var _props$user = this.props.user,
+          loggedIn = _props$user.loggedIn,
+          currentRoles = _props$user.currentRoles;
+
+      if (!arraysEqual(currentRoles, nextProps.user.currentRoles) || loggedIn !== nextProps.user.loggedIn) {
+        this.props.fetchMenu();
+      }
     }
+  }, {
+    key: 'toggle',
+    value: function toggle() {
+      this.setState({
+        isOpen: !this.state.isOpen
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      if (this.props.menu === null) {
+        return null;
+      }
 
-    var rootMenuItems = this._renderMenuItems(this.props.menu.root, false);
-    var brand = this.props.brand ? React.createElement(
-      'a',
-      { href: '#!', onClick: processHashUrl, className: 'navbar-brand' },
-      this.props.brand
-    ) : undefined;
-    var rightButtons = this._renderRightButtons();
+      var brand = this.props.brand ? React.createElement(
+        'a',
+        { href: '#!', onClick: processHashUrl, className: 'navbar-brand' },
+        this.props.brand
+      ) : undefined;
 
-    return React.createElement(
-      Navbar,
-      { color: 'dark', dark: true, expand: 'md' },
-      React.createElement(
-        'div',
-        { className: 'container' },
-        brand,
-        React.createElement(NavbarToggler, { onClick: this.toggle }),
+      return React.createElement(
+        Navbar,
+        { color: 'dark', dark: true, expand: 'md' },
         React.createElement(
-          Collapse,
-          { isOpen: this.state.isOpen, navbar: true },
+          'div',
+          { className: 'container' },
+          brand,
+          React.createElement(NavbarToggler, { onClick: this.toggle }),
           React.createElement(
-            Nav,
-            { className: '', navbar: true },
-            rootMenuItems
-          ),
-          rightButtons
+            Collapse,
+            { isOpen: this.state.isOpen, navbar: true },
+            React.createElement(
+              Nav,
+              { className: '', navbar: true },
+              this._renderMenuItems(this.props.menu.root, false)
+            ),
+            this._renderRightButtons()
+          )
         )
-      )
-    );
-  },
-  _renderRightButtons: function _renderRightButtons() {
-    var _props$user2 = this.props.user,
-        userName = _props$user2.userName,
-        loggedIn = _props$user2.loggedIn,
-        currentRoles = _props$user2.currentRoles,
-        availableRoles = _props$user2.availableRoles;
+      );
+    }
+  }, {
+    key: '_renderRightButtons',
+    value: function _renderRightButtons() {
+      var _props$user2 = this.props.user,
+          userName = _props$user2.userName,
+          loggedIn = _props$user2.loggedIn,
+          currentRoles = _props$user2.currentRoles,
+          availableRoles = _props$user2.availableRoles;
 
 
-    if (!loggedIn) {
+      if (!loggedIn) {
+        return React.createElement(
+          'form',
+          { className: 'form-inline ml-auto' },
+          React.createElement(
+            Button,
+            { onClick: processHashUrl, href: '#!login', color: 'secondary' },
+            be5.messages.login
+          )
+        );
+      }
       return React.createElement(
         'form',
         { className: 'form-inline ml-auto' },
         React.createElement(
+          UncontrolledTooltip,
+          { placement: 'left', target: 'RoleSelector' },
+          userName
+        ),
+        React.createElement(RoleSelector, {
+          id: "RoleSelector",
+          availableRoles: availableRoles,
+          currentRoles: currentRoles,
+          toggleRoles: this.props.toggleRoles
+        }),
+        ' ',
+        React.createElement(
           Button,
-          { onClick: processHashUrl, href: '#!login', color: 'secondary' },
-          be5.messages.login
+          { onClick: processHashUrl, href: '#!logout', color: 'secondary' },
+          be5.messages.logout
         )
       );
     }
-    return React.createElement(
-      'form',
-      { className: 'form-inline ml-auto' },
-      React.createElement(
-        UncontrolledTooltip,
-        { placement: 'left', target: 'RoleSelector' },
-        userName
-      ),
-      React.createElement(RoleSelector, {
-        id: "RoleSelector",
-        availableRoles: availableRoles,
-        currentRoles: currentRoles,
-        toggleRoles: this.props.toggleRoles
-      }),
-      ' ',
-      React.createElement(
-        Button,
-        { onClick: processHashUrl, href: '#!logout', color: 'secondary' },
-        be5.messages.logout
-      )
-    );
-  },
-  _renderDropdownMenuItems: function _renderDropdownMenuItems(items) {
-    var active = false;
-    var dropdownMenuItems = _(items).map(function (item) {
-      // if (item.default) {
-      //   return undefined;
-      // }
-      var _actions$parse = actions.parse(item.action),
-          href = _actions$parse.href,
-          target = _actions$parse.target;
+  }, {
+    key: '_renderDropdownMenuItems',
+    value: function _renderDropdownMenuItems(items) {
+      var _this2 = this;
 
-      //TODO after store url in redux if(this.props.url === href)active = true;
+      var anyActive = false;
+      var dropdownMenuItems = _(items).map(function (item) {
+        var _actions$parse = actions.parse(item.action),
+            href = _actions$parse.href,
+            target = _actions$parse.target;
 
-
-      return React.createElement(
-        DropdownItem,
-        { onClick: processHashUrl, href: href, key: target + href },
-        item.title
-      );
-    });
-
-    return {
-      dropdownMenuItems: dropdownMenuItems,
-      active: active
-    };
-  },
-  _renderMenuItems: function _renderMenuItems(items, inDropdown) {
-    var _this = this;
-
-    return _(items).map(function (item) {
-      // if (item.default) {
-      //   return undefined;
-      // }
-
-      if (!item.children || item.children.length === 0) {
-        var _actions$parse2 = actions.parse(item.action),
-            href = _actions$parse2.href,
-            target = _actions$parse2.target;
-        // const liClass = inDropdown ? '' : 'nav-item';
-        // const aClass = inDropdown ? 'dropdown-item' : 'nav-link';
-        // return <li className={liClass} key={target+href}><a className={aClass} href={href} target={target}>{item.title}</a></li>;
-
-
-        var _active = false;
-        //if(this.props.url === href)active = true;
+        if (_this2.isActive(href)) anyActive = true;
         return React.createElement(
-          NavItem,
-          { key: target + href },
+          DropdownItem,
+          {
+            onClick: processHashUrl,
+            href: href,
+            key: target + href,
+            active: _this2.isActive(href)
+          },
+          item.title
+        );
+      });
+
+      return {
+        dropdownMenuItems: dropdownMenuItems,
+        active: anyActive
+      };
+    }
+  }, {
+    key: '_renderMenuItems',
+    value: function _renderMenuItems(items, inDropdown) {
+      var _this3 = this;
+
+      return _(items).map(function (item) {
+        if (!item.children || item.children.length === 0) {
+          var _actions$parse2 = actions.parse(item.action),
+              href = _actions$parse2.href,
+              target = _actions$parse2.target;
+
+          var _active = false;
+          if (_this3.isActive(href)) _active = true;
+          return React.createElement(
+            NavItem,
+            { key: target + href },
+            React.createElement(
+              NavLink,
+              { onClick: processHashUrl, href: href, active: _active },
+              item.title
+            )
+          );
+        }
+
+        var _renderDropdownMenuIt = _this3._renderDropdownMenuItems(item.children, true),
+            dropdownMenuItems = _renderDropdownMenuIt.dropdownMenuItems,
+            active = _renderDropdownMenuIt.active;
+
+        return React.createElement(
+          UncontrolledDropdown,
+          { nav: true, inNavbar: true, key: item.title },
           React.createElement(
-            NavLink,
-            { onClick: processHashUrl, href: href, active: _active },
+            DropdownToggle,
+            { nav: true, caret: true, className: classNames({ active: active }) },
             item.title
+          ),
+          React.createElement(
+            DropdownMenu,
+            null,
+            dropdownMenuItems
           )
         );
-      }
+      });
+    }
+  }, {
+    key: 'isActive',
+    value: function isActive(href) {
+      return this.props.url.startsWith(href) || href === "#!" + this.props.defaultRoute && hashUrlIsEmpty(this.props.url);
+    }
+  }]);
+  return NavbarMenu;
+}(Component);
 
-      var _renderDropdownMenuIt = _this._renderDropdownMenuItems(item.children, true),
-          dropdownMenuItems = _renderDropdownMenuIt.dropdownMenuItems,
-          active = _renderDropdownMenuIt.active;
-
-      return React.createElement(
-        UncontrolledDropdown,
-        { nav: true, inNavbar: true, key: item.title },
-        React.createElement(
-          DropdownToggle,
-          { nav: true, caret: true, className: classNames({ active: active }) },
-          item.title
-        ),
-        React.createElement(
-          DropdownMenu,
-          null,
-          dropdownMenuItems
-        )
-      );
-    });
-  }
-});
+NavbarMenu.propTypes = propTypes$2;
 
 var HelpInfo = function (_React$Component) {
   inherits(HelpInfo, _React$Component);
@@ -3169,6 +3189,10 @@ Navs.propTypes = {
   documentName: PropTypes.string
 };
 
+var getHashUrl = function getHashUrl(state) {
+  return state.hashUrl;
+};
+
 var NavbarMenuContainer = function NavbarMenuContainer(props) {
   return React.createElement(NavbarMenu, props);
 };
@@ -3177,7 +3201,8 @@ var mapStateToProps$2 = function mapStateToProps(state) {
   return {
     menu: getMenu(state),
     user: getUser(state),
-    url: be5.url.get()
+    defaultRoute: getDefaultRoute(state),
+    url: getHashUrl(state)
   };
 };
 
@@ -3821,7 +3846,7 @@ OperationBox.defaultProps = {
   hideOperations: []
 };
 
-var propTypes$2 = {
+var propTypes$3 = {
   data: PropTypes.shape({
     attributes: PropTypes.array,
     type: PropTypes.string
@@ -3914,7 +3939,7 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
   );
 };
 
-CategoryNavigation.propTypes = propTypes$2;
+CategoryNavigation.propTypes = propTypes$3;
 
 var loadTable = function loadTable(params, frontendParams) {
   getTable(params, function (json) {
@@ -4052,7 +4077,7 @@ var addFilterParams = function addFilterParams(url, params) {
   return be5.url.form(attr.positional, attr.named);
 };
 
-var propTypes$3 = {};
+var propTypes$4 = {};
 
 var FilterUI = function FilterUI(_ref) {
   var entity = _ref.entity,
@@ -4094,7 +4119,7 @@ var FilterUI = function FilterUI(_ref) {
   return null;
 };
 
-FilterUI.propTypes = propTypes$3;
+FilterUI.propTypes = propTypes$4;
 
 var tableBoxes = {};
 
@@ -4271,7 +4296,7 @@ var Table = function (_Component) {
             'button',
             {
               type: 'button',
-              className: 'btn btn-light mt-2',
+              className: 'btn btn-light mt-2 btn-back',
               onClick: function onClick() {
                 return executeFrontendActions(action, _this2.props.frontendParams);
               }
@@ -4648,31 +4673,17 @@ var route$10 = function route(documentName, entity, query, params) {
 
 registerRoute("table", route$10);
 
-var beSqlFunctions = '';
-var tableNames = [];
+var BeSqlHighlightRules = void 0;
+var BeSqlMode = void 0;
 
-var initBeSqlEditor = function initBeSqlEditor(callback) {
-  if (beSqlFunctions === '') {
-    be5.net.request('queryBuilder/editor', null, function (json) {
-      beSqlFunctions = json.data.attributes.functions.map(function (x) {
-        return x.toUpperCase();
-      }).join('|');
-      tableNames = json.data.attributes.tableNames;
-      callback();
-    });
-  } else {
-    callback();
-  }
-};
+try {
+  require('brace');
+  require('brace/mode/sql');
+  var oop = window.ace.acequire("ace/lib/oop");
 
-var BeSqlHighlightRules = function (_window$ace$acequire$) {
-  inherits(BeSqlHighlightRules, _window$ace$acequire$);
+  var TextHighlightRules = window.ace.acequire("ace/mode/text_highlight_rules").TextHighlightRules;
 
-  function BeSqlHighlightRules() {
-    classCallCheck(this, BeSqlHighlightRules);
-
-    var _this = possibleConstructorReturn(this, (BeSqlHighlightRules.__proto__ || Object.getPrototypeOf(BeSqlHighlightRules)).call(this));
-
+  BeSqlHighlightRules = function BeSqlHighlightRules() {
     var keywords = "select|insert|update|delete|from|where|and|or|group|by|order|limit|offset|having|as|case|" + "when|else|end|type|left|right|join|on|outer|desc|asc|union|create|table|primary|key|if|" + "foreign|not|references|default|null|inner|cross|natural|database|drop|grant";
 
     var builtinConstants = "true|false";
@@ -4681,14 +4692,14 @@ var BeSqlHighlightRules = function (_window$ace$acequire$) {
 
     var dataTypes = "int|numeric|decimal|date|varchar|char|bigint|float|double|bit|binary|text|set|timestamp|" + "money|real|number|integer";
 
-    var keywordMapper = _this.createKeywordMapper({
+    var keywordMapper = this.createKeywordMapper({
       "support.function": builtinFunctions,
       "keyword": keywords,
       "constant.language": builtinConstants,
       "storage.type": dataTypes
     }, "identifier", true);
 
-    _this.$rules = {
+    this.$rules = {
       "start": [{
         token: "comment",
         regex: "--.*$"
@@ -4725,26 +4736,36 @@ var BeSqlHighlightRules = function (_window$ace$acequire$) {
         regex: "\\s+"
       }]
     };
-    return _this;
+  };
+  oop.inherits(BeSqlHighlightRules, TextHighlightRules);
+
+  var Mode = window.ace.acequire("ace/mode/sql").Mode;
+  BeSqlMode = function BeSqlMode() {
+    this.HighlightRules = BeSqlHighlightRules;
+  };
+  oop.inherits(BeSqlMode, Mode);
+} catch (e) {
+  console.log(e);
+}
+
+var beSqlFunctions = '';
+var tableNames = [];
+
+var BeSqlMode$1 = BeSqlMode;
+
+var initBeSqlEditor = function initBeSqlEditor(callback) {
+  if (beSqlFunctions === '') {
+    be5.net.request('queryBuilder/editor', null, function (json) {
+      beSqlFunctions = json.data.attributes.functions.map(function (x) {
+        return x.toUpperCase();
+      }).join('|');
+      tableNames = json.data.attributes.tableNames;
+      callback();
+    });
+  } else {
+    callback();
   }
-
-  return BeSqlHighlightRules;
-}(window.ace.acequire("ace/mode/text_highlight_rules").TextHighlightRules);
-
-var BeSqlMode = function (_window$ace$acequire$2) {
-  inherits(BeSqlMode, _window$ace$acequire$2);
-
-  function BeSqlMode() {
-    classCallCheck(this, BeSqlMode);
-
-    var _this2 = possibleConstructorReturn(this, (BeSqlMode.__proto__ || Object.getPrototypeOf(BeSqlMode)).call(this));
-
-    _this2.HighlightRules = BeSqlHighlightRules;
-    return _this2;
-  }
-
-  return BeSqlMode;
-}(window.ace.acequire("ace/mode/sql").Mode);
+};
 
 var upperCaseKeyWordCompleter = {
   getCompletions: function getCompletions(editor, session, pos, prefix, callback) {
@@ -5605,6 +5626,16 @@ var ReactTableBox = function (_Component) {
 
 registerTableBox('reactTable', ReactTableBox);
 
+var AceEditor = void 0;
+try {
+  require('brace/mode/sql');
+  require('brace/theme/xcode');
+  require('brace/ext/language_tools');
+  AceEditor = require("react-ace").default;
+} catch (e) {
+  console.log(e);
+}
+
 var QueryBuilder = function (_React$Component) {
   inherits(QueryBuilder, _React$Component);
 
@@ -5633,11 +5664,13 @@ var QueryBuilder = function (_React$Component) {
   }, {
     key: 'initBeSqlMode',
     value: function initBeSqlMode() {
-      var beSqlMode = new BeSqlMode();
-      this.refs.aceEditor.editor.getSession().setMode(beSqlMode);
-      var langTools = window.ace.acequire('ace/ext/language_tools');
-      langTools.addCompleter(upperCaseKeyWordCompleter);
-      langTools.addCompleter(tableNamesCompleter);
+      if (BeSqlMode$1 !== undefined) {
+        var beSqlMode = new BeSqlMode$1();
+        this.refs.aceEditor.editor.getSession().setMode(beSqlMode);
+        var langTools = window.ace.acequire('ace/ext/language_tools');
+        langTools.addCompleter(upperCaseKeyWordCompleter);
+        langTools.addCompleter(tableNamesCompleter);
+      }
     }
   }, {
     key: 'componentWillReceiveProps',
@@ -5681,8 +5714,16 @@ var QueryBuilder = function (_React$Component) {
 
       var _state = this.state,
           value = _state.value,
-          sql$$1 = _state.sql;
+          sql = _state.sql;
 
+
+      if (AceEditor === undefined) {
+        return React.createElement(
+          'div',
+          null,
+          'react-ace or brace not found'
+        );
+      }
 
       return React.createElement(
         'div',
@@ -5743,7 +5784,7 @@ var QueryBuilder = function (_React$Component) {
           { split: 'horizontal', defaultSize: 300 },
           React.createElement(AceEditor, {
             ref: 'aceEditor',
-            value: sql$$1,
+            value: sql,
             mode: 'sql',
             theme: 'xcode',
             fontSize: 13,
@@ -5981,8 +6022,17 @@ registerRoute('systemCard', function (documentName, page) {
   });
 });
 
+var updateHashUrl = function updateHashUrl(url) {
+  return { type: 'CHANGE_HASH', hash: url };
+};
+
 var be5init$$1 = {
   hashChange: function hashChange() {
+    var hash = be5.url.get();
+    if (getHashUrl !== hash) {
+      be5.store.dispatch(updateHashUrl(hash));
+    }
+
     bus.fire("mainModalClose");
 
     var state = documentState.get(MAIN_DOCUMENT);
@@ -6003,6 +6053,7 @@ var be5init$$1 = {
     be5.api = api;
     window.be5 = be5;
 
+    be5.store.dispatch(updateHashUrl(be5.url.get()));
     this.initGetUser(store, callback);
 
     be5.net.request('languageSelector', {}, function (data) {
@@ -6084,9 +6135,19 @@ function users$1() {
   }
 }
 
+function changeHash() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var action = arguments[1];
+
+  if (action.type === 'CHANGE_HASH') return action.hash;
+
+  return state;
+}
+
 var index = combineReducers({
   user: users,
-  menu: users$1
+  menu: users$1,
+  hashUrl: changeHash
 });
 
 //import be5styles from './be5styles.js';

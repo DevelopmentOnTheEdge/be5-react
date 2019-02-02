@@ -1,5 +1,6 @@
 node_modules/
 coverage/
+package-lock.json
 
 ### IntelliJ IDEA ###
 .idea
