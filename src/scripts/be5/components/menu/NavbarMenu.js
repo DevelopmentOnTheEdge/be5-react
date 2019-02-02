@@ -62,11 +62,9 @@ class NavbarMenu extends Component {
       return null
     }
 
-    const rootMenuItems = this._renderMenuItems(this.props.menu.root, false);
     const brand = this.props.brand
       ? <a href="#!" onClick={processHashUrl} className="navbar-brand">{this.props.brand}</a>
       : undefined;
-    const rightButtons = this._renderRightButtons();
 
     return (
       <Navbar color="dark" dark expand="md">
@@ -75,9 +73,9 @@ class NavbarMenu extends Component {
           <NavbarToggler onClick={this.toggle}/>
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="" navbar>
-              {rootMenuItems}
+              {this._renderMenuItems(this.props.menu.root, false)}
             </Nav>
-            {rightButtons}
+            {this._renderRightButtons()}
           </Collapse>
         </div>
       </Navbar>
@@ -116,22 +114,34 @@ class NavbarMenu extends Component {
   }
 
   _renderDropdownMenuItems(items) {
-    let active = false;
+    let anyActive = false;
     const dropdownMenuItems = _(items).map(item => {
       // if (item.default) {
       //   return undefined;
       // }
       const {href, target} = actions.parse(item.action);
 
-      //TODO after store url in redux if(this.props.url === href)active = true;
+      let active = false;
+      if (this.props.url.startsWith(href)) {
+        anyActive = true;
+        active = true;
+      }
+
       return (
-        <DropdownItem onClick={processHashUrl} href={href} key={target + href}>{item.title}</DropdownItem>
+        <DropdownItem
+          onClick={processHashUrl}
+          href={href}
+          key={target + href}
+          active={active}
+        >
+          {item.title}
+        </DropdownItem>
       )
     });
 
     return {
       dropdownMenuItems: dropdownMenuItems,
-      active: active
+      active: anyActive
     }
   }
 
@@ -143,11 +153,8 @@ class NavbarMenu extends Component {
 
       if (!item.children || item.children.length === 0) {
         const {href, target} = actions.parse(item.action);
-        // const liClass = inDropdown ? '' : 'nav-item';
-        // const aClass = inDropdown ? 'dropdown-item' : 'nav-link';
-        // return <li className={liClass} key={target+href}><a className={aClass} href={href} target={target}>{item.title}</a></li>;
         let active = false;
-        //if(this.props.url === href)active = true;
+        if (this.props.url.startsWith(href)) active = true;
         return (
           <NavItem key={target + href}>
             <NavLink onClick={processHashUrl} href={href} active={active}>{item.title}</NavLink>

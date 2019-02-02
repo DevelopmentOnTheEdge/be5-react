@@ -27,7 +27,13 @@ test('snapshot NavbarMenu', () => {
   document.body.appendChild(div);
 
   const component = renderer.create(
-    <NavbarMenu user={getTestUser()} menu={navbarMenu} fetchMenu={()=>{}} toggleRoles={()=>{}}/>
+    <NavbarMenu
+      user={getTestUser()}
+      menu={navbarMenu}
+      url={"#!static/welcome.be"}
+      fetchMenu={()=>{}}
+      toggleRoles={()=>{}}
+    />
   );
 
   expect(component.toJSON()).toMatchSnapshot();

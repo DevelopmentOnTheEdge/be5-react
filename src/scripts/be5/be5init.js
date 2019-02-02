@@ -9,12 +9,19 @@ import {fetchUserInfo} from "./store/actions/user.actions";
 import {getDefaultRoute} from "./store/selectors/user.selectors";
 import {getSelfUrl, processHashUrlForDocument} from "./utils/documentUtils";
 import {MAIN_DOCUMENT} from "./constants";
+import {getHashUrl} from "./store/selectors/url.selectors";
+import {updateHashUrl} from "./store/actions/url.actions";
 
 
 export default {
 
   hashChange()
   {
+    const hash = be5.url.get();
+    if (getHashUrl !== hash) {
+      be5.store.dispatch(updateHashUrl(hash));
+    }
+
     bus.fire("mainModalClose");
 
     const state = documentState.get(MAIN_DOCUMENT);
@@ -39,6 +46,7 @@ export default {
     be5.api = api;
     window.be5 = be5;
 
+    be5.store.dispatch(updateHashUrl(be5.url.get()));
     this.initGetUser(store, callback);
 
     be5.net.request('languageSelector', {}, function(data) {

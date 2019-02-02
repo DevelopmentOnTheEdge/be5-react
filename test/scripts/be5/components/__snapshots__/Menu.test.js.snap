@@ -27,7 +27,7 @@ exports[`snapshot NavbarMenu 1`] = `
           className="nav-item"
         >
           <a
-            className="nav-link"
+            className="nav-link active"
             href="#!static/welcome.be"
             onClick={[Function]}
           >
