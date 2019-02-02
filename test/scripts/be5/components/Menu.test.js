@@ -31,6 +31,7 @@ test('snapshot NavbarMenu', () => {
       user={getTestUser()}
       menu={navbarMenu}
       url={"#!static/welcome.be"}
+      defaultRoute={"#!table/testtable/Test 1D"}
       fetchMenu={()=>{}}
       toggleRoles={()=>{}}
     />

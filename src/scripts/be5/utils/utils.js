@@ -54,3 +54,7 @@ export const getBackAction = () => {
     return undefined;
   }
 };
+
+export const hashUrlIsEmpty = (url) => {
+  return url === '' || url === '#' || url === '#!';
+};

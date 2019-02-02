@@ -3,7 +3,7 @@ import PropTypes      from 'prop-types';
 import classNames     from 'classnames';
 import be5            from '../../be5';
 import actions        from '../../services/actions';
-import {arraysEqual}  from '../../utils/utils';
+import {arraysEqual, hashUrlIsEmpty} from '../../utils/utils';
 import {
   Collapse,
   Navbar,
@@ -23,16 +23,14 @@ import {processHashUrl} from "../../utils/documentUtils";
 
 
 const propTypes = {
-  //show: PropTypes.bool,
   menu: PropTypes.shape({}),
-  user: PropTypes.shape({}),
-  brand: PropTypes.string
+  user: PropTypes.shape({}).isRequired,
+  defaultRoute: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  brand: PropTypes.string,
 };
 
 class NavbarMenu extends Component {
-  // defaultProps: {
-  //   show: true
-  // },
   constructor(props) {
     super(props);
     this.state = {isOpen: false};
@@ -116,23 +114,14 @@ class NavbarMenu extends Component {
   _renderDropdownMenuItems(items) {
     let anyActive = false;
     const dropdownMenuItems = _(items).map(item => {
-      // if (item.default) {
-      //   return undefined;
-      // }
       const {href, target} = actions.parse(item.action);
-
-      let active = false;
-      if (this.props.url.startsWith(href)) {
-        anyActive = true;
-        active = true;
-      }
-
+      if (this.isActive(href)) anyActive = true;
       return (
         <DropdownItem
           onClick={processHashUrl}
           href={href}
           key={target + href}
-          active={active}
+          active={this.isActive(href)}
         >
           {item.title}
         </DropdownItem>
@@ -147,14 +136,10 @@ class NavbarMenu extends Component {
 
   _renderMenuItems(items, inDropdown) {
     return _(items).map(item => {
-      // if (item.default) {
-      //   return undefined;
-      // }
-
       if (!item.children || item.children.length === 0) {
         const {href, target} = actions.parse(item.action);
         let active = false;
-        if (this.props.url.startsWith(href)) active = true;
+        if (this.isActive(href)) active = true;
         return (
           <NavItem key={target + href}>
             <NavLink onClick={processHashUrl} href={href} active={active}>{item.title}</NavLink>
@@ -174,6 +159,11 @@ class NavbarMenu extends Component {
         </UncontrolledDropdown>
       );
     });
+  }
+
+  isActive(href) {
+    return this.props.url.startsWith(href) ||
+      (href === "#!" + this.props.defaultRoute && hashUrlIsEmpty(this.props.url));
   }
 }
 

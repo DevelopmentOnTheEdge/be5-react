@@ -6,6 +6,7 @@ import changeDocument from './core/changeDocument';
 import {getRoute} from './core/registers/routes';
 import {getDefaultRoute} from "./store/selectors/user.selectors";
 import {API_URL_PREFIX} from "./constants";
+import {hashUrlIsEmpty} from "./utils/utils";
 
 
 const be5 = {
@@ -91,7 +92,7 @@ const be5 = {
 
     empty() {
       let url = be5.url.get();
-      return url === '' || url === '#' || url === '!' || url === '#!';
+      return hashUrlIsEmpty(url);
     },
 
     clear() {
