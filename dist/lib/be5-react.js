@@ -5664,7 +5664,7 @@ var QueryBuilder = function (_React$Component) {
   }, {
     key: 'initBeSqlMode',
     value: function initBeSqlMode() {
-      if (BeSqlMode$1 !== undefined) {
+      if (AceEditor !== undefined) {
         var beSqlMode = new BeSqlMode$1();
         this.refs.aceEditor.editor.getSession().setMode(beSqlMode);
         var langTools = window.ace.acequire('ace/ext/language_tools');
@@ -5716,14 +5716,6 @@ var QueryBuilder = function (_React$Component) {
           value = _state.value,
           sql = _state.sql;
 
-
-      if (AceEditor === undefined) {
-        return React.createElement(
-          'div',
-          null,
-          'react-ace or brace not found'
-        );
-      }
 
       return React.createElement(
         'div',
@@ -5782,35 +5774,7 @@ var QueryBuilder = function (_React$Component) {
         React.createElement(
           SplitPane,
           { split: 'horizontal', defaultSize: 300 },
-          React.createElement(AceEditor, {
-            ref: 'aceEditor',
-            value: sql,
-            mode: 'sql',
-            theme: 'xcode',
-            fontSize: 13,
-            onChange: this.updateCode,
-            name: 'queryBuilder_editor',
-            width: '100%',
-            height: '100%',
-            showPrintMargin: true,
-            showGutter: true,
-            highlightActiveLine: true,
-            editorProps: {
-              $blockScrolling: Infinity
-            },
-            setOptions: {
-              enableBasicAutocompletion: true,
-              enableLiveAutocompletion: true,
-              enableSnippets: true,
-              showLineNumbers: true,
-              tabSize: 2
-            },
-            commands: [{
-              name: 'Submit',
-              bindKey: { win: 'Alt-Enter', mac: 'Command-Enter' },
-              exec: this.submit
-            }]
-          }),
+          this.getEditor(sql),
           React.createElement(
             'div',
             null,
@@ -5830,6 +5794,52 @@ var QueryBuilder = function (_React$Component) {
           )
         )
       );
+    }
+  }, {
+    key: 'getEditor',
+    value: function getEditor(sql) {
+      var _this4 = this;
+
+      if (AceEditor === undefined) {
+        return React.createElement('textarea', {
+          rows: 10,
+          onChange: function onChange(e) {
+            return _this4.updateCode(e.target.value);
+          },
+          value: sql,
+          style: { width: '100%' }
+        });
+      }
+
+      return React.createElement(AceEditor, {
+        ref: 'aceEditor',
+        value: sql,
+        mode: 'sql',
+        theme: 'xcode',
+        fontSize: 13,
+        onChange: this.updateCode,
+        name: 'queryBuilder_editor',
+        width: '100%',
+        height: '100%',
+        showPrintMargin: true,
+        showGutter: true,
+        highlightActiveLine: true,
+        editorProps: {
+          $blockScrolling: Infinity
+        },
+        setOptions: {
+          enableBasicAutocompletion: true,
+          enableLiveAutocompletion: true,
+          enableSnippets: true,
+          showLineNumbers: true,
+          tabSize: 2
+        },
+        commands: [{
+          name: 'Submit',
+          bindKey: { win: 'Alt-Enter', mac: 'Command-Enter' },
+          exec: this.submit
+        }]
+      });
     }
   }]);
   return QueryBuilder;
