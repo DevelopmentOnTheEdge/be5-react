@@ -69,6 +69,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/template-dev.html'
         }),
+        //new webpack.IgnorePlugin(/brace/),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|ru/),
     ],
     externals: externals

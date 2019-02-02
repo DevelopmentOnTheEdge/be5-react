@@ -1,17 +1,23 @@
 import React from 'react';
 import be5 from '../be5';
 import Document from '../containers/Document';
-import AceEditor from 'react-ace';
 import SplitPane from 'react-split-pane';
 import ErrorPane from "./ErrorPane";
 import {registerDocument} from "../core/registers/documents";
 import {getModelByID} from "../utils/documentUtils";
 
-import 'brace/mode/sql';
-import 'brace/theme/xcode';
-import 'brace/ext/language_tools';
 import {CONTEXT_PARAMS, TIMESTAMP_PARAM} from "../constants";
 import BeSqlMode, {tableNamesCompleter, upperCaseKeyWordCompleter} from "../utils/BeSqlMode";
+
+let AceEditor;
+try {
+  require('brace/mode/sql');
+  require('brace/theme/xcode');
+  require('brace/ext/language_tools');
+  AceEditor = require("react-ace").default;
+} catch(e) {
+  console.log(e)
+}
 
 
 class QueryBuilder extends React.Component
@@ -34,11 +40,13 @@ class QueryBuilder extends React.Component
   }
 
   initBeSqlMode() {
-    const beSqlMode = new BeSqlMode();
-    this.refs.aceEditor.editor.getSession().setMode(beSqlMode);
-    const langTools = window.ace.acequire('ace/ext/language_tools');
-    langTools.addCompleter(upperCaseKeyWordCompleter);
-    langTools.addCompleter(tableNamesCompleter);
+    if (BeSqlMode !== undefined) {
+      const beSqlMode = new BeSqlMode();
+      this.refs.aceEditor.editor.getSession().setMode(beSqlMode);
+      const langTools = window.ace.acequire('ace/ext/language_tools');
+      langTools.addCompleter(upperCaseKeyWordCompleter);
+      langTools.addCompleter(tableNamesCompleter);
+    }
   }
 
   componentWillReceiveProps(nextProps){
@@ -75,6 +83,11 @@ class QueryBuilder extends React.Component
 	    value,
       sql
     } = this.state;
+
+    if (AceEditor === undefined)
+    {
+      return <div>react-ace or brace not found</div>;
+    }
 
     return (
       <div className="queryBuilder">

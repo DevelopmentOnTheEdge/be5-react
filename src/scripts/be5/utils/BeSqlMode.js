@@ -1,25 +1,16 @@
-import 'brace';
-import 'brace/mode/sql';
 import be5 from "../be5";
 
-let beSqlFunctions = '';
-let tableNames = [];
+let BeSqlHighlightRules;
+let BeSqlMode;
 
-export let initBeSqlEditor = function (callback) {
-  if (beSqlFunctions === '') {
-    be5.net.request('queryBuilder/editor', null, json => {
-        beSqlFunctions = json.data.attributes.functions.map(x => x.toUpperCase()  ).join('|');
-        tableNames = json.data.attributes.tableNames;
-        callback();
-    });
-  } else {
-    callback();
-  }
-};
+try {
+  require('brace');
+  require('brace/mode/sql');
+  const oop = window.ace.acequire("ace/lib/oop");
 
-export class BeSqlHighlightRules extends window.ace.acequire("ace/mode/text_highlight_rules").TextHighlightRules {
-  constructor() {
-    super();
+  const TextHighlightRules = window.ace.acequire("ace/mode/text_highlight_rules").TextHighlightRules;
+
+  BeSqlHighlightRules = function() {
     const keywords = (
       "select|insert|update|delete|from|where|and|or|group|by|order|limit|offset|having|as|case|" +
       "when|else|end|type|left|right|join|on|outer|desc|asc|union|create|table|primary|key|if|" +
@@ -84,15 +75,36 @@ export class BeSqlHighlightRules extends window.ace.acequire("ace/mode/text_high
         regex : "\\s+"
       } ]
     };
-  }
+  };
+  oop.inherits(BeSqlHighlightRules, TextHighlightRules);
+
+  const Mode = window.ace.acequire("ace/mode/sql").Mode;
+  BeSqlMode = function() {
+    this.HighlightRules = BeSqlHighlightRules;
+  };
+  oop.inherits(BeSqlMode, Mode);
+
+} catch(e) {
+  console.log(e);
 }
 
-export default class BeSqlMode extends window.ace.acequire("ace/mode/sql").Mode {
-  constructor() {
-    super();
-    this.HighlightRules = BeSqlHighlightRules;
+let beSqlFunctions = '';
+let tableNames = [];
+
+export {BeSqlHighlightRules};
+export default BeSqlMode;
+
+export let initBeSqlEditor = function (callback) {
+  if (beSqlFunctions === '') {
+    be5.net.request('queryBuilder/editor', null, json => {
+      beSqlFunctions = json.data.attributes.functions.map(x => x.toUpperCase()  ).join('|');
+      tableNames = json.data.attributes.tableNames;
+      callback();
+    });
+  } else {
+    callback();
   }
-}
+};
 
 export const upperCaseKeyWordCompleter = {
   getCompletions(editor, session, pos, prefix, callback) {
