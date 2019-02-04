@@ -25,6 +25,15 @@ class DataTablesTableBox extends Component {
   componentDidUpdate() {
     if(this.refs.tableDiv)
       this.applyTableStyle(ReactDOM.findDOMNode(this.refs.tableDiv));
+
+    this.props._refreshEnablementIfNeeded();
+  }
+
+  componentWillUnmount() {
+    $('.data-table-wrapper')
+      .find('table')
+      .DataTable()
+      .destroy(true)
   }
 
   onSelectionChange() {
@@ -36,8 +45,8 @@ class DataTablesTableBox extends Component {
       this.props.callbacks.onSelectionChange(be5.tableState.selectedRows);
     }
   }
+
   applyTableStyle(node) {
-    // see http://datatables.net/examples/index
     $(node).empty();
     const attributes = this.props.value.data.attributes;
     if (attributes.columns.length === 0) return;
@@ -357,7 +366,7 @@ class DataTablesTableBox extends Component {
         />
         <div
           ref="tableDiv"
-          className="row table-div"
+          className="row data-table-wrapper"
         />
       </div>
     );
