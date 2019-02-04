@@ -15,7 +15,7 @@ class DataTablesTableBox extends Component {
   }
 
   componentDidMount() {
-    this.applyTableStyle(this.props, this.refs.main);
+    this.applyTable(this.props, this.refs.main);
     this.props._refreshEnablementIfNeeded();
   }
 
@@ -25,7 +25,7 @@ class DataTablesTableBox extends Component {
       .DataTable()
       .destroy(true);
     $(this.refs.main).empty();
-    this.applyTableStyle(nextProps, this.refs.main);
+    this.applyTable(nextProps, this.refs.main);
 
     this.props._refreshEnablementIfNeeded();
     return false
@@ -48,37 +48,30 @@ class DataTablesTableBox extends Component {
     }
   }
 
-  applyTableStyle(props, node) {
+  getTableConfiguration(props) {
     const attributes = props.value.data.attributes;
-    if (attributes.columns.length === 0) return;
-
     const _this = this;
     be5.tableState.selectedRows = [];
     const hasCheckBoxes = attributes.selectable;
-    const editOperation = props.operations === undefined ? undefined :
-                            props.operations.attributes.find(operation => operation.name === 'Edit');
-
-    const tableTag = $('<table id="' + props.value.meta._ts_ + '" '
-      + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>');
-    tableTag.appendTo(node);
+    const editOperation = DataTablesTableBox.getEditOperation(props);
 
     const columns = this.getColumns(props);
     const data = this.getData(props);
 
-    let lengths = [5,10,20,50,100,500,1000];
+    let lengths = [5, 10, 20, 50, 100, 500, 1000];
     const pageLength = attributes.length;
 
     let tableDom = 'r <"table-responsive-md"t> <"dataTables-nav clearfix"pli>';
 
     if (lengths.indexOf(pageLength) === -1) {
-      if(pageLength < 5)
-      {
+      if (pageLength < 5) {
         tableDom = tableDom.replace("pli", "pi");
       }
-      else
-      {
+      else {
         lengths.push(pageLength);
-        lengths.sort(function(a,b) {return a-b;});
+        lengths.sort(function (a, b) {
+          return a - b;
+        });
       }
     }
 
@@ -87,7 +80,7 @@ class DataTablesTableBox extends Component {
     lengths = [lengths, lengthsTitles];
 
     let language = {};
-    if(be5.locale.value !== 'en'){
+    if (be5.locale.value !== 'en') {
       language = be5.messages.dataTables || {};
     }
     language.lengthMenu = "_MENU_";
@@ -103,27 +96,27 @@ class DataTablesTableBox extends Component {
       autoWidth: false,
       aaSorting: [],
       displayStart: attributes.offset,
-      order: attributes.orderColumn >= 0 ? [[ attributes.orderColumn, attributes.orderDir ]] : undefined,
+      order: attributes.orderColumn >= 0 ? [[attributes.orderColumn, attributes.orderDir]] : undefined,
       ajax: function (data, callback, settings) {
         const params = {
           [ENTITY_NAME_PARAM]: attributes.category,
           [QUERY_NAME_PARAM]: attributes.page,
           [CONTEXT_PARAMS]: Object.assign({}, attributes.parameters, {
-            _offset_     : data.start,
-            _limit_      : data.length,
+            _offset_: data.start,
+            _limit_: data.length,
           })
         };
-        if(data.order && data.order.length > 0){
+        if (data.order && data.order.length > 0) {
           params[CONTEXT_PARAMS]._orderColumn_ = data.order[0].column;
-          params[CONTEXT_PARAMS]._orderDir_    = data.order[0].dir;
+          params[CONTEXT_PARAMS]._orderDir_ = data.order[0].dir;
         }
-        updateTable(params, function(jsonApiModel){
+        updateTable(params, function (jsonApiModel) {
           const json = jsonApiModel.data.attributes;
-          if(json.type === "error"){
+          if (json.type === "error") {
             be5.log.error(json.value.code + "\n" + json.value.message);
-          }else{
-            for(let i=0; i < json.data.length; i++){
-              for(let j=0; j < json.data[0].length; j++){
+          } else {
+            for (let i = 0; i < json.data.length; i++) {
+              for (let j = 0; j < json.data[0].length; j++) {
                 json.data[i][j] = jQueryFormatCell(json.data[i][j].content, json.data[i][j].options)
               }
             }
@@ -149,7 +142,7 @@ class DataTablesTableBox extends Component {
         {
           render: (data, type, row, meta) => {
             const val = row[0];
-            if(val === 'aggregate') return '';
+            if (val === 'aggregate') return '';
 
             const id = "row-" + val + "-checkbox";
             const dataTable = $(this.refs.main).find('table').dataTable();
@@ -160,8 +153,8 @@ class DataTablesTableBox extends Component {
 
             const params = Object.assign({}, attributes.parameters, {_selectedRows_: val});
             const url = be5.url.create(['form', attributes.category, attributes.page, 'Edit'], params);
-            if(editOperation !== undefined) {
-              display = '<a href="#!' + url + '" data-val="'+val+'" class="edit-operation-btn">'+display+'</a>';
+            if (editOperation !== undefined) {
+              display = '<a href="#!' + url + '" data-val="' + val + '" class="edit-operation-btn">' + display + '</a>';
             }
 
             return ('<input id="{id}" type="checkbox" class="rowCheckbox"/> ' +
@@ -185,9 +178,9 @@ class DataTablesTableBox extends Component {
       ],
       createdRow(row, data, index) { // see http://datatables.net/examples/advanced_init/row_callback.html
         const rowId = data[0];
-        $(row).addClass( "table-row-" + rowId );
-        $(row).attr( "data-table-row", rowId );
-        $('input', row).change(function() {
+        $(row).addClass("table-row-" + rowId);
+        $(row).attr("data-table-row", rowId);
+        $('input', row).change(function () {
           const checked = this.checked;
           if (checked && $.inArray(rowId, be5.tableState.selectedRows) === -1) {
             be5.tableState.selectedRows.push(rowId);
@@ -230,12 +223,12 @@ class DataTablesTableBox extends Component {
 
     if (groupingColumn !== null) {
       const resultGroupingColumn = groupingColumn + 1;
-      tableConfiguration.columnDefs.push({ visible: false, targets: resultGroupingColumn });
+      tableConfiguration.columnDefs.push({visible: false, targets: resultGroupingColumn});
       drawGrouping = (api) => {
-        const rows = api.rows({ page:'current' }).nodes();
+        const rows = api.rows({page: 'current'}).nodes();
         let last = null;
 
-        api.column(resultGroupingColumn, { page: 'current' }).data().each(function(group, i) {
+        api.column(resultGroupingColumn, {page: 'current'}).data().each(function (group, i) {
           if (last !== group) {
             $(rows).eq(i).before('<tr class="table-group"><td colspan="' + nColumns + '">' + group + '</td></tr>');
             last = group;
@@ -245,21 +238,30 @@ class DataTablesTableBox extends Component {
     }
 
     tableConfiguration.drawCallback = (settings) => {
-      if(this.refs && this.refs.main)
-      {
+      if (this.refs && this.refs.main) {
         const dataTable = $(this.refs.main).find('table').dataTable();
         if (groupingColumn !== null) drawGrouping(dataTable.api());
       }
       //hideControls();
     };
+    return tableConfiguration;
+  }
 
-    tableTag.dataTable(tableConfiguration);
+  applyTable(props, node) {
+    const attributes = props.value.data.attributes;
+    if (attributes.columns.length === 0) return;
+
+    const tableTag = $('<table id="' + props.value.meta._ts_ + '" '
+      + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>');
+    tableTag.appendTo(node);
+
+    tableTag.dataTable(this.getTableConfiguration(props));
 
     $('.dataTables_length select').removeClass('form-control-sm');
 
     tableTag.on("click", '.edit-operation-btn', function (e) {
       e.preventDefault();
-      props.onOperationClick(editOperation, $(this).data("val"));
+      props.onOperationClick(DataTablesTableBox.getEditOperation(props), $(this).data("val"));
     });
 
     processHashUrls(tableTag, props.frontendParams.documentName);
@@ -307,6 +309,11 @@ class DataTablesTableBox extends Component {
       });
       return finalRow;
     });
+  }
+
+  static getEditOperation(props) {
+    return props.operations === undefined ? undefined :
+      props.operations.attributes.find(operation => operation.name === 'Edit');
   }
 
   render() {
