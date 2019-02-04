@@ -16,15 +16,15 @@ class DataTablesTableBox extends Component {
   }
 
   componentDidMount() {
-    if(this.refs.table)
-      this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
+    if(this.refs.tableDiv)
+      this.applyTableStyle(ReactDOM.findDOMNode(this.refs.tableDiv));
 
     this.props._refreshEnablementIfNeeded();
   }
 
   componentDidUpdate() {
-    if(this.refs.table)
-      this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
+    if(this.refs.tableDiv)
+      this.applyTableStyle(ReactDOM.findDOMNode(this.refs.tableDiv));
   }
 
   onSelectionChange() {
@@ -70,7 +70,7 @@ class DataTablesTableBox extends Component {
       tbody.append(tr);
     });
 
-    const tableDiv = $('<table id="' + this.props.value.meta._ts_ + '" '
+    const tableTag = $('<table id="' + this.props.value.meta._ts_ + '" '
       + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>')
       .append(thead)
       .append(tbody)
@@ -162,7 +162,7 @@ class DataTablesTableBox extends Component {
             if(val === 'aggregate') return '';
 
             const id = "row-" + val + "-checkbox";
-            const dataTable = $(this.refs.table).find('table').dataTable();
+            const dataTable = $(this.refs.tableDiv).find('table').dataTable();
             let display = dataTable.api().page.info().start + meta.row+1;
             if (!hasCheckBoxes) {
               return display;
@@ -226,13 +226,13 @@ class DataTablesTableBox extends Component {
     }
 
     // const hideControls = () => {
-    //   if ( $(_this.refs.table).find('.paging_simple_numbers span .paginate_button')
-    //     && $(_this.refs.table).find('.paging_simple_numbers span .paginate_button').length > 1) {
-    //     $(_this.refs.table).find('.dataTables_length').show();
-    //     $(_this.refs.table).find('.paging_simple_numbers').show()
+    //   if ( $(_this.refs.tableDiv).find('.paging_simple_numbers span .paginate_button')
+    //     && $(_this.refs.tableDiv).find('.paging_simple_numbers span .paginate_button').length > 1) {
+    //     $(_this.refs.tableDiv).find('.dataTables_length').show();
+    //     $(_this.refs.tableDiv).find('.paging_simple_numbers').show()
     //   } else {
-    //     $(_this.refs.table).find('.dataTables_length').hide();
-    //     $(_this.refs.table).find('.paging_simple_numbers').hide()
+    //     $(_this.refs.tableDiv).find('.dataTables_length').hide();
+    //     $(_this.refs.tableDiv).find('.paging_simple_numbers').hide()
     //   }
     // };
 
@@ -255,26 +255,26 @@ class DataTablesTableBox extends Component {
     }
 
     tableConfiguration.drawCallback = (settings) => {
-      if(this.refs && this.refs.table)
+      if(this.refs && this.refs.tableDiv)
       {
-        const dataTable = $(this.refs.table).find('table').dataTable();
+        const dataTable = $(this.refs.tableDiv).find('table').dataTable();
         if (groupingColumn !== null) drawGrouping(dataTable.api());
       }
       //hideControls();
     };
 
-    tableDiv.dataTable(tableConfiguration);
+    tableTag.dataTable(tableConfiguration);
 
     $('.dataTables_length select').removeClass('form-control-sm');
 
-    tableDiv.on("click", '.edit-operation-btn', function (e) {
+    tableTag.on("click", '.edit-operation-btn', function (e) {
       e.preventDefault();
       _this.props.onOperationClick(editOperation, $(this).data("val"));
     });
 
-    processHashUrls(tableDiv, _this.props.frontendParams.documentName);
+    processHashUrls(tableTag, _this.props.frontendParams.documentName);
 
-    tableDiv.on( 'draw.dt', function () {
+    tableTag.on( 'draw.dt', function () {
       be5.tableState.selectedRows = [];
       _this.props._refreshEnablementIfNeeded();
     } );
@@ -296,7 +296,7 @@ class DataTablesTableBox extends Component {
     //   _this.onSelectionChange();
     // });
 
-    this.refs.quickColumns.setTable(this.refs.table);
+    this.refs.quickColumns.setTable(this.refs.tableDiv);
 
     this.onSelectionChange();
   }
@@ -346,18 +346,19 @@ class DataTablesTableBox extends Component {
     }
 
     return (
-      <div>
+      <div className="table-wrap">
         <QuickColumns
           ref="quickColumns"
           columns={a.columns}
           category={a.category}
           page={a.page}
-          table={this.refs.table}
+          table={this.refs.tableDiv}
           selectable={a.selectable}
         />
-        <div className="">
-          <div ref="table" className="row"/>
-        </div>
+        <div
+          ref="tableDiv"
+          className="row table-div"
+        />
       </div>
     );
   }
