@@ -123,7 +123,6 @@ class Table extends Component
     return (
       <TableBox
         _refreshEnablementIfNeeded={this._refreshEnablementIfNeeded}
-        ref="tableBox"
         value={value}
         operations={operations}
         onOperationClick={this.onOperationClick}
