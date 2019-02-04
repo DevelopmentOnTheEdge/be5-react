@@ -14,27 +14,6 @@ class ReactTableBox extends Component {
     this.onOperationClick = this.onOperationClick.bind(this);
   }
 
-  // componentDidMount() {
-  //   if(this.refs.table)
-  //     this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
-  //
-  //   this._refreshEnablementIfNeeded();
-  // }
-
-  // componentWillReceiveProps(nextProps)
-  // {
-  //   $('#table' + this.props.value.meta._ts_).dataTable().fnDestroy();
-  // }
-
-  // componentWillUpdate() {
-  //   if(this.refs.table)
-  //     this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
-  // }
-
-  // componentDidUnMount() {
-  //   $('#table' + this.props.value.meta._ts_).dataTable().fnDestroy();
-  // }
-
   onOperationClick(operation) {
     if(operation.clientSide === true)
     {

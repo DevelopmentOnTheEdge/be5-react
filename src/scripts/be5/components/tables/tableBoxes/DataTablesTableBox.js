@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 import be5 from '../../../be5';
 import {processHashUrls} from '../../../utils/documentUtils';
 import QuickColumns from '../QuickColumns';
@@ -17,14 +16,14 @@ class DataTablesTableBox extends Component {
 
   componentDidMount() {
     if(this.refs.tableDiv)
-      this.applyTableStyle(ReactDOM.findDOMNode(this.refs.tableDiv));
+      this.applyTableStyle(this.refs.tableDiv);
 
     this.props._refreshEnablementIfNeeded();
   }
 
   componentDidUpdate() {
     if(this.refs.tableDiv)
-      this.applyTableStyle(ReactDOM.findDOMNode(this.refs.tableDiv));
+      this.applyTableStyle(this.refs.tableDiv);
 
     this.props._refreshEnablementIfNeeded();
   }
