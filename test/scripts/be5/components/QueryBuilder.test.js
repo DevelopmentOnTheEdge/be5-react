@@ -7,6 +7,9 @@ import {TestProvider}      from "../testUtils";
 import testData       from '../testData.json'
 import '../../../../src/scripts/be5/registers'
 
+import dt from 'datatables.net';
+dt(window, $);
+
 test('snapshot', () => {
   const json = {
     "data": {

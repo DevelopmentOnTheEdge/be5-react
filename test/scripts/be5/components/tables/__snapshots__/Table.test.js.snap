@@ -34,7 +34,9 @@ exports[`FormTable 1`] = `
             Добавить
           </button>
         </div>
-        <div>
+        <div
+          className="table-wrap"
+        >
           <div
             id="quickColumns"
           >
@@ -58,12 +60,8 @@ exports[`FormTable 1`] = `
             </span>
           </div>
           <div
-            className=""
-          >
-            <div
-              className="row"
-            />
-          </div>
+            className="row data-table-wrapper"
+          />
         </div>
       </div>
     </div>
@@ -97,7 +95,9 @@ exports[`Table 1`] = `
       Добавить
     </button>
   </div>
-  <div>
+  <div
+    className="table-wrap"
+  >
     <div
       id="quickColumns"
     >
@@ -121,12 +121,8 @@ exports[`Table 1`] = `
       </span>
     </div>
     <div
-      className=""
-    >
-      <div
-        className="row"
-      />
-    </div>
+      className="row data-table-wrapper"
+    />
   </div>
 </div>
 `;
@@ -157,7 +153,9 @@ exports[`Table on MAIN_DOCUMENT 1`] = `
       Добавить
     </button>
   </div>
-  <div>
+  <div
+    className="table-wrap"
+  >
     <div
       id="quickColumns"
     >
@@ -181,12 +179,8 @@ exports[`Table on MAIN_DOCUMENT 1`] = `
       </span>
     </div>
     <div
-      className=""
-    >
-      <div
-        className="row"
-      />
-    </div>
+      className="row data-table-wrapper"
+    />
   </div>
 </div>
 `;
@@ -225,7 +219,9 @@ exports[`TableForm 1`] = `
             Добавить
           </button>
         </div>
-        <div>
+        <div
+          className="table-wrap"
+        >
           <div
             id="quickColumns"
           >
@@ -249,12 +245,8 @@ exports[`TableForm 1`] = `
             </span>
           </div>
           <div
-            className=""
-          >
-            <div
-              className="row"
-            />
-          </div>
+            className="row data-table-wrapper"
+          />
         </div>
       </div>
     </div>
@@ -302,7 +294,9 @@ exports[`TableFormRow 1`] = `
               Добавить
             </button>
           </div>
-          <div>
+          <div
+            className="table-wrap"
+          >
             <div
               id="quickColumns"
             >
@@ -326,12 +320,8 @@ exports[`TableFormRow 1`] = `
               </span>
             </div>
             <div
-              className=""
-            >
-              <div
-                className="row"
-              />
-            </div>
+              className="row data-table-wrapper"
+            />
           </div>
         </div>
       </div>

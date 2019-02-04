@@ -10,10 +10,9 @@ import TableFormRow from '../../../../../src/scripts/be5/components/tables/Table
 import {mount, render, shallow} from 'enzyme';
 import testData from '../../testData.json'
 import '../../../../../src/scripts/be5/registers'
-
-import dt from 'datatables.net';
 import {MAIN_DOCUMENT} from "../../../../../src/scripts/be5/constants";
 
+import dt from 'datatables.net';
 dt(window, $);
 
 jest.mock('../../../../../src/scripts/be5/services/forms', () => ({
@@ -32,7 +31,7 @@ test('test operation click', () => {
     {"documentName": "test", "parentDocumentName": "test"}]);
 
   be5.tableState.selectedRows = [12];
-  wrapper.instance().refs.tableBox.onSelectionChange();
+  wrapper.instance()._refreshEnablementIfNeeded();
 
   wrapper.find('.btn').first().simulate('click');
 

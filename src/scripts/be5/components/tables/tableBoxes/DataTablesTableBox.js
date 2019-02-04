@@ -15,21 +15,24 @@ class DataTablesTableBox extends Component {
   }
 
   componentDidMount() {
-    if(this.refs.tableDiv)
-      this.applyTableStyle(this.refs.tableDiv);
-
+    this.applyTableStyle(this.props, this.refs.main);
     this.props._refreshEnablementIfNeeded();
   }
 
-  componentDidUpdate() {
-    if(this.refs.tableDiv)
-      this.applyTableStyle(this.refs.tableDiv);
+  shouldComponentUpdate(nextProps) {
+    $(this.refs.main)
+      .find('table')
+      .DataTable()
+      .destroy(true);
+    $(this.refs.main).empty();
+    this.applyTableStyle(nextProps, this.refs.main);
 
     this.props._refreshEnablementIfNeeded();
+    return false
   }
 
   componentWillUnmount() {
-    $('.data-table-wrapper')
+    $(this.refs.main)
       .find('table')
       .DataTable()
       .destroy(true)
@@ -45,45 +48,22 @@ class DataTablesTableBox extends Component {
     }
   }
 
-  applyTableStyle(node) {
-    $(node).empty();
-    const attributes = this.props.value.data.attributes;
+  applyTableStyle(props, node) {
+    const attributes = props.value.data.attributes;
     if (attributes.columns.length === 0) return;
 
     const _this = this;
     be5.tableState.selectedRows = [];
-
-    const thead = $('<thead>');
-    const theadrow = $('<tr>').appendTo(thead);
-    const tbody = $('<tbody>');
-    const tfoot = $('<tfoot>');
-    const tfootrow = $('<tr>').appendTo(tfoot);
     const hasCheckBoxes = attributes.selectable;
-    const editOperation = this.props.operations === undefined ? undefined :
-      this.props.operations.attributes.find(operation => operation.name === 'Edit');
+    const editOperation = props.operations === undefined ? undefined :
+                            props.operations.attributes.find(operation => operation.name === 'Edit');
 
-    theadrow.append($("<th>").text("#"));
-    tfootrow.append($("<th>").text("#"));
-    attributes.columns.forEach((column) => {
-      const title = typeof column === 'object' ? column.title : column;
-      theadrow.append($("<th>").html( jQueryFormatCell(title, 'th', true) ));
-      tfootrow.append($("<th>").html( jQueryFormatCell(title, 'th', true) ));
-    });
-    attributes.rows.forEach((row) => {
-      const tr = $('<tr>');
-      row.cells.forEach((cell) => {
-        tr.append($('<td>').html(jQueryFormatCell(cell.content, cell.options)));
-      });
-      tr.prepend($('<td>').text(row.id));
-      tbody.append(tr);
-    });
+    const tableTag = $('<table id="' + props.value.meta._ts_ + '" '
+      + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>');
+    tableTag.appendTo(node);
 
-    const tableTag = $('<table id="' + this.props.value.meta._ts_ + '" '
-      + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>')
-      .append(thead)
-      .append(tbody)
-      .append( ( attributes.rows.length > 10 ? tfoot : ''))
-      .appendTo(node);
+    const columns = this.getColumns(props);
+    const data = this.getData(props);
 
     let lengths = [5,10,20,50,100,500,1000];
     const pageLength = attributes.length;
@@ -113,6 +93,8 @@ class DataTablesTableBox extends Component {
     language.lengthMenu = "_MENU_";
 
     const tableConfiguration = {
+      data: data,
+      columns: columns,
       dom: tableDom,
       processing: true,
       serverSide: true,
@@ -170,8 +152,8 @@ class DataTablesTableBox extends Component {
             if(val === 'aggregate') return '';
 
             const id = "row-" + val + "-checkbox";
-            const dataTable = $(this.refs.tableDiv).find('table').dataTable();
-            let display = dataTable.api().page.info().start + meta.row+1;
+            const dataTable = $(this.refs.main).find('table').dataTable();
+            let display = (dataTable.api().page.info() ? dataTable.api().page.info().start : 0) + meta.row + 1;
             if (!hasCheckBoxes) {
               return display;
             }
@@ -234,13 +216,13 @@ class DataTablesTableBox extends Component {
     }
 
     // const hideControls = () => {
-    //   if ( $(_this.refs.tableDiv).find('.paging_simple_numbers span .paginate_button')
-    //     && $(_this.refs.tableDiv).find('.paging_simple_numbers span .paginate_button').length > 1) {
-    //     $(_this.refs.tableDiv).find('.dataTables_length').show();
-    //     $(_this.refs.tableDiv).find('.paging_simple_numbers').show()
+    //   if ( $(_this.refs.main).find('.paging_simple_numbers span .paginate_button')
+    //     && $(_this.refs.main).find('.paging_simple_numbers span .paginate_button').length > 1) {
+    //     $(_this.refs.main).find('.dataTables_length').show();
+    //     $(_this.refs.main).find('.paging_simple_numbers').show()
     //   } else {
-    //     $(_this.refs.tableDiv).find('.dataTables_length').hide();
-    //     $(_this.refs.tableDiv).find('.paging_simple_numbers').hide()
+    //     $(_this.refs.main).find('.dataTables_length').hide();
+    //     $(_this.refs.main).find('.paging_simple_numbers').hide()
     //   }
     // };
 
@@ -263,9 +245,9 @@ class DataTablesTableBox extends Component {
     }
 
     tableConfiguration.drawCallback = (settings) => {
-      if(this.refs && this.refs.tableDiv)
+      if(this.refs && this.refs.main)
       {
-        const dataTable = $(this.refs.tableDiv).find('table').dataTable();
+        const dataTable = $(this.refs.main).find('table').dataTable();
         if (groupingColumn !== null) drawGrouping(dataTable.api());
       }
       //hideControls();
@@ -277,14 +259,14 @@ class DataTablesTableBox extends Component {
 
     tableTag.on("click", '.edit-operation-btn', function (e) {
       e.preventDefault();
-      _this.props.onOperationClick(editOperation, $(this).data("val"));
+      props.onOperationClick(editOperation, $(this).data("val"));
     });
 
-    processHashUrls(tableTag, _this.props.frontendParams.documentName);
+    processHashUrls(tableTag, props.frontendParams.documentName);
 
     tableTag.on( 'draw.dt', function () {
       be5.tableState.selectedRows = [];
-      _this.props._refreshEnablementIfNeeded();
+      props._refreshEnablementIfNeeded();
     } );
 
     // $('#rowCheckboxAll').click(function (e) {
@@ -304,9 +286,27 @@ class DataTablesTableBox extends Component {
     //   _this.onSelectionChange();
     // });
 
-    this.refs.quickColumns.setTable(this.refs.tableDiv);
+    this.refs.quickColumns.setTable(this.refs.main);
 
     this.onSelectionChange();
+  }
+
+  getColumns(props) {
+    const columns = [{"title": "#"}];
+    props.value.data.attributes.columns.forEach((column) => {
+      columns.push({"title": column.title});
+    });
+    return columns;
+  }
+
+  getData(props) {
+    return props.value.data.attributes.rows.map((row) => {
+      const finalRow = [row.id];
+      row.cells.forEach((cell) => {
+        finalRow.push(jQueryFormatCell(cell.content, cell.options))
+      });
+      return finalRow;
+    });
   }
 
   render() {
@@ -360,13 +360,10 @@ class DataTablesTableBox extends Component {
           columns={a.columns}
           category={a.category}
           page={a.page}
-          table={this.refs.tableDiv}
+          table={this.refs.main}
           selectable={a.selectable}
         />
-        <div
-          ref="tableDiv"
-          className="row data-table-wrapper"
-        />
+        <div className="row data-table-wrapper" ref="main"/>
       </div>
     );
   }
