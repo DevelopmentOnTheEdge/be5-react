@@ -1,5 +1,5 @@
 import bus from './bus';
-import Preconditions    from '../utils/preconditions';
+import Preconditions from '../utils/preconditions';
 
 
 const changeDocument = (documentName, value) => {

@@ -5,8 +5,7 @@ import Be5Components from "../Be5Components";
 import {MAIN_DOCUMENT} from "../../constants";
 
 
-class ApplicationWithBe5Menu extends React.Component
-{
+class ApplicationWithBe5Menu extends React.Component {
   render() {
     return (
       <div>
@@ -14,7 +13,7 @@ class ApplicationWithBe5Menu extends React.Component
         <NavbarMenuContainer brand='Be5App'/>
         <div className="container">
           <div className="row">
-            <Document ref="document" frontendParams={{documentName: MAIN_DOCUMENT}} />
+            <Document ref="document" frontendParams={{documentName: MAIN_DOCUMENT}}/>
           </div>
         </div>
       </div>

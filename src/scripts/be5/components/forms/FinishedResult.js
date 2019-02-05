@@ -5,8 +5,7 @@ import {registerDocument} from "../../core/registers/documents";
 import {_createBackAction, processHashUrls} from "../../utils/documentUtils";
 
 
-class FinishedResult extends React.Component
-{
+class FinishedResult extends React.Component {
   componentDidMount() {
     processHashUrls($('.finishedResult'), this.props.frontendParams.documentName);
   }
@@ -16,7 +15,7 @@ class FinishedResult extends React.Component
     const result = attributes.operationResult;
 
     let message = result.message;
-    if(result.status === 'FINISHED' && result.message === undefined){
+    if (result.status === 'FINISHED' && result.message === undefined) {
       message = be5.messages.successfullyCompleted;
     }
 
@@ -29,7 +28,7 @@ class FinishedResult extends React.Component
   }
 }
 
-FinishedResult.propTypes =  {
+FinishedResult.propTypes = {
   value: PropTypes.shape({
     data: PropTypes.shape({
       attributes: PropTypes.object.isRequired,

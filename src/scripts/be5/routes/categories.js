@@ -1,13 +1,12 @@
-import React          from 'react';
-import be5            from '../be5';
+import React from 'react';
+import be5 from '../be5';
 import changeDocument from '../core/changeDocument';
 import {registerRoute} from '../core/registers/routes'
 import {createStaticValue} from "../utils/documentUtils";
 import {ENTITY_NAME_PARAM} from "../constants";
 
 
-const route = function(documentName, entity)
-{
+const route = function (documentName, entity) {
   const requestParams = {
     [ENTITY_NAME_PARAM]: entity
   };

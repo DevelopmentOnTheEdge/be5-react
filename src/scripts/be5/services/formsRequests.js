@@ -10,7 +10,9 @@ export const _get = (operationInfo, callback, failure) => {
   $.ajax({
     url: be5.net.url('form'),
     data: data,
-    success(data) {callback(data)},
+    success(data) {
+      callback(data)
+    },
     error(xhr, status, error) {
       const response = JSON.parse(xhr.responseText);
       failure(response);
@@ -26,7 +28,9 @@ export const _post = (action, data, callback, failure) => {
     cache: false,
     contentType: false,
     processData: false,
-    success(data) {callback(data)},
+    success(data) {
+      callback(data)
+    },
     error(xhr, status, error) {
       const response = JSON.parse(xhr.responseText);
       failure(response);

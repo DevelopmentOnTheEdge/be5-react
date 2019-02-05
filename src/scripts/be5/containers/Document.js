@@ -12,8 +12,7 @@ import StaticPage from "../components/StaticPage";
 import {createStaticValue, getSelfUrl} from "../utils/documentUtils";
 
 
-class Document extends React.Component
-{
+class Document extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,11 +24,10 @@ class Document extends React.Component
   }
 
   componentWillReceiveProps(nextProps) {
-    if('value' in nextProps &&
+    if ('value' in nextProps &&
       (!this.props.value || this.props.value.meta === undefined ||
-       !nextProps.value  || nextProps.value.meta === undefined ||
-        nextProps.value.meta._ts_ > this.props.value.meta._ts_))
-    {
+        !nextProps.value || nextProps.value.meta === undefined ||
+        nextProps.value.meta._ts_ > this.props.value.meta._ts_)) {
       this.setState({
         value: nextProps.value || "",
         frontendParams: nextProps.frontendParams
@@ -41,16 +39,13 @@ class Document extends React.Component
     documentState.set(this.props.frontendParams.documentName, this.state);
     this.updateLocationHashIfNeeded();
 
-    bus.replaceListeners(this.props.frontendParams.documentName, data =>
-    {
-      if(this.state.value && this.state.value.meta && !Number.isInteger(Number.parseInt(this.state.value.meta._ts_)))
-      {
+    bus.replaceListeners(this.props.frontendParams.documentName, data => {
+      if (this.state.value && this.state.value.meta && !Number.isInteger(Number.parseInt(this.state.value.meta._ts_))) {
         console.error("meta._ts_ mast be string of Integer " + this.state.value.meta._ts_);
       }
 
-      if(!this.state.value || !this.state.value.meta || !data.value || !data.value.meta
-          || data.value.meta._ts_ > this.state.value.meta._ts_)
-      {
+      if (!this.state.value || !this.state.value.meta || !data.value || !data.value.meta
+        || data.value.meta._ts_ > this.state.value.meta._ts_) {
         this.setState(Object.assign(
           {value: {}, frontendParams: {}},
           data
@@ -70,7 +65,7 @@ class Document extends React.Component
     this.updateLocationHashIfNeeded();
   }
 
-  updateLocationHashIfNeeded(){
+  updateLocationHashIfNeeded() {
     if (this.props.frontendParams.documentName === MAIN_DOCUMENT) {
       const value = this.state.value;
       let self;
@@ -92,19 +87,21 @@ class Document extends React.Component
     }
   }
 
-  componentWillUnmount(){
-    bus.replaceListeners(this.props.frontendParams.documentName, data => {});
-    bus.replaceListeners(this.props.frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX, data => {});
+  componentWillUnmount() {
+    bus.replaceListeners(this.props.frontendParams.documentName, data => {
+    });
+    bus.replaceListeners(this.props.frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX, data => {
+    });
   }
 
   render() {
     const loadingItem = null;//this.state.loading
-      //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
+    //? (<div className={"document-loader " + (this.state.error ? "error" : "")}/>): null;
 
     //if(this.state.value)be5.ui.setTitle(this.state.value.title);
 
     const document = this.getDocument();
-    if(document === null){
+    if (document === null) {
       return null;
     }
 
@@ -116,19 +113,16 @@ class Document extends React.Component
     );
   }
 
-  getDocument()
-  {
+  getDocument() {
     const documentType = this.getDocumentName();
-    if(documentType === null)
-    {
+    if (documentType === null) {
       return null;
     }
 
     const DocumentContent = getDocument(documentType);
 
-    if(DocumentContent === undefined)
-    {
-      const title = be5.messages.componentForTypeNotRegistered.replace( '$type', documentType);
+    if (DocumentContent === undefined) {
+      const title = be5.messages.componentForTypeNotRegistered.replace('$type', documentType);
       const value = createStaticValue(title, '', {self: "#!"});
 
       return (
@@ -152,53 +146,44 @@ class Document extends React.Component
   }
 
   getDocumentName() {
-    if(!this.state.value)
-    {
+    if (!this.state.value) {
       return null;
     }
 
-    if(this.props.type)
-    {
+    if (this.props.type) {
       return this.props.type;
     }
 
-    if (this.state.frontendParams.type)
-    {
+    if (this.state.frontendParams.type) {
       return this.state.frontendParams.type;
     }
 
-    if(this.state.value.data)
-    {
-      if(this.state.value.data.attributes && this.state.value.data.attributes.layout &&
-        this.state.value.data.attributes.layout.type !== undefined)
-      {
+    if (this.state.value.data) {
+      if (this.state.value.data.attributes && this.state.value.data.attributes.layout &&
+        this.state.value.data.attributes.layout.type !== undefined) {
         return this.state.value.data.attributes.layout.type;
       }
 
-      if(this.state.value.data.type === 'form' && this.props.frontendParams.documentName === MAIN_MODAL_DOCUMENT)
-      {
+      if (this.state.value.data.type === 'form' && this.props.frontendParams.documentName === MAIN_MODAL_DOCUMENT) {
         return 'modalForm';
       }
 
-      if(this.state.value.data.type === 'table' && this.props.frontendParams.documentName === MAIN_MODAL_DOCUMENT)
-      {
+      if (this.state.value.data.type === 'table' && this.props.frontendParams.documentName === MAIN_MODAL_DOCUMENT) {
         return 'modalTable';
       }
 
       return this.state.value.data.type;
     }
 
-    if(this.state.value.errors)
-    {
+    if (this.state.value.errors) {
       return 'errorPane';
     }
 
     return undefined;
   }
 
-  getDevTools(){
-    if(!hasDevRole() || !getSelfUrl(this.state.value))
-    {
+  getDevTools() {
+    if (!hasDevRole() || !getSelfUrl(this.state.value)) {
       return null;
     }
 

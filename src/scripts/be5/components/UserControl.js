@@ -1,7 +1,7 @@
-import React        from 'react';
-import PropTypes    from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import RoleSelector from '../components/RoleSelector'
-import classNames   from 'classnames';
+import classNames from 'classnames';
 
 import reloadImg from '../../../images/reload.png';
 
@@ -13,16 +13,15 @@ const UserControl = (props) => {
     availableRoles
   } = props.user;
 
-  if(!loggedIn) {
+  if (!loggedIn) {
     return null;
   }
 
-  function reLogin(){
-    if(Document.hasDevRole)
-    {
+  function reLogin() {
+    if (Document.hasDevRole) {
       return (
         <span onClick={props.openReLoginForm} className={"document-reload float-right"}>
-          <img src={reloadImg} alt={"Login"} title={"Login"} />
+          <img src={reloadImg} alt={"Login"} title={"Login"}/>
         </span>
       );
     }

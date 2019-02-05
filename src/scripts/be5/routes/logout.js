@@ -4,7 +4,7 @@ import {registerRoute} from '../core/registers/routes'
 import {MAIN_DOCUMENT} from "../constants";
 
 
-const route = function() {
+const route = function () {
   openOperationByUrl('form/users/All records/Logout', {documentName: MAIN_DOCUMENT});
 };
 

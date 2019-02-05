@@ -8,7 +8,7 @@ const MainDocumentOnly = () => {
   return (
     <div className="MainDocument-only">
       <Be5Components/>
-      <Document frontendParams={{documentName: MAIN_DOCUMENT}} />
+      <Document frontendParams={{documentName: MAIN_DOCUMENT}}/>
     </div>
   );
 };

@@ -10,7 +10,7 @@ try {
 
   const TextHighlightRules = window.ace.acequire("ace/mode/text_highlight_rules").TextHighlightRules;
 
-  BeSqlHighlightRules = function() {
+  BeSqlHighlightRules = function () {
     const keywords = (
       "select|insert|update|delete|from|where|and|or|group|by|order|limit|offset|having|as|case|" +
       "when|else|end|type|left|right|join|on|outer|desc|asc|union|create|table|primary|key|if|" +
@@ -39,52 +39,52 @@ try {
     }, "identifier", true);
 
     this.$rules = {
-      "start" : [ {
-        token : "comment",
-        regex : "--.*$"
-      },  {
-        token : "comment",
-        start : "/\\*",
-        end : "\\*/"
+      "start": [{
+        token: "comment",
+        regex: "--.*$"
       }, {
-        token : "string",           // " string
-        regex : '".*?"'
+        token: "comment",
+        start: "/\\*",
+        end: "\\*/"
       }, {
-        token : "string",           // ' string
-        regex : "'.*?'"
+        token: "string",           // " string
+        regex: '".*?"'
       }, {
-        token : "string",           // ` string (apache drill)
-        regex : "`.*?`"
+        token: "string",           // ' string
+        regex: "'.*?'"
       }, {
-        token : "constant.numeric", // float
-        regex : "[+-]?\\d+(?:(?:\\.\\d*)?(?:[eE][+-]?\\d+)?)?\\b"
+        token: "string",           // ` string (apache drill)
+        regex: "`.*?`"
       }, {
-        token : keywordMapper,
-        regex : "[a-zA-Z_$][a-zA-Z0-9_$]*\\b"
+        token: "constant.numeric", // float
+        regex: "[+-]?\\d+(?:(?:\\.\\d*)?(?:[eE][+-]?\\d+)?)?\\b"
       }, {
-        token : "keyword.operator",
-        regex : "\\+|\\-|\\/|\\/\\/|%|<@>|@>|<@|&|\\^|~|<|>|<=|=>|==|!=|<>|="
+        token: keywordMapper,
+        regex: "[a-zA-Z_$][a-zA-Z0-9_$]*\\b"
       }, {
-        token : "paren.lparen",
-        regex : "[\\(]"
+        token: "keyword.operator",
+        regex: "\\+|\\-|\\/|\\/\\/|%|<@>|@>|<@|&|\\^|~|<|>|<=|=>|==|!=|<>|="
       }, {
-        token : "paren.rparen",
-        regex : "[\\)]"
+        token: "paren.lparen",
+        regex: "[\\(]"
       }, {
-        token : "text",
-        regex : "\\s+"
-      } ]
+        token: "paren.rparen",
+        regex: "[\\)]"
+      }, {
+        token: "text",
+        regex: "\\s+"
+      }]
     };
   };
   oop.inherits(BeSqlHighlightRules, TextHighlightRules);
 
   const Mode = window.ace.acequire("ace/mode/sql").Mode;
-  BeSqlMode = function() {
+  BeSqlMode = function () {
     this.HighlightRules = BeSqlHighlightRules;
   };
   oop.inherits(BeSqlMode, Mode);
 
-} catch(e) {
+} catch (e) {
   console.log(e);
 }
 
@@ -97,7 +97,7 @@ export default BeSqlMode;
 export let initBeSqlEditor = function (callback) {
   if (beSqlFunctions === '') {
     be5.net.request('queryBuilder/editor', null, json => {
-      beSqlFunctions = json.data.attributes.functions.map(x => x.toUpperCase()  ).join('|');
+      beSqlFunctions = json.data.attributes.functions.map(x => x.toUpperCase()).join('|');
       tableNames = json.data.attributes.tableNames;
       callback();
     });

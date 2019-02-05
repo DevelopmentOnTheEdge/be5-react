@@ -7,8 +7,7 @@ import {Modal} from 'reactstrap';
 import {MAIN_MODAL_DOCUMENT} from "../constants";
 
 
-class Be5Components extends React.Component
-{
+class Be5Components extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,16 +19,16 @@ class Be5Components extends React.Component
   }
 
   open() {
-    this.setState({ modal: true });
+    this.setState({modal: true});
   }
 
   close() {
-    this.setState({ modal: false });
+    this.setState({modal: false});
   }
 
   componentDidMount() {
-    bus.listen("mainModalClose", this.close );
-    bus.listen("mainModalOpen", this.open );
+    bus.listen("mainModalClose", this.close);
+    bus.listen("mainModalOpen", this.open);
 
     bus.listen("alert", data => {
       if (data.type === 'error') {

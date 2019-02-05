@@ -22,14 +22,12 @@ import {
 } from "../constants";
 import {openOperationByUrl} from './forms';
 
-export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) =>
-{
+export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) => {
   const documentName = frontendParams.documentName;
 
   const actions = getActionsMap(actionsArrayOrOneObject);
 
-  if(actions.hasOwnProperty(CLOSE_MAIN_MODAL))
-  {
+  if (actions.hasOwnProperty(CLOSE_MAIN_MODAL)) {
     bus.fire("mainModalClose");
   }
 
@@ -39,33 +37,27 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
   //   bus.fire("alert", {msg: result.message, type: 'success'});
   // }
 
-  if(actions[UPDATE_USER_INFO] !== undefined)
-  {
+  if (actions[UPDATE_USER_INFO] !== undefined) {
     be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
   }
 
-  if(actions[REDIRECT] !== undefined)
-  {
+  if (actions[REDIRECT] !== undefined) {
     redirect(actions[REDIRECT], frontendParams);
   }
 
-  if(actions[OPEN_NEW_WINDOW] !== undefined)
-  {
+  if (actions[OPEN_NEW_WINDOW] !== undefined) {
     window.open(actions[OPEN_NEW_WINDOW]);
   }
 
-  if(actions[SET_URL])
-  {
+  if (actions[SET_URL]) {
     redirect(actions[SET_URL], {documentName: MAIN_DOCUMENT})
   }
 
-  if(actions.hasOwnProperty(OPEN_DEFAULT_ROUTE))
-  {
+  if (actions.hasOwnProperty(OPEN_DEFAULT_ROUTE)) {
     redirect("", {documentName: MAIN_DOCUMENT})
   }
 
-  if(actions.hasOwnProperty(GO_BACK))
-  {
+  if (actions.hasOwnProperty(GO_BACK)) {
     if (actions[GO_BACK] !== undefined && documentName !== MAIN_DOCUMENT) {
       redirect(actions[GO_BACK], frontendParams);
     } else {
@@ -73,20 +65,17 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
     }
   }
 
-  if(actions[UPDATE_PARENT_DOCUMENT] !== undefined)
-  {
+  if (actions[UPDATE_PARENT_DOCUMENT] !== undefined) {
     const tableJson = Object.assign({}, actions[UPDATE_PARENT_DOCUMENT], {meta: {_ts_: new Date().getTime()}});
     changeDocument(frontendParams.parentDocumentName || documentName, {value: tableJson});
   }
 
-  if(actions[UPDATE_DOCUMENT] !== undefined)
-  {
+  if (actions[UPDATE_DOCUMENT] !== undefined) {
     const tableJson = Object.assign({}, actions[UPDATE_DOCUMENT], {meta: {_ts_: new Date().getTime()}});
     changeDocument(documentName, {value: tableJson});
   }
 
-  if(actions.hasOwnProperty(REFRESH_DOCUMENT))
-  {
+  if (actions.hasOwnProperty(REFRESH_DOCUMENT)) {
     if (actions[REFRESH_DOCUMENT] !== undefined) {
       bus.fire(actions[REFRESH_DOCUMENT] + DOCUMENT_REFRESH_SUFFIX);
     } else {
@@ -94,15 +83,13 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
     }
   }
 
-  if(actions.hasOwnProperty(REFRESH_PARENT_DOCUMENT))
-  {
+  if (actions.hasOwnProperty(REFRESH_PARENT_DOCUMENT)) {
     if (frontendParams.parentDocumentName !== undefined) {
       bus.fire(frontendParams.parentDocumentName + DOCUMENT_REFRESH_SUFFIX);
     }
   }
 
-  if(actions[DOWNLOAD_OPERATION] !== undefined)
-  {
+  if (actions[DOWNLOAD_OPERATION] !== undefined) {
     const operationRequestParams = actions[DOWNLOAD_OPERATION];
     let url = "";
     for (let key in operationRequestParams) {
@@ -143,8 +130,7 @@ function redirect(url, frontendParams) {
 
 export const getActionsMap = (actionsArrayOrOneObject) => {
   let map = {};
-  if(Array.isArray(actionsArrayOrOneObject))
-  {
+  if (Array.isArray(actionsArrayOrOneObject)) {
     for (let i = 0; i < actionsArrayOrOneObject.length; i++) {
       Preconditions.passed(typeof actionsArrayOrOneObject[i].type === "string",
         "Actions must be object with string 'type' field: " + actionsArrayOrOneObject);
@@ -152,8 +138,7 @@ export const getActionsMap = (actionsArrayOrOneObject) => {
       map[actionsArrayOrOneObject[i].type] = actionsArrayOrOneObject[i].value;
     }
   }
-  else
-  {
+  else {
     Preconditions.passed(typeof actionsArrayOrOneObject.type === "string",
       "Actions must be object with string 'type' field: " + actionsArrayOrOneObject);
 

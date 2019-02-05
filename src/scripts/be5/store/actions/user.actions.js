@@ -21,7 +21,7 @@ export const updateUserInfo = (data) => {
 
 export const toggleRoles = (roles) => {
   return dispatch => {
-    be5.net.request('userInfo/selectRoles', { roles: roles }, data => {
+    be5.net.request('userInfo/selectRoles', {roles: roles}, data => {
       dispatch({type: types.SELECT_ROLES, currentRoles: data});
     });
   }

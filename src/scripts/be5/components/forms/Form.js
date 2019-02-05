@@ -16,8 +16,7 @@ import {
 } from "../../constants";
 
 
-class Form extends React.Component
-{
+class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.props.value;
@@ -45,8 +44,7 @@ class Form extends React.Component
   }
 
   _reloadOnChange(controlName) {
-    if(!this.state.submitted)
-    {
+    if (!this.state.submitted) {
       this.setState({submitted: true}, () => {
         const values = Object.assign({}, this.state.data.attributes.bean.values);
         values[RELOAD_CONTROL_NAME] = controlName;
@@ -58,8 +56,7 @@ class Form extends React.Component
 
   apply() {
     this.setState({wasValidated: false});
-    if(!this.state.submitted)
-    {
+    if (!this.state.submitted) {
       this.setState({submitted: true}, () => {
         forms.apply(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
       });
@@ -75,8 +72,7 @@ class Form extends React.Component
   }
 
   _setValue(name, value) {
-    if(!this.state.submitted)
-    {
+    if (!this.state.submitted) {
       JsonPointer.set(this.state.data.attributes.bean, "/values" + name, value);
     }
   }
@@ -92,7 +88,7 @@ class Form extends React.Component
 
     this.forceUpdate(() => {
       if (attributes.bean.meta[name].reloadOnChange === true ||
-        attributes.bean.meta[name].autoRefresh === true ) {
+        attributes.bean.meta[name].autoRefresh === true) {
         this._reloadOnChange(name);
       }
     });
@@ -153,29 +149,29 @@ class Form extends React.Component
             type="submit"
             className={classNames(
               "btn btn-primary",
-              {'btn-sm' : bsSize === 'sm'},
-              {'btn-lg' : bsSize === 'lg'}
+              {'btn-sm': bsSize === 'sm'},
+              {'btn-lg': bsSize === 'lg'}
             )}
             onClick={() => this.setState({
               wasValidated: true,
               formAction: actionData || 'defaultAction'
             })}
-            title={this.state.submitted ? be5.messages.submitted: ""}
+            title={this.state.submitted ? be5.messages.submitted : ""}
             disabled={state === 'entered'}
           >
-          {name || submitText || be5.messages.Submit}
+            {name || submitText || be5.messages.Submit}
           </button>
         )}
       </Transition>
     );
   }
 
-  _getErrorPane(){
+  _getErrorPane() {
     const errorModel = this.state.data.attributes.errorModel;
 
-    if(errorModel){
+    if (errorModel) {
       return <ErrorPane value={{errors: [errorModel], meta: this.state.meta}}/>
-    }else{
+    } else {
       return null;
     }
   }

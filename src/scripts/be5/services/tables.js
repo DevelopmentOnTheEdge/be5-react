@@ -11,7 +11,7 @@ export const loadTable = (params, frontendParams) => {
     //todo remove 'json.data' check after change error code
     _performTable(json, frontendParams);
   }, (json) => {
-    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+    changeDocument(frontendParams.documentName, {value: json, frontendParams: frontendParams});
   })
 };
 
@@ -19,7 +19,7 @@ export const loadTableByUrl = (url, frontendParams) => {
   getTable(getTableParams(url), json => {
     _performTable(json, frontendParams);
   }, (json) => {
-    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+    changeDocument(frontendParams.documentName, {value: json, frontendParams: frontendParams});
   })
 };
 
@@ -49,19 +49,16 @@ export const updateTable = (params, callback) => {
   });
 };
 
-const _performTable = (json, frontendParams) =>
-{
+const _performTable = (json, frontendParams) => {
   const documentName = frontendParams.documentName;
   const formComponentName = json.data.attributes.layout.type;
 
-  if(formComponentName === 'modalTable' || documentName === MAIN_MODAL_DOCUMENT)
-  {
+  if (formComponentName === 'modalTable' || documentName === MAIN_MODAL_DOCUMENT) {
     bus.fire("mainModalOpen");
-    changeDocument(MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
+    changeDocument(MAIN_MODAL_DOCUMENT, {value: json, frontendParams: frontendParams});
   }
-  else
-  {
-    changeDocument(documentName, { value: json, frontendParams: frontendParams });
+  else {
+    changeDocument(documentName, {value: json, frontendParams: frontendParams});
   }
 };
 
@@ -77,14 +74,13 @@ const getRequestParams = (params) => {
   }
 };
 
-export const jQueryFormatCell = (data, options, isColumn) =>
-{
+export const jQueryFormatCell = (data, options, isColumn) => {
   if (!Array.isArray(data)) {
     if (data === '') {
       if (options && options.blankNulls && options.blankNulls.value)
         return options.blankNulls.value;
     }
-  }else{
+  } else {
     try {
       data = data.map(row => row.join !== undefined ? row.join(', ') : errorData()).join('<br/>');
     } catch (e) {
@@ -97,25 +93,25 @@ export const jQueryFormatCell = (data, options, isColumn) =>
     throw new Error('Error data in cell.');
   }
 
-  if(options){
-    if(options.format){
+  if (options) {
+    if (options.format) {
       data = numberFormatter(options.format.mask, data);
     }
-    if(!isColumn && options.link) {
-      data = $('<a>',{
+    if (!isColumn && options.link) {
+      data = $('<a>', {
         html: data,
         href: "#!" + options.link.url,
         class: options.link.class || "process-hash-url"
       });
     }
-    if(options.css || options === 'th') {
+    if (options.css || options === 'th') {
       const wrap = $('<div>');
-      if(options.css && options.css.class) wrap.addClass(options.css.class);
-      if(options === 'th')wrap.addClass("ta-center td-strong");
+      if (options.css && options.css.class) wrap.addClass(options.css.class);
+      if (options === 'th') wrap.addClass("ta-center td-strong");
       data = wrap.html(data);
     }
   }
-  if(data instanceof $){
+  if (data instanceof $) {
     data = $('<div>').append($(data).clone()).html();
   }
   return (data === undefined || data === null) ? '' : data;

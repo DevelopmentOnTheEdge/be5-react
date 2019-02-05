@@ -95,7 +95,7 @@ export const _performOperationResult = (json, frontendParams, data) => {
               }
 
               if (frontendParams.parentDocumentName !== undefined &&
-                  frontendParams.parentDocumentName !== frontendParams.documentName) {
+                frontendParams.parentDocumentName !== frontendParams.documentName) {
                 executeFrontendActions(new FrontendAction(REFRESH_PARENT_DOCUMENT), frontendParams);
               }
             } else {

@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 
 
-class OperationBox extends React.Component
-{
+class OperationBox extends React.Component {
   constructor(props) {
     super(props);
   };
@@ -15,7 +14,7 @@ class OperationBox extends React.Component
       return null;
     } else {
       return (
-        <div className={'operationList'} >
+        <div className={'operationList'}>
           {operationItems}
         </div>
       );
@@ -24,7 +23,7 @@ class OperationBox extends React.Component
 
   getOperations() {
     return this.props.operations.attributes
-      .filter(operation => this.props.hideOperations.indexOf(operation.name) === -1 )
+      .filter(operation => this.props.hideOperations.indexOf(operation.name) === -1)
       .map(operation => {
 //      if (operation.isClientSide) {
 //        const action = Action.parse(operation.action);

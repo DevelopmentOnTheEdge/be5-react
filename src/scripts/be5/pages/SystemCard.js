@@ -6,8 +6,7 @@ import {registerRoute} from "../core/registers/routes";
 import changeDocument from "../core/changeDocument";
 
 
-const SystemCard = (props) =>
-{
+const SystemCard = (props) => {
   const {title, documentName, page} = props.value.data.attributes;
   const pageID = parseInt(page || 0);
   be5.ui.setTitle(title + " " + (pageID + 1));

@@ -1,9 +1,9 @@
-import React               from 'react';
-import Menu                from '../components/menu/Menu'
-import { connect }         from 'react-redux'
-import { fetchMenu }       from '../store/actions/menu.actions'
-import { getMenu }         from '../store/selectors/menu.selectors'
-import { getCurrentRoles } from '../store/selectors/user.selectors'
+import React from 'react';
+import Menu from '../components/menu/Menu'
+import {connect} from 'react-redux'
+import {fetchMenu} from '../store/actions/menu.actions'
+import {getMenu} from '../store/selectors/menu.selectors'
+import {getCurrentRoles} from '../store/selectors/user.selectors'
 
 
 const MenuContainer = props => <Menu {...props} />;

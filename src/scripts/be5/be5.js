@@ -12,7 +12,7 @@ import {hashUrlIsEmpty} from "./utils/utils";
 const be5 = {
   store: undefined,
 
-  getStoreState(){
+  getStoreState() {
     return be5.store.getState()
   },
 
@@ -25,21 +25,21 @@ const be5 = {
 
   locale: {
     set(loc, addMessages) {
-      if(!loc) return;
+      if (!loc) return;
       loc = loc.toLowerCase();
-      if(be5.locale.value === loc) return;
+      if (be5.locale.value === loc) return;
       be5.locale.value = loc;
       be5.messages = {};
       let newMessages = messages[loc];
       let defMessages = messages.en;
-      for(let key in newMessages) {
+      for (let key in newMessages) {
         let msg = newMessages[key];
-        if(msg === undefined)
+        if (msg === undefined)
           msg = defMessages[key];
         be5.messages[key] = msg;
       }
-      if(addMessages !== null) {
-        for(let key in addMessages) {
+      if (addMessages !== null) {
+        for (let key in addMessages) {
           be5.messages[key] = addMessages[key];
         }
       }
@@ -51,11 +51,11 @@ const be5 = {
     },
 
     addMessages(loc, msgs) {
-      for(let key in msgs) {
+      for (let key in msgs) {
         messages[loc][key] = msgs[key];
       }
-      if(loc === be5.locale.value) {
-        for(let key in msgs) {
+      if (loc === be5.locale.value) {
+        for (let key in msgs) {
           be5.messages[key] = msgs[key];
         }
       }
@@ -69,7 +69,7 @@ const be5 = {
   ui: {
     setTitle(docTitle) {
       let titleComponents = [docTitle, be5.appInfo.title];
-      document.title = titleComponents.filter(function(c) {
+      document.title = titleComponents.filter(function (c) {
         return typeof(c) === 'string';
       }).join(' - ');
     },
@@ -77,7 +77,7 @@ const be5 = {
 
   url: {
 
-    get(){
+    get() {
       return decodeURI(document.location.hash);
     },
 
@@ -109,11 +109,11 @@ const be5 = {
 
     form(positional, named = {}) {
       const res = [];
-      for(let i=0; i<positional.length; i++) {
+      for (let i = 0; i < positional.length; i++) {
         res.push(positional[i]);
       }
-      for(let key in named) {
-        res.push(key+'='+named[key]);
+      for (let key in named) {
+        res.push(key + '=' + named[key]);
       }
       return res.join('/');
     },
@@ -132,7 +132,7 @@ const be5 = {
         }
       }
 
-      return { positional: positional, named: _.object(named) };
+      return {positional: positional, named: _.object(named)};
     },
 
     process(documentName, url) {
@@ -172,18 +172,18 @@ const be5 = {
         }
       }
 
-      if (hasHashParam)positional.push(hashParams);
+      if (hasHashParam) positional.push(hashParams);
 
       const actionName = urlParts[0];
       const action = getRoute(actionName);
 
-      if(action !== undefined){
+      if (action !== undefined) {
         //console.log("process", documentName, url);
         //changeDocument(documentName, { loading: true });
         action.apply(be5, positional);
-      }else{
+      } else {
         const msg = be5.messages.errorUnknownRoute.replace('$action', actionName);
-        changeDocument(documentName, { value: createStaticValue(msg, null, {self: url}) });
+        changeDocument(documentName, {value: createStaticValue(msg, null, {self: url})});
         console.info(msg);
       }
     }
@@ -195,7 +195,7 @@ const be5 = {
     },
 
     paramString(params) {
-      if(typeof(params) !== 'object') {
+      if (typeof(params) !== 'object') {
         return '{}';
       }
       return JSON.stringify(params);
@@ -212,25 +212,25 @@ const be5 = {
       // };
 
       $.ajax({
-        url : be5.be5ServerUrl + url,
-        dataType : type,
-        type : 'GET',
-        data : params,
+        url: be5.be5ServerUrl + url,
+        dataType: type,
+        type: 'GET',
+        data: params,
         async: true,
         xhrFields: {
           withCredentials: true
         },
         crossDomain: true,
-        success : function(data, status, xhr) {
+        success: function (data, status, xhr) {
           if (xhr.status === 0) {
             if (xhr.aborted)
               return null;
             if (data === undefined) {
               data = {
-                type : 'error',
-                value : {
-                  message : be5.messages.errorCannotConnect,
-                  code : 'CLIENT_ERROR'
+                type: 'error',
+                value: {
+                  message: be5.messages.errorCannotConnect,
+                  code: 'CLIENT_ERROR'
                 }
               };
             }
@@ -239,16 +239,16 @@ const be5 = {
           }
           if (data === undefined) {
             data = {
-              type : 'error',
-              value : {
-                message : be5.messages.errorNoData,
-                code : 'CLIENT_ERROR'
+              type: 'error',
+              value: {
+                message: be5.messages.errorNoData,
+                code: 'CLIENT_ERROR'
               }
             };
           }
           if (typeof(data) === 'object' && data.type === 'error') {
-            if(typeof(data.value) !== 'object') {
-              data.value = {message : be5.messages.errorInvalidErrorResponse, code: 'CLIENT_ERROR'};
+            if (typeof(data.value) !== 'object') {
+              data.value = {message: be5.messages.errorInvalidErrorResponse, code: 'CLIENT_ERROR'};
             }
             if (be5.net.errorHandlers[data.value.code]) {
               be5.net.errorHandlers[data.value.code]();

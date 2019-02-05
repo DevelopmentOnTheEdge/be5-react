@@ -3,8 +3,7 @@ import {registerRoute} from "../core/registers/routes";
 import FrontendAction from "../services/model/FrontendAction";
 import {GO_BACK, OPEN_DEFAULT_ROUTE} from "../constants";
 
-export const arraysEqual = function(a, b)
-{
+export const arraysEqual = function (a, b) {
   if (a === b) return true;
   if (a === null || b === null) return false;
   if (a.length !== b.length) return false;
@@ -32,7 +31,7 @@ export const createPageValue = (actionName, data, url) => {
 
 /* https://stackoverflow.com/a/7627603 */
 export const makeSafeForClassName = (name) => {
-  return name.replace(/[^a-zA-Z0-9]/g, function(s) {
+  return name.replace(/[^a-zA-Z0-9]/g, function (s) {
     const c = s.charCodeAt(0);
     if (c === 32) return '-';
     return '__' + ('000' + c.toString(16)).slice(-4);

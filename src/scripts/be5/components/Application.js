@@ -15,7 +15,7 @@ const Application = () => {
           <SideBar/>
         </div>
         <div className="main-pane">
-          <Document frontendParams={{documentName: MAIN_DOCUMENT}} />
+          <Document frontendParams={{documentName: MAIN_DOCUMENT}}/>
         </div>
       </SplitPane>
     </div>

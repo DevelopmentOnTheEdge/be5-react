@@ -1,8 +1,8 @@
-import PropTypes  from 'prop-types';
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
-import MenuBody        from './MenuBody';
+import MenuBody from './MenuBody';
 import MenuSearchField from './MenuSearchField';
-import {arraysEqual}    from '../../utils/utils';
+import {arraysEqual} from '../../utils/utils';
 
 
 const propTypes = {
@@ -28,7 +28,7 @@ class Menu extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { currentRoles, fetchMenu } = this.props;
+    const {currentRoles, fetchMenu} = this.props;
     if (!arraysEqual(currentRoles, nextProps.currentRoles)) {
       fetchMenu();
     }
@@ -38,13 +38,13 @@ class Menu extends Component {
     return (
       <div className="menuContainer">
         {this.props.searchField ? <MenuSearchField ref="searchfield" onChange={this._handleQueryChange}/> : null}
-        <MenuBody ref="menubody" menu={this.props.menu} />
+        <MenuBody ref="menubody" menu={this.props.menu}/>
       </div>
     );
   };
 
   _handleQueryChange(query) {
-    this.refs.menubody.setState({ query: query });
+    this.refs.menubody.setState({query: query});
   }
 }
 

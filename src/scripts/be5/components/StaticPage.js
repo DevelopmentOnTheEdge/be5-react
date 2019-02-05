@@ -1,11 +1,10 @@
-import React          from 'react';
-import PropTypes      from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {registerDocument} from '../core/registers/documents';
 import {processHashUrls} from "../utils/documentUtils";
 
 
-class StaticPage extends React.Component
-{
+class StaticPage extends React.Component {
   componentDidMount() {
     processHashUrls($('.staticPage'), this.props.frontendParams.documentName);
   }
@@ -24,11 +23,11 @@ class StaticPage extends React.Component
   }
 }
 
-StaticPage.propTypes =  {
+StaticPage.propTypes = {
   value: PropTypes.shape({
     data: PropTypes.shape({
       attributes: PropTypes.shape({
-        title   : PropTypes.string,
+        title: PropTypes.string,
         content: PropTypes.string,
       }),
       meta: PropTypes.shape({

@@ -1,13 +1,12 @@
-import React           from 'react';
-import classNames      from 'classnames';
-import be5             from '../../be5';
-import Form            from './Form';
-import {Property}      from 'beanexplorer-react';
+import React from 'react';
+import classNames from 'classnames';
+import be5 from '../../be5';
+import Form from './Form';
+import {Property} from 'beanexplorer-react';
 import {registerDocument} from '../../core/registers/documents';
 
 
-class InlineMiniForm extends Form
-{
+class InlineMiniForm extends Form {
   render() {
     const attributes = this.state.data.attributes;
 
@@ -17,7 +16,7 @@ class InlineMiniForm extends Form
       reloadOnChange: this._onReloadOnChange,
       localization: be5.messages.property,
       inline: true,
-      rowClass:"d-flex",
+      rowClass: "d-flex",
       bsSize: attributes.layout.bsSize,
       className: 'mr-sm-2'
     };
@@ -39,8 +38,8 @@ class InlineMiniForm extends Form
         >
           <label className={classNames(
             "mr-sm-2",
-            {'col-form-label-sm' : attributes.layout.bsSize === "sm"},
-            {'col-form-label-lg' : attributes.layout.bsSize === "lg"}
+            {'col-form-label-sm': attributes.layout.bsSize === "sm"},
+            {'col-form-label-lg': attributes.layout.bsSize === "lg"}
           )}>
             <strong>{attributes.title}</strong>
           </label>

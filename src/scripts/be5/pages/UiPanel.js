@@ -7,25 +7,24 @@ import be5 from "../be5";
 import {createPageValue, registerPage} from "../utils/utils";
 
 
-const UiPanel = (props) =>
-{
+const UiPanel = (props) => {
   be5.ui.setTitle(props.value.data.attributes.title);
   const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
   const ARGUMENT_NAMES = /([^\s,]+)/g;
 
   function getParamNamesString(func) {
     const fnStr = func.toString().replace(STRIP_COMMENTS, '');
-    const result = fnStr.slice(fnStr.indexOf('(')+1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
-    if(result === null) return [];
+    const result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
+    if (result === null) return [];
     return result;
   }
 
   function getParamNames(func) {
     const arr = getParamNamesString(func);
     return arr.map((name, i) => {
-      if(i === 0){
+      if (i === 0) {
         return <span key={name}>{name}</span>
-      }else{
+      } else {
         return <span key={name}>, {name}</span>
       }
     });
@@ -42,7 +41,7 @@ const UiPanel = (props) =>
           //let doc = getDocument(name);
           //console.log('document', doc.name, doc);
           return (
-            <div key={"documents-"+name}>
+            <div key={"documents-" + name}>
               <span className="badge badge-primary">{name}</span> - {getDocument(name).name}
             </div>
           )
@@ -54,7 +53,7 @@ const UiPanel = (props) =>
           //let route = getRoute(name);
           //console.log('route', route.name, route);
           return (
-            <div key={"documents-"+name}>
+            <div key={"documents-" + name}>
               <span className="badge badge-primary">{name}</span>
               ({getParamNames(getRoute(name))})
             </div>
@@ -65,7 +64,7 @@ const UiPanel = (props) =>
   );
 };
 
-registerPage("uiPanel", UiPanel, function(documentName) {
+registerPage("uiPanel", UiPanel, function (documentName) {
   changeDocument(documentName, createPageValue("uiPanel",
     {attributes: {title: "UI panel"}}
   ));

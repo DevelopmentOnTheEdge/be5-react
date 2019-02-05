@@ -3,8 +3,7 @@ import be5 from "../be5";
 
 
 export const getFilterParams = (params) => {
-  if (params[SEARCH_PARAM] !== "true")
-  {
+  if (params[SEARCH_PARAM] !== "true") {
     return {};
   }
 
@@ -22,8 +21,7 @@ export const addFilterParams = (url, params) => {
   const attr = be5.url.parse(url);
   attr.named['_search_'] = 'true';
   attr.named['_search_presets_'] = '';
-  for (let key in params)
-  {
+  for (let key in params) {
     attr.named[key] = params[key];
   }
   return be5.url.form(attr.positional, attr.named);

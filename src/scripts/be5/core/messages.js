@@ -1,11 +1,11 @@
 export default {
   en: {
-    errorCannotConnect : 'Cannot connect to server',
-    errorServerQueryException : 'Error during server query: $message',
-    errorInvalidErrorResponse : 'Server returned unknown error',
-    errorNoData : 'Error communicating with server: no data received',
-    errorUnknownRoute : 'Unknown route: $action',
-    errorUrlParameterAbsent : 'Invalid URL: $parameter is absent',
+    errorCannotConnect: 'Cannot connect to server',
+    errorServerQueryException: 'Error during server query: $message',
+    errorInvalidErrorResponse: 'Server returned unknown error',
+    errorNoData: 'Error communicating with server: no data received',
+    errorUnknownRoute: 'Unknown route: $action',
+    errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
 
     welcome: 'Hello!',
     loading: 'Page is loading...',
@@ -31,10 +31,10 @@ export default {
     Submit: 'Submit',
     submitted: 'In progress...',
 
-    formComponentNotFound:  'Document component not found: ',
+    formComponentNotFound: 'Document component not found: ',
     tableComponentNotFound: 'Table component not found: ',
-    componentForTypeNotRegistered:  'Component for type "$type" is not registered.',
-    tableBoxForTypeNotRegistered:  'TableBox for type "$type" is not registered.',
+    componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
+    tableBoxForTypeNotRegistered: 'TableBox for type "$type" is not registered.',
 
     helpInfo: "Help",
     details: "Details",
@@ -53,12 +53,12 @@ export default {
   },
 
   ru: {
-    errorCannotConnect : 'Не могу подключиться к серверу',
-    errorServerQueryException : 'Ошибка сервера: $message',
-    errorInvalidErrorResponse : 'Сервер вернул неизвестную ошибку',
-    errorNoData : 'Ошибка связи с сервером: ответ не получен',
-    errorUnknownRoute : 'Неизвестный путь: $action',
-    errorUrlParameterAbsent : 'Неверный URL: отсутствует $parameter',
+    errorCannotConnect: 'Не могу подключиться к серверу',
+    errorServerQueryException: 'Ошибка сервера: $message',
+    errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
+    errorNoData: 'Ошибка связи с сервером: ответ не получен',
+    errorUnknownRoute: 'Неизвестный путь: $action',
+    errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
 
     welcome: 'Добро пожаловать!',
     loading: 'Загрузка...',
@@ -101,10 +101,10 @@ export default {
       timestampPatternError: 'Введите дату и время в формате дд.мм.гггг чч:мм',
     },
 
-    formComponentNotFound:  'Компонент формы не найден: ',
+    formComponentNotFound: 'Компонент формы не найден: ',
     tableComponentNotFound: 'Компонент таблицы не найден: ',
-    componentForTypeNotRegistered:  'Компонент для типа "$type" не зарегистрирован.',
-    tableBoxForTypeNotRegistered:  'TableBox для типа "$type" не зарегистрирован.',
+    componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
+    tableBoxForTypeNotRegistered: 'TableBox для типа "$type" не зарегистрирован.',
 
     helpInfo: "Справка",
     details: "Подробнее",

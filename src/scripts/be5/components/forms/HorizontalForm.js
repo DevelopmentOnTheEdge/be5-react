@@ -7,8 +7,7 @@ import {registerDocument} from '../../core/registers/documents';
 import {_createBackAction} from "../../utils/documentUtils";
 
 
-class HorizontalForm extends Form
-{
+class HorizontalForm extends Form {
   _createFormProperties() {
     const attributes = this.state.data.attributes;
     return (
@@ -26,7 +25,7 @@ class HorizontalForm extends Form
 
   _createFormActions() {
     const horizontalColSize = this.state.data.attributes.layout.horizontalColSize || 3;
-    const colTag = 'col-lg-' + (12-horizontalColSize);
+    const colTag = 'col-lg-' + (12 - horizontalColSize);
     const offsetTag = 'offset-lg-' + horizontalColSize;
 
     return (

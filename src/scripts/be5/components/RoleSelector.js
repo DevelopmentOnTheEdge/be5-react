@@ -1,7 +1,7 @@
-import React      from 'react';
-import PropTypes  from 'prop-types';
-import be5        from '../be5';
-import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button} from 'reactstrap';
+import React from 'react';
+import PropTypes from 'prop-types';
+import be5 from '../be5';
+import {UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button} from 'reactstrap';
 
 
 const Role = (props) => {
@@ -26,12 +26,11 @@ Role.propTypes = {
 
 const RoleSelector = (props) => {
 
-  function onRoleChange(name)
-  {
+  function onRoleChange(name) {
     let roles = [...props.currentRoles];
     let containRoleIndex = roles.indexOf(name);
 
-    if ( containRoleIndex !== -1) {
+    if (containRoleIndex !== -1) {
       roles.splice(roles.indexOf(name), 1);
     } else {
       roles.push(name);
@@ -48,8 +47,7 @@ const RoleSelector = (props) => {
     props.toggleRoles("")
   }
 
-  if(props.availableRoles.length < 1)
-  {
+  if (props.availableRoles.length < 1) {
     return ( <div/> );
   }
 
@@ -63,12 +61,14 @@ const RoleSelector = (props) => {
 
       <DropdownMenu>
         {roleNodes}
-        <DropdownItem divider />
+        <DropdownItem divider/>
 
         <div className="roleBox_add-actions">
           {be5.locale.msg('selectRoles') + ' '}
-          <Button onClick={handleSelectAll} color="primary" className="enable-all" size="sm">{be5.locale.msg('allRoles')}</Button>{' '}
-          <Button onClick={handleClear} color="secondary" className="disable-all" size="sm">{be5.locale.msg('clearRoles')}</Button>
+          <Button onClick={handleSelectAll} color="primary" className="enable-all"
+                  size="sm">{be5.locale.msg('allRoles')}</Button>{' '}
+          <Button onClick={handleClear} color="secondary" className="disable-all"
+                  size="sm">{be5.locale.msg('clearRoles')}</Button>
         </div>
       </DropdownMenu>
     </UncontrolledDropdown>

@@ -1,5 +1,5 @@
-import React      from 'react';
-import PropTypes  from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import be5 from "../../be5";
 
 
@@ -11,15 +11,14 @@ const propTypes = {
   url: PropTypes.string
 };
 
-const CategoryNavigation = ({data, url}) =>
-{
-  if(!data || !data.attributes || data.attributes.length === 0)return null;
+const CategoryNavigation = ({data, url}) => {
+  if (!data || !data.attributes || data.attributes.length === 0) return null;
   const categories = data.attributes;
 
   const pUrl = be5.url.parse(url);
   const currentCat = pUrl.named['_cat_'];
 
-  if(currentCat === undefined){
+  if (currentCat === undefined) {
     return (
       <div className="category-navigation category-navigation__not-select">
         <a href={be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, {_cat_: categories[0].id}))}>
@@ -32,7 +31,7 @@ const CategoryNavigation = ({data, url}) =>
   const row = [];
 
   function tableTd(categories) {
-    return categories.map(function(cat) {
+    return categories.map(function (cat) {
       if (parseInt(currentCat) !== cat.id) {
         return (
           <a className="d-block"
@@ -40,7 +39,7 @@ const CategoryNavigation = ({data, url}) =>
             {cat.name}
           </a>
         )
-      }else{
+      } else {
         return (
           <span className="d-block" key={cat.id}>
             {cat.name}
@@ -57,7 +56,7 @@ const CategoryNavigation = ({data, url}) =>
       </td>
     );
     row.push(td);
-    if(categories.length === 1 && categories[0].children !== undefined && categories[0].children.length > 0) {
+    if (categories.length === 1 && categories[0].children !== undefined && categories[0].children.length > 0) {
       row.push((
         <td key={"nav" + lvl}>
           <span>-></span>
@@ -73,9 +72,9 @@ const CategoryNavigation = ({data, url}) =>
     <div className="category-navigation">
       <table>
         <tbody>
-          <tr>
-            {row}
-          </tr>
+        <tr>
+          {row}
+        </tr>
         </tbody>
       </table>
     </div>

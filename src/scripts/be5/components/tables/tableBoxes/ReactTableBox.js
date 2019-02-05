@@ -15,8 +15,7 @@ class ReactTableBox extends Component {
   }
 
   onOperationClick(operation) {
-    if(operation.clientSide === true)
-    {
+    if (operation.clientSide === true) {
       return;
     }
 
@@ -38,11 +37,11 @@ class ReactTableBox extends Component {
 
   onSelectionChange() {
     if (this.props.hasOwnProperty('callbacks') && this.props.callbacks !== undefined
-      && this.props.callbacks.hasOwnProperty('onSelectionChange'))
-    {
+      && this.props.callbacks.hasOwnProperty('onSelectionChange')) {
       this.props.callbacks.onSelectionChange(be5.tableState.selectedRows);
     }
   }
+
   //
   // applyTableStyle(node) {
   //   const attributes = this.props.value.data.attributes;
@@ -216,35 +215,34 @@ class ReactTableBox extends Component {
   //   this.onSelectionChange();
   // }
 
-  static formatReactCell(data, options, isColumn)
-  {
+  static formatReactCell(data, options, isColumn) {
     if (!Array.isArray(data)) {
       if (data === '') {
         if (options && options.blankNulls && options.blankNulls.value)
           return options.blankNulls.value;
       }
-    }else{
+    } else {
       data = data.map(row => row.join(', ')).join('<br/>');
     }
 
-    if(options){
-      if(options.format){
+    if (options) {
+      if (options.format) {
         data = numberFormatter(options.format.mask, data);
       }
-      if(!isColumn && options.link) {
-        data = $('<a>',{
+      if (!isColumn && options.link) {
+        data = $('<a>', {
           text: data,
           href: "#!" + options.link.url
         });
       }
-      if(options.css || options === 'th') {
+      if (options.css || options === 'th') {
         const wrap = $('<div>');
-        if(options.css && options.css.class) wrap.addClass(options.css.class);
-        if(options === 'th')wrap.addClass("ta-center td-strong");
+        if (options.css && options.css.class) wrap.addClass(options.css.class);
+        if (options === 'th') wrap.addClass("ta-center td-strong");
         data = wrap.html(data);
       }
     }
-    if(data instanceof $){
+    if (data instanceof $) {
       data = $('<div>').append($(data).clone()).html();
     }
     return data;
@@ -255,7 +253,8 @@ class ReactTableBox extends Component {
     if (attributes.columns.length === 0) {
       return (
         <div>
-          <OperationBox ref="operations" operations={attributes.operations} onOperationClick={this.onOperationClick} hasRows={attributes.rows.length !== 0}/>
+          <OperationBox ref="operations" operations={attributes.operations} onOperationClick={this.onOperationClick}
+                        hasRows={attributes.rows.length !== 0}/>
           {be5.messages.emptyTable}
         </div>
       );
@@ -293,8 +292,10 @@ class ReactTableBox extends Component {
 
     return (
       <div>
-        <OperationBox ref="operations" operations={attributes.operations} onOperationClick={this.onOperationClick} hasRows={attributes.rows.length !== 0}/>
-        <QuickColumns ref="quickColumns" columns={attributes.columns} firstRow={attributes.rows[0].cells} table={this.refs.table} selectable={attributes.selectable}/>
+        <OperationBox ref="operations" operations={attributes.operations} onOperationClick={this.onOperationClick}
+                      hasRows={attributes.rows.length !== 0}/>
+        <QuickColumns ref="quickColumns" columns={attributes.columns} firstRow={attributes.rows[0].cells}
+                      table={this.refs.table} selectable={attributes.selectable}/>
         <div className="scroll">
           <table
             id={"table" + this.props.value.meta._ts_}
@@ -302,10 +303,10 @@ class ReactTableBox extends Component {
             cellSpacing="0"
           >
             <thead>
-              <tr>{theadrow}</tr>
+            <tr>{theadrow}</tr>
             </thead>
             <tbody>
-              {trs}
+            {trs}
             </tbody>
           </table>
         </div>

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import PropTypes      from 'prop-types';
-import classNames     from 'classnames';
-import be5            from '../../be5';
-import actions        from '../../services/actions';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import be5 from '../../be5';
+import actions from '../../services/actions';
 import {arraysEqual, hashUrlIsEmpty} from '../../utils/utils';
 import {
   Collapse,

@@ -15,13 +15,12 @@ try {
   require('brace/theme/xcode');
   require('brace/ext/language_tools');
   AceEditor = require("react-ace").default;
-} catch(e) {
+} catch (e) {
   console.log(e)
 }
 
 
-class QueryBuilder extends React.Component
-{
+class QueryBuilder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,7 +33,7 @@ class QueryBuilder extends React.Component
     this.setSqlFromHistory = this.setSqlFromHistory.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.initBeSqlMode();
     this.update(this.props.value);
   }
@@ -49,15 +48,15 @@ class QueryBuilder extends React.Component
     }
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     this.update(nextProps.value);
   }
 
-  updateCode(newSql){
-    this.setState({ sql: newSql });
-	}
+  updateCode(newSql) {
+    this.setState({sql: newSql});
+  }
 
-  submit(){
+  submit() {
     const requestParams = {
       sql: this.state.sql,
       updateWithoutBeSql: this.state.updateWithoutBeSql,
@@ -70,17 +69,17 @@ class QueryBuilder extends React.Component
     });
   }
 
-	update(json){
+  update(json) {
     this.setState({value: json});
   }
 
   setSqlFromHistory(event) {
-	  this.setState({sql: event.target.value});
+    this.setState({sql: event.target.value});
   }
 
   render() {
-	  const {
-	    value,
+    const {
+      value,
       sql
     } = this.state;
 
@@ -137,8 +136,7 @@ class QueryBuilder extends React.Component
   }
 
   getEditor(sql) {
-    if (AceEditor === undefined)
-    {
+    if (AceEditor === undefined) {
       return <textarea
         rows={10}
         onChange={(e) => this.updateCode(e.target.value)}
@@ -179,8 +177,7 @@ class QueryBuilder extends React.Component
   }
 }
 
-class QueryBuilderOutput extends React.Component
-{
+class QueryBuilderOutput extends React.Component {
   shouldComponentUpdate(nextProps) {
     return nextProps.value.meta._ts_ > this.props.value.meta._ts_;
   }
@@ -194,7 +191,7 @@ class QueryBuilderOutput extends React.Component
       />
       <div>{value.data.attributes.finalSql}</div>
       <br/>
-      <ErrorPane value={value} />
+      <ErrorPane value={value}/>
     </div>
   }
 }

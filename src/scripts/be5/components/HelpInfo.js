@@ -1,34 +1,33 @@
-import React, {Component}   from 'react';
-import PropTypes            from 'prop-types';
-import be5                  from '../be5';
-import Document             from '../containers/Document';
-import { Collapse, Button } from 'reactstrap';
-import classNames           from 'classnames';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import be5 from '../be5';
+import Document from '../containers/Document';
+import {Collapse, Button} from 'reactstrap';
+import classNames from 'classnames';
 
 
-class HelpInfo extends React.Component
-{
-  constructor(props){
+class HelpInfo extends React.Component {
+  constructor(props) {
     super();
     this.state = {isOpen: props.isOpen};
 
     this.helpCollapseToggle = this.helpCollapseToggle.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     if (this.props.value) {
       be5.url.process(this.props.documentName, "#!" + this.props.value);
     }
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     if (this.props.value) {
       be5.url.process(this.props.documentName, "#!" + this.props.value);
     }
   }
 
   helpCollapseToggle() {
-    this.setState({ isOpen: !this.state.isOpen });
+    this.setState({isOpen: !this.state.isOpen});
   }
 
   render() {
@@ -36,13 +35,13 @@ class HelpInfo extends React.Component
       return (
         <div className='helpInfo clearfix'>
           <Button color="info" className={classNames('btn-sm', this.props.className)}
-                  onClick={this.helpCollapseToggle} >
+                  onClick={this.helpCollapseToggle}>
             {be5.messages.helpInfo}
           </Button>
 
-          <Collapse isOpen={this.state.isOpen} tag={this.props.tag} >
+          <Collapse isOpen={this.state.isOpen} tag={this.props.tag}>
             <div className="alert alert-success max-width-970" role="alert">
-              <Document frontendParams={{documentName: this.props.documentName}} />
+              <Document frontendParams={{documentName: this.props.documentName}}/>
             </div>
           </Collapse>
         </div>

@@ -75,7 +75,7 @@ export {
 
   // store
   createBaseStore, rootReducer, userReduser, menuReduser,
-  toggleRoles,fetchUserInfo,updateUserInfo,
+  toggleRoles, fetchUserInfo, updateUserInfo,
   fetchMenu,
   getCurrentRoles, getUser,
   getMenu,

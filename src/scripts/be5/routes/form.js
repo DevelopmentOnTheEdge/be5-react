@@ -4,7 +4,7 @@ import {registerRoute} from '../core/registers/routes'
 import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, OPERATION_NAME_PARAM, QUERY_NAME_PARAM} from "../constants";
 
 
-const route = function(documentName, entity, query, operation, contextParams) {
+const route = function (documentName, entity, query, operation, contextParams) {
   const operationInfo = {
     [ENTITY_NAME_PARAM]: entity,
     [QUERY_NAME_PARAM]: query || 'All records',

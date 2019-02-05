@@ -10,8 +10,7 @@ import {executeFrontendActions} from "../../services/frontendActions";
 import be5 from "../../be5";
 
 
-class ModalForm extends Form
-{
+class ModalForm extends Form {
   _createFormContent() {
     return (
       <div>
@@ -34,7 +33,8 @@ class ModalForm extends Form
     const layout = this.state.data.attributes.layout;
     const action = layout.cancelAction || new FrontendAction(CLOSE_MAIN_MODAL);
     return (
-      <button type="button" className="btn btn-secondary close-action-btn" onClick={() => executeFrontendActions(action, this.props.frontendParams)}>
+      <button type="button" className="btn btn-secondary close-action-btn"
+              onClick={() => executeFrontendActions(action, this.props.frontendParams)}>
         {layout.cancelActionText || be5.messages.close}
       </button>
     );
@@ -44,7 +44,7 @@ class ModalForm extends Form
     const attributes = this.state.data.attributes;
     return (
       <div className={classNames('be5-form', this.getFormClass(), attributes.layout.classes)}>
-        <ModalHeader tag='h5' toggle={() => bus.fire("mainModalClose")} >{attributes.title}</ModalHeader>
+        <ModalHeader tag='h5' toggle={() => bus.fire("mainModalClose")}>{attributes.title}</ModalHeader>
         {this._createForm()}
       </div>
     );

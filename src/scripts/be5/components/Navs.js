@@ -1,13 +1,12 @@
 import React from 'react';
-import PropTypes            from 'prop-types';
-import Document             from '../containers/Document';
-import { Nav, NavItem, NavLink } from 'reactstrap';
+import PropTypes from 'prop-types';
+import Document from '../containers/Document';
+import {Nav, NavItem, NavLink} from 'reactstrap';
 import {processHashUrlForDocument} from "../utils/documentUtils";
 import be5 from "../be5";
 
 
-class Navs extends React.Component
-{
+class Navs extends React.Component {
   constructor(props) {
     super(props);
 
@@ -19,13 +18,12 @@ class Navs extends React.Component
     this.setNavState = this.setNavState.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.init();
   }
 
-  componentDidUpdate(){
-    if (this.state.compState !== this.props.startAtStep)
-    {
+  componentDidUpdate() {
+    if (this.state.compState !== this.props.startAtStep) {
       this.setState({compState: this.props.startAtStep}, () => {
         this.init();
       });
@@ -52,18 +50,18 @@ class Navs extends React.Component
   }
 
   getIDbyUrl(url) {
-    for (let i=0; i< this.props.steps.length; i++) {
+    for (let i = 0; i < this.props.steps.length; i++) {
       if (this.props.steps[i].url === url) return i;
     }
     return 0;
   }
 
-  renderSteps(){
-    return this.props.steps.map((s, i)=> (
-        <NavItem key={"NavItem"+i}>
-          <NavLink href={this.props.steps[i].url} active={i === this.state.compState} onClick={this.setNavState}
-                   key={"NavLink"+i} >{this.props.steps[i].title}</NavLink>
-        </NavItem>
+  renderSteps() {
+    return this.props.steps.map((s, i) => (
+      <NavItem key={"NavItem" + i}>
+        <NavLink href={this.props.steps[i].url} active={i === this.state.compState} onClick={this.setNavState}
+                 key={"NavLink" + i}>{this.props.steps[i].title}</NavLink>
+      </NavItem>
     ));
   }
 
@@ -82,9 +80,9 @@ class Navs extends React.Component
           {this.renderSteps()}
         </Nav>
         <div className="tab-content">
-          <Document frontendParams={{documentName: this.props.documentName}} />
+          <Document frontendParams={{documentName: this.props.documentName}}/>
         </div>
-     </div>
+      </div>
     );
   }
 

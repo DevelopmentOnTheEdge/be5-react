@@ -1,7 +1,7 @@
-const listeners = (function() {
+const listeners = (function () {
   const listenersObject = {};
-  
-  return function(key, replacement) {
+
+  return function (key, replacement) {
     if (replacement) {
       listenersObject[key] = replacement;
     }

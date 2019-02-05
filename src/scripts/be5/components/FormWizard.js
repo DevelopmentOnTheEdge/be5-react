@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes            from 'prop-types';
-import classNames           from 'classnames';
-import Document             from '../containers/Document';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import Document from '../containers/Document';
 import {processHashUrlForDocument} from "../utils/documentUtils";
 
 
-class FormWizard extends React.Component
-{
+class FormWizard extends React.Component {
   constructor(props) {
     super(props);
 
@@ -22,7 +21,7 @@ class FormWizard extends React.Component
     this.nextTextOnFinalActionStep = (this.props.nextTextOnFinalActionStep) ? this.props.nextTextOnFinalActionStep : this.props.nextButtonText;
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.init()
   }
 
@@ -33,7 +32,7 @@ class FormWizard extends React.Component
 
   getNavStates(indx, length) {
     let styles = [];
-    for (let i = 0; i<length; i++) {
+    for (let i = 0; i < length; i++) {
       if (i === indx) {
         styles.push('doing');
       }
@@ -45,7 +44,7 @@ class FormWizard extends React.Component
       }
     }
 
-    return { current: indx, styles }
+    return {current: indx, styles}
   }
 
   getPrevNextBtnState(currentStep) {
@@ -57,7 +56,7 @@ class FormWizard extends React.Component
       showPreviousBtn = false;
     }
 
-    if (currentStep === this.props.steps.length - 2 ) {
+    if (currentStep === this.props.steps.length - 2) {
       nextStepText = this.props.nextTextOnFinalActionStep || nextStepText;
     }
 
@@ -91,7 +90,7 @@ class FormWizard extends React.Component
   }
 
   jumpToStep(evt) {
-      this.setNavState(evt);
+    this.setNavState(evt);
   }
 
   next() {
@@ -106,53 +105,58 @@ class FormWizard extends React.Component
     }
   }
 
-  getClassName(className, i){
+  getClassName(className, i) {
     let liClassName = className + "-" + this.state.navState.styles[i];
 
     // if step ui based navigation is disabled, then dont highlight step
     if (!this.props.stepsNavigation)
-        liClassName += " no-hl";
+      liClassName += " no-hl";
 
     return liClassName;
   }
 
   renderSteps() {
-    return this.props.steps.map((s, i)=> (
+    return this.props.steps.map((s, i) => (
       <li className={this.getClassName("progtrckr", i)} onClick={() => this.jumpToStep(i)} key={i} value={i}>
-          <em>{i+1}</em>
-          <span dangerouslySetInnerHTML={{__html: this.props.steps[i].title}}/>
+        <em>{i + 1}</em>
+        <span dangerouslySetInnerHTML={{__html: this.props.steps[i].title}}/>
       </li>
       //{this.props.steps[i].name}
     ));
   }
 
   render() {
-    const { props, state } = this;
+    const {props, state} = this;
 
     return (
-      <div className="formWizard" >
-          {
-              this.props.showSteps
-                  ? <ol className="progtrckr clearfix">
-                      {this.renderSteps()}
-                  </ol>
-              : <span/>
-          }
+      <div className="formWizard">
+        {
+          this.props.showSteps
+            ? <ol className="progtrckr clearfix">
+              {this.renderSteps()}
+            </ol>
+            : <span/>
+        }
 
-        <Document frontendParams={{documentName: props.documentName}} />
+        <Document frontendParams={{documentName: props.documentName}}/>
 
         <br/>
         <div style={props.showNavigation ? {} : this.hidden} className="footer-buttons">
           <button
             className={classNames(props.backButtonCls, {disabled: !state.showPreviousBtn})}
-            onClick={() => {this.previous()}}
+            onClick={() => {
+              this.previous()
+            }}
             id="prev-button"
           >
             {props.backButtonText}
-          </button> { }
+          </button>
+          {}
           <button
             className={classNames(props.nextButtonCls, {disabled: !state.showNextBtn})}
-            onClick={() => {this.next()}}
+            onClick={() => {
+              this.next()
+            }}
             id="next-button"
           >
             {state.nextStepText}

@@ -1,14 +1,13 @@
-import PropTypes  from 'prop-types';
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
-import MenuNode   from './MenuNode';
+import MenuNode from './MenuNode';
 
 
 const propTypes = {
   menu: PropTypes.shape({})
 };
 
-class MenuBody extends Component
-{
+class MenuBody extends Component {
   constructor(props) {
     super(props);
     this.state = {query: ''};
@@ -17,7 +16,7 @@ class MenuBody extends Component
   }
 
   render() {
-    if(this.props.menu === null){
+    if (this.props.menu === null) {
       return <p>Loading...</p>
     }
     const filteredRoot = this._getFilteredRoot();
@@ -43,7 +42,7 @@ class MenuBody extends Component
       if (!node.children) {
         return node;
       }
-      return _.extend({}, node, { children: filterByTitle(node.children, query) });
+      return _.extend({}, node, {children: filterByTitle(node.children, query)});
     };
     const filterByTitle = (root, query) => {
       return root

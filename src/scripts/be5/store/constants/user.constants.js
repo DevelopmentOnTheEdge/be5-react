@@ -1,6 +1,6 @@
 export const UPDATE_USER_INFO = 'UPDATE_USER_INFO';
-export const LOGOUT= 'USERS_LOGOUT';
-export const SELECT_ROLES= 'SELECT_ROLES';
+export const LOGOUT = 'USERS_LOGOUT';
+export const SELECT_ROLES = 'SELECT_ROLES';
 
 
 //LOGIN_REQUEST: 'USERS_LOGIN_REQUEST',

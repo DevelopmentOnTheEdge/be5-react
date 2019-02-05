@@ -22,8 +22,7 @@ import {getBackAction, makeSafeForClassName} from "../../utils/utils";
 import {getTableBox} from "../../core/registers/tableBoxes";
 
 
-class Table extends Component
-{
+class Table extends Component {
   constructor(props) {
     super(props);
 
@@ -42,8 +41,7 @@ class Table extends Component
       parentDocumentName: this.props.frontendParams.documentName
     };
 
-    if(operation.clientSide === true)
-    {
+    if (operation.clientSide === true) {
       executeFrontendActions(JSON.parse(operation.action), frontendParams);
       return;
     }
@@ -71,8 +69,7 @@ class Table extends Component
   render() {
     const value = this.props.value;
     const {data, included} = this.props.value;
-    if (this.props.frontendParams.documentName === MAIN_DOCUMENT)
-    {
+    if (this.props.frontendParams.documentName === MAIN_DOCUMENT) {
       be5.ui.setTitle(data.attributes.title + ' ' + this.getOperationParamsInfo());
     }
     const hasRows = data.attributes.rows.length > 0;
@@ -119,9 +116,9 @@ class Table extends Component
       || data.attributes.layout._displayType_ || 'dataTable';
 
     const TableBox = getTableBox(displayType);
-    if(TableBox === undefined) {
+    if (TableBox === undefined) {
       return (
-        <div>{be5.messages.tableBoxForTypeNotRegistered.replace( '$type', displayType)}</div>
+        <div>{be5.messages.tableBoxForTypeNotRegistered.replace('$type', displayType)}</div>
       )
     }
     return (
@@ -149,8 +146,7 @@ class Table extends Component
 
   getOperationParamsInfo() {
     const filterInfo = getResourceByType(this.props.value.included, "filterInfo");
-    if (filterInfo && filterInfo.attributes.operationParamsInfo && filterInfo.attributes.operationParamsInfo.length > 0)
-    {
+    if (filterInfo && filterInfo.attributes.operationParamsInfo && filterInfo.attributes.operationParamsInfo.length > 0) {
       const text = filterInfo.attributes.operationParamsInfo.map(r => r.key ? r.key + ': ' + r.value : r.value).join(', ');
       return be5.messages.table.tableFor + ' ' + text
     }
@@ -165,8 +161,7 @@ class Table extends Component
     const layout = this.props.value.data.attributes.layout;
 
     if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText ||
-        this.props.frontendParams.documentName === MAIN_DOCUMENT)
-    {
+      this.props.frontendParams.documentName === MAIN_DOCUMENT) {
       const action = layout.cancelAction || getBackAction();
       if (action !== undefined) {
         return (

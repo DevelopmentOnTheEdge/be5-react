@@ -4,7 +4,7 @@ import {processHashUrl} from "../../utils/documentUtils";
 
 const MenuNode = (props) => {
 
-  function getData(node){
+  function getData(node) {
     let href = '#';
     let target = '';
     let classes = '';
@@ -57,40 +57,40 @@ const MenuNode = (props) => {
 
   function _getHead() {
     const data = getData(props);
-    if(data.hasAction) {
-        return (
-            <a
-              href={data.href}
-              className={data.classes}
-              target={data.target}
-              onClick={processHashUrl}
-              key={'a ' + props.data.title}
-            >
-              {props.data.title}
-            </a>
-        );
-    }else{
-        return (
-            <span className={data.classes}>{props.data.title}</span>
-        );
+    if (data.hasAction) {
+      return (
+        <a
+          href={data.href}
+          className={data.classes}
+          target={data.target}
+          onClick={processHashUrl}
+          key={'a ' + props.data.title}
+        >
+          {props.data.title}
+        </a>
+      );
+    } else {
+      return (
+        <span className={data.classes}>{props.data.title}</span>
+      );
     }
   }
 
   function _getOperations() {
     const hasOperations = props.data.operations !== undefined;
-    
+
     if (!hasOperations) {
       const key = 'operations ' + props.data.title;
       return <div key={key}/>;
     }
-    
+
     return props.data.operations.map(operation => {
-      const href = '#!'+operation.action.arg;
+      const href = '#!' + operation.action.arg;
       const title = operation.title === 'Insert' ? '+' : operation.title;
       const opBoxKey = 'operation box ' + title;
       const opKey = 'operation a ' + title;
       return (
-        <div className="menuOperationBox" key={opBoxKey}> 
+        <div className="menuOperationBox" key={opBoxKey}>
           <a href={href} className="menuOperation" key={opKey}>
             [{title}]
           </a>

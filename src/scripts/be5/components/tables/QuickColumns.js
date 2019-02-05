@@ -1,33 +1,35 @@
 import React, {Component} from 'react';
-import be5                from '../../be5';
+import be5 from '../../be5';
 
-class QuickColumns extends React.Component
-{
+class QuickColumns extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = this.createStateFromProps(this.props);
   };
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     this.setState(this.createStateFromProps(nextProps));
   }
 
   createStateFromProps(props) {
-    if(props.columns.length === 0)return [];
+    if (props.columns.length === 0) return [];
     //const firstRow=props.rows[0].cells;
-    return {quickColumns:
-      props.columns
-        .map( (col, idx) => {
-          if(col.quick)
-            return {columnId: idx, visible: col.quick === 'yes'};
-          else return null;
-        })
-        .filter((col) => {return col !== null})
+    return {
+      quickColumns:
+        props.columns
+          .map((col, idx) => {
+            if (col.quick)
+              return {columnId: idx, visible: col.quick === 'yes'};
+            else return null;
+          })
+          .filter((col) => {
+            return col !== null
+          })
     };
   }
 
-  setTable(_table){
+  setTable(_table) {
     this.setState({table: _table});
   }
 
@@ -45,27 +47,28 @@ class QuickColumns extends React.Component
   }
 
   render() {
-    if(this.state.quickColumns.length === 0){
+    if (this.state.quickColumns.length === 0) {
       return null;
     }
-    if(this.state.table){
+    if (this.state.table) {
       const dataTable = $(this.state.table).find('table').dataTable();
-      const columnsCount = dataTable.fnSettings().aoColumns.length ;
+      const columnsCount = dataTable.fnSettings().aoColumns.length;
       this.state.quickColumns.forEach((col) => {
         const columnId = col.columnId + 1;
-        if(columnId < columnsCount){
-          const dtColumn = dataTable.api().column( columnId );
-          if(dtColumn.visible)dtColumn.visible( col.visible );
+        if (columnId < columnsCount) {
+          const dtColumn = dataTable.api().column(columnId);
+          if (dtColumn.visible) dtColumn.visible(col.visible);
         }
       });
     }
 
-    const checks = this.state.quickColumns.map(function(cell, idx) {
+    const checks = this.state.quickColumns.map(function (cell, idx) {
       const column = this.props.columns[cell.columnId];
       const title = column.title.replace(/<br\s*[\/]?>/gi, " ");
       return (
         <span key={idx}>
-            <input id={"quick" + idx} type="checkbox" checked={cell.visible} onChange={() => this.quickHandleChange(idx)} />
+            <input id={"quick" + idx} type="checkbox" checked={cell.visible}
+                   onChange={() => this.quickHandleChange(idx)}/>
             <label htmlFor={"quick" + idx} className="rowIndex">{title} </label>
         </span>
       );

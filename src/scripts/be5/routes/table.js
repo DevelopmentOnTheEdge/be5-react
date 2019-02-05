@@ -1,10 +1,10 @@
-import React             from 'react';
+import React from 'react';
 import {loadTable} from "../services/tables";
 import {registerRoute} from '../core/registers/routes'
 import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, QUERY_NAME_PARAM} from "../constants";
 
 
-const route = function(documentName, entity, query, params) {
+const route = function (documentName, entity, query, params) {
 
   const paramsObject = {
     [ENTITY_NAME_PARAM]: entity,

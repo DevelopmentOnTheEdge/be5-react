@@ -5,12 +5,9 @@ import {getFilterParams} from "../../utils/filterUtils";
 import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, QUERY_NAME_PARAM} from "../../constants";
 
 
-const propTypes = {
+const propTypes = {};
 
-};
-
-const FilterUI = ({entity, query, params, frontendParams}) =>
-{
+const FilterUI = ({entity, query, params, frontendParams}) => {
   const filterParams = getFilterParams(params);
 
   function clearFilter(e) {

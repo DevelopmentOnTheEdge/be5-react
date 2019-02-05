@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux'
+import {combineReducers} from 'redux'
 import user from './user.reduser'
 import menu from './menu.reduser'
 import hashUrl from './url.reduser'

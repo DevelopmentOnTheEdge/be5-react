@@ -1,4 +1,4 @@
-import PropTypes            from 'prop-types';
+import PropTypes from 'prop-types';
 import React from 'react';
 import be5 from '../be5';
 
@@ -11,7 +11,7 @@ class Language extends React.Component {
   onClick(e) {
     this.props.onLanguageClick(this.props.code);
   };
-  
+
   render() {
     if (this.props.selected) {
       return (
@@ -37,7 +37,7 @@ class LanguageList extends React.Component {
     const selected = this.props.data.selected;
     const onLanguageClick = this.props.onLanguageClick;
     const languageNodes = this.props.data.languages.map((language) =>
-        <Language key={language} code={language} selected={language === selected} onLanguageClick={onLanguageClick}/>
+      <Language key={language} code={language} selected={language === selected} onLanguageClick={onLanguageClick}/>
     );
     return (
       <div className={"languageList"}>{languageNodes}</div>
@@ -49,30 +49,29 @@ class LanguageBox extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {data: { languages: [], selected: '' }}
+    this.state = {data: {languages: [], selected: ''}}
   };
 
   componentDidMount() {
     //this.refresh();
   };
-  
+
   // refresh() {
   //   be5.net.request('languageSelector', {}, function(data) {
   //       be5.locale.set(data.selected, data.messages);
   //       this.setState({ data: {selected: data.selected, languages: data.languages} });
   //     }.bind(this));
   // };
-  
+
   changeLanguage(language) {
-    be5.net.request('languageSelector/select', { language: language }, function(data) {
-        this.setState({ data: {selected: data.selected, languages: data.languages} });
-        be5.locale.set(language, data.messages);
-      }.bind(this));
+    be5.net.request('languageSelector/select', {language: language}, function (data) {
+      this.setState({data: {selected: data.selected, languages: data.languages}});
+      be5.locale.set(language, data.messages);
+    }.bind(this));
   };
-  
+
   render() {
-    if(this.state.data && this.state.data.languages.length <= 1)
-    {
+    if (this.state.data && this.state.data.languages.length <= 1) {
       return null;
     }
     return (

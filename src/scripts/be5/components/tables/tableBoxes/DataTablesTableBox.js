@@ -257,7 +257,7 @@ class DataTablesWrapper extends Component {
 
     processHashUrls(tableTag, props.frontendParams.documentName);
 
-    tableTag.on( 'draw.dt', function () {
+    tableTag.on('draw.dt', function () {
       props.setSelectedRows([]);
     });
 
@@ -325,7 +325,7 @@ class DataTablesTableBox extends Component {
     const attr = this.props.value.data.attributes;
 
     if (!hasRows(attr)) {
-      const currentPage = attr.offset/attr.length + 1;
+      const currentPage = attr.offset / attr.length + 1;
       if (attr.totalNumberOfRows > 0) {
         return (
           <div>
