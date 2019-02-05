@@ -3,10 +3,15 @@ import bus from '../core/bus';
 import Preconditions from '../utils/preconditions';
 import changeDocument from '../core/changeDocument';
 import {
-  CONTEXT_PARAMS, ENTITY_NAME_PARAM,
-  MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, OPERATION_NAME_PARAM, QUERY_NAME_PARAM, REDIRECT,
-  REFRESH_DOCUMENT,
-  REFRESH_PARENT_DOCUMENT, TIMESTAMP_PARAM
+  CONTEXT_PARAMS,
+  ENTITY_NAME_PARAM,
+  MAIN_DOCUMENT,
+  MAIN_MODAL_DOCUMENT,
+  OPERATION_NAME_PARAM,
+  QUERY_NAME_PARAM,
+  REDIRECT,
+  REFRESH_PARENT_DOCUMENT,
+  TIMESTAMP_PARAM
 } from "../constants";
 import FrontendAction from "./model/FrontendAction";
 import {executeFrontendActions} from "./frontendActions";
@@ -25,7 +30,7 @@ export const submitOperation = (params, frontendParams) => {
 const _send = (action, data, frontendParams) => {
   _post(action, data, json => {
     _performOperationResult(json, frontendParams, data);
-  },(json)=> {
+  }, (json) => {
     _performOperationResult(json, frontendParams, data);
   })
 };
@@ -45,7 +50,7 @@ export const fetchOperationByUrl = (url, callback, failure) => {
 export const loadForm = (data, frontendParams) => {
   _get(data, json => {
     _performOperationResult(json, frontendParams, data);
-  },(json)=> {
+  }, (json) => {
     _performOperationResult(json, frontendParams, data);
   })
 };
@@ -55,8 +60,7 @@ export const _performOperationResult = (json, frontendParams, data) => {
 
   Preconditions.passed(documentName);
 
-  if(json.data !== undefined)
-  {
+  if (json.data !== undefined) {
     switch (json.data.type) {
       case 'form':
         _performForm(json, frontendParams);
@@ -70,7 +74,7 @@ export const _performOperationResult = (json, frontendParams, data) => {
           return;
         }
 
-        if(frontendParams.onSuccess){
+        if (frontendParams.onSuccess) {
           frontendParams.onSuccess(json, data);
         }
 
@@ -81,35 +85,28 @@ export const _performOperationResult = (json, frontendParams, data) => {
             return;
           case 'FINISHED':
             const formComponentName = attributes.layout && attributes.layout.type;
-            if(formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT
-                || (result.message === undefined && result.details !== undefined))
-            {
-              bus.fire("mainModalClose");
-              bus.fire("alert", {msg: result.message || be5.messages.successfullyCompleted, type: 'success'});
-            }
-            else
-            {
-              changeDocument(documentName, {value: json, frontendParams: frontendParams});
-            }
 
-            if(result.details !== undefined)
-            {
-              executeFrontendActions(result.details, frontendParams);
-            }
-            else
-            {
-              if (frontendParams.parentDocumentName !== undefined)
-              {
-                //for TableForm
+            if (result.details === undefined) {
+              if (isModal(formComponentName, documentName)) {
+                bus.fire("alert", {msg: result.message || be5.messages.successfullyCompleted, type: 'success'});
+                bus.fire("mainModalClose");
+              } else {
+                changeDocument(documentName, {value: json, frontendParams: frontendParams});
+              }
+
+              if (frontendParams.parentDocumentName !== undefined &&
+                  frontendParams.parentDocumentName !== frontendParams.documentName) {
                 executeFrontendActions(new FrontendAction(REFRESH_PARENT_DOCUMENT), frontendParams);
               }
-              else
-              {
-                if (formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT)
-                {
-                  executeFrontendActions(new FrontendAction(REFRESH_DOCUMENT, MAIN_DOCUMENT), frontendParams);
+            } else {
+              if (result.message !== undefined) {
+                if (isModal(formComponentName, documentName)) {
+                  bus.fire("alert", {msg: result.message, type: 'success'});
+                } else {
+                  changeDocument(documentName, {value: json, frontendParams: frontendParams});
                 }
               }
+              executeFrontendActions(result.details, frontendParams);
             }
             return;
           default:
@@ -128,7 +125,7 @@ export const _performOperationResult = (json, frontendParams, data) => {
   } else {
     if (json.errors !== undefined) {
       const error = json.errors[0];
-      bus.fire("alert", {msg: error.status + " "+ error.title, type: 'error'});
+      bus.fire("alert", {msg: error.status + " " + error.title, type: 'error'});
     } else {
       bus.fire("alert", {msg: json, type: 'error'});
     }
@@ -136,28 +133,28 @@ export const _performOperationResult = (json, frontendParams, data) => {
   }
 };
 
-const _performForm = (json, frontendParams) =>
-{
+const _performForm = (json, frontendParams) => {
   const documentName = frontendParams.documentName;
   let operationResult = json.data.attributes.operationResult;
 
-  if(operationResult.status === 'ERROR')
-  {
+  if (operationResult.status === 'ERROR') {
     bus.fire("alert", {msg: operationResult.message, type: 'error'});
   }
 
   const formComponentName = json.data.attributes.layout.type;
 
-  if(formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT)
-  {
+  if (isModal(formComponentName, documentName)) {
     bus.fire("mainModalOpen");
-    changeDocument(MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
+    changeDocument(MAIN_MODAL_DOCUMENT, {value: json, frontendParams: frontendParams});
   }
-  else
-  {
-    if(documentName === MAIN_DOCUMENT)be5.ui.setTitle(json.data.attributes.title);
-    changeDocument(documentName, { value: json, frontendParams: frontendParams });
+  else {
+    if (documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
+    changeDocument(documentName, {value: json, frontendParams: frontendParams});
   }
+};
+
+let isModal = function (formComponentName, documentName) {
+  return formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT;
 };
 
 export const getOperationInfoFromUrl = (url, values = {}) => {
@@ -176,7 +173,7 @@ export const getOperationInfo = (operationInfo, values = {}) => {
   for (let k in values) {
     const value = values[k];
     if (Array.isArray(value)) {
-      value.forEach(function(e) {
+      value.forEach(function (e) {
         formData.append(k, e);
       });
     } else if (value instanceof FileList) {
@@ -195,8 +192,7 @@ export const getOperationInfo = (operationInfo, values = {}) => {
   return formData;
 };
 
-export default
-{
+export default {
   load: loadOperation,
 
   apply: submitOperation,

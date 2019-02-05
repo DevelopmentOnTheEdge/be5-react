@@ -71,7 +71,7 @@ class Table extends Component
     {
       be5.ui.setTitle(data.attributes.title + ' ' + this.getOperationParamsInfo());
     }
-    const hasRows = data.attributes.rows.length !== 0;
+    const hasRows = data.attributes.rows.length > 0;
     const operations = getResourceByType(included, "documentOperations");
 
     const TitleTag = `h${(value.data.attributes.parameters && value.data.attributes.parameters._titleLevel_) || 1}`;

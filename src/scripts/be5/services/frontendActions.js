@@ -3,7 +3,6 @@ import bus from '../core/bus';
 import Preconditions from '../utils/preconditions';
 import changeDocument from '../core/changeDocument';
 import {updateUserInfo} from "../store/actions/user.actions";
-import {getDefaultRoute} from "../store/selectors/user.selectors";
 import {UPDATE_USER_INFO} from "../store/constants/user.constants";
 import {
   CLOSE_MAIN_MODAL,
@@ -57,12 +56,12 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 
   if(actions[SET_URL])
   {
-    be5.url.process(MAIN_DOCUMENT, '#!' + actions[SET_URL]);
+    redirect(actions[SET_URL], {documentName: MAIN_DOCUMENT})
   }
 
   if(actions.hasOwnProperty(OPEN_DEFAULT_ROUTE))
   {
-    be5.url.process(MAIN_DOCUMENT, '#!' + getDefaultRoute(be5.getStoreState()));
+    redirect("", {documentName: MAIN_DOCUMENT})
   }
 
   if(actions.hasOwnProperty(GO_BACK))
@@ -88,21 +87,16 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 
   if(actions.hasOwnProperty(REFRESH_DOCUMENT))
   {
-    if (actions[REFRESH_DOCUMENT] !== undefined)
-    {
-      console.log(actions[REFRESH_DOCUMENT]);
+    if (actions[REFRESH_DOCUMENT] !== undefined) {
       bus.fire(actions[REFRESH_DOCUMENT] + DOCUMENT_REFRESH_SUFFIX);
-    }
-    else
-    {
+    } else {
       bus.fire(frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX);
     }
   }
 
   if(actions.hasOwnProperty(REFRESH_PARENT_DOCUMENT))
   {
-    if (frontendParams.parentDocumentName !== undefined &&
-      frontendParams.parentDocumentName !== frontendParams.documentName) {
+    if (frontendParams.parentDocumentName !== undefined) {
       bus.fire(frontendParams.parentDocumentName + DOCUMENT_REFRESH_SUFFIX);
     }
   }
@@ -133,6 +127,7 @@ function redirect(url, frontendParams) {
   }
   else {
     if (frontendParams.documentName === MAIN_DOCUMENT) {
+      bus.fire("mainModalClose");
       be5.url.process(MAIN_DOCUMENT, '#!' + url);
     }
     else {
