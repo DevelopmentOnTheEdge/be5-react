@@ -20,12 +20,15 @@ class DataTablesWrapper extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    $(this.refs.main)
-      .find('table')
-      .DataTable()
-      .destroy(true);
-    $(this.refs.main).empty();
-    this.applyTable(nextProps, this.refs.main);
+    if (nextProps.value.meta._ts_ > this.props.value.meta._ts_)
+    {
+      $(this.refs.main)
+        .find('table')
+        .DataTable()
+        .destroy(true);
+      $(this.refs.main).empty();
+      this.applyTable(nextProps, this.refs.main);
+    }
     return false
   }
 
@@ -144,11 +147,10 @@ class DataTablesWrapper extends Component {
               display = '<a href="#!' + url + '" data-val="' + val + '" class="edit-operation-btn">' + display + '</a>';
             }
 
-            return ('<input id="{id}" type="checkbox" class="rowCheckbox" {checked}/> ' +
+            return ('<input id="{id}" type="checkbox" class="rowCheckbox"/> ' +
               '<label for="{id}" class="rowIndex">{val}</label>')
               .replace('{id}', id)
               .replace('{id}', id)
-              .replace('{checked}', props.selectedRows.includes(val) ? 'checked' : '')
               .replace('{val}', display);
           },
           targets: 0

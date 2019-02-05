@@ -71,7 +71,6 @@ exports[`test 1`] = `
     >
       Previous
     </button>
-     
     <button
       className="btn btn-prev btn-primary pull-right"
       id="next-button"
