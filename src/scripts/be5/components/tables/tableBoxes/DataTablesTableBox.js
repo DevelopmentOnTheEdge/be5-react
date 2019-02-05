@@ -248,8 +248,7 @@ class DataTablesTableBox extends Component {
   }
 
   applyTable(props, node) {
-    const attributes = props.value.data.attributes;
-    if (attributes.columns.length === 0) return;
+    if (!this.hasRows(props.value.data.attributes)) return;
 
     const tableTag = $('<table id="' + props.value.meta._ts_ + '" '
       + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>');
@@ -317,11 +316,11 @@ class DataTablesTableBox extends Component {
   }
 
   render() {
-    const {attributes: a} = this.props.value.data;
+    const attr = this.props.value.data.attributes;
 
-    if (a.rows.length === 0) {
-      const currentPage = a.offset/a.length + 1;
-      if (a.totalNumberOfRows > 0) {
+    if (!this.hasRows(attr)) {
+      const currentPage = attr.offset/attr.length + 1;
+      if (attr.totalNumberOfRows > 0) {
         return (
           <div>
             <p>{be5.messages.table.noRecordsOnThePage.replace('{0}', currentPage)}</p>
@@ -332,7 +331,7 @@ class DataTablesTableBox extends Component {
                   className="page-link"
                   onClick={(e) => {
                     e.preventDefault();
-                    loadTableByUrl("table/equipments/All records/_offset_=" + (a.offset - a.length), this.props.frontendParams);
+                    loadTableByUrl("table/equipments/All records/_offset_=" + (attr.offset - attr.length), this.props.frontendParams);
                   }}
                 >{be5.messages.table.previousPage}</a>
               </li>
@@ -364,17 +363,20 @@ class DataTablesTableBox extends Component {
       <div className="table-wrap">
         <QuickColumns
           ref="quickColumns"
-          columns={a.columns}
-          category={a.category}
-          page={a.page}
+          columns={attr.columns}
+          category={attr.category}
+          page={attr.page}
           table={this.refs.main}
-          selectable={a.selectable}
+          selectable={attr.selectable}
         />
         <div className="row data-table-wrapper" ref="main"/>
       </div>
     );
   }
 
+  hasRows(attr) {
+    return attr.rows.length > 0;
+  }
 }
 
 registerTableBox('dataTable', DataTablesTableBox);
