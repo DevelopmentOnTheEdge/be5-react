@@ -9,7 +9,8 @@ import {registerTableBox} from "../../../core/registers/tableBoxes";
 /**
  * https://datatables.net/
  */
-class DataTablesTableBox extends Component {
+
+class DataTablesWrapper extends Component {
   constructor(props) {
     super(props);
   }
@@ -53,7 +54,7 @@ class DataTablesTableBox extends Component {
     const _this = this;
     be5.tableState.selectedRows = [];
     const hasCheckBoxes = attributes.selectable;
-    const editOperation = DataTablesTableBox.getEditOperation(props);
+    const editOperation = DataTablesWrapper.getEditOperation(props);
 
     const columns = this.getColumns(props);
     const data = this.getData(props);
@@ -248,7 +249,7 @@ class DataTablesTableBox extends Component {
   }
 
   applyTable(props, node) {
-    if (!this.hasRows(props.value.data.attributes)) return;
+    if (!hasRows(props.value.data.attributes)) return;
 
     const tableTag = $('<table id="' + props.value.meta._ts_ + '" '
       + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>');
@@ -260,7 +261,7 @@ class DataTablesTableBox extends Component {
 
     tableTag.on("click", '.edit-operation-btn', function (e) {
       e.preventDefault();
-      props.onOperationClick(DataTablesTableBox.getEditOperation(props), $(this).data("val"));
+      props.onOperationClick(DataTablesWrapper.getEditOperation(props), $(this).data("val"));
     });
 
     processHashUrls(tableTag, props.frontendParams.documentName);
@@ -317,8 +318,27 @@ class DataTablesTableBox extends Component {
 
   render() {
     const attr = this.props.value.data.attributes;
+    return (
+      <div className="table-wrap">
+        <QuickColumns
+          ref="quickColumns"
+          columns={attr.columns}
+          category={attr.category}
+          page={attr.page}
+          table={this.refs.main}
+          selectable={attr.selectable}
+        />
+        <div className="row data-table-wrapper" ref="main"/>
+      </div>
+    )
+  }
+}
 
-    if (!this.hasRows(attr)) {
+class DataTablesTableBox extends Component {
+  render() {
+    const attr = this.props.value.data.attributes;
+
+    if (!hasRows(attr)) {
       const currentPage = attr.offset/attr.length + 1;
       if (attr.totalNumberOfRows > 0) {
         return (
@@ -360,23 +380,14 @@ class DataTablesTableBox extends Component {
     }
 
     return (
-      <div className="table-wrap">
-        <QuickColumns
-          ref="quickColumns"
-          columns={attr.columns}
-          category={attr.category}
-          page={attr.page}
-          table={this.refs.main}
-          selectable={attr.selectable}
-        />
-        <div className="row data-table-wrapper" ref="main"/>
-      </div>
+      <DataTablesWrapper {...this.props}/>
     );
   }
 
-  hasRows(attr) {
-    return attr.rows.length > 0;
-  }
+}
+
+function hasRows(attr) {
+  return attr.rows.length > 0;
 }
 
 registerTableBox('dataTable', DataTablesTableBox);
