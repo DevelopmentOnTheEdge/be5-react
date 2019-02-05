@@ -1,5 +1,4 @@
 import be5 from './be5';
-import bus from "./core/bus";
 import * as api from './api';
 import Preconditions from './utils/preconditions';
 import documentState from './core/documentState';
@@ -21,8 +20,6 @@ export default {
     if (getHashUrl !== hash) {
       be5.store.dispatch(updateHashUrl(hash));
     }
-
-    bus.fire("mainModalClose");
 
     const state = documentState.get(MAIN_DOCUMENT);
 

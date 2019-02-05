@@ -31,7 +31,7 @@ test('OPEN_DEFAULT_ROUTE', () => {
   executeFrontendActions(JSON.parse('{"type":"OPEN_DEFAULT_ROUTE"}'),
     {documentName: "test"});
 
-  expect(be5.url.process.mock.calls[0]).toEqual(["MAIN_DOCUMENT", "#!static/welcome.be"]);
+  expect(be5.url.process.mock.calls[0]).toEqual(["MAIN_DOCUMENT", "#!"]);
 });
 
 test('UPDATE_PARENT_DOCUMENT', () => {
