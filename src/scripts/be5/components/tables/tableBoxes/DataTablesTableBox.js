@@ -17,7 +17,6 @@ class DataTablesWrapper extends Component {
 
   componentDidMount() {
     this.applyTable(this.props, this.refs.main);
-    this.props._refreshEnablementIfNeeded();
   }
 
   shouldComponentUpdate(nextProps) {
@@ -27,8 +26,6 @@ class DataTablesWrapper extends Component {
       .destroy(true);
     $(this.refs.main).empty();
     this.applyTable(nextProps, this.refs.main);
-
-    this.props._refreshEnablementIfNeeded();
     return false
   }
 
@@ -39,20 +36,9 @@ class DataTablesWrapper extends Component {
       .destroy(true)
   }
 
-  onSelectionChange() {
-    this.props._refreshEnablementIfNeeded();
-
-    if (this.props.hasOwnProperty('callbacks') && this.props.callbacks !== undefined
-      && this.props.callbacks.hasOwnProperty('onSelectionChange'))
-    {
-      this.props.callbacks.onSelectionChange(be5.tableState.selectedRows);
-    }
-  }
-
   getTableConfiguration(props) {
     const attributes = props.value.data.attributes;
     const _this = this;
-    be5.tableState.selectedRows = [];
     const hasCheckBoxes = attributes.selectable;
     const editOperation = DataTablesWrapper.getEditOperation(props);
 
@@ -158,10 +144,11 @@ class DataTablesWrapper extends Component {
               display = '<a href="#!' + url + '" data-val="' + val + '" class="edit-operation-btn">' + display + '</a>';
             }
 
-            return ('<input id="{id}" type="checkbox" class="rowCheckbox"/> ' +
+            return ('<input id="{id}" type="checkbox" class="rowCheckbox" {checked}/> ' +
               '<label for="{id}" class="rowIndex">{val}</label>')
               .replace('{id}', id)
               .replace('{id}', id)
+              .replace('{checked}', props.selectedRows.includes(val) ? 'checked' : '')
               .replace('{val}', display);
           },
           targets: 0
@@ -183,16 +170,20 @@ class DataTablesWrapper extends Component {
         $(row).attr("data-table-row", rowId);
         $('input', row).change(function () {
           const checked = this.checked;
-          if (checked && $.inArray(rowId, be5.tableState.selectedRows) === -1) {
-            be5.tableState.selectedRows.push(rowId);
+
+          if (checked) {// && $.inArray(rowId, selectedRows) === -1
+            const newRows = Array.from(props.selectedRows);
+            newRows.push(rowId);
+            props.setSelectedRows(newRows);
             // if(attributes.rows.length === be5.tableState.selectedRows.length){
             //   $('#rowCheckboxAll').prop('checked', true);
             // }
-          } else if (!checked && $.inArray(rowId, be5.tableState.selectedRows) !== -1) {
-            be5.tableState.selectedRows.splice($.inArray(rowId, be5.tableState.selectedRows), 1);
+          } else {//if (!checked && $.inArray(rowId, selectedRows) !== -1) {
+            const newRows = Array.from(props.selectedRows);
+            newRows.splice($.inArray(rowId, newRows), 1);
+            props.setSelectedRows(newRows);
             //$('#rowCheckboxAll').prop('checked', false);
           }
-          _this.onSelectionChange();
         });
       }
     };
@@ -267,9 +258,8 @@ class DataTablesWrapper extends Component {
     processHashUrls(tableTag, props.frontendParams.documentName);
 
     tableTag.on( 'draw.dt', function () {
-      be5.tableState.selectedRows = [];
-      props._refreshEnablementIfNeeded();
-    } );
+      props.setSelectedRows([]);
+    });
 
     // $('#rowCheckboxAll').click(function (e) {
     //   e.stopPropagation();
@@ -284,13 +274,9 @@ class DataTablesWrapper extends Component {
     //       be5.tableState.selectedRows.push(attributes.rows[i].id);
     //     }
     //   }
-    //
-    //   _this.onSelectionChange();
     // });
 
     this.refs.quickColumns.setTable(this.refs.main);
-
-    this.onSelectionChange();
   }
 
   getColumns(props) {

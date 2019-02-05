@@ -37,8 +37,6 @@ class ReactTableBox extends Component {
   }
 
   onSelectionChange() {
-    this._refreshEnablementIfNeeded();
-
     if (this.props.hasOwnProperty('callbacks') && this.props.callbacks !== undefined
       && this.props.callbacks.hasOwnProperty('onSelectionChange'))
     {

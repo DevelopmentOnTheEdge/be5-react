@@ -27,9 +27,13 @@ class Table extends Component
   constructor(props) {
     super(props);
 
-    this.state = {runReload: ""};
+    this.state = {runReload: "", selectedRows: []};
     this.onOperationClick = this.onOperationClick.bind(this);
-    this._refreshEnablementIfNeeded = this._refreshEnablementIfNeeded.bind(this);
+    this.setSelectedRows = this.setSelectedRows.bind(this);
+  }
+
+  componentWillReceiveProps() {
+    if (this.state.selectedRows.length > 0) this.setState({selectedRows: []});
   }
 
   onOperationClick(operation, selectedRow) {
@@ -48,9 +52,9 @@ class Table extends Component
     const attr = this.props.value.data.attributes;
 
     let contextParams;
-    if (be5.tableState.selectedRows.length > 0 || selectedRow) {
+    if (this.state.selectedRows.length > 0 || selectedRow) {
       contextParams = Object.assign({}, attr.parameters);
-      contextParams[SELECTED_ROWS] = selectedRow || be5.tableState.selectedRows.join();
+      contextParams[SELECTED_ROWS] = selectedRow || this.state.selectedRows.join();
     } else {
       contextParams = attr.parameters;
     }
@@ -92,9 +96,9 @@ class Table extends Component
           url={getSelfUrl(this.props.value)}
         />
         <OperationBox
-          ref="operations"
           operations={operations}
           onOperationClick={this.onOperationClick}
+          selectedRows={this.state.selectedRows}
           hasRows={hasRows}
           hideOperations={hideOperations}
         />
@@ -122,13 +126,18 @@ class Table extends Component
     }
     return (
       <TableBox
-        _refreshEnablementIfNeeded={this._refreshEnablementIfNeeded}
         value={value}
         operations={operations}
+        selectedRows={this.state.selectedRows}
+        setSelectedRows={this.setSelectedRows}
         onOperationClick={this.onOperationClick}
         frontendParams={this.props.frontendParams}
       />
     );
+  }
+
+  setSelectedRows(newRows) {
+    this.setState({selectedRows: newRows})
   }
 
   getTableClass() {
@@ -172,10 +181,6 @@ class Table extends Component
       }
     }
     return null;
-  }
-
-  _refreshEnablementIfNeeded() {
-    this.refs.operations.refreshEnablement();
   }
 
   topForm(topFormJson) {

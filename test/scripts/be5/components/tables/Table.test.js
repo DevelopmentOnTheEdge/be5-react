@@ -13,6 +13,7 @@ import '../../../../../src/scripts/be5/registers'
 import {MAIN_DOCUMENT} from "../../../../../src/scripts/be5/constants";
 
 import dt from 'datatables.net';
+import OperationBox from "../../../../../src/scripts/be5/components/tables/OperationBox";
 dt(window, $);
 
 jest.mock('../../../../../src/scripts/be5/services/forms', () => ({
@@ -21,23 +22,35 @@ jest.mock('../../../../../src/scripts/be5/services/forms', () => ({
 }));
 
 
-test('test operation click', () => {
-  const wrapper = mount( <Table value={testData.simpleTable} frontendParams={{documentName: 'test'}}/> );
+test('OperationBox test', () => {
+  const onOperationClick = jest.fn();
+  const wrapper = mount(<OperationBox
+    operations={testData.simpleTable.included[0]}
+    onOperationClick={onOperationClick}
+    selectedRows={[]}
+    hasRows={true}
+    hideOperations={[]}
+  /> );
 
   wrapper.find('.btn').last().simulate('click');
 
-  expect(loadForm.mock.calls[0]).toEqual([
-    {"_en_": "companies", "_on_": "Insert", "_params_": "{}", "_qn_": "All records"},
-    {"documentName": "test", "parentDocumentName": "test"}]);
-
-  be5.tableState.selectedRows = [12];
-  wrapper.instance()._refreshEnablementIfNeeded();
-
+  expect(onOperationClick.mock.calls[0]).toEqual([{"clientSide": false, "isClientSide": false, "name": "Insert",
+    "requiresConfirmation": false, "title": "Добавить", "visibleWhen": "always"}]);
   wrapper.find('.btn').first().simulate('click');
+  expect(onOperationClick.mock.calls.length).toEqual(1);
 
-  expect(loadForm.mock.calls[1]).toEqual([
-    {"_en_": "companies", "_on_": "Edit", "_params_": "{\"_selectedRows_\":\"12\"}", "_qn_": "All records"},
-    {"documentName": "test", "parentDocumentName": "test"}]);
+  const wrapper2 = mount(<OperationBox
+    operations={testData.simpleTable.included[0]}
+    onOperationClick={onOperationClick}
+    selectedRows={[12]}
+    hasRows={true}
+    hideOperations={[]}
+  /> );
+
+  wrapper2.find('.btn').first().simulate('click');
+
+  expect(onOperationClick.mock.calls[1]).toEqual([{"clientSide": false, "isClientSide": false, "name": "Edit",
+    "requiresConfirmation": false, "title": "Редактировать", "visibleWhen": "oneSelected"}]);
 });
 
 

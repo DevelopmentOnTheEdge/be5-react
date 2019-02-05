@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import ReactDOM        from 'react-dom';
-import be5             from '../../be5';
 
 
 class OperationBox extends React.Component
@@ -45,6 +43,7 @@ class OperationBox extends React.Component
             ref={operation.name}
             onClick={this.onClick.bind(this, operation.name)}
             className={'btn btn-secondary btn-secondary-old btn-sm'}
+            disabled={!this.isEnabled(operation.name)}
           >
             {operation.title}
           </button>
@@ -53,7 +52,7 @@ class OperationBox extends React.Component
   }
 
   onClick(name, e) {
-    if (!$(ReactDOM.findDOMNode(this.refs[name])).hasClass('disabled')) {
+    if (this.isEnabled(name)) {
       const operation = this.props.operations.attributes.find(operation => operation.name === name);
       if (!operation.requiresConfirmation || confirm(operation.title + "?")) {
         this.props.onOperationClick(operation);
@@ -62,32 +61,24 @@ class OperationBox extends React.Component
     e.preventDefault();
   }
 
-  refreshEnablement() {
-    if(!this.props.operations) return;
-    this.props.operations.attributes.forEach(operation => {
-      let visible = false;
-      switch (operation.visibleWhen) {
-        case 'always':
-          visible = true;
-          break;
-        case 'oneSelected':
-          visible = (be5.tableState.selectedRows.length === 1);
-          break;
-        case 'anySelected':
-          visible = (be5.tableState.selectedRows.length !== 0);
-          break;
-        case 'hasRecords':
-          visible = this.props.hasRows;
-          break;
-      }
-      if (visible) {
-        $(ReactDOM.findDOMNode(this.refs[operation.name])).addClass('enabled');
-        $(ReactDOM.findDOMNode(this.refs[operation.name])).removeClass('disabled');
-      } else {
-        $(ReactDOM.findDOMNode(this.refs[operation.name])).addClass('disabled');
-        $(ReactDOM.findDOMNode(this.refs[operation.name])).removeClass('enabled');
-      }
-    });
+  isEnabled(name) {
+    const operation = this.props.operations.attributes.find(operation => operation.name === name);
+    let visible = false;
+    switch (operation.visibleWhen) {
+      case 'always':
+        visible = true;
+        break;
+      case 'oneSelected':
+        visible = (this.props.selectedRows.length === 1);
+        break;
+      case 'anySelected':
+        visible = (this.props.selectedRows.length !== 0);
+        break;
+      case 'hasRecords':
+        visible = this.props.hasRows;
+        break;
+    }
+    return visible;
   }
 
   splitWithSpaces(elements) {

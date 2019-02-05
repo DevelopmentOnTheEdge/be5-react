@@ -302,10 +302,6 @@ const be5 = {
     }
   },
 
-  tableState: {
-    selectedRows: []
-  },
-
   // isRemoteUrl(url) {
   //   const prefix = 'http';
   //   return url.substr(0, prefix.length) === prefix;
