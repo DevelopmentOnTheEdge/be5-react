@@ -9,7 +9,6 @@ import Alert from 'react-s-alert';
 import PropertySet, { Property, PropertyInput } from 'beanexplorer-react';
 import JsonPointer from 'json-pointer';
 import Transition from 'react-transition-group/Transition';
-import ReactDOM from 'react-dom';
 import numberFormatter from 'number-format.js';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
@@ -336,18 +335,6 @@ var toggleRoles = function toggleRoles(roles) {
   };
 };
 
-var getUser = function getUser(state) {
-  return state.user;
-};
-
-var getCurrentRoles = function getCurrentRoles(state) {
-  return state.user.currentRoles;
-};
-
-var getDefaultRoute = function getDefaultRoute(state) {
-  return state.user.defaultRoute;
-};
-
 var _get = function _get(operationInfo, callback, failure) {
   var data = Object.assign({}, operationInfo, defineProperty({}, TIMESTAMP_PARAM, new Date().getTime()));
 
@@ -448,24 +435,27 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
             return;
           case 'FINISHED':
             var formComponentName = attributes.layout && attributes.layout.type;
-            if (formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT || result.message === undefined && result.details !== undefined) {
-              bus.fire("mainModalClose");
-              bus.fire("alert", { msg: result.message || be5.messages.successfullyCompleted, type: 'success' });
-            } else {
-              changeDocument(documentName, { value: json, frontendParams: frontendParams });
-            }
 
-            if (result.details !== undefined) {
-              executeFrontendActions(result.details, frontendParams);
-            } else {
-              if (frontendParams.parentDocumentName !== undefined) {
-                //for TableForm
-                executeFrontendActions(new FrontendAction(REFRESH_PARENT_DOCUMENT), frontendParams);
+            if (result.details === undefined) {
+              if (isModal(formComponentName, documentName)) {
+                bus.fire("alert", { msg: result.message || be5.messages.successfullyCompleted, type: 'success' });
+                bus.fire("mainModalClose");
               } else {
-                if (formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT) {
-                  executeFrontendActions(new FrontendAction(REFRESH_DOCUMENT, MAIN_DOCUMENT), frontendParams);
+                changeDocument(documentName, { value: json, frontendParams: frontendParams });
+              }
+
+              if (frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
+                executeFrontendActions(new FrontendAction(REFRESH_PARENT_DOCUMENT), frontendParams);
+              }
+            } else {
+              if (result.message !== undefined) {
+                if (isModal(formComponentName, documentName)) {
+                  bus.fire("alert", { msg: result.message, type: 'success' });
+                } else {
+                  changeDocument(documentName, { value: json, frontendParams: frontendParams });
                 }
               }
+              executeFrontendActions(result.details, frontendParams);
             }
             return;
           default:
@@ -502,13 +492,17 @@ var _performForm = function _performForm(json, frontendParams) {
 
   var formComponentName = json.data.attributes.layout.type;
 
-  if (formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT) {
+  if (isModal(formComponentName, documentName)) {
     bus.fire("mainModalOpen");
     changeDocument(MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
   } else {
     if (documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
     changeDocument(documentName, { value: json, frontendParams: frontendParams });
   }
+};
+
+var isModal = function isModal(formComponentName, documentName) {
+  return formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT;
 };
 
 var getOperationInfoFromUrl = function getOperationInfoFromUrl(url) {
@@ -587,11 +581,11 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
   }
 
   if (actions[SET_URL]) {
-    be5.url.process(MAIN_DOCUMENT, '#!' + actions[SET_URL]);
+    redirect(actions[SET_URL], { documentName: MAIN_DOCUMENT });
   }
 
   if (actions.hasOwnProperty(OPEN_DEFAULT_ROUTE)) {
-    be5.url.process(MAIN_DOCUMENT, '#!' + getDefaultRoute(be5.getStoreState()));
+    redirect("", { documentName: MAIN_DOCUMENT });
   }
 
   if (actions.hasOwnProperty(GO_BACK)) {
@@ -614,7 +608,6 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
 
   if (actions.hasOwnProperty(REFRESH_DOCUMENT)) {
     if (actions[REFRESH_DOCUMENT] !== undefined) {
-      console.log(actions[REFRESH_DOCUMENT]);
       bus.fire(actions[REFRESH_DOCUMENT] + DOCUMENT_REFRESH_SUFFIX);
     } else {
       bus.fire(frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX);
@@ -622,7 +615,7 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
   }
 
   if (actions.hasOwnProperty(REFRESH_PARENT_DOCUMENT)) {
-    if (frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
+    if (frontendParams.parentDocumentName !== undefined) {
       bus.fire(frontendParams.parentDocumentName + DOCUMENT_REFRESH_SUFFIX);
     }
   }
@@ -651,6 +644,7 @@ function redirect(url, frontendParams) {
     window.location.href = url;
   } else {
     if (frontendParams.documentName === MAIN_DOCUMENT) {
+      bus.fire("mainModalClose");
       be5.url.process(MAIN_DOCUMENT, '#!' + url);
     } else {
       if (be5.url.parse(url).positional[0] === 'form') {
@@ -798,7 +792,8 @@ var _createBackAction = function _createBackAction(layout, frontendParams) {
     var action = layout.cancelAction || getDefaultCancelAction();
     return React.createElement(
       'button',
-      { type: 'button', className: 'btn btn-secondary back-action-btn', onClick: function onClick() {
+      { type: 'button', className: 'btn btn-secondary back-action-btn',
+        onClick: function onClick() {
           return executeFrontendActions(action, frontendParams);
         } },
       layout.cancelActionText || be5.messages.back
@@ -817,149 +812,149 @@ var getDefaultCancelAction = function getDefaultCancelAction() {
 };
 
 var messages = {
-    en: {
-        errorCannotConnect: 'Cannot connect to server',
-        errorServerQueryException: 'Error during server query: $message',
-        errorInvalidErrorResponse: 'Server returned unknown error',
-        errorNoData: 'Error communicating with server: no data received',
-        errorUnknownRoute: 'Unknown route: $action',
-        errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
+  en: {
+    errorCannotConnect: 'Cannot connect to server',
+    errorServerQueryException: 'Error during server query: $message',
+    errorInvalidErrorResponse: 'Server returned unknown error',
+    errorNoData: 'Error communicating with server: no data received',
+    errorUnknownRoute: 'Unknown route: $action',
+    errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
 
-        welcome: 'Hello!',
-        loading: 'Page is loading...',
-        settings: 'Settings',
-        roles: 'Roles',
-        back: 'Back',
-        error: 'Error:',
-        cancel: 'Cancel',
-        close: 'Close',
-        login: 'Login',
-        logout: 'Logout',
-        reload: 'reload',
-        All: 'All',
-        successfullyCompleted: 'Successfully completed.',
+    welcome: 'Hello!',
+    loading: 'Page is loading...',
+    settings: 'Settings',
+    roles: 'Roles',
+    back: 'Back',
+    error: 'Error:',
+    cancel: 'Cancel',
+    close: 'Close',
+    login: 'Login',
+    logout: 'Logout',
+    reload: 'reload',
+    All: 'All',
+    successfullyCompleted: 'Successfully completed.',
 
-        filter: 'Filter...',
-        entries: 'entries',
+    filter: 'Filter...',
+    entries: 'entries',
 
-        selectRoles: 'Select',
-        allRoles: 'all',
-        clearRoles: 'clear',
+    selectRoles: 'Select',
+    allRoles: 'all',
+    clearRoles: 'clear',
 
-        Submit: 'Submit',
-        submitted: 'In progress...',
+    Submit: 'Submit',
+    submitted: 'In progress...',
 
-        formComponentNotFound: 'Document component not found: ',
-        tableComponentNotFound: 'Table component not found: ',
-        componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
-        tableBoxForTypeNotRegistered: 'TableBox for type "$type" is not registered.',
+    formComponentNotFound: 'Document component not found: ',
+    tableComponentNotFound: 'Table component not found: ',
+    componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
+    tableBoxForTypeNotRegistered: 'TableBox for type "$type" is not registered.',
 
-        helpInfo: "Help",
-        details: "Details",
-        goToHomepage: "Go to homepage",
+    helpInfo: "Help",
+    details: "Details",
+    goToHomepage: "Go to homepage",
 
-        NotFound: "Not Found",
+    NotFound: "Not Found",
 
-        table: {
-            noRecordsOnThePage: 'No records on page {0}',
-            emptyTable: 'Nothing found',
-            previousPage: 'Previous',
-            nextPage: 'Next',
-            clearFilter: 'Clear filter',
-            tableFor: 'for'
-        }
+    table: {
+      noRecordsOnThePage: 'No records on page {0}',
+      emptyTable: 'Nothing found',
+      previousPage: 'Previous',
+      nextPage: 'Next',
+      clearFilter: 'Clear filter',
+      tableFor: 'for'
+    }
+  },
+
+  ru: {
+    errorCannotConnect: 'Не могу подключиться к серверу',
+    errorServerQueryException: 'Ошибка сервера: $message',
+    errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
+    errorNoData: 'Ошибка связи с сервером: ответ не получен',
+    errorUnknownRoute: 'Неизвестный путь: $action',
+    errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
+
+    welcome: 'Добро пожаловать!',
+    loading: 'Загрузка...',
+    settings: 'Настройки',
+    roles: 'Роли',
+    back: 'Назад',
+    error: 'Ошибка:',
+    cancel: 'Отмена',
+    close: 'Закрыть',
+    login: 'Вход',
+    logout: 'Выход',
+    reload: 'Перезагрузить',
+    All: 'Все',
+    successfullyCompleted: 'Успешно выполнено.',
+
+    filter: 'Фильтр...',
+    entries: 'записей',
+
+    selectRoles: 'Выбрать',
+    allRoles: 'Всё',
+    clearRoles: 'Ничего',
+
+    Submit: 'Выполнить',
+    submitted: 'Выполняется...',
+
+    property: {
+      locale: 'ru',
+      clearAllText: 'Очистить всё',
+      clearValueText: 'Очистить',
+      noResultsText: 'Нет результатов',
+      searchPromptText: 'Начните вводить для поиска',
+      placeholder: 'Выберите...',
+      loadingPlaceholder: 'Загрузка...',
+      stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
+      numberTypeMismatch: 'Введите число.',
+      simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
+      rangeOverflow: 'Значение должно быть меньше или равно {0}.',
+      rangeUnderflow: 'Значение должно быть больше или равно {0}.',
+      datePatternError: 'Введите дату в формате дд.мм.гггг',
+      timestampPatternError: 'Введите дату и время в формате дд.мм.гггг чч:мм'
     },
 
-    ru: {
-        errorCannotConnect: 'Не могу подключиться к серверу',
-        errorServerQueryException: 'Ошибка сервера: $message',
-        errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
-        errorNoData: 'Ошибка связи с сервером: ответ не получен',
-        errorUnknownRoute: 'Неизвестный путь: $action',
-        errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
+    formComponentNotFound: 'Компонент формы не найден: ',
+    tableComponentNotFound: 'Компонент таблицы не найден: ',
+    componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
+    tableBoxForTypeNotRegistered: 'TableBox для типа "$type" не зарегистрирован.',
 
-        welcome: 'Добро пожаловать!',
-        loading: 'Загрузка...',
-        settings: 'Настройки',
-        roles: 'Роли',
-        back: 'Назад',
-        error: 'Ошибка:',
-        cancel: 'Отмена',
-        close: 'Закрыть',
-        login: 'Вход',
-        logout: 'Выход',
-        reload: 'Перезагрузить',
-        All: 'Все',
-        successfullyCompleted: 'Успешно выполнено.',
+    helpInfo: "Справка",
+    details: "Подробнее",
+    goToHomepage: "Перейти на главную страницу",
 
-        filter: 'Фильтр...',
-        entries: 'записей',
-
-        selectRoles: 'Выбрать',
-        allRoles: 'Всё',
-        clearRoles: 'Ничего',
-
-        Submit: 'Выполнить',
-        submitted: 'Выполняется...',
-
-        property: {
-            locale: 'ru',
-            clearAllText: 'Очистить всё',
-            clearValueText: 'Очистить',
-            noResultsText: 'Нет результатов',
-            searchPromptText: 'Начните вводить для поиска',
-            placeholder: 'Выберите...',
-            loadingPlaceholder: 'Загрузка...',
-            stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
-            numberTypeMismatch: 'Введите число.',
-            simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
-            rangeOverflow: 'Значение должно быть меньше или равно {0}.',
-            rangeUnderflow: 'Значение должно быть больше или равно {0}.',
-            datePatternError: 'Введите дату в формате дд.мм.гггг',
-            timestampPatternError: 'Введите дату и время в формате дд.мм.гггг чч:мм'
-        },
-
-        formComponentNotFound: 'Компонент формы не найден: ',
-        tableComponentNotFound: 'Компонент таблицы не найден: ',
-        componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
-        tableBoxForTypeNotRegistered: 'TableBox для типа "$type" не зарегистрирован.',
-
-        helpInfo: "Справка",
-        details: "Подробнее",
-        goToHomepage: "Перейти на главную страницу",
-
-        NotFound: "Не найдено",
-        table: {
-            noRecordsOnThePage: 'Нет записей на {0} странице',
-            emptyTable: 'Нет данных',
-            previousPage: 'Предыдущая',
-            nextPage: 'Следующая',
-            clearFilter: 'Очистить фильтр',
-            tableFor: 'для'
-        },
-        dataTables: {
-            "processing": "Подождите...",
-            "search": "Поиск:",
-            "lengthMenu": "Показать _MENU_ записей",
-            "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
-            "infoEmpty": "Записи с 0 до 0 из 0 записей",
-            "infoFiltered": "(отфильтровано из _MAX_ записей)",
-            "infoPostFix": "",
-            "loadingRecords": "Загрузка записей...",
-            "zeroRecords": "Записи отсутствуют.",
-            "emptyTable": "В таблице отсутствуют данные",
-            "paginate": {
-                "first": "Первая",
-                "previous": "Предыдущая",
-                "next": "Следующая",
-                "last": "Последняя"
-            },
-            "aria": {
-                "sortAscending": ": активировать для сортировки столбца по возрастанию",
-                "sortDescending": ": активировать для сортировки столбца по убыванию"
-            }
-        }
+    NotFound: "Не найдено",
+    table: {
+      noRecordsOnThePage: 'Нет записей на {0} странице',
+      emptyTable: 'Нет данных',
+      previousPage: 'Предыдущая',
+      nextPage: 'Следующая',
+      clearFilter: 'Очистить фильтр',
+      tableFor: 'для'
+    },
+    dataTables: {
+      "processing": "Подождите...",
+      "search": "Поиск:",
+      "lengthMenu": "Показать _MENU_ записей",
+      "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+      "infoEmpty": "Записи с 0 до 0 из 0 записей",
+      "infoFiltered": "(отфильтровано из _MAX_ записей)",
+      "infoPostFix": "",
+      "loadingRecords": "Загрузка записей...",
+      "zeroRecords": "Записи отсутствуют.",
+      "emptyTable": "В таблице отсутствуют данные",
+      "paginate": {
+        "first": "Первая",
+        "previous": "Предыдущая",
+        "next": "Следующая",
+        "last": "Последняя"
+      },
+      "aria": {
+        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+        "sortDescending": ": активировать для сортировки столбца по убыванию"
+      }
     }
+  }
 };
 
 var routes = {};
@@ -974,6 +969,18 @@ var registerRoute = function registerRoute(actionName, fn) {
 
 var getAllRoutes = function getAllRoutes() {
   return Object.keys(routes);
+};
+
+var getUser = function getUser(state) {
+  return state.user;
+};
+
+var getCurrentRoles = function getCurrentRoles(state) {
+  return state.user.currentRoles;
+};
+
+var getDefaultRoute = function getDefaultRoute(state) {
+  return state.user.defaultRoute;
 };
 
 var documents = {};
@@ -1329,10 +1336,6 @@ var be5 = {
       bus.fire("alert", { msg: value, type: 'error' });
       console.error(value);
     }
-  },
-
-  tableState: {
-    selectedRows: []
   }
 
   // isRemoteUrl(url) {
@@ -1440,13 +1443,15 @@ var RoleSelector = function RoleSelector(props) {
         be5.locale.msg('selectRoles') + ' ',
         React.createElement(
           Button,
-          { onClick: handleSelectAll, color: 'primary', className: 'enable-all', size: 'sm' },
+          { onClick: handleSelectAll, color: 'primary', className: 'enable-all',
+            size: 'sm' },
           be5.locale.msg('allRoles')
         ),
         ' ',
         React.createElement(
           Button,
-          { onClick: handleClear, color: 'secondary', className: 'disable-all', size: 'sm' },
+          { onClick: handleClear, color: 'secondary', className: 'disable-all',
+            size: 'sm' },
           be5.locale.msg('clearRoles')
         )
       )
@@ -1764,7 +1769,8 @@ var MenuSearchField = function (_React$Component) {
   createClass(MenuSearchField, [{
     key: 'render',
     value: function render() {
-      return React.createElement('input', { type: 'text', className: 'searchField form-control', onChange: this._handleChange, value: this.state.value, placeholder: be5.messages.filter });
+      return React.createElement('input', { type: 'text', className: 'searchField form-control', onChange: this._handleChange, value: this.state.value,
+        placeholder: be5.messages.filter });
     }
   }, {
     key: '_handleChange',
@@ -3007,7 +3013,6 @@ var FormWizard = function (_React$Component) {
             },
             props.backButtonText
           ),
-          ' ',
           React.createElement(
             'button',
             {
@@ -3590,7 +3595,8 @@ var ModalForm = function (_Form) {
       var action = layout.cancelAction || new FrontendAction(CLOSE_MAIN_MODAL);
       return React.createElement(
         'button',
-        { type: 'button', className: 'btn btn-secondary close-action-btn', onClick: function onClick() {
+        { type: 'button', className: 'btn btn-secondary close-action-btn',
+          onClick: function onClick() {
             return executeFrontendActions(action, _this2.props.frontendParams);
           } },
         layout.cancelActionText || be5.messages.close
@@ -3776,7 +3782,8 @@ var OperationBox = function (_React$Component) {
             key: operation.name,
             ref: operation.name,
             onClick: _this2.onClick.bind(_this2, operation.name),
-            className: 'btn btn-secondary btn-secondary-old btn-sm'
+            className: 'btn btn-secondary btn-secondary-old btn-sm',
+            disabled: !_this2.isEnabled(operation.name)
           },
           operation.title
         );
@@ -3785,7 +3792,7 @@ var OperationBox = function (_React$Component) {
   }, {
     key: 'onClick',
     value: function onClick(name, e) {
-      if (!$(ReactDOM.findDOMNode(this.refs[name])).hasClass('disabled')) {
+      if (this.isEnabled(name)) {
         var operation = this.props.operations.attributes.find(function (operation) {
           return operation.name === name;
         });
@@ -3796,35 +3803,27 @@ var OperationBox = function (_React$Component) {
       e.preventDefault();
     }
   }, {
-    key: 'refreshEnablement',
-    value: function refreshEnablement() {
-      var _this3 = this;
-
-      if (!this.props.operations) return;
-      this.props.operations.attributes.forEach(function (operation) {
-        var visible = false;
-        switch (operation.visibleWhen) {
-          case 'always':
-            visible = true;
-            break;
-          case 'oneSelected':
-            visible = be5.tableState.selectedRows.length === 1;
-            break;
-          case 'anySelected':
-            visible = be5.tableState.selectedRows.length !== 0;
-            break;
-          case 'hasRecords':
-            visible = _this3.props.hasRows;
-            break;
-        }
-        if (visible) {
-          $(ReactDOM.findDOMNode(_this3.refs[operation.name])).addClass('enabled');
-          $(ReactDOM.findDOMNode(_this3.refs[operation.name])).removeClass('disabled');
-        } else {
-          $(ReactDOM.findDOMNode(_this3.refs[operation.name])).addClass('disabled');
-          $(ReactDOM.findDOMNode(_this3.refs[operation.name])).removeClass('enabled');
-        }
+    key: 'isEnabled',
+    value: function isEnabled(name) {
+      var operation = this.props.operations.attributes.find(function (operation) {
+        return operation.name === name;
       });
+      var visible = false;
+      switch (operation.visibleWhen) {
+        case 'always':
+          visible = true;
+          break;
+        case 'oneSelected':
+          visible = this.props.selectedRows.length === 1;
+          break;
+        case 'anySelected':
+          visible = this.props.selectedRows.length !== 0;
+          break;
+        case 'hasRecords':
+          visible = this.props.hasRows;
+          break;
+      }
+      return visible;
     }
   }, {
     key: 'splitWithSpaces',
@@ -4143,13 +4142,18 @@ var Table = function (_Component) {
 
     var _this = possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).call(this, props));
 
-    _this.state = { runReload: "" };
+    _this.state = { runReload: "", selectedRows: [] };
     _this.onOperationClick = _this.onOperationClick.bind(_this);
-    _this._refreshEnablementIfNeeded = _this._refreshEnablementIfNeeded.bind(_this);
+    _this.setSelectedRows = _this.setSelectedRows.bind(_this);
     return _this;
   }
 
   createClass(Table, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps() {
+      if (this.state.selectedRows.length > 0) this.setState({ selectedRows: [] });
+    }
+  }, {
     key: 'onOperationClick',
     value: function onOperationClick(operation, selectedRow) {
       var _operationInfo;
@@ -4168,9 +4172,9 @@ var Table = function (_Component) {
       var attr = this.props.value.data.attributes;
 
       var contextParams = void 0;
-      if (be5.tableState.selectedRows.length > 0 || selectedRow) {
+      if (this.state.selectedRows.length > 0 || selectedRow) {
         contextParams = Object.assign({}, attr.parameters);
-        contextParams[SELECTED_ROWS] = selectedRow || be5.tableState.selectedRows.join();
+        contextParams[SELECTED_ROWS] = selectedRow || this.state.selectedRows.join();
       } else {
         contextParams = attr.parameters;
       }
@@ -4189,7 +4193,7 @@ var Table = function (_Component) {
       if (this.props.frontendParams.documentName === MAIN_DOCUMENT) {
         be5.ui.setTitle(data.attributes.title + ' ' + this.getOperationParamsInfo());
       }
-      var hasRows = data.attributes.rows.length !== 0;
+      var hasRows = data.attributes.rows.length > 0;
       var operations = getResourceByType(included, "documentOperations");
 
       var TitleTag = 'h' + (value.data.attributes.parameters && value.data.attributes.parameters._titleLevel_ || 1);
@@ -4218,9 +4222,9 @@ var Table = function (_Component) {
           url: getSelfUrl(this.props.value)
         }),
         React.createElement(OperationBox, {
-          ref: 'operations',
           operations: operations,
           onOperationClick: this.onOperationClick,
+          selectedRows: this.state.selectedRows,
           hasRows: hasRows,
           hideOperations: hideOperations
         }),
@@ -4248,13 +4252,18 @@ var Table = function (_Component) {
         );
       }
       return React.createElement(TableBox, {
-        _refreshEnablementIfNeeded: this._refreshEnablementIfNeeded,
-        ref: 'tableBox',
         value: value,
         operations: operations,
+        selectedRows: this.state.selectedRows,
+        setSelectedRows: this.setSelectedRows,
         onOperationClick: this.onOperationClick,
         frontendParams: this.props.frontendParams
       });
+    }
+  }, {
+    key: 'setSelectedRows',
+    value: function setSelectedRows(newRows) {
+      this.setState({ selectedRows: newRows });
     }
   }, {
     key: 'getTableClass',
@@ -4308,11 +4317,6 @@ var Table = function (_Component) {
       return null;
     }
   }, {
-    key: '_refreshEnablementIfNeeded',
-    value: function _refreshEnablementIfNeeded() {
-      this.refs.operations.refreshEnablement();
-    }
-  }, {
     key: 'topForm',
     value: function topForm(topFormJson) {
       if (topFormJson) {
@@ -4358,7 +4362,8 @@ var QuickColumns = function (_React$Component) {
     value: function createStateFromProps(props) {
       if (props.columns.length === 0) return [];
       //const firstRow=props.rows[0].cells;
-      return { quickColumns: props.columns.map(function (col, idx) {
+      return {
+        quickColumns: props.columns.map(function (col, idx) {
           if (col.quick) return { columnId: idx, visible: col.quick === 'yes' };else return null;
         }).filter(function (col) {
           return col !== null;
@@ -4410,7 +4415,8 @@ var QuickColumns = function (_React$Component) {
         return React.createElement(
           'span',
           { key: idx },
-          React.createElement('input', { id: "quick" + idx, type: 'checkbox', checked: cell.visible, onChange: function onChange() {
+          React.createElement('input', { id: "quick" + idx, type: 'checkbox', checked: cell.visible,
+            onChange: function onChange() {
               return _this2.quickHandleChange(idx);
             } }),
           React.createElement(
@@ -4593,7 +4599,8 @@ var ModalTable = function (_Table) {
       var action = layout.cancelAction || new FrontendAction(CLOSE_MAIN_MODAL);
       return React.createElement(
         'button',
-        { type: 'button', className: 'btn btn-secondary', onClick: function onClick() {
+        { type: 'button', className: 'btn btn-secondary',
+          onClick: function onClick() {
             return executeFrontendActions(action, _this2.props.frontendParams);
           } },
         layout.cancelActionText || be5.messages.close
@@ -4840,75 +4847,43 @@ registerRoute("categories", route$16);
  * https://datatables.net/
  */
 
-var DataTablesTableBox = function (_Component) {
-  inherits(DataTablesTableBox, _Component);
+var DataTablesWrapper = function (_Component) {
+  inherits(DataTablesWrapper, _Component);
 
-  function DataTablesTableBox(props) {
-    classCallCheck(this, DataTablesTableBox);
-    return possibleConstructorReturn(this, (DataTablesTableBox.__proto__ || Object.getPrototypeOf(DataTablesTableBox)).call(this, props));
+  function DataTablesWrapper(props) {
+    classCallCheck(this, DataTablesWrapper);
+    return possibleConstructorReturn(this, (DataTablesWrapper.__proto__ || Object.getPrototypeOf(DataTablesWrapper)).call(this, props));
   }
 
-  createClass(DataTablesTableBox, [{
+  createClass(DataTablesWrapper, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      if (this.refs.table) this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
-
-      this.props._refreshEnablementIfNeeded();
+      this.applyTable(this.props, this.refs.main);
     }
   }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      if (this.refs.table) this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps) {
+      $(this.refs.main).find('table').DataTable().destroy(true);
+      $(this.refs.main).empty();
+      this.applyTable(nextProps, this.refs.main);
+      return false;
     }
   }, {
-    key: 'onSelectionChange',
-    value: function onSelectionChange() {
-      this.props._refreshEnablementIfNeeded();
-
-      if (this.props.hasOwnProperty('callbacks') && this.props.callbacks !== undefined && this.props.callbacks.hasOwnProperty('onSelectionChange')) {
-        this.props.callbacks.onSelectionChange(be5.tableState.selectedRows);
-      }
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      $(this.refs.main).find('table').DataTable().destroy(true);
     }
   }, {
-    key: 'applyTableStyle',
-    value: function applyTableStyle(node) {
+    key: 'getTableConfiguration',
+    value: function getTableConfiguration(props) {
       var _this3 = this;
 
-      // see http://datatables.net/examples/index
-      $(node).empty();
-      var attributes = this.props.value.data.attributes;
-      if (attributes.columns.length === 0) return;
-
-      var _this = this;
-      be5.tableState.selectedRows = [];
-
-      var thead = $('<thead>');
-      var theadrow = $('<tr>').appendTo(thead);
-      var tbody = $('<tbody>');
-      var tfoot = $('<tfoot>');
-      var tfootrow = $('<tr>').appendTo(tfoot);
+      var attributes = props.value.data.attributes;
       var hasCheckBoxes = attributes.selectable;
-      var editOperation = this.props.operations === undefined ? undefined : this.props.operations.attributes.find(function (operation) {
-        return operation.name === 'Edit';
-      });
+      var editOperation = DataTablesWrapper.getEditOperation(props);
 
-      theadrow.append($("<th>").text("#"));
-      tfootrow.append($("<th>").text("#"));
-      attributes.columns.forEach(function (column) {
-        var title = (typeof column === 'undefined' ? 'undefined' : _typeof(column)) === 'object' ? column.title : column;
-        theadrow.append($("<th>").html(jQueryFormatCell(title, 'th', true)));
-        tfootrow.append($("<th>").html(jQueryFormatCell(title, 'th', true)));
-      });
-      attributes.rows.forEach(function (row) {
-        var tr = $('<tr>');
-        row.cells.forEach(function (cell) {
-          tr.append($('<td>').html(jQueryFormatCell(cell.content, cell.options)));
-        });
-        tr.prepend($('<td>').text(row.id));
-        tbody.append(tr);
-      });
-
-      var tableDiv = $('<table id="' + this.props.value.meta._ts_ + '" ' + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>').append(thead).append(tbody).append(attributes.rows.length > 10 ? tfoot : '').appendTo(node);
+      var columns = this.getColumns(props);
+      var data = this.getData(props);
 
       var lengths = [5, 10, 20, 50, 100, 500, 1000];
       var pageLength = attributes.length;
@@ -4939,6 +4914,8 @@ var DataTablesTableBox = function (_Component) {
       language.lengthMenu = "_MENU_";
 
       var tableConfiguration = {
+        data: data,
+        columns: columns,
         dom: tableDom,
         processing: true,
         serverSide: true,
@@ -4993,8 +4970,8 @@ var DataTablesTableBox = function (_Component) {
             if (val === 'aggregate') return '';
 
             var id = "row-" + val + "-checkbox";
-            var dataTable = $(_this3.refs.table).find('table').dataTable();
-            var display = dataTable.api().page.info().start + meta.row + 1;
+            var dataTable = $(_this3.refs.main).find('table').dataTable();
+            var display = (dataTable.api().page.info() ? dataTable.api().page.info().start : 0) + meta.row + 1;
             if (!hasCheckBoxes) {
               return display;
             }
@@ -5005,7 +4982,7 @@ var DataTablesTableBox = function (_Component) {
               display = '<a href="#!' + url + '" data-val="' + val + '" class="edit-operation-btn">' + display + '</a>';
             }
 
-            return ('<input id="{id}" type="checkbox" class="rowCheckbox"/> ' + '<label for="{id}" class="rowIndex">{val}</label>').replace('{id}', id).replace('{id}', id).replace('{val}', display);
+            return ('<input id="{id}" type="checkbox" class="rowCheckbox" {checked}/> ' + '<label for="{id}" class="rowIndex">{val}</label>').replace('{id}', id).replace('{id}', id).replace('{checked}', props.selectedRows.includes(val) ? 'checked' : '').replace('{val}', display);
           },
           targets: 0
         }, {
@@ -5026,16 +5003,22 @@ var DataTablesTableBox = function (_Component) {
           $(row).attr("data-table-row", rowId);
           $('input', row).change(function () {
             var checked = this.checked;
-            if (checked && $.inArray(rowId, be5.tableState.selectedRows) === -1) {
-              be5.tableState.selectedRows.push(rowId);
+
+            if (checked) {
+              // && $.inArray(rowId, selectedRows) === -1
+              var newRows = Array.from(props.selectedRows);
+              newRows.push(rowId);
+              props.setSelectedRows(newRows);
               // if(attributes.rows.length === be5.tableState.selectedRows.length){
               //   $('#rowCheckboxAll').prop('checked', true);
               // }
-            } else if (!checked && $.inArray(rowId, be5.tableState.selectedRows) !== -1) {
-              be5.tableState.selectedRows.splice($.inArray(rowId, be5.tableState.selectedRows), 1);
+            } else {
+              //if (!checked && $.inArray(rowId, selectedRows) !== -1) {
+              var _newRows = Array.from(props.selectedRows);
+              _newRows.splice($.inArray(rowId, _newRows), 1);
+              props.setSelectedRows(_newRows);
               //$('#rowCheckboxAll').prop('checked', false);
             }
-            _this.onSelectionChange();
           });
         }
       };
@@ -5053,13 +5036,13 @@ var DataTablesTableBox = function (_Component) {
       }
 
       // const hideControls = () => {
-      //   if ( $(_this.refs.table).find('.paging_simple_numbers span .paginate_button')
-      //     && $(_this.refs.table).find('.paging_simple_numbers span .paginate_button').length > 1) {
-      //     $(_this.refs.table).find('.dataTables_length').show();
-      //     $(_this.refs.table).find('.paging_simple_numbers').show()
+      //   if ( $(_this.refs.main).find('.paging_simple_numbers span .paginate_button')
+      //     && $(_this.refs.main).find('.paging_simple_numbers span .paginate_button').length > 1) {
+      //     $(_this.refs.main).find('.dataTables_length').show();
+      //     $(_this.refs.main).find('.paging_simple_numbers').show()
       //   } else {
-      //     $(_this.refs.table).find('.dataTables_length').hide();
-      //     $(_this.refs.table).find('.paging_simple_numbers').hide()
+      //     $(_this.refs.main).find('.dataTables_length').hide();
+      //     $(_this.refs.main).find('.paging_simple_numbers').hide()
       //   }
       // };
 
@@ -5082,27 +5065,35 @@ var DataTablesTableBox = function (_Component) {
       }
 
       tableConfiguration.drawCallback = function (settings) {
-        if (_this3.refs && _this3.refs.table) {
-          var dataTable = $(_this3.refs.table).find('table').dataTable();
+        if (_this3.refs && _this3.refs.main) {
+          var dataTable = $(_this3.refs.main).find('table').dataTable();
           if (groupingColumn !== null) drawGrouping(dataTable.api());
         }
         //hideControls();
       };
+      return tableConfiguration;
+    }
+  }, {
+    key: 'applyTable',
+    value: function applyTable(props, node) {
+      if (!hasRows(props.value.data.attributes)) return;
 
-      tableDiv.dataTable(tableConfiguration);
+      var tableTag = $('<table id="' + props.value.meta._ts_ + '" ' + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>');
+      tableTag.appendTo(node);
+
+      tableTag.dataTable(this.getTableConfiguration(props));
 
       $('.dataTables_length select').removeClass('form-control-sm');
 
-      tableDiv.on("click", '.edit-operation-btn', function (e) {
+      tableTag.on("click", '.edit-operation-btn', function (e) {
         e.preventDefault();
-        _this.props.onOperationClick(editOperation, $(this).data("val"));
+        props.onOperationClick(DataTablesWrapper.getEditOperation(props), $(this).data("val"));
       });
 
-      processHashUrls(tableDiv, _this.props.frontendParams.documentName);
+      processHashUrls(tableTag, props.frontendParams.documentName);
 
-      tableDiv.on('draw.dt', function () {
-        be5.tableState.selectedRows = [];
-        _this.props._refreshEnablementIfNeeded();
+      tableTag.on('draw.dt', function () {
+        props.setSelectedRows([]);
       });
 
       // $('#rowCheckboxAll').click(function (e) {
@@ -5118,25 +5109,77 @@ var DataTablesTableBox = function (_Component) {
       //       be5.tableState.selectedRows.push(attributes.rows[i].id);
       //     }
       //   }
-      //
-      //   _this.onSelectionChange();
       // });
 
-      this.refs.quickColumns.setTable(this.refs.table);
-
-      this.onSelectionChange();
+      this.refs.quickColumns.setTable(this.refs.main);
+    }
+  }, {
+    key: 'getColumns',
+    value: function getColumns(props) {
+      var columns = [{ "title": "#" }];
+      props.value.data.attributes.columns.forEach(function (column) {
+        columns.push({ "title": column.title });
+      });
+      return columns;
+    }
+  }, {
+    key: 'getData',
+    value: function getData(props) {
+      return props.value.data.attributes.rows.map(function (row) {
+        var finalRow = [row.id];
+        row.cells.forEach(function (cell) {
+          finalRow.push(jQueryFormatCell(cell.content, cell.options));
+        });
+        return finalRow;
+      });
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var attr = this.props.value.data.attributes;
+      return React.createElement(
+        'div',
+        { className: 'table-wrap' },
+        React.createElement(QuickColumns, {
+          ref: 'quickColumns',
+          columns: attr.columns,
+          category: attr.category,
+          page: attr.page,
+          table: this.refs.main,
+          selectable: attr.selectable
+        }),
+        React.createElement('div', { className: 'row data-table-wrapper', ref: 'main' })
+      );
+    }
+  }], [{
+    key: 'getEditOperation',
+    value: function getEditOperation(props) {
+      return props.operations === undefined ? undefined : props.operations.attributes.find(function (operation) {
+        return operation.name === 'Edit';
+      });
+    }
+  }]);
+  return DataTablesWrapper;
+}(Component);
 
-      var a = this.props.value.data.attributes;
+var DataTablesTableBox = function (_Component2) {
+  inherits(DataTablesTableBox, _Component2);
 
+  function DataTablesTableBox() {
+    classCallCheck(this, DataTablesTableBox);
+    return possibleConstructorReturn(this, (DataTablesTableBox.__proto__ || Object.getPrototypeOf(DataTablesTableBox)).apply(this, arguments));
+  }
 
-      if (a.rows.length === 0) {
-        var currentPage = a.offset / a.length + 1;
-        if (a.totalNumberOfRows > 0) {
+  createClass(DataTablesTableBox, [{
+    key: 'render',
+    value: function render() {
+      var _this5 = this;
+
+      var attr = this.props.value.data.attributes;
+
+      if (!hasRows(attr)) {
+        var currentPage = attr.offset / attr.length + 1;
+        if (attr.totalNumberOfRows > 0) {
           return React.createElement(
             'div',
             null,
@@ -5158,7 +5201,7 @@ var DataTablesTableBox = function (_Component) {
                     className: 'page-link',
                     onClick: function onClick(e) {
                       e.preventDefault();
-                      loadTableByUrl("table/equipments/All records/_offset_=" + (a.offset - a.length), _this4.props.frontendParams);
+                      loadTableByUrl("table/equipments/All records/_offset_=" + (attr.offset - attr.length), _this5.props.frontendParams);
                     }
                   },
                   be5.messages.table.previousPage
@@ -5174,7 +5217,7 @@ var DataTablesTableBox = function (_Component) {
                     className: 'page-link',
                     onClick: function onClick(e) {
                       e.preventDefault();
-                      loadTableByUrl("table/equipments/All records/_offset_=0", _this4.props.frontendParams);
+                      loadTableByUrl("table/equipments/All records/_offset_=0", _this5.props.frontendParams);
                     }
                   },
                   '1'
@@ -5199,27 +5242,15 @@ var DataTablesTableBox = function (_Component) {
         );
       }
 
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(QuickColumns, {
-          ref: 'quickColumns',
-          columns: a.columns,
-          category: a.category,
-          page: a.page,
-          table: this.refs.table,
-          selectable: a.selectable
-        }),
-        React.createElement(
-          'div',
-          { className: '' },
-          React.createElement('div', { ref: 'table', className: 'row' })
-        )
-      );
+      return React.createElement(DataTablesWrapper, this.props);
     }
   }]);
   return DataTablesTableBox;
 }(Component);
+
+function hasRows(attr) {
+  return attr.rows.length > 0;
+}
 
 registerTableBox('dataTable', DataTablesTableBox);
 
@@ -5264,27 +5295,6 @@ var ReactTableBox = function (_Component) {
     return _this;
   }
 
-  // componentDidMount() {
-  //   if(this.refs.table)
-  //     this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
-  //
-  //   this._refreshEnablementIfNeeded();
-  // }
-
-  // componentWillReceiveProps(nextProps)
-  // {
-  //   $('#table' + this.props.value.meta._ts_).dataTable().fnDestroy();
-  // }
-
-  // componentWillUpdate() {
-  //   if(this.refs.table)
-  //     this.applyTableStyle(ReactDOM.findDOMNode(this.refs.table));
-  // }
-
-  // componentDidUnMount() {
-  //   $('#table' + this.props.value.meta._ts_).dataTable().fnDestroy();
-  // }
-
   createClass(ReactTableBox, [{
     key: 'onOperationClick',
     value: function onOperationClick(operation) {
@@ -5310,12 +5320,11 @@ var ReactTableBox = function (_Component) {
   }, {
     key: 'onSelectionChange',
     value: function onSelectionChange() {
-      this._refreshEnablementIfNeeded();
-
       if (this.props.hasOwnProperty('callbacks') && this.props.callbacks !== undefined && this.props.callbacks.hasOwnProperty('onSelectionChange')) {
         this.props.callbacks.onSelectionChange(be5.tableState.selectedRows);
       }
     }
+
     //
     // applyTableStyle(node) {
     //   const attributes = this.props.value.data.attributes;
@@ -5497,7 +5506,8 @@ var ReactTableBox = function (_Component) {
         return React.createElement(
           'div',
           null,
-          React.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick, hasRows: attributes.rows.length !== 0 }),
+          React.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick,
+            hasRows: attributes.rows.length !== 0 }),
           be5.messages.emptyTable
         );
       }
@@ -5555,8 +5565,10 @@ var ReactTableBox = function (_Component) {
       return React.createElement(
         'div',
         null,
-        React.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick, hasRows: attributes.rows.length !== 0 }),
-        React.createElement(QuickColumns, { ref: 'quickColumns', columns: attributes.columns, firstRow: attributes.rows[0].cells, table: this.refs.table, selectable: attributes.selectable }),
+        React.createElement(OperationBox, { ref: 'operations', operations: attributes.operations, onOperationClick: this.onOperationClick,
+          hasRows: attributes.rows.length !== 0 }),
+        React.createElement(QuickColumns, { ref: 'quickColumns', columns: attributes.columns, firstRow: attributes.rows[0].cells,
+          table: this.refs.table, selectable: attributes.selectable }),
         React.createElement(
           'div',
           { className: 'scroll' },
@@ -6042,8 +6054,6 @@ var be5init$$1 = {
     if (getHashUrl !== hash) {
       be5.store.dispatch(updateHashUrl(hash));
     }
-
-    bus.fire("mainModalClose");
 
     var state = documentState.get(MAIN_DOCUMENT);
 
