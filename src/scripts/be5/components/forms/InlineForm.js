@@ -29,7 +29,6 @@ class InlineMiniForm extends Form {
     return (
       <div className={classNames('be5-form', this.getFormClass(), baseClasses, attributes.layout.classes)}>
         <form
-          id={this.props.meta._ts_}
           onSubmit={this._applyOnSubmit}
           className={classNames(
             'form-inline',

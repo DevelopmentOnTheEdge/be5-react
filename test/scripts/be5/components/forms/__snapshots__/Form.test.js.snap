@@ -214,7 +214,6 @@ exports[`InlineForm 1`] = `
 >
   <form
     className="form-inline"
-    id="1507198229686"
     onSubmit={[Function]}
   >
     <label
@@ -306,7 +305,6 @@ exports[`ModalForm 1`] = `
 exports[`SubmitOnChangeForm 1`] = `
 <form
   className="submit-onchange-form"
-  id="1507198229686"
 >
   <input
     className="property-input form-control"

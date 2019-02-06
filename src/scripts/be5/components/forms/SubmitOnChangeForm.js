@@ -22,7 +22,6 @@ class SubmitOnChangeForm extends Form {
     const attributes = this.props.value.data.attributes;
     return (
       <form
-        id={this.props.meta._ts_}
         className={classNames(
           'submit-onchange-form',
           this.props.wasValidated ? 'was-validated' : '',

@@ -105,7 +105,6 @@ class Form extends React.Component {
   _createForm() {
     return (
       <form
-        ref={el => (this.form = el)}
         onSubmit={this._applyOnSubmit}
         className={classNames(
           this.state.wasValidated ? 'was-validated' : ''
