@@ -43,6 +43,10 @@
   }
 }
 
+.form-control-file {
+  padding: 2.5px 0;
+}
+
 /****** Select ******/
 .Select-placeholder, .Select--single > .Select-control .Select-value{
   line-height: 30px;
