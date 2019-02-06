@@ -3232,7 +3232,7 @@ var Form = function (_React$Component) {
 
     var _this = possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
 
-    _this.state = _this.props.value;
+    _this.state = { values: _this.props.value.data.attributes.bean.values };
 
     _this._onFieldChange = _this._onFieldChange.bind(_this);
     _this._onReloadOnChange = _this._onReloadOnChange.bind(_this);
@@ -3245,14 +3245,18 @@ var Form = function (_React$Component) {
   createClass(Form, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      this.setState(Object.assign({}, nextProps.value, { wasValidated: false, submitted: false }));
+      this.setState(Object.assign({}, {
+        values: nextProps.value.data.attributes.bean.values,
+        wasValidated: false,
+        submitted: false
+      }));
     }
   }, {
     key: 'getParams',
     value: function getParams(values) {
       var _operationInfo;
 
-      var attr = this.state.data.attributes;
+      var attr = this.props.value.data.attributes;
       var operationInfo = (_operationInfo = {}, defineProperty(_operationInfo, ENTITY_NAME_PARAM, attr.entity), defineProperty(_operationInfo, QUERY_NAME_PARAM, attr.query), defineProperty(_operationInfo, OPERATION_NAME_PARAM, attr.operation), defineProperty(_operationInfo, CONTEXT_PARAMS, JSON.stringify(attr.operationParams)), _operationInfo);
       return getOperationInfo(operationInfo, values);
     }
@@ -3263,7 +3267,7 @@ var Form = function (_React$Component) {
 
       if (!this.state.submitted) {
         this.setState({ submitted: true }, function () {
-          var values = Object.assign({}, _this2.state.data.attributes.bean.values);
+          var values = Object.assign({}, _this2.state.values);
           values[RELOAD_CONTROL_NAME] = controlName;
 
           forms.load(_this2.getParams(values), _this2.props.frontendParams);
@@ -3278,7 +3282,7 @@ var Form = function (_React$Component) {
       this.setState({ wasValidated: false });
       if (!this.state.submitted) {
         this.setState({ submitted: true }, function () {
-          forms.apply(_this3.getParams(_this3.state.data.attributes.bean.values), _this3.props.frontendParams);
+          forms.apply(_this3.getParams(_this3.state.values), _this3.props.frontendParams);
         });
       }
     }
@@ -3293,42 +3297,41 @@ var Form = function (_React$Component) {
     }
   }, {
     key: '_setValue',
-    value: function _setValue(name, value) {
+    value: function _setValue(name, value, callback) {
       if (!this.state.submitted) {
-        JsonPointer.set(this.state.data.attributes.bean, "/values" + name, value);
+        var newValues = Object.assign({}, this.state.values);
+        JsonPointer.set(newValues, name, value);
+        this.setState({ values: newValues }, callback);
       }
     }
   }, {
     key: '_onFieldChange',
     value: function _onFieldChange(name, value) {
       this._setValue(name, value);
-      this.forceUpdate();
     }
   }, {
     key: '_onReloadOnChange',
     value: function _onReloadOnChange(name, value) {
       var _this4 = this;
 
-      var attributes = this.state.data.attributes;
-      if (value !== undefined) this._setValue(name, value);
-
-      this.forceUpdate(function () {
+      var attributes = this.props.value.data.attributes;
+      var callback = function callback() {
         if (attributes.bean.meta[name].reloadOnChange === true || attributes.bean.meta[name].autoRefresh === true) {
           _this4._reloadOnChange(name);
         }
-      });
+      };
+      if (value !== undefined) {
+        this._setValue(name, value, callback);
+      } else {
+        callback();
+      }
     }
   }, {
     key: '_createForm',
     value: function _createForm() {
-      var _this5 = this;
-
       return React.createElement(
         'form',
         {
-          ref: function ref(el) {
-            return _this5.form = el;
-          },
           onSubmit: this._applyOnSubmit,
           className: classNames(this.state.wasValidated ? 'was-validated' : '')
         },
@@ -3348,9 +3351,10 @@ var Form = function (_React$Component) {
   }, {
     key: '_createFormProperties',
     value: function _createFormProperties() {
-      var attributes = this.state.data.attributes;
+      var attributes = this.props.value.data.attributes;
       return React.createElement(PropertySet, {
         bean: attributes.bean,
+        values: this.state.values,
         onChange: this._onFieldChange,
         reloadOnChange: this._onReloadOnChange,
         localization: be5.messages.property,
@@ -3365,17 +3369,17 @@ var Form = function (_React$Component) {
         { className: 'formActions' },
         this._createSubmitAction(),
         ' ',
-        _createBackAction(this.state.data.attributes.layout, this.props.frontendParams)
+        _createBackAction(this.props.value.data.attributes.layout, this.props.frontendParams)
       );
     }
   }, {
     key: '_createSubmitAction',
     value: function _createSubmitAction(actionData, name) {
-      var _this6 = this;
+      var _this5 = this;
 
-      var _state$data$attribute = this.state.data.attributes.layout,
-          bsSize = _state$data$attribute.bsSize,
-          submitText = _state$data$attribute.submitText;
+      var _props$value$data$att = this.props.value.data.attributes.layout,
+          bsSize = _props$value$data$att.bsSize,
+          submitText = _props$value$data$att.submitText;
 
       return React.createElement(
         Transition,
@@ -3387,12 +3391,12 @@ var Form = function (_React$Component) {
               type: 'submit',
               className: classNames("btn btn-primary", { 'btn-sm': bsSize === 'sm' }, { 'btn-lg': bsSize === 'lg' }),
               onClick: function onClick() {
-                return _this6.setState({
+                return _this5.setState({
                   wasValidated: true,
                   formAction: actionData || 'defaultAction'
                 });
               },
-              title: _this6.state.submitted ? be5.messages.submitted : "",
+              title: _this5.state.submitted ? be5.messages.submitted : "",
               disabled: state === 'entered'
             },
             name || submitText || be5.messages.Submit
@@ -3403,10 +3407,10 @@ var Form = function (_React$Component) {
   }, {
     key: '_getErrorPane',
     value: function _getErrorPane() {
-      var errorModel = this.state.data.attributes.errorModel;
+      var errorModel = this.props.value.data.attributes.errorModel;
 
       if (errorModel) {
-        return React.createElement(ErrorPane, { value: { errors: [errorModel], meta: this.state.meta } });
+        return React.createElement(ErrorPane, { value: { errors: [errorModel], meta: this.props.meta } });
       } else {
         return null;
       }
@@ -3414,7 +3418,7 @@ var Form = function (_React$Component) {
   }, {
     key: 'getFormClass',
     value: function getFormClass() {
-      var attributes = this.state.data.attributes;
+      var attributes = this.props.value.data.attributes;
       var entity = makeSafeForClassName(attributes.entity);
       var operation = makeSafeForClassName(attributes.operation);
       return entity + '_' + operation;
@@ -3422,7 +3426,7 @@ var Form = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var attributes = this.state.data.attributes;
+      var attributes = this.props.value.data.attributes;
       var baseClasses = attributes.layout.baseClasses || 'formBox col-12 max-width-970 formBoxDefault';
       return React.createElement(
         'div',
@@ -3466,9 +3470,10 @@ var HorizontalForm = function (_Form) {
   createClass(HorizontalForm, [{
     key: '_createFormProperties',
     value: function _createFormProperties() {
-      var attributes = this.state.data.attributes;
+      var attributes = this.props.value.data.attributes;
       return React.createElement(PropertySet, {
         bean: attributes.bean,
+        values: this.state.values,
         onChange: this._onFieldChange,
         reloadOnChange: this._onReloadOnChange,
         localization: be5.messages.property,
@@ -3480,7 +3485,7 @@ var HorizontalForm = function (_Form) {
   }, {
     key: '_createFormActions',
     value: function _createFormActions() {
-      var horizontalColSize = this.state.data.attributes.layout.horizontalColSize || 3;
+      var horizontalColSize = this.props.value.data.attributes.layout.horizontalColSize || 3;
       var colTag = 'col-lg-' + (12 - horizontalColSize);
       var offsetTag = 'offset-lg-' + horizontalColSize;
 
@@ -3492,7 +3497,7 @@ var HorizontalForm = function (_Form) {
           { className: classNames(colTag, offsetTag) },
           this._createSubmitAction(),
           ' ',
-          _createBackAction(this.state.data.attributes.layout, this.props.frontendParams)
+          _createBackAction(this.props.value.data.attributes.layout, this.props.frontendParams)
         )
       );
     }
@@ -3510,8 +3515,6 @@ var SubmitOnChangeForm = function (_Form) {
 
     var _this = possibleConstructorReturn(this, (SubmitOnChangeForm.__proto__ || Object.getPrototypeOf(SubmitOnChangeForm)).call(this, props));
 
-    _this.state = _this.props.value;
-
     _this._onFieldChangeAndSubmit = _this._onFieldChangeAndSubmit.bind(_this);
     return _this;
   }
@@ -3525,16 +3528,16 @@ var SubmitOnChangeForm = function (_Form) {
   }, {
     key: 'render',
     value: function render() {
-      var attributes = this.state.data.attributes;
+      var attributes = this.props.value.data.attributes;
       return React.createElement(
         'form',
         {
-          id: this.state.meta._ts_,
-          className: classNames('submit-onchange-form', this.state.wasValidated ? 'was-validated' : '', attributes.layout.classes)
+          className: classNames('submit-onchange-form', this.props.wasValidated ? 'was-validated' : '', attributes.layout.classes)
         },
         React.createElement(PropertyInput, {
           id: 0,
           bean: attributes.bean,
+          value: JsonPointer.get(attributes.bean.values, attributes.bean.order[0]),
           localization: be5.messages.property,
           onChange: function onChange() {},
           reloadOnChange: this._onFieldChangeAndSubmit,
@@ -3591,7 +3594,7 @@ var ModalForm = function (_Form) {
     value: function _createModalCloseAction() {
       var _this2 = this;
 
-      var layout = this.state.data.attributes.layout;
+      var layout = this.props.value.data.attributes.layout;
       var action = layout.cancelAction || new FrontendAction(CLOSE_MAIN_MODAL);
       return React.createElement(
         'button',
@@ -3605,7 +3608,7 @@ var ModalForm = function (_Form) {
   }, {
     key: 'render',
     value: function render() {
-      var attributes = this.state.data.attributes;
+      var attributes = this.props.value.data.attributes;
       return React.createElement(
         'div',
         { className: classNames('be5-form', this.getFormClass(), attributes.layout.classes) },
@@ -3636,7 +3639,7 @@ var InlineMiniForm = function (_Form) {
   createClass(InlineMiniForm, [{
     key: 'render',
     value: function render() {
-      var attributes = this.state.data.attributes;
+      var attributes = this.props.value.data.attributes;
 
       var commonProps = {
         bean: attributes.bean,
@@ -3650,7 +3653,7 @@ var InlineMiniForm = function (_Form) {
       };
 
       var properties = attributes.bean.order.map(function (p) {
-        return React.createElement(Property, _extends({ key: p, path: p }, commonProps));
+        return React.createElement(Property, _extends({ key: p, path: p }, commonProps, { value: JsonPointer.get(attributes.bean.values, path) }));
       });
 
       var baseClasses = attributes.layout.baseClasses || 'form-inline-mini';
@@ -3660,7 +3663,6 @@ var InlineMiniForm = function (_Form) {
         React.createElement(
           'form',
           {
-            id: this.state.meta._ts_,
             onSubmit: this._applyOnSubmit,
             className: classNames('form-inline', this.state.wasValidated ? 'was-validated' : '')
           },
