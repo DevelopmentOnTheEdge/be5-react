@@ -4,11 +4,11 @@ import be5 from '../../be5';
 import Form from './Form';
 import {Property} from 'beanexplorer-react';
 import {registerDocument} from '../../core/registers/documents';
-
+import JsonPointer from 'json-pointer';
 
 class InlineMiniForm extends Form {
   render() {
-    const attributes = this.state.data.attributes;
+    const attributes = this.props.value.data.attributes;
 
     const commonProps = {
       bean: attributes.bean,
@@ -22,14 +22,14 @@ class InlineMiniForm extends Form {
     };
 
     const properties = attributes.bean.order.map(p => (
-      <Property key={p} path={p} {...commonProps} />
+      <Property key={p} path={p} {...commonProps} value={JsonPointer.get(attributes.bean.values, path)}/>
     ));
 
     const baseClasses = attributes.layout.baseClasses || 'form-inline-mini';
     return (
       <div className={classNames('be5-form', this.getFormClass(), baseClasses, attributes.layout.classes)}>
         <form
-          id={this.state.meta._ts_}
+          id={this.props.meta._ts_}
           onSubmit={this._applyOnSubmit}
           className={classNames(
             'form-inline',

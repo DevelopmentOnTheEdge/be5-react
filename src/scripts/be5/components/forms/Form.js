@@ -19,7 +19,7 @@ import {
 class Form extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.props.value;
+    this.state = {values: this.props.value.data.attributes.bean.values};
 
     this._onFieldChange = this._onFieldChange.bind(this);
     this._onReloadOnChange = this._onReloadOnChange.bind(this);
@@ -29,11 +29,15 @@ class Form extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(Object.assign({}, nextProps.value, {wasValidated: false, submitted: false}));
+    this.setState(Object.assign({}, {
+      values: nextProps.value.data.attributes.bean.values,
+      wasValidated: false,
+      submitted: false
+    }));
   }
 
   getParams(values) {
-    const attr = this.state.data.attributes;
+    const attr = this.props.value.data.attributes;
     const operationInfo = {
       [ENTITY_NAME_PARAM]: attr.entity,
       [QUERY_NAME_PARAM]: attr.query,
@@ -46,7 +50,7 @@ class Form extends React.Component {
   _reloadOnChange(controlName) {
     if (!this.state.submitted) {
       this.setState({submitted: true}, () => {
-        const values = Object.assign({}, this.state.data.attributes.bean.values);
+        const values = Object.assign({}, this.state.values);
         values[RELOAD_CONTROL_NAME] = controlName;
 
         forms.load(this.getParams(values), this.props.frontendParams);
@@ -58,7 +62,7 @@ class Form extends React.Component {
     this.setState({wasValidated: false});
     if (!this.state.submitted) {
       this.setState({submitted: true}, () => {
-        forms.apply(this.getParams(this.state.data.attributes.bean.values), this.props.frontendParams);
+        forms.apply(this.getParams(this.state.values), this.props.frontendParams);
       });
     }
   }
@@ -71,27 +75,31 @@ class Form extends React.Component {
     this.apply();
   }
 
-  _setValue(name, value) {
+  _setValue(name, value, callback) {
     if (!this.state.submitted) {
-      JsonPointer.set(this.state.data.attributes.bean, "/values" + name, value);
+      const newValues = Object.assign({}, this.state.values);
+      JsonPointer.set(newValues, name, value);
+      this.setState({values: newValues}, callback);
     }
   }
 
   _onFieldChange(name, value) {
-    this._setValue(name, value);
-    this.forceUpdate();
+    this._setValue(name, value)
   }
 
   _onReloadOnChange(name, value) {
-    const attributes = this.state.data.attributes;
-    if (value !== undefined) this._setValue(name, value);
-
-    this.forceUpdate(() => {
+    const attributes = this.props.value.data.attributes;
+    const callback = () => {
       if (attributes.bean.meta[name].reloadOnChange === true ||
         attributes.bean.meta[name].autoRefresh === true) {
         this._reloadOnChange(name);
       }
-    });
+    };
+    if (value !== undefined) {
+      this._setValue(name, value, callback);
+    } else {
+      callback();
+    }
   }
 
   _createForm() {
@@ -118,10 +126,11 @@ class Form extends React.Component {
   }
 
   _createFormProperties() {
-    const attributes = this.state.data.attributes;
+    const attributes = this.props.value.data.attributes;
     return (
       <PropertySet
         bean={attributes.bean}
+        values={this.state.values}
         onChange={this._onFieldChange}
         reloadOnChange={this._onReloadOnChange}
         localization={be5.messages.property}
@@ -135,13 +144,13 @@ class Form extends React.Component {
       <div className="formActions">
         {this._createSubmitAction()}
         {' '}
-        {_createBackAction(this.state.data.attributes.layout, this.props.frontendParams)}
+        {_createBackAction(this.props.value.data.attributes.layout, this.props.frontendParams)}
       </div>
     );
   }
 
   _createSubmitAction(actionData, name) {
-    const {bsSize, submitText} = this.state.data.attributes.layout;
+    const {bsSize, submitText} = this.props.value.data.attributes.layout;
     return (
       <Transition in={this.state.submitted} timeout={600}>
         {(state) => (
@@ -167,24 +176,24 @@ class Form extends React.Component {
   }
 
   _getErrorPane() {
-    const errorModel = this.state.data.attributes.errorModel;
+    const errorModel = this.props.value.data.attributes.errorModel;
 
     if (errorModel) {
-      return <ErrorPane value={{errors: [errorModel], meta: this.state.meta}}/>
+      return <ErrorPane value={{errors: [errorModel], meta: this.props.meta}}/>
     } else {
       return null;
     }
   }
 
   getFormClass() {
-    const attributes = this.state.data.attributes;
+    const attributes = this.props.value.data.attributes;
     const entity = makeSafeForClassName(attributes.entity);
     const operation = makeSafeForClassName(attributes.operation);
     return entity + '_' + operation
   }
 
   render() {
-    const attributes = this.state.data.attributes;
+    const attributes = this.props.value.data.attributes;
     const baseClasses = attributes.layout.baseClasses || 'formBox col-12 max-width-970 formBoxDefault';
     return (
       <div className="row">

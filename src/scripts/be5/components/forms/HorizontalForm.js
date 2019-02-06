@@ -9,10 +9,11 @@ import {_createBackAction} from "../../utils/documentUtils";
 
 class HorizontalForm extends Form {
   _createFormProperties() {
-    const attributes = this.state.data.attributes;
+    const attributes = this.props.value.data.attributes;
     return (
       <PropertySet
         bean={attributes.bean}
+        values={this.state.values}
         onChange={this._onFieldChange}
         reloadOnChange={this._onReloadOnChange}
         localization={be5.messages.property}
@@ -24,7 +25,7 @@ class HorizontalForm extends Form {
   }
 
   _createFormActions() {
-    const horizontalColSize = this.state.data.attributes.layout.horizontalColSize || 3;
+    const horizontalColSize = this.props.value.data.attributes.layout.horizontalColSize || 3;
     const colTag = 'col-lg-' + (12 - horizontalColSize);
     const offsetTag = 'offset-lg-' + horizontalColSize;
 
@@ -33,7 +34,7 @@ class HorizontalForm extends Form {
         <div className={classNames(colTag, offsetTag)}>
           {this._createSubmitAction()}
           {' '}
-          {_createBackAction(this.state.data.attributes.layout, this.props.frontendParams)}
+          {_createBackAction(this.props.value.data.attributes.layout, this.props.frontendParams)}
         </div>
       </div>
     );

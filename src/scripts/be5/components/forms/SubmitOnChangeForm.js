@@ -4,12 +4,11 @@ import classNames from 'classnames';
 import Form from './Form';
 import {PropertyInput} from 'beanexplorer-react';
 import {registerDocument} from '../../core/registers/documents';
-
+import JsonPointer from 'json-pointer';
 
 class SubmitOnChangeForm extends Form {
   constructor(props) {
     super(props);
-    this.state = this.props.value;
 
     this._onFieldChangeAndSubmit = this._onFieldChangeAndSubmit.bind(this);
   }
@@ -20,22 +19,22 @@ class SubmitOnChangeForm extends Form {
   }
 
   render() {
-    const attributes = this.state.data.attributes;
+    const attributes = this.props.value.data.attributes;
     return (
       <form
-        id={this.state.meta._ts_}
+        id={this.props.meta._ts_}
         className={classNames(
           'submit-onchange-form',
-          this.state.wasValidated ? 'was-validated' : '',
+          this.props.wasValidated ? 'was-validated' : '',
           attributes.layout.classes
         )}
       >
         <PropertyInput
           id={0}
           bean={attributes.bean}
+          value={JsonPointer.get(attributes.bean.values, attributes.bean.order[0])}
           localization={be5.messages.property}
-          onChange={() => {
-          }}
+          onChange={() => {}}
           reloadOnChange={this._onFieldChangeAndSubmit}
           bsSize={attributes.layout.bsSize}
         />
