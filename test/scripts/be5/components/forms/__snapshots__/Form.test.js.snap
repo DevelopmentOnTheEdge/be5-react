@@ -223,6 +223,31 @@ exports[`InlineForm 1`] = `
         SelectCompany
       </strong>
     </label>
+    <div
+      className="property form-group required mr-sm-2"
+    >
+      <label
+        className="form-control-label mr-sm-2"
+        htmlFor="companyIDPropertyInput"
+      >
+        companyID
+      </label>
+      <input
+        className="property-input form-control"
+        id="companyIDPropertyInput"
+        maxLength={undefined}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onInput={[Function]}
+        onInvalid={[Function]}
+        pattern={undefined}
+        placeholder={undefined}
+        required={true}
+        size={undefined}
+        type="text"
+        value=""
+      />
+    </div>
     <button
       className="btn btn-primary"
       disabled={false}

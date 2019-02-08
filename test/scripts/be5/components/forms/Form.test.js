@@ -48,7 +48,7 @@ test('ModalForm', () => {
 
 test('InlineForm', () => {
   const component = renderer.create(
-    <InlineForm value={testData.emptyForm} frontendParams={{documentName: 'test'}} />
+    <InlineForm value={testData.simpleForm} frontendParams={{documentName: 'test'}} />
   );
   expect(component.toJSON()).toMatchSnapshot();
 });

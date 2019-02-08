@@ -21,8 +21,8 @@ class InlineMiniForm extends Form {
       className: 'mr-sm-2'
     };
 
-    const properties = attributes.bean.order.map(p => (
-      <Property key={p} path={p} {...commonProps} value={JsonPointer.get(attributes.bean.values, path)}/>
+    const properties = attributes.bean.order.map(path => (
+      <Property key={path} path={path} {...commonProps} value={JsonPointer.get(this.state.values, path)}/>
     ));
 
     const baseClasses = attributes.layout.baseClasses || 'form-inline-mini';
