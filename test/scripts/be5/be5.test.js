@@ -28,9 +28,9 @@ test('be5.url', () =>
   registerRoute('form', action);
   expect(getRoute('form')).toBe(action);
 
-  be5.url.process('testDoc', '#!form/users/All records/user_name=Guest');
+  be5.url.process({documentName: 'testDoc'}, '#!form/users/All records/user_name=Guest');
 
   expect(action.mock.calls.length).toBe(1);
-  expect(action.mock.calls[0]).toEqual(["testDoc", "users", "All records", {"user_name": "Guest"}]);
+  expect(action.mock.calls[0]).toEqual([{"documentName": "testDoc"}, "users", "All records", {"user_name": "Guest"}]);
 });
 

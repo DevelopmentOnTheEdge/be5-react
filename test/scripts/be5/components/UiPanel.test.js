@@ -14,6 +14,6 @@ test('snapshot', () => {
     </TestProvider>
   );
 
-  be5.url.process(MAIN_DOCUMENT, "#!uiPanel" );
+  be5.url.process({documentName: MAIN_DOCUMENT}, "#!uiPanel" );
   expect(component.toJSON()).toMatchSnapshot();
 });

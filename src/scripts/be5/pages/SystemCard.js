@@ -39,9 +39,9 @@ const SystemCard = (props) => {
 
 registerDocument('SystemCard', SystemCard);
 
-registerRoute('systemCard', (documentName, page) => {
+registerRoute('systemCard', (frontendParams, page) => {
   const url = "systemCard" + ((page !== undefined && page !== "0") ? ("/" + page) : "");
-  changeDocument(documentName, {
+  changeDocument(frontendParams.documentName, {
     value: {
       data: {
         attributes: {

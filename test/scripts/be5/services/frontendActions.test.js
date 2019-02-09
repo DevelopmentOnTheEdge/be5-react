@@ -15,11 +15,27 @@ beforeEach(() => {
 });
 
 test('SET_URL', () => {
-  be5.url.process = jest.fn();
+  be5.url.open = jest.fn();
   executeFrontendActions(JSON.parse('{"type":"SET_URL", "value": "table/testtable/Test 1D"}'),
     {documentName: "test"});
 
-  expect(be5.url.process.mock.calls[0]).toEqual(["MAIN_DOCUMENT", "#!table/testtable/Test 1D"]);
+  expect(be5.url.open.mock.calls[0]).toEqual([{documentName: "MAIN_DOCUMENT"}, "#!table/testtable/Test 1D"]);
+});
+
+test('REDIRECT MAIN_DOCUMENT', () => {
+  be5.url.open = jest.fn();
+  executeFrontendActions(JSON.parse('{"type":"REDIRECT", "value": "table/testtable/Test 1D"}'),
+    {documentName: "MAIN_DOCUMENT"});
+
+  expect(be5.url.open.mock.calls[0]).toEqual([{documentName: "MAIN_DOCUMENT"}, "#!table/testtable/Test 1D"]);
+});
+
+test('REDIRECT', () => {
+  be5.url.process = jest.fn();
+  executeFrontendActions(JSON.parse('{"type":"REDIRECT", "value": "table/testtable/Test 1D"}'),
+    {documentName: "test"});
+
+  expect(be5.url.process.mock.calls[0]).toEqual([{documentName: "test"}, "#!table/testtable/Test 1D"]);
 });
 
 test('OPEN_DEFAULT_ROUTE', () => {
@@ -27,11 +43,11 @@ test('OPEN_DEFAULT_ROUTE', () => {
   store.dispatch(updateUserInfo(getTestUser()));
   be5init.init(store);
 
-  be5.url.process = jest.fn();
+  be5.url.open = jest.fn();
   executeFrontendActions(JSON.parse('{"type":"OPEN_DEFAULT_ROUTE"}'),
     {documentName: "test"});
 
-  expect(be5.url.process.mock.calls[0]).toEqual(["MAIN_DOCUMENT", "#!"]);
+  expect(be5.url.open.mock.calls[0]).toEqual([{documentName: "MAIN_DOCUMENT"}, "#!"]);
 });
 
 test('UPDATE_PARENT_DOCUMENT', () => {

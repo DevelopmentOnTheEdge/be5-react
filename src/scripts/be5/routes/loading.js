@@ -3,8 +3,8 @@ import changeDocument from '../core/changeDocument';
 import {registerRoute} from '../core/registers/routes'
 
 
-const route = function (documentName, page) {
-  changeDocument(documentName, {})
+const route = function (frontendParams, page) {
+  changeDocument(frontendParams.documentName, {})
 };
 
 class Loading extends React.Component {

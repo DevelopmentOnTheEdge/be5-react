@@ -165,7 +165,7 @@ class Document extends React.Component {
   }
 
   refresh() {
-    be5.url.process(this.props.frontendParams.documentName, getSelfUrl(this.state.value));
+    be5.url.process(this.props.frontendParams, getSelfUrl(this.state.value));
   }
 
   getComponentFrontendParams() {

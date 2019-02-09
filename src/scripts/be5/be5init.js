@@ -18,7 +18,7 @@ export default {
     if (getHashUrl !== hash) {
       be5.store.dispatch(updateHashUrl(hash));
     }
-    be5.url.process(MAIN_DOCUMENT, be5.url.get());
+    be5.url.process({documentName: MAIN_DOCUMENT}, be5.url.get());
   },
 
   init(store, callback) {

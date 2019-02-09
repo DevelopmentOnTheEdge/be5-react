@@ -16,13 +16,13 @@ class HelpInfo extends React.Component {
 
   componentDidMount() {
     if (this.props.value) {
-      be5.url.process(this.props.documentName, "#!" + this.props.value);
+      be5.url.process({documentName: this.props.documentName}, "#!" + this.props.value);
     }
   }
 
   componentDidUpdate() {
     if (this.props.value) {
-      be5.url.process(this.props.documentName, "#!" + this.props.value);
+      be5.url.process({documentName: this.props.documentName}, "#!" + this.props.value);
     }
   }
 

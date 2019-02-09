@@ -5,16 +5,16 @@ import {registerRoute} from '../core/registers/routes'
 import {MAIN_DOCUMENT} from "../constants";
 
 
-const route = function (documentName, page) {
+const route = function (frontendParams, page) {
   const requestParams = {
     _ts_: new Date().getTime()
   };
 
   be5.net.request('static/' + page, requestParams, json => {
-    if (documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
-    changeDocument(documentName, {value: json})
+    if (frontendParams.documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
+    changeDocument(frontendParams.documentName, {value: json})
   }, error => {
-    changeDocument(documentName, {value: error});
+    changeDocument(frontendParams.documentName, {value: error});
   });
 };
 

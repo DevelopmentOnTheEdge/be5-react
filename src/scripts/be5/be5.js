@@ -81,7 +81,7 @@ const be5 = {
       // (url === "#!" + getDefaultRoute(be5.store.getState())
       //   && (be5.url.get() === "" || be5.url.get() === "#!"))
       if (frontendParams.documentName !== MAIN_DOCUMENT || url === be5.url.get()) {
-        be5.url.process(frontendParams.documentName, url);
+        be5.url.process(frontendParams, url);
       } else {
         be5.url.set(url);
       }
@@ -145,7 +145,7 @@ const be5 = {
       return {positional: positional, named: _.object(named)};
     },
 
-    process(documentName, url) {
+    process(frontendParams, url) {
       if (url === '' || url === '#' || url === '#!') {
         url = '#!' + getDefaultRoute(be5.getStoreState());
       }
@@ -163,7 +163,7 @@ const be5 = {
       //       '$action', urlParts[0]));
       //   return;
       // }
-      let positional = [documentName];
+      let positional = [frontendParams];
       let hashParams = {};
       let hasHashParam = false;
       for (let i = 1; i < urlParts.length; i++) {
@@ -193,7 +193,7 @@ const be5 = {
         action.apply(be5, positional);
       } else {
         const msg = be5.messages.errorUnknownRoute.replace('$action', actionName);
-        changeDocument(documentName, {value: createStaticValue(msg, null, {self: url})});
+        changeDocument(frontendParams.documentName, {value: createStaticValue(msg, null, {self: url})});
         console.info(msg);
       }
     }
