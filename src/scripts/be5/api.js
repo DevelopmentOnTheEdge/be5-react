@@ -1,6 +1,6 @@
 import './be5.js';
 import {initBe5App, initOnLoad} from './be5init.js';
-import documentState from './services/documentState';
+import {getTableStates} from './services/tableStates';
 //import be5styles from './be5styles.js';
 import preconditions from './utils/preconditions.js';
 import {
@@ -62,7 +62,7 @@ export * from './constants.js';
 
 export {
   initBe5App, initOnLoad,
-  documentState,
+  getTableStates,
   preconditions,
   arraysEqual, createPageValue, registerPage,
   getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument,

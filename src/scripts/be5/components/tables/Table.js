@@ -12,6 +12,7 @@ import FilterUI from "./FilterUI";
 import {MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, SELECTED_ROWS} from "../../constants";
 import {getBackAction, makeSafeForClassName} from "../../utils/utils";
 import {getTableBox} from "../../core/registers/tableBoxes";
+import {setTableFilter} from "../../services/tableStates";
 
 
 class Table extends Component {
@@ -21,6 +22,19 @@ class Table extends Component {
     this.state = {runReload: "", selectedRows: []};
     this.onOperationClick = this.onOperationClick.bind(this);
     this.setSelectedRows = this.setSelectedRows.bind(this);
+  }
+
+  componentDidMount() {
+    Table.storeDocumentState(this.props)
+  }
+
+  componentDidUpdate() {
+    Table.storeDocumentState(this.props)
+  }
+
+  static storeDocumentState(props) {
+    const attr = props.value.data.attributes;
+    setTableFilter(attr.category, attr.page, attr.parameters);
   }
 
   componentWillReceiveProps() {

@@ -2,7 +2,7 @@ import bus from "../../../../src/scripts/be5/core/bus";
 import be5 from "../../../../src/scripts/be5/be5";
 import {executeFrontendActions} from "../../../../src/scripts/be5/services/frontendActions";
 import changeDocument from "../../../../src/scripts/be5/core/changeDocument";
-import be5init from "../../../../src/scripts/be5/be5init";
+import {initBe5App} from "../../../../src/scripts/be5/be5init";
 import {getTestStore, getTestUser} from "../testUtils";
 import {updateUserInfo} from "../../../../src/scripts/be5/store/actions/user.actions";
 
@@ -41,7 +41,7 @@ test('REDIRECT', () => {
 test('OPEN_DEFAULT_ROUTE', () => {
   const store = getTestStore();
   store.dispatch(updateUserInfo(getTestUser()));
-  be5init.init(store);
+  initBe5App(store);
 
   be5.url.open = jest.fn();
   executeFrontendActions(JSON.parse('{"type":"OPEN_DEFAULT_ROUTE"}'),

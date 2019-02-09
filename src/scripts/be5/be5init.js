@@ -11,7 +11,7 @@ import {getHashUrl} from "./store/selectors/url.selectors";
 import {updateHashUrl} from "./store/actions/url.actions";
 
 
-const hashChange = () => {
+export const hashChange = () => {
   const hash = be5.url.get();
   if (getHashUrl(be5.store.getState()) !== hash) {
     be5.store.dispatch(updateHashUrl(hash));

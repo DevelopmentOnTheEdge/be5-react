@@ -1,8 +1,7 @@
 import React from 'react';
 import be5 from "../../be5";
-import {loadTable} from "../../services/tables";
 import {getFilterParams} from "../../utils/filterUtils";
-import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, QUERY_NAME_PARAM} from "../../constants";
+import {setTableFilter} from "../../services/tableStates";
 
 
 const propTypes = {};
@@ -25,6 +24,7 @@ const FilterUI = ({entity, query, params, frontendParams}) => {
     //   [CONTEXT_PARAMS]: newParams
     // };
     // loadTable(paramsObject, frontendParams);
+    setTableFilter(entity, query, newParams);
     const url = be5.url.form(['table', entity, query || 'All records'], newParams);
     be5.url.open(frontendParams, "#!" + url);
   }
