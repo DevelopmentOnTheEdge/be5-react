@@ -3,21 +3,13 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import be5 from '../../be5';
 import {getModelByID, getResourceByType, getSelfUrl} from '../../utils/documentUtils';
-import {loadForm} from '../../services/forms';
 import OperationBox from './OperationBox';
 import Document from "../../containers/Document";
 import {registerDocument} from '../../core/registers/documents';
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions} from "../../services/frontendActions";
 import FilterUI from "./FilterUI";
-import {
-  CONTEXT_PARAMS,
-  ENTITY_NAME_PARAM,
-  MAIN_DOCUMENT,
-  OPERATION_NAME_PARAM,
-  QUERY_NAME_PARAM,
-  SELECTED_ROWS
-} from "../../constants";
+import {MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, SELECTED_ROWS} from "../../constants";
 import {getBackAction, makeSafeForClassName} from "../../utils/utils";
 import {getTableBox} from "../../core/registers/tableBoxes";
 
@@ -40,6 +32,9 @@ class Table extends Component {
       documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
       parentDocumentName: this.props.frontendParams.documentName
     };
+    if (operation.layout && operation.layout.type === 'modalForm') {
+      frontendParams.documentName = MAIN_MODAL_DOCUMENT;
+    }
 
     if (operation.clientSide === true) {
       executeFrontendActions(JSON.parse(operation.action), frontendParams);
@@ -57,13 +52,8 @@ class Table extends Component {
       contextParams = attr.parameters;
     }
 
-    const operationInfo = {
-      [ENTITY_NAME_PARAM]: attr.category,
-      [QUERY_NAME_PARAM]: attr.page || 'All records',
-      [OPERATION_NAME_PARAM]: name,
-      [CONTEXT_PARAMS]: JSON.stringify(contextParams)
-    };
-    loadForm(operationInfo, frontendParams);
+    const url = be5.url.form(['form', attr.category, attr.page || 'All records', name], contextParams);
+    be5.url.open(frontendParams, "#!" + url);
   }
 
   render() {

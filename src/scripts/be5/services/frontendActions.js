@@ -115,7 +115,7 @@ function redirect(url, frontendParams) {
   else {
     if (frontendParams.documentName === MAIN_DOCUMENT) {
       bus.fire("mainModalClose");
-      be5.url.process(MAIN_DOCUMENT, '#!' + url);
+      be5.url.open({documentName: MAIN_DOCUMENT}, '#!' + url);
     }
     else {
       if (be5.url.parse(url).positional[0] === 'form') {

@@ -101,11 +101,9 @@ export const processHashUrlForDocument = (e, documentName) => {
     if (!url.startsWith("#!")) url = "#!" + url;
   }
 
-  if (url.startsWith("#!table/")) {
-    url = url + "/_cleanNav_=true";
-  }
+  //TODO clear nav and filter params
   //console.log(url, documentName);
-  be5.url.process(documentName || MAIN_DOCUMENT, url);
+  be5.url.open({documentName: documentName || MAIN_DOCUMENT}, url);
 };
 
 export const loadDocumentByUrl = (url, frontendParams) => {

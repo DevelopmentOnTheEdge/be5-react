@@ -80,14 +80,11 @@ export const _performOperationResult = (json, frontendParams, data) => {
 
         switch (result.status) {
           case 'REDIRECTED':
-            bus.fire("alert", {msg: result.message || be5.messages.successfullyCompleted, type: 'success'});
             executeFrontendActions(new FrontendAction(REDIRECT, result.details), frontendParams);
             return;
           case 'FINISHED':
-            const formComponentName = attributes.layout && attributes.layout.type;
-
             if (result.details === undefined) {
-              if (isModal(formComponentName, documentName)) {
+              if (documentName === MAIN_MODAL_DOCUMENT) {
                 bus.fire("alert", {msg: result.message || be5.messages.successfullyCompleted, type: 'success'});
                 bus.fire("mainModalClose");
               } else {
@@ -100,7 +97,7 @@ export const _performOperationResult = (json, frontendParams, data) => {
               }
             } else {
               if (result.message !== undefined) {
-                if (isModal(formComponentName, documentName)) {
+                if (documentName === MAIN_MODAL_DOCUMENT) {
                   bus.fire("alert", {msg: result.message, type: 'success'});
                 } else {
                   changeDocument(documentName, {value: json, frontendParams: frontendParams});
@@ -141,9 +138,7 @@ const _performForm = (json, frontendParams) => {
     bus.fire("alert", {msg: operationResult.message, type: 'error'});
   }
 
-  const formComponentName = json.data.attributes.layout.type;
-
-  if (isModal(formComponentName, documentName)) {
+  if (documentName === MAIN_MODAL_DOCUMENT) {
     bus.fire("mainModalOpen");
     changeDocument(MAIN_MODAL_DOCUMENT, {value: json, frontendParams: frontendParams});
   }
@@ -151,10 +146,6 @@ const _performForm = (json, frontendParams) => {
     if (documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
     changeDocument(documentName, {value: json, frontendParams: frontendParams});
   }
-};
-
-let isModal = function (formComponentName, documentName) {
-  return formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT;
 };
 
 export const getOperationInfoFromUrl = (url, values = {}) => {

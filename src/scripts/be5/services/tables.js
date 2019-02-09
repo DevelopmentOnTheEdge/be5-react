@@ -24,7 +24,8 @@ export const loadTableByUrl = (url, frontendParams) => {
 };
 
 export const fetchTableByUrl = (url, callback, failure) => {
-  getTable(getTableParams(url + "/_cleanNav_=true"), callback, failure);
+  //TODO clear nav and filter params
+  getTable(getTableParams(url), callback, failure);
 };
 
 export const getTableParams = (url) => {

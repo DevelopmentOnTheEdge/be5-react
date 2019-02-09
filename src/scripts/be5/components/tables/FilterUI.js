@@ -15,16 +15,18 @@ const FilterUI = ({entity, query, params, frontendParams}) => {
     const searchPresets = params['_search_presets_'] === undefined ? [] : params['_search_presets_'].split(',');
     const newParams = {};
     searchPresets.forEach(x => newParams[x] = params[x]);
-    newParams['_search_'] = "true";
-    newParams['_search_presets_'] = params['_search_presets_'];
+    // newParams['_search_'] = "true";
+    // newParams['_search_presets_'] = params['_search_presets_'];
     //console.log(newParams);
 
-    const paramsObject = {
-      [ENTITY_NAME_PARAM]: entity,
-      [QUERY_NAME_PARAM]: query || 'All records',
-      [CONTEXT_PARAMS]: newParams
-    };
-    loadTable(paramsObject, frontendParams)
+    // const paramsObject = {
+    //   [ENTITY_NAME_PARAM]: entity,
+    //   [QUERY_NAME_PARAM]: query || 'All records',
+    //   [CONTEXT_PARAMS]: newParams
+    // };
+    // loadTable(paramsObject, frontendParams);
+    const url = be5.url.form(['table', entity, query || 'All records'], newParams);
+    be5.url.open(frontendParams, "#!" + url);
   }
 
   if (Object.keys(filterParams).length > 0) {

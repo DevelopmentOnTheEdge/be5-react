@@ -1,11 +1,11 @@
 import React from 'react';
-import {createStaticValue} from './utils/documentUtils';
+import {createStaticValue, getSelfUrl} from './utils/documentUtils';
 import messages from './core/messages';
 import bus from './core/bus';
 import changeDocument from './core/changeDocument';
 import {getRoute} from './core/registers/routes';
 import {getDefaultRoute} from "./store/selectors/user.selectors";
-import {API_URL_PREFIX} from "./constants";
+import {API_URL_PREFIX, MAIN_DOCUMENT} from "./constants";
 import {hashUrlIsEmpty} from "./utils/utils";
 
 
@@ -76,6 +76,16 @@ const be5 = {
   },
 
   url: {
+
+    open(frontendParams, url) {
+      // (url === "#!" + getDefaultRoute(be5.store.getState())
+      //   && (be5.url.get() === "" || be5.url.get() === "#!"))
+      if (frontendParams.documentName !== MAIN_DOCUMENT || url === be5.url.get()) {
+        be5.url.process(frontendParams.documentName, url);
+      } else {
+        be5.url.set(url);
+      }
+    },
 
     get() {
       return decodeURI(document.location.hash);
