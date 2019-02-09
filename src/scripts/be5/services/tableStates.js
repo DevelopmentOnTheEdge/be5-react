@@ -51,13 +51,14 @@ export function withSavedTableNav(entity, query, params)
 export function withSavedTableFilter(entity, query, params)
 {
   const tableKey = getTableKey(entity, query, params);
-
-  if (getTableFilter(tableKey))
+  let savedParams = getTableFilter(tableKey);
+  if (savedParams !== undefined)
   {
+    savedParams = Object.assign({}, savedParams, getContextParams(params));
     const searchPresetParam = getSearchPresetParam(params);
-    if (searchPresetParam !== null) params[SEARCH_PRESETS_PARAM] = searchPresetParam;
-    params[SEARCH_PARAM] = "true";
-    params = Object.assign(params, getTableFilter(tableKey));
+    if (searchPresetParam !== null) savedParams[SEARCH_PRESETS_PARAM] = searchPresetParam;
+    savedParams[SEARCH_PARAM] = "true";
+    return savedParams;
   }
   return params;
 }

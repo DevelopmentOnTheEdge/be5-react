@@ -20,6 +20,7 @@ import {
   UPDATE_DOCUMENT,
   UPDATE_PARENT_DOCUMENT
 } from "../constants";
+import {clearTableStateByUrl} from "./tableStates";
 
 export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) => {
   const documentName = frontendParams.documentName;
@@ -112,6 +113,7 @@ function redirect(url, frontendParams) {
     window.location.href = url;
   }
   else {
+    clearTableStateByUrl('#!' + url);
     if (frontendParams.documentName === MAIN_DOCUMENT) {
       bus.fire("mainModalClose");
       be5.url.open({documentName: MAIN_DOCUMENT}, '#!' + url);

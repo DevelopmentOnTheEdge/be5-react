@@ -19,14 +19,17 @@ export const getContextParams = (params) => {
 };
 
 export const getFilterParams = (params) => {
+  let searchParams;
   if (params[SEARCH_PARAM] !== "true") {
-    return {};
+    searchParams = {};
+  } else {
+    const searchPresets = params[SEARCH_PRESETS_PARAM] === undefined ? [] : params[SEARCH_PRESETS_PARAM].split(',');
+    searchParams = Object.keys(params)
+      .filter(key => !key.startsWith("_") && !searchPresets.includes(key))
+      .reduce((obj, key) => {obj[key] = params[key]; return obj;}, {});
   }
-
-  const searchPresets = params[SEARCH_PRESETS_PARAM] === undefined ? [] : params[SEARCH_PRESETS_PARAM].split(',');
-  return Object.keys(params)
-    .filter(key => !key.startsWith("_") && !searchPresets.includes(key))
-    .reduce((obj, key) => {obj[key] = params[key]; return obj;}, {});
+  searchParams[SEARCH_PARAM] = "true";
+  return searchParams;
 };
 
 export const getSearchPresetParam = (params) =>
