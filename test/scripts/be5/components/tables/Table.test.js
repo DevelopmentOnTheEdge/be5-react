@@ -63,6 +63,23 @@ test('Table', () => {
   expect(component.toJSON()).toMatchSnapshot();
 });
 
+test('Table with topForm', () => {
+  const json = '{"data":{"attributes":{"category":"users","columns":[{"name":"User","title":"User"}],"layout":{"topForm":"TopFilter"},"length":10,"offset":0,"orderColumn":-1,"orderDir":"asc","page":"All records","parameters":{},"rows":[{"cells":[{"content":"test","options":{}}],"id":"test"},{"cells":[{"content":"Administrator","options":{}}],"id":"Administrator"},{"cells":[{"content":"test2","options":{}}],"id":"test2"}],"selectable":true,"title":"Пользователи","totalNumberOfRows":3},' +
+    '"links":{"self":"table/users/All records"},"type":"table"},"included":[' +
+    '{"attributes":{"bean":{"values":{"user_name":"","_search_presets_":"","_search_":true},"meta":{"/user_name":{"displayName":"Логин","canBeNull":true,"columnSize":"100"},"/_search_presets_":{"displayName":"_search_presets_","hidden":true,"readOnly":true,"canBeNull":true},"/_search_":{"displayName":"_search_","type":"Boolean","hidden":true,"readOnly":true,"canBeNull":true}},"order":["/user_name","/_search_presets_","/_search_"]},' +
+      '"entity":"users","layout":{"properties":"user_name"},"operation":"TopFilter","operationParams":{},"operationResult":{"status":"GENERATE"},"query":"All records","title":"Пользователи: "},' +
+      '"id":"topForm","links":{"self":"form/users/All records/TopFilter"},"type":"form"},' +
+    '{"attributes":[{"clientSide":false,"layout":{"properties":"user_name"},"name":"TopFilter","requiresConfirmation":false,"title":"","visibleWhen":"always"}],' +
+      '"type":"documentOperations"},' +
+    '{"attributes":{"operationParamsInfo":[]},"type":"filterInfo"}],"meta":{"_ts_":"1549734295598"}}';
+  const component = renderer.create(
+    <TestProvider>
+      <Table value={JSON.parse(json)} frontendParams={{documentName: 'test'}} />
+    </TestProvider>
+  );
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
 test('Table on MAIN_DOCUMENT', () => {
   const component = renderer.create(
     <TestProvider>
