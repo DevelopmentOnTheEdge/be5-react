@@ -1,5 +1,6 @@
 import './be5.js';
-import be5init from './be5init.js';
+import {initBe5App, initOnLoad} from './be5init.js';
+import documentState from './services/documentState';
 //import be5styles from './be5styles.js';
 import preconditions from './utils/preconditions.js';
 import {
@@ -60,7 +61,8 @@ import {addFilterParams, getFilterParams} from "./utils/filterUtils";
 export * from './constants.js';
 
 export {
-  be5init,
+  initBe5App, initOnLoad,
+  documentState,
   preconditions,
   arraysEqual, createPageValue, registerPage,
   getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument,

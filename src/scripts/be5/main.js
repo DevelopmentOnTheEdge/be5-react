@@ -4,13 +4,13 @@ import {Provider} from 'react-redux';
 import App from './components/Application';
 import createBaseStore from './store'
 import rootReducer from './store/reducers'
-import be5init from './be5init';
+import {initBe5App} from './be5init';
 import './be5styles';
 
 
 const store = createBaseStore(rootReducer);
 
-be5init.init(store, () => {
+initBe5App(store, () => {
   ReactDOM.render(
     <Provider store={store}>
       <App/>
