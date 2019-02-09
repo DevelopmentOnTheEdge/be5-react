@@ -4,8 +4,7 @@ import classNames from 'classnames';
 import be5 from '../../be5';
 import {getModelByID, getResourceByType, getSelfUrl} from '../../utils/documentUtils';
 import OperationBox from './OperationBox';
-import Document from "../../containers/Document";
-import {registerDocument} from '../../core/registers/documents';
+import {getDocument, registerDocument} from '../../core/registers/documents';
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions} from "../../services/frontendActions";
 import FilterUI from "./FilterUI";
@@ -87,7 +86,7 @@ class Table extends Component {
 
     return (
       <div className={classNames("table-component", this.getTableClass(), data.attributes.layout.classes)}>
-        {this.topForm(topFormJson, hideOperations)}
+        {this.topForm(topFormJson)}
         <TitleTag className="table-component__title">
           {value.data.attributes.title}
           {this.getOperationParamsInfo().length > 0 ? <small>{' '}{this.getOperationParamsInfo()}</small> : null}
@@ -187,8 +186,9 @@ class Table extends Component {
       const layout = topFormJson.data.attributes.layout;
       if (layout.type === undefined) layout.type = 'inlineMiniForm';
       if (layout.bsSize === undefined) layout.bsSize = 'sm';
-      return <Document
-        frontendParams={{documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName}}
+      const FormComponent = getDocument(layout.type);
+      return <FormComponent
+        frontendParams={{documentName: this.props.frontendParams.documentName}}
         value={topFormJson}
       />
     }
