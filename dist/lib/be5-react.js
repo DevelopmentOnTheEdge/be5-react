@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import 'formdata-polyfill';
 import PropTypes from 'prop-types';
 import { Button, Card, CardBody, Collapse, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalFooter, ModalHeader, Nav, NavItem, NavLink, Navbar, NavbarToggler, UncontrolledDropdown, UncontrolledTooltip } from 'reactstrap';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
+import 'formdata-polyfill';
 import SplitPane from 'react-split-pane';
 import Alert from 'react-s-alert';
 import PropertySet, { Property, PropertyInput } from 'beanexplorer-react';
@@ -83,6 +83,11 @@ var ENTITY_NAME_PARAM = "_en_";
 var QUERY_NAME_PARAM = "_qn_";
 var OPERATION_NAME_PARAM = "_on_";
 var CONTEXT_PARAMS = "_params_";
+
+var OFFSET = "_offset_";
+var LIMIT = "_limit_";
+var ORDER_COLUMN = "_orderColumn_";
+var ORDER_DIR = "_orderDir_";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
@@ -335,223 +340,142 @@ var toggleRoles = function toggleRoles(roles) {
   };
 };
 
-var _get = function _get(operationInfo, callback, failure) {
-  var data = Object.assign({}, operationInfo, defineProperty({}, TIMESTAMP_PARAM, new Date().getTime()));
+var getContextParams = function getContextParams(params) {
+  if (params[SEARCH_PARAM] !== "true") {
+    return Object.keys(params).filter(function (key) {
+      return !key.startsWith("_");
+    }).reduce(function (obj, key) {
+      obj[key] = params[key];return obj;
+    }, {});
+  }
 
-  $.ajax({
-    url: be5.net.url('form'),
-    data: data,
-    success: function success(data) {
-      callback(data);
-    },
-    error: function error(xhr, status, _error) {
-      var response = JSON.parse(xhr.responseText);
-      failure(response);
-    }
-  });
+  if (params[SEARCH_PRESETS_PARAM] === undefined) {
+    return {};
+  }
+
+  var searchPresets = params[SEARCH_PRESETS_PARAM] === undefined ? [] : params[SEARCH_PRESETS_PARAM].split(',');
+  return Object.keys(params).filter(function (key) {
+    return !key.startsWith("_") && searchPresets.includes(key);
+  }).reduce(function (obj, key) {
+    obj[key] = params[key];return obj;
+  }, {});
 };
 
-var _post = function _post(action, data, callback, failure) {
-  $.ajax({
-    url: be5.net.url(action),
-    method: 'POST',
-    data: data,
-    cache: false,
-    contentType: false,
-    processData: false,
-    success: function success(data) {
-      callback(data);
-    },
-    error: function error(xhr, status, _error2) {
-      var response = JSON.parse(xhr.responseText);
-      failure(response);
-    }
-  });
-};
-
-var loadOperation = function loadOperation(params, frontendParams) {
-  _send('form', params, frontendParams);
-};
-
-var submitOperation = function submitOperation(params, frontendParams) {
-  _send('form/apply', params, frontendParams);
-};
-
-var _send = function _send(action, data, frontendParams) {
-  _post(action, data, function (json) {
-    _performOperationResult(json, frontendParams, data);
-  }, function (json) {
-    _performOperationResult(json, frontendParams, data);
-  });
-};
-
-var openOperationByUrl = function openOperationByUrl(url, frontendParams) {
-  _send('form', getOperationInfoFromUrl(url), frontendParams);
-};
-
-var openOperationByUrlWithValues = function openOperationByUrlWithValues(url, values, frontendParams) {
-  _send('form', getOperationInfoFromUrl(url, values), frontendParams);
-};
-
-var fetchOperationByUrl = function fetchOperationByUrl(url, callback, failure) {
-  _post('form', getOperationInfoFromUrl(url), callback, failure);
-};
-
-var loadForm = function loadForm(data, frontendParams) {
-  _get(data, function (json) {
-    _performOperationResult(json, frontendParams, data);
-  }, function (json) {
-    _performOperationResult(json, frontendParams, data);
-  });
-};
-
-var _performOperationResult = function _performOperationResult(json, frontendParams, data) {
-  var documentName = frontendParams.documentName;
-
-  Preconditions.passed(documentName);
-
-  if (json.data !== undefined) {
-    switch (json.data.type) {
-      case 'form':
-        _performForm(json, frontendParams);
-        return;
-      case 'operationResult':
-        var attributes = json.data.attributes;
-        var result = attributes.operationResult;
-
-        if (result.status === 'ERROR') {
-          bus.fire("alert", { msg: result.message, type: 'error' });
-          return;
-        }
-
-        if (frontendParams.onSuccess) {
-          frontendParams.onSuccess(json, data);
-        }
-
-        switch (result.status) {
-          case 'REDIRECTED':
-            bus.fire("alert", { msg: result.message || be5.messages.successfullyCompleted, type: 'success' });
-            executeFrontendActions(new FrontendAction(REDIRECT, result.details), frontendParams);
-            return;
-          case 'FINISHED':
-            var formComponentName = attributes.layout && attributes.layout.type;
-
-            if (result.details === undefined) {
-              if (isModal(formComponentName, documentName)) {
-                bus.fire("alert", { msg: result.message || be5.messages.successfullyCompleted, type: 'success' });
-                bus.fire("mainModalClose");
-              } else {
-                changeDocument(documentName, { value: json, frontendParams: frontendParams });
-              }
-
-              if (frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
-                executeFrontendActions(new FrontendAction(REFRESH_PARENT_DOCUMENT), frontendParams);
-              }
-            } else {
-              if (result.message !== undefined) {
-                if (isModal(formComponentName, documentName)) {
-                  bus.fire("alert", { msg: result.message, type: 'success' });
-                } else {
-                  changeDocument(documentName, { value: json, frontendParams: frontendParams });
-                }
-              }
-              executeFrontendActions(result.details, frontendParams);
-            }
-            return;
-          default:
-            bus.fire("alert", {
-              msg: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + result.status),
-              type: 'error'
-            });
-        }
-        return;
-      default:
-        bus.fire("alert", {
-          msg: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type),
-          type: 'error'
-        });
-    }
+var getFilterParams = function getFilterParams(params) {
+  var searchParams = void 0;
+  if (params[SEARCH_PARAM] !== "true") {
+    searchParams = {};
   } else {
-    if (json.errors !== undefined) {
-      var error = json.errors[0];
-      bus.fire("alert", { msg: error.status + " " + error.title, type: 'error' });
+    var searchPresets = params[SEARCH_PRESETS_PARAM] === undefined ? [] : params[SEARCH_PRESETS_PARAM].split(',');
+    searchParams = Object.keys(params).filter(function (key) {
+      return !key.startsWith("_") && !searchPresets.includes(key);
+    }).reduce(function (obj, key) {
+      obj[key] = params[key];return obj;
+    }, {});
+  }
+  searchParams[SEARCH_PARAM] = "true";
+  return searchParams;
+};
+
+var getSearchPresetParam = function getSearchPresetParam(params) {
+  return searchPresetParamToString(getSearchPresetNames(params));
+};
+
+var searchPresetParamToString = function searchPresetParamToString(searchPresets) {
+  return searchPresets.length > 0 ? searchPresets.join(",") : null;
+};
+
+var getSearchPresetNames = function getSearchPresetNames(params) {
+  if (params[SEARCH_PARAM] === undefined) {
+    return Object.keys(params);
+  } else {
+    if (params[SEARCH_PRESETS_PARAM] !== undefined) {
+      return params[SEARCH_PRESETS_PARAM].split(",");
     } else {
-      bus.fire("alert", { msg: json, type: 'error' });
+      return [];
     }
-    changeDocument(documentName, { value: json, frontendParams: frontendParams });
   }
 };
 
-var _performForm = function _performForm(json, frontendParams) {
-  var documentName = frontendParams.documentName;
-  var operationResult = json.data.attributes.operationResult;
-
-  if (operationResult.status === 'ERROR') {
-    bus.fire("alert", { msg: operationResult.message, type: 'error' });
-  }
-
-  var formComponentName = json.data.attributes.layout.type;
-
-  if (isModal(formComponentName, documentName)) {
-    bus.fire("mainModalOpen");
-    changeDocument(MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
-  } else {
-    if (documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
-    changeDocument(documentName, { value: json, frontendParams: frontendParams });
-  }
-};
-
-var isModal = function isModal(formComponentName, documentName) {
-  return formComponentName === 'modalForm' || documentName === MAIN_MODAL_DOCUMENT;
-};
-
-var getOperationInfoFromUrl = function getOperationInfoFromUrl(url) {
-  var _operationInfo;
-
-  var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
+var addFilterParams = function addFilterParams(url, params) {
   var attr = be5.url.parse(url);
-  var operationInfo = (_operationInfo = {}, defineProperty(_operationInfo, ENTITY_NAME_PARAM, attr.positional[1]), defineProperty(_operationInfo, QUERY_NAME_PARAM, attr.positional[2]), defineProperty(_operationInfo, OPERATION_NAME_PARAM, attr.positional[3]), defineProperty(_operationInfo, CONTEXT_PARAMS, JSON.stringify(attr.named)), _operationInfo);
-  return getOperationInfo(operationInfo, values);
-};
-
-var getOperationInfo = function getOperationInfo(operationInfo) {
-  var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-  var formData = new FormData();
-
-  var _loop = function _loop(k) {
-    var value = values[k];
-    if (Array.isArray(value)) {
-      value.forEach(function (e) {
-        formData.append(k, e);
-      });
-    } else if (value instanceof FileList) {
-      for (var i = 0; i < value.length; i++) {
-        formData.append(k, value[i]);
-      }
-    } else {
-      formData.append(k, value);
-    }
-  };
-
-  for (var k in values) {
-    _loop(k);
+  attr.named['_search_'] = 'true';
+  attr.named['_search_presets_'] = '';
+  for (var key in params) {
+    attr.named[key] = params[key];
   }
-  formData.append(ENTITY_NAME_PARAM, operationInfo[ENTITY_NAME_PARAM]);
-  formData.append(QUERY_NAME_PARAM, operationInfo[QUERY_NAME_PARAM]);
-  formData.append(OPERATION_NAME_PARAM, operationInfo[OPERATION_NAME_PARAM]);
-  formData.append(CONTEXT_PARAMS, operationInfo[CONTEXT_PARAMS]);
-  formData.append(TIMESTAMP_PARAM, new Date().getTime());
-  return formData;
+  return be5.url.form(attr.positional, attr.named);
 };
 
-var forms = {
-  load: loadOperation,
+var navs = {};
+var filters = {};
 
-  apply: submitOperation
+function setTableNav(name, value) {
+  navs[name] = value;
+}
 
-};
+function getTableNav(name) {
+  return navs[name];
+}
+
+function setTableFilter(entity, query, parameters) {
+  var tableKey = getTableKey(entity, query, parameters);
+  filters[tableKey] = getFilterParams(parameters);
+}
+
+function getTableFilter(name) {
+  return filters[name];
+}
+
+function getTableStates() {
+  return [navs, filters];
+}
+
+var positionsParamNames = [ORDER_COLUMN, ORDER_DIR, OFFSET, LIMIT];
+
+function withSavedTableNav(entity, query, params) {
+  var queryKey = getTableKey(entity, query, params);
+  if (params[ORDER_COLUMN] || params[ORDER_DIR] || params[OFFSET] || params[LIMIT]) {
+    var newPos = {};
+    positionsParamNames.forEach(function (name) {
+      if (params[name]) newPos[name] = params[name];
+    });
+    setTableNav(queryKey, newPos);
+  } else {
+    var savedPosition = getTableNav(queryKey);
+    if (savedPosition !== undefined) params = Object.assign({}, params, savedPosition);
+  }
+  return params;
+}
+
+function withSavedTableFilter(entity, query, params) {
+  var tableKey = getTableKey(entity, query, params);
+  var savedParams = getTableFilter(tableKey);
+  if (savedParams !== undefined) {
+    savedParams = Object.assign({}, savedParams, getContextParams(params));
+    var searchPresetParam = getSearchPresetParam(params);
+    if (searchPresetParam !== null) savedParams[SEARCH_PRESETS_PARAM] = searchPresetParam;
+    savedParams[SEARCH_PARAM] = "true";
+    return savedParams;
+  }
+  return params;
+}
+
+function getTableKey(entity, query, parameters) {
+  return be5.url.form([entity, query], getContextParams(parameters));
+}
+
+function clearTableStateByUrl(url) {
+  var attr = be5.url.parse(url);
+  if (attr.positional[0] !== '#!table') return;
+  clearTableState(attr.positional[1], attr.positional[2], attr.named);
+}
+
+function clearTableState(entity, query, params) {
+  var tableKey = getTableKey(entity, query, params);
+  delete navs[tableKey];
+  delete filters[tableKey];
+}
 
 var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneObject, frontendParams) {
   var documentName = frontendParams.documentName;
@@ -643,15 +567,12 @@ function redirect(url, frontendParams) {
   if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://")) {
     window.location.href = url;
   } else {
+    clearTableStateByUrl('#!' + url);
     if (frontendParams.documentName === MAIN_DOCUMENT) {
       bus.fire("mainModalClose");
-      be5.url.process(MAIN_DOCUMENT, '#!' + url);
+      be5.url.open({ documentName: MAIN_DOCUMENT }, '#!' + url);
     } else {
-      if (be5.url.parse(url).positional[0] === 'form') {
-        openOperationByUrl(url, frontendParams);
-      } else {
-        be5.url.process(frontendParams.documentName, '#!' + url);
-      }
+      be5.url.process(frontendParams, '#!' + url);
     }
   }
 }
@@ -765,11 +686,9 @@ var processHashUrlForDocument = function processHashUrlForDocument(e, documentNa
     if (!url.startsWith("#!")) url = "#!" + url;
   }
 
-  if (url.startsWith("#!table/")) {
-    url = url + "/_cleanNav_=true";
-  }
-  //console.log(url, documentName);
-  be5.url.process(documentName || MAIN_DOCUMENT, url);
+  clearTableStateByUrl(url);
+
+  be5.url.open({ documentName: documentName || MAIN_DOCUMENT }, url);
 };
 
 var loadDocumentByUrl = function loadDocumentByUrl(url, frontendParams) {
@@ -812,149 +731,149 @@ var getDefaultCancelAction = function getDefaultCancelAction() {
 };
 
 var messages = {
-  en: {
-    errorCannotConnect: 'Cannot connect to server',
-    errorServerQueryException: 'Error during server query: $message',
-    errorInvalidErrorResponse: 'Server returned unknown error',
-    errorNoData: 'Error communicating with server: no data received',
-    errorUnknownRoute: 'Unknown route: $action',
-    errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
+    en: {
+        errorCannotConnect: 'Cannot connect to server',
+        errorServerQueryException: 'Error during server query: $message',
+        errorInvalidErrorResponse: 'Server returned unknown error',
+        errorNoData: 'Error communicating with server: no data received',
+        errorUnknownRoute: 'Unknown route: $action',
+        errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
 
-    welcome: 'Hello!',
-    loading: 'Page is loading...',
-    settings: 'Settings',
-    roles: 'Roles',
-    back: 'Back',
-    error: 'Error:',
-    cancel: 'Cancel',
-    close: 'Close',
-    login: 'Login',
-    logout: 'Logout',
-    reload: 'reload',
-    All: 'All',
-    successfullyCompleted: 'Successfully completed.',
+        welcome: 'Hello!',
+        loading: 'Page is loading...',
+        settings: 'Settings',
+        roles: 'Roles',
+        back: 'Back',
+        error: 'Error:',
+        cancel: 'Cancel',
+        close: 'Close',
+        login: 'Login',
+        logout: 'Logout',
+        reload: 'reload',
+        All: 'All',
+        successfullyCompleted: 'Successfully completed.',
 
-    filter: 'Filter...',
-    entries: 'entries',
+        filter: 'Filter...',
+        entries: 'entries',
 
-    selectRoles: 'Select',
-    allRoles: 'all',
-    clearRoles: 'clear',
+        selectRoles: 'Select',
+        allRoles: 'all',
+        clearRoles: 'clear',
 
-    Submit: 'Submit',
-    submitted: 'In progress...',
+        Submit: 'Submit',
+        submitted: 'In progress...',
 
-    formComponentNotFound: 'Document component not found: ',
-    tableComponentNotFound: 'Table component not found: ',
-    componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
-    tableBoxForTypeNotRegistered: 'TableBox for type "$type" is not registered.',
+        formComponentNotFound: 'Document component not found: ',
+        tableComponentNotFound: 'Table component not found: ',
+        componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
+        tableBoxForTypeNotRegistered: 'TableBox for type "$type" is not registered.',
 
-    helpInfo: "Help",
-    details: "Details",
-    goToHomepage: "Go to homepage",
+        helpInfo: "Help",
+        details: "Details",
+        goToHomepage: "Go to homepage",
 
-    NotFound: "Not Found",
+        NotFound: "Not Found",
 
-    table: {
-      noRecordsOnThePage: 'No records on page {0}',
-      emptyTable: 'Nothing found',
-      previousPage: 'Previous',
-      nextPage: 'Next',
-      clearFilter: 'Clear filter',
-      tableFor: 'for'
-    }
-  },
-
-  ru: {
-    errorCannotConnect: 'Не могу подключиться к серверу',
-    errorServerQueryException: 'Ошибка сервера: $message',
-    errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
-    errorNoData: 'Ошибка связи с сервером: ответ не получен',
-    errorUnknownRoute: 'Неизвестный путь: $action',
-    errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
-
-    welcome: 'Добро пожаловать!',
-    loading: 'Загрузка...',
-    settings: 'Настройки',
-    roles: 'Роли',
-    back: 'Назад',
-    error: 'Ошибка:',
-    cancel: 'Отмена',
-    close: 'Закрыть',
-    login: 'Вход',
-    logout: 'Выход',
-    reload: 'Перезагрузить',
-    All: 'Все',
-    successfullyCompleted: 'Успешно выполнено.',
-
-    filter: 'Фильтр...',
-    entries: 'записей',
-
-    selectRoles: 'Выбрать',
-    allRoles: 'Всё',
-    clearRoles: 'Ничего',
-
-    Submit: 'Выполнить',
-    submitted: 'Выполняется...',
-
-    property: {
-      locale: 'ru',
-      clearAllText: 'Очистить всё',
-      clearValueText: 'Очистить',
-      noResultsText: 'Нет результатов',
-      searchPromptText: 'Начните вводить для поиска',
-      placeholder: 'Выберите...',
-      loadingPlaceholder: 'Загрузка...',
-      stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
-      numberTypeMismatch: 'Введите число.',
-      simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
-      rangeOverflow: 'Значение должно быть меньше или равно {0}.',
-      rangeUnderflow: 'Значение должно быть больше или равно {0}.',
-      datePatternError: 'Введите дату в формате дд.мм.гггг',
-      timestampPatternError: 'Введите дату и время в формате дд.мм.гггг чч:мм'
+        table: {
+            noRecordsOnThePage: 'No records on page {0}',
+            emptyTable: 'Nothing found',
+            previousPage: 'Previous',
+            nextPage: 'Next',
+            clearFilter: 'Clear filter',
+            tableFor: 'for'
+        }
     },
 
-    formComponentNotFound: 'Компонент формы не найден: ',
-    tableComponentNotFound: 'Компонент таблицы не найден: ',
-    componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
-    tableBoxForTypeNotRegistered: 'TableBox для типа "$type" не зарегистрирован.',
+    ru: {
+        errorCannotConnect: 'Не могу подключиться к серверу',
+        errorServerQueryException: 'Ошибка сервера: $message',
+        errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
+        errorNoData: 'Ошибка связи с сервером: ответ не получен',
+        errorUnknownRoute: 'Неизвестный путь: $action',
+        errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
 
-    helpInfo: "Справка",
-    details: "Подробнее",
-    goToHomepage: "Перейти на главную страницу",
+        welcome: 'Добро пожаловать!',
+        loading: 'Загрузка...',
+        settings: 'Настройки',
+        roles: 'Роли',
+        back: 'Назад',
+        error: 'Ошибка:',
+        cancel: 'Отмена',
+        close: 'Закрыть',
+        login: 'Вход',
+        logout: 'Выход',
+        reload: 'Перезагрузить',
+        All: 'Все',
+        successfullyCompleted: 'Успешно выполнено.',
 
-    NotFound: "Не найдено",
-    table: {
-      noRecordsOnThePage: 'Нет записей на {0} странице',
-      emptyTable: 'Нет данных',
-      previousPage: 'Предыдущая',
-      nextPage: 'Следующая',
-      clearFilter: 'Очистить фильтр',
-      tableFor: 'для'
-    },
-    dataTables: {
-      "processing": "Подождите...",
-      "search": "Поиск:",
-      "lengthMenu": "Показать _MENU_ записей",
-      "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
-      "infoEmpty": "Записи с 0 до 0 из 0 записей",
-      "infoFiltered": "(отфильтровано из _MAX_ записей)",
-      "infoPostFix": "",
-      "loadingRecords": "Загрузка записей...",
-      "zeroRecords": "Записи отсутствуют.",
-      "emptyTable": "В таблице отсутствуют данные",
-      "paginate": {
-        "first": "Первая",
-        "previous": "Предыдущая",
-        "next": "Следующая",
-        "last": "Последняя"
-      },
-      "aria": {
-        "sortAscending": ": активировать для сортировки столбца по возрастанию",
-        "sortDescending": ": активировать для сортировки столбца по убыванию"
-      }
+        filter: 'Фильтр...',
+        entries: 'записей',
+
+        selectRoles: 'Выбрать',
+        allRoles: 'Всё',
+        clearRoles: 'Ничего',
+
+        Submit: 'Выполнить',
+        submitted: 'Выполняется...',
+
+        property: {
+            locale: 'ru',
+            clearAllText: 'Очистить всё',
+            clearValueText: 'Очистить',
+            noResultsText: 'Нет результатов',
+            searchPromptText: 'Начните вводить для поиска',
+            placeholder: 'Выберите...',
+            loadingPlaceholder: 'Загрузка...',
+            stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
+            numberTypeMismatch: 'Введите число.',
+            simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
+            rangeOverflow: 'Значение должно быть меньше или равно {0}.',
+            rangeUnderflow: 'Значение должно быть больше или равно {0}.',
+            datePatternError: 'Введите дату в формате дд.мм.гггг',
+            timestampPatternError: 'Введите дату и время в формате дд.мм.гггг чч:мм'
+        },
+
+        formComponentNotFound: 'Компонент формы не найден: ',
+        tableComponentNotFound: 'Компонент таблицы не найден: ',
+        componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
+        tableBoxForTypeNotRegistered: 'TableBox для типа "$type" не зарегистрирован.',
+
+        helpInfo: "Справка",
+        details: "Подробнее",
+        goToHomepage: "Перейти на главную страницу",
+
+        NotFound: "Не найдено",
+        table: {
+            noRecordsOnThePage: 'Нет записей на {0} странице',
+            emptyTable: 'Нет данных',
+            previousPage: 'Предыдущая',
+            nextPage: 'Следующая',
+            clearFilter: 'Очистить фильтр',
+            tableFor: 'для'
+        },
+        dataTables: {
+            "processing": "Подождите...",
+            "search": "Поиск:",
+            "lengthMenu": "Показать _MENU_ записей",
+            "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+            "infoEmpty": "Записи с 0 до 0 из 0 записей",
+            "infoFiltered": "(отфильтровано из _MAX_ записей)",
+            "infoPostFix": "",
+            "loadingRecords": "Загрузка записей...",
+            "zeroRecords": "Записи отсутствуют.",
+            "emptyTable": "В таблице отсутствуют данные",
+            "paginate": {
+                "first": "Первая",
+                "previous": "Предыдущая",
+                "next": "Следующая",
+                "last": "Последняя"
+            },
+            "aria": {
+                "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                "sortDescending": ": активировать для сортировки столбца по убыванию"
+            }
+        }
     }
-  }
 };
 
 var routes = {};
@@ -1120,6 +1039,15 @@ var be5 = {
   },
 
   url: {
+    open: function open(frontendParams, url) {
+      // (url === "#!" + getDefaultRoute(be5.store.getState())
+      //   && (be5.url.get() === "" || be5.url.get() === "#!"))
+      if (frontendParams.documentName !== MAIN_DOCUMENT || url === be5.url.get()) {
+        be5.url.process(frontendParams, url);
+      } else {
+        be5.url.set(url);
+      }
+    },
     get: function get$$1() {
       return decodeURI(document.location.hash);
     },
@@ -1176,7 +1104,7 @@ var be5 = {
 
       return { positional: positional, named: _.object(named) };
     },
-    process: function process(documentName, url) {
+    process: function process(frontendParams, url) {
       if (url === '' || url === '#' || url === '#!') {
         url = '#!' + getDefaultRoute(be5.getStoreState());
       }
@@ -1192,7 +1120,7 @@ var be5 = {
       //       '$action', urlParts[0]));
       //   return;
       // }
-      var positional = [documentName];
+      var positional = [frontendParams];
       var hashParams = {};
       var hasHashParam = false;
       for (var i = 1; i < urlParts.length; i++) {
@@ -1222,7 +1150,7 @@ var be5 = {
         action.apply(be5, positional);
       } else {
         var msg = be5.messages.errorUnknownRoute.replace('$action', actionName);
-        changeDocument(documentName, { value: createStaticValue(msg, null, { self: url }) });
+        changeDocument(frontendParams.documentName, { value: createStaticValue(msg, null, { self: url }) });
         console.info(msg);
       }
     }
@@ -1515,6 +1443,215 @@ UserControl.propTypes = {
   size: PropTypes.string,
   className: PropTypes.string,
   user: PropTypes.shape({})
+};
+
+var _get = function _get(operationInfo, callback, failure) {
+  var data = Object.assign({}, operationInfo, defineProperty({}, TIMESTAMP_PARAM, new Date().getTime()));
+
+  $.ajax({
+    url: be5.net.url('form'),
+    data: data,
+    success: function success(data) {
+      callback(data);
+    },
+    error: function error(xhr, status, _error) {
+      var response = JSON.parse(xhr.responseText);
+      failure(response);
+    }
+  });
+};
+
+var _post = function _post(action, data, callback, failure) {
+  $.ajax({
+    url: be5.net.url(action),
+    method: 'POST',
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    success: function success(data) {
+      callback(data);
+    },
+    error: function error(xhr, status, _error2) {
+      var response = JSON.parse(xhr.responseText);
+      failure(response);
+    }
+  });
+};
+
+var loadOperation = function loadOperation(params, frontendParams) {
+  _send('form', params, frontendParams);
+};
+
+var submitOperation = function submitOperation(params, frontendParams) {
+  _send('form/apply', params, frontendParams);
+};
+
+var _send = function _send(action, data, frontendParams) {
+  _post(action, data, function (json) {
+    _performOperationResult(json, frontendParams, data);
+  }, function (json) {
+    _performOperationResult(json, frontendParams, data);
+  });
+};
+
+var openOperationByUrl = function openOperationByUrl(url, frontendParams) {
+  _send('form', getOperationInfoFromUrl(url), frontendParams);
+};
+
+var openOperationByUrlWithValues = function openOperationByUrlWithValues(url, values, frontendParams) {
+  _send('form', getOperationInfoFromUrl(url, values), frontendParams);
+};
+
+var fetchOperationByUrl = function fetchOperationByUrl(url, callback, failure) {
+  _post('form', getOperationInfoFromUrl(url), callback, failure);
+};
+
+var loadForm = function loadForm(data, frontendParams) {
+  _get(data, function (json) {
+    _performOperationResult(json, frontendParams, data);
+  }, function (json) {
+    _performOperationResult(json, frontendParams, data);
+  });
+};
+
+var _performOperationResult = function _performOperationResult(json, frontendParams, data) {
+  var documentName = frontendParams.documentName;
+
+  Preconditions.passed(documentName);
+
+  if (json.data !== undefined) {
+    switch (json.data.type) {
+      case 'form':
+        _performForm(json, frontendParams);
+        return;
+      case 'operationResult':
+        var attributes = json.data.attributes;
+        var result = attributes.operationResult;
+
+        if (result.status === 'ERROR') {
+          bus.fire("alert", { msg: result.message, type: 'error' });
+          return;
+        }
+
+        if (frontendParams.onSuccess) {
+          frontendParams.onSuccess(json, data);
+        }
+
+        switch (result.status) {
+          case 'REDIRECTED':
+            executeFrontendActions(new FrontendAction(REDIRECT, result.details), frontendParams);
+            return;
+          case 'FINISHED':
+            if (result.details === undefined) {
+              if (documentName === MAIN_MODAL_DOCUMENT) {
+                bus.fire("alert", { msg: result.message || be5.messages.successfullyCompleted, type: 'success' });
+                bus.fire("mainModalClose");
+              } else {
+                changeDocument(documentName, { value: json, frontendParams: frontendParams });
+              }
+
+              if (frontendParams.parentDocumentName !== undefined && frontendParams.parentDocumentName !== frontendParams.documentName) {
+                executeFrontendActions(new FrontendAction(REFRESH_PARENT_DOCUMENT), frontendParams);
+              }
+            } else {
+              if (result.message !== undefined) {
+                if (documentName === MAIN_MODAL_DOCUMENT) {
+                  bus.fire("alert", { msg: result.message, type: 'success' });
+                } else {
+                  changeDocument(documentName, { value: json, frontendParams: frontendParams });
+                }
+              }
+              executeFrontendActions(result.details, frontendParams);
+            }
+            return;
+          default:
+            bus.fire("alert", {
+              msg: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + result.status),
+              type: 'error'
+            });
+        }
+        return;
+      default:
+        bus.fire("alert", {
+          msg: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type),
+          type: 'error'
+        });
+    }
+  } else {
+    if (json.errors !== undefined) {
+      var error = json.errors[0];
+      bus.fire("alert", { msg: error.status + " " + error.title, type: 'error' });
+    } else {
+      bus.fire("alert", { msg: json, type: 'error' });
+    }
+    changeDocument(documentName, { value: json, frontendParams: frontendParams });
+  }
+};
+
+var _performForm = function _performForm(json, frontendParams) {
+  var documentName = frontendParams.documentName;
+  var operationResult = json.data.attributes.operationResult;
+
+  if (operationResult.status === 'ERROR') {
+    bus.fire("alert", { msg: operationResult.message, type: 'error' });
+  }
+
+  if (documentName === MAIN_MODAL_DOCUMENT) {
+    bus.fire("mainModalOpen");
+    changeDocument(MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
+  } else {
+    if (documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
+    changeDocument(documentName, { value: json, frontendParams: frontendParams });
+  }
+};
+
+var getOperationInfoFromUrl = function getOperationInfoFromUrl(url) {
+  var _operationInfo;
+
+  var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  var attr = be5.url.parse(url);
+  var operationInfo = (_operationInfo = {}, defineProperty(_operationInfo, ENTITY_NAME_PARAM, attr.positional[1]), defineProperty(_operationInfo, QUERY_NAME_PARAM, attr.positional[2]), defineProperty(_operationInfo, OPERATION_NAME_PARAM, attr.positional[3]), defineProperty(_operationInfo, CONTEXT_PARAMS, JSON.stringify(attr.named)), _operationInfo);
+  return getOperationInfo(operationInfo, values);
+};
+
+var getOperationInfo = function getOperationInfo(operationInfo) {
+  var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  var formData = new FormData();
+
+  var _loop = function _loop(k) {
+    var value = values[k];
+    if (Array.isArray(value)) {
+      value.forEach(function (e) {
+        formData.append(k, e);
+      });
+    } else if (value instanceof FileList) {
+      for (var i = 0; i < value.length; i++) {
+        formData.append(k, value[i]);
+      }
+    } else {
+      formData.append(k, value);
+    }
+  };
+
+  for (var k in values) {
+    _loop(k);
+  }
+  formData.append(ENTITY_NAME_PARAM, operationInfo[ENTITY_NAME_PARAM]);
+  formData.append(QUERY_NAME_PARAM, operationInfo[QUERY_NAME_PARAM]);
+  formData.append(OPERATION_NAME_PARAM, operationInfo[OPERATION_NAME_PARAM]);
+  formData.append(CONTEXT_PARAMS, operationInfo[CONTEXT_PARAMS]);
+  formData.append(TIMESTAMP_PARAM, new Date().getTime());
+  return formData;
+};
+
+var forms = {
+  load: loadOperation,
+
+  apply: submitOperation
+
 };
 
 var openReLoginForm = function openReLoginForm() {
@@ -2011,26 +2148,6 @@ var SideBar = function SideBar() {
   );
 };
 
-var states = [];
-
-function set$1(name, value) {
-  states[name] = value;
-}
-
-function get$1(name) {
-  return states[name];
-}
-
-function getAll() {
-  return states;
-}
-
-var documentState = {
-  set: set$1,
-  get: get$1,
-  getAll: getAll
-};
-
 var StaticPage = function (_React$Component) {
   inherits(StaticPage, _React$Component);
 
@@ -2114,9 +2231,6 @@ var Document$1 = function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      documentState.set(this.props.frontendParams.documentName, this.state);
-      this.updateLocationHashIfNeeded();
-
       bus.replaceListeners(this.props.frontendParams.documentName, function (data) {
         if (_this2.state.value && _this2.state.value.meta && !Number.isInteger(Number.parseInt(_this2.state.value.meta._ts_))) {
           console.error("meta._ts_ mast be string of Integer " + _this2.state.value.meta._ts_);
@@ -2132,35 +2246,6 @@ var Document$1 = function (_React$Component) {
       bus.replaceListeners(this.props.frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX, function () {
         _this2.refresh();
       });
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      documentState.set(this.props.frontendParams.documentName, this.state);
-      this.updateLocationHashIfNeeded();
-    }
-  }, {
-    key: 'updateLocationHashIfNeeded',
-    value: function updateLocationHashIfNeeded() {
-      if (this.props.frontendParams.documentName === MAIN_DOCUMENT) {
-        var value = this.state.value;
-        var self = void 0;
-        if (value === null || !value.data && !value.errors) return;
-        if (value.data !== undefined) {
-          self = value.data.links.self;
-        } else {
-          self = value.errors[0].links.self;
-        }
-
-        if (be5.url.get() !== '#!' + self) {
-          //console.log(be5.url.get(), self);
-          if (self === defaultRoute()) {
-            if (be5.url.get() !== "") be5.url.set("");
-          } else {
-            be5.url.set(self);
-          }
-        }
-      }
     }
   }, {
     key: 'componentWillUnmount',
@@ -2272,7 +2357,7 @@ var Document$1 = function (_React$Component) {
   }, {
     key: 'refresh',
     value: function refresh() {
-      be5.url.process(this.props.frontendParams.documentName, getSelfUrl(this.state.value));
+      be5.url.process(this.props.frontendParams, getSelfUrl(this.state.value));
     }
   }, {
     key: 'getComponentFrontendParams',
@@ -2285,10 +2370,6 @@ var Document$1 = function (_React$Component) {
 
 function hasDevRole() {
   return be5.store && getCurrentRoles(be5.store.getState()).indexOf(ROLE_SYSTEM_DEVELOPER) !== -1;
-}
-
-function defaultRoute() {
-  return be5.store ? getDefaultRoute(be5.store.getState()) : undefined;
 }
 
 Document$1.propTypes = {
@@ -2622,14 +2703,14 @@ var HelpInfo = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       if (this.props.value) {
-        be5.url.process(this.props.documentName, "#!" + this.props.value);
+        be5.url.process({ documentName: this.props.documentName }, "#!" + this.props.value);
       }
     }
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       if (this.props.value) {
-        be5.url.process(this.props.documentName, "#!" + this.props.value);
+        be5.url.process({ documentName: this.props.documentName }, "#!" + this.props.value);
       }
     }
   }, {
@@ -3639,6 +3720,8 @@ var InlineMiniForm = function (_Form) {
   createClass(InlineMiniForm, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var attributes = this.props.value.data.attributes;
 
       var commonProps = {
@@ -3652,8 +3735,8 @@ var InlineMiniForm = function (_Form) {
         className: 'mr-sm-2'
       };
 
-      var properties = attributes.bean.order.map(function (p) {
-        return React.createElement(Property, _extends({ key: p, path: p }, commonProps, { value: JsonPointer.get(attributes.bean.values, path) }));
+      var properties = attributes.bean.order.map(function (path) {
+        return React.createElement(Property, _extends({ key: path, path: path }, commonProps, { value: JsonPointer.get(_this2.state.values, path) }));
       });
 
       var baseClasses = attributes.layout.baseClasses || 'form-inline-mini';
@@ -3960,7 +4043,8 @@ var loadTableByUrl = function loadTableByUrl(url, frontendParams) {
 };
 
 var fetchTableByUrl = function fetchTableByUrl(url, callback, failure) {
-  getTable(getTableParams(url + "/_cleanNav_=true"), callback, failure);
+  clearTableStateByUrl(url);
+  getTable(getTableParams(url), callback, failure);
 };
 
 var getTableParams = function getTableParams(url) {
@@ -3972,6 +4056,7 @@ var getTableParams = function getTableParams(url) {
 };
 
 var getTable = function getTable(params, callback, failure) {
+  //console.log('get', params);
   be5.net.request('table', getRequestParams(params), function (data) {
     return callback(data);
   }, function (data) {
@@ -4002,10 +4087,15 @@ var _performTable = function _performTable(json, frontendParams) {
 var getRequestParams = function getRequestParams(params) {
   var _ref2;
 
-  Preconditions.passed(params[ENTITY_NAME_PARAM]);
-  Preconditions.passed(params[QUERY_NAME_PARAM]);
+  var entity = params[ENTITY_NAME_PARAM];
+  var query = params[QUERY_NAME_PARAM];
+  Preconditions.passed(entity);
+  Preconditions.passed(query);
 
-  return _ref2 = {}, defineProperty(_ref2, ENTITY_NAME_PARAM, params[ENTITY_NAME_PARAM]), defineProperty(_ref2, QUERY_NAME_PARAM, params[QUERY_NAME_PARAM]), defineProperty(_ref2, CONTEXT_PARAMS, be5.net.paramString(params[CONTEXT_PARAMS])), defineProperty(_ref2, TIMESTAMP_PARAM, new Date().getTime()), _ref2;
+  var finalParams = withSavedTableFilter(entity, query, params[CONTEXT_PARAMS]);
+  finalParams = withSavedTableNav(entity, query, finalParams);
+
+  return _ref2 = {}, defineProperty(_ref2, ENTITY_NAME_PARAM, entity), defineProperty(_ref2, QUERY_NAME_PARAM, query), defineProperty(_ref2, CONTEXT_PARAMS, be5.net.paramString(finalParams)), defineProperty(_ref2, TIMESTAMP_PARAM, new Date().getTime()), _ref2;
 };
 
 var jQueryFormatCell = function jQueryFormatCell(data, options, isColumn) {
@@ -4052,32 +4142,6 @@ var jQueryFormatCell = function jQueryFormatCell(data, options, isColumn) {
   return data === undefined || data === null ? '' : data;
 };
 
-var getFilterParams = function getFilterParams(params) {
-  if (params[SEARCH_PARAM] !== "true") {
-    return {};
-  }
-
-  var searchPresets = params[SEARCH_PRESETS_PARAM] === undefined ? [] : params[SEARCH_PRESETS_PARAM].split(',');
-  return Object.keys(params).filter(function (key) {
-    return !key.startsWith("_");
-  }).filter(function (key) {
-    return !searchPresets.includes(key);
-  }).reduce(function (obj, key) {
-    obj[key] = params[key];
-    return obj;
-  }, {});
-};
-
-var addFilterParams = function addFilterParams(url, params) {
-  var attr = be5.url.parse(url);
-  attr.named['_search_'] = 'true';
-  attr.named['_search_presets_'] = '';
-  for (var key in params) {
-    attr.named[key] = params[key];
-  }
-  return be5.url.form(attr.positional, attr.named);
-};
-
 var propTypes$4 = {};
 
 var FilterUI = function FilterUI(_ref) {
@@ -4097,15 +4161,16 @@ var FilterUI = function FilterUI(_ref) {
     searchPresets.forEach(function (x) {
       return newParams[x] = params[x];
     });
-    newParams['_search_'] = "true";
-    newParams['_search_presets_'] = params['_search_presets_'];
+    // newParams['_search_'] = "true";
+    // newParams['_search_presets_'] = params['_search_presets_'];
     //console.log(newParams);
 
+    setTableFilter(entity, query, newParams);
     var paramsObject = (_paramsObject = {}, defineProperty(_paramsObject, ENTITY_NAME_PARAM, entity), defineProperty(_paramsObject, QUERY_NAME_PARAM, query || 'All records'), defineProperty(_paramsObject, CONTEXT_PARAMS, newParams), _paramsObject);
     loadTable(paramsObject, frontendParams);
   }
 
-  if (Object.keys(filterParams).length > 0) {
+  if (Object.keys(filterParams).length > 1) {
     return React.createElement(
       "div",
       { className: "table-filter-ui mb-2" },
@@ -4151,6 +4216,16 @@ var Table = function (_Component) {
   }
 
   createClass(Table, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      Table.storeDocumentState(this.props);
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      Table.storeDocumentState(this.props);
+    }
+  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps() {
       if (this.state.selectedRows.length > 0) this.setState({ selectedRows: [] });
@@ -4158,12 +4233,13 @@ var Table = function (_Component) {
   }, {
     key: 'onOperationClick',
     value: function onOperationClick(operation, selectedRow) {
-      var _operationInfo;
-
       var frontendParams = {
         documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
         parentDocumentName: this.props.frontendParams.documentName
       };
+      if (operation.layout && operation.layout.type === 'modalForm') {
+        frontendParams.documentName = MAIN_MODAL_DOCUMENT;
+      }
 
       if (operation.clientSide === true) {
         executeFrontendActions(JSON.parse(operation.action), frontendParams);
@@ -4181,8 +4257,8 @@ var Table = function (_Component) {
         contextParams = attr.parameters;
       }
 
-      var operationInfo = (_operationInfo = {}, defineProperty(_operationInfo, ENTITY_NAME_PARAM, attr.category), defineProperty(_operationInfo, QUERY_NAME_PARAM, attr.page || 'All records'), defineProperty(_operationInfo, OPERATION_NAME_PARAM, name), defineProperty(_operationInfo, CONTEXT_PARAMS, JSON.stringify(contextParams)), _operationInfo);
-      loadForm(operationInfo, frontendParams);
+      var url = be5.url.form(['form', attr.category, attr.page || 'All records', name], contextParams);
+      be5.url.open(frontendParams, "#!" + url);
     }
   }, {
     key: 'render',
@@ -4331,6 +4407,12 @@ var Table = function (_Component) {
         });
       }
       return null;
+    }
+  }], [{
+    key: 'storeDocumentState',
+    value: function storeDocumentState(props) {
+      var attr = props.value.data.attributes;
+      setTableFilter(attr.category, attr.page, attr.parameters);
     }
   }]);
   return Table;
@@ -4614,8 +4696,8 @@ var ModalTable = function (_Table) {
 
 registerDocument('modalTable', ModalTable);
 
-var route = function route(documentName, page) {
-  changeDocument(documentName, {});
+var route = function route(frontendParams, page) {
+  changeDocument(frontendParams.documentName, {});
 };
 
 var Loading = function (_React$Component) {
@@ -4637,11 +4719,11 @@ var Loading = function (_React$Component) {
 
 registerRoute("loading", route);
 
-var route$2 = function route(documentName, entity, query, operation, contextParams) {
+var route$2 = function route(frontendParams, entity, query, operation, contextParams) {
   var _operationInfo;
 
   var operationInfo = (_operationInfo = {}, defineProperty(_operationInfo, ENTITY_NAME_PARAM, entity), defineProperty(_operationInfo, QUERY_NAME_PARAM, query || 'All records'), defineProperty(_operationInfo, OPERATION_NAME_PARAM, operation), defineProperty(_operationInfo, CONTEXT_PARAMS, JSON.stringify(contextParams || {})), _operationInfo);
-  loadForm(operationInfo, { documentName: documentName });
+  loadForm(operationInfo, frontendParams);
 };
 
 registerRoute("form", route$2);
@@ -4658,26 +4740,26 @@ var route$6 = function route() {
 
 registerRoute("logout", route$6);
 
-var route$8 = function route(documentName, page) {
+var route$8 = function route(frontendParams, page) {
   var requestParams = {
     _ts_: new Date().getTime()
   };
 
   be5.net.request('static/' + page, requestParams, function (json) {
-    if (documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
-    changeDocument(documentName, { value: json });
+    if (frontendParams.documentName === MAIN_DOCUMENT) be5.ui.setTitle(json.data.attributes.title);
+    changeDocument(frontendParams.documentName, { value: json });
   }, function (error) {
-    changeDocument(documentName, { value: error });
+    changeDocument(frontendParams.documentName, { value: error });
   });
 };
 
 registerRoute("static", route$8);
 
-var route$10 = function route(documentName, entity, query, params) {
+var route$10 = function route(frontendParams, entity, query, params) {
   var _paramsObject;
 
   var paramsObject = (_paramsObject = {}, defineProperty(_paramsObject, ENTITY_NAME_PARAM, entity), defineProperty(_paramsObject, QUERY_NAME_PARAM, query || 'All records'), defineProperty(_paramsObject, CONTEXT_PARAMS, params || {}), _paramsObject);
-  loadTable(paramsObject, { documentName: documentName });
+  loadTable(paramsObject, frontendParams);
 };
 
 registerRoute("table", route$10);
@@ -4810,34 +4892,34 @@ var tableNamesCompleter = {
   }
 };
 
-var route$12 = function route(documentName, params) {
+var route$12 = function route(frontendParams, params) {
   var _requestParams;
 
   var requestParams = (_requestParams = {}, defineProperty(_requestParams, CONTEXT_PARAMS, be5.net.paramString(params)), defineProperty(_requestParams, TIMESTAMP_PARAM, new Date().getTime()), _requestParams);
 
   initBeSqlEditor(function () {
     be5.net.request('queryBuilder', requestParams, function (data) {
-      if (documentName === MAIN_DOCUMENT) be5.ui.setTitle("Query Builder");
-      changeDocument(documentName, { value: Object.assign({}, data, { params: be5.net.paramString(params) }) });
+      if (frontendParams.documentName === MAIN_DOCUMENT) be5.ui.setTitle("Query Builder");
+      changeDocument(frontendParams.documentName, { value: Object.assign({}, data, { params: be5.net.paramString(params) }) });
     });
   });
 };
 
 registerRoute("queryBuilder", route$12);
 
-var route$14 = function route(documentName, text) {
-  if (documentName === MAIN_DOCUMENT) be5.ui.setTitle();
+var route$14 = function route(frontendParams, text) {
+  if (frontendParams.documentName === MAIN_DOCUMENT) be5.ui.setTitle();
   var data = createStaticValue(undefined, text, { self: "text/" + text });
-  changeDocument(documentName, { value: data });
+  changeDocument(frontendParams.documentName, { value: data });
 };
 
 registerRoute("text", route$14);
 
-var route$16 = function route(documentName, entity) {
+var route$16 = function route(frontendParams, entity) {
   var requestParams = defineProperty({}, ENTITY_NAME_PARAM, entity);
 
   be5.net.request('categories/forest/', requestParams, function (data) {
-    changeDocument(documentName, {
+    changeDocument(frontendParams.documentName, {
       value: createStaticValue('', "<pre>" + JSON.stringify(data, null, 4) + "</pre>")
     });
   });
@@ -5997,8 +6079,8 @@ var UiPanel = function UiPanel(props) {
   );
 };
 
-registerPage("uiPanel", UiPanel, function (documentName) {
-  changeDocument(documentName, createPageValue("uiPanel", { attributes: { title: "UI panel" } }));
+registerPage("uiPanel", UiPanel, function (frontendParams) {
+  changeDocument(frontendParams.documentName, createPageValue("uiPanel", { attributes: { title: "UI panel" } }));
 });
 
 var SystemCard = function SystemCard(props) {
@@ -6031,9 +6113,9 @@ var SystemCard = function SystemCard(props) {
 
 registerDocument('SystemCard', SystemCard);
 
-registerRoute('systemCard', function (documentName, page) {
+registerRoute('systemCard', function (frontendParams, page) {
   var url = "systemCard" + (page !== undefined && page !== "0" ? "/" + page : "");
-  changeDocument(documentName, {
+  changeDocument(frontendParams.documentName, {
     value: {
       data: {
         attributes: {
@@ -6052,61 +6134,53 @@ var updateHashUrl = function updateHashUrl(url) {
   return { type: 'CHANGE_HASH', hash: url };
 };
 
-var be5init$$1 = {
-  hashChange: function hashChange() {
-    var hash = be5.url.get();
-    if (getHashUrl !== hash) {
-      be5.store.dispatch(updateHashUrl(hash));
-    }
-
-    var state = documentState.get(MAIN_DOCUMENT);
-
-    if (getSelfUrl(state.value) !== be5.url.get()) {
-      if (getSelfUrl(state.value) === "#!" + getDefaultRoute(be5.store.getState()) && (be5.url.get() === "" || be5.url.get() === "#!")) {
-        return;
-      }
-      //console.log(getSelfUrl(state.value), be5.url.get(), "#!" + getDefaultRoute(be5.store.getState()));
-      be5.url.process(MAIN_DOCUMENT, be5.url.get());
-    }
-  },
-  init: function init(store, callback) {
-    Preconditions.passed(store, 'store in required');
-
-    be5.appInfo = { "title": document.title };
-    be5.store = store;
-    be5.api = api;
-    window.be5 = be5;
-
-    be5.store.dispatch(updateHashUrl(be5.url.get()));
-    this.initGetUser(store, callback);
-
-    be5.net.request('languageSelector', {}, function (data) {
-      be5.locale.set(data.selected, data.messages);
-      //be5.url.process(MAIN_DOCUMENT, be5.url.get());
-
-      store.dispatch(fetchUserInfo());
-    });
-
-    window.addEventListener("hashchange", this.hashChange, false);
-  },
-  initGetUser: function initGetUser(store, callback) {
-    this.initOnLoad(store, undefined, getDefaultRoute, function () {
-      if (callback) callback();
-      processHashUrlForDocument(be5.url.get(), MAIN_DOCUMENT);
-    });
-  },
-  initOnLoad: function initOnLoad(store, initState, select, onChange) {
-    function handleChange() {
-      var nextState = select(store.getState());
-
-      if (nextState !== initState) {
-        onChange(nextState);
-        unsubscribe();
-      }
-    }
-
-    var unsubscribe = store.subscribe(handleChange);
+var hashChange = function hashChange() {
+  var hash = be5.url.get();
+  if (getHashUrl(be5.store.getState()) !== hash) {
+    be5.store.dispatch(updateHashUrl(hash));
   }
+  be5.url.process({ documentName: MAIN_DOCUMENT }, be5.url.get());
+};
+
+var initBe5App$$1 = function initBe5App$$1(store, callback) {
+  Preconditions.passed(store, 'store in required');
+
+  be5.appInfo = { "title": document.title };
+  be5.store = store;
+  be5.api = api;
+  window.be5 = be5;
+
+  be5.store.dispatch(updateHashUrl(be5.url.get()));
+  initGetUser(store, callback);
+
+  be5.net.request('languageSelector', {}, function (data) {
+    be5.locale.set(data.selected, data.messages);
+    //be5.url.process(MAIN_DOCUMENT, be5.url.get());
+
+    store.dispatch(fetchUserInfo());
+  });
+
+  window.addEventListener("hashchange", hashChange, false);
+};
+
+var initGetUser = function initGetUser(store, callback) {
+  initOnLoad$$1(store, undefined, getDefaultRoute, function () {
+    if (callback) callback();
+    processHashUrlForDocument(be5.url.get(), MAIN_DOCUMENT);
+  });
+};
+
+var initOnLoad$$1 = function initOnLoad$$1(store, initState, select, onChange) {
+  function handleChange() {
+    var nextState = select(store.getState());
+
+    if (nextState !== initState) {
+      onChange(nextState);
+      unsubscribe();
+    }
+  }
+
+  var unsubscribe = store.subscribe(handleChange);
 };
 
 var isProduction = "development" === 'production';
@@ -6182,7 +6256,9 @@ var index = combineReducers({
 
 
 var api = Object.freeze({
-	be5init: be5init$$1,
+	initBe5App: initBe5App$$1,
+	initOnLoad: initOnLoad$$1,
+	getTableStates: getTableStates,
 	preconditions: Preconditions,
 	arraysEqual: arraysEqual,
 	createPageValue: createPageValue,
@@ -6270,7 +6346,11 @@ var api = Object.freeze({
 	ENTITY_NAME_PARAM: ENTITY_NAME_PARAM,
 	QUERY_NAME_PARAM: QUERY_NAME_PARAM,
 	OPERATION_NAME_PARAM: OPERATION_NAME_PARAM,
-	CONTEXT_PARAMS: CONTEXT_PARAMS
+	CONTEXT_PARAMS: CONTEXT_PARAMS,
+	OFFSET: OFFSET,
+	LIMIT: LIMIT,
+	ORDER_COLUMN: ORDER_COLUMN,
+	ORDER_DIR: ORDER_DIR
 });
 
 // components
@@ -6278,4 +6358,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, be5init$$1 as be5init, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getTableStates, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR };
