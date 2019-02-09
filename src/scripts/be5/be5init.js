@@ -13,7 +13,7 @@ import {updateHashUrl} from "./store/actions/url.actions";
 
 const hashChange = () => {
   const hash = be5.url.get();
-  if (getHashUrl !== hash) {
+  if (getHashUrl(be5.store.getState()) !== hash) {
     be5.store.dispatch(updateHashUrl(hash));
   }
   be5.url.process({documentName: MAIN_DOCUMENT}, be5.url.get());
