@@ -4249,12 +4249,9 @@ var Table = function (_Component) {
       var name = operation.name;
       var attr = this.props.value.data.attributes;
 
-      var contextParams = void 0;
+      var contextParams = getContextParams(attr.parameters);
       if (this.state.selectedRows.length > 0 || selectedRow) {
-        contextParams = Object.assign({}, attr.parameters);
         contextParams[SELECTED_ROWS] = selectedRow || this.state.selectedRows.join();
-      } else {
-        contextParams = attr.parameters;
       }
 
       var url = be5.url.form(['form', attr.category, attr.page || 'All records', name], contextParams);
@@ -4283,7 +4280,7 @@ var Table = function (_Component) {
       return React.createElement(
         'div',
         { className: classNames("table-component", this.getTableClass(), data.attributes.layout.classes) },
-        this.topForm(topFormJson, hideOperations),
+        this.topForm(topFormJson),
         React.createElement(
           TitleTag,
           { className: 'table-component__title' },
@@ -4401,8 +4398,9 @@ var Table = function (_Component) {
         var layout = topFormJson.data.attributes.layout;
         if (layout.type === undefined) layout.type = 'inlineMiniForm';
         if (layout.bsSize === undefined) layout.bsSize = 'sm';
-        return React.createElement(Document$1, {
-          frontendParams: { documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName },
+        var FormComponent = getDocument(layout.type);
+        return React.createElement(FormComponent, {
+          frontendParams: { documentName: this.props.frontendParams.documentName },
           value: topFormJson
         });
       }
