@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import be5 from '../be5';
 import bus from '../core/bus';
-import documentState from '../core/documentState';
-import {getCurrentRoles, getDefaultRoute} from '../store/selectors/user.selectors'
-import {DOCUMENT_REFRESH_SUFFIX, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, ROLE_SYSTEM_DEVELOPER} from "../constants";
+import {getCurrentRoles} from '../store/selectors/user.selectors'
+import {DOCUMENT_REFRESH_SUFFIX, MAIN_MODAL_DOCUMENT, ROLE_SYSTEM_DEVELOPER} from "../constants";
 import {getDocument} from "../core/registers/documents";
 
 import reloadImg from '../../../images/reload.png';
@@ -36,9 +35,6 @@ class Document extends React.Component {
   }
 
   componentDidMount() {
-    documentState.set(this.props.frontendParams.documentName, this.state);
-    this.updateLocationHashIfNeeded();
-
     bus.replaceListeners(this.props.frontendParams.documentName, data => {
       if (this.state.value && this.state.value.meta && !Number.isInteger(Number.parseInt(this.state.value.meta._ts_))) {
         console.error("meta._ts_ mast be string of Integer " + this.state.value.meta._ts_);
@@ -58,33 +54,6 @@ class Document extends React.Component {
     bus.replaceListeners(this.props.frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX, () => {
       this.refresh();
     });
-  }
-
-  componentDidUpdate() {
-    documentState.set(this.props.frontendParams.documentName, this.state);
-    this.updateLocationHashIfNeeded();
-  }
-
-  updateLocationHashIfNeeded() {
-    if (this.props.frontendParams.documentName === MAIN_DOCUMENT) {
-      const value = this.state.value;
-      let self;
-      if (value === null || (!value.data && !value.errors)) return;
-      if (value.data !== undefined) {
-        self = value.data.links.self;
-      } else {
-        self = value.errors[0].links.self;
-      }
-
-      if (be5.url.get() !== '#!' + self) {
-        //console.log(be5.url.get(), self);
-        if (self === defaultRoute()) {
-          if (be5.url.get() !== "") be5.url.set("")
-        } else {
-          be5.url.set(self)
-        }
-      }
-    }
   }
 
   componentWillUnmount() {
@@ -196,7 +165,7 @@ class Document extends React.Component {
   }
 
   refresh() {
-    be5.url.process(this.props.frontendParams.documentName, getSelfUrl(this.state.value));
+    be5.url.process(this.props.frontendParams, getSelfUrl(this.state.value));
   }
 
   getComponentFrontendParams() {
@@ -206,10 +175,6 @@ class Document extends React.Component {
 
 function hasDevRole() {
   return be5.store && getCurrentRoles(be5.store.getState()).indexOf(ROLE_SYSTEM_DEVELOPER) !== -1
-}
-
-function defaultRoute() {
-  return be5.store ? getDefaultRoute(be5.store.getState()) : undefined;
 }
 
 Document.propTypes = {

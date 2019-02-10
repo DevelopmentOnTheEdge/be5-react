@@ -3,23 +3,15 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import be5 from '../../be5';
 import {getModelByID, getResourceByType, getSelfUrl} from '../../utils/documentUtils';
-import {loadForm} from '../../services/forms';
 import OperationBox from './OperationBox';
-import Document from "../../containers/Document";
-import {registerDocument} from '../../core/registers/documents';
+import {getDocument, registerDocument} from '../../core/registers/documents';
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions} from "../../services/frontendActions";
 import FilterUI from "./FilterUI";
-import {
-  CONTEXT_PARAMS,
-  ENTITY_NAME_PARAM,
-  MAIN_DOCUMENT,
-  OPERATION_NAME_PARAM,
-  QUERY_NAME_PARAM,
-  SELECTED_ROWS
-} from "../../constants";
+import {MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, SELECTED_ROWS} from "../../constants";
 import {getBackAction, makeSafeForClassName} from "../../utils/utils";
 import {getTableBox} from "../../core/registers/tableBoxes";
+import {setTableFilter} from "../../services/tableStates";
 
 
 class Table extends Component {
@@ -31,6 +23,19 @@ class Table extends Component {
     this.setSelectedRows = this.setSelectedRows.bind(this);
   }
 
+  componentDidMount() {
+    Table.storeDocumentState(this.props)
+  }
+
+  componentDidUpdate() {
+    Table.storeDocumentState(this.props)
+  }
+
+  static storeDocumentState(props) {
+    const attr = props.value.data.attributes;
+    setTableFilter(attr.category, attr.page, attr.parameters);
+  }
+
   componentWillReceiveProps() {
     if (this.state.selectedRows.length > 0) this.setState({selectedRows: []});
   }
@@ -40,6 +45,9 @@ class Table extends Component {
       documentName: this.props.frontendParams.operationDocumentName || this.props.frontendParams.documentName,
       parentDocumentName: this.props.frontendParams.documentName
     };
+    if (operation.layout && operation.layout.type === 'modalForm') {
+      frontendParams.documentName = MAIN_MODAL_DOCUMENT;
+    }
 
     if (operation.clientSide === true) {
       executeFrontendActions(JSON.parse(operation.action), frontendParams);
@@ -57,13 +65,8 @@ class Table extends Component {
       contextParams = attr.parameters;
     }
 
-    const operationInfo = {
-      [ENTITY_NAME_PARAM]: attr.category,
-      [QUERY_NAME_PARAM]: attr.page || 'All records',
-      [OPERATION_NAME_PARAM]: name,
-      [CONTEXT_PARAMS]: JSON.stringify(contextParams)
-    };
-    loadForm(operationInfo, frontendParams);
+    const url = be5.url.form(['form', attr.category, attr.page || 'All records', name], contextParams);
+    be5.url.open(frontendParams, "#!" + url);
   }
 
   render() {
@@ -83,7 +86,7 @@ class Table extends Component {
 
     return (
       <div className={classNames("table-component", this.getTableClass(), data.attributes.layout.classes)}>
-        {this.topForm(topFormJson, hideOperations)}
+        {this.topForm(topFormJson)}
         <TitleTag className="table-component__title">
           {value.data.attributes.title}
           {this.getOperationParamsInfo().length > 0 ? <small>{' '}{this.getOperationParamsInfo()}</small> : null}
@@ -183,8 +186,9 @@ class Table extends Component {
       const layout = topFormJson.data.attributes.layout;
       if (layout.type === undefined) layout.type = 'inlineMiniForm';
       if (layout.bsSize === undefined) layout.bsSize = 'sm';
-      return <Document
-        frontendParams={{documentName: "documentTopForm", parentDocumentName: this.props.frontendParams.documentName}}
+      const FormComponent = getDocument(layout.type);
+      return <FormComponent
+        frontendParams={{documentName: this.props.frontendParams.documentName}}
         value={topFormJson}
       />
     }

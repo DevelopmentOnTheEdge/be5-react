@@ -4,6 +4,7 @@ import Preconditions from '../utils/preconditions';
 import numberFormatter from 'number-format.js';
 import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, MAIN_MODAL_DOCUMENT, QUERY_NAME_PARAM, TIMESTAMP_PARAM} from "../constants";
 import bus from "../core/bus";
+import {clearTableStateByUrl, withSavedTableFilter, withSavedTableNav} from "./tableStates";
 
 
 export const loadTable = (params, frontendParams) => {
@@ -24,7 +25,8 @@ export const loadTableByUrl = (url, frontendParams) => {
 };
 
 export const fetchTableByUrl = (url, callback, failure) => {
-  getTable(getTableParams(url + "/_cleanNav_=true"), callback, failure);
+  clearTableStateByUrl(url);
+  getTable(getTableParams(url), callback, failure);
 };
 
 export const getTableParams = (url) => {
@@ -38,6 +40,7 @@ export const getTableParams = (url) => {
 };
 
 export const getTable = (params, callback, failure) => {
+  //console.log('get', params);
   be5.net.request('table', getRequestParams(params), data => callback(data), data => failure(data));
 };
 
@@ -63,13 +66,18 @@ const _performTable = (json, frontendParams) => {
 };
 
 const getRequestParams = (params) => {
-  Preconditions.passed(params[ENTITY_NAME_PARAM]);
-  Preconditions.passed(params[QUERY_NAME_PARAM]);
+  const entity = params[ENTITY_NAME_PARAM];
+  const query = params[QUERY_NAME_PARAM];
+  Preconditions.passed(entity);
+  Preconditions.passed(query);
+
+  let finalParams = withSavedTableFilter(entity, query, params[CONTEXT_PARAMS]);
+  finalParams = withSavedTableNav(entity, query, finalParams);
 
   return {
-    [ENTITY_NAME_PARAM]: params[ENTITY_NAME_PARAM],
-    [QUERY_NAME_PARAM]: params[QUERY_NAME_PARAM],
-    [CONTEXT_PARAMS]: be5.net.paramString(params[CONTEXT_PARAMS]),
+    [ENTITY_NAME_PARAM]: entity,
+    [QUERY_NAME_PARAM]: query,
+    [CONTEXT_PARAMS]: be5.net.paramString(finalParams),
     [TIMESTAMP_PARAM]: new Date().getTime()
   }
 };

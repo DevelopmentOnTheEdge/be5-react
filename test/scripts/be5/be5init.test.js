@@ -2,7 +2,7 @@ import './mockBe5Request'
 import React from 'react';
 import renderer from 'react-test-renderer';
 import Document from '../../../src/scripts/be5/containers/Document';
-import be5init from '../../../src/scripts/be5/be5init';
+import {hashChange, initBe5App} from '../../../src/scripts/be5/be5init';
 import {getTestStore, getTestUser} from "./testUtils";
 import {updateUserInfo} from "../../../src/scripts/be5/store/actions/user.actions";
 import {MAIN_DOCUMENT} from "../../../src/scripts/be5/constants";
@@ -10,7 +10,7 @@ import {MAIN_DOCUMENT} from "../../../src/scripts/be5/constants";
 
 test('test', () => {
   const store = getTestStore();
-  be5init.init(store);
+  initBe5App(store);
 
   store.dispatch(updateUserInfo(getTestUser()));
 
@@ -18,5 +18,5 @@ test('test', () => {
     <Document frontendParams={{documentName: MAIN_DOCUMENT}} store={store} />
   );
 
-  be5init.hashChange();
+  hashChange();
 });

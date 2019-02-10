@@ -38,3 +38,7 @@ export const QUERY_NAME_PARAM = "_qn_";
 export const OPERATION_NAME_PARAM = "_on_";
 export const CONTEXT_PARAMS = "_params_";
 
+export const OFFSET = "_offset_";
+export const LIMIT = "_limit_";
+export const ORDER_COLUMN = "_orderColumn_";
+export const ORDER_DIR = "_orderDir_";

@@ -40,7 +40,7 @@ test('fetchTableByUrl', () => {
       "_ts_": expect.any(Number),
       "_en_": "users",
       "_qn_": "All records",
-      "_params_": '{"user_name":"demo","_cleanNav_":"true"}'
+      "_params_": '{"user_name":"demo"}'
     },
     expect.any(Function),
     expect.any(Function)

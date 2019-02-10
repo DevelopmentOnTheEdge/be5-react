@@ -20,7 +20,7 @@ import {
   UPDATE_DOCUMENT,
   UPDATE_PARENT_DOCUMENT
 } from "../constants";
-import {openOperationByUrl} from './forms';
+import {clearTableStateByUrl} from "./tableStates";
 
 export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) => {
   const documentName = frontendParams.documentName;
@@ -113,17 +113,12 @@ function redirect(url, frontendParams) {
     window.location.href = url;
   }
   else {
+    clearTableStateByUrl('#!' + url);
     if (frontendParams.documentName === MAIN_DOCUMENT) {
       bus.fire("mainModalClose");
-      be5.url.process(MAIN_DOCUMENT, '#!' + url);
-    }
-    else {
-      if (be5.url.parse(url).positional[0] === 'form') {
-        openOperationByUrl(url, frontendParams);
-      }
-      else {
-        be5.url.process(frontendParams.documentName, '#!' + url);
-      }
+      be5.url.open({documentName: MAIN_DOCUMENT}, '#!' + url);
+    } else {
+      be5.url.process(frontendParams, '#!' + url);
     }
   }
 }

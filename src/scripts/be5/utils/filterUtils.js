@@ -1,20 +1,64 @@
 import {SEARCH_PARAM, SEARCH_PRESETS_PARAM} from "../constants";
 import be5 from "../be5";
 
-
-export const getFilterParams = (params) => {
+export const getContextParams = (params) => {
   if (params[SEARCH_PARAM] !== "true") {
+    return Object.keys(params)
+      .filter(key => !key.startsWith("_"))
+      .reduce((obj, key) => {obj[key] = params[key]; return obj;}, {});
+  }
+
+  if (params[SEARCH_PRESETS_PARAM] === undefined) {
     return {};
   }
 
   const searchPresets = params[SEARCH_PRESETS_PARAM] === undefined ? [] : params[SEARCH_PRESETS_PARAM].split(',');
   return Object.keys(params)
-    .filter(key => !key.startsWith("_"))
-    .filter(key => !searchPresets.includes(key))
-    .reduce((obj, key) => {
-      obj[key] = params[key];
-      return obj;
-    }, {});
+    .filter(key => !key.startsWith("_") && searchPresets.includes(key))
+    .reduce((obj, key) => {obj[key] = params[key]; return obj;}, {});
+};
+
+export const getFilterParams = (params) => {
+  let searchParams;
+  if (params[SEARCH_PARAM] !== "true") {
+    searchParams = {};
+  } else {
+    const searchPresets = params[SEARCH_PRESETS_PARAM] === undefined ? [] : params[SEARCH_PRESETS_PARAM].split(',');
+    searchParams = Object.keys(params)
+      .filter(key => !key.startsWith("_") && !searchPresets.includes(key))
+      .reduce((obj, key) => {obj[key] = params[key]; return obj;}, {});
+  }
+  searchParams[SEARCH_PARAM] = "true";
+  return searchParams;
+};
+
+export const getSearchPresetParam = (params) =>
+{
+  return searchPresetParamToString(getSearchPresetNames(params));
+};
+
+export const searchPresetParamToString = (searchPresets) =>
+{
+  return searchPresets.length > 0 ? searchPresets.join(",") : null;
+};
+
+export const getSearchPresetNames = (params) =>
+{
+  if (params[SEARCH_PARAM] === undefined)
+  {
+    return Object.keys(params);
+  }
+  else
+  {
+    if (params[SEARCH_PRESETS_PARAM] !== undefined)
+    {
+      return params[SEARCH_PRESETS_PARAM].split(",");
+    }
+    else
+    {
+      return [];
+    }
+  }
 };
 
 export const addFilterParams = (url, params) => {

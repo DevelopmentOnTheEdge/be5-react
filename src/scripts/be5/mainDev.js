@@ -6,11 +6,11 @@ import ApplicationWithBe5Menu from './components/test/ApplicationWithBe5Menu';
 import Application from './components/Application';
 import rootReducer from './store/reducers'
 import createBaseStore from './store'
-import be5init from './be5init';
+import {initBe5App} from './be5init';
 import './be5styles';
 
 const store = createBaseStore(rootReducer);
-be5init.init(store, function () {
+initBe5App(store, function () {
   const render = Component => {
     ReactDOM.render(
       <AppContainer>

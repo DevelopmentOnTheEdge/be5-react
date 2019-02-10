@@ -64,8 +64,8 @@ const UiPanel = (props) => {
   );
 };
 
-registerPage("uiPanel", UiPanel, function (documentName) {
-  changeDocument(documentName, createPageValue("uiPanel",
+registerPage("uiPanel", UiPanel, function (frontendParams) {
+  changeDocument(frontendParams.documentName, createPageValue("uiPanel",
     {attributes: {title: "UI panel"}}
   ));
 });
