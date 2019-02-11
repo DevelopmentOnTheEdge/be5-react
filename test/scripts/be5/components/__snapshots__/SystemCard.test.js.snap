@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot 1`] = `
+<div
+  className="document-content"
+  id="document-content___MAIN_DOCUMENT"
+>
+  <div>
+    <div
+      className="info-card"
+    >
+      <h1
+        style={
+          Object {
+            "marginBottom": "13px",
+          }
+        }
+      >
+        System card
+      </h1>
+      <div
+        className="navs-component"
+      >
+        <ul
+          className="nav nav-tabs"
+        >
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link active"
+              href="#!table/_system_/Cache"
+              onClick={[Function]}
+            >
+              Cache
+            </a>
+          </li>
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link"
+              href="#!table/_system_/Daemons"
+              onClick={[Function]}
+            >
+              Daemons
+            </a>
+          </li>
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link"
+              href="#!table/_system_/DataSource"
+              onClick={[Function]}
+            >
+              DataSource
+            </a>
+          </li>
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link"
+              href="#!table/_system_/Entities"
+              onClick={[Function]}
+            >
+              Entities
+            </a>
+          </li>
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link"
+              href="#!table/_system_/Http Headers"
+              onClick={[Function]}
+            >
+              Http Headers
+            </a>
+          </li>
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link"
+              href="#!table/_system_/Session variables"
+              onClick={[Function]}
+            >
+              Session
+            </a>
+          </li>
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link"
+              href="#!table/_system_/System properties"
+              onClick={[Function]}
+            >
+              Properties
+            </a>
+          </li>
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link"
+              href="#!table/systemSettings/All%20records"
+              onClick={[Function]}
+            >
+              System Settings
+            </a>
+          </li>
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link"
+              href="#!table/_system_/Threads"
+              onClick={[Function]}
+            >
+              Threads
+            </a>
+          </li>
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link"
+              href="#!uiPanel"
+              onClick={[Function]}
+            >
+              UI panel
+            </a>
+          </li>
+        </ul>
+        <div
+          className="tab-content"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -46,7 +46,7 @@ registerRoute('systemCard', (frontendParams, page) => {
       data: {
         attributes: {
           title: "System card",
-          documentName: documentName,
+          documentName: frontendParams.documentName,
           page: page,
         },
         links: {self: url}
