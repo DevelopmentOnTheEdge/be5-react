@@ -1,10 +1,11 @@
 import {SEARCH_PARAM, SEARCH_PRESETS_PARAM} from "../constants";
 import be5 from "../be5";
+import {positionsParamNames} from "../services/tableStates";
 
 export const getContextParams = (params) => {
   if (params[SEARCH_PARAM] !== "true") {
     return Object.keys(params)
-      .filter(key => !key.startsWith("_"))
+      .filter(key => !positionsParamNames.includes(key))
       .reduce((obj, key) => {obj[key] = params[key]; return obj;}, {});
   }
 
@@ -14,7 +15,7 @@ export const getContextParams = (params) => {
 
   const searchPresets = params[SEARCH_PRESETS_PARAM] === undefined ? [] : params[SEARCH_PRESETS_PARAM].split(',');
   return Object.keys(params)
-    .filter(key => !key.startsWith("_") && searchPresets.includes(key))
+    .filter(key => !positionsParamNames.includes(key) && searchPresets.includes(key))
     .reduce((obj, key) => {obj[key] = params[key]; return obj;}, {});
 };
 
@@ -25,7 +26,7 @@ export const getFilterParams = (params) => {
   } else {
     const searchPresets = params[SEARCH_PRESETS_PARAM] === undefined ? [] : params[SEARCH_PRESETS_PARAM].split(',');
     searchParams = Object.keys(params)
-      .filter(key => !key.startsWith("_") && !searchPresets.includes(key))
+      .filter(key => !positionsParamNames.includes(key) && !searchPresets.includes(key))
       .reduce((obj, key) => {obj[key] = params[key]; return obj;}, {});
   }
   searchParams[SEARCH_PARAM] = "true";

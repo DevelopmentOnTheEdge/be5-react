@@ -6,6 +6,7 @@ import {jQueryFormatCell, loadTableByUrl, updateTable} from "../../../services/t
 import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, QUERY_NAME_PARAM} from "../../../constants";
 import {registerTableBox} from "../../../core/registers/tableBoxes";
 import bus from "../../../core/bus";
+import {clearTableState} from "../../../services/tableStates";
 
 /**
  * https://datatables.net/
@@ -101,6 +102,7 @@ class DataTablesWrapper extends Component {
           params[CONTEXT_PARAMS]._orderColumn_ = data.order[0].column;
           params[CONTEXT_PARAMS]._orderDir_ = data.order[0].dir;
         }
+        clearTableState(attributes.category, attributes.page, params[CONTEXT_PARAMS]);
         updateTable(params, function (jsonApiModel) {
           const json = jsonApiModel.data.attributes;
           if (json.type === "error") {

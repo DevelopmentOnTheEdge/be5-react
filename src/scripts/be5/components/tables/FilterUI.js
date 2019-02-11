@@ -1,7 +1,7 @@
 import React from 'react';
 import be5 from "../../be5";
 import {getFilterParams} from "../../utils/filterUtils";
-import {setTableFilter} from "../../services/tableStates";
+import {clearTableState} from "../../services/tableStates";
 import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, QUERY_NAME_PARAM} from "../../constants";
 import {loadTable} from "../../services/tables";
 
@@ -20,7 +20,7 @@ const FilterUI = ({entity, query, params, frontendParams}) => {
     // newParams['_search_presets_'] = params['_search_presets_'];
     //console.log(newParams);
 
-    setTableFilter(entity, query, newParams);
+    clearTableState(entity, query, newParams);
     const paramsObject = {
       [ENTITY_NAME_PARAM]: entity,
       [QUERY_NAME_PARAM]: query || 'All records',

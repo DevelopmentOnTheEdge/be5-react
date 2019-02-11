@@ -26,7 +26,7 @@ export function getTableStates() {
   return [navs, filters];
 }
 
-const positionsParamNames = [ORDER_COLUMN, ORDER_DIR, OFFSET, LIMIT];
+export const positionsParamNames = [ORDER_COLUMN, ORDER_DIR, OFFSET, LIMIT];
 
 export function withSavedTableNav(entity, query, params)
 {
@@ -52,13 +52,14 @@ export function withSavedTableFilter(entity, query, params)
 {
   const tableKey = getTableKey(entity, query, params);
   let savedParams = getTableFilter(tableKey);
-  if (savedParams !== undefined)
-  {
-    savedParams = Object.assign({}, savedParams, getContextParams(params));
+  if (savedParams !== undefined) {
+    const finalParams = Object.assign({}, savedParams, getContextParams(params));
     const searchPresetParam = getSearchPresetParam(params);
-    if (searchPresetParam !== null) savedParams[SEARCH_PRESETS_PARAM] = searchPresetParam;
-    savedParams[SEARCH_PARAM] = "true";
-    return savedParams;
+    if (searchPresetParam !== null) finalParams[SEARCH_PRESETS_PARAM] = searchPresetParam;
+    finalParams[SEARCH_PARAM] = "true";
+    return finalParams;
+  } else {
+    setTableFilter(entity, query, params)
   }
   return params;
 }
@@ -70,14 +71,16 @@ function getTableKey(entity, query, parameters)
 
 export function clearTableStateByUrl(url)
 {
+  if (!url.startsWith('#!table')) return;
   const attr = be5.url.parse(url);
-  if (attr.positional[0] !== '#!table') return;
   clearTableState(attr.positional[1], attr.positional[2], attr.named)
 }
 
 export function clearTableState(entity, query, params)
 {
-  const tableKey = getTableKey(entity, query, params);
+  const contextParams = getContextParams(params);
+  const tableKey = getTableKey(entity, query, contextParams);
+  console.log('clearTableState - ' + tableKey);
   delete navs[tableKey];
   delete filters[tableKey];
 }
