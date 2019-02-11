@@ -74,7 +74,7 @@ export const openInModal = (e) => {
   processHashUrlForDocument(e, MAIN_MODAL_DOCUMENT);
 };
 
-export const processHashUrls = (element, documentName) => {
+export const addUrlHandlers = (element, documentName) => {
   element.on("click", '.process-hash-url', function (e) {
     e.preventDefault();
     processHashUrlForDocument(e, documentName);

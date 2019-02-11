@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {registerDocument} from '../core/registers/documents';
-import {processHashUrls} from "../utils/documentUtils";
+import {addUrlHandlers} from "../utils/documentUtils";
 
 
 class StaticPage extends React.Component {
   componentDidMount() {
-    processHashUrls($('.staticPage'), this.props.frontendParams.documentName);
+    addUrlHandlers($('.staticPage'), this.props.frontendParams.documentName);
   }
 
   render() {

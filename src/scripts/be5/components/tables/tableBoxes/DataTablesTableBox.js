@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import be5 from '../../../be5';
-import {processHashUrls} from '../../../utils/documentUtils';
+import {addUrlHandlers} from '../../../utils/documentUtils';
 import QuickColumns from '../QuickColumns';
 import {jQueryFormatCell, loadTableByUrl, updateTable} from "../../../services/tables";
 import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, QUERY_NAME_PARAM} from "../../../constants";
@@ -257,7 +257,7 @@ class DataTablesWrapper extends Component {
       props.onOperationClick(DataTablesWrapper.getEditOperation(props), $(this).data("val"));
     });
 
-    processHashUrls(tableTag, props.frontendParams.documentName);
+    addUrlHandlers(tableTag, props.frontendParams.documentName);
 
     tableTag.on('draw.dt', function () {
       props.setSelectedRows([]);

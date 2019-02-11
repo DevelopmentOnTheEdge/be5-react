@@ -9,6 +9,7 @@ import {
   getResourceByID,
   getSelfUrl,
   loadDocumentByUrl,
+  addUrlHandlers,
   openInModal,
   processHashUrl,
   processHashUrlForDocument
@@ -66,7 +67,7 @@ export {
   preconditions,
   arraysEqual, createPageValue, registerPage,
   getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument,
-  openInModal, loadDocumentByUrl,
+  openInModal, addUrlHandlers, loadDocumentByUrl,
 
   // core
   bus,

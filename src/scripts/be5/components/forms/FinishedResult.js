@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import be5 from '../../be5';
 import {registerDocument} from "../../core/registers/documents";
-import {_createBackAction, processHashUrls} from "../../utils/documentUtils";
+import {_createBackAction, addUrlHandlers} from "../../utils/documentUtils";
 
 
 class FinishedResult extends React.Component {
   componentDidMount() {
-    processHashUrls($('.finishedResult'), this.props.frontendParams.documentName);
+    addUrlHandlers($('.finishedResult'), this.props.frontendParams.documentName);
   }
 
   render() {
