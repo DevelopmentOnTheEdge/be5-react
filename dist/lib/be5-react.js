@@ -4431,10 +4431,16 @@ var QuickColumns = function (_React$Component) {
     var _this = possibleConstructorReturn(this, (QuickColumns.__proto__ || Object.getPrototypeOf(QuickColumns)).call(this, props));
 
     _this.state = _this.createStateFromProps(_this.props);
+    _this.updateDataTableQuickColumns = _this.updateDataTableQuickColumns.bind(_this);
     return _this;
   }
 
   createClass(QuickColumns, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      bus.listen("updateDataTableQuickColumns", this.updateDataTableQuickColumns);
+    }
+  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       this.setState(this.createStateFromProps(nextProps));
@@ -4451,11 +4457,6 @@ var QuickColumns = function (_React$Component) {
           return col !== null;
         })
       };
-    }
-  }, {
-    key: 'setTable',
-    value: function setTable(_table) {
-      this.setState({ table: _table });
     }
   }, {
     key: 'quickHandleChange',
@@ -4477,17 +4478,7 @@ var QuickColumns = function (_React$Component) {
       if (this.state.quickColumns.length === 0) {
         return null;
       }
-      if (this.state.table) {
-        var dataTable = $(this.state.table).find('table').dataTable();
-        var columnsCount = dataTable.fnSettings().aoColumns.length;
-        this.state.quickColumns.forEach(function (col) {
-          var columnId = col.columnId + 1;
-          if (columnId < columnsCount) {
-            var dtColumn = dataTable.api().column(columnId);
-            if (dtColumn.visible) dtColumn.visible(col.visible);
-          }
-        });
-      }
+      this.updateDataTableQuickColumns();
 
       var checks = this.state.quickColumns.map(function (cell, idx) {
         var _this2 = this;
@@ -4520,6 +4511,22 @@ var QuickColumns = function (_React$Component) {
         ),
         checks
       );
+    }
+  }, {
+    key: 'updateDataTableQuickColumns',
+    value: function updateDataTableQuickColumns() {
+      var table = $('#dataTables' + this.props.meta._ts_);
+      if (table.length > 0) {
+        var dataTable = table.dataTable();
+        var columnsCount = dataTable.fnSettings().aoColumns.length;
+        this.state.quickColumns.forEach(function (col) {
+          var columnId = col.columnId + 1;
+          if (columnId < columnsCount) {
+            var dtColumn = dataTable.api().column(columnId);
+            if (dtColumn.visible) dtColumn.visible(col.visible);
+          }
+        });
+      }
     }
   }]);
   return QuickColumns;
@@ -5162,7 +5169,7 @@ var DataTablesWrapper = function (_Component) {
     value: function applyTable(props, node) {
       if (!hasRows(props.value.data.attributes)) return;
 
-      var tableTag = $('<table id="' + props.value.meta._ts_ + '" ' + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>');
+      var tableTag = $('<table id="dataTables' + props.value.meta._ts_ + '" ' + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>');
       tableTag.appendTo(node);
 
       tableTag.dataTable(this.getTableConfiguration(props));
@@ -5195,7 +5202,7 @@ var DataTablesWrapper = function (_Component) {
       //   }
       // });
 
-      this.refs.quickColumns.setTable(this.refs.main);
+      bus.fire("updateDataTableQuickColumns");
     }
   }, {
     key: 'getColumns',
@@ -5220,20 +5227,7 @@ var DataTablesWrapper = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var attr = this.props.value.data.attributes;
-      return React.createElement(
-        'div',
-        { className: 'table-wrap' },
-        React.createElement(QuickColumns, {
-          ref: 'quickColumns',
-          columns: attr.columns,
-          category: attr.category,
-          page: attr.page,
-          table: this.refs.main,
-          selectable: attr.selectable
-        }),
-        React.createElement('div', { className: 'row data-table-wrapper', ref: 'main' })
-      );
+      return React.createElement('div', { className: 'row data-table-wrapper', ref: 'main' });
     }
   }], [{
     key: 'getEditOperation',
@@ -5326,7 +5320,18 @@ var DataTablesTableBox = function (_Component2) {
         );
       }
 
-      return React.createElement(DataTablesWrapper, this.props);
+      return React.createElement(
+        'div',
+        { className: 'table-wrap' },
+        React.createElement(QuickColumns, {
+          columns: attr.columns,
+          category: attr.category,
+          page: attr.page,
+          selectable: attr.selectable,
+          meta: this.props.value.meta
+        }),
+        React.createElement(DataTablesWrapper, this.props)
+      );
     }
   }]);
   return DataTablesTableBox;

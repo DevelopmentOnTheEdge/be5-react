@@ -5,6 +5,7 @@ import QuickColumns from '../QuickColumns';
 import {jQueryFormatCell, loadTableByUrl, updateTable} from "../../../services/tables";
 import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, QUERY_NAME_PARAM} from "../../../constants";
 import {registerTableBox} from "../../../core/registers/tableBoxes";
+import bus from "../../../core/bus";
 
 /**
  * https://datatables.net/
@@ -244,7 +245,7 @@ class DataTablesWrapper extends Component {
   applyTable(props, node) {
     if (!hasRows(props.value.data.attributes)) return;
 
-    const tableTag = $('<table id="' + props.value.meta._ts_ + '" '
+    const tableTag = $('<table id="dataTables' + props.value.meta._ts_ + '" '
       + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>');
     tableTag.appendTo(node);
 
@@ -278,7 +279,7 @@ class DataTablesWrapper extends Component {
     //   }
     // });
 
-    this.refs.quickColumns.setTable(this.refs.main);
+    bus.fire("updateDataTableQuickColumns");
   }
 
   getColumns(props) {
@@ -305,19 +306,8 @@ class DataTablesWrapper extends Component {
   }
 
   render() {
-    const attr = this.props.value.data.attributes;
     return (
-      <div className="table-wrap">
-        <QuickColumns
-          ref="quickColumns"
-          columns={attr.columns}
-          category={attr.category}
-          page={attr.page}
-          table={this.refs.main}
-          selectable={attr.selectable}
-        />
-        <div className="row data-table-wrapper" ref="main"/>
-      </div>
+      <div className="row data-table-wrapper" ref="main"/>
     )
   }
 }
@@ -368,7 +358,16 @@ class DataTablesTableBox extends Component {
     }
 
     return (
-      <DataTablesWrapper {...this.props}/>
+      <div className="table-wrap">
+        <QuickColumns
+          columns={attr.columns}
+          category={attr.category}
+          page={attr.page}
+          selectable={attr.selectable}
+          meta={this.props.value.meta}
+        />
+        <DataTablesWrapper {...this.props}/>
+      </div>
     );
   }
 

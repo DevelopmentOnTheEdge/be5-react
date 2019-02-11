@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
 import be5 from '../../be5';
+import bus from "../../core/bus";
 
 class QuickColumns extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = this.createStateFromProps(this.props);
+    this.updateDataTableQuickColumns = this.updateDataTableQuickColumns.bind(this);
   };
+
+  componentDidMount() {
+    bus.listen("updateDataTableQuickColumns", this.updateDataTableQuickColumns);
+  }
 
   componentWillReceiveProps(nextProps) {
     this.setState(this.createStateFromProps(nextProps));
@@ -29,10 +35,6 @@ class QuickColumns extends React.Component {
     };
   }
 
-  setTable(_table) {
-    this.setState({table: _table});
-  }
-
   quickHandleChange(idx) {
     const quickColumn = this.state.quickColumns[idx];
     quickColumn.visible = !quickColumn.visible;
@@ -50,17 +52,7 @@ class QuickColumns extends React.Component {
     if (this.state.quickColumns.length === 0) {
       return null;
     }
-    if (this.state.table) {
-      const dataTable = $(this.state.table).find('table').dataTable();
-      const columnsCount = dataTable.fnSettings().aoColumns.length;
-      this.state.quickColumns.forEach((col) => {
-        const columnId = col.columnId + 1;
-        if (columnId < columnsCount) {
-          const dtColumn = dataTable.api().column(columnId);
-          if (dtColumn.visible) dtColumn.visible(col.visible);
-        }
-      });
-    }
+    this.updateDataTableQuickColumns();
 
     const checks = this.state.quickColumns.map(function (cell, idx) {
       const column = this.props.columns[cell.columnId];
@@ -80,6 +72,21 @@ class QuickColumns extends React.Component {
         {checks}
       </div>
     )
+  }
+
+  updateDataTableQuickColumns() {
+    const table = $('#dataTables' + this.props.meta._ts_);
+    if (table.length > 0) {
+      const dataTable = table.dataTable();
+      const columnsCount = dataTable.fnSettings().aoColumns.length;
+      this.state.quickColumns.forEach((col) => {
+        const columnId = col.columnId + 1;
+        if (columnId < columnsCount) {
+          const dtColumn = dataTable.api().column(columnId);
+          if (dtColumn.visible) dtColumn.visible(col.visible);
+        }
+      });
+    }
   }
 }
 
