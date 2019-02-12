@@ -38,10 +38,16 @@ class Form extends React.Component {
 
   getParams(values) {
     const attr = this.props.value.data.attributes;
+    let positional;
+    if (this.state.formAction) {
+      positional = be5.url.parse(this.state.formAction).positional;
+    } else {
+      positional = ['form', attr.entity, attr.query, attr.operation];
+    }
     const operationInfo = {
-      [ENTITY_NAME_PARAM]: attr.entity,
-      [QUERY_NAME_PARAM]: attr.query,
-      [OPERATION_NAME_PARAM]: attr.operation,
+      [ENTITY_NAME_PARAM]: positional[1],
+      [QUERY_NAME_PARAM]: positional[2],
+      [OPERATION_NAME_PARAM]: positional[3],
       [CONTEXT_PARAMS]: JSON.stringify(attr.operationParams)
     };
     return getOperationInfo(operationInfo, values);
@@ -148,8 +154,10 @@ class Form extends React.Component {
     );
   }
 
-  _createSubmitAction(actionData, name) {
-    const {bsSize, submitText} = this.props.value.data.attributes.layout;
+  _createSubmitAction(actionUrl, name) {
+    const attr = this.props.value.data.attributes;
+    const {bsSize, submitText} = attr.layout;
+    console.log('form', attr.entity, attr.query, attr.operation);
     return (
       <Transition in={this.state.submitted} timeout={600}>
         {(state) => (
@@ -162,7 +170,7 @@ class Form extends React.Component {
             )}
             onClick={() => this.setState({
               wasValidated: true,
-              formAction: actionData || 'defaultAction'
+              formAction: actionUrl
             })}
             title={this.state.submitted ? be5.messages.submitted : ""}
             disabled={state === 'entered'}

@@ -9,7 +9,7 @@ import testData from '../../testData.json'
 import forms from '../../../../../src/scripts/be5/services/forms';
 import {mount, shallow} from 'enzyme';
 import {MAIN_DOCUMENT} from "../../../../../src/scripts/be5/constants";
-
+import TestFormWithCustomActions from './TestFormWithCustomActions'
 
 test('Form', () => {
   const component = renderer.create(
@@ -69,6 +69,7 @@ test('submit form', () => {
 
   wrapper.find('input').simulate('change', {target: {value: 'newValue'}});
 
+  wrapper.find('button').first().simulate('click');
   wrapper.instance()._applyOnSubmit({ preventDefault: () => {} });
 
   const formData = handle.mock.calls[0][0];
@@ -76,6 +77,27 @@ test('submit form', () => {
   expect(formData.get("_on_")).toEqual("SelectCompany");
   expect(formData.get("_params_")).toEqual("{}");
   expect(formData.get("_qn_")).toEqual("Selection view SelectCompany");
+  expect(formData.get("companyID")).toEqual("newValue");
+  expect(handle.mock.calls[0][1]).toEqual({"documentName": "test"});
+});
+
+test('TestFormWithCustomActions', () => {
+  const handle = forms.apply = jest.fn();
+
+  const wrapper = mount(
+    <TestFormWithCustomActions value={testData.simpleForm} frontendParams={{documentName: 'test'}} />
+  );
+
+  wrapper.find('input').simulate('change', {target: {value: 'newValue'}});
+
+  wrapper.find('button').first().simulate('click');
+  wrapper.instance()._applyOnSubmit({ preventDefault: () => {} });
+
+  const formData = handle.mock.calls[0][0];
+  expect(formData.get("_en_")).toEqual("users");
+  expect(formData.get("_qn_")).toEqual("All records");
+  expect(formData.get("_on_")).toEqual("Full filter");
+  expect(formData.get("_params_")).toEqual("{}");
   expect(formData.get("companyID")).toEqual("newValue");
   expect(handle.mock.calls[0][1]).toEqual({"documentName": "test"});
 });
