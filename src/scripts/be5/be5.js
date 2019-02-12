@@ -109,10 +109,6 @@ const be5 = {
       document.location.hash = '';
     },
 
-    // escapeComponent(hashUriComponent) {
-    //   return encodeURIComponent(hashUriComponent);
-    // },
-
     create(positional = [], named = {}) {
       return be5.url.form(positional, named);
     },
@@ -120,7 +116,7 @@ const be5 = {
     form(positional, named = {}) {
       const res = [];
       for (let i = 0; i < positional.length; i++) {
-        res.push(positional[i]);
+        res.push(encodeURIComponent(positional[i]));
       }
       for (let key in named) {
         res.push(key + '=' + named[key]);
@@ -136,7 +132,7 @@ const be5 = {
       for (let i = 0; i < segments.length; i++) {
         const s = segments[i];
         if (s.indexOf('=') === -1) {
-          positional.push(s);
+          positional.push(decodeURIComponent(s));
         } else {
           named.push(s.split('='));
         }

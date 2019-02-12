@@ -18,9 +18,9 @@ test('be5.url', () =>
   be5.url.set('text/Test');
 
   expect(be5.url.create(['form', 'users','All records', 'Insert'], {'user_name':'Guest'}))
-    .toBe('form/users/All records/Insert/user_name=Guest');
+    .toBe('form/users/All%20records/Insert/user_name=Guest');
 
-  expect(be5.url.parse('form/users/All records/Insert/user_name=Guest'))
+  expect(be5.url.parse('form/users/All%20records/Insert/user_name=Guest'))
     .toEqual({ positional:['form', 'users','All records', 'Insert'], named: {'user_name':'Guest'} });
 
   const action = jest.fn();
@@ -28,7 +28,7 @@ test('be5.url', () =>
   registerRoute('form', action);
   expect(getRoute('form')).toBe(action);
 
-  be5.url.process({documentName: 'testDoc'}, '#!form/users/All records/user_name=Guest');
+  be5.url.process({documentName: 'testDoc'}, '#!form/users/All%20records/user_name=Guest');
 
   expect(action.mock.calls.length).toBe(1);
   expect(action.mock.calls[0]).toEqual([{"documentName": "testDoc"}, "users", "All records", {"user_name": "Guest"}]);

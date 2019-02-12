@@ -10,7 +10,7 @@ test('snapshot', () => {
   };
 
   const tree = renderer.create(
-    <CategoryNavigation data={json} url={"table/publications/Compact%20view/_cat_=3"} />
+    <CategoryNavigation data={json} url={"table/publications/Compact view/_cat_=3"} />
   ).toJSON();
   expect(tree).toMatchSnapshot();
 
