@@ -342,39 +342,42 @@ var toggleRoles = function toggleRoles(roles) {
 
 var getContextParams = function getContextParams(params) {
   if (params[SEARCH_PARAM] !== "true") {
-    return Object.keys(params).filter(function (key) {
-      return !key.startsWith("_");
-    }).reduce(function (obj, key) {
-      obj[key] = params[key];return obj;
-    }, {});
+    var res = Object.assign({}, params);
+    delete res[SEARCH_PARAM];
+    delete res[SEARCH_PRESETS_PARAM];
+    return res;
   }
 
   if (params[SEARCH_PRESETS_PARAM] === undefined) {
     return {};
   }
 
-  var searchPresets = params[SEARCH_PRESETS_PARAM] === undefined ? [] : params[SEARCH_PRESETS_PARAM].split(',');
+  var searchPresets = params[SEARCH_PRESETS_PARAM].split(',');
   return Object.keys(params).filter(function (key) {
-    return !key.startsWith("_") && searchPresets.includes(key);
+    return searchPresets.includes(key) || key === SEARCH_PARAM || key === SEARCH_PRESETS_PARAM;
   }).reduce(function (obj, key) {
     obj[key] = params[key];return obj;
   }, {});
 };
 
 var getFilterParams = function getFilterParams(params) {
-  var searchParams = void 0;
   if (params[SEARCH_PARAM] !== "true") {
-    searchParams = {};
-  } else {
-    var searchPresets = params[SEARCH_PRESETS_PARAM] === undefined ? [] : params[SEARCH_PRESETS_PARAM].split(',');
-    searchParams = Object.keys(params).filter(function (key) {
-      return !key.startsWith("_") && !searchPresets.includes(key);
-    }).reduce(function (obj, key) {
-      obj[key] = params[key];return obj;
-    }, {});
+    return {};
   }
-  searchParams[SEARCH_PARAM] = "true";
-  return searchParams;
+
+  if (params[SEARCH_PRESETS_PARAM] === undefined) {
+    var res = Object.assign({}, params);
+    delete res[SEARCH_PARAM];
+    delete res[SEARCH_PRESETS_PARAM];
+    return res;
+  }
+
+  var searchPresets = params[SEARCH_PRESETS_PARAM].split(',');
+  return Object.keys(params).filter(function (key) {
+    return !searchPresets.includes(key) || key === SEARCH_PARAM || key === SEARCH_PRESETS_PARAM;
+  }).reduce(function (obj, key) {
+    obj[key] = params[key];return obj;
+  }, {});
 };
 
 var getSearchPresetParam = function getSearchPresetParam(params) {
@@ -407,19 +410,14 @@ var addFilterParams = function addFilterParams(url, params) {
   return be5.url.form(attr.positional, attr.named);
 };
 
-var navs = {};
 var filters = {};
-
-function setTableNav(name, value) {
-  navs[name] = value;
-}
-
-function getTableNav(name) {
-  return navs[name];
-}
 
 function setTableFilter(entity, query, parameters) {
   var tableKey = getTableKey(entity, query, parameters);
+  setTableFilterForKey(tableKey, parameters);
+}
+
+function setTableFilterForKey(tableKey, parameters) {
   filters[tableKey] = getFilterParams(parameters);
 }
 
@@ -428,35 +426,20 @@ function getTableFilter(name) {
 }
 
 function getTableStates() {
-  return [navs, filters];
-}
-
-var positionsParamNames = [ORDER_COLUMN, ORDER_DIR, OFFSET, LIMIT];
-
-function withSavedTableNav(entity, query, params) {
-  var queryKey = getTableKey(entity, query, params);
-  if (params[ORDER_COLUMN] || params[ORDER_DIR] || params[OFFSET] || params[LIMIT]) {
-    var newPos = {};
-    positionsParamNames.forEach(function (name) {
-      if (params[name]) newPos[name] = params[name];
-    });
-    setTableNav(queryKey, newPos);
-  } else {
-    var savedPosition = getTableNav(queryKey);
-    if (savedPosition !== undefined) params = Object.assign({}, params, savedPosition);
-  }
-  return params;
+  return { filters: filters };
 }
 
 function withSavedTableFilter(entity, query, params) {
   var tableKey = getTableKey(entity, query, params);
   var savedParams = getTableFilter(tableKey);
   if (savedParams !== undefined) {
-    savedParams = Object.assign({}, savedParams, getContextParams(params));
+    var finalParams = Object.assign({}, savedParams, getContextParams(params));
     var searchPresetParam = getSearchPresetParam(params);
-    if (searchPresetParam !== null) savedParams[SEARCH_PRESETS_PARAM] = searchPresetParam;
-    savedParams[SEARCH_PARAM] = "true";
-    return savedParams;
+    if (searchPresetParam !== null) finalParams[SEARCH_PRESETS_PARAM] = searchPresetParam;
+    finalParams[SEARCH_PARAM] = "true";
+    return finalParams;
+  } else {
+    setTableFilterForKey(tableKey, params);
   }
   return params;
 }
@@ -466,14 +449,14 @@ function getTableKey(entity, query, parameters) {
 }
 
 function clearTableStateByUrl(url) {
+  if (!url.startsWith('#!table')) return;
   var attr = be5.url.parse(url);
-  if (attr.positional[0] !== '#!table') return;
   clearTableState(attr.positional[1], attr.positional[2], attr.named);
 }
 
 function clearTableState(entity, query, params) {
-  var tableKey = getTableKey(entity, query, params);
-  delete navs[tableKey];
+  var contextParams = getContextParams(params);
+  var tableKey = getTableKey(entity, query, contextParams);
   delete filters[tableKey];
 }
 
@@ -4093,7 +4076,7 @@ var getRequestParams = function getRequestParams(params) {
   Preconditions.passed(query);
 
   var finalParams = withSavedTableFilter(entity, query, params[CONTEXT_PARAMS]);
-  finalParams = withSavedTableNav(entity, query, finalParams);
+  //finalParams = withSavedTableNav(entity, query, finalParams);
 
   return _ref2 = {}, defineProperty(_ref2, ENTITY_NAME_PARAM, entity), defineProperty(_ref2, QUERY_NAME_PARAM, query), defineProperty(_ref2, CONTEXT_PARAMS, be5.net.paramString(finalParams)), defineProperty(_ref2, TIMESTAMP_PARAM, new Date().getTime()), _ref2;
 };
@@ -4142,6 +4125,7 @@ var jQueryFormatCell = function jQueryFormatCell(data, options, isColumn) {
   return data === undefined || data === null ? '' : data;
 };
 
+var positionsParamNames = [ORDER_COLUMN, ORDER_DIR, OFFSET, LIMIT];
 var propTypes$4 = {};
 
 var FilterUI = function FilterUI(_ref) {
@@ -4161,16 +4145,17 @@ var FilterUI = function FilterUI(_ref) {
     searchPresets.forEach(function (x) {
       return newParams[x] = params[x];
     });
-    // newParams['_search_'] = "true";
-    // newParams['_search_presets_'] = params['_search_presets_'];
-    //console.log(newParams);
 
-    setTableFilter(entity, query, newParams);
+    clearTableState(entity, query, newParams);
     var paramsObject = (_paramsObject = {}, defineProperty(_paramsObject, ENTITY_NAME_PARAM, entity), defineProperty(_paramsObject, QUERY_NAME_PARAM, query || 'All records'), defineProperty(_paramsObject, CONTEXT_PARAMS, newParams), _paramsObject);
     loadTable(paramsObject, frontendParams);
   }
 
-  if (Object.keys(filterParams).length > 1) {
+  var positionsParamCount = 0;
+  positionsParamNames.forEach(function (x) {
+    if (filterParams[x] !== undefined) positionsParamCount++;
+  });
+  if (Object.keys(filterParams).length > positionsParamCount) {
     return React.createElement(
       "div",
       { className: "table-filter-ui mb-2" },
@@ -4221,9 +4206,12 @@ var Table = function (_Component) {
       Table.storeDocumentState(this.props);
     }
   }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      Table.storeDocumentState(this.props);
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps) {
+      if (nextProps.value.meta._ts_ > this.props.value.meta._ts_) {
+        Table.storeDocumentState(this.props);
+      }
+      return true;
     }
   }, {
     key: 'componentWillReceiveProps',
@@ -5017,17 +5005,25 @@ var DataTablesWrapper = function (_Component) {
         displayStart: attributes.offset,
         order: attributes.orderColumn >= 0 ? [[attributes.orderColumn, attributes.orderDir]] : undefined,
         ajax: function ajax(data, callback, settings) {
-          var _params;
+          var _requestParams;
 
-          var params = (_params = {}, defineProperty(_params, ENTITY_NAME_PARAM, attributes.category), defineProperty(_params, QUERY_NAME_PARAM, attributes.page), defineProperty(_params, CONTEXT_PARAMS, Object.assign({}, attributes.parameters, {
-            _offset_: data.start,
-            _limit_: data.length
-          })), _params);
-          if (data.order && data.order.length > 0) {
-            params[CONTEXT_PARAMS]._orderColumn_ = data.order[0].column;
-            params[CONTEXT_PARAMS]._orderDir_ = data.order[0].dir;
+          var params = Object.assign({}, attributes.parameters);
+          if (params[SEARCH_PARAM] !== "true") {
+            var searchPresetParam = getSearchPresetParam(params);
+            if (searchPresetParam !== null) params[SEARCH_PRESETS_PARAM] = searchPresetParam;
+            params[SEARCH_PARAM] = "true";
           }
-          updateTable(params, function (jsonApiModel) {
+          params._offset_ = data.start;
+          params._limit_ = data.length;
+          if (data.order && data.order.length > 0) {
+            params._orderColumn_ = data.order[0].column;
+            params._orderDir_ = data.order[0].dir;
+          }
+
+          console.log(params);
+          clearTableState(attributes.category, attributes.page, params);
+          var requestParams = (_requestParams = {}, defineProperty(_requestParams, ENTITY_NAME_PARAM, attributes.category), defineProperty(_requestParams, QUERY_NAME_PARAM, attributes.page), defineProperty(_requestParams, CONTEXT_PARAMS, params), _requestParams);
+          updateTable(requestParams, function (jsonApiModel) {
             var json = jsonApiModel.data.attributes;
             if (json.type === "error") {
               be5.log.error(json.value.code + "\n" + json.value.message);

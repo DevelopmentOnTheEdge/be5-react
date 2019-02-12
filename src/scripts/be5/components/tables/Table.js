@@ -28,8 +28,11 @@ class Table extends Component {
     Table.storeDocumentState(this.props)
   }
 
-  componentDidUpdate() {
-    Table.storeDocumentState(this.props)
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.value.meta._ts_ > this.props.value.meta._ts_) {
+      Table.storeDocumentState(this.props)
+    }
+    return true;
   }
 
   static storeDocumentState(props) {

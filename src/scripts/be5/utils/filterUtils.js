@@ -1,36 +1,40 @@
 import {SEARCH_PARAM, SEARCH_PRESETS_PARAM} from "../constants";
 import be5 from "../be5";
-import {positionsParamNames} from "../services/tableStates";
 
 export const getContextParams = (params) => {
   if (params[SEARCH_PARAM] !== "true") {
-    return Object.keys(params)
-      .filter(key => !positionsParamNames.includes(key))
-      .reduce((obj, key) => {obj[key] = params[key]; return obj;}, {});
+    const res = Object.assign({}, params);
+    delete res[SEARCH_PARAM];
+    delete res[SEARCH_PRESETS_PARAM];
+    return res;
   }
 
   if (params[SEARCH_PRESETS_PARAM] === undefined) {
     return {};
   }
 
-  const searchPresets = params[SEARCH_PRESETS_PARAM] === undefined ? [] : params[SEARCH_PRESETS_PARAM].split(',');
+  const searchPresets = params[SEARCH_PRESETS_PARAM].split(',');
   return Object.keys(params)
-    .filter(key => !positionsParamNames.includes(key) && searchPresets.includes(key))
+    .filter(key => searchPresets.includes(key) || key === SEARCH_PARAM || key === SEARCH_PRESETS_PARAM)
     .reduce((obj, key) => {obj[key] = params[key]; return obj;}, {});
 };
 
 export const getFilterParams = (params) => {
-  let searchParams;
   if (params[SEARCH_PARAM] !== "true") {
-    searchParams = {};
-  } else {
-    const searchPresets = params[SEARCH_PRESETS_PARAM] === undefined ? [] : params[SEARCH_PRESETS_PARAM].split(',');
-    searchParams = Object.keys(params)
-      .filter(key => !positionsParamNames.includes(key) && !searchPresets.includes(key))
-      .reduce((obj, key) => {obj[key] = params[key]; return obj;}, {});
+    return {};
   }
-  searchParams[SEARCH_PARAM] = "true";
-  return searchParams;
+
+  if (params[SEARCH_PRESETS_PARAM] === undefined) {
+    const res = Object.assign({}, params);
+    delete res[SEARCH_PARAM];
+    delete res[SEARCH_PRESETS_PARAM];
+    return res;
+  }
+
+  const searchPresets = params[SEARCH_PRESETS_PARAM].split(',');
+  return Object.keys(params)
+    .filter(key => !searchPresets.includes(key) || key === SEARCH_PARAM || key === SEARCH_PRESETS_PARAM)
+    .reduce((obj, key) => {obj[key] = params[key]; return obj;}, {});
 };
 
 export const getSearchPresetParam = (params) =>

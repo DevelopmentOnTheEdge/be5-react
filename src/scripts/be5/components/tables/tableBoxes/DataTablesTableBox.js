@@ -3,10 +3,14 @@ import be5 from '../../../be5';
 import {addUrlHandlers} from '../../../utils/documentUtils';
 import QuickColumns from '../QuickColumns';
 import {jQueryFormatCell, loadTableByUrl, updateTable} from "../../../services/tables";
-import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, QUERY_NAME_PARAM} from "../../../constants";
+import {
+  CONTEXT_PARAMS, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, SEARCH_PARAM,
+  SEARCH_PRESETS_PARAM
+} from "../../../constants";
 import {registerTableBox} from "../../../core/registers/tableBoxes";
 import bus from "../../../core/bus";
 import {clearTableState} from "../../../services/tableStates";
+import {getSearchPresetParam} from "../../../utils/filterUtils";
 
 /**
  * https://datatables.net/
@@ -90,20 +94,27 @@ class DataTablesWrapper extends Component {
       displayStart: attributes.offset,
       order: attributes.orderColumn >= 0 ? [[attributes.orderColumn, attributes.orderDir]] : undefined,
       ajax: function (data, callback, settings) {
-        const params = {
+        const params = Object.assign({}, attributes.parameters);
+        if (params[SEARCH_PARAM] !== "true") {
+          const searchPresetParam = getSearchPresetParam(params);
+          if (searchPresetParam !== null) params[SEARCH_PRESETS_PARAM] = searchPresetParam;
+          params[SEARCH_PARAM] = "true";
+        }
+        params._offset_ = data.start;
+        params._limit_ = data.length;
+        if (data.order && data.order.length > 0) {
+          params._orderColumn_ = data.order[0].column;
+          params._orderDir_ = data.order[0].dir;
+        }
+
+        console.log(params);
+        clearTableState(attributes.category, attributes.page, params);
+        const requestParams = {
           [ENTITY_NAME_PARAM]: attributes.category,
           [QUERY_NAME_PARAM]: attributes.page,
-          [CONTEXT_PARAMS]: Object.assign({}, attributes.parameters, {
-            _offset_: data.start,
-            _limit_: data.length,
-          })
+          [CONTEXT_PARAMS]: params
         };
-        if (data.order && data.order.length > 0) {
-          params[CONTEXT_PARAMS]._orderColumn_ = data.order[0].column;
-          params[CONTEXT_PARAMS]._orderDir_ = data.order[0].dir;
-        }
-        clearTableState(attributes.category, attributes.page, params[CONTEXT_PARAMS]);
-        updateTable(params, function (jsonApiModel) {
+        updateTable(requestParams, function (jsonApiModel) {
           const json = jsonApiModel.data.attributes;
           if (json.type === "error") {
             be5.log.error(json.value.code + "\n" + json.value.message);

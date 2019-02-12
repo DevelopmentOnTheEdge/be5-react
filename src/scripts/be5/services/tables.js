@@ -72,7 +72,6 @@ const getRequestParams = (params) => {
   Preconditions.passed(query);
 
   let finalParams = withSavedTableFilter(entity, query, params[CONTEXT_PARAMS]);
-  finalParams = withSavedTableNav(entity, query, finalParams);
 
   return {
     [ENTITY_NAME_PARAM]: entity,
