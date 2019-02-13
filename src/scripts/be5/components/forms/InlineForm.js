@@ -35,13 +35,15 @@ class InlineMiniForm extends Form {
             this.state.wasValidated ? 'was-validated' : ''
           )}
         >
-          <label className={classNames(
-            "mr-sm-2",
-            {'col-form-label-sm': attributes.layout.bsSize === "sm"},
-            {'col-form-label-lg': attributes.layout.bsSize === "lg"}
-          )}>
-            <strong>{attributes.title}</strong>
-          </label>
+          {attributes.title !== "" ?
+            <label className={classNames(
+              "mr-sm-2",
+              {'col-form-label-sm': attributes.layout.bsSize === "sm"},
+              {'col-form-label-lg': attributes.layout.bsSize === "lg"}
+            )}>
+              <strong>{attributes.title}</strong>
+            </label>
+          : null}
           {properties}
           {this._createSubmitAction()}
           {this._getErrorPane()}
