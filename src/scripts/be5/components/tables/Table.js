@@ -30,7 +30,7 @@ class Table extends Component {
 
   shouldComponentUpdate(nextProps) {
     if (nextProps.value.meta._ts_ > this.props.value.meta._ts_) {
-      Table.storeDocumentState(this.props)
+      Table.storeDocumentState(nextProps)
     }
     return true;
   }
