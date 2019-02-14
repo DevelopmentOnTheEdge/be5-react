@@ -3,10 +3,7 @@ import be5 from "../be5";
 
 export const getContextParams = (params) => {
   if (params[SEARCH_PARAM] !== "true") {
-    const res = Object.assign({}, params);
-    delete res[SEARCH_PARAM];
-    delete res[SEARCH_PRESETS_PARAM];
-    return res;
+    return params;
   }
 
   if (params[SEARCH_PRESETS_PARAM] === undefined) {
@@ -27,7 +24,6 @@ export const getFilterParams = (params) => {
   if (params[SEARCH_PRESETS_PARAM] === undefined) {
     const res = Object.assign({}, params);
     delete res[SEARCH_PARAM];
-    delete res[SEARCH_PRESETS_PARAM];
     return res;
   }
 
