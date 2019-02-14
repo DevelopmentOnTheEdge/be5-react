@@ -342,7 +342,7 @@ class DataTablesTableBox extends Component {
                   className="page-link"
                   onClick={(e) => {
                     e.preventDefault();
-                    loadTableByUrl("table/equipments/All records/_offset_=" + (attr.offset - attr.length), this.props.frontendParams);
+                    loadTableByUrl("table/" + attr.category + "/" + attr.page + "/_offset_=" + (attr.offset - attr.length), this.props.frontendParams);
                   }}
                 >{be5.messages.table.previousPage}</a>
               </li>
@@ -352,7 +352,7 @@ class DataTablesTableBox extends Component {
                   className="page-link"
                   onClick={(e) => {
                     e.preventDefault();
-                    loadTableByUrl("table/equipments/All records/_offset_=0", this.props.frontendParams);
+                    loadTableByUrl("table/" + attr.category + "/" + attr.page + "/_offset_=0", this.props.frontendParams);
                   }}
                 >1</a>
               </li>
