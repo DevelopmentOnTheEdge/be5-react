@@ -14,6 +14,7 @@ import {MAIN_DOCUMENT} from "../../../../../src/scripts/be5/constants";
 
 import dt from 'datatables.net';
 import OperationBox from "../../../../../src/scripts/be5/components/tables/OperationBox";
+import {openPage} from "../../../../../src/scripts/be5/components/tables/tableBoxes/DataTablesTableBox";
 dt(window, $);
 
 jest.mock('../../../../../src/scripts/be5/services/forms', () => ({
@@ -114,4 +115,30 @@ test('TableFormRow', () => {
     </TestProvider>
   );
   expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('noRecordsOnThePage', () => {
+  const component = renderer.create(
+    <TestProvider>
+      <Table value={testData.noRecordsOnThePageTable} frontendParams={{documentName: 'test'}} />
+    </TestProvider>
+  );
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('noRecordsOnThePage openPage', () => {
+  be5.net.request = jest.fn();
+  openPage(testData.simpleTable.data.attributes, {documentName: 'test'}, 5);
+  expect(be5.net.request.mock.calls.length).toBe(1);
+  expect(be5.net.request.mock.calls[0]).toEqual([
+    "table",
+    {
+      "_ts_": expect.any(Number),
+      "_en_": "companies",
+      "_qn_": "All records",
+      "_params_": "{\"_search_\":\"true\",\"_offset_\":\"40\"}"
+    },
+    expect.any(Function),
+    expect.any(Function)
+  ]);
 });

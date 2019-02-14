@@ -457,3 +457,78 @@ exports[`TableFormRow 1`] = `
   </div>
 </div>
 `;
+
+exports[`noRecordsOnThePage 1`] = `
+<div
+  className="table-component companies_All-records"
+>
+  <h1
+    className="table-component__title"
+  >
+    Организации: Общие сведения
+  </h1>
+  <div>
+    <p>
+      No records on page 11
+    </p>
+    <ul
+      className="pagination"
+    >
+      <li
+        className="paginate_button page-item"
+      >
+        <a
+          className="page-link"
+          href="#"
+          onClick={[Function]}
+        >
+          Previous
+        </a>
+      </li>
+      <li
+        className="paginate_button page-item"
+      >
+        <a
+          className="page-link"
+          href="#"
+          onClick={[Function]}
+        >
+          1
+        </a>
+      </li>
+      <li
+        className="paginate_button page-item disabled"
+      >
+        <a
+          className="page-link"
+          href="#"
+          onClick={[Function]}
+        >
+          ...
+        </a>
+      </li>
+      <li
+        className="paginate_button page-item"
+      >
+        <a
+          className="page-link"
+          href="#"
+          onClick={[Function]}
+        >
+          10
+        </a>
+      </li>
+      <li
+        className="paginate_button page-item disabled"
+      >
+        <a
+          className="page-link"
+          href="#"
+        >
+          Next
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+`;

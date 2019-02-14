@@ -37,6 +37,17 @@ export const getFilterParams = (params) => {
     .reduce((obj, key) => {obj[key] = params[key]; return obj;}, {});
 };
 
+export const initFilterParams = (params) => {
+  const newParams = Object.assign({}, params);
+  if (newParams[SEARCH_PARAM] !== "true") {
+    const searchPresetParam = getSearchPresetParam(newParams);
+    if (searchPresetParam !== null) newParams[SEARCH_PRESETS_PARAM] = searchPresetParam;
+    newParams[SEARCH_PARAM] = "true";
+  }
+  return newParams;
+};
+
+
 export const getSearchPresetParam = (params) =>
 {
   return searchPresetParamToString(getSearchPresetNames(params));

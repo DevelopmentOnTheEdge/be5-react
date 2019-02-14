@@ -57,7 +57,7 @@ import {getMenu} from './store/selectors/menu.selectors'
 import {executeFrontendActions, getActionsMap} from './services/frontendActions'
 import FrontendAction from './services/model/FrontendAction'
 import {getBackAction, getBackOrOpenDefaultRouteAction} from "./utils/utils";
-import {addFilterParams, getFilterParams} from "./utils/filterUtils";
+import {addFilterParams, getFilterParams, initFilterParams} from "./utils/filterUtils";
 
 export * from './constants.js';
 
@@ -104,5 +104,5 @@ export {
   executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction,
   FrontendAction,
 
-  getFilterParams, addFilterParams
+  getFilterParams, addFilterParams, initFilterParams
 }

@@ -3,14 +3,11 @@ import be5 from '../../../be5';
 import {addUrlHandlers} from '../../../utils/documentUtils';
 import QuickColumns from '../QuickColumns';
 import {jQueryFormatCell, loadTableByUrl, updateTable} from "../../../services/tables";
-import {
-  CONTEXT_PARAMS, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, SEARCH_PARAM,
-  SEARCH_PRESETS_PARAM
-} from "../../../constants";
+import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, QUERY_NAME_PARAM} from "../../../constants";
 import {registerTableBox} from "../../../core/registers/tableBoxes";
 import bus from "../../../core/bus";
 import {clearTableState} from "../../../services/tableStates";
-import {getSearchPresetParam} from "../../../utils/filterUtils";
+import {initFilterParams} from "../../../utils/filterUtils";
 
 /**
  * https://datatables.net/
@@ -94,12 +91,8 @@ class DataTablesWrapper extends Component {
       displayStart: attributes.offset,
       order: attributes.orderColumn >= 0 ? [[attributes.orderColumn, attributes.orderDir]] : undefined,
       ajax: function (data, callback, settings) {
-        const params = Object.assign({}, attributes.parameters);
-        if (params[SEARCH_PARAM] !== "true") {
-          const searchPresetParam = getSearchPresetParam(params);
-          if (searchPresetParam !== null) params[SEARCH_PRESETS_PARAM] = searchPresetParam;
-          params[SEARCH_PARAM] = "true";
-        }
+        clearTableState(attributes.category, attributes.page, attributes.parameters);
+        const params = initFilterParams(attributes.parameters);
         params._offset_ = data.start;
         params._limit_ = data.length;
         if (data.order && data.order.length > 0) {
@@ -107,8 +100,6 @@ class DataTablesWrapper extends Component {
           params._orderDir_ = data.order[0].dir;
         }
 
-        console.log(params);
-        clearTableState(attributes.category, attributes.page, params);
         const requestParams = {
           [ENTITY_NAME_PARAM]: attributes.category,
           [QUERY_NAME_PARAM]: attributes.page,
@@ -330,32 +321,41 @@ class DataTablesTableBox extends Component {
     const attr = this.props.value.data.attributes;
 
     if (!hasRows(attr)) {
-      const currentPage = attr.offset / attr.length + 1;
+      const previousPage = attr.offset / attr.length;
+      const currentPage = previousPage + 1;
       if (attr.totalNumberOfRows > 0) {
         return (
           <div>
-            <p>{be5.messages.table.noRecordsOnThePage.replace('{0}', currentPage)}</p>
+            <p>{be5.messages.table.noRecordsOnThePage.replace('{0}', currentPage + '')}</p>
             <ul className="pagination">
               <li className="paginate_button page-item">
                 <a
                   href="#"
                   className="page-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    loadTableByUrl("table/" + attr.category + "/" + attr.page + "/_offset_=" + (attr.offset - attr.length), this.props.frontendParams);
-                  }}
+                  onClick={(e) => {e.preventDefault(); openPage(attr, this.props.frontendParams, previousPage);}}
                 >{be5.messages.table.previousPage}</a>
               </li>
               <li className="paginate_button page-item">
                 <a
                   href="#"
                   className="page-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    loadTableByUrl("table/" + attr.category + "/" + attr.page + "/_offset_=0", this.props.frontendParams);
-                  }}
+                  onClick={(e) => {e.preventDefault(); openPage(attr, this.props.frontendParams, 1);}}
                 >1</a>
               </li>
+              {previousPage > 2 ?
+              <li className="paginate_button page-item disabled">
+                <a href="#" className="page-link" onClick={(e) => e.preventDefault()}>...</a>
+              </li>
+              : null}
+              {previousPage > 1 ?
+                <li className="paginate_button page-item">
+                  <a
+                    href="#"
+                    className="page-link"
+                    onClick={(e) => {e.preventDefault(); openPage(attr, this.props.frontendParams, previousPage);}}
+                  >{previousPage}</a>
+                </li>
+              : null}
               <li className="paginate_button page-item disabled">
                 <a href="#" className="page-link">{be5.messages.table.nextPage}</a>
               </li>
@@ -385,6 +385,14 @@ class DataTablesTableBox extends Component {
   }
 
 }
+
+export const openPage = (attr, frontendParams, page) => {
+  clearTableState(attr.category, attr.page, attr.parameters);
+  const previousPageParams = initFilterParams(attr.parameters);
+  previousPageParams._offset_ = (page - 1) * attr.length;
+  loadTableByUrl(be5.url.form(['table', attr.category, attr.page], previousPageParams),
+    frontendParams);
+};
 
 function hasRows(attr) {
   return attr.rows.length > 0;
