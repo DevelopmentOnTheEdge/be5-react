@@ -3,7 +3,8 @@ import be5 from './be5.js';
 // components
 import Application from './components/Application.js';
 import MainDocumentOnly from './components/MainDocumentOnly.js';
-import Be5Menu from './components/menu/NavbarMenu.js';
+import NavbarMenu from './components/menu/NavbarMenu.js';
+import NavMenu from './components/menu/NavMenu.js';
 import HelpInfo from './components/HelpInfo.js';
 import LanguageSelector from './components/LanguageSelector.js';
 import SideBar from './components/SideBar.js';
@@ -52,7 +53,8 @@ export {
   Application,
   MainDocumentOnly,
   Be5Components,
-  Be5Menu,
+  NavbarMenu,
+  NavMenu,
   HelpInfo,
   LanguageSelector,
   SideBar,

@@ -1,25 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import be5 from '../../be5';
-import actions from '../../services/actions';
-import {arraysEqual, hashUrlIsEmpty} from '../../utils/utils';
-import {
-  Button,
-  Collapse,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Nav,
-  Navbar,
-  NavbarToggler,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  UncontrolledTooltip
-} from 'reactstrap';
+import {Button, Collapse, Navbar, NavbarToggler, UncontrolledTooltip} from 'reactstrap';
 import RoleSelector from "../RoleSelector";
 import {processHashUrl} from "../../utils/documentUtils";
+import NavMenu from "./NavMenu";
 
 
 const propTypes = {
@@ -38,17 +23,6 @@ class NavbarMenu extends Component {
     this.toggle = this.toggle.bind(this);
   }
 
-  componentWillMount() {
-    this.props.fetchMenu();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {loggedIn, currentRoles} = this.props.user;
-    if (!arraysEqual(currentRoles, nextProps.user.currentRoles) || loggedIn !== nextProps.user.loggedInForm) {
-      this.props.fetchMenu();
-    }
-  }
-
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
@@ -62,7 +36,7 @@ class NavbarMenu extends Component {
           {this.brand()}
           <NavbarToggler onClick={this.toggle}/>
           <Collapse isOpen={this.state.isOpen} navbar>
-            {this.menu()}
+            <NavMenu {...this.props}/>
             {this.rightButtons()}
           </Collapse>
         </div>
@@ -74,16 +48,6 @@ class NavbarMenu extends Component {
     return this.props.brand
       ? <a href="#!" onClick={processHashUrl} className="navbar-brand">{this.props.brand}</a>
       : undefined;
-  }
-
-  menu() {
-    if (this.props.menu === null) {
-      return null
-    }
-
-    return <Nav className="" navbar>
-      {this._renderMenuItems(this.props.menu.root, false)}
-    </Nav>;
   }
 
   rightButtons() {
@@ -119,61 +83,6 @@ class NavbarMenu extends Component {
     return <form className="form-inline ml-auto">
       <Button onClick={processHashUrl} href="#!login" color="secondary">{be5.messages.login}</Button>
     </form>;
-  }
-
-  _renderDropdownMenuItems(items) {
-    let anyActive = false;
-    const dropdownMenuItems = _(items).map(item => {
-      const {href, target} = actions.parse(item.action);
-      if (this.isActive(href)) anyActive = true;
-      return (
-        <DropdownItem
-          onClick={processHashUrl}
-          href={href}
-          key={target + href}
-          active={this.isActive(href)}
-        >
-          {item.title}
-        </DropdownItem>
-      )
-    });
-
-    return {
-      dropdownMenuItems: dropdownMenuItems,
-      active: anyActive
-    }
-  }
-
-  _renderMenuItems(items, inDropdown) {
-    return _(items).map(item => {
-      if (!item.children || item.children.length === 0) {
-        const {href, target} = actions.parse(item.action);
-        let active = false;
-        if (this.isActive(href)) active = true;
-        return (
-          <NavItem key={target + href}>
-            <NavLink onClick={processHashUrl} href={href} active={active}>{item.title}</NavLink>
-          </NavItem>
-        )
-      }
-
-      const {dropdownMenuItems, active} = this._renderDropdownMenuItems(item.children, true);
-      return (
-        <UncontrolledDropdown nav inNavbar key={item.title}>
-          <DropdownToggle nav caret className={classNames({active: active})}>
-            {item.title}
-          </DropdownToggle>
-          <DropdownMenu>
-            {dropdownMenuItems}
-          </DropdownMenu>
-        </UncontrolledDropdown>
-      );
-    });
-  }
-
-  isActive(href) {
-    return this.props.url.startsWith(href) ||
-      (href === "#!" + this.props.defaultRoute && hashUrlIsEmpty(this.props.url));
   }
 }
 
