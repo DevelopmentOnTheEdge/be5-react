@@ -5,17 +5,17 @@ import be5 from '../../be5';
 import actions from '../../services/actions';
 import {arraysEqual, hashUrlIsEmpty} from '../../utils/utils';
 import {
+  Button,
   Collapse,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Nav,
   Navbar,
   NavbarToggler,
-  Nav,
   NavItem,
   NavLink,
   UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Button,
   UncontrolledTooltip
 } from 'reactstrap';
 import RoleSelector from "../RoleSelector";
@@ -44,7 +44,7 @@ class NavbarMenu extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {loggedIn, currentRoles} = this.props.user;
-    if (!arraysEqual(currentRoles, nextProps.user.currentRoles) || loggedIn !== nextProps.user.loggedIn) {
+    if (!arraysEqual(currentRoles, nextProps.user.currentRoles) || loggedIn !== nextProps.user.loggedInForm) {
       this.props.fetchMenu();
     }
   }
@@ -56,59 +56,69 @@ class NavbarMenu extends Component {
   }
 
   render() {
-    if (this.props.menu === null) {
-      return null
-    }
-
-    const brand = this.props.brand
-      ? <a href="#!" onClick={processHashUrl} className="navbar-brand">{this.props.brand}</a>
-      : undefined;
-
     return (
       <Navbar color="dark" dark expand="md">
         <div className="container">
-          {brand}
+          {this.brand()}
           <NavbarToggler onClick={this.toggle}/>
           <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="" navbar>
-              {this._renderMenuItems(this.props.menu.root, false)}
-            </Nav>
-            {this._renderRightButtons()}
+            {this.menu()}
+            {this.rightButtons()}
           </Collapse>
         </div>
       </Navbar>
     );
   }
 
-  _renderRightButtons() {
+  brand() {
+    return this.props.brand
+      ? <a href="#!" onClick={processHashUrl} className="navbar-brand">{this.props.brand}</a>
+      : undefined;
+  }
+
+  menu() {
+    if (this.props.menu === null) {
+      return null
+    }
+
+    return <Nav className="" navbar>
+      {this._renderMenuItems(this.props.menu.root, false)}
+    </Nav>;
+  }
+
+  rightButtons() {
+    if (!this.props.user.loggedIn) {
+      return this.notLoggedInForm();
+    } else {
+      return this.loggedInForm();
+    }
+  }
+
+  loggedInForm() {
     const {
       userName,
-      loggedIn,
       currentRoles,
       availableRoles
     } = this.props.user;
 
-    if (!loggedIn) {
-      return (
-        <form className="form-inline ml-auto">
-          <Button onClick={processHashUrl} href="#!login" color="secondary">{be5.messages.login}</Button>
-        </form>
-      );
-    }
-    return (
-      <form className="form-inline ml-auto">
-        <UncontrolledTooltip placement="left" target="RoleSelector">
-          {userName}
-        </UncontrolledTooltip>
-        <RoleSelector
-          id={"RoleSelector"}
-          availableRoles={availableRoles}
-          currentRoles={currentRoles}
-          toggleRoles={this.props.toggleRoles}
-        />{' '}
-        <Button onClick={processHashUrl} href="#!logout" color="secondary">{be5.messages.logout}</Button>
-      </form>
-    );
+    return <form className="form-inline ml-auto">
+      <UncontrolledTooltip placement="left" target="RoleSelector">
+        {userName}
+      </UncontrolledTooltip>
+      <RoleSelector
+        id={"RoleSelector"}
+        availableRoles={availableRoles}
+        currentRoles={currentRoles}
+        toggleRoles={this.props.toggleRoles}
+      />{' '}
+      <Button onClick={processHashUrl} href="#!logout" color="secondary">{be5.messages.logout}</Button>
+    </form>;
+  }
+
+  notLoggedInForm() {
+    return <form className="form-inline ml-auto">
+      <Button onClick={processHashUrl} href="#!login" color="secondary">{be5.messages.login}</Button>
+    </form>;
   }
 
   _renderDropdownMenuItems(items) {
