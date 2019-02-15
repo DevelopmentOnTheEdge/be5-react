@@ -4,7 +4,7 @@ import Preconditions from '../utils/preconditions';
 import numberFormatter from 'number-format.js';
 import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, MAIN_MODAL_DOCUMENT, QUERY_NAME_PARAM, TIMESTAMP_PARAM} from "../constants";
 import bus from "../core/bus";
-import {clearTableStateByUrl, withSavedTableFilter, withSavedTableNav} from "./tableStates";
+import {clearTableStateByUrl, withSavedTableFilter} from "./tableStates";
 
 
 export const loadTable = (params, frontendParams) => {

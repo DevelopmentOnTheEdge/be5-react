@@ -342,10 +342,7 @@ var toggleRoles = function toggleRoles(roles) {
 
 var getContextParams = function getContextParams(params) {
   if (params[SEARCH_PARAM] !== "true") {
-    var res = Object.assign({}, params);
-    delete res[SEARCH_PARAM];
-    delete res[SEARCH_PRESETS_PARAM];
-    return res;
+    return params;
   }
 
   if (params[SEARCH_PRESETS_PARAM] === undefined) {
@@ -368,7 +365,6 @@ var getFilterParams = function getFilterParams(params) {
   if (params[SEARCH_PRESETS_PARAM] === undefined) {
     var res = Object.assign({}, params);
     delete res[SEARCH_PARAM];
-    delete res[SEARCH_PRESETS_PARAM];
     return res;
   }
 
@@ -378,6 +374,16 @@ var getFilterParams = function getFilterParams(params) {
   }).reduce(function (obj, key) {
     obj[key] = params[key];return obj;
   }, {});
+};
+
+var initFilterParams = function initFilterParams(params) {
+  var newParams = Object.assign({}, params);
+  if (newParams[SEARCH_PARAM] !== "true") {
+    var searchPresetParam = getSearchPresetParam(newParams);
+    if (searchPresetParam !== null) newParams[SEARCH_PRESETS_PARAM] = searchPresetParam;
+    newParams[SEARCH_PARAM] = "true";
+  }
+  return newParams;
 };
 
 var getSearchPresetParam = function getSearchPresetParam(params) {
@@ -1047,12 +1053,6 @@ var be5 = {
     clear: function clear() {
       document.location.hash = '';
     },
-
-
-    // escapeComponent(hashUriComponent) {
-    //   return encodeURIComponent(hashUriComponent);
-    // },
-
     create: function create() {
       var positional = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
       var named = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -1064,7 +1064,7 @@ var be5 = {
 
       var res = [];
       for (var i = 0; i < positional.length; i++) {
-        res.push(positional[i]);
+        res.push(encodeURIComponent(positional[i]));
       }
       for (var key in named) {
         res.push(key + '=' + named[key]);
@@ -1079,7 +1079,7 @@ var be5 = {
       for (var i = 0; i < segments.length; i++) {
         var s = segments[i];
         if (s.indexOf('=') === -1) {
-          positional.push(s);
+          positional.push(decodeURIComponent(s));
         } else {
           named.push(s.split('='));
         }
@@ -3321,7 +3321,13 @@ var Form = function (_React$Component) {
       var _operationInfo;
 
       var attr = this.props.value.data.attributes;
-      var operationInfo = (_operationInfo = {}, defineProperty(_operationInfo, ENTITY_NAME_PARAM, attr.entity), defineProperty(_operationInfo, QUERY_NAME_PARAM, attr.query), defineProperty(_operationInfo, OPERATION_NAME_PARAM, attr.operation), defineProperty(_operationInfo, CONTEXT_PARAMS, JSON.stringify(attr.operationParams)), _operationInfo);
+      var positional = void 0;
+      if (this.state.formAction) {
+        positional = be5.url.parse(this.state.formAction).positional;
+      } else {
+        positional = ['form', attr.entity, attr.query, attr.operation];
+      }
+      var operationInfo = (_operationInfo = {}, defineProperty(_operationInfo, ENTITY_NAME_PARAM, positional[1]), defineProperty(_operationInfo, QUERY_NAME_PARAM, positional[2]), defineProperty(_operationInfo, OPERATION_NAME_PARAM, positional[3]), defineProperty(_operationInfo, CONTEXT_PARAMS, JSON.stringify(attr.operationParams)), _operationInfo);
       return getOperationInfo(operationInfo, values);
     }
   }, {
@@ -3438,12 +3444,13 @@ var Form = function (_React$Component) {
     }
   }, {
     key: '_createSubmitAction',
-    value: function _createSubmitAction(actionData, name) {
+    value: function _createSubmitAction(actionUrl, name) {
       var _this5 = this;
 
-      var _props$value$data$att = this.props.value.data.attributes.layout,
-          bsSize = _props$value$data$att.bsSize,
-          submitText = _props$value$data$att.submitText;
+      var attr = this.props.value.data.attributes;
+      var _attr$layout = attr.layout,
+          bsSize = _attr$layout.bsSize,
+          submitText = _attr$layout.submitText;
 
       return React.createElement(
         Transition,
@@ -3457,7 +3464,7 @@ var Form = function (_React$Component) {
               onClick: function onClick() {
                 return _this5.setState({
                   wasValidated: true,
-                  formAction: actionData || 'defaultAction'
+                  formAction: actionUrl
                 });
               },
               title: _this5.state.submitted ? be5.messages.submitted : "",
@@ -3732,7 +3739,7 @@ var InlineMiniForm = function (_Form) {
             onSubmit: this._applyOnSubmit,
             className: classNames('form-inline', this.state.wasValidated ? 'was-validated' : '')
           },
-          React.createElement(
+          attributes.title !== "" ? React.createElement(
             'label',
             { className: classNames("mr-sm-2", { 'col-form-label-sm': attributes.layout.bsSize === "sm" }, { 'col-form-label-lg': attributes.layout.bsSize === "lg" }) },
             React.createElement(
@@ -3740,7 +3747,7 @@ var InlineMiniForm = function (_Form) {
               null,
               attributes.title
             )
-          ),
+          ) : null,
           properties,
           this._createSubmitAction(),
           this._getErrorPane()
@@ -4076,7 +4083,6 @@ var getRequestParams = function getRequestParams(params) {
   Preconditions.passed(query);
 
   var finalParams = withSavedTableFilter(entity, query, params[CONTEXT_PARAMS]);
-  //finalParams = withSavedTableNav(entity, query, finalParams);
 
   return _ref2 = {}, defineProperty(_ref2, ENTITY_NAME_PARAM, entity), defineProperty(_ref2, QUERY_NAME_PARAM, query), defineProperty(_ref2, CONTEXT_PARAMS, be5.net.paramString(finalParams)), defineProperty(_ref2, TIMESTAMP_PARAM, new Date().getTime()), _ref2;
 };
@@ -4209,7 +4215,7 @@ var Table = function (_Component) {
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(nextProps) {
       if (nextProps.value.meta._ts_ > this.props.value.meta._ts_) {
-        Table.storeDocumentState(this.props);
+        Table.storeDocumentState(nextProps);
       }
       return true;
     }
@@ -4256,10 +4262,7 @@ var Table = function (_Component) {
       if (this.props.frontendParams.documentName === MAIN_DOCUMENT) {
         be5.ui.setTitle(data.attributes.title + ' ' + this.getOperationParamsInfo());
       }
-      var hasRows = data.attributes.rows.length > 0;
       var operations = getResourceByType(included, "documentOperations");
-
-      var TitleTag = 'h' + (value.data.attributes.parameters && value.data.attributes.parameters._titleLevel_ || 1);
 
       var topFormJson = value.included !== undefined ? getModelByID(value.included, value.meta, "topForm") : undefined;
       var hideOperations = data.attributes.layout.hideOperations || [];
@@ -4269,17 +4272,7 @@ var Table = function (_Component) {
         'div',
         { className: classNames("table-component", this.getTableClass(), data.attributes.layout.classes) },
         this.topForm(topFormJson),
-        React.createElement(
-          TitleTag,
-          { className: 'table-component__title' },
-          value.data.attributes.title,
-          this.getOperationParamsInfo().length > 0 ? React.createElement(
-            'small',
-            null,
-            ' ',
-            this.getOperationParamsInfo()
-          ) : null
-        ),
+        this.getTitleTag(value),
         React.createElement(CategoryNavigation, {
           data: getResourceByType(included, "documentCategories"),
           url: getSelfUrl(this.props.value)
@@ -4288,7 +4281,7 @@ var Table = function (_Component) {
           operations: operations,
           onOperationClick: this.onOperationClick,
           selectedRows: this.state.selectedRows,
-          hasRows: hasRows,
+          hasRows: data.attributes.rows.length > 0,
           hideOperations: hideOperations
         }),
         React.createElement(FilterUI, {
@@ -4335,6 +4328,23 @@ var Table = function (_Component) {
       var entity = makeSafeForClassName(attributes.category);
       var query = makeSafeForClassName(attributes.page);
       return entity + '_' + query;
+    }
+  }, {
+    key: 'getTitleTag',
+    value: function getTitleTag(value) {
+      var TitleTag = 'h' + (value.data.attributes.parameters && value.data.attributes.parameters._titleLevel_ || 1);
+      var operationParamsInfo = this.getOperationParamsInfo();
+      return React.createElement(
+        TitleTag,
+        { className: 'table-component__title' },
+        value.data.attributes.title,
+        operationParamsInfo.length > 0 ? ' ' : null,
+        operationParamsInfo.length > 0 ? React.createElement(
+          'small',
+          null,
+          operationParamsInfo
+        ) : null
+      );
     }
   }, {
     key: 'getOperationParamsInfo',
@@ -5007,12 +5017,8 @@ var DataTablesWrapper = function (_Component) {
         ajax: function ajax(data, callback, settings) {
           var _requestParams;
 
-          var params = Object.assign({}, attributes.parameters);
-          if (params[SEARCH_PARAM] !== "true") {
-            var searchPresetParam = getSearchPresetParam(params);
-            if (searchPresetParam !== null) params[SEARCH_PRESETS_PARAM] = searchPresetParam;
-            params[SEARCH_PARAM] = "true";
-          }
+          clearTableState(attributes.category, attributes.page, attributes.parameters);
+          var params = initFilterParams(attributes.parameters);
           params._offset_ = data.start;
           params._limit_ = data.length;
           if (data.order && data.order.length > 0) {
@@ -5020,8 +5026,6 @@ var DataTablesWrapper = function (_Component) {
             params._orderDir_ = data.order[0].dir;
           }
 
-          console.log(params);
-          clearTableState(attributes.category, attributes.page, params);
           var requestParams = (_requestParams = {}, defineProperty(_requestParams, ENTITY_NAME_PARAM, attributes.category), defineProperty(_requestParams, QUERY_NAME_PARAM, attributes.page), defineProperty(_requestParams, CONTEXT_PARAMS, params), _requestParams);
           updateTable(requestParams, function (jsonApiModel) {
             var json = jsonApiModel.data.attributes;
@@ -5252,7 +5256,8 @@ var DataTablesTableBox = function (_Component2) {
       var attr = this.props.value.data.attributes;
 
       if (!hasRows(attr)) {
-        var currentPage = attr.offset / attr.length + 1;
+        var previousPage = attr.offset / attr.length;
+        var currentPage = previousPage + 1;
         if (attr.totalNumberOfRows > 0) {
           return React.createElement(
             'div',
@@ -5260,7 +5265,7 @@ var DataTablesTableBox = function (_Component2) {
             React.createElement(
               'p',
               null,
-              be5.messages.table.noRecordsOnThePage.replace('{0}', currentPage)
+              be5.messages.table.noRecordsOnThePage.replace('{0}', currentPage + '')
             ),
             React.createElement(
               'ul',
@@ -5274,8 +5279,7 @@ var DataTablesTableBox = function (_Component2) {
                     href: '#',
                     className: 'page-link',
                     onClick: function onClick(e) {
-                      e.preventDefault();
-                      loadTableByUrl("table/equipments/All records/_offset_=" + (attr.offset - attr.length), _this5.props.frontendParams);
+                      e.preventDefault();openPage(attr, _this5.props.frontendParams, previousPage);
                     }
                   },
                   be5.messages.table.previousPage
@@ -5290,13 +5294,38 @@ var DataTablesTableBox = function (_Component2) {
                     href: '#',
                     className: 'page-link',
                     onClick: function onClick(e) {
-                      e.preventDefault();
-                      loadTableByUrl("table/equipments/All records/_offset_=0", _this5.props.frontendParams);
+                      e.preventDefault();openPage(attr, _this5.props.frontendParams, 1);
                     }
                   },
                   '1'
                 )
               ),
+              previousPage > 2 ? React.createElement(
+                'li',
+                { className: 'paginate_button page-item disabled' },
+                React.createElement(
+                  'a',
+                  { href: '#', className: 'page-link', onClick: function onClick(e) {
+                      return e.preventDefault();
+                    } },
+                  '...'
+                )
+              ) : null,
+              previousPage > 1 ? React.createElement(
+                'li',
+                { className: 'paginate_button page-item' },
+                React.createElement(
+                  'a',
+                  {
+                    href: '#',
+                    className: 'page-link',
+                    onClick: function onClick(e) {
+                      e.preventDefault();openPage(attr, _this5.props.frontendParams, previousPage);
+                    }
+                  },
+                  previousPage
+                )
+              ) : null,
               React.createElement(
                 'li',
                 { className: 'paginate_button page-item disabled' },
@@ -5332,6 +5361,13 @@ var DataTablesTableBox = function (_Component2) {
   }]);
   return DataTablesTableBox;
 }(Component);
+
+var openPage = function openPage(attr, frontendParams, page) {
+  clearTableState(attr.category, attr.page, attr.parameters);
+  var previousPageParams = initFilterParams(attr.parameters);
+  previousPageParams._offset_ = (page - 1) * attr.length;
+  loadTableByUrl(be5.url.form(['table', attr.category, attr.page], previousPageParams), frontendParams);
+};
 
 function hasRows(attr) {
   return attr.rows.length > 0;
@@ -6265,6 +6301,7 @@ var api = Object.freeze({
 	getSelfUrl: getSelfUrl,
 	getModelByID: getModelByID,
 	createStaticValue: createStaticValue,
+	getResourceByType: getResourceByType,
 	getResourceByID: getResourceByID,
 	processHashUrl: processHashUrl,
 	processHashUrlForDocument: processHashUrlForDocument,
@@ -6319,6 +6356,7 @@ var api = Object.freeze({
 	FrontendAction: FrontendAction,
 	getFilterParams: getFilterParams,
 	addFilterParams: addFilterParams,
+	initFilterParams: initFilterParams,
 	API_URL_PREFIX: API_URL_PREFIX,
 	DEFAULT_VIEW: DEFAULT_VIEW,
 	ROLE_ADMINISTRATOR: ROLE_ADMINISTRATOR,
@@ -6358,4 +6396,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getTableStates, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, addUrlHandlers, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getTableStates, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByType, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, addUrlHandlers, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, initFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR };
