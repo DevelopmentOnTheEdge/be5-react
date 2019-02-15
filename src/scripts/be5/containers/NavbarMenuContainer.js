@@ -8,7 +8,10 @@ import {toggleRoles} from "../store/actions/user.actions";
 import {getHashUrl} from "../store/selectors/url.selectors";
 
 
-const NavbarMenuContainer = props => <NavbarMenu {...props} />;
+const NavbarMenuContainer = props => {
+  const Component = props.component || NavbarMenu;
+  return <Component {...props} />;
+};
 
 const mapStateToProps = state => ({
   menu: getMenu(state),

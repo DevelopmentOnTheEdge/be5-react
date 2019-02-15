@@ -33,7 +33,7 @@ class NavbarMenu extends Component {
     return (
       <Navbar color="dark" dark expand="md">
         <div className="container">
-          {this.brand()}
+          {this.navbarBrand()}
           <NavbarToggler onClick={this.toggle}/>
           <Collapse isOpen={this.state.isOpen} navbar>
             <NavMenu {...this.props}/>
@@ -44,7 +44,7 @@ class NavbarMenu extends Component {
     );
   }
 
-  brand() {
+  navbarBrand() {
     return this.props.brand
       ? <a href="#!" onClick={processHashUrl} className="navbar-brand">{this.props.brand}</a>
       : undefined;
