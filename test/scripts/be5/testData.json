@@ -58,6 +58,55 @@
       "_ts_": "1507198487234"
     }
   },
+  "tableWithFilterInfo": {
+    "data": {
+      "attributes": {
+        "category": "companies",
+        "columns": [
+          {"title":"Наименование", "name":"name"}
+        ],
+        "hasAggregate": false,
+        "layout": {},
+        "length": 10,
+        "page": "All records",
+        "parameters": {},
+        "rows": [
+          {
+            "cells": [
+              {
+                "content": "adfd",
+                "options": {}
+              }
+            ],
+            "id": "19"
+          }
+        ],
+        "selectable": true,
+        "title": "Организации: Общие сведения",
+        "totalNumberOfRows": 100
+      },
+      "type": "table",
+      "links": {
+        "self": "table/companies/All records"
+      }
+    },
+    "included": [
+      {
+        "attributes":{
+          "operationParamsInfo":[
+            {
+              "key":"Name",
+              "value":"Test name"
+            }
+          ]
+        },
+        "type":"filterInfo"
+      }
+    ],
+    "meta": {
+      "_ts_": "1507198487234"
+    }
+  },
   "noRecordsOnThePageTable": {
     "data": {
       "attributes": {

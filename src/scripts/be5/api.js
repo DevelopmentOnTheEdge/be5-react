@@ -6,6 +6,7 @@ import preconditions from './utils/preconditions.js';
 import {
   createStaticValue,
   getModelByID,
+  getResourceByType,
   getResourceByID,
   getSelfUrl,
   loadDocumentByUrl,
@@ -66,7 +67,8 @@ export {
   getTableStates,
   preconditions,
   arraysEqual, createPageValue, registerPage,
-  getSelfUrl, getModelByID, createStaticValue, getResourceByID, processHashUrl, processHashUrlForDocument,
+  getSelfUrl, getModelByID, createStaticValue, getResourceByType, getResourceByID, processHashUrl,
+  processHashUrlForDocument,
   openInModal, addUrlHandlers, loadDocumentByUrl,
 
   // core

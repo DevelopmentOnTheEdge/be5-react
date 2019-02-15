@@ -117,6 +117,16 @@ test('TableFormRow', () => {
   expect(component.toJSON()).toMatchSnapshot();
 });
 
+test('tableWithFilterInfo', () => {
+  const component = renderer.create(
+    <TestProvider>
+      <Table value={testData.tableWithFilterInfo} frontendParams={{documentName: 'test'}} />
+    </TestProvider>
+  );
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+
 test('noRecordsOnThePage', () => {
   const component = renderer.create(
     <TestProvider>

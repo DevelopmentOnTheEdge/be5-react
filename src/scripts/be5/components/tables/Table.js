@@ -76,10 +76,7 @@ class Table extends Component {
     if (this.props.frontendParams.documentName === MAIN_DOCUMENT) {
       be5.ui.setTitle(data.attributes.title + ' ' + this.getOperationParamsInfo());
     }
-    const hasRows = data.attributes.rows.length > 0;
     const operations = getResourceByType(included, "documentOperations");
-
-    const TitleTag = `h${(value.data.attributes.parameters && value.data.attributes.parameters._titleLevel_) || 1}`;
 
     const topFormJson = value.included !== undefined ? getModelByID(value.included, value.meta, "topForm") : undefined;
     let hideOperations = data.attributes.layout.hideOperations || [];
@@ -88,10 +85,7 @@ class Table extends Component {
     return (
       <div className={classNames("table-component", this.getTableClass(), data.attributes.layout.classes)}>
         {this.topForm(topFormJson)}
-        <TitleTag className="table-component__title">
-          {value.data.attributes.title}
-          {this.getOperationParamsInfo().length > 0 ? <small>{' '}{this.getOperationParamsInfo()}</small> : null}
-        </TitleTag>
+        {this.getTitleTag(value)}
         <CategoryNavigation
           data={getResourceByType(included, "documentCategories")}
           url={getSelfUrl(this.props.value)}
@@ -100,7 +94,7 @@ class Table extends Component {
           operations={operations}
           onOperationClick={this.onOperationClick}
           selectedRows={this.state.selectedRows}
-          hasRows={hasRows}
+          hasRows={data.attributes.rows.length > 0}
           hideOperations={hideOperations}
         />
         <FilterUI
@@ -146,6 +140,18 @@ class Table extends Component {
     const entity = makeSafeForClassName(attributes.category);
     const query = makeSafeForClassName(attributes.page);
     return entity + '_' + query;
+  }
+
+  getTitleTag(value) {
+    const TitleTag = `h${(value.data.attributes.parameters && value.data.attributes.parameters._titleLevel_) || 1}`;
+    const operationParamsInfo = this.getOperationParamsInfo();
+    return <TitleTag className="table-component__title">
+      {value.data.attributes.title}
+      {operationParamsInfo.length > 0 ? ' ' : null}
+      {operationParamsInfo.length > 0 ?
+        <small>{operationParamsInfo}</small>
+      : null}
+    </TitleTag>;
   }
 
   getOperationParamsInfo() {
