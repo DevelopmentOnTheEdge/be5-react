@@ -1,5 +1,5 @@
 import React from 'react';
-import {createStaticValue, getSelfUrl} from './utils/documentUtils';
+import {createStaticValue} from './utils/documentUtils';
 import messages from './core/messages';
 import bus from './core/bus';
 import changeDocument from './core/changeDocument';
@@ -68,10 +68,11 @@ const be5 = {
 
   ui: {
     setTitle(docTitle) {
-      let titleComponents = [docTitle, be5.appInfo.title];
-      document.title = titleComponents.filter(function (c) {
-        return typeof(c) === 'string';
-      }).join(' - ');
+      if (docTitle !== undefined && docTitle.length > 0) {
+        document.title = docTitle + ' - ' + be5.appInfo.title;
+      } else {
+        document.title = be5.appInfo.title;
+      }
     },
   },
 
