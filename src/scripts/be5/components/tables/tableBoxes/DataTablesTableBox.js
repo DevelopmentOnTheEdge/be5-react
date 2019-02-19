@@ -26,7 +26,7 @@ class DataTablesWrapper extends Component {
     if (nextProps.value.meta._ts_ > this.props.value.meta._ts_)
     {
       $(this.refs.main)
-        .find('table')
+        .find(getTableId(this.props))
         .DataTable()
         .destroy(true);
       $(this.refs.main).empty();
@@ -37,14 +37,13 @@ class DataTablesWrapper extends Component {
 
   componentWillUnmount() {
     $(this.refs.main)
-      .find('table')
+      .find(getTableId(this.props))
       .DataTable()
       .destroy(true)
   }
 
   getTableConfiguration(props) {
     const attributes = props.value.data.attributes;
-    const _this = this;
     const hasCheckBoxes = attributes.selectable;
     const editOperation = DataTablesWrapper.getEditOperation(props);
 
@@ -140,7 +139,7 @@ class DataTablesWrapper extends Component {
             if (val === 'aggregate') return '';
 
             const id = "row-" + val + "-checkbox";
-            const dataTable = $(this.refs.main).find('table').dataTable();
+            const dataTable = $(this.refs.main).find(getTableId(props)).dataTable();
             let display = (dataTable.api().page.info() ? dataTable.api().page.info().start : 0) + meta.row + 1;
             if (!hasCheckBoxes) {
               return display;
@@ -238,7 +237,7 @@ class DataTablesWrapper extends Component {
 
     tableConfiguration.drawCallback = (settings) => {
       if (this.refs && this.refs.main) {
-        const dataTable = $(this.refs.main).find('table').dataTable();
+        const dataTable = $(this.refs.main).find(getTableId(props)).dataTable();
         if (groupingColumn !== null) drawGrouping(dataTable.api());
       }
       //hideControls();
@@ -249,7 +248,7 @@ class DataTablesWrapper extends Component {
   applyTable(props, node) {
     if (!hasRows(props.value.data.attributes)) return;
 
-    const tableTag = $('<table id="dataTables' + props.value.meta._ts_ + '" '
+    const tableTag = $('<table id="' + getTableId(props) + '" '
       + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>');
     tableTag.appendTo(node);
 
@@ -396,6 +395,10 @@ export const openPage = (attr, frontendParams, page) => {
 
 function hasRows(attr) {
   return attr.rows.length > 0;
+}
+
+function getTableId(props) {
+  return 'dataTables' + props.value.meta._ts_;
 }
 
 registerTableBox('dataTable', DataTablesTableBox);
