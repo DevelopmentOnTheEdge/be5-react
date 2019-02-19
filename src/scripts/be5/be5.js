@@ -291,7 +291,7 @@ const be5 = {
           //                   .toString()
           //                   : errorThrown.message));
           const response = JSON.parse(xhr.responseText);
-          if (typeof (failure) === 'function' && typeof response !== 'string') {
+          if (typeof (failure) === 'function') {
             failure(response);
           } else {
             be5.log.error(response);
@@ -304,7 +304,15 @@ const be5 = {
 
   log: {
     error(value) {
-      bus.fire("alert", {msg: value, type: 'error'});
+      if (typeof value === 'string') {
+        bus.fire("alert", {msg: value, type: 'error'});
+      } else if (value.errors !== undefined) {
+        value.errors.forEach(function(e) {
+          bus.fire("alert", {msg: e.title, type: 'error'});
+        });
+      } else {
+        bus.fire("alert", {msg: 'unknown error', type: 'error'});
+      }
       console.error(value);
     }
   },
