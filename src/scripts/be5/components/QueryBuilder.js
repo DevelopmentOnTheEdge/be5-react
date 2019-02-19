@@ -16,9 +16,8 @@ try {
   require('brace/ext/language_tools');
   AceEditor = require("react-ace").default;
 } catch (e) {
-  console.log(e)
+  console.log('AceEditor (brace) is not available, use textarea')
 }
-
 
 class QueryBuilder extends React.Component {
   constructor(props) {

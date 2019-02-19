@@ -3,9 +3,16 @@ import be5 from "../be5";
 let BeSqlHighlightRules;
 let BeSqlMode;
 
+let brace = false;
 try {
   require('brace');
   require('brace/mode/sql');
+  brace = true
+} catch (e) {
+  console.log('AceEditor (brace) is not available, skip init BeSqlHighlightRules');
+}
+
+if (brace) {
   const oop = window.ace.acequire("ace/lib/oop");
 
   const TextHighlightRules = window.ace.acequire("ace/mode/text_highlight_rules").TextHighlightRules;
@@ -84,8 +91,6 @@ try {
   };
   oop.inherits(BeSqlMode, Mode);
 
-} catch (e) {
-  console.log(e);
 }
 
 let beSqlFunctions = '';
