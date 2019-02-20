@@ -22,6 +22,7 @@ class Table extends Component {
     this.state = {runReload: "", selectedRows: []};
     this.onOperationClick = this.onOperationClick.bind(this);
     this.setSelectedRows = this.setSelectedRows.bind(this);
+    this.getSelectedRows = this.getSelectedRows.bind(this);
   }
 
   componentDidMount() {
@@ -125,6 +126,7 @@ class Table extends Component {
         operations={operations}
         selectedRows={this.state.selectedRows}
         setSelectedRows={this.setSelectedRows}
+        getSelectedRows={this.getSelectedRows}
         onOperationClick={this.onOperationClick}
         frontendParams={this.props.frontendParams}
       />
@@ -133,6 +135,10 @@ class Table extends Component {
 
   setSelectedRows(newRows) {
     this.setState({selectedRows: newRows})
+  }
+
+  getSelectedRows() {
+    return this.state.selectedRows;
   }
 
   getTableClass() {

@@ -178,14 +178,14 @@ class DataTablesWrapper extends Component {
           const checked = this.checked;
 
           if (checked) {// && $.inArray(rowId, selectedRows) === -1
-            const newRows = Array.from(props.selectedRows);
+            const newRows = Array.from(props.getSelectedRows());
             newRows.push(rowId);
             props.setSelectedRows(newRows);
             // if(attributes.rows.length === be5.tableState.selectedRows.length){
             //   $('#rowCheckboxAll').prop('checked', true);
             // }
           } else {//if (!checked && $.inArray(rowId, selectedRows) !== -1) {
-            const newRows = Array.from(props.selectedRows);
+            const newRows = Array.from(props.getSelectedRows());
             newRows.splice($.inArray(rowId, newRows), 1);
             props.setSelectedRows(newRows);
             //$('#rowCheckboxAll').prop('checked', false);
