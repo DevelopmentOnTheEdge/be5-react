@@ -43,7 +43,7 @@ export const openOperationByUrlWithValues = (url, values, frontendParams) => {
   _send('form', getOperationInfoFromUrl(url, values), frontendParams);
 };
 
-export const fetchOperationByUrl = (url, callback, failure) => {
+export const fetchOperationByUrl = (url, callback, failure = be5.log.error) => {
   _post('form', getOperationInfoFromUrl(url), callback, failure);
 };
 

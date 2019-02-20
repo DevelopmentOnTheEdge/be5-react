@@ -133,7 +133,7 @@ test('fetchTableByUrl', () => {
       "_params_": '{"user_name":"demo"}'
     },
     expect.any(Function),
-    expect.any(Function)
+    be5.log.error
   ]);
 
 });

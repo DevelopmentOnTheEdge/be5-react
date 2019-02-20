@@ -277,7 +277,7 @@ test('fetchOperationByUrl', () => {
   expect(formData.get("_ts_")).toEqual(expect.any(String));
 
   expect(_post.mock.calls[3][2]).toEqual(expect.any(Function));
-  expect(_post.mock.calls[3][3]).toEqual(undefined);
+  expect(_post.mock.calls[3][3]).toEqual(be5.log.error);
 });
 
 // test('fetchOperationByUrl data', () => {

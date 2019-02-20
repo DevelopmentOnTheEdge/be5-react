@@ -1020,10 +1020,11 @@ var be5 = {
 
   ui: {
     setTitle: function setTitle(docTitle) {
-      var titleComponents = [docTitle, be5.appInfo.title];
-      document.title = titleComponents.filter(function (c) {
-        return typeof c === 'string';
-      }).join(' - ');
+      if (docTitle !== undefined && docTitle.length > 0) {
+        document.title = docTitle + ' - ' + be5.appInfo.title;
+      } else {
+        document.title = be5.appInfo.title;
+      }
     }
   },
 
@@ -1230,7 +1231,7 @@ var be5 = {
           //                   .toString()
           //                   : errorThrown.message));
           var response = JSON.parse(xhr.responseText);
-          if (typeof failure === 'function' && typeof response !== 'string') {
+          if (typeof failure === 'function') {
             failure(response);
           } else {
             be5.log.error(response);
@@ -1244,7 +1245,15 @@ var be5 = {
 
   log: {
     error: function error(value) {
-      bus.fire("alert", { msg: value, type: 'error' });
+      if (typeof value === 'string') {
+        bus.fire("alert", { msg: value, type: 'error' });
+      } else if (value.errors !== undefined) {
+        value.errors.forEach(function (e) {
+          bus.fire("alert", { msg: e.title, type: 'error' });
+        });
+      } else {
+        bus.fire("alert", { msg: 'unknown error', type: 'error' });
+      }
       console.error(value);
     }
   }
@@ -1486,7 +1495,9 @@ var openOperationByUrlWithValues = function openOperationByUrlWithValues(url, va
   _send('form', getOperationInfoFromUrl(url, values), frontendParams);
 };
 
-var fetchOperationByUrl = function fetchOperationByUrl(url, callback, failure) {
+var fetchOperationByUrl = function fetchOperationByUrl(url, callback) {
+  var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
+
   _post('form', getOperationInfoFromUrl(url), callback, failure);
 };
 
@@ -2462,6 +2473,134 @@ var MainDocumentOnly = function MainDocumentOnly() {
   );
 };
 
+var propTypes$3 = {
+  menu: PropTypes.shape({}),
+  user: PropTypes.shape({}).isRequired,
+  defaultRoute: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired
+};
+
+var NavMenu = function (_Component) {
+  inherits(NavMenu, _Component);
+
+  function NavMenu(props) {
+    classCallCheck(this, NavMenu);
+    return possibleConstructorReturn(this, (NavMenu.__proto__ || Object.getPrototypeOf(NavMenu)).call(this, props));
+  }
+
+  createClass(NavMenu, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.props.fetchMenu();
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var _props$user = this.props.user,
+          loggedIn = _props$user.loggedIn,
+          currentRoles = _props$user.currentRoles;
+
+      if (!arraysEqual(currentRoles, nextProps.user.currentRoles) || loggedIn !== nextProps.user.loggedIn) {
+        this.props.fetchMenu();
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      if (this.props.menu === null) {
+        return null;
+      }
+
+      return React.createElement(
+        Nav,
+        { className: '', navbar: true },
+        this._renderMenuItems(this.props.menu.root, false)
+      );
+    }
+  }, {
+    key: '_renderMenuItems',
+    value: function _renderMenuItems(items, inDropdown) {
+      var _this2 = this;
+
+      return _(items).map(function (item) {
+        if (!item.children || item.children.length === 0) {
+          var _actions$parse = actions.parse(item.action),
+              href = _actions$parse.href,
+              target = _actions$parse.target;
+
+          var _active = false;
+          if (_this2.isActive(href)) _active = true;
+          return React.createElement(
+            NavItem,
+            { key: target + href },
+            React.createElement(
+              NavLink,
+              { onClick: processHashUrl, href: href, active: _active },
+              item.title
+            )
+          );
+        }
+
+        var _renderDropdownMenuIt = _this2._renderDropdownMenuItems(item.children, true),
+            dropdownMenuItems = _renderDropdownMenuIt.dropdownMenuItems,
+            active = _renderDropdownMenuIt.active;
+
+        return React.createElement(
+          UncontrolledDropdown,
+          { nav: true, inNavbar: true, key: item.title },
+          React.createElement(
+            DropdownToggle,
+            { nav: true, caret: true, className: classNames({ active: active }) },
+            item.title
+          ),
+          React.createElement(
+            DropdownMenu,
+            null,
+            dropdownMenuItems
+          )
+        );
+      });
+    }
+  }, {
+    key: '_renderDropdownMenuItems',
+    value: function _renderDropdownMenuItems(items) {
+      var _this3 = this;
+
+      var anyActive = false;
+      var dropdownMenuItems = _(items).map(function (item) {
+        var _actions$parse2 = actions.parse(item.action),
+            href = _actions$parse2.href,
+            target = _actions$parse2.target;
+
+        if (_this3.isActive(href)) anyActive = true;
+        return React.createElement(
+          DropdownItem,
+          {
+            onClick: processHashUrl,
+            href: href,
+            key: target + href,
+            active: _this3.isActive(href)
+          },
+          item.title
+        );
+      });
+
+      return {
+        dropdownMenuItems: dropdownMenuItems,
+        active: anyActive
+      };
+    }
+  }, {
+    key: 'isActive',
+    value: function isActive(href) {
+      return this.props.url.startsWith(href) || href === "#!" + this.props.defaultRoute && hashUrlIsEmpty(this.props.url);
+    }
+  }]);
+  return NavMenu;
+}(Component);
+
+NavMenu.propTypes = propTypes$3;
+
 var propTypes$2 = {
   menu: PropTypes.shape({}),
   user: PropTypes.shape({}).isRequired,
@@ -2485,22 +2624,6 @@ var NavbarMenu = function (_Component) {
   }
 
   createClass(NavbarMenu, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      this.props.fetchMenu();
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      var _props$user = this.props.user,
-          loggedIn = _props$user.loggedIn,
-          currentRoles = _props$user.currentRoles;
-
-      if (!arraysEqual(currentRoles, nextProps.user.currentRoles) || loggedIn !== nextProps.user.loggedIn) {
-        this.props.fetchMenu();
-      }
-    }
-  }, {
     key: 'toggle',
     value: function toggle() {
       this.setState({
@@ -2510,58 +2633,50 @@ var NavbarMenu = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      if (this.props.menu === null) {
-        return null;
-      }
-
-      var brand = this.props.brand ? React.createElement(
-        'a',
-        { href: '#!', onClick: processHashUrl, className: 'navbar-brand' },
-        this.props.brand
-      ) : undefined;
-
       return React.createElement(
         Navbar,
         { color: 'dark', dark: true, expand: 'md' },
         React.createElement(
           'div',
           { className: 'container' },
-          brand,
+          this.navbarBrand(),
           React.createElement(NavbarToggler, { onClick: this.toggle }),
           React.createElement(
             Collapse,
             { isOpen: this.state.isOpen, navbar: true },
-            React.createElement(
-              Nav,
-              { className: '', navbar: true },
-              this._renderMenuItems(this.props.menu.root, false)
-            ),
-            this._renderRightButtons()
+            React.createElement(NavMenu, this.props),
+            this.rightButtons()
           )
         )
       );
     }
   }, {
-    key: '_renderRightButtons',
-    value: function _renderRightButtons() {
-      var _props$user2 = this.props.user,
-          userName = _props$user2.userName,
-          loggedIn = _props$user2.loggedIn,
-          currentRoles = _props$user2.currentRoles,
-          availableRoles = _props$user2.availableRoles;
-
-
-      if (!loggedIn) {
-        return React.createElement(
-          'form',
-          { className: 'form-inline ml-auto' },
-          React.createElement(
-            Button,
-            { onClick: processHashUrl, href: '#!login', color: 'secondary' },
-            be5.messages.login
-          )
-        );
+    key: 'navbarBrand',
+    value: function navbarBrand() {
+      return this.props.brand ? React.createElement(
+        'a',
+        { href: '#!', onClick: processHashUrl, className: 'navbar-brand' },
+        this.props.brand
+      ) : undefined;
+    }
+  }, {
+    key: 'rightButtons',
+    value: function rightButtons() {
+      if (!this.props.user.loggedIn) {
+        return this.notLoggedInForm();
+      } else {
+        return this.loggedInForm();
       }
+    }
+  }, {
+    key: 'loggedInForm',
+    value: function loggedInForm() {
+      var _props$user = this.props.user,
+          userName = _props$user.userName,
+          currentRoles = _props$user.currentRoles,
+          availableRoles = _props$user.availableRoles;
+
+
       return React.createElement(
         'form',
         { className: 'form-inline ml-auto' },
@@ -2585,82 +2700,17 @@ var NavbarMenu = function (_Component) {
       );
     }
   }, {
-    key: '_renderDropdownMenuItems',
-    value: function _renderDropdownMenuItems(items) {
-      var _this2 = this;
-
-      var anyActive = false;
-      var dropdownMenuItems = _(items).map(function (item) {
-        var _actions$parse = actions.parse(item.action),
-            href = _actions$parse.href,
-            target = _actions$parse.target;
-
-        if (_this2.isActive(href)) anyActive = true;
-        return React.createElement(
-          DropdownItem,
-          {
-            onClick: processHashUrl,
-            href: href,
-            key: target + href,
-            active: _this2.isActive(href)
-          },
-          item.title
-        );
-      });
-
-      return {
-        dropdownMenuItems: dropdownMenuItems,
-        active: anyActive
-      };
-    }
-  }, {
-    key: '_renderMenuItems',
-    value: function _renderMenuItems(items, inDropdown) {
-      var _this3 = this;
-
-      return _(items).map(function (item) {
-        if (!item.children || item.children.length === 0) {
-          var _actions$parse2 = actions.parse(item.action),
-              href = _actions$parse2.href,
-              target = _actions$parse2.target;
-
-          var _active = false;
-          if (_this3.isActive(href)) _active = true;
-          return React.createElement(
-            NavItem,
-            { key: target + href },
-            React.createElement(
-              NavLink,
-              { onClick: processHashUrl, href: href, active: _active },
-              item.title
-            )
-          );
-        }
-
-        var _renderDropdownMenuIt = _this3._renderDropdownMenuItems(item.children, true),
-            dropdownMenuItems = _renderDropdownMenuIt.dropdownMenuItems,
-            active = _renderDropdownMenuIt.active;
-
-        return React.createElement(
-          UncontrolledDropdown,
-          { nav: true, inNavbar: true, key: item.title },
-          React.createElement(
-            DropdownToggle,
-            { nav: true, caret: true, className: classNames({ active: active }) },
-            item.title
-          ),
-          React.createElement(
-            DropdownMenu,
-            null,
-            dropdownMenuItems
-          )
-        );
-      });
-    }
-  }, {
-    key: 'isActive',
-    value: function isActive(href) {
-      return this.props.url.startsWith(href) || href === "#!" + this.props.defaultRoute && hashUrlIsEmpty(this.props.url);
+    key: 'notLoggedInForm',
+    value: function notLoggedInForm() {
+      return React.createElement(
+        'form',
+        { className: 'form-inline ml-auto' },
+        React.createElement(
+          Button,
+          { onClick: processHashUrl, href: '#!login', color: 'secondary' },
+          be5.messages.login
+        )
+      );
     }
   }]);
   return NavbarMenu;
@@ -3263,7 +3313,8 @@ var getHashUrl = function getHashUrl(state) {
 };
 
 var NavbarMenuContainer = function NavbarMenuContainer(props) {
-  return React.createElement(NavbarMenu, props);
+  var Component$$1 = props.component || NavbarMenu;
+  return React.createElement(Component$$1, props);
 };
 
 var mapStateToProps$2 = function mapStateToProps(state) {
@@ -3920,7 +3971,7 @@ OperationBox.defaultProps = {
   hideOperations: []
 };
 
-var propTypes$3 = {
+var propTypes$4 = {
   data: PropTypes.shape({
     attributes: PropTypes.array,
     type: PropTypes.string
@@ -4013,7 +4064,7 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
   );
 };
 
-CategoryNavigation.propTypes = propTypes$3;
+CategoryNavigation.propTypes = propTypes$4;
 
 var loadTable = function loadTable(params, frontendParams) {
   getTable(params, function (json) {
@@ -4032,7 +4083,9 @@ var loadTableByUrl = function loadTableByUrl(url, frontendParams) {
   });
 };
 
-var fetchTableByUrl = function fetchTableByUrl(url, callback, failure) {
+var fetchTableByUrl = function fetchTableByUrl(url, callback) {
+  var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
+
   clearTableStateByUrl(url);
   getTable(getTableParams(url), callback, failure);
 };
@@ -4045,21 +4098,16 @@ var getTableParams = function getTableParams(url) {
   return _ref = {}, defineProperty(_ref, ENTITY_NAME_PARAM, attr.positional[1]), defineProperty(_ref, QUERY_NAME_PARAM, attr.positional[2]), defineProperty(_ref, CONTEXT_PARAMS, attr.named), _ref;
 };
 
-var getTable = function getTable(params, callback, failure) {
-  //console.log('get', params);
-  be5.net.request('table', getRequestParams(params), function (data) {
-    return callback(data);
-  }, function (data) {
-    return failure(data);
-  });
+var getTable = function getTable(params, callback) {
+  var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
+
+  be5.net.request('table', getRequestParams(params), callback, failure);
 };
 
 var updateTable = function updateTable(params, callback) {
-  be5.net.request('table/update', getRequestParams(params), function (data) {
-    callback(data);
-  }, function (data) {
-    console.error(data);
-  });
+  var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
+
+  be5.net.request('table/update', getRequestParams(params), callback, failure);
 };
 
 var _performTable = function _performTable(json, frontendParams) {
@@ -4132,7 +4180,7 @@ var jQueryFormatCell = function jQueryFormatCell(data, options, isColumn) {
 };
 
 var positionsParamNames = [ORDER_COLUMN, ORDER_DIR, OFFSET, LIMIT];
-var propTypes$4 = {};
+var propTypes$5 = {};
 
 var FilterUI = function FilterUI(_ref) {
   var entity = _ref.entity,
@@ -4176,7 +4224,7 @@ var FilterUI = function FilterUI(_ref) {
   return null;
 };
 
-FilterUI.propTypes = propTypes$4;
+FilterUI.propTypes = propTypes$5;
 
 var tableBoxes = {};
 
@@ -4770,9 +4818,16 @@ registerRoute("table", route$10);
 var BeSqlHighlightRules = void 0;
 var BeSqlMode = void 0;
 
+var brace = false;
 try {
   require('brace');
   require('brace/mode/sql');
+  brace = true;
+} catch (e) {
+  console.log('AceEditor (brace) is not available, skip init BeSqlHighlightRules');
+}
+
+if (brace) {
   var oop = window.ace.acequire("ace/lib/oop");
 
   var TextHighlightRules = window.ace.acequire("ace/mode/text_highlight_rules").TextHighlightRules;
@@ -4838,8 +4893,6 @@ try {
     this.HighlightRules = BeSqlHighlightRules;
   };
   oop.inherits(BeSqlMode, Mode);
-} catch (e) {
-  console.log(e);
 }
 
 var beSqlFunctions = '';
@@ -4951,7 +5004,7 @@ var DataTablesWrapper = function (_Component) {
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(nextProps) {
       if (nextProps.value.meta._ts_ > this.props.value.meta._ts_) {
-        $(this.refs.main).find('table').DataTable().destroy(true);
+        $(this.refs.main).find(getTableId(this.props)).DataTable().destroy(true);
         $(this.refs.main).empty();
         this.applyTable(nextProps, this.refs.main);
       }
@@ -4960,12 +5013,12 @@ var DataTablesWrapper = function (_Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      $(this.refs.main).find('table').DataTable().destroy(true);
+      $(this.refs.main).find(getTableId(this.props)).DataTable().destroy(true);
     }
   }, {
     key: 'getTableConfiguration',
     value: function getTableConfiguration(props) {
-      var _this3 = this;
+      var _this2 = this;
 
       var attributes = props.value.data.attributes;
       var hasCheckBoxes = attributes.selectable;
@@ -5061,7 +5114,7 @@ var DataTablesWrapper = function (_Component) {
             if (val === 'aggregate') return '';
 
             var id = "row-" + val + "-checkbox";
-            var dataTable = $(_this3.refs.main).find('table').dataTable();
+            var dataTable = $(_this2.refs.main).find(getTableId(props)).dataTable();
             var display = (dataTable.api().page.info() ? dataTable.api().page.info().start : 0) + meta.row + 1;
             if (!hasCheckBoxes) {
               return display;
@@ -5156,8 +5209,8 @@ var DataTablesWrapper = function (_Component) {
       }
 
       tableConfiguration.drawCallback = function (settings) {
-        if (_this3.refs && _this3.refs.main) {
-          var dataTable = $(_this3.refs.main).find('table').dataTable();
+        if (_this2.refs && _this2.refs.main) {
+          var dataTable = $(_this2.refs.main).find(getTableId(props)).dataTable();
           if (groupingColumn !== null) drawGrouping(dataTable.api());
         }
         //hideControls();
@@ -5169,7 +5222,7 @@ var DataTablesWrapper = function (_Component) {
     value: function applyTable(props, node) {
       if (!hasRows(props.value.data.attributes)) return;
 
-      var tableTag = $('<table id="dataTables' + props.value.meta._ts_ + '" ' + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>');
+      var tableTag = $('<table id="' + getTableId(props) + '" ' + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>');
       tableTag.appendTo(node);
 
       tableTag.dataTable(this.getTableConfiguration(props));
@@ -5251,7 +5304,7 @@ var DataTablesTableBox = function (_Component2) {
   createClass(DataTablesTableBox, [{
     key: 'render',
     value: function render() {
-      var _this5 = this;
+      var _this4 = this;
 
       var attr = this.props.value.data.attributes;
 
@@ -5279,7 +5332,7 @@ var DataTablesTableBox = function (_Component2) {
                     href: '#',
                     className: 'page-link',
                     onClick: function onClick(e) {
-                      e.preventDefault();openPage(attr, _this5.props.frontendParams, previousPage);
+                      e.preventDefault();openPage(attr, _this4.props.frontendParams, previousPage);
                     }
                   },
                   be5.messages.table.previousPage
@@ -5294,7 +5347,7 @@ var DataTablesTableBox = function (_Component2) {
                     href: '#',
                     className: 'page-link',
                     onClick: function onClick(e) {
-                      e.preventDefault();openPage(attr, _this5.props.frontendParams, 1);
+                      e.preventDefault();openPage(attr, _this4.props.frontendParams, 1);
                     }
                   },
                   '1'
@@ -5320,7 +5373,7 @@ var DataTablesTableBox = function (_Component2) {
                     href: '#',
                     className: 'page-link',
                     onClick: function onClick(e) {
-                      e.preventDefault();openPage(attr, _this5.props.frontendParams, previousPage);
+                      e.preventDefault();openPage(attr, _this4.props.frontendParams, previousPage);
                     }
                   },
                   previousPage
@@ -5371,6 +5424,10 @@ var openPage = function openPage(attr, frontendParams, page) {
 
 function hasRows(attr) {
   return attr.rows.length > 0;
+}
+
+function getTableId(props) {
+  return 'dataTables' + props.value.meta._ts_;
 }
 
 registerTableBox('dataTable', DataTablesTableBox);
@@ -5766,7 +5823,7 @@ try {
   require('brace/ext/language_tools');
   AceEditor = require("react-ace").default;
 } catch (e) {
-  console.log(e);
+  console.log('AceEditor (brace) is not available, use textarea');
 }
 
 var QueryBuilder = function (_React$Component) {
@@ -6396,4 +6453,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu as Be5Menu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getTableStates, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByType, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, addUrlHandlers, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, initFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu, NavMenu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getTableStates, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByType, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, addUrlHandlers, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, initFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR };

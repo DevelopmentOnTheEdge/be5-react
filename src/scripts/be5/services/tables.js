@@ -24,7 +24,7 @@ export const loadTableByUrl = (url, frontendParams) => {
   })
 };
 
-export const fetchTableByUrl = (url, callback, failure) => {
+export const fetchTableByUrl = (url, callback, failure = be5.log.error) => {
   clearTableStateByUrl(url);
   getTable(getTableParams(url), callback, failure);
 };
@@ -39,17 +39,12 @@ export const getTableParams = (url) => {
   };
 };
 
-export const getTable = (params, callback, failure) => {
-  //console.log('get', params);
-  be5.net.request('table', getRequestParams(params), data => callback(data), data => failure(data));
+export const getTable = (params, callback, failure = be5.log.error) => {
+  be5.net.request('table', getRequestParams(params), callback, failure);
 };
 
-export const updateTable = (params, callback) => {
-  be5.net.request('table/update', getRequestParams(params), data => {
-    callback(data)
-  }, (data) => {
-    console.error(data);
-  });
+export const updateTable = (params, callback, failure = be5.log.error) => {
+  be5.net.request('table/update', getRequestParams(params), callback, failure);
 };
 
 const _performTable = (json, frontendParams) => {
