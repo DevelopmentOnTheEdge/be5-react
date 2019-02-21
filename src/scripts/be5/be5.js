@@ -81,7 +81,7 @@ const be5 = {
     open(frontendParams, url) {
       // (url === "#!" + getDefaultRoute(be5.store.getState())
       //   && (be5.url.get() === "" || be5.url.get() === "#!"))
-      if (frontendParams.documentName !== MAIN_DOCUMENT || url === be5.url.get()) {
+      if (frontendParams.documentName !== MAIN_DOCUMENT || decodeURI(url) === be5.url.get()) {
         be5.url.process(frontendParams, url);
       } else {
         be5.url.set(url);
