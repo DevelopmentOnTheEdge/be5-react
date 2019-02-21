@@ -62,17 +62,6 @@ exports[`snapshot 1`] = `
           >
             <a
               className="nav-link"
-              href="#!table/_system_/Entities"
-              onClick={[Function]}
-            >
-              Entities
-            </a>
-          </li>
-          <li
-            className="nav-item"
-          >
-            <a
-              className="nav-link"
               href="#!table/_system_/Http Headers"
               onClick={[Function]}
             >

@@ -12,7 +12,6 @@ import {MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, SELECTED_ROWS} from "../../constants
 import {getBackAction, makeSafeForClassName} from "../../utils/utils";
 import {getTableBox} from "../../core/registers/tableBoxes";
 import {setTableFilter} from "../../services/tableStates";
-import {getContextParams} from "../../utils/filterUtils";
 
 
 class Table extends Component {
@@ -62,9 +61,12 @@ class Table extends Component {
     const name = operation.name;
     const attr = this.props.value.data.attributes;
 
-    let contextParams = getContextParams(attr.parameters);
+    let contextParams;
     if (this.state.selectedRows.length > 0 || selectedRow) {
+      contextParams = Object.assign({}, attr.parameters);
       contextParams[SELECTED_ROWS] = selectedRow || this.state.selectedRows.join();
+    } else {
+      contextParams = attr.parameters;
     }
 
     const url = be5.url.form(['form', attr.category, attr.page || 'All records', name], contextParams);
