@@ -4251,6 +4251,7 @@ var Table = function (_Component) {
     _this.state = { runReload: "", selectedRows: [] };
     _this.onOperationClick = _this.onOperationClick.bind(_this);
     _this.setSelectedRows = _this.setSelectedRows.bind(_this);
+    _this.getSelectedRows = _this.getSelectedRows.bind(_this);
     return _this;
   }
 
@@ -4291,11 +4292,13 @@ var Table = function (_Component) {
       var name = operation.name;
       var attr = this.props.value.data.attributes;
 
-      var contextParams = getContextParams(attr.parameters);
+      var contextParams = void 0;
       if (this.state.selectedRows.length > 0 || selectedRow) {
+        contextParams = Object.assign({}, attr.parameters);
         contextParams[SELECTED_ROWS] = selectedRow || this.state.selectedRows.join();
+      } else {
+        contextParams = attr.parameters;
       }
-
       var url = be5.url.form(['form', attr.category, attr.page || 'All records', name], contextParams);
       be5.url.open(frontendParams, "#!" + url);
     }
@@ -4360,6 +4363,7 @@ var Table = function (_Component) {
         operations: operations,
         selectedRows: this.state.selectedRows,
         setSelectedRows: this.setSelectedRows,
+        getSelectedRows: this.getSelectedRows,
         onOperationClick: this.onOperationClick,
         frontendParams: this.props.frontendParams
       });
@@ -4368,6 +4372,11 @@ var Table = function (_Component) {
     key: 'setSelectedRows',
     value: function setSelectedRows(newRows) {
       this.setState({ selectedRows: newRows });
+    }
+  }, {
+    key: 'getSelectedRows',
+    value: function getSelectedRows() {
+      return this.state.selectedRows;
     }
   }, {
     key: 'getTableClass',
@@ -5150,7 +5159,7 @@ var DataTablesWrapper = function (_Component) {
 
             if (checked) {
               // && $.inArray(rowId, selectedRows) === -1
-              var newRows = Array.from(props.selectedRows);
+              var newRows = Array.from(props.getSelectedRows());
               newRows.push(rowId);
               props.setSelectedRows(newRows);
               // if(attributes.rows.length === be5.tableState.selectedRows.length){
@@ -5158,7 +5167,7 @@ var DataTablesWrapper = function (_Component) {
               // }
             } else {
               //if (!checked && $.inArray(rowId, selectedRows) !== -1) {
-              var _newRows = Array.from(props.selectedRows);
+              var _newRows = Array.from(props.getSelectedRows());
               _newRows.splice($.inArray(rowId, _newRows), 1);
               props.setSelectedRows(_newRows);
               //$('#rowCheckboxAll').prop('checked', false);
@@ -6183,7 +6192,7 @@ var SystemCard = function SystemCard(props) {
 
   var pageID = parseInt(page || 0);
   be5.ui.setTitle(title + " " + (pageID + 1));
-  var steps = [{ title: 'Cache', url: '#!table/_system_/Cache' }, { title: 'Daemons', url: '#!table/_system_/Daemons' }, { title: 'DataSource', url: '#!table/_system_/DataSource' }, { title: 'Entities', url: '#!table/_system_/Entities' }, { title: 'Http Headers', url: '#!table/_system_/Http Headers' }, { title: 'Session', url: '#!table/_system_/Session variables' }, { title: 'Properties', url: '#!table/_system_/System properties' }, { title: 'System Settings', url: '#!table/systemSettings/All%20records' }, { title: 'Threads', url: '#!table/_system_/Threads' }, { title: 'UI panel', url: '#!uiPanel' }];
+  var steps = [{ title: 'Cache', url: '#!table/_system_/Cache' }, { title: 'Daemons', url: '#!table/_system_/Daemons' }, { title: 'DataSource', url: '#!table/_system_/DataSource' }, { title: 'Http Headers', url: '#!table/_system_/Http Headers' }, { title: 'Session', url: '#!table/_system_/Session variables' }, { title: 'Properties', url: '#!table/_system_/System properties' }, { title: 'System Settings', url: '#!table/systemSettings/All%20records' }, { title: 'Threads', url: '#!table/_system_/Threads' }, { title: 'UI panel', url: '#!uiPanel' }];
 
   return React.createElement(
     "div",

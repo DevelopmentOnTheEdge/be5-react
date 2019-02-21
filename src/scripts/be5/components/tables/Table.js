@@ -68,7 +68,6 @@ class Table extends Component {
     } else {
       contextParams = attr.parameters;
     }
-
     const url = be5.url.form(['form', attr.category, attr.page || 'All records', name], contextParams);
     be5.url.open(frontendParams, "#!" + url);
   }
