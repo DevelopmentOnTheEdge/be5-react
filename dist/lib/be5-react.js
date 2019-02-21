@@ -59,6 +59,7 @@ var OPEN_NEW_WINDOW = 'OPEN_NEW_WINDOW';
 var GO_BACK = 'GO_BACK';
 
 var CLOSE_MAIN_MODAL = 'CLOSE_MAIN_MODAL';
+var SUCCESS_ALERT = 'SUCCESS_ALERT';
 
 var UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
 var UPDATE_PARENT_DOCUMENT = 'UPDATE_PARENT_DOCUMENT';
@@ -475,11 +476,9 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
     bus.fire("mainModalClose");
   }
 
-  // todo action for alert
-  // if(result.message !== undefined)
-  // {
-  //   bus.fire("alert", {msg: result.message, type: 'success'});
-  // }
+  if (actions[SUCCESS_ALERT]) {
+    bus.fire("alert", { msg: actions[SUCCESS_ALERT], type: 'success' });
+  }
 
   if (actions[UPDATE_USER_INFO] !== undefined) {
     be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
@@ -1032,7 +1031,7 @@ var be5 = {
     open: function open(frontendParams, url) {
       // (url === "#!" + getDefaultRoute(be5.store.getState())
       //   && (be5.url.get() === "" || be5.url.get() === "#!"))
-      if (frontendParams.documentName !== MAIN_DOCUMENT || url === be5.url.get()) {
+      if (frontendParams.documentName !== MAIN_DOCUMENT || decodeURI(url) === be5.url.get()) {
         be5.url.process(frontendParams, url);
       } else {
         be5.url.set(url);
@@ -6434,6 +6433,7 @@ var api = Object.freeze({
 	OPEN_NEW_WINDOW: OPEN_NEW_WINDOW,
 	GO_BACK: GO_BACK,
 	CLOSE_MAIN_MODAL: CLOSE_MAIN_MODAL,
+	SUCCESS_ALERT: SUCCESS_ALERT,
 	UPDATE_DOCUMENT: UPDATE_DOCUMENT,
 	UPDATE_PARENT_DOCUMENT: UPDATE_PARENT_DOCUMENT,
 	REFRESH_DOCUMENT: REFRESH_DOCUMENT,
@@ -6462,4 +6462,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu, NavMenu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getTableStates, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByType, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, addUrlHandlers, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, initFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu, NavMenu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getTableStates, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByType, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, addUrlHandlers, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, initFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, SUCCESS_ALERT, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR };

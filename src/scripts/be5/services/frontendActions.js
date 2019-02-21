@@ -17,6 +17,7 @@ import {
   REFRESH_DOCUMENT,
   REFRESH_PARENT_DOCUMENT,
   SET_URL,
+  SUCCESS_ALERT,
   UPDATE_DOCUMENT,
   UPDATE_PARENT_DOCUMENT
 } from "../constants";
@@ -31,11 +32,9 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
     bus.fire("mainModalClose");
   }
 
-  // todo action for alert
-  // if(result.message !== undefined)
-  // {
-  //   bus.fire("alert", {msg: result.message, type: 'success'});
-  // }
+  if (actions[SUCCESS_ALERT]) {
+    bus.fire("alert", {msg: actions[SUCCESS_ALERT], type: 'success'});
+  }
 
   if (actions[UPDATE_USER_INFO] !== undefined) {
     be5.store.dispatch(updateUserInfo(actions[UPDATE_USER_INFO]));
