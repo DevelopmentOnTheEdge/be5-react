@@ -5014,7 +5014,7 @@ var DataTablesWrapper = function (_Component) {
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(nextProps) {
       if (nextProps.value.meta._ts_ > this.props.value.meta._ts_) {
-        $(this.refs.main).find(getTableId(this.props)).DataTable().destroy(true);
+        $("#" + getTableId(this.props)).DataTable().destroy(true);
         $(this.refs.main).empty();
         this.applyTable(nextProps, this.refs.main);
       }
@@ -5023,7 +5023,7 @@ var DataTablesWrapper = function (_Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      $(this.refs.main).find(getTableId(this.props)).DataTable().destroy(true);
+      $("#" + getTableId(this.props)).DataTable().destroy(true);
     }
   }, {
     key: 'getTableConfiguration',
@@ -5124,8 +5124,8 @@ var DataTablesWrapper = function (_Component) {
             if (val === 'aggregate') return '';
 
             var id = "row-" + val + "-checkbox";
-            var dataTable = $(_this2.refs.main).find(getTableId(props)).dataTable();
-            var display = (dataTable.api().page.info() ? dataTable.api().page.info().start : 0) + meta.row + 1;
+            var dataTable = $("#" + getTableId(props)).DataTable();
+            var display = (dataTable.page.info() ? dataTable.page.info().start : 0) + meta.row + 1;
             if (!hasCheckBoxes) {
               return display;
             }
@@ -5220,8 +5220,8 @@ var DataTablesWrapper = function (_Component) {
 
       tableConfiguration.drawCallback = function (settings) {
         if (_this2.refs && _this2.refs.main) {
-          var dataTable = $(_this2.refs.main).find(getTableId(props)).dataTable();
-          if (groupingColumn !== null) drawGrouping(dataTable.api());
+          var dataTable = $("#" + getTableId(props)).DataTable();
+          if (groupingColumn !== null) drawGrouping(dataTable);
         }
         //hideControls();
       };

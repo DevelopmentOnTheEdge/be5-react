@@ -12,7 +12,6 @@ import {initFilterParams} from "../../../utils/filterUtils";
 /**
  * https://datatables.net/
  */
-
 class DataTablesWrapper extends Component {
   constructor(props) {
     super(props);
@@ -25,10 +24,7 @@ class DataTablesWrapper extends Component {
   shouldComponentUpdate(nextProps) {
     if (nextProps.value.meta._ts_ > this.props.value.meta._ts_)
     {
-      $(this.refs.main)
-        .find(getTableId(this.props))
-        .DataTable()
-        .destroy(true);
+      $("#" + getTableId(this.props)).DataTable().destroy(true);
       $(this.refs.main).empty();
       this.applyTable(nextProps, this.refs.main);
     }
@@ -36,10 +32,7 @@ class DataTablesWrapper extends Component {
   }
 
   componentWillUnmount() {
-    $(this.refs.main)
-      .find(getTableId(this.props))
-      .DataTable()
-      .destroy(true)
+    $("#" + getTableId(this.props)).DataTable().destroy(true);
   }
 
   getTableConfiguration(props) {
@@ -139,8 +132,8 @@ class DataTablesWrapper extends Component {
             if (val === 'aggregate') return '';
 
             const id = "row-" + val + "-checkbox";
-            const dataTable = $(this.refs.main).find(getTableId(props)).dataTable();
-            let display = (dataTable.api().page.info() ? dataTable.api().page.info().start : 0) + meta.row + 1;
+            const dataTable = $("#" + getTableId(props)).DataTable();
+            let display = (dataTable.page.info() ? dataTable.page.info().start : 0) + meta.row + 1;
             if (!hasCheckBoxes) {
               return display;
             }
@@ -237,8 +230,8 @@ class DataTablesWrapper extends Component {
 
     tableConfiguration.drawCallback = (settings) => {
       if (this.refs && this.refs.main) {
-        const dataTable = $(this.refs.main).find(getTableId(props)).dataTable();
-        if (groupingColumn !== null) drawGrouping(dataTable.api());
+        const dataTable = $("#" + getTableId(props)).DataTable();
+        if (groupingColumn !== null) drawGrouping(dataTable);
       }
       //hideControls();
     };
