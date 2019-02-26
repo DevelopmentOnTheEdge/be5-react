@@ -46,7 +46,10 @@ class Navs extends React.Component {
   }
 
   getUrl(id) {
-    return "#!" + this.props.baseUrl + "/" + id;
+    if (id === 0)
+      return "#!" + this.props.baseUrl;
+    else
+      return "#!" + this.props.baseUrl + "/" + id;
   }
 
   getIDbyUrl(url) {
