@@ -6,7 +6,7 @@ import {jQueryFormatCell, loadTableByUrl, updateTable} from "../../../services/t
 import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, QUERY_NAME_PARAM} from "../../../constants";
 import {registerTableBox} from "../../../core/registers/tableBoxes";
 import bus from "../../../core/bus";
-import {clearTableState} from "../../../services/tableStates";
+import {clearTableFilter} from "../../../services/tables";
 import {initFilterParams} from "../../../utils/filterUtils";
 
 /**
@@ -90,7 +90,7 @@ class DataTablesWrapper extends Component {
       displayStart: attributes.offset,
       order: attributes.orderColumn >= 0 ? [[attributes.orderColumn, attributes.orderDir]] : undefined,
       ajax: function (data, callback, settings) {
-        clearTableState(attributes.category, attributes.page, attributes.parameters);
+        clearTableFilter(attributes.category, attributes.page, attributes.parameters);
         const params = initFilterParams(attributes.parameters);
         params._offset_ = data.start;
         params._limit_ = data.length;
@@ -386,7 +386,7 @@ class DataTablesTableBox extends Component {
 }
 
 export const openPage = (attr, frontendParams, page) => {
-  clearTableState(attr.category, attr.page, attr.parameters);
+  clearTableFilter(attr.category, attr.page, attr.parameters);
   const previousPageParams = initFilterParams(attr.parameters);
   previousPageParams._offset_ = (page - 1) * attr.length;
   loadTableByUrl(be5.url.form(['table', attr.category, attr.page], previousPageParams),

@@ -341,130 +341,22 @@ var toggleRoles = function toggleRoles(roles) {
   };
 };
 
-var getContextParams = function getContextParams(params) {
-  if (params[SEARCH_PARAM] !== "true") {
-    return params;
-  }
+var states = {};
 
-  if (params[SEARCH_PRESETS_PARAM] === undefined) {
-    return {};
-  }
-
-  var searchPresets = params[SEARCH_PRESETS_PARAM].split(',');
-  return Object.keys(params).filter(function (key) {
-    return searchPresets.includes(key) || key === SEARCH_PARAM || key === SEARCH_PRESETS_PARAM;
-  }).reduce(function (obj, key) {
-    obj[key] = params[key];return obj;
-  }, {});
-};
-
-var getFilterParams = function getFilterParams(params) {
-  if (params[SEARCH_PARAM] !== "true") {
-    return {};
-  }
-
-  if (params[SEARCH_PRESETS_PARAM] === undefined) {
-    var res = Object.assign({}, params);
-    delete res[SEARCH_PARAM];
-    return res;
-  }
-
-  var searchPresets = params[SEARCH_PRESETS_PARAM].split(',');
-  return Object.keys(params).filter(function (key) {
-    return !searchPresets.includes(key) || key === SEARCH_PARAM || key === SEARCH_PRESETS_PARAM;
-  }).reduce(function (obj, key) {
-    obj[key] = params[key];return obj;
-  }, {});
-};
-
-var initFilterParams = function initFilterParams(params) {
-  var newParams = Object.assign({}, params);
-  if (newParams[SEARCH_PARAM] !== "true") {
-    var searchPresetParam = getSearchPresetParam(newParams);
-    if (searchPresetParam !== null) newParams[SEARCH_PRESETS_PARAM] = searchPresetParam;
-    newParams[SEARCH_PARAM] = "true";
-  }
-  return newParams;
-};
-
-var getSearchPresetParam = function getSearchPresetParam(params) {
-  return searchPresetParamToString(getSearchPresetNames(params));
-};
-
-var searchPresetParamToString = function searchPresetParamToString(searchPresets) {
-  return searchPresets.length > 0 ? searchPresets.join(",") : null;
-};
-
-var getSearchPresetNames = function getSearchPresetNames(params) {
-  if (params[SEARCH_PARAM] === undefined) {
-    return Object.keys(params);
-  } else {
-    if (params[SEARCH_PRESETS_PARAM] !== undefined) {
-      return params[SEARCH_PRESETS_PARAM].split(",");
-    } else {
-      return [];
-    }
-  }
-};
-
-var addFilterParams = function addFilterParams(url, params) {
-  var attr = be5.url.parse(url);
-  attr.named['_search_'] = 'true';
-  attr.named['_search_presets_'] = '';
-  for (var key in params) {
-    attr.named[key] = params[key];
-  }
-  return be5.url.form(attr.positional, attr.named);
-};
-
-var filters = {};
-
-function setTableFilter(entity, query, parameters) {
-  var tableKey = getTableKey(entity, query, parameters);
-  setTableFilterForKey(tableKey, parameters);
+function getDocumentState(key) {
+  return states[decodeURI(key)];
 }
 
-function setTableFilterForKey(tableKey, parameters) {
-  filters[tableKey] = getFilterParams(parameters);
+function setDocumentState(key, value) {
+  states[decodeURI(key)] = value;
 }
 
-function getTableFilter(name) {
-  return filters[name];
+function getDocumentStates() {
+  return states;
 }
 
-function getTableStates() {
-  return { filters: filters };
-}
-
-function withSavedTableFilter(entity, query, params) {
-  var tableKey = getTableKey(entity, query, params);
-  var savedParams = getTableFilter(tableKey);
-  if (savedParams !== undefined) {
-    var finalParams = Object.assign({}, savedParams, getContextParams(params));
-    var searchPresetParam = getSearchPresetParam(params);
-    if (searchPresetParam !== null) finalParams[SEARCH_PRESETS_PARAM] = searchPresetParam;
-    finalParams[SEARCH_PARAM] = "true";
-    return finalParams;
-  } else {
-    setTableFilterForKey(tableKey, params);
-  }
-  return params;
-}
-
-function getTableKey(entity, query, parameters) {
-  return be5.url.form([entity, query], getContextParams(parameters));
-}
-
-function clearTableStateByUrl(url) {
-  if (!url.startsWith('#!table')) return;
-  var attr = be5.url.parse(url);
-  clearTableState(attr.positional[1], attr.positional[2], attr.named);
-}
-
-function clearTableState(entity, query, params) {
-  var contextParams = getContextParams(params);
-  var tableKey = getTableKey(entity, query, contextParams);
-  delete filters[tableKey];
+function clearDocumentState(key) {
+  delete states[decodeURI(key)];
 }
 
 var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneObject, frontendParams) {
@@ -555,7 +447,7 @@ function redirect(url, frontendParams) {
   if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://")) {
     window.location.href = url;
   } else {
-    clearTableStateByUrl('#!' + url);
+    clearDocumentState('#!' + url);
     if (frontendParams.documentName === MAIN_DOCUMENT) {
       bus.fire("mainModalClose");
       be5.url.open({ documentName: MAIN_DOCUMENT }, '#!' + url);
@@ -674,7 +566,7 @@ var processHashUrlForDocument = function processHashUrlForDocument(e, documentNa
     if (!url.startsWith("#!")) url = "#!" + url;
   }
 
-  clearTableStateByUrl(url);
+  clearDocumentState(url);
 
   be5.url.open({ documentName: documentName || MAIN_DOCUMENT }, url);
 };
@@ -3201,7 +3093,7 @@ var Navs = function (_React$Component) {
     value: function componentDidUpdate() {
       var _this2 = this;
 
-      if (this.state.compState !== this.props.startAtStep) {
+      if (this.props.baseUrl !== undefined && this.state.compState !== this.props.startAtStep) {
         this.setState({ compState: this.props.startAtStep }, function () {
           _this2.init();
         });
@@ -3217,6 +3109,9 @@ var Navs = function (_React$Component) {
     value: function setNavState(e) {
       e.preventDefault();
       var id = this.getIDbyUrl(e.target.getAttribute("href"));
+
+      if (this.props.onOpenNav !== undefined) this.props.onOpenNav(id);
+
       if (this.props.baseUrl !== undefined && this.getUrl(id) !== be5.url.get()) {
         processHashUrlForDocument(this.getUrl(id), this.props.parentDocumentName);
       } else {
@@ -3227,7 +3122,7 @@ var Navs = function (_React$Component) {
   }, {
     key: 'getUrl',
     value: function getUrl(id) {
-      return "#!" + this.props.baseUrl + "/" + id;
+      if (id === 0) return "#!" + this.props.baseUrl;else return "#!" + this.props.baseUrl + "/" + id;
     }
   }, {
     key: 'getIDbyUrl',
@@ -3296,7 +3191,7 @@ Navs.propTypes = {
   vertical: PropTypes.bool,
   navbar: PropTypes.bool,
   tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-
+  onOpenNav: PropTypes.func,
   steps: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired
@@ -4065,6 +3960,82 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
 
 CategoryNavigation.propTypes = propTypes$4;
 
+var getContextParams = function getContextParams(params) {
+  if (params[SEARCH_PARAM] !== "true") {
+    return params;
+  }
+
+  if (params[SEARCH_PRESETS_PARAM] === undefined) {
+    return {};
+  }
+
+  var searchPresets = params[SEARCH_PRESETS_PARAM].split(',');
+  return Object.keys(params).filter(function (key) {
+    return searchPresets.includes(key);
+  }).reduce(function (obj, key) {
+    obj[key] = params[key];return obj;
+  }, {});
+};
+
+var getFilterParams = function getFilterParams(params) {
+  if (params[SEARCH_PARAM] !== "true") {
+    return {};
+  }
+
+  if (params[SEARCH_PRESETS_PARAM] === undefined) {
+    var res = Object.assign({}, params);
+    delete res[SEARCH_PARAM];
+    return res;
+  }
+
+  var searchPresets = params[SEARCH_PRESETS_PARAM].split(',');
+  return Object.keys(params).filter(function (key) {
+    return !searchPresets.includes(key) && key !== SEARCH_PARAM && key !== SEARCH_PRESETS_PARAM;
+  }).reduce(function (obj, key) {
+    obj[key] = params[key];return obj;
+  }, {});
+};
+
+var initFilterParams = function initFilterParams(params) {
+  var newParams = Object.assign({}, params);
+  if (newParams[SEARCH_PARAM] !== "true") {
+    var searchPresetParam = getSearchPresetParam(newParams);
+    if (searchPresetParam !== null) newParams[SEARCH_PRESETS_PARAM] = searchPresetParam;
+    newParams[SEARCH_PARAM] = "true";
+  }
+  return newParams;
+};
+
+var getSearchPresetParam = function getSearchPresetParam(params) {
+  return searchPresetParamToString(getSearchPresetNames(params));
+};
+
+var searchPresetParamToString = function searchPresetParamToString(searchPresets) {
+  return searchPresets.length > 0 ? searchPresets.join(",") : null;
+};
+
+var getSearchPresetNames = function getSearchPresetNames(params) {
+  if (params[SEARCH_PARAM] === undefined) {
+    return Object.keys(params);
+  } else {
+    if (params[SEARCH_PRESETS_PARAM] !== undefined) {
+      return params[SEARCH_PRESETS_PARAM].split(",");
+    } else {
+      return [];
+    }
+  }
+};
+
+var addFilterParams = function addFilterParams(url, params) {
+  var attr = be5.url.parse(url);
+  attr.named['_search_'] = 'true';
+  attr.named['_search_presets_'] = '';
+  for (var key in params) {
+    attr.named[key] = params[key];
+  }
+  return be5.url.form(attr.positional, attr.named);
+};
+
 var loadTable = function loadTable(params, frontendParams) {
   getTable(params, function (json) {
     //todo remove 'json.data' check after change error code
@@ -4085,7 +4056,7 @@ var loadTableByUrl = function loadTableByUrl(url, frontendParams) {
 var fetchTableByUrl = function fetchTableByUrl(url, callback) {
   var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
 
-  clearTableStateByUrl(url);
+  clearDocumentState(url);
   getTable(getTableParams(url), callback, failure);
 };
 
@@ -4133,6 +4104,37 @@ var getRequestParams = function getRequestParams(params) {
 
   return _ref2 = {}, defineProperty(_ref2, ENTITY_NAME_PARAM, entity), defineProperty(_ref2, QUERY_NAME_PARAM, query), defineProperty(_ref2, CONTEXT_PARAMS, be5.net.paramString(finalParams)), defineProperty(_ref2, TIMESTAMP_PARAM, new Date().getTime()), _ref2;
 };
+
+function withSavedTableFilter(entity, query, params) {
+  var tableKey = getTableKey(entity, query, params);
+  var savedParams = getDocumentState(tableKey);
+  if (savedParams !== undefined) {
+    return savedParams;
+  } else {
+    setTableFilter(entity, query, params);
+  }
+  return params;
+}
+
+function setTableFilter(entity, query, parameters) {
+  var tableKey = getTableKey(entity, query, parameters);
+  var filterParams = parameters;
+  if (Object.keys(filterParams).length !== 0) {
+    setDocumentState(tableKey, filterParams);
+  } else {
+    clearDocumentState(tableKey);
+  }
+}
+
+function clearTableFilter(entity, query, params) {
+  var contextParams = getContextParams(params);
+  var tableKey = getTableKey(entity, query, contextParams);
+  clearDocumentState(tableKey);
+}
+
+function getTableKey(entity, query, parameters) {
+  return "#!" + be5.url.form(['table', entity, query], getContextParams(parameters));
+}
 
 var jQueryFormatCell = function jQueryFormatCell(data, options, isColumn) {
   if (!Array.isArray(data)) {
@@ -4199,7 +4201,7 @@ var FilterUI = function FilterUI(_ref) {
       return newParams[x] = params[x];
     });
 
-    clearTableState(entity, query, newParams);
+    clearTableFilter(entity, query, newParams);
     var paramsObject = (_paramsObject = {}, defineProperty(_paramsObject, ENTITY_NAME_PARAM, entity), defineProperty(_paramsObject, QUERY_NAME_PARAM, query || 'All records'), defineProperty(_paramsObject, CONTEXT_PARAMS, newParams), _paramsObject);
     loadTable(paramsObject, frontendParams);
   }
@@ -5078,7 +5080,7 @@ var DataTablesWrapper = function (_Component) {
         ajax: function ajax(data, callback, settings) {
           var _requestParams;
 
-          clearTableState(attributes.category, attributes.page, attributes.parameters);
+          clearTableFilter(attributes.category, attributes.page, attributes.parameters);
           var params = initFilterParams(attributes.parameters);
           params._offset_ = data.start;
           params._limit_ = data.length;
@@ -5424,7 +5426,7 @@ var DataTablesTableBox = function (_Component2) {
 }(Component);
 
 var openPage = function openPage(attr, frontendParams, page) {
-  clearTableState(attr.category, attr.page, attr.parameters);
+  clearTableFilter(attr.category, attr.page, attr.parameters);
   var previousPageParams = initFilterParams(attr.parameters);
   previousPageParams._offset_ = (page - 1) * attr.length;
   loadTableByUrl(be5.url.form(['table', attr.category, attr.page], previousPageParams), frontendParams);
@@ -6184,13 +6186,9 @@ registerPage("uiPanel", UiPanel, function (frontendParams) {
 });
 
 var SystemCard = function SystemCard(props) {
-  var _props$value$data$att = props.value.data.attributes,
-      title = _props$value$data$att.title,
-      documentName = _props$value$data$att.documentName,
-      page = _props$value$data$att.page;
+  var title = props.value.title;
 
-  var pageID = parseInt(page || 0);
-  be5.ui.setTitle(title + " " + (pageID + 1));
+  be5.ui.setTitle(title);
   var steps = [{ title: 'Cache', url: '#!table/_system_/Cache' }, { title: 'Daemons', url: '#!table/_system_/Daemons' }, { title: 'DataSource', url: '#!table/_system_/DataSource' }, { title: 'Http Headers', url: '#!table/_system_/Http Headers' }, { title: 'Session', url: '#!table/_system_/Session variables' }, { title: 'Properties', url: '#!table/_system_/System properties' }, { title: 'System Settings', url: '#!table/systemSettings/All%20records' }, { title: 'Threads', url: '#!table/_system_/Threads' }, { title: 'UI panel', url: '#!uiPanel' }];
 
   return React.createElement(
@@ -6204,27 +6202,20 @@ var SystemCard = function SystemCard(props) {
     React.createElement(Navs, {
       steps: steps,
       tabs: true,
-      startAtStep: pageID,
-      baseUrl: "systemCard",
-      parentDocumentName: documentName
+      onOpenNav: function onOpenNav(id) {
+        return setDocumentState("#!systemCard", id);
+      },
+      startAtStep: getDocumentState("#!systemCard") || 0
     })
   );
 };
 
 registerDocument('SystemCard', SystemCard);
 
-registerRoute('systemCard', function (frontendParams, page) {
-  var url = "systemCard" + (page !== undefined && page !== "0" ? "/" + page : "");
+registerRoute('systemCard', function (frontendParams) {
   changeDocument(frontendParams.documentName, {
     value: {
-      data: {
-        attributes: {
-          title: "System card",
-          documentName: frontendParams.documentName,
-          page: page
-        },
-        links: { self: url }
-      }
+      title: "System card"
     },
     frontendParams: { type: 'SystemCard' }
   });
@@ -6358,7 +6349,10 @@ var index = combineReducers({
 var api = Object.freeze({
 	initBe5App: initBe5App$$1,
 	initOnLoad: initOnLoad$$1,
-	getTableStates: getTableStates,
+	getDocumentStates: getDocumentStates,
+	getDocumentState: getDocumentState,
+	setDocumentState: setDocumentState,
+	clearDocumentState: clearDocumentState,
 	preconditions: Preconditions,
 	arraysEqual: arraysEqual,
 	createPageValue: createPageValue,
@@ -6462,4 +6456,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu, NavMenu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getTableStates, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByType, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, addUrlHandlers, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, initFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, SUCCESS_ALERT, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu, NavMenu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getDocumentStates, getDocumentState, setDocumentState, clearDocumentState, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByType, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, addUrlHandlers, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, initFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, SUCCESS_ALERT, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR };

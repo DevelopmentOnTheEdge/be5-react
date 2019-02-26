@@ -4,12 +4,11 @@ import Navs from "../components/Navs";
 import {registerDocument} from "../core/registers/documents";
 import {registerRoute} from "../core/registers/routes";
 import changeDocument from "../core/changeDocument";
-
+import {getDocumentState, setDocumentState} from "../services/documentStates";
 
 const SystemCard = (props) => {
-  const {title, documentName, page} = props.value.data.attributes;
-  const pageID = parseInt(page || 0);
-  be5.ui.setTitle(title + " " + (pageID + 1));
+  const {title} = props.value;
+  be5.ui.setTitle(title);
   const steps = [
     {title: 'Cache', url: '#!table/_system_/Cache'},
     {title: 'Daemons', url: '#!table/_system_/Daemons'},
@@ -28,9 +27,8 @@ const SystemCard = (props) => {
       <Navs
         steps={steps}
         tabs
-        startAtStep={pageID}
-        baseUrl={"systemCard"}
-        parentDocumentName={documentName}
+        onOpenNav={id => setDocumentState("#!systemCard", id)}
+        startAtStep={getDocumentState("#!systemCard") || 0}
       />
     </div>
   );
@@ -38,18 +36,10 @@ const SystemCard = (props) => {
 
 registerDocument('SystemCard', SystemCard);
 
-registerRoute('systemCard', (frontendParams, page) => {
-  const url = "systemCard" + ((page !== undefined && page !== "0") ? ("/" + page) : "");
+registerRoute('systemCard', (frontendParams) => {
   changeDocument(frontendParams.documentName, {
     value: {
-      data: {
-        attributes: {
-          title: "System card",
-          documentName: frontendParams.documentName,
-          page: page,
-        },
-        links: {self: url}
-      }
+      title: "System card"
     },
     frontendParams: {type: 'SystemCard'}
   })

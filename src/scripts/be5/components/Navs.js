@@ -23,7 +23,7 @@ class Navs extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.compState !== this.props.startAtStep) {
+    if (this.props.baseUrl !== undefined && this.state.compState !== this.props.startAtStep) {
       this.setState({compState: this.props.startAtStep}, () => {
         this.init();
       });
@@ -37,6 +37,9 @@ class Navs extends React.Component {
   setNavState(e) {
     e.preventDefault();
     const id = this.getIDbyUrl(e.target.getAttribute("href"));
+
+    if (this.props.onOpenNav !== undefined) this.props.onOpenNav(id);
+
     if (this.props.baseUrl !== undefined && this.getUrl(id) !== be5.url.get()) {
       processHashUrlForDocument(this.getUrl(id), this.props.parentDocumentName);
     } else {
@@ -102,7 +105,7 @@ Navs.propTypes = {
   vertical: PropTypes.bool,
   navbar: PropTypes.bool,
   tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-
+  onOpenNav: PropTypes.func,
   steps: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired

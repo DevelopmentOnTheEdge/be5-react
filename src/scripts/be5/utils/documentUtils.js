@@ -5,7 +5,7 @@ import {GO_BACK, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, OPEN_DEFAULT_ROUTE, TIMESTA
 import FrontendAction from "../services/model/FrontendAction";
 import {executeFrontendActions} from "../services/frontendActions";
 import changeDocument from "../core/changeDocument";
-import {clearTableStateByUrl} from "../services/tableStates";
+import {clearDocumentState} from "../services/documentStates";
 
 export const getResourceByID = (included, id) => {
   if (included === undefined) return undefined;
@@ -102,7 +102,7 @@ export const processHashUrlForDocument = (e, documentName) => {
     if (!url.startsWith("#!")) url = "#!" + url;
   }
 
-  clearTableStateByUrl(url);
+  clearDocumentState(url);
 
   be5.url.open({documentName: documentName || MAIN_DOCUMENT}, url);
 };

@@ -11,7 +11,7 @@ import FilterUI from "./FilterUI";
 import {MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, SELECTED_ROWS} from "../../constants";
 import {getBackAction, makeSafeForClassName} from "../../utils/utils";
 import {getTableBox} from "../../core/registers/tableBoxes";
-import {setTableFilter} from "../../services/tableStates";
+import {setTableFilter} from "../../services/tables";
 
 
 class Table extends Component {

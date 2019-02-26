@@ -4,7 +4,8 @@ import Preconditions from '../utils/preconditions';
 import numberFormatter from 'number-format.js';
 import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, MAIN_MODAL_DOCUMENT, QUERY_NAME_PARAM, TIMESTAMP_PARAM} from "../constants";
 import bus from "../core/bus";
-import {clearTableStateByUrl, withSavedTableFilter} from "./tableStates";
+import {clearDocumentState, getDocumentState, setDocumentState} from "./documentStates";
+import {getContextParams} from "../utils/filterUtils";
 
 
 export const loadTable = (params, frontendParams) => {
@@ -25,7 +26,7 @@ export const loadTableByUrl = (url, frontendParams) => {
 };
 
 export const fetchTableByUrl = (url, callback, failure = be5.log.error) => {
-  clearTableStateByUrl(url);
+  clearDocumentState(url);
   getTable(getTableParams(url), callback, failure);
 };
 
@@ -75,6 +76,40 @@ const getRequestParams = (params) => {
     [TIMESTAMP_PARAM]: new Date().getTime()
   }
 };
+
+function withSavedTableFilter(entity, query, params)
+{
+  const tableKey = getTableKey(entity, query, params);
+  let savedParams = getDocumentState(tableKey);
+  if (savedParams !== undefined) {
+    return savedParams;
+  } else {
+    setTableFilter(entity, query, params)
+  }
+  return params;
+}
+
+export function setTableFilter(entity, query, parameters) {
+  const tableKey = getTableKey(entity, query, parameters);
+  const filterParams = parameters;
+  if (Object.keys(filterParams).length !== 0) {
+    setDocumentState(tableKey, filterParams);
+  } else {
+    clearDocumentState(tableKey);
+  }
+}
+
+export function clearTableFilter(entity, query, params)
+{
+  const contextParams = getContextParams(params);
+  const tableKey = getTableKey(entity, query, contextParams);
+  clearDocumentState(tableKey);
+}
+
+function getTableKey(entity, query, parameters)
+{
+  return "#!" + be5.url.form(['table', entity, query], getContextParams(parameters));
+}
 
 export const jQueryFormatCell = (data, options, isColumn) => {
   if (!Array.isArray(data)) {

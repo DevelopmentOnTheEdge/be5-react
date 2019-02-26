@@ -11,8 +11,8 @@ export const getContextParams = (params) => {
   }
 
   const searchPresets = params[SEARCH_PRESETS_PARAM].split(',');
-  return Object.keys(params)
-    .filter(key => searchPresets.includes(key) || key === SEARCH_PARAM || key === SEARCH_PRESETS_PARAM)
+  return Object.keys(params )
+    .filter(key => searchPresets.includes(key))
     .reduce((obj, key) => {obj[key] = params[key]; return obj;}, {});
 };
 
@@ -29,7 +29,7 @@ export const getFilterParams = (params) => {
 
   const searchPresets = params[SEARCH_PRESETS_PARAM].split(',');
   return Object.keys(params)
-    .filter(key => !searchPresets.includes(key) || key === SEARCH_PARAM || key === SEARCH_PRESETS_PARAM)
+    .filter(key => !searchPresets.includes(key) && key !== SEARCH_PARAM && key !== SEARCH_PRESETS_PARAM)
     .reduce((obj, key) => {obj[key] = params[key]; return obj;}, {});
 };
 
