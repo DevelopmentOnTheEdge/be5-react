@@ -37,6 +37,53 @@ class DataTablesWrapper extends Component {
     $("#" + getTableId(this.props)).DataTable().destroy(true);
   }
 
+  applyTable(props, node) {
+    if (!hasRows(props.value.data.attributes)) return;
+
+    const tableTag = $('<table id="' + getTableId(props) + '" '
+      + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>');
+    tableTag.appendTo(node);
+
+    tableTag.dataTable(this.getTableConfiguration(props));
+
+    $('.dataTables_length select').removeClass('form-control-sm');
+
+    tableTag.on("click", '.edit-operation-btn', function (e) {
+      e.preventDefault();
+      props.onOperationClick(DataTablesWrapper.getEditOperation(props), $(this).data("val"));
+    });
+
+    tableTag.on("click", '.default_order', function (e) {
+      e.preventDefault();
+      $("#" + getTableId(props)).DataTable()
+        .order([])
+        .draw();
+    });
+
+    addUrlHandlers(tableTag, props.frontendParams.documentName);
+
+    tableTag.on('draw.dt', function () {
+      props.setSelectedRows([]);
+    });
+
+    // $('#rowCheckboxAll').click(function (e) {
+    //   e.stopPropagation();
+    //
+    //   if (!$('#rowCheckboxAll').prop('checked')) {
+    //     $('.rowCheckbox').prop('checked', false);
+    //     be5.tableState.selectedRows = [];
+    //   }else{
+    //     $('.rowCheckbox').prop('checked', true);
+    //
+    //     for(let i=0; i< attributes.rows.length; i++){
+    //       be5.tableState.selectedRows.push(attributes.rows[i].id);
+    //     }
+    //   }
+    // });
+
+    bus.fire("updateDataTableQuickColumns");
+  }
+
   getTableConfiguration(props) {
     const attributes = props.value.data.attributes;
     const hasCheckBoxes = attributes.selectable;
@@ -235,53 +282,6 @@ class DataTablesWrapper extends Component {
       //hideControls();
     };
     return tableConfiguration;
-  }
-
-  applyTable(props, node) {
-    if (!hasRows(props.value.data.attributes)) return;
-
-    const tableTag = $('<table id="' + getTableId(props) + '" '
-      + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>');
-    tableTag.appendTo(node);
-
-    tableTag.dataTable(this.getTableConfiguration(props));
-
-    $('.dataTables_length select').removeClass('form-control-sm');
-
-    tableTag.on("click", '.edit-operation-btn', function (e) {
-      e.preventDefault();
-      props.onOperationClick(DataTablesWrapper.getEditOperation(props), $(this).data("val"));
-    });
-
-    tableTag.on("click", '.default_order', function (e) {
-      e.preventDefault();
-      $("#" + getTableId(props)).DataTable()
-        .order([])
-        .draw();
-    });
-
-    addUrlHandlers(tableTag, props.frontendParams.documentName);
-
-    tableTag.on('draw.dt', function () {
-      props.setSelectedRows([]);
-    });
-
-    // $('#rowCheckboxAll').click(function (e) {
-    //   e.stopPropagation();
-    //
-    //   if (!$('#rowCheckboxAll').prop('checked')) {
-    //     $('.rowCheckbox').prop('checked', false);
-    //     be5.tableState.selectedRows = [];
-    //   }else{
-    //     $('.rowCheckbox').prop('checked', true);
-    //
-    //     for(let i=0; i< attributes.rows.length; i++){
-    //       be5.tableState.selectedRows.push(attributes.rows[i].id);
-    //     }
-    //   }
-    // });
-
-    bus.fire("updateDataTableQuickColumns");
   }
 
   getColumns(props) {
