@@ -287,7 +287,7 @@ class DataTablesWrapper extends Component {
   getColumns(props) {
     const columns = [{"title": "#", "orderable": false, className: "default_order"}];
     props.value.data.attributes.columns.forEach((column) => {
-      columns.push({"title": column.title, "orderable": true });
+      columns.push({"title": column.title, "orderable": !column.nosort });
     });
     return columns;
   }
