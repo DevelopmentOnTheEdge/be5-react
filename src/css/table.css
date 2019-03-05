@@ -104,7 +104,9 @@ table.dataTable.table-sm .sorting:before, table.dataTable.table-sm .sorting_asc:
 table.dataTable.table-sm .sorting:after, table.dataTable.table-sm .sorting_asc:after, table.dataTable.table-sm .sorting_desc:after {
   top: 4px;
 }
-
+table.dataTable .default_order {
+  cursor: pointer;
+}
 .dataTables_length select.form-control {
   padding: 0.18rem 0.3rem;
   font-size: 13px;

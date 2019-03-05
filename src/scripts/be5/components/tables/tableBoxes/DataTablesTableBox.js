@@ -11,6 +11,8 @@ import {initFilterParams} from "../../../utils/filterUtils";
 
 /**
  * https://datatables.net/
+ * https://habr.com/ru/post/330656/
+ * https://medium.com/@zbzzn/integrating-react-and-datatables-not-as-hard-as-advertised-f3364f395dfa
  */
 class DataTablesWrapper extends Component {
   constructor(props) {
@@ -40,9 +42,6 @@ class DataTablesWrapper extends Component {
     const hasCheckBoxes = attributes.selectable;
     const editOperation = DataTablesWrapper.getEditOperation(props);
 
-    const columns = this.getColumns(props);
-    const data = this.getData(props);
-
     let lengths = [5, 10, 20, 50, 100, 500, 1000];
     const pageLength = attributes.length;
 
@@ -71,8 +70,8 @@ class DataTablesWrapper extends Component {
     language.lengthMenu = "_MENU_";
 
     const tableConfiguration = {
-      data: data,
-      columns: columns,
+      data: this.getData(props),
+      columns: this.getColumns(props),
       dom: tableDom,
       processing: true,
       serverSide: true,
@@ -254,6 +253,13 @@ class DataTablesWrapper extends Component {
       props.onOperationClick(DataTablesWrapper.getEditOperation(props), $(this).data("val"));
     });
 
+    tableTag.on("click", '.default_order', function (e) {
+      e.preventDefault();
+      $("#" + getTableId(props)).DataTable()
+        .order([])
+        .draw();
+    });
+
     addUrlHandlers(tableTag, props.frontendParams.documentName);
 
     tableTag.on('draw.dt', function () {
@@ -279,9 +285,9 @@ class DataTablesWrapper extends Component {
   }
 
   getColumns(props) {
-    const columns = [{"title": "#"}];
+    const columns = [{"title": "#", "orderable": false, className: "default_order"}];
     props.value.data.attributes.columns.forEach((column) => {
-      columns.push({"title": column.title});
+      columns.push({"title": column.title, "orderable": true });
     });
     return columns;
   }
