@@ -53,7 +53,7 @@ class DataTablesWrapper extends Component {
       props.onOperationClick(DataTablesWrapper.getEditOperation(props), $(this).data("val"));
     });
 
-    tableTag.on("click", '.default_order', function (e) {
+    tableTag.on("click", 'th.default_order', function (e) {
       e.preventDefault();
       $("#" + getTableId(props)).DataTable()
         .order([])
