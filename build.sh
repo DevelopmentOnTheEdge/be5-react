@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+npm run coverage
 npm run lib
 git add .
-npm run coverage
+git commit -m "build"

@@ -4995,6 +4995,8 @@ registerRoute("categories", route$16);
 
 /**
  * https://datatables.net/
+ * https://habr.com/ru/post/330656/
+ * https://medium.com/@zbzzn/integrating-react-and-datatables-not-as-hard-as-advertised-f3364f395dfa
  */
 
 var DataTablesWrapper = function (_Component) {
@@ -5026,6 +5028,51 @@ var DataTablesWrapper = function (_Component) {
       $("#" + getTableId(this.props)).DataTable().destroy(true);
     }
   }, {
+    key: 'applyTable',
+    value: function applyTable(props, node) {
+      if (!hasRows(props.value.data.attributes)) return;
+
+      var tableTag = $('<table id="' + getTableId(props) + '" ' + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>');
+      tableTag.appendTo(node);
+
+      tableTag.dataTable(this.getTableConfiguration(props));
+
+      $('.dataTables_length select').removeClass('form-control-sm');
+
+      tableTag.on("click", '.edit-operation-btn', function (e) {
+        e.preventDefault();
+        props.onOperationClick(DataTablesWrapper.getEditOperation(props), $(this).data("val"));
+      });
+
+      tableTag.on("click", 'th.default_order', function (e) {
+        e.preventDefault();
+        $("#" + getTableId(props)).DataTable().order([]).draw();
+      });
+
+      addUrlHandlers(tableTag, props.frontendParams.documentName);
+
+      tableTag.on('draw.dt', function () {
+        props.setSelectedRows([]);
+      });
+
+      // $('#rowCheckboxAll').click(function (e) {
+      //   e.stopPropagation();
+      //
+      //   if (!$('#rowCheckboxAll').prop('checked')) {
+      //     $('.rowCheckbox').prop('checked', false);
+      //     be5.tableState.selectedRows = [];
+      //   }else{
+      //     $('.rowCheckbox').prop('checked', true);
+      //
+      //     for(let i=0; i< attributes.rows.length; i++){
+      //       be5.tableState.selectedRows.push(attributes.rows[i].id);
+      //     }
+      //   }
+      // });
+
+      bus.fire("updateDataTableQuickColumns");
+    }
+  }, {
     key: 'getTableConfiguration',
     value: function getTableConfiguration(props) {
       var _this2 = this;
@@ -5033,9 +5080,6 @@ var DataTablesWrapper = function (_Component) {
       var attributes = props.value.data.attributes;
       var hasCheckBoxes = attributes.selectable;
       var editOperation = DataTablesWrapper.getEditOperation(props);
-
-      var columns = this.getColumns(props);
-      var data = this.getData(props);
 
       var lengths = [5, 10, 20, 50, 100, 500, 1000];
       var pageLength = attributes.length;
@@ -5066,8 +5110,8 @@ var DataTablesWrapper = function (_Component) {
       language.lengthMenu = "_MENU_";
 
       var tableConfiguration = {
-        data: data,
-        columns: columns,
+        data: this.getData(props),
+        columns: this.getColumns(props),
         dom: tableDom,
         processing: true,
         serverSide: true,
@@ -5228,51 +5272,11 @@ var DataTablesWrapper = function (_Component) {
       return tableConfiguration;
     }
   }, {
-    key: 'applyTable',
-    value: function applyTable(props, node) {
-      if (!hasRows(props.value.data.attributes)) return;
-
-      var tableTag = $('<table id="' + getTableId(props) + '" ' + 'class="table table-striped table-striped-light table-bordered display table-sm" cellspacing="0"/>');
-      tableTag.appendTo(node);
-
-      tableTag.dataTable(this.getTableConfiguration(props));
-
-      $('.dataTables_length select').removeClass('form-control-sm');
-
-      tableTag.on("click", '.edit-operation-btn', function (e) {
-        e.preventDefault();
-        props.onOperationClick(DataTablesWrapper.getEditOperation(props), $(this).data("val"));
-      });
-
-      addUrlHandlers(tableTag, props.frontendParams.documentName);
-
-      tableTag.on('draw.dt', function () {
-        props.setSelectedRows([]);
-      });
-
-      // $('#rowCheckboxAll').click(function (e) {
-      //   e.stopPropagation();
-      //
-      //   if (!$('#rowCheckboxAll').prop('checked')) {
-      //     $('.rowCheckbox').prop('checked', false);
-      //     be5.tableState.selectedRows = [];
-      //   }else{
-      //     $('.rowCheckbox').prop('checked', true);
-      //
-      //     for(let i=0; i< attributes.rows.length; i++){
-      //       be5.tableState.selectedRows.push(attributes.rows[i].id);
-      //     }
-      //   }
-      // });
-
-      bus.fire("updateDataTableQuickColumns");
-    }
-  }, {
     key: 'getColumns',
     value: function getColumns(props) {
-      var columns = [{ "title": "#" }];
+      var columns = [{ "title": "#", "orderable": false, className: "default_order" }];
       props.value.data.attributes.columns.forEach(function (column) {
-        columns.push({ "title": column.title });
+        columns.push({ "title": column.title, "orderable": !column.nosort });
       });
       return columns;
     }
