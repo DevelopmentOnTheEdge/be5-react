@@ -15,7 +15,9 @@ class QuickColumns extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(this.createStateFromProps(nextProps));
+    if (nextProps.meta._ts_ > this.props.meta._ts_) {
+      this.setState(this.createStateFromProps(nextProps));
+    }
   }
 
   createStateFromProps(props) {
