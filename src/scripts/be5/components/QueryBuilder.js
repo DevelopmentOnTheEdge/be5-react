@@ -96,7 +96,7 @@ class QueryBuilder extends React.Component {
                   this.setState({updateWithoutBeSql: !this.state.updateWithoutBeSql});
                 }}
                 checked={this.state.updateWithoutBeSql === true}/>
-              <label className="form-check-label" htmlFor="updateWithoutBeSql">update without be sql</label>
+              <label className="form-check-label" htmlFor="updateWithoutBeSql">raw sql</label>
             </div>
           </div>
           <div className="col-md-6">

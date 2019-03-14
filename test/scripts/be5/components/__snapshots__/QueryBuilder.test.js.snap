@@ -27,7 +27,7 @@ exports[`snapshot 1`] = `
           className="form-check-label"
           htmlFor="updateWithoutBeSql"
         >
-          update without be sql
+          raw sql
         </label>
       </div>
     </div>
