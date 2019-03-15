@@ -55,11 +55,11 @@ export const createStaticValue = (title, text, links, meta) => {
 export const getSelfUrl = (value) => {
   if (value) {
     if (value.data && value.data.links && value.data.links.self !== undefined) {
-      return "#!" + value.data.links.self;
+      return value.data.links.self;
     }
     else if (value.errors && value.errors.length > 0 &&
       value.errors[0].links && value.errors[0].links.self !== undefined) {
-      return "#!" + value.errors[0].links.self;
+      return value.errors[0].links.self;
     }
   }
 

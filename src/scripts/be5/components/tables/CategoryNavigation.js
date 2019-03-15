@@ -19,9 +19,10 @@ const CategoryNavigation = ({data, url}) => {
   const currentCat = pUrl.named['_cat_'];
 
   if (currentCat === undefined) {
+    const url = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, {_cat_: categories[0].id}));
     return (
       <div className="category-navigation category-navigation__not-select">
-        <a href={be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, {_cat_: categories[0].id}))}>
+        <a href={"#!" + url}>
           {be5.locale.msg('Switch to categorized view')}
         </a>
       </div>
@@ -33,9 +34,10 @@ const CategoryNavigation = ({data, url}) => {
   function tableTd(categories) {
     return categories.map(function (cat) {
       if (parseInt(currentCat) !== cat.id) {
+        const url = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, {_cat_: cat.id}));
         return (
           <a className="d-block"
-             href={be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, {_cat_: cat.id}))} key={cat.id}>
+             href={"#!" + url} key={cat.id}>
             {cat.name}
           </a>
         )
