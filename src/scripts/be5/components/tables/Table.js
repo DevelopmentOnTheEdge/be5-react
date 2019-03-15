@@ -100,6 +100,7 @@ class Table extends Component {
           hideOperations={hideOperations}
         />
         <FilterUI
+          data={getResourceByType(this.props.value.included, "filterInfo")}
           entity={data.attributes.category}
           query={data.attributes.page}
           params={data.attributes.parameters}

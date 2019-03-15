@@ -11,7 +11,7 @@ import {
 const positionsParamNames = [ORDER_COLUMN, ORDER_DIR, OFFSET, LIMIT];
 const propTypes = {};
 
-const FilterUI = ({entity, query, params, frontendParams}) => {
+const FilterUI = ({data, entity, query, params, frontendParams}) => {
   const filterParams = getFilterParams(params);
 
   function clearFilter(e) {
@@ -29,12 +29,21 @@ const FilterUI = ({entity, query, params, frontendParams}) => {
     loadTable(paramsObject, frontendParams);
   }
 
+  function getOperationParamsInfo() {
+    if (data && data.attributes.filterInfo && data.attributes.filterInfo.length > 0) {
+      return data.attributes.filterInfo.map(r => r.key ? r.key + ': ' + r.value : r.value).join(', ');
+    }
+    return '';
+  }
+
   let positionsParamCount = 0;
   positionsParamNames.forEach(x => {
     if (filterParams[x] !== undefined) positionsParamCount++
   });
   if (Object.keys(filterParams).length > positionsParamCount) {
     return <div className="table-filter-ui mb-2">
+      <strong>{be5.messages.table.filter + ': '}</strong>
+      <span>{getOperationParamsInfo()}</span>{' '}
       <a href="#" onClick={clearFilter}>{be5.messages.table.clearFilter}</a>
     </div>
   }
