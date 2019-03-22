@@ -521,9 +521,9 @@ var createStaticValue = function createStaticValue(title, text, links, meta) {
 var getSelfUrl = function getSelfUrl(value) {
   if (value) {
     if (value.data && value.data.links && value.data.links.self !== undefined) {
-      return "#!" + value.data.links.self;
+      return value.data.links.self;
     } else if (value.errors && value.errors.length > 0 && value.errors[0].links && value.errors[0].links.self !== undefined) {
-      return "#!" + value.errors[0].links.self;
+      return value.errors[0].links.self;
     }
   }
 
@@ -659,7 +659,8 @@ var messages = {
       emptyTable: 'Nothing found',
       previousPage: 'Previous',
       nextPage: 'Next',
-      clearFilter: 'Clear filter',
+      filter: 'Filter',
+      clearFilter: 'Clear',
       tableFor: 'for'
     }
   },
@@ -728,7 +729,8 @@ var messages = {
       emptyTable: 'Нет данных',
       previousPage: 'Предыдущая',
       nextPage: 'Следующая',
-      clearFilter: 'Очистить фильтр',
+      filter: 'Фильтр',
+      clearFilter: 'Очистить',
       tableFor: 'для'
     },
     dataTables: {
@@ -1509,12 +1511,20 @@ var getOperationInfo = function getOperationInfo(operationInfo) {
   var _loop = function _loop(k) {
     var value = values[k];
     if (Array.isArray(value)) {
-      value.forEach(function (e) {
-        formData.append(k, e);
-      });
+      if (value.length === 0) {
+        formData.append(k, "");
+      } else {
+        value.forEach(function (e) {
+          formData.append(k, e);
+        });
+      }
     } else if (value instanceof FileList) {
-      for (var i = 0; i < value.length; i++) {
-        formData.append(k, value[i]);
+      if (value.length === 0) {
+        formData.append(k, "");
+      } else {
+        for (var i = 0; i < value.length; i++) {
+          formData.append(k, value[i]);
+        }
       }
     } else {
       formData.append(k, value);
@@ -2242,7 +2252,7 @@ var Document$1 = function (_React$Component) {
   }, {
     key: 'refresh',
     value: function refresh() {
-      be5.url.process(this.props.frontendParams, getSelfUrl(this.state.value));
+      be5.url.process(this.props.frontendParams, "#!" + getSelfUrl(this.state.value));
     }
   }, {
     key: 'getComponentFrontendParams',
@@ -3884,12 +3894,13 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
   var currentCat = pUrl.named['_cat_'];
 
   if (currentCat === undefined) {
+    var _url = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, { _cat_: categories[0].id }));
     return React.createElement(
       'div',
       { className: 'category-navigation category-navigation__not-select' },
       React.createElement(
         'a',
-        { href: be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, { _cat_: categories[0].id })) },
+        { href: "#!" + _url },
         be5.locale.msg('Switch to categorized view')
       )
     );
@@ -3900,10 +3911,11 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
   function tableTd(categories) {
     return categories.map(function (cat) {
       if (parseInt(currentCat) !== cat.id) {
+        var _url2 = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, { _cat_: cat.id }));
         return React.createElement(
           'a',
           { className: 'd-block',
-            href: be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, { _cat_: cat.id })), key: cat.id },
+            href: "#!" + _url2, key: cat.id },
           cat.name
         );
       } else {
@@ -4184,7 +4196,8 @@ var positionsParamNames = [ORDER_COLUMN, ORDER_DIR, OFFSET, LIMIT];
 var propTypes$5 = {};
 
 var FilterUI = function FilterUI(_ref) {
-  var entity = _ref.entity,
+  var data = _ref.data,
+      entity = _ref.entity,
       query = _ref.query,
       params = _ref.params,
       frontendParams = _ref.frontendParams;
@@ -4206,6 +4219,15 @@ var FilterUI = function FilterUI(_ref) {
     loadTable(paramsObject, frontendParams);
   }
 
+  function getOperationParamsInfo() {
+    if (data && data.attributes.filterInfo && data.attributes.filterInfo.length > 0) {
+      return data.attributes.filterInfo.map(function (r) {
+        return r.key ? r.key + ': ' + r.value : r.value;
+      }).join(', ');
+    }
+    return '';
+  }
+
   var positionsParamCount = 0;
   positionsParamNames.forEach(function (x) {
     if (filterParams[x] !== undefined) positionsParamCount++;
@@ -4214,6 +4236,17 @@ var FilterUI = function FilterUI(_ref) {
     return React.createElement(
       "div",
       { className: "table-filter-ui mb-2" },
+      React.createElement(
+        "strong",
+        null,
+        be5.messages.table.filter + ': '
+      ),
+      React.createElement(
+        "span",
+        null,
+        getOperationParamsInfo()
+      ),
+      ' ',
       React.createElement(
         "a",
         { href: "#", onClick: clearFilter },
@@ -4337,6 +4370,7 @@ var Table = function (_Component) {
           hideOperations: hideOperations
         }),
         React.createElement(FilterUI, {
+          data: getResourceByType(this.props.value.included, "filterInfo"),
           entity: data.attributes.category,
           query: data.attributes.page,
           params: data.attributes.parameters,
@@ -4499,7 +4533,9 @@ var QuickColumns = function (_React$Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      this.setState(this.createStateFromProps(nextProps));
+      if (nextProps.meta._ts_ > this.props.meta._ts_) {
+        this.setState(this.createStateFromProps(nextProps));
+      }
     }
   }, {
     key: 'createStateFromProps',
@@ -5949,7 +5985,7 @@ var QueryBuilder = function (_React$Component) {
               React.createElement(
                 'label',
                 { className: 'form-check-label', htmlFor: 'updateWithoutBeSql' },
-                'update without be sql'
+                'raw sql'
               )
             )
           ),
