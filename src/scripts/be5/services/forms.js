@@ -164,12 +164,20 @@ export const getOperationInfo = (operationInfo, values = {}) => {
   for (let k in values) {
     const value = values[k];
     if (Array.isArray(value)) {
-      value.forEach(function (e) {
-        formData.append(k, e);
-      });
+      if (value.length === 0) {
+        formData.append(k, "");
+      } else {
+        value.forEach(function (e) {
+          formData.append(k, e);
+        });
+      }
     } else if (value instanceof FileList) {
-      for (let i = 0; i < value.length; i++) {
-        formData.append(k, value[i]);
+      if (value.length === 0) {
+        formData.append(k, "");
+      } else {
+        for (let i = 0; i < value.length; i++) {
+          formData.append(k, value[i]);
+        }
       }
     } else {
       formData.append(k, value);
