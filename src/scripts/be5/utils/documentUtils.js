@@ -67,27 +67,37 @@ export const getSelfUrl = (value) => {
 };
 
 export const processHashUrl = (e) => {
-  processHashUrlForDocument(e, MAIN_DOCUMENT);
+  if(!e.ctrlKey) {
+    processHashUrlForDocument(e, MAIN_DOCUMENT);
+  }
 };
 
 export const openInModal = (e) => {
-  processHashUrlForDocument(e, MAIN_MODAL_DOCUMENT);
+  if(!e.ctrlKey) {
+    processHashUrlForDocument(e, MAIN_MODAL_DOCUMENT);
+  }
 };
 
 export const addUrlHandlers = (element, documentName) => {
   element.on("click", '.process-hash-url', function (e) {
-    e.preventDefault();
-    processHashUrlForDocument(e, documentName);
+    if(!e.ctrlKey) {
+      e.preventDefault();
+      processHashUrlForDocument(e, documentName);
+    }
   });
 
   element.on("click", '.open-hash-url', function (e) {
-    e.preventDefault();
-    processHashUrl(e);
+    if(!e.ctrlKey) {
+      e.preventDefault();
+      processHashUrl(e);
+    }
   });
 
   element.on("click", '.open-in-modal', function (e) {
-    e.preventDefault();
-    openInModal(e);
+    if(!e.ctrlKey) {
+      e.preventDefault();
+      openInModal(e);
+    }
   });
 };
 

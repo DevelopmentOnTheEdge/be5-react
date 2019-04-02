@@ -49,8 +49,10 @@ class DataTablesWrapper extends Component {
     $('.dataTables_length select').removeClass('form-control-sm');
 
     tableTag.on("click", '.edit-operation-btn', function (e) {
-      e.preventDefault();
-      props.onOperationClick(DataTablesWrapper.getEditOperation(props), $(this).data("val"));
+      if(!e.ctrlKey) {
+        e.preventDefault();
+        props.onOperationClick(DataTablesWrapper.getEditOperation(props), $(this).data("val"));
+      }
     });
 
     tableTag.on("click", 'th.default_order', function (e) {

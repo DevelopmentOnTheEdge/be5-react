@@ -35,16 +35,18 @@ class Navs extends React.Component {
   }
 
   setNavState(e) {
-    e.preventDefault();
-    const id = this.getIDbyUrl(e.target.getAttribute("href"));
+    if(!e.ctrlKey) {
+      e.preventDefault();
+      const id = this.getIDbyUrl(e.target.getAttribute("href"));
 
-    if (this.props.onOpenNav !== undefined) this.props.onOpenNav(id);
+      if (this.props.onOpenNav !== undefined) this.props.onOpenNav(id);
 
-    if (this.props.baseUrl !== undefined && this.getUrl(id) !== be5.url.get()) {
-      processHashUrlForDocument(this.getUrl(id), this.props.parentDocumentName);
-    } else {
-      processHashUrlForDocument(e, this.props.documentName);
-      this.setState({compState: id});
+      if (this.props.baseUrl !== undefined && this.getUrl(id) !== be5.url.get()) {
+        processHashUrlForDocument(this.getUrl(id), this.props.parentDocumentName);
+      } else {
+        processHashUrlForDocument(e, this.props.documentName);
+        this.setState({compState: id});
+      }
     }
   }
 
