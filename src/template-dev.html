@@ -11,8 +11,8 @@
         animation:loading 10s linear infinite}@keyframes loading{from{left:-50%;width:30%}50%{width:30%}70%{width:70%}80%{left:50%}95%{left:120%}to{left:100%}}</style>
 </head>
 <body>
-    <div id="app"><div class="document-loader"></div></div>
-    <div id="login"></div>
+    <div id="infoMessage" th:text="${message}"></div>
+    <div id="app"><div class="document-loader"/></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/15.6.1/react-dom.js"></script>
