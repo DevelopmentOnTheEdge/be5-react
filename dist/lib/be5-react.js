@@ -531,27 +531,37 @@ var getSelfUrl = function getSelfUrl(value) {
 };
 
 var processHashUrl = function processHashUrl(e) {
-  processHashUrlForDocument(e, MAIN_DOCUMENT);
+  if (!e.ctrlKey) {
+    processHashUrlForDocument(e, MAIN_DOCUMENT);
+  }
 };
 
 var openInModal = function openInModal(e) {
-  processHashUrlForDocument(e, MAIN_MODAL_DOCUMENT);
+  if (!e.ctrlKey) {
+    processHashUrlForDocument(e, MAIN_MODAL_DOCUMENT);
+  }
 };
 
 var addUrlHandlers = function addUrlHandlers(element, documentName) {
   element.on("click", '.process-hash-url', function (e) {
-    e.preventDefault();
-    processHashUrlForDocument(e, documentName);
+    if (!e.ctrlKey) {
+      e.preventDefault();
+      processHashUrlForDocument(e, documentName);
+    }
   });
 
   element.on("click", '.open-hash-url', function (e) {
-    e.preventDefault();
-    processHashUrl(e);
+    if (!e.ctrlKey) {
+      e.preventDefault();
+      processHashUrl(e);
+    }
   });
 
   element.on("click", '.open-in-modal', function (e) {
-    e.preventDefault();
-    openInModal(e);
+    if (!e.ctrlKey) {
+      e.preventDefault();
+      openInModal(e);
+    }
   });
 };
 
@@ -3117,16 +3127,18 @@ var Navs = function (_React$Component) {
   }, {
     key: 'setNavState',
     value: function setNavState(e) {
-      e.preventDefault();
-      var id = this.getIDbyUrl(e.target.getAttribute("href"));
+      if (!e.ctrlKey) {
+        e.preventDefault();
+        var id = this.getIDbyUrl(e.target.getAttribute("href"));
 
-      if (this.props.onOpenNav !== undefined) this.props.onOpenNav(id);
+        if (this.props.onOpenNav !== undefined) this.props.onOpenNav(id);
 
-      if (this.props.baseUrl !== undefined && this.getUrl(id) !== be5.url.get()) {
-        processHashUrlForDocument(this.getUrl(id), this.props.parentDocumentName);
-      } else {
-        processHashUrlForDocument(e, this.props.documentName);
-        this.setState({ compState: id });
+        if (this.props.baseUrl !== undefined && this.getUrl(id) !== be5.url.get()) {
+          processHashUrlForDocument(this.getUrl(id), this.props.parentDocumentName);
+        } else {
+          processHashUrlForDocument(e, this.props.documentName);
+          this.setState({ compState: id });
+        }
       }
     }
   }, {
@@ -5076,8 +5088,10 @@ var DataTablesWrapper = function (_Component) {
       $('.dataTables_length select').removeClass('form-control-sm');
 
       tableTag.on("click", '.edit-operation-btn', function (e) {
-        e.preventDefault();
-        props.onOperationClick(DataTablesWrapper.getEditOperation(props), $(this).data("val"));
+        if (!e.ctrlKey) {
+          e.preventDefault();
+          props.onOperationClick(DataTablesWrapper.getEditOperation(props), $(this).data("val"));
+        }
       });
 
       tableTag.on("click", 'th.default_order', function (e) {
@@ -6229,7 +6243,7 @@ var SystemCard = function SystemCard(props) {
   var title = props.value.title;
 
   be5.ui.setTitle(title);
-  var steps = [{ title: 'Cache', url: '#!table/_system_/Cache' }, { title: 'Daemons', url: '#!table/_system_/Daemons' }, { title: 'DataSource', url: '#!table/_system_/DataSource' }, { title: 'Http Headers', url: '#!table/_system_/Http Headers' }, { title: 'Session', url: '#!table/_system_/Session variables' }, { title: 'Properties', url: '#!table/_system_/System properties' }, { title: 'System Settings', url: '#!table/systemSettings/All%20records' }, { title: 'Threads', url: '#!table/_system_/Threads' }, { title: 'UI panel', url: '#!uiPanel' }];
+  var steps = [{ title: 'Cache', url: '#!table/_system_/Cache' }, { title: 'Session', url: '#!table/_system_/Session variables' }, { title: 'System Settings', url: '#!table/systemSettings/All%20records' }, { title: 'Daemons', url: '#!table/_system_/Daemons' }, { title: 'DataSource', url: '#!table/_system_/DataSource' }, { title: 'Http Headers', url: '#!table/_system_/Http Headers' }, { title: 'Properties', url: '#!table/_system_/System properties' }, { title: 'Threads', url: '#!table/_system_/Threads' }, { title: 'UI panel', url: '#!uiPanel' }];
 
   return React.createElement(
     "div",
