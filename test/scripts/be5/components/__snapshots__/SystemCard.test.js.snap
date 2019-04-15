@@ -40,6 +40,28 @@ exports[`snapshot 1`] = `
           >
             <a
               className="nav-link"
+              href="#!table/_system_/Session variables"
+              onClick={[Function]}
+            >
+              Session
+            </a>
+          </li>
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link"
+              href="#!table/systemSettings/All%20records"
+              onClick={[Function]}
+            >
+              System Settings
+            </a>
+          </li>
+          <li
+            className="nav-item"
+          >
+            <a
+              className="nav-link"
               href="#!table/_system_/Daemons"
               onClick={[Function]}
             >
@@ -73,32 +95,10 @@ exports[`snapshot 1`] = `
           >
             <a
               className="nav-link"
-              href="#!table/_system_/Session variables"
-              onClick={[Function]}
-            >
-              Session
-            </a>
-          </li>
-          <li
-            className="nav-item"
-          >
-            <a
-              className="nav-link"
               href="#!table/_system_/System properties"
               onClick={[Function]}
             >
               Properties
-            </a>
-          </li>
-          <li
-            className="nav-item"
-          >
-            <a
-              className="nav-link"
-              href="#!table/systemSettings/All%20records"
-              onClick={[Function]}
-            >
-              System Settings
             </a>
           </li>
           <li
