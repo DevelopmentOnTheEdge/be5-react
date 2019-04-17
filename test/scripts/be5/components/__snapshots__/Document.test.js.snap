@@ -13,13 +13,13 @@ exports[`snapshot 2`] = `
     <h1
       className="staticPage__title"
     >
-      Component for type "undefined" is not registered.
+      Document type is undefined
     </h1>
     <div
       className="staticPage__text"
       dangerouslySetInnerHTML={
         Object {
-          "__html": "",
+          "__html": "<br/>props.type: undefined<br/>frontendParams: {}",
         }
       }
     />

@@ -88,6 +88,18 @@ class Document extends React.Component {
       return null;
     }
 
+    if (documentType === undefined) {
+      const info = "<br/>props.type: " + this.props.type +
+        "<br/>frontendParams: " + JSON.stringify(this.state.frontendParams);
+      const value = createStaticValue("Document type is undefined", info, {self: "#!"});
+      return (
+        <StaticPage
+          value={value}
+          frontendParams={this.getComponentFrontendParams()}
+        />
+      )
+    }
+
     const DocumentContent = getDocument(documentType);
 
     if (DocumentContent === undefined) {
