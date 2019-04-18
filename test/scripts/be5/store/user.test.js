@@ -25,8 +25,11 @@ test('test updateUserInfo', () => {
 
 test('test toggleRoles', () => {
   const store = getTestStore();
+
+  const newUserState = {"availableRoles":["Administrator", "Manager"],"currentRoles":["Administrator", "Manager"],
+    "loggedIn": true, "userName": "Administrator"};
   be5.net.request = function (path, attr, callback) {
-    callback(["Administrator", "Manager"])
+    callback(newUserState)
   };
 
   expect(getCurrentRoles(store.getState()))
