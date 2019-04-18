@@ -336,7 +336,7 @@ var updateUserInfo = function updateUserInfo(data) {
 var toggleRoles = function toggleRoles(roles) {
   return function (dispatch) {
     be5.net.request('userInfo/selectRoles', { roles: roles }, function (data) {
-      dispatch({ type: SELECT_ROLES, currentRoles: data });
+      dispatch({ type: UPDATE_USER_INFO, user: data });
     });
   };
 };
@@ -2186,14 +2186,23 @@ var Document$1 = function (_React$Component) {
         return null;
       }
 
+      if (documentType === undefined) {
+        var info = "<br/>props.type: " + this.props.type + "<br/>frontendParams: " + JSON.stringify(this.state.frontendParams);
+        var value = createStaticValue("Document type is undefined", info, { self: "#!" });
+        return React.createElement(StaticPage, {
+          value: value,
+          frontendParams: this.getComponentFrontendParams()
+        });
+      }
+
       var DocumentContent = getDocument(documentType);
 
       if (DocumentContent === undefined) {
         var title = be5.messages.componentForTypeNotRegistered.replace('$type', documentType);
-        var value = createStaticValue(title, '', { self: "#!" });
+        var _value = createStaticValue(title, '', { self: "#!" });
 
         return React.createElement(StaticPage, {
-          value: value,
+          value: _value,
           frontendParams: this.getComponentFrontendParams()
         });
       }
