@@ -196,100 +196,107 @@ exports[`Table with topForm 1`] = `
   className="table-component users_All-records"
 >
   <div
-    className="be5-form users_TopFilter form-inline-mini"
+    className="document-content"
+    id="document-content___topForm"
   >
-    <form
-      className="form-inline"
-      onSubmit={[Function]}
-    >
-      <label
-        className="mr-sm-2 col-form-label-sm"
-      >
-        <strong>
-          Пользователи: 
-        </strong>
-      </label>
+    <div>
       <div
-        className="property form-group mr-sm-2"
+        className="be5-form users_TopFilter form-inline-mini"
       >
-        <label
-          className="form-control-label mr-sm-2 col-form-label-sm"
-          htmlFor="user_namePropertyInput"
+        <form
+          className="form-inline"
+          onSubmit={[Function]}
         >
-          Логин
-        </label>
-        <input
-          className="property-input form-control form-control-sm"
-          id="user_namePropertyInput"
-          maxLength="100"
-          onBlur={[Function]}
-          onChange={[Function]}
-          onInput={[Function]}
-          onInvalid={[Function]}
-          pattern={undefined}
-          placeholder={undefined}
-          required={false}
-          size={undefined}
-          type="text"
-          value=""
-        />
+          <label
+            className="mr-sm-2 col-form-label-sm"
+          >
+            <strong>
+              Пользователи: 
+            </strong>
+          </label>
+          <div
+            className="property form-group mr-sm-2"
+          >
+            <label
+              className="form-control-label mr-sm-2 col-form-label-sm"
+              htmlFor="user_namePropertyInput"
+            >
+              Логин
+            </label>
+            <input
+              className="property-input form-control form-control-sm"
+              id="user_namePropertyInput"
+              maxLength="100"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onInput={[Function]}
+              onInvalid={[Function]}
+              pattern={undefined}
+              placeholder={undefined}
+              required={false}
+              size={undefined}
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            className="property form-group mr-sm-2 display-none"
+          >
+            <label
+              className="form-control-label mr-sm-2 col-form-label-sm"
+              htmlFor="_search_presets_PropertyInput"
+            >
+              _search_presets_
+            </label>
+            <input
+              className="property-input form-control form-control-sm"
+              id="_search_presets_PropertyInput"
+              maxLength={undefined}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onInput={[Function]}
+              onInvalid={[Function]}
+              pattern={undefined}
+              placeholder={undefined}
+              readOnly="readonly"
+              required={false}
+              size={undefined}
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            className="property form-check mr-sm-2 display-none"
+          >
+            <input
+              checked={true}
+              className="property-input form-check-input"
+              disabled="disabled"
+              id="_search_PropertyInput"
+              onChange={[Function]}
+              required={false}
+              size={undefined}
+              type="checkbox"
+            />
+            <label
+              className="form-check-label col-form-label-sm"
+              htmlFor="_search_PropertyInput"
+            >
+              _search_
+            </label>
+          </div>
+          <button
+            className="btn btn-primary btn-sm"
+            disabled={false}
+            onClick={[Function]}
+            title=""
+            type="submit"
+          >
+            Submit
+          </button>
+        </form>
       </div>
-      <div
-        className="property form-group mr-sm-2 display-none"
-      >
-        <label
-          className="form-control-label mr-sm-2 col-form-label-sm"
-          htmlFor="_search_presets_PropertyInput"
-        >
-          _search_presets_
-        </label>
-        <input
-          className="property-input form-control form-control-sm"
-          id="_search_presets_PropertyInput"
-          maxLength={undefined}
-          onBlur={[Function]}
-          onChange={[Function]}
-          onInput={[Function]}
-          onInvalid={[Function]}
-          pattern={undefined}
-          placeholder={undefined}
-          readOnly="readonly"
-          required={false}
-          size={undefined}
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="property form-check mr-sm-2 display-none"
-      >
-        <input
-          checked={true}
-          className="property-input form-check-input"
-          disabled="disabled"
-          id="_search_PropertyInput"
-          onChange={[Function]}
-          required={false}
-          size={undefined}
-          type="checkbox"
-        />
-        <label
-          className="form-check-label col-form-label-sm"
-          htmlFor="_search_PropertyInput"
-        >
-          _search_
-        </label>
-      </div>
-      <button
-        className="btn btn-primary btn-sm"
-        disabled={false}
-        onClick={[Function]}
-        title=""
-        type="submit"
-      >
-        Submit
-      </button>
-    </form>
+    </div>
   </div>
   <h1
     className="table-component__title"

@@ -12,6 +12,7 @@ import {MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, SELECTED_ROWS} from "../../constants
 import {getBackAction, makeSafeForClassName} from "../../utils/utils";
 import {getTableBox} from "../../core/registers/tableBoxes";
 import {setTableFilter} from "../../services/tables";
+import Document from "../../containers/Document";
 
 
 class Table extends Component {
@@ -198,13 +199,13 @@ class Table extends Component {
 
   topForm(topFormJson) {
     if (topFormJson) {
-      const layout = topFormJson.data.attributes.layout;
-      if (layout.type === undefined) layout.type = 'inlineMiniForm';
-      if (layout.bsSize === undefined) layout.bsSize = 'sm';
-      const FormComponent = getDocument(layout.type);
-      return <FormComponent
-        frontendParams={{documentName: this.props.frontendParams.documentName}}
+      return <Document
+        frontendParams={{
+          documentName: "topForm",
+          parentDocumentName: this.props.frontendParams.documentName
+        }}
         value={topFormJson}
+        baseLayout={{type: 'inlineMiniForm', bsSize: 'sm'}}
       />
     }
     return null;

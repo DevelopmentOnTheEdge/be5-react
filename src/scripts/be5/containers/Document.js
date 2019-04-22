@@ -14,6 +14,8 @@ import {createStaticValue, getSelfUrl} from "../utils/documentUtils";
 class Document extends React.Component {
   constructor(props) {
     super(props);
+    this.addBaseLayout(props.value);
+
     this.state = {
       value: props.value || null,
       frontendParams: props.frontendParams || {}
@@ -42,6 +44,7 @@ class Document extends React.Component {
 
       if (!this.state.value || !this.state.value.meta || !data.value || !data.value.meta
         || data.value.meta._ts_ > this.state.value.meta._ts_) {
+        this.addBaseLayout(data.value);
         this.setState(Object.assign(
           {value: {}, frontendParams: {}},
           data
@@ -61,6 +64,16 @@ class Document extends React.Component {
     });
     bus.replaceListeners(this.props.frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX, data => {
     });
+  }
+
+  addBaseLayout(value) {
+    if (this.props.baseLayout === undefined) return;
+    const layout = value.data.attributes.layout;
+    for (let key in this.props.baseLayout) {
+      if (this.props.baseLayout.hasOwnProperty(key)) {
+        if (layout[key] === undefined) layout[key] = this.props.baseLayout[key];
+      }
+    }
   }
 
   render() {
@@ -197,6 +210,7 @@ Document.propTypes = {
     onSuccess: PropTypes.function
   }),
   value: PropTypes.object,
+  baseLayout: PropTypes.object,
   type: PropTypes.string
 };
 
