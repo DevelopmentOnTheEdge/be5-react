@@ -2112,11 +2112,7 @@ var Document$1 = function (_React$Component) {
 
     var _this = possibleConstructorReturn(this, (Document.__proto__ || Object.getPrototypeOf(Document)).call(this, props));
 
-    _this.state = {
-      value: props.value || null,
-      frontendParams: props.frontendParams || {}
-    };
-
+    _this.setStateValue(props);
     _this.refresh = _this.refresh.bind(_this);
     return _this;
   }
@@ -2125,11 +2121,17 @@ var Document$1 = function (_React$Component) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       if ('value' in nextProps && (!this.props.value || this.props.value.meta === undefined || !nextProps.value || nextProps.value.meta === undefined || nextProps.value.meta._ts_ > this.props.value.meta._ts_)) {
-        this.setState({
-          value: nextProps.value || "",
-          frontendParams: nextProps.frontendParams
-        });
+        this.setStateValue(nextProps);
       }
+    }
+  }, {
+    key: 'setStateValue',
+    value: function setStateValue(props) {
+      this.addBaseLayout(props.value);
+      this.state = {
+        value: props.value || null,
+        frontendParams: props.frontendParams || {}
+      };
     }
   }, {
     key: 'componentDidMount',
@@ -2142,6 +2144,7 @@ var Document$1 = function (_React$Component) {
         }
 
         if (!_this2.state.value || !_this2.state.value.meta || !data.value || !data.value.meta || data.value.meta._ts_ > _this2.state.value.meta._ts_) {
+          _this2.addBaseLayout(data.value);
           _this2.setState(Object.assign({ value: {}, frontendParams: {} }, data));
         }
         // if(!data.loading)this.setState({ loading: false });
@@ -2157,6 +2160,17 @@ var Document$1 = function (_React$Component) {
     value: function componentWillUnmount() {
       bus.replaceListeners(this.props.frontendParams.documentName, function (data) {});
       bus.replaceListeners(this.props.frontendParams.documentName + DOCUMENT_REFRESH_SUFFIX, function (data) {});
+    }
+  }, {
+    key: 'addBaseLayout',
+    value: function addBaseLayout(value) {
+      if (this.props.baseLayout === undefined) return;
+      var layout = value.data.attributes.layout;
+      for (var key in this.props.baseLayout) {
+        if (this.props.baseLayout.hasOwnProperty(key)) {
+          if (layout[key] === undefined) layout[key] = this.props.baseLayout[key];
+        }
+      }
     }
   }, {
     key: 'render',
@@ -2294,6 +2308,7 @@ Document$1.propTypes = {
     onSuccess: PropTypes.function
   }),
   value: PropTypes.object,
+  baseLayout: PropTypes.object,
   type: PropTypes.string
 };
 
@@ -4361,18 +4376,18 @@ var Table = function (_Component) {
     key: 'render',
     value: function render() {
       var value = this.props.value;
-      var _props$value = this.props.value,
-          data = _props$value.data,
-          included = _props$value.included;
+      var data = value.data,
+          included = value.included,
+          meta = value.meta;
 
       if (this.props.frontendParams.documentName === MAIN_DOCUMENT) {
         be5.ui.setTitle(data.attributes.title + ' ' + this.getOperationParamsInfo());
       }
-      var operations = getResourceByType(included, "documentOperations");
 
-      var topFormJson = value.included !== undefined ? getModelByID(value.included, value.meta, "topForm") : undefined;
-      var hideOperations = data.attributes.layout.hideOperations || [];
-      if (topFormJson) hideOperations.push(topFormJson.data.attributes.operation);
+      var topFormJson = getModelByID(included, meta, "topForm");
+      var categories = getResourceByType(included, "documentCategories");
+      var operations = getResourceByType(included, "documentOperations");
+      var filterInfo = getResourceByType(included, "filterInfo");
 
       return React.createElement(
         'div',
@@ -4380,7 +4395,7 @@ var Table = function (_Component) {
         this.topForm(topFormJson),
         this.getTitleTag(value),
         React.createElement(CategoryNavigation, {
-          data: getResourceByType(included, "documentCategories"),
+          data: categories,
           url: getSelfUrl(this.props.value)
         }),
         React.createElement(OperationBox, {
@@ -4388,10 +4403,10 @@ var Table = function (_Component) {
           onOperationClick: this.onOperationClick,
           selectedRows: this.state.selectedRows,
           hasRows: data.attributes.rows.length > 0,
-          hideOperations: hideOperations
+          hideOperations: this.getHideOperations(data, topFormJson)
         }),
         React.createElement(FilterUI, {
-          data: getResourceByType(this.props.value.included, "filterInfo"),
+          data: filterInfo,
           entity: data.attributes.category,
           query: data.attributes.page,
           params: data.attributes.parameters,
@@ -4400,6 +4415,13 @@ var Table = function (_Component) {
         this.tableBox(value, data, operations),
         this._createTableCancelAction()
       );
+    }
+  }, {
+    key: 'getHideOperations',
+    value: function getHideOperations(data, topFormJson) {
+      var hideOperations = data.attributes.layout.hideOperations || [];
+      if (topFormJson) hideOperations.push(topFormJson.data.attributes.operation);
+      return hideOperations;
     }
   }, {
     key: 'tableBox',
@@ -4506,13 +4528,13 @@ var Table = function (_Component) {
     key: 'topForm',
     value: function topForm(topFormJson) {
       if (topFormJson) {
-        var layout = topFormJson.data.attributes.layout;
-        if (layout.type === undefined) layout.type = 'inlineMiniForm';
-        if (layout.bsSize === undefined) layout.bsSize = 'sm';
-        var FormComponent = getDocument(layout.type);
-        return React.createElement(FormComponent, {
-          frontendParams: { documentName: this.props.frontendParams.documentName },
-          value: topFormJson
+        return React.createElement(Document$1, {
+          frontendParams: {
+            documentName: "topForm",
+            parentDocumentName: this.props.frontendParams.documentName
+          },
+          value: topFormJson,
+          baseLayout: { type: 'inlineMiniForm', bsSize: 'sm' }
         });
       }
       return null;
