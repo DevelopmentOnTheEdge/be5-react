@@ -75,22 +75,22 @@ class Table extends Component {
 
   render() {
     const value = this.props.value;
-    const {data, included} = this.props.value;
+    const {data, included, meta} = value;
     if (this.props.frontendParams.documentName === MAIN_DOCUMENT) {
       be5.ui.setTitle(data.attributes.title + ' ' + this.getOperationParamsInfo());
     }
-    const operations = getResourceByType(included, "documentOperations");
 
-    const topFormJson = value.included !== undefined ? getModelByID(value.included, value.meta, "topForm") : undefined;
-    let hideOperations = data.attributes.layout.hideOperations || [];
-    if (topFormJson) hideOperations.push(topFormJson.data.attributes.operation);
+    const topFormJson = getModelByID(included, meta, "topForm");
+    const categories = getResourceByType(included, "documentCategories");
+    const operations = getResourceByType(included, "documentOperations");
+    const filterInfo = getResourceByType(included, "filterInfo");
 
     return (
       <div className={classNames("table-component", this.getTableClass(), data.attributes.layout.classes)}>
         {this.topForm(topFormJson)}
         {this.getTitleTag(value)}
         <CategoryNavigation
-          data={getResourceByType(included, "documentCategories")}
+          data={categories}
           url={getSelfUrl(this.props.value)}
         />
         <OperationBox
@@ -98,10 +98,10 @@ class Table extends Component {
           onOperationClick={this.onOperationClick}
           selectedRows={this.state.selectedRows}
           hasRows={data.attributes.rows.length > 0}
-          hideOperations={hideOperations}
+          hideOperations={this.getHideOperations(data, topFormJson)}
         />
         <FilterUI
-          data={getResourceByType(this.props.value.included, "filterInfo")}
+          data={filterInfo}
           entity={data.attributes.category}
           query={data.attributes.page}
           params={data.attributes.parameters}
@@ -111,6 +111,12 @@ class Table extends Component {
         {this._createTableCancelAction()}
       </div>
     );
+  }
+
+  getHideOperations(data, topFormJson) {
+    let hideOperations = data.attributes.layout.hideOperations || [];
+    if (topFormJson) hideOperations.push(topFormJson.data.attributes.operation);
+    return hideOperations;
   }
 
   tableBox(value, data, operations) {
