@@ -5,6 +5,7 @@ import Form from './Form';
 import {Property} from 'beanexplorer-react';
 import {registerDocument} from '../../core/registers/documents';
 import JsonPointer from 'json-pointer';
+import {asyncSelectLoadOptions} from "../../services/tables";
 
 class InlineMiniForm extends Form {
   render() {
@@ -14,6 +15,7 @@ class InlineMiniForm extends Form {
       bean: attributes.bean,
       onChange: this._onFieldChange,
       reloadOnChange: this._onReloadOnChange,
+      selectLoadOptions: asyncSelectLoadOptions,
       localization: be5.messages.property,
       inline: true,
       rowClass: "d-flex",

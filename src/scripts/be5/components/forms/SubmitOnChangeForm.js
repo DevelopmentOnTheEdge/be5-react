@@ -5,6 +5,7 @@ import Form from './Form';
 import {PropertyInput} from 'beanexplorer-react';
 import {registerDocument} from '../../core/registers/documents';
 import JsonPointer from 'json-pointer';
+import {asyncSelectLoadOptions} from "../../services/tables";
 
 class SubmitOnChangeForm extends Form {
   constructor(props) {
@@ -35,6 +36,7 @@ class SubmitOnChangeForm extends Form {
           localization={be5.messages.property}
           onChange={() => {}}
           reloadOnChange={this._onFieldChangeAndSubmit}
+          selectLoadOptions={asyncSelectLoadOptions}
           bsSize={attributes.layout.bsSize}
         />
         <div className="col-12">

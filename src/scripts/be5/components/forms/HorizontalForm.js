@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import PropertySet from 'beanexplorer-react';
 import {registerDocument} from '../../core/registers/documents';
 import {_createBackAction} from "../../utils/documentUtils";
+import {asyncSelectLoadOptions} from "../../services/tables";
 
 
 class HorizontalForm extends Form {
@@ -16,6 +17,7 @@ class HorizontalForm extends Form {
         values={this.state.values}
         onChange={this._onFieldChange}
         reloadOnChange={this._onReloadOnChange}
+        selectLoadOptions={asyncSelectLoadOptions}
         localization={be5.messages.property}
         bsSize={attributes.layout.bsSize}
         horizontal={true}

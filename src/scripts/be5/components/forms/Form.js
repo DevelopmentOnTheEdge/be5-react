@@ -14,6 +14,7 @@ import {
   CONTEXT_PARAMS, ENTITY_NAME_PARAM, OPERATION_NAME_PARAM, QUERY_NAME_PARAM,
   RELOAD_CONTROL_NAME
 } from "../../constants";
+import {asyncSelectLoadOptions} from "../../services/tables";
 
 
 class Form extends React.Component {
@@ -138,6 +139,7 @@ class Form extends React.Component {
         values={this.state.values}
         onChange={this._onFieldChange}
         reloadOnChange={this._onReloadOnChange}
+        selectLoadOptions={asyncSelectLoadOptions}
         localization={be5.messages.property}
         bsSize={attributes.layout.bsSize}
       />

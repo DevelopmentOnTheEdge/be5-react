@@ -30,6 +30,33 @@ export const fetchTableByUrl = (url, callback, failure = be5.log.error) => {
   getTable(getTableParams(url), callback, failure);
 };
 
+export const asyncSelectLoadOptions = (params, callback) => {
+  const {input, entity, query} = params;
+  const url = be5.url.create(["table", entity, query || '*** Selection view ***'], {asyncValue: input});
+  fetchTableByUrl(url, function (json) {
+    //console.log(json);
+    const options = getSelectOptions(json);
+    const complete = json.data.attributes.rows.length < json.data.attributes.length
+    console.log(json, complete);
+    //console.log('selectLoadOptions for ' + JSON.stringify(params) + ' - ' + JSON.stringify(options));
+    callback(null, {
+      options: options,
+      // CAREFUL! Only set this to true when there are no more options,
+      // or more specific queries will not be sent to the server.
+      complete: complete
+    });
+  });
+};
+
+const getSelectOptions = (json) => {
+  const rows = json.data.attributes.rows;
+  let options = [];
+  for (let i = 0; i < rows.length; i++) {
+    options.push({value: rows[i].cells[0].content, label: rows[i].cells[1].content});
+  }
+  return options;
+};
+
 export const getTableParams = (url) => {
   const attr = be5.url.parse(url);
 
