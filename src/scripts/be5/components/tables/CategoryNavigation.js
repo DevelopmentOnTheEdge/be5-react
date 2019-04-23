@@ -16,10 +16,10 @@ const CategoryNavigation = ({data, url}) => {
   const categories = data.attributes;
 
   const pUrl = be5.url.parse(url);
-  const currentCat = pUrl.named['_cat_'];
+  const currentCat = pUrl.named['cat'];
 
   if (currentCat === undefined) {
-    const url = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, {_cat_: categories[0].id}));
+    const url = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, {cat: categories[0].id}));
     return (
       <div className="category-navigation category-navigation__not-select">
         <a href={"#!" + url}>
@@ -34,7 +34,7 @@ const CategoryNavigation = ({data, url}) => {
   function tableTd(categories) {
     return categories.map(function (cat) {
       if (parseInt(currentCat) !== cat.id) {
-        const url = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, {_cat_: cat.id}));
+        const url = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, {cat: cat.id}));
         return (
           <a className="d-block"
              href={"#!" + url} key={cat.id}>

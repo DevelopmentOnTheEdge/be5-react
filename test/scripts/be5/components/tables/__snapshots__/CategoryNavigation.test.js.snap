@@ -10,7 +10,7 @@ exports[`snapshot 1`] = `
         <td>
           <a
             className="d-block"
-            href="#!table/publications/Compact%20view/_cat_=2"
+            href="#!table/publications/Compact%20view/cat=2"
           >
             Root
           </a>
@@ -35,13 +35,13 @@ exports[`snapshot 1`] = `
         <td>
           <a
             className="d-block"
-            href="#!table/publications/Compact%20view/_cat_=5"
+            href="#!table/publications/Compact%20view/cat=5"
           >
             c1
           </a>
           <a
             className="d-block"
-            href="#!table/publications/Compact%20view/_cat_=6"
+            href="#!table/publications/Compact%20view/cat=6"
           >
             c2
           </a>
