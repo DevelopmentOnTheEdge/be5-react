@@ -632,6 +632,7 @@ var messages = {
     welcome: 'Hello!',
     loading: 'Page is loading...',
     settings: 'Settings',
+    otherColumns: 'Other columns',
     roles: 'Roles',
     back: 'Back',
     error: 'Error:',
@@ -686,6 +687,7 @@ var messages = {
     welcome: 'Добро пожаловать!',
     loading: 'Загрузка...',
     settings: 'Настройки',
+    otherColumns: 'Другие колонки',
     roles: 'Роли',
     back: 'Назад',
     error: 'Ошибка:',
@@ -2164,7 +2166,7 @@ var Document$1 = function (_React$Component) {
   }, {
     key: 'addBaseLayout',
     value: function addBaseLayout(value) {
-      if (this.props.baseLayout === undefined) return;
+      if (this.props.baseLayout === undefined || value === undefined || value.data === undefined || value.data.attributes.layout === undefined) return;
       var layout = value.data.attributes.layout;
       for (var key in this.props.baseLayout) {
         if (this.props.baseLayout.hasOwnProperty(key)) {
@@ -4676,7 +4678,8 @@ var QuickColumns = function (_React$Component) {
         React.createElement(
           'span',
           null,
-          '\u0414\u0440\u0443\u0433\u0438\u0435 \u043A\u043E\u043B\u043E\u043D\u043A\u0438:'
+          be5.messages.otherColumns,
+          ':'
         ),
         checks
       );
@@ -6575,4 +6578,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu, NavMenu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm as InlineForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getDocumentStates, getDocumentState, setDocumentState, clearDocumentState, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByType, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, addUrlHandlers, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, initFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, SUCCESS_ALERT, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu, NavMenu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getDocumentStates, getDocumentState, setDocumentState, clearDocumentState, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByType, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, addUrlHandlers, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, initFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, SUCCESS_ALERT, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR };
