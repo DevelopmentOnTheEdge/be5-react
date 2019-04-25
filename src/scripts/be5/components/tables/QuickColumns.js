@@ -70,7 +70,7 @@ class QuickColumns extends React.Component {
 
     return (
       <div id="quickColumns">
-        <span>Другие колонки:</span>
+        <span>{be5.messages.otherColumns}:</span>
         {checks}
       </div>
     )
