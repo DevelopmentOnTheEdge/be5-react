@@ -22,7 +22,7 @@
     "classnames": "2.2.5",
     "datatables.net": "1.10.16",
     "formdata-polyfill": "^3.0.13",
-    "jquery": "3.2.1",
+    "jquery": ">=3.4.0",
     "json-pointer": "0.6.0",
     "number-format.js": "1.1.11",
     "prop-types": "15.6.1",
