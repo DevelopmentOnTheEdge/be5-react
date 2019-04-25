@@ -34,11 +34,8 @@ export const asyncSelectLoadOptions = (params, callback) => {
   const {input, entity, query} = params;
   const url = be5.url.create(["table", entity, query || '*** Selection view ***'], {asyncValue: input});
   fetchTableByUrl(url, function (json) {
-    //console.log(json);
     const options = getSelectOptions(json);
     const complete = json.data.attributes.rows.length < json.data.attributes.length;
-    console.log(json, complete);
-    //console.log('selectLoadOptions for ' + JSON.stringify(params) + ' - ' + JSON.stringify(options));
     callback(null, {
       options: options,
       // CAREFUL! Only set this to true when there are no more options,
