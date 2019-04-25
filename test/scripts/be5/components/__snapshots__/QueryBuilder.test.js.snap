@@ -145,7 +145,8 @@ exports[`snapshot 1`] = `
                     id="quickColumns"
                   >
                     <span>
-                      Другие колонки:
+                      Other columns
+                      :
                     </span>
                     <span>
                       <input

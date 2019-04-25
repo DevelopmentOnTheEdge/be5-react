@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import Form from '../../../../../src/scripts/be5/components/forms/Form';
 import HorizontalForm from '../../../../../src/scripts/be5/components/forms/HorizontalForm';
 import ModalForm from '../../../../../src/scripts/be5/components/forms/ModalForm';
-import InlineForm from '../../../../../src/scripts/be5/components/forms/InlineForm';
+import InlineMiniForm from '../../../../../src/scripts/be5/components/forms/InlineMiniForm';
 import SubmitOnChangeForm from '../../../../../src/scripts/be5/components/forms/SubmitOnChangeForm';
 import testData from '../../testData.json'
 import forms from '../../../../../src/scripts/be5/services/forms';
@@ -46,9 +46,9 @@ test('ModalForm', () => {
   expect(component.toJSON()).toMatchSnapshot();
 });
 
-test('InlineForm', () => {
+test('InlineMiniForm', () => {
   const component = renderer.create(
-    <InlineForm value={testData.simpleForm} frontendParams={{documentName: 'test'}} />
+    <InlineMiniForm value={testData.simpleForm} frontendParams={{documentName: 'test'}} />
   );
   expect(component.toJSON()).toMatchSnapshot();
 });

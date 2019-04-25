@@ -208,7 +208,7 @@ exports[`HorizontalForm 1`] = `
 </div>
 `;
 
-exports[`InlineForm 1`] = `
+exports[`InlineMiniForm 1`] = `
 <div
   className="be5-form companies_SelectCompany form-inline-mini"
 >

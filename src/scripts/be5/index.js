@@ -26,7 +26,7 @@ import Form from './components/forms/Form.js';
 import HorizontalForm from './components/forms/HorizontalForm';
 import SubmitOnChangeForm from './components/forms/SubmitOnChangeForm.js';
 import ModalForm from './components/forms/ModalForm.js';
-import InlineForm from './components/forms/InlineForm.js';
+import InlineMiniForm from './components/forms/InlineMiniForm.js';
 import FinishedResult from './components/forms/FinishedResult.js';
 
 // tables
@@ -76,7 +76,7 @@ export {
   HorizontalForm,
   SubmitOnChangeForm,
   ModalForm,
-  InlineForm,
+  InlineMiniForm,
   FinishedResult,
 
   // tables

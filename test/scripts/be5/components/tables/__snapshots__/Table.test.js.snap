@@ -43,7 +43,8 @@ exports[`FormTable 1`] = `
             id="quickColumns"
           >
             <span>
-              Другие колонки:
+              Other columns
+              :
             </span>
             <span>
               <input
@@ -106,7 +107,8 @@ exports[`Table 1`] = `
       id="quickColumns"
     >
       <span>
-        Другие колонки:
+        Other columns
+        :
       </span>
       <span>
         <input
@@ -166,7 +168,8 @@ exports[`Table on MAIN_DOCUMENT 1`] = `
       id="quickColumns"
     >
       <span>
-        Другие колонки:
+        Other columns
+        :
       </span>
       <span>
         <input
@@ -359,7 +362,8 @@ exports[`TableForm 1`] = `
             id="quickColumns"
           >
             <span>
-              Другие колонки:
+              Other columns
+              :
             </span>
             <span>
               <input
@@ -436,7 +440,8 @@ exports[`TableFormRow 1`] = `
               id="quickColumns"
             >
               <span>
-                Другие колонки:
+                Other columns
+                :
               </span>
               <span>
                 <input
