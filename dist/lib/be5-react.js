@@ -3279,6 +3279,256 @@ var mapDispatchToProps$2 = function mapDispatchToProps(dispatch) {
 
 var NavbarMenuContainer$1 = connect(mapStateToProps$2, mapDispatchToProps$2)(NavbarMenuContainer);
 
+var getContextParams = function getContextParams(params) {
+  if (params[SEARCH_PARAM] !== "true") {
+    return params;
+  }
+
+  if (params[SEARCH_PRESETS_PARAM] === undefined) {
+    return {};
+  }
+
+  var searchPresets = params[SEARCH_PRESETS_PARAM].split(',');
+  return Object.keys(params).filter(function (key) {
+    return searchPresets.includes(key);
+  }).reduce(function (obj, key) {
+    obj[key] = params[key];return obj;
+  }, {});
+};
+
+var getFilterParams = function getFilterParams(params) {
+  if (params[SEARCH_PARAM] !== "true") {
+    return {};
+  }
+
+  if (params[SEARCH_PRESETS_PARAM] === undefined) {
+    var res = Object.assign({}, params);
+    delete res[SEARCH_PARAM];
+    return res;
+  }
+
+  var searchPresets = params[SEARCH_PRESETS_PARAM].split(',');
+  return Object.keys(params).filter(function (key) {
+    return !searchPresets.includes(key) && key !== SEARCH_PARAM && key !== SEARCH_PRESETS_PARAM;
+  }).reduce(function (obj, key) {
+    obj[key] = params[key];return obj;
+  }, {});
+};
+
+var initFilterParams = function initFilterParams(params) {
+  var newParams = Object.assign({}, params);
+  if (newParams[SEARCH_PARAM] !== "true") {
+    var searchPresetParam = getSearchPresetParam(newParams);
+    if (searchPresetParam !== null) newParams[SEARCH_PRESETS_PARAM] = searchPresetParam;
+    newParams[SEARCH_PARAM] = "true";
+  }
+  return newParams;
+};
+
+var getSearchPresetParam = function getSearchPresetParam(params) {
+  return searchPresetParamToString(getSearchPresetNames(params));
+};
+
+var searchPresetParamToString = function searchPresetParamToString(searchPresets) {
+  return searchPresets.length > 0 ? searchPresets.join(",") : null;
+};
+
+var getSearchPresetNames = function getSearchPresetNames(params) {
+  if (params[SEARCH_PARAM] === undefined) {
+    return Object.keys(params);
+  } else {
+    if (params[SEARCH_PRESETS_PARAM] !== undefined) {
+      return params[SEARCH_PRESETS_PARAM].split(",");
+    } else {
+      return [];
+    }
+  }
+};
+
+var addFilterParams = function addFilterParams(url, params) {
+  var attr = be5.url.parse(url);
+  attr.named['_search_'] = 'true';
+  attr.named['_search_presets_'] = '';
+  for (var key in params) {
+    attr.named[key] = params[key];
+  }
+  return be5.url.form(attr.positional, attr.named);
+};
+
+var loadTable = function loadTable(params, frontendParams) {
+  getTable(params, function (json) {
+    //todo remove 'json.data' check after change error code
+    _performTable(json, frontendParams);
+  }, function (json) {
+    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+  });
+};
+
+var loadTableByUrl = function loadTableByUrl(url, frontendParams) {
+  getTable(getTableParams(url), function (json) {
+    _performTable(json, frontendParams);
+  }, function (json) {
+    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
+  });
+};
+
+var fetchTableByUrl = function fetchTableByUrl(url, callback) {
+  var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
+
+  clearDocumentState(url);
+  getTable(getTableParams(url), callback, failure);
+};
+
+var asyncSelectLoadOptions = function asyncSelectLoadOptions(params, callback) {
+  var input = params.input,
+      entity = params.entity,
+      query = params.query;
+
+  var url = be5.url.create(["table", entity, query || '*** Selection view ***'], { asyncValue: input });
+  fetchTableByUrl(url, function (json) {
+    //console.log(json);
+    var options = getSelectOptions(json);
+    var complete = json.data.attributes.rows.length < json.data.attributes.length;
+    console.log(json, complete);
+    //console.log('selectLoadOptions for ' + JSON.stringify(params) + ' - ' + JSON.stringify(options));
+    callback(null, {
+      options: options,
+      // CAREFUL! Only set this to true when there are no more options,
+      // or more specific queries will not be sent to the server.
+      complete: complete
+    });
+  });
+};
+
+var getSelectOptions = function getSelectOptions(json) {
+  var rows = json.data.attributes.rows;
+  var options = [];
+  for (var i = 0; i < rows.length; i++) {
+    options.push({ value: rows[i].cells[0].content, label: rows[i].cells[1].content });
+  }
+  return options;
+};
+
+var getTableParams = function getTableParams(url) {
+  var _ref;
+
+  var attr = be5.url.parse(url);
+
+  return _ref = {}, defineProperty(_ref, ENTITY_NAME_PARAM, attr.positional[1]), defineProperty(_ref, QUERY_NAME_PARAM, attr.positional[2]), defineProperty(_ref, CONTEXT_PARAMS, attr.named), _ref;
+};
+
+var getTable = function getTable(params, callback) {
+  var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
+
+  be5.net.request('table', getRequestParams(params), callback, failure);
+};
+
+var updateTable = function updateTable(params, callback) {
+  var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
+
+  be5.net.request('table/update', getRequestParams(params), callback, failure);
+};
+
+var _performTable = function _performTable(json, frontendParams) {
+  var documentName = frontendParams.documentName;
+  var formComponentName = json.data.attributes.layout.type;
+
+  if (formComponentName === 'modalTable' || documentName === MAIN_MODAL_DOCUMENT) {
+    bus.fire("mainModalOpen");
+    changeDocument(MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
+  } else {
+    changeDocument(documentName, { value: json, frontendParams: frontendParams });
+  }
+};
+
+var getRequestParams = function getRequestParams(params) {
+  var _ref2;
+
+  var entity = params[ENTITY_NAME_PARAM];
+  var query = params[QUERY_NAME_PARAM];
+  Preconditions.passed(entity);
+  Preconditions.passed(query);
+
+  var finalParams = withSavedTableFilter(entity, query, params[CONTEXT_PARAMS]);
+
+  return _ref2 = {}, defineProperty(_ref2, ENTITY_NAME_PARAM, entity), defineProperty(_ref2, QUERY_NAME_PARAM, query), defineProperty(_ref2, CONTEXT_PARAMS, be5.net.paramString(finalParams)), defineProperty(_ref2, TIMESTAMP_PARAM, new Date().getTime()), _ref2;
+};
+
+function withSavedTableFilter(entity, query, params) {
+  var tableKey = getTableKey(entity, query, params);
+  var savedParams = getDocumentState(tableKey);
+  if (savedParams !== undefined) {
+    return savedParams;
+  } else {
+    setTableFilter(entity, query, params);
+  }
+  return params;
+}
+
+function setTableFilter(entity, query, parameters) {
+  var tableKey = getTableKey(entity, query, parameters);
+  var filterParams = parameters;
+  if (Object.keys(filterParams).length !== 0) {
+    setDocumentState(tableKey, filterParams);
+  } else {
+    clearDocumentState(tableKey);
+  }
+}
+
+function clearTableFilter(entity, query, params) {
+  var contextParams = getContextParams(params);
+  var tableKey = getTableKey(entity, query, contextParams);
+  clearDocumentState(tableKey);
+}
+
+function getTableKey(entity, query, parameters) {
+  return "#!" + be5.url.form(['table', entity, query], getContextParams(parameters));
+}
+
+var jQueryFormatCell = function jQueryFormatCell(data, options, isColumn) {
+  if (!Array.isArray(data)) {
+    if (data === '') {
+      if (options && options.blankNulls && options.blankNulls.value) return options.blankNulls.value;
+    }
+  } else {
+    try {
+      data = data.map(function (row) {
+        return row.join !== undefined ? row.join(', ') : errorData();
+      }).join('<br/>');
+    } catch (e) {
+      console.error(e.message);
+      data = e.message;
+    }
+  }
+
+  function errorData() {
+    throw new Error('Error data in cell.');
+  }
+
+  if (options) {
+    if (options.format) {
+      data = numberFormatter(options.format.mask, data);
+    }
+    if (!isColumn && options.link) {
+      data = $('<a>', {
+        html: data,
+        href: "#!" + options.link.url,
+        class: options.link.class || "process-hash-url"
+      });
+    }
+    if (options.css || options === 'th') {
+      var wrap = $('<div>');
+      if (options.css && options.css.class) wrap.addClass(options.css.class);
+      if (options === 'th') wrap.addClass("ta-center td-strong");
+      data = wrap.html(data);
+    }
+  }
+  if (data instanceof $) {
+    data = $('<div>').append($(data).clone()).html();
+  }
+  return data === undefined || data === null ? '' : data;
+};
+
 var Form = function (_React$Component) {
   inherits(Form, _React$Component);
 
@@ -3418,6 +3668,7 @@ var Form = function (_React$Component) {
         values: this.state.values,
         onChange: this._onFieldChange,
         reloadOnChange: this._onReloadOnChange,
+        selectLoadOptions: asyncSelectLoadOptions,
         localization: be5.messages.property,
         bsSize: attributes.layout.bsSize
       });
@@ -3538,6 +3789,7 @@ var HorizontalForm = function (_Form) {
         values: this.state.values,
         onChange: this._onFieldChange,
         reloadOnChange: this._onReloadOnChange,
+        selectLoadOptions: asyncSelectLoadOptions,
         localization: be5.messages.property,
         bsSize: attributes.layout.bsSize,
         horizontal: true,
@@ -3603,6 +3855,7 @@ var SubmitOnChangeForm = function (_Form) {
           localization: be5.messages.property,
           onChange: function onChange() {},
           reloadOnChange: this._onFieldChangeAndSubmit,
+          selectLoadOptions: asyncSelectLoadOptions,
           bsSize: attributes.layout.bsSize
         }),
         React.createElement(
@@ -3709,6 +3962,7 @@ var InlineMiniForm = function (_Form) {
         bean: attributes.bean,
         onChange: this._onFieldChange,
         reloadOnChange: this._onReloadOnChange,
+        selectLoadOptions: asyncSelectLoadOptions,
         localization: be5.messages.property,
         inline: true,
         rowClass: "d-flex",
@@ -3927,10 +4181,10 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
   var categories = data.attributes;
 
   var pUrl = be5.url.parse(url);
-  var currentCat = pUrl.named['_cat_'];
+  var currentCat = pUrl.named['cat'];
 
   if (currentCat === undefined) {
-    var _url = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, { _cat_: categories[0].id }));
+    var _url = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, { cat: categories[0].id }));
     return React.createElement(
       'div',
       { className: 'category-navigation category-navigation__not-select' },
@@ -3947,7 +4201,7 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
   function tableTd(categories) {
     return categories.map(function (cat) {
       if (parseInt(currentCat) !== cat.id) {
-        var _url2 = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, { _cat_: cat.id }));
+        var _url2 = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, { cat: cat.id }));
         return React.createElement(
           'a',
           { className: 'd-block',
@@ -4007,226 +4261,6 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
 };
 
 CategoryNavigation.propTypes = propTypes$4;
-
-var getContextParams = function getContextParams(params) {
-  if (params[SEARCH_PARAM] !== "true") {
-    return params;
-  }
-
-  if (params[SEARCH_PRESETS_PARAM] === undefined) {
-    return {};
-  }
-
-  var searchPresets = params[SEARCH_PRESETS_PARAM].split(',');
-  return Object.keys(params).filter(function (key) {
-    return searchPresets.includes(key);
-  }).reduce(function (obj, key) {
-    obj[key] = params[key];return obj;
-  }, {});
-};
-
-var getFilterParams = function getFilterParams(params) {
-  if (params[SEARCH_PARAM] !== "true") {
-    return {};
-  }
-
-  if (params[SEARCH_PRESETS_PARAM] === undefined) {
-    var res = Object.assign({}, params);
-    delete res[SEARCH_PARAM];
-    return res;
-  }
-
-  var searchPresets = params[SEARCH_PRESETS_PARAM].split(',');
-  return Object.keys(params).filter(function (key) {
-    return !searchPresets.includes(key) && key !== SEARCH_PARAM && key !== SEARCH_PRESETS_PARAM;
-  }).reduce(function (obj, key) {
-    obj[key] = params[key];return obj;
-  }, {});
-};
-
-var initFilterParams = function initFilterParams(params) {
-  var newParams = Object.assign({}, params);
-  if (newParams[SEARCH_PARAM] !== "true") {
-    var searchPresetParam = getSearchPresetParam(newParams);
-    if (searchPresetParam !== null) newParams[SEARCH_PRESETS_PARAM] = searchPresetParam;
-    newParams[SEARCH_PARAM] = "true";
-  }
-  return newParams;
-};
-
-var getSearchPresetParam = function getSearchPresetParam(params) {
-  return searchPresetParamToString(getSearchPresetNames(params));
-};
-
-var searchPresetParamToString = function searchPresetParamToString(searchPresets) {
-  return searchPresets.length > 0 ? searchPresets.join(",") : null;
-};
-
-var getSearchPresetNames = function getSearchPresetNames(params) {
-  if (params[SEARCH_PARAM] === undefined) {
-    return Object.keys(params);
-  } else {
-    if (params[SEARCH_PRESETS_PARAM] !== undefined) {
-      return params[SEARCH_PRESETS_PARAM].split(",");
-    } else {
-      return [];
-    }
-  }
-};
-
-var addFilterParams = function addFilterParams(url, params) {
-  var attr = be5.url.parse(url);
-  attr.named['_search_'] = 'true';
-  attr.named['_search_presets_'] = '';
-  for (var key in params) {
-    attr.named[key] = params[key];
-  }
-  return be5.url.form(attr.positional, attr.named);
-};
-
-var loadTable = function loadTable(params, frontendParams) {
-  getTable(params, function (json) {
-    //todo remove 'json.data' check after change error code
-    _performTable(json, frontendParams);
-  }, function (json) {
-    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
-  });
-};
-
-var loadTableByUrl = function loadTableByUrl(url, frontendParams) {
-  getTable(getTableParams(url), function (json) {
-    _performTable(json, frontendParams);
-  }, function (json) {
-    changeDocument(frontendParams.documentName, { value: json, frontendParams: frontendParams });
-  });
-};
-
-var fetchTableByUrl = function fetchTableByUrl(url, callback) {
-  var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
-
-  clearDocumentState(url);
-  getTable(getTableParams(url), callback, failure);
-};
-
-var getTableParams = function getTableParams(url) {
-  var _ref;
-
-  var attr = be5.url.parse(url);
-
-  return _ref = {}, defineProperty(_ref, ENTITY_NAME_PARAM, attr.positional[1]), defineProperty(_ref, QUERY_NAME_PARAM, attr.positional[2]), defineProperty(_ref, CONTEXT_PARAMS, attr.named), _ref;
-};
-
-var getTable = function getTable(params, callback) {
-  var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
-
-  be5.net.request('table', getRequestParams(params), callback, failure);
-};
-
-var updateTable = function updateTable(params, callback) {
-  var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
-
-  be5.net.request('table/update', getRequestParams(params), callback, failure);
-};
-
-var _performTable = function _performTable(json, frontendParams) {
-  var documentName = frontendParams.documentName;
-  var formComponentName = json.data.attributes.layout.type;
-
-  if (formComponentName === 'modalTable' || documentName === MAIN_MODAL_DOCUMENT) {
-    bus.fire("mainModalOpen");
-    changeDocument(MAIN_MODAL_DOCUMENT, { value: json, frontendParams: frontendParams });
-  } else {
-    changeDocument(documentName, { value: json, frontendParams: frontendParams });
-  }
-};
-
-var getRequestParams = function getRequestParams(params) {
-  var _ref2;
-
-  var entity = params[ENTITY_NAME_PARAM];
-  var query = params[QUERY_NAME_PARAM];
-  Preconditions.passed(entity);
-  Preconditions.passed(query);
-
-  var finalParams = withSavedTableFilter(entity, query, params[CONTEXT_PARAMS]);
-
-  return _ref2 = {}, defineProperty(_ref2, ENTITY_NAME_PARAM, entity), defineProperty(_ref2, QUERY_NAME_PARAM, query), defineProperty(_ref2, CONTEXT_PARAMS, be5.net.paramString(finalParams)), defineProperty(_ref2, TIMESTAMP_PARAM, new Date().getTime()), _ref2;
-};
-
-function withSavedTableFilter(entity, query, params) {
-  var tableKey = getTableKey(entity, query, params);
-  var savedParams = getDocumentState(tableKey);
-  if (savedParams !== undefined) {
-    return savedParams;
-  } else {
-    setTableFilter(entity, query, params);
-  }
-  return params;
-}
-
-function setTableFilter(entity, query, parameters) {
-  var tableKey = getTableKey(entity, query, parameters);
-  var filterParams = parameters;
-  if (Object.keys(filterParams).length !== 0) {
-    setDocumentState(tableKey, filterParams);
-  } else {
-    clearDocumentState(tableKey);
-  }
-}
-
-function clearTableFilter(entity, query, params) {
-  var contextParams = getContextParams(params);
-  var tableKey = getTableKey(entity, query, contextParams);
-  clearDocumentState(tableKey);
-}
-
-function getTableKey(entity, query, parameters) {
-  return "#!" + be5.url.form(['table', entity, query], getContextParams(parameters));
-}
-
-var jQueryFormatCell = function jQueryFormatCell(data, options, isColumn) {
-  if (!Array.isArray(data)) {
-    if (data === '') {
-      if (options && options.blankNulls && options.blankNulls.value) return options.blankNulls.value;
-    }
-  } else {
-    try {
-      data = data.map(function (row) {
-        return row.join !== undefined ? row.join(', ') : errorData();
-      }).join('<br/>');
-    } catch (e) {
-      console.error(e.message);
-      data = e.message;
-    }
-  }
-
-  function errorData() {
-    throw new Error('Error data in cell.');
-  }
-
-  if (options) {
-    if (options.format) {
-      data = numberFormatter(options.format.mask, data);
-    }
-    if (!isColumn && options.link) {
-      data = $('<a>', {
-        html: data,
-        href: "#!" + options.link.url,
-        class: options.link.class || "process-hash-url"
-      });
-    }
-    if (options.css || options === 'th') {
-      var wrap = $('<div>');
-      if (options.css && options.css.class) wrap.addClass(options.css.class);
-      if (options === 'th') wrap.addClass("ta-center td-strong");
-      data = wrap.html(data);
-    }
-  }
-  if (data instanceof $) {
-    data = $('<div>').append($(data).clone()).html();
-  }
-  return data === undefined || data === null ? '' : data;
-};
 
 var positionsParamNames = [ORDER_COLUMN, ORDER_DIR, OFFSET, LIMIT];
 var propTypes$5 = {};
