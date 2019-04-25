@@ -67,7 +67,8 @@ class Document extends React.Component {
   }
 
   addBaseLayout(value) {
-    if (this.props.baseLayout === undefined) return;
+    if (this.props.baseLayout === undefined || value === undefined || value.data === undefined ||
+      value.data.attributes.layout === undefined) return;
     const layout = value.data.attributes.layout;
     for (let key in this.props.baseLayout) {
       if (this.props.baseLayout.hasOwnProperty(key)) {
