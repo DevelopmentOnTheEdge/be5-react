@@ -13,6 +13,7 @@ const propTypes = {
   defaultRoute: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   brand: PropTypes.string,
+  containerClass: PropTypes.string,
 };
 
 class NavbarMenu extends Component {
@@ -32,7 +33,7 @@ class NavbarMenu extends Component {
   render() {
     return (
       <Navbar color="dark" dark expand="md">
-        <div className="container">
+        <div className={this.props.containerClass}>
           {this.navbarBrand()}
           <NavbarToggler onClick={this.toggle}/>
           <Collapse isOpen={this.state.isOpen} navbar>
@@ -87,5 +88,9 @@ class NavbarMenu extends Component {
 }
 
 NavbarMenu.propTypes = propTypes;
+
+NavbarMenu.defaultProps = {
+  containerClass: "container",
+};
 
 export default NavbarMenu;
