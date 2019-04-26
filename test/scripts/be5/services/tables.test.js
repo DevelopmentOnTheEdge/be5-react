@@ -3,10 +3,11 @@ import be5 from '../../../../src/scripts/be5/be5';
 import {
   clearTableFilter,
   fetchTableByUrl,
-  loadTable,
+  loadTable, openTablePage,
   setTableFilter
 } from '../../../../src/scripts/be5/services/tables';
 import testData from '../testData.json';
+import {openPage} from "../../../../src/scripts/be5/components/tables/tableBoxes/DataTablesTableBox";
 
 test('load', () => {
   be5.net.request = jest.fn();
@@ -162,4 +163,21 @@ test('getTableByUrl data', () => {
   fetchTableByUrl("table/users/All records/user_name=demo", json => {data = json;});
 
   expect(data).toBe(testData.simpleTable);
+});
+
+test('openTablePage', () => {
+  be5.net.request = jest.fn();
+  openTablePage(testData.simpleTable.data.attributes, {documentName: 'test'}, 5);
+  expect(be5.net.request.mock.calls.length).toBe(1);
+  expect(be5.net.request.mock.calls[0]).toEqual([
+    "table",
+    {
+      "_ts_": expect.any(Number),
+      "_en_": "companies",
+      "_qn_": "All records",
+      "_params_": "{\"_search_\":\"true\",\"_offset_\":\"40\"}"
+    },
+    expect.any(Function),
+    expect.any(Function)
+  ]);
 });

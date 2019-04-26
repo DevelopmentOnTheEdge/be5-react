@@ -8,6 +8,7 @@ import {registerTableBox} from "../../../core/registers/tableBoxes";
 import bus from "../../../core/bus";
 import {clearTableFilter} from "../../../services/tables";
 import {initFilterParams} from "../../../utils/filterUtils";
+import TablePagination from "../TablePagination";
 
 /**
  * https://datatables.net/
@@ -321,47 +322,13 @@ class DataTablesTableBox extends Component {
     const attr = this.props.value.data.attributes;
 
     if (!hasRows(attr)) {
-      const previousPage = attr.offset / attr.length;
-      const currentPage = previousPage + 1;
       if (attr.totalNumberOfRows > 0) {
-        return (
-          <div>
-            <p>{be5.messages.table.noRecordsOnThePage.replace('{0}', currentPage + '')}</p>
-            <ul className="pagination">
-              <li className="paginate_button page-item">
-                <a
-                  href="#"
-                  className="page-link"
-                  onClick={(e) => {e.preventDefault(); openPage(attr, this.props.frontendParams, previousPage);}}
-                >{be5.messages.table.previousPage}</a>
-              </li>
-              <li className="paginate_button page-item">
-                <a
-                  href="#"
-                  className="page-link"
-                  onClick={(e) => {e.preventDefault(); openPage(attr, this.props.frontendParams, 1);}}
-                >1</a>
-              </li>
-              {previousPage > 2 ?
-              <li className="paginate_button page-item disabled">
-                <a href="#" className="page-link" onClick={(e) => e.preventDefault()}>...</a>
-              </li>
-              : null}
-              {previousPage > 1 ?
-                <li className="paginate_button page-item">
-                  <a
-                    href="#"
-                    className="page-link"
-                    onClick={(e) => {e.preventDefault(); openPage(attr, this.props.frontendParams, previousPage);}}
-                  >{previousPage}</a>
-                </li>
-              : null}
-              <li className="paginate_button page-item disabled">
-                <a href="#" className="page-link">{be5.messages.table.nextPage}</a>
-              </li>
-            </ul>
-          </div>
-        );
+        const previousPage = attr.offset / attr.length;
+        const currentPage = previousPage + 1;
+        return <div>
+          <p>{be5.messages.table.noRecordsOnThePage.replace('{0}', currentPage + '')}</p>
+          <TablePagination {...this.props}/>
+        </div>;
       }
       return (
         <div>
@@ -385,14 +352,6 @@ class DataTablesTableBox extends Component {
   }
 
 }
-
-export const openPage = (attr, frontendParams, page) => {
-  clearTableFilter(attr.category, attr.page, attr.parameters);
-  const previousPageParams = initFilterParams(attr.parameters);
-  previousPageParams._offset_ = (page - 1) * attr.length;
-  loadTableByUrl(be5.url.form(['table', attr.category, attr.page], previousPageParams),
-    frontendParams);
-};
 
 function hasRows(attr) {
   return attr.rows.length > 0;

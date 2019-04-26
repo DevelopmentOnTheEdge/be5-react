@@ -135,20 +135,3 @@ test('noRecordsOnThePage', () => {
   );
   expect(component.toJSON()).toMatchSnapshot();
 });
-
-test('noRecordsOnThePage openPage', () => {
-  be5.net.request = jest.fn();
-  openPage(testData.simpleTable.data.attributes, {documentName: 'test'}, 5);
-  expect(be5.net.request.mock.calls.length).toBe(1);
-  expect(be5.net.request.mock.calls[0]).toEqual([
-    "table",
-    {
-      "_ts_": expect.any(Number),
-      "_en_": "companies",
-      "_qn_": "All records",
-      "_params_": "{\"_search_\":\"true\",\"_offset_\":\"40\"}"
-    },
-    expect.any(Function),
-    expect.any(Function)
-  ]);
-});

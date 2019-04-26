@@ -5,7 +5,7 @@ import numberFormatter from 'number-format.js';
 import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, MAIN_MODAL_DOCUMENT, QUERY_NAME_PARAM, TIMESTAMP_PARAM} from "../constants";
 import bus from "../core/bus";
 import {clearDocumentState, getDocumentState, setDocumentState} from "./documentStates";
-import {getContextParams} from "../utils/filterUtils";
+import {getContextParams, initFilterParams} from "../utils/filterUtils";
 
 
 export const loadTable = (params, frontendParams) => {
@@ -43,6 +43,14 @@ export const asyncSelectLoadOptions = (params, callback) => {
       complete: complete
     });
   });
+};
+
+export const openTablePage = (attr, frontendParams, page) => {
+  clearTableFilter(attr.category, attr.page, attr.parameters);
+  const previousPageParams = initFilterParams(attr.parameters);
+  previousPageParams._offset_ = (page - 1) * attr.length;
+  loadTableByUrl(be5.url.form(['table', attr.category, attr.page], previousPageParams),
+    frontendParams);
 };
 
 const getSelectOptions = (json) => {

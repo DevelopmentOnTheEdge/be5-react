@@ -38,6 +38,7 @@ import FormTable from './components/tables/FormTable.js';
 import TableForm from './components/tables/TableForm.js';
 import TableFormRow from './components/tables/TableFormRow.js';
 import ModalTable from './components/tables/ModalTable';
+import TablePagination from './components/tables/TablePagination';
 
 // menu
 import Menu from './components/menu/Menu.js';
@@ -88,6 +89,7 @@ export {
   TableForm,
   TableFormRow,
   ModalTable,
+  TablePagination,
 
   // menu
   Menu,

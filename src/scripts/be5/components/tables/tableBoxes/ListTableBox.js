@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {registerTableBox} from "../../../core/registers/tableBoxes";
+import TablePagination from "../TablePagination";
 
-//todo add register new component and move to condo, add base types
+
 class OneColumnListTableBox extends Component {
   render() {
     const list = this.props.value.data.attributes.rows.map((col, idx) => {
@@ -9,9 +10,12 @@ class OneColumnListTableBox extends Component {
     });
 
     return (
-      <ul className="listTableBox">
-        {list}
-      </ul>
+      <div>
+        <ul className="listTableBox">
+          {list}
+        </ul>
+        <TablePagination {...this.props}/>
+      </div>
     );
   }
 }
