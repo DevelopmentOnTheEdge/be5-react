@@ -2543,7 +2543,8 @@ var propTypes$2 = {
   user: PropTypes.shape({}).isRequired,
   defaultRoute: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
-  brand: PropTypes.string
+  brand: PropTypes.string,
+  containerClass: PropTypes.string
 };
 
 var NavbarMenu = function (_Component) {
@@ -2575,7 +2576,7 @@ var NavbarMenu = function (_Component) {
         { color: 'dark', dark: true, expand: 'md' },
         React.createElement(
           'div',
-          { className: 'container' },
+          { className: this.props.containerClass },
           this.navbarBrand(),
           React.createElement(NavbarToggler, { onClick: this.toggle }),
           React.createElement(
@@ -2654,6 +2655,10 @@ var NavbarMenu = function (_Component) {
 }(Component);
 
 NavbarMenu.propTypes = propTypes$2;
+
+NavbarMenu.defaultProps = {
+  containerClass: "container"
+};
 
 var HelpInfo = function (_React$Component) {
   inherits(HelpInfo, _React$Component);
@@ -3388,11 +3393,8 @@ var asyncSelectLoadOptions = function asyncSelectLoadOptions(params, callback) {
 
   var url = be5.url.create(["table", entity, query || '*** Selection view ***'], { asyncValue: input });
   fetchTableByUrl(url, function (json) {
-    //console.log(json);
     var options = getSelectOptions(json);
     var complete = json.data.attributes.rows.length < json.data.attributes.length;
-    console.log(json, complete);
-    //console.log('selectLoadOptions for ' + JSON.stringify(params) + ' - ' + JSON.stringify(options));
     callback(null, {
       options: options,
       // CAREFUL! Only set this to true when there are no more options,
