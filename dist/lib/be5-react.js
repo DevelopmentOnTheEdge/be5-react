@@ -10,6 +10,7 @@ import PropertySet, { Property, PropertyInput } from 'beanexplorer-react';
 import JsonPointer from 'json-pointer';
 import Transition from 'react-transition-group/Transition';
 import numberFormatter from 'number-format.js';
+import Pagination from 'react-js-pagination';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
@@ -89,6 +90,8 @@ var OFFSET = "_offset_";
 var LIMIT = "_limit_";
 var ORDER_COLUMN = "_orderColumn_";
 var ORDER_DIR = "_orderDir_";
+
+var DEFAULT_DISPLAY_TYPE = "dataTable";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
@@ -670,6 +673,8 @@ var messages = {
       emptyTable: 'Nothing found',
       previousPage: 'Previous',
       nextPage: 'Next',
+      firstPage: 'First',
+      lastPage: 'Last',
       filter: 'Filter',
       clearFilter: 'Clear',
       tableFor: 'for'
@@ -741,6 +746,8 @@ var messages = {
       emptyTable: 'Нет данных',
       previousPage: 'Предыдущая',
       nextPage: 'Следующая',
+      firstPage: 'Первая',
+      lastPage: 'Последняя',
       filter: 'Фильтр',
       clearFilter: 'Очистить',
       tableFor: 'для'
@@ -3404,6 +3411,13 @@ var asyncSelectLoadOptions = function asyncSelectLoadOptions(params, callback) {
   });
 };
 
+var openTablePage = function openTablePage(attr, frontendParams, page) {
+  clearTableFilter(attr.category, attr.page, attr.parameters);
+  var previousPageParams = initFilterParams(attr.parameters);
+  previousPageParams._offset_ = (page - 1) * attr.length;
+  loadTableByUrl(be5.url.form(['table', attr.category, attr.page], previousPageParams), frontendParams);
+};
+
 var getSelectOptions = function getSelectOptions(json) {
   var rows = json.data.attributes.rows;
   var options = [];
@@ -4464,17 +4478,17 @@ var Table = function (_Component) {
   }, {
     key: 'tableBox',
     value: function tableBox(value, data, operations) {
-      var displayType = value.data.attributes.parameters && value.data.attributes.parameters._displayType_ || data.attributes.layout._displayType_ || 'dataTable';
+      var displayType = value.data.attributes.parameters && value.data.attributes.parameters._displayType_ || data.attributes.layout._displayType_ || DEFAULT_DISPLAY_TYPE;
 
-      var TableBox = getTableBox(displayType);
-      if (TableBox === undefined) {
+      var TableBoxComponent = getTableBox(displayType);
+      if (TableBoxComponent === undefined) {
         return React.createElement(
           'div',
           null,
           be5.messages.tableBoxForTypeNotRegistered.replace('$type', displayType)
         );
       }
-      return React.createElement(TableBox, {
+      return React.createElement(TableBoxComponent, {
         value: value,
         operations: operations,
         selectedRows: this.state.selectedRows,
@@ -4874,6 +4888,55 @@ var ModalTable = function (_Table) {
 }(Table);
 
 registerDocument('modalTable', ModalTable);
+
+var TablePagination = function (_React$Component) {
+  inherits(TablePagination, _React$Component);
+
+  function TablePagination(props) {
+    classCallCheck(this, TablePagination);
+
+    var _this = possibleConstructorReturn(this, (TablePagination.__proto__ || Object.getPrototypeOf(TablePagination)).call(this, props));
+
+    _this.handlePageChange = _this.handlePageChange.bind(_this);
+    return _this;
+  }
+
+  createClass(TablePagination, [{
+    key: 'handlePageChange',
+    value: function handlePageChange(pageNumber) {
+      openTablePage(this.props.value.data.attributes, this.props.frontendParams, pageNumber);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var attr = this.props.value.data.attributes;
+      var currentPage = attr.offset / attr.length + 1;
+      return React.createElement(
+        'div',
+        null,
+        React.createElement(Pagination, {
+          prevPageText: be5.messages.table.previousPage,
+          nextPageText: be5.messages.table.nextPage,
+          firstPageText: be5.messages.table.firstPage,
+          lastPageText: be5.messages.table.lastPage,
+          activePage: currentPage,
+          itemsCountPerPage: attr.length,
+          totalItemsCount: attr.totalNumberOfRows,
+          onChange: this.handlePageChange,
+          itemClass: 'page-item',
+          linkClass: 'page-link',
+          activeLinkClass: ''
+        })
+      );
+    }
+  }]);
+  return TablePagination;
+}(React.Component);
+
+TablePagination.propTypes = {
+  value: PropTypes.object.isRequired,
+  frontendParams: PropTypes.object.isRequired
+};
 
 var route = function route(frontendParams, page) {
   changeDocument(frontendParams.documentName, {});
@@ -5438,14 +5501,12 @@ var DataTablesTableBox = function (_Component2) {
   createClass(DataTablesTableBox, [{
     key: 'render',
     value: function render() {
-      var _this4 = this;
-
       var attr = this.props.value.data.attributes;
 
       if (!hasRows(attr)) {
-        var previousPage = attr.offset / attr.length;
-        var currentPage = previousPage + 1;
         if (attr.totalNumberOfRows > 0) {
+          var previousPage = attr.offset / attr.length;
+          var currentPage = previousPage + 1;
           return React.createElement(
             'div',
             null,
@@ -5454,75 +5515,7 @@ var DataTablesTableBox = function (_Component2) {
               null,
               be5.messages.table.noRecordsOnThePage.replace('{0}', currentPage + '')
             ),
-            React.createElement(
-              'ul',
-              { className: 'pagination' },
-              React.createElement(
-                'li',
-                { className: 'paginate_button page-item' },
-                React.createElement(
-                  'a',
-                  {
-                    href: '#',
-                    className: 'page-link',
-                    onClick: function onClick(e) {
-                      e.preventDefault();openPage(attr, _this4.props.frontendParams, previousPage);
-                    }
-                  },
-                  be5.messages.table.previousPage
-                )
-              ),
-              React.createElement(
-                'li',
-                { className: 'paginate_button page-item' },
-                React.createElement(
-                  'a',
-                  {
-                    href: '#',
-                    className: 'page-link',
-                    onClick: function onClick(e) {
-                      e.preventDefault();openPage(attr, _this4.props.frontendParams, 1);
-                    }
-                  },
-                  '1'
-                )
-              ),
-              previousPage > 2 ? React.createElement(
-                'li',
-                { className: 'paginate_button page-item disabled' },
-                React.createElement(
-                  'a',
-                  { href: '#', className: 'page-link', onClick: function onClick(e) {
-                      return e.preventDefault();
-                    } },
-                  '...'
-                )
-              ) : null,
-              previousPage > 1 ? React.createElement(
-                'li',
-                { className: 'paginate_button page-item' },
-                React.createElement(
-                  'a',
-                  {
-                    href: '#',
-                    className: 'page-link',
-                    onClick: function onClick(e) {
-                      e.preventDefault();openPage(attr, _this4.props.frontendParams, previousPage);
-                    }
-                  },
-                  previousPage
-                )
-              ) : null,
-              React.createElement(
-                'li',
-                { className: 'paginate_button page-item disabled' },
-                React.createElement(
-                  'a',
-                  { href: '#', className: 'page-link' },
-                  be5.messages.table.nextPage
-                )
-              )
-            )
+            React.createElement(TablePagination, this.props)
           );
         }
         return React.createElement(
@@ -5549,13 +5542,6 @@ var DataTablesTableBox = function (_Component2) {
   return DataTablesTableBox;
 }(Component);
 
-var openPage = function openPage(attr, frontendParams, page) {
-  clearTableFilter(attr.category, attr.page, attr.parameters);
-  var previousPageParams = initFilterParams(attr.parameters);
-  previousPageParams._offset_ = (page - 1) * attr.length;
-  loadTableByUrl(be5.url.form(['table', attr.category, attr.page], previousPageParams), frontendParams);
-};
-
 function hasRows(attr) {
   return attr.rows.length > 0;
 }
@@ -5565,8 +5551,6 @@ function getTableId(props) {
 }
 
 registerTableBox('dataTable', DataTablesTableBox);
-
-//todo add register new component and move to condo, add base types
 
 var OneColumnListTableBox = function (_Component) {
   inherits(OneColumnListTableBox, _Component);
@@ -5584,9 +5568,14 @@ var OneColumnListTableBox = function (_Component) {
       });
 
       return React.createElement(
-        "ul",
-        { className: "listTableBox" },
-        list
+        "div",
+        null,
+        React.createElement(
+          "ul",
+          { className: "listTableBox" },
+          list
+        ),
+        React.createElement(TablePagination, this.props)
       );
     }
   }]);
@@ -6572,7 +6561,8 @@ var api = Object.freeze({
 	OFFSET: OFFSET,
 	LIMIT: LIMIT,
 	ORDER_COLUMN: ORDER_COLUMN,
-	ORDER_DIR: ORDER_DIR
+	ORDER_DIR: ORDER_DIR,
+	DEFAULT_DISPLAY_TYPE: DEFAULT_DISPLAY_TYPE
 });
 
 // components
@@ -6580,4 +6570,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu, NavMenu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getDocumentStates, getDocumentState, setDocumentState, clearDocumentState, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByType, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, addUrlHandlers, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, initFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, SUCCESS_ALERT, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu, NavMenu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, TablePagination, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getDocumentStates, getDocumentState, setDocumentState, clearDocumentState, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByType, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, addUrlHandlers, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, initFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, SUCCESS_ALERT, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR, DEFAULT_DISPLAY_TYPE };
