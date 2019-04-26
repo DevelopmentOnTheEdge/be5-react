@@ -43,3 +43,5 @@ export const OFFSET = "_offset_";
 export const LIMIT = "_limit_";
 export const ORDER_COLUMN = "_orderColumn_";
 export const ORDER_DIR = "_orderDir_";
+
+export const DEFAULT_DISPLAY_TYPE = "dataTable";

@@ -8,7 +8,7 @@ import {getDocument, registerDocument} from '../../core/registers/documents';
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions} from "../../services/frontendActions";
 import FilterUI from "./FilterUI";
-import {MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, SELECTED_ROWS} from "../../constants";
+import {DEFAULT_DISPLAY_TYPE, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, SELECTED_ROWS} from "../../constants";
 import {getBackAction, makeSafeForClassName} from "../../utils/utils";
 import {getTableBox} from "../../core/registers/tableBoxes";
 import {setTableFilter} from "../../services/tables";
@@ -121,16 +121,16 @@ class Table extends Component {
 
   tableBox(value, data, operations) {
     const displayType = (value.data.attributes.parameters && value.data.attributes.parameters._displayType_)
-      || data.attributes.layout._displayType_ || 'dataTable';
+      || data.attributes.layout._displayType_ || DEFAULT_DISPLAY_TYPE;
 
-    const TableBox = getTableBox(displayType);
-    if (TableBox === undefined) {
+    const TableBoxComponent = getTableBox(displayType);
+    if (TableBoxComponent === undefined) {
       return (
         <div>{be5.messages.tableBoxForTypeNotRegistered.replace('$type', displayType)}</div>
       )
     }
     return (
-      <TableBox
+      <TableBoxComponent
         value={value}
         operations={operations}
         selectedRows={this.state.selectedRows}
