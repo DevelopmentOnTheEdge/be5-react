@@ -91,7 +91,7 @@ var LIMIT = "_limit_";
 var ORDER_COLUMN = "_orderColumn_";
 var ORDER_DIR = "_orderDir_";
 
-var DEFAULT_DISPLAY_TYPE = "dataTable";
+var DEFAULT_TABLE_BOX = "dataTable";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
@@ -624,157 +624,157 @@ var getDefaultCancelAction = function getDefaultCancelAction() {
 };
 
 var messages = {
-  en: {
-    errorCannotConnect: 'Cannot connect to server',
-    errorServerQueryException: 'Error during server query: $message',
-    errorInvalidErrorResponse: 'Server returned unknown error',
-    errorNoData: 'Error communicating with server: no data received',
-    errorUnknownRoute: 'Unknown route: $action',
-    errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
+    en: {
+        errorCannotConnect: 'Cannot connect to server',
+        errorServerQueryException: 'Error during server query: $message',
+        errorInvalidErrorResponse: 'Server returned unknown error',
+        errorNoData: 'Error communicating with server: no data received',
+        errorUnknownRoute: 'Unknown route: $action',
+        errorUrlParameterAbsent: 'Invalid URL: $parameter is absent',
 
-    welcome: 'Hello!',
-    loading: 'Page is loading...',
-    settings: 'Settings',
-    otherColumns: 'Other columns',
-    roles: 'Roles',
-    back: 'Back',
-    error: 'Error:',
-    cancel: 'Cancel',
-    close: 'Close',
-    login: 'Login',
-    logout: 'Logout',
-    reload: 'reload',
-    All: 'All',
-    successfullyCompleted: 'Successfully completed.',
+        welcome: 'Hello!',
+        loading: 'Page is loading...',
+        settings: 'Settings',
+        otherColumns: 'Other columns',
+        roles: 'Roles',
+        back: 'Back',
+        error: 'Error:',
+        cancel: 'Cancel',
+        close: 'Close',
+        login: 'Login',
+        logout: 'Logout',
+        reload: 'reload',
+        All: 'All',
+        successfullyCompleted: 'Successfully completed.',
 
-    filter: 'Filter...',
-    entries: 'entries',
+        filter: 'Filter...',
+        entries: 'entries',
 
-    selectRoles: 'Select',
-    allRoles: 'all',
-    clearRoles: 'clear',
+        selectRoles: 'Select',
+        allRoles: 'all',
+        clearRoles: 'clear',
 
-    Submit: 'Submit',
-    submitted: 'In progress...',
+        Submit: 'Submit',
+        submitted: 'In progress...',
 
-    formComponentNotFound: 'Document component not found: ',
-    tableComponentNotFound: 'Table component not found: ',
-    componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
-    tableBoxForTypeNotRegistered: 'TableBox for type "$type" is not registered.',
+        formComponentNotFound: 'Document component not found: ',
+        tableComponentNotFound: 'Table component not found: ',
+        componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
+        tableBoxForTypeNotRegistered: 'TableBox for type "$type" is not registered.',
 
-    helpInfo: "Help",
-    details: "Details",
-    goToHomepage: "Go to homepage",
+        helpInfo: "Help",
+        details: "Details",
+        goToHomepage: "Go to homepage",
 
-    NotFound: "Not Found",
+        NotFound: "Not Found",
 
-    table: {
-      noRecordsOnThePage: 'No records on page {0}',
-      emptyTable: 'Nothing found',
-      previousPage: 'Previous',
-      nextPage: 'Next',
-      firstPage: 'First',
-      lastPage: 'Last',
-      filter: 'Filter',
-      clearFilter: 'Clear',
-      tableFor: 'for'
-    }
-  },
-
-  ru: {
-    errorCannotConnect: 'Не могу подключиться к серверу',
-    errorServerQueryException: 'Ошибка сервера: $message',
-    errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
-    errorNoData: 'Ошибка связи с сервером: ответ не получен',
-    errorUnknownRoute: 'Неизвестный путь: $action',
-    errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
-
-    welcome: 'Добро пожаловать!',
-    loading: 'Загрузка...',
-    settings: 'Настройки',
-    otherColumns: 'Другие колонки',
-    roles: 'Роли',
-    back: 'Назад',
-    error: 'Ошибка:',
-    cancel: 'Отмена',
-    close: 'Закрыть',
-    login: 'Вход',
-    logout: 'Выход',
-    reload: 'Перезагрузить',
-    All: 'Все',
-    successfullyCompleted: 'Успешно выполнено.',
-
-    filter: 'Фильтр...',
-    entries: 'записей',
-
-    selectRoles: 'Выбрать',
-    allRoles: 'Всё',
-    clearRoles: 'Ничего',
-
-    Submit: 'Выполнить',
-    submitted: 'Выполняется...',
-
-    property: {
-      locale: 'ru',
-      clearAllText: 'Очистить всё',
-      clearValueText: 'Очистить',
-      noResultsText: 'Нет результатов',
-      searchPromptText: 'Начните вводить для поиска',
-      placeholder: 'Выберите...',
-      loadingPlaceholder: 'Загрузка...',
-      stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
-      numberTypeMismatch: 'Введите число.',
-      simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
-      rangeOverflow: 'Значение должно быть меньше или равно {0}.',
-      rangeUnderflow: 'Значение должно быть больше или равно {0}.',
-      datePatternError: 'Введите дату в формате дд.мм.гггг',
-      timestampPatternError: 'Введите дату и время в формате дд.мм.гггг чч:мм'
+        table: {
+            noRecordsOnThePage: 'No records on page {0}',
+            emptyTable: 'Nothing found',
+            previousPage: 'Previous',
+            nextPage: 'Next',
+            firstPage: 'First',
+            lastPage: 'Last',
+            filter: 'Filter',
+            clearFilter: 'Clear',
+            tableFor: 'for'
+        }
     },
 
-    formComponentNotFound: 'Компонент формы не найден: ',
-    tableComponentNotFound: 'Компонент таблицы не найден: ',
-    componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
-    tableBoxForTypeNotRegistered: 'TableBox для типа "$type" не зарегистрирован.',
+    ru: {
+        errorCannotConnect: 'Не могу подключиться к серверу',
+        errorServerQueryException: 'Ошибка сервера: $message',
+        errorInvalidErrorResponse: 'Сервер вернул неизвестную ошибку',
+        errorNoData: 'Ошибка связи с сервером: ответ не получен',
+        errorUnknownRoute: 'Неизвестный путь: $action',
+        errorUrlParameterAbsent: 'Неверный URL: отсутствует $parameter',
 
-    helpInfo: "Справка",
-    details: "Подробнее",
-    goToHomepage: "Перейти на главную страницу",
+        welcome: 'Добро пожаловать!',
+        loading: 'Загрузка...',
+        settings: 'Настройки',
+        otherColumns: 'Другие колонки',
+        roles: 'Роли',
+        back: 'Назад',
+        error: 'Ошибка:',
+        cancel: 'Отмена',
+        close: 'Закрыть',
+        login: 'Вход',
+        logout: 'Выход',
+        reload: 'Перезагрузить',
+        All: 'Все',
+        successfullyCompleted: 'Успешно выполнено.',
 
-    NotFound: "Не найдено",
-    table: {
-      noRecordsOnThePage: 'Нет записей на {0} странице',
-      emptyTable: 'Нет данных',
-      previousPage: 'Предыдущая',
-      nextPage: 'Следующая',
-      firstPage: 'Первая',
-      lastPage: 'Последняя',
-      filter: 'Фильтр',
-      clearFilter: 'Очистить',
-      tableFor: 'для'
-    },
-    dataTables: {
-      "processing": "Подождите...",
-      "search": "Поиск:",
-      "lengthMenu": "Показать _MENU_ записей",
-      "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
-      "infoEmpty": "Записи с 0 до 0 из 0 записей",
-      "infoFiltered": "(отфильтровано из _MAX_ записей)",
-      "infoPostFix": "",
-      "loadingRecords": "Загрузка записей...",
-      "zeroRecords": "Записи отсутствуют.",
-      "emptyTable": "В таблице отсутствуют данные",
-      "paginate": {
-        "first": "Первая",
-        "previous": "Предыдущая",
-        "next": "Следующая",
-        "last": "Последняя"
-      },
-      "aria": {
-        "sortAscending": ": активировать для сортировки столбца по возрастанию",
-        "sortDescending": ": активировать для сортировки столбца по убыванию"
-      }
+        filter: 'Фильтр...',
+        entries: 'записей',
+
+        selectRoles: 'Выбрать',
+        allRoles: 'Всё',
+        clearRoles: 'Ничего',
+
+        Submit: 'Выполнить',
+        submitted: 'Выполняется...',
+
+        property: {
+            locale: 'ru',
+            clearAllText: 'Очистить всё',
+            clearValueText: 'Очистить',
+            noResultsText: 'Нет результатов',
+            searchPromptText: 'Начните вводить для поиска',
+            placeholder: 'Выберите...',
+            loadingPlaceholder: 'Загрузка...',
+            stepMismatch: 'Введите допустимое значение. Ближайшие допустимые значения: {0} and {1}.',
+            numberTypeMismatch: 'Введите число.',
+            simpleIntegerTypeMismatch: '"E" не поддерживается для простых целых типов.',
+            rangeOverflow: 'Значение должно быть меньше или равно {0}.',
+            rangeUnderflow: 'Значение должно быть больше или равно {0}.',
+            datePatternError: 'Введите дату в формате дд.мм.гггг',
+            timestampPatternError: 'Введите дату и время в формате дд.мм.гггг чч:мм'
+        },
+
+        formComponentNotFound: 'Компонент формы не найден: ',
+        tableComponentNotFound: 'Компонент таблицы не найден: ',
+        componentForTypeNotRegistered: 'Компонент для типа "$type" не зарегистрирован.',
+        tableBoxForTypeNotRegistered: 'TableBox для типа "$type" не зарегистрирован.',
+
+        helpInfo: "Справка",
+        details: "Подробнее",
+        goToHomepage: "Перейти на главную страницу",
+
+        NotFound: "Не найдено",
+        table: {
+            noRecordsOnThePage: 'Нет записей на {0} странице',
+            emptyTable: 'Нет данных',
+            previousPage: 'Предыдущая',
+            nextPage: 'Следующая',
+            firstPage: 'Первая',
+            lastPage: 'Последняя',
+            filter: 'Фильтр',
+            clearFilter: 'Очистить',
+            tableFor: 'для'
+        },
+        dataTables: {
+            "processing": "Подождите...",
+            "search": "Поиск:",
+            "lengthMenu": "Показать _MENU_ записей",
+            "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+            "infoEmpty": "Записи с 0 до 0 из 0 записей",
+            "infoFiltered": "(отфильтровано из _MAX_ записей)",
+            "infoPostFix": "",
+            "loadingRecords": "Загрузка записей...",
+            "zeroRecords": "Записи отсутствуют.",
+            "emptyTable": "В таблице отсутствуют данные",
+            "paginate": {
+                "first": "Первая",
+                "previous": "Предыдущая",
+                "next": "Следующая",
+                "last": "Последняя"
+            },
+            "aria": {
+                "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                "sortDescending": ": активировать для сортировки столбца по убыванию"
+            }
+        }
     }
-  }
 };
 
 var routes = {};
@@ -4478,7 +4478,7 @@ var Table = function (_Component) {
   }, {
     key: 'tableBox',
     value: function tableBox(value, data, operations) {
-      var displayType = value.data.attributes.parameters && value.data.attributes.parameters._displayType_ || data.attributes.layout._displayType_ || DEFAULT_DISPLAY_TYPE;
+      var displayType = value.data.attributes.parameters && value.data.attributes.parameters._displayType_ || data.attributes.layout.tableBox || data.attributes.layout._displayType_ || DEFAULT_TABLE_BOX;
 
       var TableBoxComponent = getTableBox(displayType);
       if (TableBoxComponent === undefined) {
@@ -4910,24 +4910,22 @@ var TablePagination = function (_React$Component) {
     key: 'render',
     value: function render() {
       var attr = this.props.value.data.attributes;
+      if (attr.totalNumberOfRows <= attr.length && !this.props.showAlways) return null;
       var currentPage = attr.offset / attr.length + 1;
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(Pagination, {
-          prevPageText: be5.messages.table.previousPage,
-          nextPageText: be5.messages.table.nextPage,
-          firstPageText: be5.messages.table.firstPage,
-          lastPageText: be5.messages.table.lastPage,
-          activePage: currentPage,
-          itemsCountPerPage: attr.length,
-          totalItemsCount: attr.totalNumberOfRows,
-          onChange: this.handlePageChange,
-          itemClass: 'page-item',
-          linkClass: 'page-link',
-          activeLinkClass: ''
-        })
-      );
+      return React.createElement(Pagination, {
+        prevPageText: be5.messages.table.previousPage,
+        nextPageText: be5.messages.table.nextPage,
+        firstPageText: be5.messages.table.firstPage,
+        lastPageText: be5.messages.table.lastPage,
+        activePage: currentPage,
+        itemsCountPerPage: attr.length,
+        totalItemsCount: attr.totalNumberOfRows,
+        onChange: this.handlePageChange,
+        innerClass: this.props.innerClass,
+        itemClass: 'page-item',
+        linkClass: 'page-link',
+        activeLinkClass: ''
+      });
     }
   }]);
   return TablePagination;
@@ -4935,7 +4933,13 @@ var TablePagination = function (_React$Component) {
 
 TablePagination.propTypes = {
   value: PropTypes.object.isRequired,
-  frontendParams: PropTypes.object.isRequired
+  frontendParams: PropTypes.object.isRequired,
+  innerClass: PropTypes.string,
+  showAlways: PropTypes.bool
+};
+
+TablePagination.defaultProps = {
+  showAlways: false
 };
 
 var route = function route(frontendParams, page) {
@@ -5173,6 +5177,401 @@ var route$16 = function route(frontendParams, entity) {
 };
 
 registerRoute("categories", route$16);
+
+var AceEditor = void 0;
+try {
+  require('brace/mode/sql');
+  require('brace/theme/xcode');
+  require('brace/ext/language_tools');
+  AceEditor = require("react-ace").default;
+} catch (e) {
+  console.log('AceEditor (brace) is not available, use textarea');
+}
+
+var QueryBuilder = function (_React$Component) {
+  inherits(QueryBuilder, _React$Component);
+
+  function QueryBuilder(props) {
+    classCallCheck(this, QueryBuilder);
+
+    var _this = possibleConstructorReturn(this, (QueryBuilder.__proto__ || Object.getPrototypeOf(QueryBuilder)).call(this, props));
+
+    _this.state = {
+      sql: _this.props.value.data.attributes.sql,
+      value: _this.props.value
+    };
+
+    _this.updateCode = _this.updateCode.bind(_this);
+    _this.submit = _this.submit.bind(_this);
+    _this.setSqlFromHistory = _this.setSqlFromHistory.bind(_this);
+    return _this;
+  }
+
+  createClass(QueryBuilder, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.initBeSqlMode();
+      this.update(this.props.value);
+    }
+  }, {
+    key: 'initBeSqlMode',
+    value: function initBeSqlMode() {
+      if (AceEditor !== undefined) {
+        var beSqlMode = new BeSqlMode$1();
+        this.refs.aceEditor.editor.getSession().setMode(beSqlMode);
+        var langTools = window.ace.acequire('ace/ext/language_tools');
+        langTools.addCompleter(upperCaseKeyWordCompleter);
+        langTools.addCompleter(tableNamesCompleter);
+      }
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      this.update(nextProps.value);
+    }
+  }, {
+    key: 'updateCode',
+    value: function updateCode(newSql) {
+      this.setState({ sql: newSql });
+    }
+  }, {
+    key: 'submit',
+    value: function submit() {
+      var _requestParams,
+          _this2 = this;
+
+      var requestParams = (_requestParams = {
+        sql: this.state.sql,
+        updateWithoutBeSql: this.state.updateWithoutBeSql
+      }, defineProperty(_requestParams, CONTEXT_PARAMS, this.props.value.params), defineProperty(_requestParams, TIMESTAMP_PARAM, new Date().getTime()), _requestParams);
+
+      be5.net.request('queryBuilder', requestParams, function (json) {
+        _this2.update(json);
+      });
+    }
+  }, {
+    key: 'update',
+    value: function update(json) {
+      this.setState({ value: json });
+    }
+  }, {
+    key: 'setSqlFromHistory',
+    value: function setSqlFromHistory(event) {
+      this.setState({ sql: event.target.value });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      var _state = this.state,
+          value = _state.value,
+          sql = _state.sql;
+
+
+      return React.createElement(
+        'div',
+        { className: 'queryBuilder' },
+        React.createElement(
+          'div',
+          { className: 'row' },
+          React.createElement(
+            'div',
+            { className: 'col-md-6' },
+            React.createElement(
+              'h1',
+              null,
+              'Query Builder'
+            ),
+            React.createElement(
+              'div',
+              { className: 'form-group form-check' },
+              React.createElement('input', {
+                type: 'checkbox',
+                className: 'form-check-input',
+                id: 'updateWithoutBeSql',
+                onChange: function onChange() {
+                  _this3.setState({ updateWithoutBeSql: !_this3.state.updateWithoutBeSql });
+                },
+                checked: this.state.updateWithoutBeSql === true }),
+              React.createElement(
+                'label',
+                { className: 'form-check-label', htmlFor: 'updateWithoutBeSql' },
+                'raw sql'
+              )
+            )
+          ),
+          React.createElement(
+            'div',
+            { className: 'col-md-6' },
+            React.createElement(
+              'select',
+              {
+                multiple: true,
+                style: { width: '100%' },
+                onClick: this.setSqlFromHistory
+              },
+              value.data.attributes.history.slice().reverse().map(function (value, i) {
+                return React.createElement(
+                  'option',
+                  { value: value, key: i },
+                  value
+                );
+              })
+            ),
+            React.createElement('br', null),
+            React.createElement('br', null)
+          )
+        ),
+        React.createElement(
+          SplitPane,
+          { split: 'horizontal', defaultSize: 300 },
+          this.getEditor(sql),
+          React.createElement(
+            'div',
+            null,
+            React.createElement(
+              'button',
+              {
+                className: 'btn btn-primary btn-sm mt-2 mb-2',
+                onClick: this.submit,
+                title: 'Alt-Enter - submit, Ctrl + space - auto completion'
+              },
+              'Submit'
+            ),
+            React.createElement(QueryBuilderOutput, {
+              value: value,
+              finalSql: this.state.value.data.attributes.finalSql
+            })
+          )
+        )
+      );
+    }
+  }, {
+    key: 'getEditor',
+    value: function getEditor(sql) {
+      var _this4 = this;
+
+      if (AceEditor === undefined) {
+        return React.createElement('textarea', {
+          rows: 10,
+          onChange: function onChange(e) {
+            return _this4.updateCode(e.target.value);
+          },
+          value: sql,
+          style: { width: '100%' }
+        });
+      }
+
+      return React.createElement(AceEditor, {
+        ref: 'aceEditor',
+        value: sql,
+        mode: 'sql',
+        theme: 'xcode',
+        fontSize: 13,
+        onChange: this.updateCode,
+        name: 'queryBuilder_editor',
+        width: '100%',
+        height: '100%',
+        showPrintMargin: true,
+        showGutter: true,
+        highlightActiveLine: true,
+        editorProps: {
+          $blockScrolling: Infinity
+        },
+        setOptions: {
+          enableBasicAutocompletion: true,
+          enableLiveAutocompletion: true,
+          enableSnippets: true,
+          showLineNumbers: true,
+          tabSize: 2
+        },
+        commands: [{
+          name: 'Submit',
+          bindKey: { win: 'Alt-Enter', mac: 'Command-Enter' },
+          exec: this.submit
+        }]
+      });
+    }
+  }]);
+  return QueryBuilder;
+}(React.Component);
+
+var QueryBuilderOutput = function (_React$Component2) {
+  inherits(QueryBuilderOutput, _React$Component2);
+
+  function QueryBuilderOutput() {
+    classCallCheck(this, QueryBuilderOutput);
+    return possibleConstructorReturn(this, (QueryBuilderOutput.__proto__ || Object.getPrototypeOf(QueryBuilderOutput)).apply(this, arguments));
+  }
+
+  createClass(QueryBuilderOutput, [{
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps) {
+      return nextProps.value.meta._ts_ > this.props.value.meta._ts_;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var value = this.props.value;
+
+      return React.createElement(
+        'div',
+        null,
+        React.createElement(Document$1, {
+          value: getModelByID(value.included, value.meta, "result"),
+          frontendParams: { documentName: "queryBuilder-result" }
+        }),
+        React.createElement(
+          'div',
+          null,
+          value.data.attributes.finalSql
+        ),
+        React.createElement('br', null),
+        React.createElement(ErrorPane, { value: value })
+      );
+    }
+  }]);
+  return QueryBuilderOutput;
+}(React.Component);
+
+registerDocument("queryBuilder", QueryBuilder);
+
+var UiPanel = function UiPanel(props) {
+  be5.ui.setTitle(props.value.data.attributes.title);
+  var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+  var ARGUMENT_NAMES = /([^\s,]+)/g;
+
+  function getParamNamesString(func) {
+    var fnStr = func.toString().replace(STRIP_COMMENTS, '');
+    var result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
+    if (result === null) return [];
+    return result;
+  }
+
+  function getParamNames(func) {
+    var arr = getParamNamesString(func);
+    return arr.map(function (name, i) {
+      if (i === 0) {
+        return React.createElement(
+          'span',
+          { key: name },
+          name
+        );
+      } else {
+        return React.createElement(
+          'span',
+          { key: name },
+          ', ',
+          name
+        );
+      }
+    });
+  }
+
+  return React.createElement(
+    'div',
+    { className: classNames('ui-panel row') },
+    React.createElement(
+      'div',
+      { className: 'col-md-12' },
+      React.createElement(
+        'h1',
+        null,
+        'Core'
+      )
+    ),
+    React.createElement(
+      'div',
+      { className: 'col-md-4' },
+      React.createElement(
+        'h3',
+        null,
+        'documents'
+      ),
+      getAllDocumentTypes().sort().map(function (name) {
+        //let doc = getDocument(name);
+        //console.log('document', doc.name, doc);
+        return React.createElement(
+          'div',
+          { key: "documents-" + name },
+          React.createElement(
+            'span',
+            { className: 'badge badge-primary' },
+            name
+          ),
+          ' - ',
+          getDocument(name).name
+        );
+      })
+    ),
+    React.createElement(
+      'div',
+      { className: 'col-md-8' },
+      React.createElement(
+        'h3',
+        null,
+        'routes'
+      ),
+      getAllRoutes().sort().map(function (name) {
+        //let route = getRoute(name);
+        //console.log('route', route.name, route);
+        return React.createElement(
+          'div',
+          { key: "documents-" + name },
+          React.createElement(
+            'span',
+            { className: 'badge badge-primary' },
+            name
+          ),
+          '(',
+          getParamNames(getRoute(name)),
+          ')'
+        );
+      })
+    )
+  );
+};
+
+registerPage("uiPanel", UiPanel, function (frontendParams) {
+  changeDocument(frontendParams.documentName, createPageValue("uiPanel", { attributes: { title: "UI panel" } }));
+});
+
+var SystemCard = function SystemCard(props) {
+  var title = props.value.title;
+
+  be5.ui.setTitle(title);
+  var steps = [{ title: 'Cache', url: '#!table/_system_/Cache' }, { title: 'Session', url: '#!table/_system_/Session variables' }, { title: 'System Settings', url: '#!table/systemSettings/All%20records' }, { title: 'Daemons', url: '#!table/_system_/Daemons' }, { title: 'DataSource', url: '#!table/_system_/DataSource' }, { title: 'Http Headers', url: '#!table/_system_/Http Headers' }, { title: 'Properties', url: '#!table/_system_/System properties' }, { title: 'Threads', url: '#!table/_system_/Threads' }, { title: 'UI panel', url: '#!uiPanel' }];
+
+  return React.createElement(
+    "div",
+    { className: "info-card" },
+    React.createElement(
+      "h1",
+      { style: { marginBottom: 13 + 'px' } },
+      title
+    ),
+    React.createElement(Navs, {
+      steps: steps,
+      tabs: true,
+      onOpenNav: function onOpenNav(id) {
+        return setDocumentState("#!systemCard", id);
+      },
+      startAtStep: getDocumentState("#!systemCard") || 0
+    })
+  );
+};
+
+registerDocument('SystemCard', SystemCard);
+
+registerRoute('systemCard', function (frontendParams) {
+  changeDocument(frontendParams.documentName, {
+    value: {
+      title: "System card"
+    },
+    frontendParams: { type: 'SystemCard' }
+  });
+});
 
 /**
  * https://datatables.net/
@@ -5939,401 +6338,6 @@ var ReactTableBox = function (_Component) {
 
 registerTableBox('reactTable', ReactTableBox);
 
-var AceEditor = void 0;
-try {
-  require('brace/mode/sql');
-  require('brace/theme/xcode');
-  require('brace/ext/language_tools');
-  AceEditor = require("react-ace").default;
-} catch (e) {
-  console.log('AceEditor (brace) is not available, use textarea');
-}
-
-var QueryBuilder = function (_React$Component) {
-  inherits(QueryBuilder, _React$Component);
-
-  function QueryBuilder(props) {
-    classCallCheck(this, QueryBuilder);
-
-    var _this = possibleConstructorReturn(this, (QueryBuilder.__proto__ || Object.getPrototypeOf(QueryBuilder)).call(this, props));
-
-    _this.state = {
-      sql: _this.props.value.data.attributes.sql,
-      value: _this.props.value
-    };
-
-    _this.updateCode = _this.updateCode.bind(_this);
-    _this.submit = _this.submit.bind(_this);
-    _this.setSqlFromHistory = _this.setSqlFromHistory.bind(_this);
-    return _this;
-  }
-
-  createClass(QueryBuilder, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.initBeSqlMode();
-      this.update(this.props.value);
-    }
-  }, {
-    key: 'initBeSqlMode',
-    value: function initBeSqlMode() {
-      if (AceEditor !== undefined) {
-        var beSqlMode = new BeSqlMode$1();
-        this.refs.aceEditor.editor.getSession().setMode(beSqlMode);
-        var langTools = window.ace.acequire('ace/ext/language_tools');
-        langTools.addCompleter(upperCaseKeyWordCompleter);
-        langTools.addCompleter(tableNamesCompleter);
-      }
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      this.update(nextProps.value);
-    }
-  }, {
-    key: 'updateCode',
-    value: function updateCode(newSql) {
-      this.setState({ sql: newSql });
-    }
-  }, {
-    key: 'submit',
-    value: function submit() {
-      var _requestParams,
-          _this2 = this;
-
-      var requestParams = (_requestParams = {
-        sql: this.state.sql,
-        updateWithoutBeSql: this.state.updateWithoutBeSql
-      }, defineProperty(_requestParams, CONTEXT_PARAMS, this.props.value.params), defineProperty(_requestParams, TIMESTAMP_PARAM, new Date().getTime()), _requestParams);
-
-      be5.net.request('queryBuilder', requestParams, function (json) {
-        _this2.update(json);
-      });
-    }
-  }, {
-    key: 'update',
-    value: function update(json) {
-      this.setState({ value: json });
-    }
-  }, {
-    key: 'setSqlFromHistory',
-    value: function setSqlFromHistory(event) {
-      this.setState({ sql: event.target.value });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this3 = this;
-
-      var _state = this.state,
-          value = _state.value,
-          sql = _state.sql;
-
-
-      return React.createElement(
-        'div',
-        { className: 'queryBuilder' },
-        React.createElement(
-          'div',
-          { className: 'row' },
-          React.createElement(
-            'div',
-            { className: 'col-md-6' },
-            React.createElement(
-              'h1',
-              null,
-              'Query Builder'
-            ),
-            React.createElement(
-              'div',
-              { className: 'form-group form-check' },
-              React.createElement('input', {
-                type: 'checkbox',
-                className: 'form-check-input',
-                id: 'updateWithoutBeSql',
-                onChange: function onChange() {
-                  _this3.setState({ updateWithoutBeSql: !_this3.state.updateWithoutBeSql });
-                },
-                checked: this.state.updateWithoutBeSql === true }),
-              React.createElement(
-                'label',
-                { className: 'form-check-label', htmlFor: 'updateWithoutBeSql' },
-                'raw sql'
-              )
-            )
-          ),
-          React.createElement(
-            'div',
-            { className: 'col-md-6' },
-            React.createElement(
-              'select',
-              {
-                multiple: true,
-                style: { width: '100%' },
-                onClick: this.setSqlFromHistory
-              },
-              value.data.attributes.history.slice().reverse().map(function (value, i) {
-                return React.createElement(
-                  'option',
-                  { value: value, key: i },
-                  value
-                );
-              })
-            ),
-            React.createElement('br', null),
-            React.createElement('br', null)
-          )
-        ),
-        React.createElement(
-          SplitPane,
-          { split: 'horizontal', defaultSize: 300 },
-          this.getEditor(sql),
-          React.createElement(
-            'div',
-            null,
-            React.createElement(
-              'button',
-              {
-                className: 'btn btn-primary btn-sm mt-2 mb-2',
-                onClick: this.submit,
-                title: 'Alt-Enter - submit, Ctrl + space - auto completion'
-              },
-              'Submit'
-            ),
-            React.createElement(QueryBuilderOutput, {
-              value: value,
-              finalSql: this.state.value.data.attributes.finalSql
-            })
-          )
-        )
-      );
-    }
-  }, {
-    key: 'getEditor',
-    value: function getEditor(sql) {
-      var _this4 = this;
-
-      if (AceEditor === undefined) {
-        return React.createElement('textarea', {
-          rows: 10,
-          onChange: function onChange(e) {
-            return _this4.updateCode(e.target.value);
-          },
-          value: sql,
-          style: { width: '100%' }
-        });
-      }
-
-      return React.createElement(AceEditor, {
-        ref: 'aceEditor',
-        value: sql,
-        mode: 'sql',
-        theme: 'xcode',
-        fontSize: 13,
-        onChange: this.updateCode,
-        name: 'queryBuilder_editor',
-        width: '100%',
-        height: '100%',
-        showPrintMargin: true,
-        showGutter: true,
-        highlightActiveLine: true,
-        editorProps: {
-          $blockScrolling: Infinity
-        },
-        setOptions: {
-          enableBasicAutocompletion: true,
-          enableLiveAutocompletion: true,
-          enableSnippets: true,
-          showLineNumbers: true,
-          tabSize: 2
-        },
-        commands: [{
-          name: 'Submit',
-          bindKey: { win: 'Alt-Enter', mac: 'Command-Enter' },
-          exec: this.submit
-        }]
-      });
-    }
-  }]);
-  return QueryBuilder;
-}(React.Component);
-
-var QueryBuilderOutput = function (_React$Component2) {
-  inherits(QueryBuilderOutput, _React$Component2);
-
-  function QueryBuilderOutput() {
-    classCallCheck(this, QueryBuilderOutput);
-    return possibleConstructorReturn(this, (QueryBuilderOutput.__proto__ || Object.getPrototypeOf(QueryBuilderOutput)).apply(this, arguments));
-  }
-
-  createClass(QueryBuilderOutput, [{
-    key: 'shouldComponentUpdate',
-    value: function shouldComponentUpdate(nextProps) {
-      return nextProps.value.meta._ts_ > this.props.value.meta._ts_;
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var value = this.props.value;
-
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(Document$1, {
-          value: getModelByID(value.included, value.meta, "result"),
-          frontendParams: { documentName: "queryBuilder-result" }
-        }),
-        React.createElement(
-          'div',
-          null,
-          value.data.attributes.finalSql
-        ),
-        React.createElement('br', null),
-        React.createElement(ErrorPane, { value: value })
-      );
-    }
-  }]);
-  return QueryBuilderOutput;
-}(React.Component);
-
-registerDocument("queryBuilder", QueryBuilder);
-
-var UiPanel = function UiPanel(props) {
-  be5.ui.setTitle(props.value.data.attributes.title);
-  var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
-  var ARGUMENT_NAMES = /([^\s,]+)/g;
-
-  function getParamNamesString(func) {
-    var fnStr = func.toString().replace(STRIP_COMMENTS, '');
-    var result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
-    if (result === null) return [];
-    return result;
-  }
-
-  function getParamNames(func) {
-    var arr = getParamNamesString(func);
-    return arr.map(function (name, i) {
-      if (i === 0) {
-        return React.createElement(
-          'span',
-          { key: name },
-          name
-        );
-      } else {
-        return React.createElement(
-          'span',
-          { key: name },
-          ', ',
-          name
-        );
-      }
-    });
-  }
-
-  return React.createElement(
-    'div',
-    { className: classNames('ui-panel row') },
-    React.createElement(
-      'div',
-      { className: 'col-md-12' },
-      React.createElement(
-        'h1',
-        null,
-        'Core'
-      )
-    ),
-    React.createElement(
-      'div',
-      { className: 'col-md-4' },
-      React.createElement(
-        'h3',
-        null,
-        'documents'
-      ),
-      getAllDocumentTypes().sort().map(function (name) {
-        //let doc = getDocument(name);
-        //console.log('document', doc.name, doc);
-        return React.createElement(
-          'div',
-          { key: "documents-" + name },
-          React.createElement(
-            'span',
-            { className: 'badge badge-primary' },
-            name
-          ),
-          ' - ',
-          getDocument(name).name
-        );
-      })
-    ),
-    React.createElement(
-      'div',
-      { className: 'col-md-8' },
-      React.createElement(
-        'h3',
-        null,
-        'routes'
-      ),
-      getAllRoutes().sort().map(function (name) {
-        //let route = getRoute(name);
-        //console.log('route', route.name, route);
-        return React.createElement(
-          'div',
-          { key: "documents-" + name },
-          React.createElement(
-            'span',
-            { className: 'badge badge-primary' },
-            name
-          ),
-          '(',
-          getParamNames(getRoute(name)),
-          ')'
-        );
-      })
-    )
-  );
-};
-
-registerPage("uiPanel", UiPanel, function (frontendParams) {
-  changeDocument(frontendParams.documentName, createPageValue("uiPanel", { attributes: { title: "UI panel" } }));
-});
-
-var SystemCard = function SystemCard(props) {
-  var title = props.value.title;
-
-  be5.ui.setTitle(title);
-  var steps = [{ title: 'Cache', url: '#!table/_system_/Cache' }, { title: 'Session', url: '#!table/_system_/Session variables' }, { title: 'System Settings', url: '#!table/systemSettings/All%20records' }, { title: 'Daemons', url: '#!table/_system_/Daemons' }, { title: 'DataSource', url: '#!table/_system_/DataSource' }, { title: 'Http Headers', url: '#!table/_system_/Http Headers' }, { title: 'Properties', url: '#!table/_system_/System properties' }, { title: 'Threads', url: '#!table/_system_/Threads' }, { title: 'UI panel', url: '#!uiPanel' }];
-
-  return React.createElement(
-    "div",
-    { className: "info-card" },
-    React.createElement(
-      "h1",
-      { style: { marginBottom: 13 + 'px' } },
-      title
-    ),
-    React.createElement(Navs, {
-      steps: steps,
-      tabs: true,
-      onOpenNav: function onOpenNav(id) {
-        return setDocumentState("#!systemCard", id);
-      },
-      startAtStep: getDocumentState("#!systemCard") || 0
-    })
-  );
-};
-
-registerDocument('SystemCard', SystemCard);
-
-registerRoute('systemCard', function (frontendParams) {
-  changeDocument(frontendParams.documentName, {
-    value: {
-      title: "System card"
-    },
-    frontendParams: { type: 'SystemCard' }
-  });
-});
-
 var updateHashUrl = function updateHashUrl(url) {
   return { type: 'CHANGE_HASH', hash: url };
 };
@@ -6562,7 +6566,7 @@ var api = Object.freeze({
 	LIMIT: LIMIT,
 	ORDER_COLUMN: ORDER_COLUMN,
 	ORDER_DIR: ORDER_DIR,
-	DEFAULT_DISPLAY_TYPE: DEFAULT_DISPLAY_TYPE
+	DEFAULT_TABLE_BOX: DEFAULT_TABLE_BOX
 });
 
 // components
@@ -6570,4 +6574,4 @@ var api = Object.freeze({
 // tables
 // menu
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu, NavMenu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, TablePagination, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getDocumentStates, getDocumentState, setDocumentState, clearDocumentState, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByType, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, addUrlHandlers, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, initFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, SUCCESS_ALERT, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR, DEFAULT_DISPLAY_TYPE };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu, NavMenu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, TablePagination, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getDocumentStates, getDocumentState, setDocumentState, clearDocumentState, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByType, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, addUrlHandlers, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, initFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, SUCCESS_ALERT, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR, DEFAULT_TABLE_BOX };
