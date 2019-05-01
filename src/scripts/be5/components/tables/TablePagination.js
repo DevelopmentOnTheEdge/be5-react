@@ -17,30 +17,32 @@ class TablePagination extends React.Component {
   
   render() {
     const attr = this.props.value.data.attributes;
+    if (attr.totalNumberOfRows <= attr.length && !this.props.showAlways) return null;
     const currentPage = attr.offset / attr.length + 1;
-    return (
-      <div>
-        <Pagination
-          prevPageText={be5.messages.table.previousPage}
-          nextPageText={be5.messages.table.nextPage}
-          firstPageText={be5.messages.table.firstPage}
-          lastPageText={be5.messages.table.lastPage}
-          activePage={currentPage}
-          itemsCountPerPage={attr.length}
-          totalItemsCount={attr.totalNumberOfRows}
-          onChange={this.handlePageChange}
-          itemClass="page-item"
-          linkClass="page-link"
-          activeLinkClass=""
-        />
-      </div>
-    );
+    return <Pagination
+        prevPageText={be5.messages.table.previousPage}
+        nextPageText={be5.messages.table.nextPage}
+        firstPageText={be5.messages.table.firstPage}
+        lastPageText={be5.messages.table.lastPage}
+        activePage={currentPage}
+        itemsCountPerPage={attr.length}
+        totalItemsCount={attr.totalNumberOfRows}
+        onChange={this.handlePageChange}
+        itemClass="page-item"
+        linkClass="page-link"
+        activeLinkClass=""
+    />;
   }
 }
 
 TablePagination.propTypes = {
   value: PropTypes.object.isRequired,
-  frontendParams: PropTypes.object.isRequired
+  frontendParams: PropTypes.object.isRequired,
+  showAlways: PropTypes.bool
+};
+
+TablePagination.defaultProps = {
+  showAlways: false
 };
 
 export default TablePagination;

@@ -483,111 +483,109 @@ exports[`noRecordsOnThePage 1`] = `
     <p>
       No records on page 11
     </p>
-    <div>
-      <ul
-        className="pagination"
+    <ul
+      className="pagination"
+    >
+      <li
+        className="page-item"
+        onClick={[Function]}
       >
-        <li
-          className="page-item"
-          onClick={[Function]}
+        <a
+          className="page-link"
+          href="#"
         >
-          <a
-            className="page-link"
-            href="#"
-          >
-            First
-          </a>
-        </li>
-        <li
-          className="page-item"
-          onClick={[Function]}
+          First
+        </a>
+      </li>
+      <li
+        className="page-item"
+        onClick={[Function]}
+      >
+        <a
+          className="page-link"
+          href="#"
         >
-          <a
-            className="page-link"
-            href="#"
-          >
-            Previous
-          </a>
-        </li>
-        <li
-          className="page-item"
-          onClick={[Function]}
+          Previous
+        </a>
+      </li>
+      <li
+        className="page-item"
+        onClick={[Function]}
+      >
+        <a
+          className="page-link"
+          href="#"
         >
-          <a
-            className="page-link"
-            href="#"
-          >
-            6
-          </a>
-        </li>
-        <li
-          className="page-item"
-          onClick={[Function]}
+          6
+        </a>
+      </li>
+      <li
+        className="page-item"
+        onClick={[Function]}
+      >
+        <a
+          className="page-link"
+          href="#"
         >
-          <a
-            className="page-link"
-            href="#"
-          >
-            7
-          </a>
-        </li>
-        <li
-          className="page-item"
-          onClick={[Function]}
+          7
+        </a>
+      </li>
+      <li
+        className="page-item"
+        onClick={[Function]}
+      >
+        <a
+          className="page-link"
+          href="#"
         >
-          <a
-            className="page-link"
-            href="#"
-          >
-            8
-          </a>
-        </li>
-        <li
-          className="page-item"
-          onClick={[Function]}
+          8
+        </a>
+      </li>
+      <li
+        className="page-item"
+        onClick={[Function]}
+      >
+        <a
+          className="page-link"
+          href="#"
         >
-          <a
-            className="page-link"
-            href="#"
-          >
-            9
-          </a>
-        </li>
-        <li
-          className="page-item"
-          onClick={[Function]}
+          9
+        </a>
+      </li>
+      <li
+        className="page-item"
+        onClick={[Function]}
+      >
+        <a
+          className="page-link"
+          href="#"
         >
-          <a
-            className="page-link"
-            href="#"
-          >
-            10
-          </a>
-        </li>
-        <li
-          className="page-item disabled"
-          onClick={[Function]}
+          10
+        </a>
+      </li>
+      <li
+        className="page-item disabled"
+        onClick={[Function]}
+      >
+        <a
+          className="page-link"
+          href="#"
         >
-          <a
-            className="page-link"
-            href="#"
-          >
-            Next
-          </a>
-        </li>
-        <li
-          className="page-item disabled"
-          onClick={[Function]}
+          Next
+        </a>
+      </li>
+      <li
+        className="page-item disabled"
+        onClick={[Function]}
+      >
+        <a
+          className="page-link"
+          href="#"
         >
-          <a
-            className="page-link"
-            href="#"
-          >
-            Last
-          </a>
-        </li>
-      </ul>
-    </div>
+          Last
+        </a>
+      </li>
+    </ul>
   </div>
 </div>
 `;
