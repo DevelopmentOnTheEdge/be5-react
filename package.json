@@ -5,8 +5,8 @@
   "main": "dist/lib/be5-react.js",
   "scripts": {
     "dev": "ws -d dist/uncompressed",
-    "start": "webpack-dashboard -- webpack-dev-server --host 127.0.0.1 --progress --profile --colors",
-    "start-w": "webpack-dev-server --host 127.0.0.1 --progress --profile --colors",
+    "start-d": "webpack-dashboard -- webpack-dev-server --host 127.0.0.1 --progress --profile --colors",
+    "start": "webpack-dev-server --host 127.0.0.1 --progress --profile --colors",
     "build": "webpack --config webpack.production.config.js --progress --profile --colors --env.build",
     "build-min": "webpack --config webpack.production.config.js --progress --profile --colors --env.build --env.min",
     "test": "jest",
