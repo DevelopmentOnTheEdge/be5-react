@@ -13,9 +13,6 @@ import './components/tables/TableFormRow';
 import './components/tables/FormTable';
 import './components/tables/Table';
 import './components/tables/ModalTable';
-import './components/tables/tableBoxes/DataTablesTableBox';
-import './components/tables/tableBoxes/ListTableBox';
-import './components/tables/tableBoxes/ReactTableBox';
 import './components/forms/SubmitOnChangeForm';
 import './components/forms/ModalForm';
 import './components/forms/InlineMiniForm';
@@ -29,6 +26,6 @@ import './pages/UiPanel';
 import './pages/SystemCard';
 
 import './components/tables/tableBoxes/DataTablesTableBox';
-import './components/tables/tableBoxes/ListTableBox';
+import './components/tables/tableBoxes/OneColumnListTableBox';
 import './components/tables/tableBoxes/ReactTableBox';
 
