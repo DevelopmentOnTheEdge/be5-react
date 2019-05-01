@@ -8,7 +8,7 @@ import {getDocument, registerDocument} from '../../core/registers/documents';
 import CategoryNavigation from "./CategoryNavigation";
 import {executeFrontendActions} from "../../services/frontendActions";
 import FilterUI from "./FilterUI";
-import {DEFAULT_DISPLAY_TYPE, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, SELECTED_ROWS} from "../../constants";
+import {DEFAULT_TABLE_BOX, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, SELECTED_ROWS} from "../../constants";
 import {getBackAction, makeSafeForClassName} from "../../utils/utils";
 import {getTableBox} from "../../core/registers/tableBoxes";
 import {setTableFilter} from "../../services/tables";
@@ -121,7 +121,7 @@ class Table extends Component {
 
   tableBox(value, data, operations) {
     const displayType = (value.data.attributes.parameters && value.data.attributes.parameters._displayType_)
-      || data.attributes.layout._displayType_ || DEFAULT_DISPLAY_TYPE;
+      || data.attributes.layout.tableBox || data.attributes.layout._displayType_ || DEFAULT_TABLE_BOX;
 
     const TableBoxComponent = getTableBox(displayType);
     if (TableBoxComponent === undefined) {
