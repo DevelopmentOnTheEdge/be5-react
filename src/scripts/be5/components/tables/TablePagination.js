@@ -28,6 +28,7 @@ class TablePagination extends React.Component {
         itemsCountPerPage={attr.length}
         totalItemsCount={attr.totalNumberOfRows}
         onChange={this.handlePageChange}
+        innerClass={this.props.innerClass}
         itemClass="page-item"
         linkClass="page-link"
         activeLinkClass=""
@@ -38,6 +39,7 @@ class TablePagination extends React.Component {
 TablePagination.propTypes = {
   value: PropTypes.object.isRequired,
   frontendParams: PropTypes.object.isRequired,
+  innerClass: PropTypes.string,
   showAlways: PropTypes.bool
 };
 
