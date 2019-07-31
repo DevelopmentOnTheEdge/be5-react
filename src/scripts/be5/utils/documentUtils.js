@@ -6,6 +6,7 @@ import FrontendAction from "../services/model/FrontendAction";
 import {executeFrontendActions} from "../services/frontendActions";
 import changeDocument from "../core/changeDocument";
 import {clearDocumentState} from "../services/documentStates";
+import bus from '../core/bus';
 
 export const getResourceByID = (included, id) => {
   if (included === undefined) return undefined;
@@ -97,6 +98,13 @@ export const addUrlHandlers = (element, documentName) => {
     if(!e.ctrlKey) {
       e.preventDefault();
       openInModal(e);
+    }
+  });
+
+  element.on("click", '.close-modal', function (e) {
+    if(!e.ctrlKey) {
+      e.preventDefault();
+      bus.fire("mainModalClose");
     }
   });
 };
