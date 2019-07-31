@@ -17,3 +17,6 @@ $h5-font-size:               1.1rem !default;
 $h6-font-size:               1rem !default;
 
 @import "~bootstrap/scss/bootstrap";
+
+// 500 is not bold in FF
+h5 { font-weight: 600; }
