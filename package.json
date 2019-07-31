@@ -17,11 +17,11 @@
     "lib": "rollup -c rollup.config.js"
   },
   "dependencies": {
-    "beanexplorer-react": "^1.0.25",
+    "beanexplorer-react": "^1.0.31",
     "bootstrap": "4.3.1",
     "classnames": "2.2.5",
     "datatables.net": "1.10.16",
-    "formdata-polyfill": "^3.0.13",
+    "formdata-polyfill": "^3.0.18",
     "jquery": ">=3.4.0",
     "json-pointer": "0.6.0",
     "number-format.js": "1.1.11",
