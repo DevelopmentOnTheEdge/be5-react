@@ -47,7 +47,7 @@ const RoleSelector = (props) => {
     props.toggleRoles("")
   }
 
-  if (props.availableRoles.length < 1) {
+  if (props.availableRoles.length <= 1) {
     return ( <div/> );
   }
 
