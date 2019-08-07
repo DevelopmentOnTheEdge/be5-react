@@ -70,7 +70,7 @@ export const _performOperationResult = (json, frontendParams, data) => {
         const result = attributes.operationResult;
 
         if (result.status === 'ERROR') {
-          bus.fire("alert", {msg: result.message, type: 'error'});
+          bus.fire("alert", {msg: result.message, type: 'error', timeout:result.timeout});
           return;
         }
 
@@ -85,7 +85,7 @@ export const _performOperationResult = (json, frontendParams, data) => {
           case 'FINISHED':
             if (result.details === undefined) {
               if (documentName === MAIN_MODAL_DOCUMENT) {
-                bus.fire("alert", {msg: result.message || be5.messages.successfullyCompleted, type: 'success'});
+                bus.fire("alert", {msg: result.message || be5.messages.successfullyCompleted, type: 'success', timeout:result.timeout});
                 bus.fire("mainModalClose");
               } else {
                 changeDocument(documentName, {value: json, frontendParams: frontendParams});
@@ -98,7 +98,7 @@ export const _performOperationResult = (json, frontendParams, data) => {
             } else {
               if (result.message !== undefined) {
                 if (documentName === MAIN_MODAL_DOCUMENT) {
-                  bus.fire("alert", {msg: result.message, type: 'success'});
+                  bus.fire("alert", {msg: result.message, type: 'success', timeout:result.timeout});
                 } else {
                   changeDocument(documentName, {value: json, frontendParams: frontendParams});
                 }
@@ -135,7 +135,7 @@ const _performForm = (json, frontendParams) => {
   let operationResult = json.data.attributes.operationResult;
 
   if (operationResult.status === 'ERROR') {
-    bus.fire("alert", {msg: operationResult.message, type: 'error'});
+    bus.fire("alert", {msg: operationResult.message, type: 'error', operationResult: operationResult.timeout});
   }
 
   if (documentName === MAIN_MODAL_DOCUMENT) {

@@ -34,12 +34,12 @@ class Be5Components extends React.Component {
       if (data.type === 'error') {
         Alert.error(data.msg, {
           position: 'top-right',
-          timeout: 5000
+          timeout: data.timeout > 0 ? 1000 * data.timeout : 5000
         });
       } else {
         Alert.success(data.msg, {
           position: 'top-right',
-          timeout: 5000
+          timeout: data.timeout > 0 ? 1000 * data.timeout : 5000
         });
       }
     });
