@@ -158,6 +158,9 @@ class Table extends Component {
   }
 
   getTitleTag(value) {
+    if (value.data.attributes.hasOwnProperty('hideTitle') )
+        return null;
+
     const TitleTag = `h${(value.data.attributes.parameters && value.data.attributes.parameters._titleLevel_) || 1}`;
     const operationParamsInfo = this.getOperationParamsInfo();
     return <TitleTag className="table-component__title">
