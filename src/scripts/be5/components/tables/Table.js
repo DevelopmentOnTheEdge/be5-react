@@ -158,7 +158,7 @@ class Table extends Component {
   }
 
   getTitleTag(value) {
-    if (value.data.attributes.hasOwnProperty('hideTitle') )
+    if (value.data.attributes.layout.hasOwnProperty('hideTitle') )
         return null;
 
     const TitleTag = `h${(value.data.attributes.parameters && value.data.attributes.parameters._titleLevel_) || 1}`;
