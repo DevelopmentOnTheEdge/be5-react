@@ -546,6 +546,7 @@ var openInModal = function openInModal(e) {
 };
 
 var addUrlHandlers = function addUrlHandlers(element, documentName) {
+
   element.on("click", '.process-hash-url', function (e) {
     if (!e.ctrlKey) {
       e.preventDefault();
@@ -569,7 +570,6 @@ var addUrlHandlers = function addUrlHandlers(element, documentName) {
 
   element.on("click", '.close-modal', function (e) {
     if (!e.ctrlKey) {
-      e.preventDefault();
       bus.fire("mainModalClose");
     }
   });
@@ -1253,7 +1253,7 @@ var RoleSelector = function RoleSelector(props) {
     props.toggleRoles("");
   }
 
-  if (props.availableRoles.length < 1) {
+  if (props.availableRoles.length <= 1) {
     return React.createElement('div', null);
   }
 
@@ -1443,7 +1443,7 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
         var result = attributes.operationResult;
 
         if (result.status === 'ERROR') {
-          bus.fire("alert", { msg: result.message, type: 'error' });
+          bus.fire("alert", { msg: result.message, type: 'error', timeout: result.timeout });
           return;
         }
 
@@ -1458,7 +1458,7 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
           case 'FINISHED':
             if (result.details === undefined) {
               if (documentName === MAIN_MODAL_DOCUMENT) {
-                bus.fire("alert", { msg: result.message || be5.messages.successfullyCompleted, type: 'success' });
+                bus.fire("alert", { msg: result.message || be5.messages.successfullyCompleted, type: 'success', timeout: result.timeout });
                 bus.fire("mainModalClose");
               } else {
                 changeDocument(documentName, { value: json, frontendParams: frontendParams });
@@ -1470,7 +1470,7 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
             } else {
               if (result.message !== undefined) {
                 if (documentName === MAIN_MODAL_DOCUMENT) {
-                  bus.fire("alert", { msg: result.message, type: 'success' });
+                  bus.fire("alert", { msg: result.message, type: 'success', timeout: result.timeout });
                 } else {
                   changeDocument(documentName, { value: json, frontendParams: frontendParams });
                 }
@@ -1507,7 +1507,7 @@ var _performForm = function _performForm(json, frontendParams) {
   var operationResult = json.data.attributes.operationResult;
 
   if (operationResult.status === 'ERROR') {
-    bus.fire("alert", { msg: operationResult.message, type: 'error' });
+    bus.fire("alert", { msg: operationResult.message, type: 'error', operationResult: operationResult.timeout });
   }
 
   if (documentName === MAIN_MODAL_DOCUMENT) {
@@ -2365,12 +2365,12 @@ var Be5Components = function (_React$Component) {
         if (data.type === 'error') {
           Alert.error(data.msg, {
             position: 'top-right',
-            timeout: 5000
+            timeout: data.timeout > 0 ? 1000 * data.timeout : 5000
           });
         } else {
           Alert.success(data.msg, {
             position: 'top-right',
-            timeout: 5000
+            timeout: data.timeout > 0 ? 1000 * data.timeout : 5000
           });
         }
       });
@@ -3573,6 +3573,11 @@ var Form = function (_React$Component) {
   }
 
   createClass(Form, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      addUrlHandlers($('.be5-form'), this.props.frontendParams.documentName);
+    }
+  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       this.setState(Object.assign({}, {
@@ -4526,6 +4531,8 @@ var Table = function (_Component) {
   }, {
     key: 'getTitleTag',
     value: function getTitleTag(value) {
+      if (value.data.attributes.layout.hasOwnProperty('hideTitle')) return null;
+
       var TitleTag = 'h' + (value.data.attributes.parameters && value.data.attributes.parameters._titleLevel_ || 1);
       var operationParamsInfo = this.getOperationParamsInfo();
       return React.createElement(

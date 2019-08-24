@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import be5 from '../../be5';
+import {addUrlHandlers} from '../../utils/documentUtils';
 import forms, {getOperationInfo} from '../../services/forms';
 import PropertySet from 'beanexplorer-react';
 import JsonPointer from 'json-pointer';
@@ -27,6 +28,10 @@ class Form extends React.Component {
     this._setValue = this._setValue.bind(this);
     this._applyOnSubmit = this._applyOnSubmit.bind(this);
     this.apply = this.apply.bind(this);
+  }
+
+  componentDidMount() {
+    addUrlHandlers($('.be5-form'), this.props.frontendParams.documentName);
   }
 
   componentWillReceiveProps(nextProps) {

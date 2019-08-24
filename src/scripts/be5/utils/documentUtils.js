@@ -80,6 +80,7 @@ export const openInModal = (e) => {
 };
 
 export const addUrlHandlers = (element, documentName) => {
+
   element.on("click", '.process-hash-url', function (e) {
     if(!e.ctrlKey) {
       e.preventDefault();
@@ -103,7 +104,6 @@ export const addUrlHandlers = (element, documentName) => {
 
   element.on("click", '.close-modal', function (e) {
     if(!e.ctrlKey) {
-      e.preventDefault();
       bus.fire("mainModalClose");
     }
   });
