@@ -36,3 +36,9 @@ $ npm test
 $ npm run watch
 $ npm run coverage
 ```
+
+### Deploy
+```sh
+sh build.sh
+npm publish
+```
