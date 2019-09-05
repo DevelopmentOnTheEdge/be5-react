@@ -1253,8 +1253,12 @@ var RoleSelector = function RoleSelector(props) {
     props.toggleRoles("");
   }
 
-  if (props.availableRoles.length <= 1) {
+  if (props.availableRoles.length < 1) {
     return React.createElement('div', null);
+  }
+
+  function isHidden() {
+    return props.availableRoles.length <= 1;
   }
 
   var roleNodes = props.availableRoles.map(function (role) {
@@ -1265,7 +1269,7 @@ var RoleSelector = function RoleSelector(props) {
 
   return React.createElement(
     UncontrolledDropdown,
-    { size: props.size, className: 'roleBox mr-sm-2', id: props.id },
+    { size: props.size, className: 'roleBox mr-sm-2', id: props.id, hidden: isHidden },
     React.createElement(
       DropdownToggle,
       { caret: true },
