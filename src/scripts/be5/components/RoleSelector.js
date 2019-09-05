@@ -47,8 +47,12 @@ const RoleSelector = (props) => {
     props.toggleRoles("")
   }
 
-  if (props.availableRoles.length <= 1) {
+  if (props.availableRoles.length < 1) {
     return ( <div/> );
+  }
+
+  function hidden() {
+    return props.availableRoles.length <= 1
   }
 
   const roleNodes = props.availableRoles.map((role) =>
@@ -56,7 +60,7 @@ const RoleSelector = (props) => {
   );
 
   return (
-    <UncontrolledDropdown size={props.size} className="roleBox mr-sm-2" id={props.id}>
+    <UncontrolledDropdown size={props.size} className="roleBox mr-sm-2" id={props.id} hidden={hidden}>
       <DropdownToggle caret>{be5.messages.roles}</DropdownToggle>
 
       <DropdownMenu>
