@@ -101,7 +101,7 @@ exports[`snapshot NavbarMenu 1`] = `
       >
         <div
           className="roleBox mr-sm-2 dropdown"
-          hidden={[Function]}
+          hidden={false}
           id="RoleSelector"
           onKeyDown={[Function]}
         >
