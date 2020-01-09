@@ -31,16 +31,18 @@ class Be5Components extends React.Component {
     bus.listen("mainModalOpen", this.open);
 
     bus.listen("alert", data => {
-      if (data.type === 'error') {
-        Alert.error(data.msg, {
-          position: 'top-right',
-          timeout: data.timeout > 0 ? 1000 * data.timeout : 5000
-        });
-      } else {
-        Alert.success(data.msg, {
-          position: 'top-right',
-          timeout: data.timeout > 0 ? 1000 * data.timeout : 5000
-        });
+      if( data.timeout == null || data.timeout > 0 ) {
+        if (data.type === 'error') {
+          Alert.error(data.msg, {
+            position: 'top-right',
+            timeout: data.timeout > 0 ? 1000 * data.timeout : 5000
+          });
+        } else {
+          Alert.success(data.msg, {
+            position: 'top-right',
+            timeout: data.timeout > 0 ? 1000 * data.timeout : 5000
+          });
+        }
       }
     });
   }

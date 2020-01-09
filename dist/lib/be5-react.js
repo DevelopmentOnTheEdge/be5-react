@@ -2366,16 +2366,18 @@ var Be5Components = function (_React$Component) {
       bus.listen("mainModalOpen", this.open);
 
       bus.listen("alert", function (data) {
-        if (data.type === 'error') {
-          Alert.error(data.msg, {
-            position: 'top-right',
-            timeout: data.timeout > 0 ? 1000 * data.timeout : 5000
-          });
-        } else {
-          Alert.success(data.msg, {
-            position: 'top-right',
-            timeout: data.timeout > 0 ? 1000 * data.timeout : 5000
-          });
+        if (data.timeout == null || data.timeout > 0) {
+          if (data.type === 'error') {
+            Alert.error(data.msg, {
+              position: 'top-right',
+              timeout: data.timeout > 0 ? 1000 * data.timeout : 5000
+            });
+          } else {
+            Alert.success(data.msg, {
+              position: 'top-right',
+              timeout: data.timeout > 0 ? 1000 * data.timeout : 5000
+            });
+          }
         }
       });
     }
