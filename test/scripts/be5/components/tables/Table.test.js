@@ -135,3 +135,42 @@ test('noRecordsOnThePage', () => {
   );
   expect(component.toJSON()).toMatchSnapshot();
 });
+
+test('Empty table with custom message', () => {
+  const json = '{"data":{"attributes":{"category":"users","columns":[],"messageWhenEmpty":"Empty table","layout":{},' +
+    '"length":10,"offset":0,"orderColumn":-1,"orderDir":"asc","page":"All records","parameters":{},"rows":[],"selectable":true,"title":"Пользователи","totalNumberOfRows":0},' +
+    '"links":{"self":"table/users/All records"},"type":"table"},"included":[' +
+    '{"attributes":{"operationParamsInfo":[]},"type":"filterInfo"}],"meta":{"_ts_":"1549734295598"}}';
+  const component = renderer.create(
+    <TestProvider>
+      <Table value={JSON.parse(json)} frontendParams={{documentName: 'test'}} />
+    </TestProvider>
+  );
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('Empty table with default message 1', () => {
+  const json = '{"data":{"attributes":{"category":"users","columns":[],"layout":{},' +
+    '"length":10,"offset":0,"orderColumn":-1,"orderDir":"asc","page":"All records","parameters":{},"rows":[],"selectable":true,"title":"Пользователи","totalNumberOfRows":0},' +
+    '"links":{"self":"table/users/All records"},"type":"table"},"included":[' +
+    '{"attributes":{"operationParamsInfo":[]},"type":"filterInfo"}],"meta":{"_ts_":"1549734295598"}}';
+  const component = renderer.create(
+    <TestProvider>
+      <Table value={JSON.parse(json)} frontendParams={{documentName: 'test'}} />
+    </TestProvider>
+  );
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('Empty table with default message 2', () => {
+  const json = '{"data":{"attributes":{"category":"users","columns":[],"messageWhenEmpty":"","layout":{},' +
+    '"length":10,"offset":0,"orderColumn":-1,"orderDir":"asc","page":"All records","parameters":{},"rows":[],"selectable":true,"title":"Пользователи","totalNumberOfRows":0},' +
+    '"links":{"self":"table/users/All records"},"type":"table"},"included":[' +
+    '{"attributes":{"operationParamsInfo":[]},"type":"filterInfo"}],"meta":{"_ts_":"1549734295598"}}';
+  const component = renderer.create(
+    <TestProvider>
+      <Table value={JSON.parse(json)} frontendParams={{documentName: 'test'}} />
+    </TestProvider>
+  );
+  expect(component.toJSON()).toMatchSnapshot();
+});

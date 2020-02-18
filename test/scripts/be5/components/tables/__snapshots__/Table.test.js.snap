@@ -1,5 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Empty table with custom message 1`] = `
+<div
+  className="table-component users_All-records"
+>
+  <h1
+    className="table-component__title"
+  >
+    Пользователи
+  </h1>
+  <div>
+    Empty table
+  </div>
+</div>
+`;
+
+exports[`Empty table with default message 1 1`] = `
+<div
+  className="table-component users_All-records"
+>
+  <h1
+    className="table-component__title"
+  >
+    Пользователи
+  </h1>
+  <div>
+    Nothing found
+  </div>
+</div>
+`;
+
+exports[`Empty table with default message 2 1`] = `
+<div
+  className="table-component users_All-records"
+>
+  <h1
+    className="table-component__title"
+  >
+    Пользователи
+  </h1>
+  <div>
+    Nothing found
+  </div>
+</div>
+`;
+
 exports[`FormTable 1`] = `
 <div
   className="form-table"
