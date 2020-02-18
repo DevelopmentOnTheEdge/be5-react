@@ -330,9 +330,12 @@ class DataTablesTableBox extends Component {
           <TablePagination {...this.props}/>
         </div>;
       }
+      let whenEmpty = be5.messages.table.emptyTable;
+      if( attr.messageWhenEmpty && attr.messageWhenEmpty != '' )
+        whenEmpty = attr.messageWhenEmpty;
       return (
         <div>
-          {be5.messages.table.emptyTable}
+          {whenEmpty}
         </div>
       );
     }
