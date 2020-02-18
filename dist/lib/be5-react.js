@@ -5937,10 +5937,12 @@ var DataTablesTableBox = function (_Component2) {
             React.createElement(TablePagination, this.props)
           );
         }
+        var whenEmpty = be5.messages.table.emptyTable;
+        if (attr.messageWhenEmpty && attr.messageWhenEmpty != '') whenEmpty = attr.messageWhenEmpty;
         return React.createElement(
           'div',
           null,
-          be5.messages.table.emptyTable
+          whenEmpty
         );
       }
 
