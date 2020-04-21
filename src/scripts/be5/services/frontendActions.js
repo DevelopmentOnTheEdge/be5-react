@@ -107,15 +107,18 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
   bus.fire("executeFrontendActions", {actions, frontendParams});
 };
 
-function redirect(url, frontendParams) {
+function redirect(url, frontendParams) 
+{
   /*Open directly*/ 
   if (url.startsWith("http://") || 
       url.startsWith("https://") || 
       url.startsWith("ftp://") || 
-      url.startsWith("/")) {
+      url.startsWith("/"))
+  {
     window.location.href = url;
   }
-  else {
+  else 
+  {
     clearDocumentState('#!' + url);
     if (frontendParams.documentName === MAIN_DOCUMENT) {
       bus.fire("mainModalClose");
