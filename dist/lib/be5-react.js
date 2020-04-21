@@ -446,18 +446,11 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
   bus.fire("executeFrontendActions", { actions: actions, frontendParams: frontendParams });
 };
 
-function redirect(url, frontendParams) 
-{
-  /*Open directly*/ 
-  if (url.startsWith("http://") || 
-      url.startsWith("https://") || 
-      url.startsWith("ftp://") || 
-      url.startsWith("/"))
-  {
+function redirect(url, frontendParams) {
+  /*Open directly*/
+  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://") || url.startsWith("/")) {
     window.location.href = url;
-  }
-  else 
-  {
+  } else {
     clearDocumentState('#!' + url);
     if (frontendParams.documentName === MAIN_DOCUMENT) {
       bus.fire("mainModalClose");
