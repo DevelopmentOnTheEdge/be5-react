@@ -108,7 +108,11 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 };
 
 function redirect(url, frontendParams) {
-  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://")) {
+  /*Open directly*/ 
+  if (url.startsWith("http://") || 
+      url.startsWith("https://") || 
+      url.startsWith("ftp://") || 
+      url.startsWith("/")) {
     window.location.href = url;
   }
   else {
