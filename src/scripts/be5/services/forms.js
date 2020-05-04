@@ -159,6 +159,16 @@ export const getOperationInfoFromUrl = (url, values = {}) => {
   return getOperationInfo(operationInfo, values)
 };
 
+const _buildFormDateFromObject = (formData, data, parentKey) => {
+  if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
+    Object.keys(data).forEach(key => {
+      _buildFormDateFromObject(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+    });
+  } else {
+    formData.append(parentKey, data === null ? '' : data);
+  }
+}
+
 export const getOperationInfo = (operationInfo, values = {}) => {
   let formData = new FormData();
   for (let k in values) {
@@ -180,7 +190,7 @@ export const getOperationInfo = (operationInfo, values = {}) => {
         }
       }
     } else {
-      formData.append(k, value);
+      _buildFormDateFromObject(formData, value, k);
     }
   }
   formData.append(ENTITY_NAME_PARAM, operationInfo[ENTITY_NAME_PARAM]);
