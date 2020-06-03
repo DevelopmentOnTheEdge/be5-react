@@ -20,6 +20,7 @@ export const UPDATE_PARENT_DOCUMENT = 'UPDATE_PARENT_DOCUMENT';
 
 export const REFRESH_DOCUMENT = 'REFRESH_DOCUMENT';
 export const REFRESH_PARENT_DOCUMENT = 'REFRESH_PARENT_DOCUMENT';
+export const REFRESH_MENU = 'REFRESH_MENU';
 
 export const SEARCH_PARAM = "_search_";
 export const SEARCH_PRESETS_PARAM = "_search_presets_";

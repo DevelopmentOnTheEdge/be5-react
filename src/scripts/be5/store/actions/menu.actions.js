@@ -9,3 +9,7 @@ export const fetchMenu = (path) => {
     });
   };
 };
+
+export const updateMenu = (data) => {
+  return {type: types.UPDATE_MENU, data: data};
+};

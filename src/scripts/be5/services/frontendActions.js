@@ -3,6 +3,7 @@ import bus from '../core/bus';
 import Preconditions from '../utils/preconditions';
 import changeDocument from '../core/changeDocument';
 import {updateUserInfo} from "../store/actions/user.actions";
+import {updateMenu} from "../store/actions/menu.actions";
 import {UPDATE_USER_INFO} from "../store/constants/user.constants";
 import {
   CLOSE_MAIN_MODAL,
@@ -15,6 +16,7 @@ import {
   OPEN_NEW_WINDOW,
   REDIRECT,
   REFRESH_DOCUMENT,
+  REFRESH_MENU,
   REFRESH_PARENT_DOCUMENT,
   SET_URL,
   SUCCESS_ALERT,
@@ -30,6 +32,10 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 
   if (actions.hasOwnProperty(CLOSE_MAIN_MODAL)) {
     bus.fire("mainModalClose");
+  }
+
+  if (actions.hasOwnProperty(REFRESH_MENU)) {
+    be5.store.dispatch(updateMenu(actions[REFRESH_MENU]));
   }
 
   if (actions[SUCCESS_ALERT]) {
