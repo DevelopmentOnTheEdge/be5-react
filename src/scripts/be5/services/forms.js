@@ -11,10 +11,11 @@ import {
   QUERY_NAME_PARAM,
   REDIRECT,
   REFRESH_PARENT_DOCUMENT,
-  TIMESTAMP_PARAM
+  TIMESTAMP_PARAM,
+  GO_BACK
 } from "../constants";
 import FrontendAction from "./model/FrontendAction";
-import {executeFrontendActions} from "./frontendActions";
+import {executeFrontendActions,getActionsMap} from "./frontendActions";
 import 'formdata-polyfill';
 import {_get, _post} from "./formsRequests";
 
@@ -97,7 +98,8 @@ export const _performOperationResult = (json, frontendParams, data) => {
               }
             } else {
               if (result.message !== undefined) {
-                if (documentName === MAIN_MODAL_DOCUMENT) {
+                const actions = getActionsMap(result.details);
+                if (documentName === MAIN_MODAL_DOCUMENT || actions.hasOwnProperty(GO_BACK)) {
                   bus.fire("alert", {msg: result.message, type: 'success', timeout:result.timeout});
                 } else {
                   changeDocument(documentName, {value: json, frontendParams: frontendParams});

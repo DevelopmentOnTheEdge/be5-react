@@ -1493,7 +1493,8 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
               }
             } else {
               if (result.message !== undefined) {
-                if (documentName === MAIN_MODAL_DOCUMENT) {
+                var actions = getActionsMap(result.details);
+                if (documentName === MAIN_MODAL_DOCUMENT || actions.hasOwnProperty(GO_BACK)) {
                   bus.fire("alert", { msg: result.message, type: 'success', timeout: result.timeout });
                 } else {
                   changeDocument(documentName, { value: json, frontendParams: frontendParams });

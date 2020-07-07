@@ -14,6 +14,24 @@ beforeEach(() => {
   changeDocument.mockClear();
 });
 
+test('GO_BACK', () => {
+  be5.url.open = jest.fn();
+  be5.url.process = jest.fn();
+
+  executeFrontendActions(JSON.parse('{"type":"GO_BACK", "value": "test url1"}'),
+    {documentName: "test"});
+
+  expect(be5.url.open.mock.calls.length).toBe(0);
+  expect(be5.url.process.mock.calls.length).toBe(1);
+  expect(be5.url.process.mock.calls[0]).toEqual([{documentName: "test"}, "#!test url1"]);
+
+  executeFrontendActions(JSON.parse('{"type":"GO_BACK", "value": "test url2"}'),
+    {documentName: "MAIN_DOCUMENT"});
+
+  expect(be5.url.open.mock.calls.length).toBe(0);
+  expect(be5.url.process.mock.calls.length).toBe(1);
+});
+
 test('SET_URL', () => {
   be5.url.open = jest.fn();
   executeFrontendActions(JSON.parse('{"type":"SET_URL", "value": "table/testtable/Test 1D"}'),

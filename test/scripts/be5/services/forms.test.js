@@ -110,6 +110,27 @@ test('performOperationResult finished with message', () => {
   expect(component.toJSON()).toMatchSnapshot();
 });
 
+test('performOperationResult with message and GoBack', () => {
+  be5.url.process = jest.fn();
+
+  const res = {
+    "data":{
+      "type":"operationResult",
+      "attributes":{"operationResult": {
+         "status":"FINISHED",
+         "message": "Finish message<br/>with html",
+         "details":new FrontendAction("GO_BACK", "test url")
+      }},
+      "links":{"self":"form/categories/Doc categories/Edit"}
+    },
+    "meta":{"_ts_":"1503244989281"}
+  };
+  _performOperationResult(res, {documentName: "test"});
+
+  expect(be5.url.process.mock.calls.length).toBe(1);
+  expect(be5.url.process.mock.calls[0]).toEqual([{documentName: "test"}, "#!test url"]);
+});
+
 test('performOperationResult finished with message and actions', () => {
   const store = getTestStore();
   be5.store = store;
