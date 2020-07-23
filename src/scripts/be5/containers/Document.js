@@ -154,8 +154,10 @@ class Document extends React.Component {
     }
 
     if (this.state.value.data) {
+      //check type operationResult for avoid repaint form and NPE without props
       if (this.state.value.data.attributes && this.state.value.data.attributes.layout &&
-        this.state.value.data.attributes.layout.type !== undefined) {
+          this.state.value.data.attributes.layout.type !== undefined &&
+          this.state.value.data.type !== 'operationResult') {
         return this.state.value.data.attributes.layout.type;
       }
 
