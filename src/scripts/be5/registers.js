@@ -8,6 +8,7 @@ import './routes/queryBuilder';
 import './routes/text';
 import './routes/categories';
 
+import './components/charts/Chart';
 import './components/tables/TableForm';
 import './components/tables/TableFormRow';
 import './components/tables/FormTable';

@@ -270,5 +270,78 @@
       "type":"operationResult"
     },
     "meta":{"_ts_":"1519735607947"}
+  },
+  "chart": {
+    "data": {
+      "attributes": {
+        "columns": [
+          {
+            "name": "column1",
+            "title": "column1"
+          },
+          {
+            "name": "column2",
+            "title": "column2"
+          },
+          {
+            "name": "column3",
+            "title": "column3"
+          },
+          {
+            "name": "column4",
+            "title": "column4"
+          }
+        ],
+        "layout": {
+          "xData": "column1",
+          "yData": "column2,column4",
+          "type": "chart"
+        },
+        "page": "Test Chart",
+        "rows": [
+          {
+            "cells": [
+              {
+                "content": 1,
+                "options": {}
+              },
+              {
+                "content": 1,
+                "options": {}
+              },
+              {
+                "content": 2,
+                "options": {}
+              },
+              {
+                "content": 3,
+                "options": {}
+              }
+            ]
+          },
+          {
+            "cells": [
+              {
+                "content": 2,
+                "options": {}
+              },
+              {
+                "content": 2,
+                "options": {}
+              },
+              {
+                "content": 4,
+                "options": {}
+              },
+              {
+                "content": 6,
+                "options": {}
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "meta":{"_ts_":"1519735607948"}
   }
 }

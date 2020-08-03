@@ -35,6 +35,15 @@ exports[`snapshot 1`] = `
           <span
             className="badge badge-primary"
           >
+            chart
+          </span>
+           - 
+          Chart
+        </div>
+        <div>
+          <span
+            className="badge badge-primary"
+          >
             errorPane
           </span>
            - 

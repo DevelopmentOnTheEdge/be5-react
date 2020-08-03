@@ -47,6 +47,9 @@ import MenuSearchField from './components/menu/MenuSearchField.js';
 import MenuFooter from './components/menu/MenuFooter.js';
 import MenuNode from './components/menu/MenuNode.js';
 
+//charts
+import Chart from './components/charts/Chart.js';
+
 export * from './api';
 
 export {
@@ -97,4 +100,7 @@ export {
   MenuSearchField,
   MenuFooter,
   MenuNode,
+
+  //charts
+  Chart,
 }
