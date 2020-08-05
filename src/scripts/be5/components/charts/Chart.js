@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import Plot from "react-plotly.js";
 import {registerDocument} from "../../core/registers/documents";
 
+/*
+* The plotlyjs library is used for ploting charts
+*
+* @see https://plotly.com/javascript/ for detailed
+ */
 class Chart extends React.Component {
     constructor(props) {
         super(props);
@@ -51,7 +56,7 @@ class Chart extends React.Component {
 
         const data = [];
         yIdxs.forEach(idx => {
-            const lineData = {
+            let lineData = {
                 x: xVals,
                 y: values.map(array => array[idx]),
                 type: 'scatter',
@@ -60,6 +65,11 @@ class Chart extends React.Component {
                 hoverlabel: {namelength: -1},
                 // line: {color: getColor(idx) }
             }
+            if (rows && rows.length > 0 && rows[0].cells.length - 1 >= idx && rows[0].cells[idx].options.chart ) {
+                //copy column attributes
+                lineData = Object.assign({}, lineData, rows[0].cells[idx].options.chart)
+            }
+
             data.push(lineData);
         })
         const layout = {
