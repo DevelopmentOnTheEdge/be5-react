@@ -63,13 +63,30 @@ class Chart extends React.Component {
                 name: columnTitles[idx],
                 mode: 'lines',
                 hoverlabel: {namelength: -1},
-                // line: {color: getColor(idx) }
+                line: {
+                    shape: 'spline',
+                    width: '2',
+                    smoothing: 1.3,
+                }
             }
-            if (rows && rows.length > 0 && rows[0].cells.length - 1 >= idx && rows[0].cells[idx].options.chart ) {
+            if (rows && rows.length > 0 && rows[0].cells.length - 1 >= idx && rows[0].cells[idx].options.chart) {
                 //copy column attributes
-                lineData = Object.assign({}, lineData, rows[0].cells[idx].options.chart)
+                const chartAttr = rows[0].cells[idx].options.chart;
+                for (const [key, value] of Object.entries(chartAttr)) {
+                    if (value.startsWith('{') && value.endsWith('}')) {
+                        let tmpValue = value.substring(1, value.length - 1);
+                        const obj = {}
+                        tmpValue.split(';').forEach(array => {
+                            const entry = array.split(":");
+                            if (entry.length === 2) {
+                                obj[entry[0]] = entry[1];
+                            }
+                        })
+                        chartAttr[key] = obj;
+                    }
+                }
+                lineData = Object.assign({}, lineData, chartAttr)
             }
-
             data.push(lineData);
         })
         const layout = {
