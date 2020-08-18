@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// import createPlotlyComponent from "react-plotly.js/factory";
+// import Plotly from "plotly.js-basic-dist-min";
 import Plot from "react-plotly.js";
 import {registerDocument} from "../../core/registers/documents";
 
@@ -104,6 +106,7 @@ class Chart extends React.Component {
 
     render() {
         return (
+            // const Plot = createPlotlyComponent(Plotly);
             <Plot
                 data={this.state.data}
                 layout={this.state.layout}
