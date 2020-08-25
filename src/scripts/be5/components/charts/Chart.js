@@ -1,15 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import createPlotlyComponent from "react-plotly.js/factory";
-// import Plotly from "plotly.js-basic-dist-min";
-import Plot from "react-plotly.js";
+import createPlotlyComponent from "react-plotly.js/factory";
+import Plotly from "plotly.js-basic-dist-min";
 import {registerDocument} from "../../core/registers/documents";
 
-/*
-* The plotlyjs library is used for ploting charts
-*
-* @see https://plotly.com/javascript/ for detailed
- */
+const Plot = createPlotlyComponent(Plotly);
+
+/**
+ *  The plotlyjs library is used for ploting charts
+ *
+ * @see https://plotly.com/javascript/ for detailed
+ *
+ * CreatePlotlyComponent and plotly.js-basic-dist-min are used because plotly.js library is too big.
+ * @see https://github.com/plotly/plotly.js/tree/master/dist about plotly dist
+ **/
 class Chart extends React.Component {
     constructor(props) {
         super(props);
@@ -19,13 +23,6 @@ class Chart extends React.Component {
 
     componentDidMount() {
         this.storeChartState(this.props);
-    }
-
-    shouldComponentUpdate(nextProps) {
-        if (nextProps.value.meta._ts_ > this.props.value.meta._ts_) {
-            this.storeChartState(this.props);
-        }
-        return true;
     }
 
     storeChartState(props) {
@@ -106,7 +103,6 @@ class Chart extends React.Component {
 
     render() {
         return (
-            // const Plot = createPlotlyComponent(Plotly);
             <Plot
                 data={this.state.data}
                 layout={this.state.layout}

@@ -26,7 +26,6 @@
     "json-pointer": "0.6.0",
     "number-format.js": "1.1.11",
     "plotly.js-basic-dist-min": "^1.54.7",
-    "plotly.js": "^1.54.7",
     "prop-types": "15.6.1",
     "react": "15.6.1",
     "react-ace": "5.9.0",
