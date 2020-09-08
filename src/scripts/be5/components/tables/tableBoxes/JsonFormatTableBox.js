@@ -3,7 +3,7 @@ import {registerTableBox} from "../../../core/registers/tableBoxes";
 
 class JsonFormatTableBox extends Component {
     render() {
-        const {columns, rows} = this.props.value.data.attributes;
+        const {columns, rows, parameters, layout} = this.props.value.data.attributes;
         const names = columns.map(col => col.name);
         const array = rows.map(row => {
             const obj = {};
@@ -14,9 +14,11 @@ class JsonFormatTableBox extends Component {
             })
             return obj;
         })
-        return (
-            <div  className="jsonTableBox" dangerouslySetInnerHTML={{__html:JSON.stringify(array)}}/>
-        );
+        const prettyJson = parameters._prettyJson_ === 'yes' || layout._prettyJson_ === 'yes';
+        const content = prettyJson ?
+            <pre className="jsonTableBox" dangerouslySetInnerHTML={{__html: JSON.stringify(array, null, 4)}}/> :
+            <div className="jsonTableBox" dangerouslySetInnerHTML={{__html: JSON.stringify(array)}}/>;
+        return (content);
     }
 }
 
