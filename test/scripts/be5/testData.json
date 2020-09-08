@@ -107,6 +107,77 @@
       "_ts_": "1507198487234"
     }
   },
+  "tableJsonFormat": {
+    "data": {
+      "attributes": {
+        "category": "companies",
+        "columns": [
+          {
+            "title": "Наименование",
+            "name": "name"
+          },
+          {
+            "title": "Значение",
+            "name": "value"
+          }
+        ],
+        "hasAggregate": false,
+        "layout": {},
+        "length": 10,
+        "page": "All records",
+        "parameters": {},
+        "rows": [
+          {
+            "cells": [
+              {
+                "content": "name1",
+                "options": {}
+              },
+              {
+                "content": "value1",
+                "options": {}
+              }
+            ]
+          },
+          {
+            "cells": [
+              {
+                "content": "name2",
+                "options": {}
+              },
+              {
+                "content": "value2",
+                "options": {}
+              }
+            ]
+          }
+        ],
+        "selectable": true,
+        "title": "Организации: Общие сведения",
+        "totalNumberOfRows": 100
+      },
+      "type": "table",
+      "links": {
+        "self": "table/companies/All records"
+      }
+    },
+    "included": [
+      {
+        "attributes": {
+          "operationParamsInfo": [
+            {
+              "key": "Name",
+              "value": "Test name"
+            }
+          ]
+        },
+        "type": "filterInfo"
+      }
+    ],
+    "meta": {
+      "_ts_": "1507198487234"
+    }
+  },
   "noRecordsOnThePageTable": {
     "data": {
       "attributes": {

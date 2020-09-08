@@ -15,6 +15,7 @@ import {MAIN_DOCUMENT} from "../../../../../src/scripts/be5/constants";
 import dt from 'datatables.net';
 import OperationBox from "../../../../../src/scripts/be5/components/tables/OperationBox";
 import {openPage} from "../../../../../src/scripts/be5/components/tables/tableBoxes/DataTablesTableBox";
+import JsonFormatTableBox from "../../../../../src/scripts/be5/components/tables/tableBoxes/JsonFormatTableBox";
 dt(window, $);
 
 jest.mock('../../../../../src/scripts/be5/services/forms', () => ({
@@ -121,6 +122,16 @@ test('tableWithFilterInfo', () => {
   const component = renderer.create(
     <TestProvider>
       <Table value={testData.tableWithFilterInfo} frontendParams={{documentName: 'test'}} />
+    </TestProvider>
+  );
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
+
+test('tableJsonFormat', () => {
+  const component = renderer.create(
+    <TestProvider>
+      <JsonFormatTableBox value={testData.tableJsonFormat} frontendParams={{documentName: 'test'}} />
     </TestProvider>
   );
   expect(component.toJSON()).toMatchSnapshot();

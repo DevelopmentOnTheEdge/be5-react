@@ -27,6 +27,7 @@ import './pages/UiPanel';
 import './pages/SystemCard';
 
 import './components/tables/tableBoxes/DataTablesTableBox';
+import './components/tables/tableBoxes/JsonFormatTableBox';
 import './components/tables/tableBoxes/OneColumnListTableBox';
 import './components/tables/tableBoxes/ReactTableBox';
 
