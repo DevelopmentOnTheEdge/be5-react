@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import be5 from '../be5';
-
+import classNames from 'classnames';
 
 class Language extends React.Component {
   constructor(props) {
@@ -48,11 +48,13 @@ class LanguageList extends React.Component {
 class LanguageBox extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {data: {languages: [], selected: ''}}
   };
 
   componentDidMount() {
+    if (be5.locale.languages) {
+      // this.setState({data: {languages: be5.locale.languages, selected: be5.locale.get()}})
+    }
     //this.refresh();
   };
 
@@ -75,7 +77,7 @@ class LanguageBox extends React.Component {
       return null;
     }
     return (
-      <div className={"languageBox"}>
+        <div className={classNames('languageBox', this.props.className)}>
         <LanguageList data={this.state.data} onLanguageClick={this.changeLanguage}/>
       </div>
     );

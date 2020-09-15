@@ -32,6 +32,7 @@ export const initBe5App = (store, callback) => {
 
   be5.net.request('languageSelector', {}, function (data) {
     be5.locale.set(data.selected, data.messages);
+    be5.locale.setLanguages(data.languages);
     //be5.url.process(MAIN_DOCUMENT, be5.url.get());
 
     store.dispatch(fetchUserInfo());
