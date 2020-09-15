@@ -44,7 +44,10 @@ const be5 = {
         }
       }
     },
-
+    setLanguages(languages){
+      if(!languages || !Array.isArray(languages) ) return;
+      be5.locale.languages = languages;
+    },
     msg(key) {
       const value = be5.messages[key];
       return value === undefined ? key : value;
