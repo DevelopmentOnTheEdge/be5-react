@@ -11,6 +11,8 @@ import JsonPointer from 'json-pointer';
 import Transition from 'react-transition-group/Transition';
 import numberFormatter from 'number-format.js';
 import Pagination from 'react-js-pagination';
+import createPlotlyComponent from 'react-plotly.js/factory';
+import Plotly from 'plotly.js-basic-dist-min';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
@@ -230,7 +232,43 @@ var possibleConstructorReturn = function (self, call) {
 
 
 
+var slicedToArray = function () {
+  function sliceIterator(arr, i) {
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _e = undefined;
 
+    try {
+      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+        _arr.push(_s.value);
+
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;
+      _e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"]) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+
+    return _arr;
+  }
+
+  return function (arr, i) {
+    if (Array.isArray(arr)) {
+      return arr;
+    } else if (Symbol.iterator in Object(arr)) {
+      return sliceIterator(arr, i);
+    } else {
+      throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    }
+  };
+}();
 
 
 
@@ -2288,7 +2326,8 @@ var Document$1 = function (_React$Component) {
       }
 
       if (this.state.value.data) {
-        if (this.state.value.data.attributes && this.state.value.data.attributes.layout && this.state.value.data.attributes.layout.type !== undefined) {
+        //check type operationResult for avoid repaint form and NPE without props
+        if (this.state.value.data.attributes && this.state.value.data.attributes.layout && this.state.value.data.attributes.layout.type !== undefined && this.state.value.data.type !== 'operationResult') {
           return this.state.value.data.attributes.layout.type;
         }
 
@@ -4983,6 +5022,187 @@ TablePagination.defaultProps = {
   showAlways: false
 };
 
+var Plot = createPlotlyComponent(Plotly);
+
+/**
+ *  The plotlyjs library is used for ploting charts
+ *
+ * @see https://plotly.com/javascript/ for detailed
+ *
+ * CreatePlotlyComponent and plotly.js-basic-dist-min are used because plotly.js library is too big.
+ * @see https://github.com/plotly/plotly.js/tree/master/dist about plotly dist
+ **/
+
+var Chart = function (_React$Component) {
+    inherits(Chart, _React$Component);
+
+    function Chart(props) {
+        classCallCheck(this, Chart);
+
+        var _this = possibleConstructorReturn(this, (Chart.__proto__ || Object.getPrototypeOf(Chart)).call(this, props));
+
+        _this.state = { data: [], layout: {}, frames: [], config: {} };
+        _this.storeChartState = _this.storeChartState.bind(_this);
+        return _this;
+    }
+
+    createClass(Chart, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.storeChartState(this.props);
+        }
+    }, {
+        key: 'storeChartState',
+        value: function storeChartState(props) {
+            var _props$value$data$att = props.value.data.attributes.layout,
+                xData = _props$value$data$att.xData,
+                yData = _props$value$data$att.yData;
+
+            if (!xData || !yData) {
+                return;
+            }
+            var _props$value$data$att2 = props.value.data.attributes,
+                columns = _props$value$data$att2.columns,
+                rows = _props$value$data$att2.rows,
+                page = _props$value$data$att2.page;
+
+            var columnNames = columns.map(function (column) {
+                return column.name;
+            });
+            var columnTitles = columns.map(function (column) {
+                return column.title;
+            });
+            var xIdx = columnNames.indexOf(xData);
+            if (xIdx === -1) {
+                return;
+            }
+
+            var yIdxs = yData.split(",").filter(function (column) {
+                return columnNames.includes(column);
+            }).map(function (column) {
+                return columnNames.indexOf(column);
+            });
+
+            if (yIdxs.length === 0) {
+                return;
+            }
+
+            var values = rows.map(function (row) {
+                return row.cells.map(function (cell) {
+                    return cell.content;
+                });
+            });
+
+            var xVals = values.map(function (array) {
+                return array[xIdx];
+            });
+
+            var data = [];
+            yIdxs.forEach(function (idx) {
+                var lineData = {
+                    x: xVals,
+                    y: values.map(function (array) {
+                        return array[idx];
+                    }),
+                    type: 'scatter',
+                    name: columnTitles[idx],
+                    mode: 'lines',
+                    hoverlabel: { namelength: -1 },
+                    line: {
+                        shape: 'spline',
+                        width: '2',
+                        smoothing: 1.3
+                    }
+                };
+                if (rows && rows.length > 0 && rows[0].cells.length - 1 >= idx && rows[0].cells[idx].options.chart) {
+                    //copy column attributes
+                    var chartAttr = rows[0].cells[idx].options.chart;
+                    var _iteratorNormalCompletion = true;
+                    var _didIteratorError = false;
+                    var _iteratorError = undefined;
+
+                    try {
+                        for (var _iterator = Object.entries(chartAttr)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                            var _ref = _step.value;
+
+                            var _ref2 = slicedToArray(_ref, 2);
+
+                            var key = _ref2[0];
+                            var value = _ref2[1];
+
+                            if (value.startsWith('{') && value.endsWith('}')) {
+                                (function () {
+                                    var tmpValue = value.substring(1, value.length - 1);
+                                    var obj = {};
+                                    tmpValue.split(';').forEach(function (array) {
+                                        var entry = array.split(":");
+                                        if (entry.length === 2) {
+                                            obj[entry[0]] = entry[1];
+                                        }
+                                    });
+                                    chartAttr[key] = obj;
+                                })();
+                            }
+                        }
+                    } catch (err) {
+                        _didIteratorError = true;
+                        _iteratorError = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion && _iterator.return) {
+                                _iterator.return();
+                            }
+                        } finally {
+                            if (_didIteratorError) {
+                                throw _iteratorError;
+                            }
+                        }
+                    }
+
+                    lineData = Object.assign({}, lineData, chartAttr);
+                }
+                data.push(lineData);
+            });
+            var layout = {
+                title: page,
+                xaxis: { title: columnTitles[xIdx] },
+                // yaxis: {title: "", rangemode: 'tozero'},
+                width: 1050,
+                height: 675,
+                showlegend: true
+            };
+            this.setState(function (state) {
+                return { data: data, layout: layout };
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return React.createElement(Plot, {
+                data: this.state.data,
+                layout: this.state.layout,
+                frames: this.state.frames,
+                config: this.state.config,
+                onInitialized: function onInitialized(figure) {
+                    return _this2.setState(figure);
+                },
+                onUpdate: function onUpdate(figure) {
+                    return _this2.setState(figure);
+                }
+            });
+        }
+    }]);
+    return Chart;
+}(React.Component);
+
+Chart.propTypes = {
+    value: PropTypes.object.isRequired
+};
+
+registerDocument("chart", Chart);
+
 var route = function route(frontendParams, page) {
   changeDocument(frontendParams.documentName, {});
 };
@@ -5994,6 +6214,45 @@ function getTableId(props) {
 
 registerTableBox('dataTable', DataTablesTableBox);
 
+var JsonFormatTableBox = function (_Component) {
+    inherits(JsonFormatTableBox, _Component);
+
+    function JsonFormatTableBox() {
+        classCallCheck(this, JsonFormatTableBox);
+        return possibleConstructorReturn(this, (JsonFormatTableBox.__proto__ || Object.getPrototypeOf(JsonFormatTableBox)).apply(this, arguments));
+    }
+
+    createClass(JsonFormatTableBox, [{
+        key: 'render',
+        value: function render() {
+            var _props$value$data$att = this.props.value.data.attributes,
+                columns = _props$value$data$att.columns,
+                rows = _props$value$data$att.rows,
+                parameters = _props$value$data$att.parameters,
+                layout = _props$value$data$att.layout;
+
+            var names = columns.map(function (col) {
+                return col.name;
+            });
+            var array = rows.map(function (row) {
+                var obj = {};
+                names.forEach(function (name, idx) {
+                    if (row.cells.length - 1 >= idx) {
+                        obj[name] = row.cells[idx].content;
+                    }
+                });
+                return obj;
+            });
+            var prettyJson = parameters._prettyJson_ === 'yes' || layout._prettyJson_ === 'yes';
+            var content = prettyJson ? React.createElement('pre', { className: 'jsonTableBox', dangerouslySetInnerHTML: { __html: JSON.stringify(array, null, 4) } }) : React.createElement('div', { className: 'jsonTableBox', dangerouslySetInnerHTML: { __html: JSON.stringify(array) } });
+            return content;
+        }
+    }]);
+    return JsonFormatTableBox;
+}(Component);
+
+registerTableBox('json', JsonFormatTableBox);
+
 var OneColumnListTableBox = function (_Component) {
   inherits(OneColumnListTableBox, _Component);
 
@@ -6618,5 +6877,6 @@ var api = Object.freeze({
 // forms
 // tables
 // menu
+//charts
 
-export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu, NavMenu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, TablePagination, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getDocumentStates, getDocumentState, setDocumentState, clearDocumentState, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByType, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, addUrlHandlers, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, updateMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, initFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, SUCCESS_ALERT, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, REFRESH_MENU, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR, DEFAULT_TABLE_BOX };
+export { be5, Application, MainDocumentOnly, Be5Components, NavbarMenu, NavMenu, HelpInfo, LanguageBox as LanguageSelector, SideBar, StaticPage, ErrorPane, FormWizard, Navs, RoleSelector, UserControl, Document$1 as Document, MenuContainer$1 as MenuContainer, NavbarMenuContainer$1 as NavbarMenuContainer, UserControlContainer, Form, HorizontalForm, SubmitOnChangeForm, ModalForm, InlineMiniForm, FinishedResult, Table, QuickColumns, OperationBox, CategoryNavigation, FormTable, TableForm, TableFormRow, ModalTable, TablePagination, Menu, MenuBody, MenuSearchField, MenuFooter, MenuNode, Chart, initBe5App$$1 as initBe5App, initOnLoad$$1 as initOnLoad, getDocumentStates, getDocumentState, setDocumentState, clearDocumentState, Preconditions as preconditions, arraysEqual, createPageValue, registerPage, getSelfUrl, getModelByID, createStaticValue, getResourceByType, getResourceByID, processHashUrl, processHashUrlForDocument, openInModal, addUrlHandlers, loadDocumentByUrl, bus, changeDocument, getDocument, registerDocument, getAllDocumentTypes, registerRoute, getRoute, getAllRoutes, registerTableBox, getTableBox, getAllTypes, createBaseStore, index as rootReducer, users as userReduser, users$1 as menuReduser, toggleRoles, fetchUserInfo, updateUserInfo, fetchMenu, updateMenu, getCurrentRoles, getUser, getMenu, route$2 as formAction, route as loadingAction, route$4 as loginAction, route$6 as logoutAction, route$12 as queryBuilderAction, route$8 as staticAction, route$10 as tableAction, route$14 as textAction, actions as action, loadOperation, submitOperation, getOperationInfoFromUrl, openOperationByUrl, openOperationByUrlWithValues, fetchOperationByUrl, loadTable, loadTableByUrl, updateTable, fetchTableByUrl, executeFrontendActions, getActionsMap, getBackOrOpenDefaultRouteAction, getBackAction, FrontendAction, getFilterParams, addFilterParams, initFilterParams, API_URL_PREFIX, DEFAULT_VIEW, ROLE_ADMINISTRATOR, ROLE_SYSTEM_DEVELOPER, ROLE_GUEST, SET_URL, REDIRECT, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, GO_BACK, CLOSE_MAIN_MODAL, SUCCESS_ALERT, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, REFRESH_DOCUMENT, REFRESH_PARENT_DOCUMENT, REFRESH_MENU, SEARCH_PARAM, SEARCH_PRESETS_PARAM, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, RELOAD_CONTROL_NAME, SELECTED_ROWS, TIMESTAMP_PARAM, ENTITY_NAME_PARAM, QUERY_NAME_PARAM, OPERATION_NAME_PARAM, CONTEXT_PARAMS, OFFSET, LIMIT, ORDER_COLUMN, ORDER_DIR, DEFAULT_TABLE_BOX };
