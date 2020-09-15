@@ -2,10 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import be5 from '../be5';
 import classNames from 'classnames';
+import {fetchMenu, fetchUserInfo} from "..";
 
 class Language extends React.Component {
   constructor(props) {
     super(props);
+    this.onClick = this.onClick.bind(this);
   };
 
   onClick(e) {
@@ -34,10 +36,11 @@ class LanguageList extends React.Component {
   };
 
   render() {
-    const selected = this.props.data.selected;
+    let selected = this.props.data.selected;
+    selected = selected ? selected.toUpperCase() : selected;
     const onLanguageClick = this.props.onLanguageClick;
     const languageNodes = this.props.data.languages.map((language) =>
-      <Language key={language} code={language} selected={language === selected} onLanguageClick={onLanguageClick}/>
+      <Language key={language} code={language} selected={language.toUpperCase() === selected} onLanguageClick={onLanguageClick}/>
     );
     return (
       <div className={"languageList"}>{languageNodes}</div>
@@ -49,16 +52,17 @@ class LanguageBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {data: {languages: [], selected: ''}}
+    this.changeLanguage = this.changeLanguage.bind(this);
   };
 
   componentDidMount() {
-    if (be5.locale.languages) {
-      // this.setState({data: {languages: be5.locale.languages, selected: be5.locale.get()}})
+    if (be5.locale.languages && be5.locale.get()) {
+      this.setState({data: {languages: be5.locale.languages, selected: be5.locale.get()}})
     }
     //this.refresh();
   };
 
-  // refresh() {
+// refresh() {
   //   be5.net.request('languageSelector', {}, function(data) {
   //       be5.locale.set(data.selected, data.messages);
   //       this.setState({ data: {selected: data.selected, languages: data.languages} });
@@ -66,10 +70,14 @@ class LanguageBox extends React.Component {
   // };
 
   changeLanguage(language) {
-    be5.net.request('languageSelector/select', {language: language}, function (data) {
+    be5.net.request('languageSelector/select', {language: language}, (data) => {
       this.setState({data: {selected: data.selected, languages: data.languages}});
       be5.locale.set(language, data.messages);
-    }.bind(this));
+      if(be5.store){
+        be5.store.dispatch(fetchUserInfo());
+        be5.store.dispatch(fetchMenu('menu'));
+      }
+    });
   };
 
   render() {
@@ -78,8 +86,8 @@ class LanguageBox extends React.Component {
     }
     return (
         <div className={classNames('languageBox', this.props.className)}>
-        <LanguageList data={this.state.data} onLanguageClick={this.changeLanguage}/>
-      </div>
+          <LanguageList data={this.state.data} onLanguageClick={this.changeLanguage}/>
+        </div>
     );
   }
 }
