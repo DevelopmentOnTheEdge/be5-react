@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import be5 from '../be5';
 import classNames from 'classnames';
-import {fetchMenu, fetchUserInfo} from "..";
+import {fetchMenu, fetchUserInfo, MAIN_DOCUMENT} from "..";
 
 class Language extends React.Component {
   constructor(props) {
@@ -76,6 +76,9 @@ class LanguageBox extends React.Component {
       if(be5.store){
         be5.store.dispatch(fetchUserInfo());
         be5.store.dispatch(fetchMenu('menu'));
+      }
+      if(be5.url.get()){
+        be5.url.process({documentName: MAIN_DOCUMENT}, be5.url.get());
       }
     });
   };
