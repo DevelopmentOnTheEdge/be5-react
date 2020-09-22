@@ -5,6 +5,7 @@ import {Button, Collapse, Navbar, NavbarToggler, UncontrolledTooltip} from 'reac
 import RoleSelector from "../RoleSelector";
 import {processHashUrl} from "../../utils/documentUtils";
 import NavMenu from "./NavMenu";
+import LanguageBox from "../LanguageSelector";
 
 
 const propTypes = {
@@ -13,6 +14,7 @@ const propTypes = {
   defaultRoute: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   brand: PropTypes.string,
+  languageBox: PropTypes.bool,
   containerClass: PropTypes.string,
 };
 
@@ -39,6 +41,7 @@ class NavbarMenu extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <NavMenu {...this.props}/>
             {this.rightButtons()}
+            {this.languageBox()}
           </Collapse>
         </div>
       </Navbar>
@@ -49,6 +52,10 @@ class NavbarMenu extends Component {
     return this.props.brand
       ? <a href="#!" onClick={processHashUrl} className="navbar-brand">{this.props.brand}</a>
       : undefined;
+  }
+
+  languageBox() {
+    return this.props.languageBox ? <LanguageBox className="ml-2"/> : undefined;
   }
 
   rightButtons() {
