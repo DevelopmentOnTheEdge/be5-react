@@ -101,9 +101,9 @@ class Form extends React.Component {
 
   _onReloadOnChange(name, value) {
     const attributes = this.props.value.data.attributes;
+    const {reloadOnChange,autoRefresh,reloadOnClick} = attributes.bean.meta[name];
     const callback = () => {
-      if (attributes.bean.meta[name].reloadOnChange === true ||
-        attributes.bean.meta[name].autoRefresh === true) {
+      if ([reloadOnChange, autoRefresh, reloadOnClick].includes(true)) {
         this._reloadOnChange(name);
       }
     };
