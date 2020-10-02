@@ -40,5 +40,5 @@ $ npm run coverage
 ### Deploy
 ```sh
 sh build.sh
-npm publish
+npm up
 ```
