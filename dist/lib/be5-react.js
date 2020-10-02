@@ -975,6 +975,10 @@ var be5 = {
         }
       }
     },
+    setLanguages: function setLanguages(languages) {
+      if (!languages || !Array.isArray(languages)) return;
+      be5.locale.languages = languages;
+    },
     msg: function msg(key) {
       var value = be5.messages[key];
       return value === undefined ? key : value;
@@ -2012,7 +2016,11 @@ var Language = function (_React$Component) {
 
   function Language(props) {
     classCallCheck(this, Language);
-    return possibleConstructorReturn(this, (Language.__proto__ || Object.getPrototypeOf(Language)).call(this, props));
+
+    var _this = possibleConstructorReturn(this, (Language.__proto__ || Object.getPrototypeOf(Language)).call(this, props));
+
+    _this.onClick = _this.onClick.bind(_this);
+    return _this;
   }
 
   createClass(Language, [{
@@ -2056,9 +2064,10 @@ var LanguageList = function (_React$Component2) {
     key: 'render',
     value: function render() {
       var selected = this.props.data.selected;
+      selected = selected ? selected.toUpperCase() : selected;
       var onLanguageClick = this.props.onLanguageClick;
       var languageNodes = this.props.data.languages.map(function (language) {
-        return React.createElement(Language, { key: language, code: language, selected: language === selected, onLanguageClick: onLanguageClick });
+        return React.createElement(Language, { key: language, code: language, selected: language.toUpperCase() === selected, onLanguageClick: onLanguageClick });
       });
       return React.createElement(
         'div',
@@ -2079,12 +2088,16 @@ var LanguageBox = function (_React$Component3) {
     var _this3 = possibleConstructorReturn(this, (LanguageBox.__proto__ || Object.getPrototypeOf(LanguageBox)).call(this, props));
 
     _this3.state = { data: { languages: [], selected: '' } };
+    _this3.changeLanguage = _this3.changeLanguage.bind(_this3);
     return _this3;
   }
 
   createClass(LanguageBox, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      if (be5.locale.languages && be5.locale.get()) {
+        this.setState({ data: { languages: be5.locale.languages, selected: be5.locale.get() } });
+      }
       //this.refresh();
     }
   }, {
@@ -2099,10 +2112,19 @@ var LanguageBox = function (_React$Component3) {
     // };
 
     value: function changeLanguage(language) {
+      var _this4 = this;
+
       be5.net.request('languageSelector/select', { language: language }, function (data) {
-        this.setState({ data: { selected: data.selected, languages: data.languages } });
+        _this4.setState({ data: { selected: data.selected, languages: data.languages } });
         be5.locale.set(language, data.messages);
-      }.bind(this));
+        if (be5.store) {
+          be5.store.dispatch(fetchUserInfo());
+          be5.store.dispatch(fetchMenu('menu'));
+        }
+        if (be5.url.get()) {
+          be5.url.process({ documentName: MAIN_DOCUMENT }, be5.url.get());
+        }
+      });
     }
   }, {
     key: 'render',
@@ -2112,7 +2134,7 @@ var LanguageBox = function (_React$Component3) {
       }
       return React.createElement(
         'div',
-        { className: "languageBox" },
+        { className: classNames('languageBox', this.props.className) },
         React.createElement(LanguageList, { data: this.state.data, onLanguageClick: this.changeLanguage })
       );
     }
@@ -2623,6 +2645,7 @@ var propTypes$2 = {
   defaultRoute: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   brand: PropTypes.string,
+  languageBox: PropTypes.bool,
   containerClass: PropTypes.string
 };
 
@@ -2662,7 +2685,8 @@ var NavbarMenu = function (_Component) {
             Collapse,
             { isOpen: this.state.isOpen, navbar: true },
             React.createElement(NavMenu, this.props),
-            this.rightButtons()
+            this.rightButtons(),
+            this.languageBox()
           )
         )
       );
@@ -2675,6 +2699,11 @@ var NavbarMenu = function (_Component) {
         { href: '#!', onClick: processHashUrl, className: 'navbar-brand' },
         this.props.brand
       ) : undefined;
+    }
+  }, {
+    key: 'languageBox',
+    value: function languageBox() {
+      return this.props.languageBox ? React.createElement(LanguageBox, { className: 'ml-2' }) : undefined;
     }
   }, {
     key: 'rightButtons',
@@ -3721,8 +3750,13 @@ var Form = function (_React$Component) {
       var _this4 = this;
 
       var attributes = this.props.value.data.attributes;
+      var _attributes$bean$meta = attributes.bean.meta[name],
+          reloadOnChange = _attributes$bean$meta.reloadOnChange,
+          autoRefresh = _attributes$bean$meta.autoRefresh,
+          reloadOnClick = _attributes$bean$meta.reloadOnClick;
+
       var callback = function callback() {
-        if (attributes.bean.meta[name].reloadOnChange === true || attributes.bean.meta[name].autoRefresh === true) {
+        if ([reloadOnChange, autoRefresh, reloadOnClick].includes(true)) {
           _this4._reloadOnChange(name);
         }
       };
@@ -6993,6 +7027,7 @@ var initBe5App$$1 = function initBe5App$$1(store, callback) {
 
   be5.net.request('languageSelector', {}, function (data) {
     be5.locale.set(data.selected, data.messages);
+    be5.locale.setLanguages(data.languages);
     //be5.url.process(MAIN_DOCUMENT, be5.url.get());
 
     store.dispatch(fetchUserInfo());
