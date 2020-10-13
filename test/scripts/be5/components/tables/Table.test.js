@@ -14,7 +14,6 @@ import {MAIN_DOCUMENT} from "../../../../../src/scripts/be5/constants";
 
 import dt from 'datatables.net';
 import OperationBox from "../../../../../src/scripts/be5/components/tables/OperationBox";
-import {openPage} from "../../../../../src/scripts/be5/components/tables/tableBoxes/DataTablesTableBox";
 import JsonFormatTableBox from "../../../../../src/scripts/be5/components/tables/tableBoxes/JsonFormatTableBox";
 dt(window, $);
 

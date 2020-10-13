@@ -4196,7 +4196,8 @@ var OperationBox = function (_React$Component) {
       if (!this.props.operations) return null;
 
       var operationItems = this.splitWithSpaces(this.getOperations());
-      if (operationItems === 0) {
+
+      if (operationItems.length === 0) {
         return null;
       } else {
         return React.createElement(
@@ -4211,7 +4212,23 @@ var OperationBox = function (_React$Component) {
     value: function getOperations() {
       var _this2 = this;
 
-      return this.props.operations.attributes.filter(function (operation) {
+      var operations = [];
+      console.log("this.props.operations.attributes");
+      console.log(this.props.operations.attributes);
+      this.props.operations.attributes.forEach(function (operation) {
+        var order = +operation.layout.order;
+        if (order > 0) {
+          var tail = operations.splice(operation.layout.order - 1);
+          operations = [].concat(toConsumableArray(operations), [operation], toConsumableArray(tail));
+        } else {
+          operations.push(operation);
+        }
+      });
+
+      console.log("operations");
+      console.log(operations);
+
+      return operations.filter(function (operation) {
         return _this2.props.hideOperations.indexOf(operation.name) === -1;
       }).map(function (operation) {
         //      if (operation.isClientSide) {

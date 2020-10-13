@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 
 class OperationBox extends React.Component {
@@ -8,9 +8,9 @@ class OperationBox extends React.Component {
 
   render() {
     if (!this.props.operations) return null;
-
     const operationItems = this.splitWithSpaces(this.getOperations());
-    if (operationItems === 0) {
+
+    if (operationItems.length === 0) {
       return null;
     } else {
       return (
@@ -22,9 +22,26 @@ class OperationBox extends React.Component {
   }
 
   getOperations() {
-    return this.props.operations.attributes
-      .filter(operation => this.props.hideOperations.indexOf(operation.name) === -1)
-      .map(operation => {
+    let operations =  [];
+    const orderOutSize = [];
+    this.props.operations.attributes.forEach(operation => {
+      const order = +operation.layout.order;
+      if (this.props.operations.attributes.length >= order) {
+        const tail = operations.splice(operation.layout.order - 1);
+        operations = [...operations, operation, ...tail];
+      } else if (this.props.operations.attributes.length < order) {
+        orderOutSize.push(operation)
+      } else {
+        operations.push(operation)
+      }
+    });
+
+    if(orderOutSize.length > 0){
+      operations = [...operations, ...orderOutSize.sort((a, b) => a.layout.order - b.layout.order)]
+    }
+
+    return operations.filter(operation => !this.props.hideOperations.includes(operation.name))
+        .map(operation => {
 //      if (operation.isClientSide) {
 //        const action = Action.parse(operation.action);
 //        const attrs = {
@@ -36,7 +53,7 @@ class OperationBox extends React.Component {
 //        };
 //        return React.createElement('a', attrs, operation.title);
 //      }
-        return (
+          return (
           <button
             key={operation.name}
             ref={operation.name}

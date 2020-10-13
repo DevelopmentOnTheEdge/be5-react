@@ -414,5 +414,72 @@
       }
     },
     "meta":{"_ts_":"1519735607948"}
+  },
+  "orderedOperations": {
+    "included": [
+      {
+        "attributes": [
+          {
+            "layout": {
+              "type": "modalForm"
+            },
+            "name": "Operation_3",
+            "title": "Operation_3"
+          },
+          {
+            "layout": {
+              "type": "modalForm",
+              "order": 1
+            },
+            "name": "Operation_1",
+            "title": "Operation_1"
+          },
+          {
+            "layout": {
+              "type": "modalForm",
+              "order": 2
+            },
+            "name": "Operation_2",
+            "title": "Operation_2"
+          },
+          {
+            "layout": {"order": "aaa"},
+            "name": "Operation_5",
+            "title": "Operation_5"
+          },
+          {
+            "layout": {},
+            "name": "Operation_6",
+            "title": "Operation_6"
+          },
+          {
+            "layout": {
+              "order": 999
+            },
+            "name": "Operation_8",
+            "title": "Operation_8"
+          },
+          {
+            "clientSide": false,
+            "layout": {
+              "order": 500
+            },
+            "name": "Operation_7",
+            "title": "Operation_7"
+          },
+          {
+            "layout": {
+              "order": "4"
+            },
+            "name": "Operation_4",
+            "title": "Operation_4"
+          }
+        ],
+        "type": "documentOperations"
+      }
+    ],
+    "meta": {
+      "_ts_": "1602585228765"
+    }
   }
 }

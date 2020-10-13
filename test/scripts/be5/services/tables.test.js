@@ -7,7 +7,6 @@ import {
   setTableFilter
 } from '../../../../src/scripts/be5/services/tables';
 import testData from '../testData.json';
-import {openPage} from "../../../../src/scripts/be5/components/tables/tableBoxes/DataTablesTableBox";
 
 test('load', () => {
   be5.net.request = jest.fn();
