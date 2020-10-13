@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot 1`] = `
+<div
+  className="operationList"
+>
+  <button
+    className="btn btn-secondary btn-secondary-old btn-sm"
+    disabled={true}
+    onClick={[Function]}
+  >
+    Operation_1
+  </button>
+   
+  <button
+    className="btn btn-secondary btn-secondary-old btn-sm"
+    disabled={true}
+    onClick={[Function]}
+  >
+    Operation_2
+  </button>
+   
+  <button
+    className="btn btn-secondary btn-secondary-old btn-sm"
+    disabled={true}
+    onClick={[Function]}
+  >
+    Operation_3
+  </button>
+   
+  <button
+    className="btn btn-secondary btn-secondary-old btn-sm"
+    disabled={true}
+    onClick={[Function]}
+  >
+    Operation_4
+  </button>
+   
+  <button
+    className="btn btn-secondary btn-secondary-old btn-sm"
+    disabled={true}
+    onClick={[Function]}
+  >
+    Operation_5
+  </button>
+   
+  <button
+    className="btn btn-secondary btn-secondary-old btn-sm"
+    disabled={true}
+    onClick={[Function]}
+  >
+    Operation_6
+  </button>
+   
+  <button
+    className="btn btn-secondary btn-secondary-old btn-sm"
+    disabled={true}
+    onClick={[Function]}
+  >
+    Operation_7
+  </button>
+   
+  <button
+    className="btn btn-secondary btn-secondary-old btn-sm"
+    disabled={true}
+    onClick={[Function]}
+  >
+    Operation_8
+  </button>
+</div>
+`;
