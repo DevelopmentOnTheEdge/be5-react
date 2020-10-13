@@ -25,11 +25,11 @@ class OperationBox extends React.Component {
     let operations =  [];
     const orderOutSize = [];
     this.props.operations.attributes.forEach(operation => {
-      const order = +operation.layout.order;
-      if (this.props.operations.attributes.length >= order) {
-        const tail = operations.splice(operation.layout.order - 1);
+      const layout = operation.layout;
+      if (layout && this.props.operations.attributes.length >= layout.order) {
+        const tail = operations.splice(layout.order - 1);
         operations = [...operations, operation, ...tail];
-      } else if (this.props.operations.attributes.length < order) {
+      } else if (layout && this.props.operations.attributes.length < layout.order) {
         orderOutSize.push(operation)
       } else {
         operations.push(operation)
