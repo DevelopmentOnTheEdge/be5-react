@@ -352,9 +352,6 @@ exports[`Table with topForm 1`] = `
     Пользователи
   </h1>
   <div
-    className="operationList"
-  />
-  <div
     className="table-wrap"
   >
     <div
