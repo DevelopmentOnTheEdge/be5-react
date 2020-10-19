@@ -9,8 +9,13 @@ test('snapshot', () => {
     type: "documentCategories"
   };
 
-  const tree = renderer.create(
+  let tree = renderer.create(
     <CategoryNavigation data={json} url={"table/publications/Compact view/cat=3"} />
+  ).toJSON();
+  expect(tree).toMatchSnapshot();
+
+  tree = renderer.create(
+      <CategoryNavigation data={json} url={"table/publications/Compact view/cat=2"} />
   ).toJSON();
   expect(tree).toMatchSnapshot();
 

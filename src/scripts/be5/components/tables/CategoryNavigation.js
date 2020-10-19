@@ -31,10 +31,12 @@ const CategoryNavigation = ({data, url}) => {
 
   const row = [];
 
-  function tableTd(categories) {
+  function tableTd(categories, lvl) {
     return categories.map(function (cat) {
-      if (parseInt(currentCat) !== cat.id) {
-        const url = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, {cat: cat.id}));
+      if (parseInt(currentCat) !== cat.id || lvl === 0) {
+        const url = lvl === 0 && parseInt(currentCat) === cat.id
+            ? be5.url.create(pUrl.positional)
+            : be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, {cat: cat.id}));
         return (
           <a className="d-block"
              href={"#!" + url} key={cat.id}>
@@ -54,7 +56,7 @@ const CategoryNavigation = ({data, url}) => {
   function tableRow(categories, lvl) {
     const td = (
       <td key={lvl}>
-        {tableTd(categories)}
+        {tableTd(categories, lvl)}
       </td>
     );
     row.push(td);

@@ -51,3 +51,56 @@ exports[`snapshot 1`] = `
   </table>
 </div>
 `;
+
+exports[`snapshot 2`] = `
+<div
+  className="category-navigation"
+>
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          <a
+            className="d-block"
+            href="#!table/publications/Compact%20view"
+          >
+            Root
+          </a>
+        </td>
+        <td>
+          <span>
+            -&gt;
+          </span>
+        </td>
+        <td>
+          <a
+            className="d-block"
+            href="#!table/publications/Compact%20view/cat=3"
+          >
+            p1
+          </a>
+        </td>
+        <td>
+          <span>
+            -&gt;
+          </span>
+        </td>
+        <td>
+          <a
+            className="d-block"
+            href="#!table/publications/Compact%20view/cat=5"
+          >
+            c1
+          </a>
+          <a
+            className="d-block"
+            href="#!table/publications/Compact%20view/cat=6"
+          >
+            c2
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
