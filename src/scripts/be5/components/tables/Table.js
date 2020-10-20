@@ -13,6 +13,7 @@ import {getBackAction, makeSafeForClassName} from "../../utils/utils";
 import {getTableBox} from "../../core/registers/tableBoxes";
 import {setTableFilter} from "../../services/tables";
 import Document from "../../containers/Document";
+import QuickFiltersBox from "./QuickFiltersBox";
 
 
 class Table extends Component {
@@ -82,6 +83,7 @@ class Table extends Component {
 
     const topFormJson = getModelByID(included, meta, "topForm");
     const categories = getResourceByType(included, "documentCategories");
+    const quickFilters = getResourceByType(included, "quickFilters");
     const operations = getResourceByType(included, "documentOperations");
     const filterInfo = getResourceByType(included, "filterInfo");
 
@@ -91,6 +93,10 @@ class Table extends Component {
         {this.getTitleTag(value)}
         <CategoryNavigation
           data={categories}
+          url={getSelfUrl(this.props.value)}
+        />
+        <QuickFiltersBox
+          data={quickFilters}
           url={getSelfUrl(this.props.value)}
         />
         <OperationBox

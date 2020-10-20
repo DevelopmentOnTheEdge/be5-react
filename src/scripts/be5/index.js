@@ -32,6 +32,7 @@ import FinishedResult from './components/forms/FinishedResult.js';
 // tables
 import Table from './components/tables/Table.js';
 import QuickColumns from './components/tables/QuickColumns.js';
+import QuickFiltersBox from './components/tables/QuickFiltersBox.js';
 import OperationBox from './components/tables/OperationBox.js';
 import CategoryNavigation from './components/tables/CategoryNavigation.js';
 import FormTable from './components/tables/FormTable.js';
@@ -86,6 +87,7 @@ export {
   // tables
   Table,
   QuickColumns,
+  QuickFiltersBox,
   OperationBox,
   CategoryNavigation,
   FormTable,
