@@ -341,13 +341,14 @@ class DataTablesTableBox extends Component {
     }
 
     return (
-      <div className="table-wrap">
+        <div className="table-wrap">
         <QuickColumns
           columns={attr.columns}
           category={attr.category}
           page={attr.page}
           selectable={attr.selectable}
           meta={this.props.value.meta}
+          layout={attr.layout}
         />
         <DataTablesWrapper {...this.props}/>
       </div>

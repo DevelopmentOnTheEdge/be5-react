@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import be5 from '../../be5';
 import bus from "../../core/bus";
+import Select from 'react-select';
 
 class QuickColumns extends React.Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class QuickColumns extends React.Component {
 
     this.state = this.createStateFromProps(this.props);
     this.updateDataTableQuickColumns = this.updateDataTableQuickColumns.bind(this);
+    this.handleChangeSelect = this.handleChangeSelect.bind(this);
   };
 
   componentDidMount() {
@@ -40,7 +42,7 @@ class QuickColumns extends React.Component {
   quickHandleChange(idx) {
     const quickColumn = this.state.quickColumns[idx];
     quickColumn.visible = !quickColumn.visible;
-    const value = quickColumn.visible === true ? "yes" : "no";
+    const value = quickColumn.visible ? "yes" : "no";
     be5.net.request("quick", {
       "table_name": this.props.category,
       "query_name": this.props.page,
@@ -49,6 +51,33 @@ class QuickColumns extends React.Component {
     });
     this.forceUpdate();
   }
+
+  handleChangeSelect(options) {
+    const selectedValues = options.map(option => option.value);
+    const visibleColumns = this.state.quickColumns.filter(c => c.visible).map(c => c.columnId);
+    let indexes = [];
+    let visible = selectedValues.length > visibleColumns.length;
+
+    if (selectedValues.length > visibleColumns.length)
+      indexes = selectedValues.filter(idx => !visibleColumns.includes(idx));
+    else if (selectedValues.length < visibleColumns.length)
+      indexes = visibleColumns.filter(idx => !selectedValues.includes(idx));
+
+
+    indexes.forEach(idx => {
+      const arrayIdx = this.state.quickColumns.findIndex(item => item.columnId === idx);
+      if (arrayIdx > -1) {
+        this.state.quickColumns[arrayIdx].visible = visible;
+        be5.net.request("quick", {
+          "table_name": this.props.category,
+          "query_name": this.props.page,
+          "column_name": this.props.columns[idx].name,
+          "quick": visible ? "yes" : "no"
+        });
+        this.forceUpdate();
+      }
+    });
+  };
 
   render() {
     if (this.state.quickColumns.length === 0) {
@@ -68,10 +97,51 @@ class QuickColumns extends React.Component {
       );
     }.bind(this));
 
+
+    const select = (() => {
+
+      const id = "quick-select-" + this.props.page;
+      const options = [];
+      const value = [];
+      const localization = be5.messages.property
+
+      this.state.quickColumns.forEach((cell, idx) => {
+        const column = this.props.columns[cell.columnId];
+        const title = column.title.replace(/<br\s*[\/]?>/gi, " ");
+        options.push({value: cell.columnId, label: title});
+        if (cell.visible) {
+          value.push(cell.columnId)
+        }
+      })
+      const selectAttr = {
+        id: id,
+        ref: id,
+        name: id,
+        value: value,
+        options: options,
+        onChange: this.handleChangeSelect,
+        clearAllText: localization.clearAllText,
+        clearValueText: localization.clearValueText,
+        noResultsText: localization.noResultsText,
+        searchPromptText: localization.searchPromptText,
+        loadingPlaceholder: localization.loadingPlaceholder,
+        placeholder: localization.placeholder,
+        backspaceRemoves: false,
+        disabled: false,
+        multi: true,
+        matchPos: "any",
+        inputProps: {autoComplete: 'off'}
+      };
+
+      return (<div><Select {...selectAttr}/></div>);
+    });
+
+
+
     return (
       <div id="quickColumns">
         <span>{be5.messages.otherColumns}:</span>
-        {checks}
+        {this.props.layout && this.props.layout.quickType === "select" ? select() :checks}
       </div>
     )
   }

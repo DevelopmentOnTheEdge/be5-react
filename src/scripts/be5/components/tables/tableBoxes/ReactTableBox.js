@@ -295,7 +295,7 @@ class ReactTableBox extends Component {
         <OperationBox ref="operations" operations={attributes.operations} onOperationClick={this.onOperationClick}
                       hasRows={attributes.rows.length !== 0}/>
         <QuickColumns ref="quickColumns" columns={attributes.columns} firstRow={attributes.rows[0].cells}
-                      table={this.refs.table} selectable={attributes.selectable}/>
+                      table={this.refs.table} selectable={attributes.selectable} layout={attributes.layout}/>
         <div className="scroll">
           <table
             id={"table" + this.props.value.meta._ts_}
