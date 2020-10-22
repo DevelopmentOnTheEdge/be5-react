@@ -87,13 +87,16 @@ exports[`FormTable 1`] = `
           <div
             id="quickColumns"
           >
-            <span>
+            <span
+              id="checkbox-container"
+            >
               Other columns
               :
             </span>
             <span>
               <input
                 checked={false}
+                className="checkbox-input"
                 id="quick0"
                 onChange={[Function]}
                 type="checkbox"
@@ -151,13 +154,16 @@ exports[`Table 1`] = `
     <div
       id="quickColumns"
     >
-      <span>
+      <span
+        id="checkbox-container"
+      >
         Other columns
         :
       </span>
       <span>
         <input
           checked={false}
+          className="checkbox-input"
           id="quick0"
           onChange={[Function]}
           type="checkbox"
@@ -212,13 +218,16 @@ exports[`Table on MAIN_DOCUMENT 1`] = `
     <div
       id="quickColumns"
     >
-      <span>
+      <span
+        id="checkbox-container"
+      >
         Other columns
         :
       </span>
       <span>
         <input
           checked={false}
+          className="checkbox-input"
           id="quick0"
           onChange={[Function]}
           type="checkbox"
@@ -403,13 +412,16 @@ exports[`TableForm 1`] = `
           <div
             id="quickColumns"
           >
-            <span>
+            <span
+              id="checkbox-container"
+            >
               Other columns
               :
             </span>
             <span>
               <input
                 checked={false}
+                className="checkbox-input"
                 id="quick0"
                 onChange={[Function]}
                 type="checkbox"
@@ -481,13 +493,16 @@ exports[`TableFormRow 1`] = `
             <div
               id="quickColumns"
             >
-              <span>
+              <span
+                id="checkbox-container"
+              >
                 Other columns
                 :
               </span>
               <span>
                 <input
                   checked={false}
+                  className="checkbox-input"
                   id="quick0"
                   onChange={[Function]}
                   type="checkbox"
@@ -505,6 +520,199 @@ exports[`TableFormRow 1`] = `
               className="row data-table-wrapper"
             />
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TableWithQuickColumnsAsSelect 1`] = `
+<div
+  className="table-form"
+>
+  <div
+    className="document-content"
+    id="document-content___table"
+  >
+    <div>
+      <div
+        className="table-component companies_All-records"
+      >
+        <h1
+          className="table-component__title"
+        >
+          Организации: Общие сведения
+        </h1>
+        <div
+          className="operationList"
+        >
+          <button
+            className="btn btn-secondary btn-secondary-old btn-sm"
+            disabled={true}
+            onClick={[Function]}
+          >
+            Редактировать
+          </button>
+           
+          <button
+            className="btn btn-secondary btn-secondary-old btn-sm"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Добавить
+          </button>
+        </div>
+        <div
+          className="table-wrap"
+        >
+          <div
+            className="d-flex flex-row align-items-center"
+            id="quickColumns"
+          >
+            <div>
+              Other columns
+              :
+            </div>
+            <div
+              className="select-container ml-2"
+            >
+              <div
+                className="Select has-value is-clearable is-searchable Select--multi"
+                style={undefined}
+              >
+                <input
+                  disabled={false}
+                  name="quick-select-All records"
+                  type="hidden"
+                  value="1"
+                />
+                <div
+                  className="Select-control"
+                  onKeyDown={[Function]}
+                  onMouseDown={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  style={undefined}
+                >
+                  <div
+                    className="Select-multi-value-wrapper"
+                    id="react-select-2--value"
+                  >
+                    <div
+                      className="Select-value"
+                      style={undefined}
+                      title={undefined}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="Select-value-icon"
+                        onMouseDown={[Function]}
+                        onTouchEnd={[Function]}
+                        onTouchMove={[Function]}
+                        onTouchStart={[Function]}
+                      >
+                        ×
+                      </span>
+                      <span
+                        aria-selected="true"
+                        className="Select-value-label"
+                        id="react-select-2--value-0"
+                        role="option"
+                      >
+                        Значение
+                        <span
+                          className="Select-aria-only"
+                        >
+                           
+                        </span>
+                      </span>
+                    </div>
+                    <div
+                      className="Select-input"
+                      style={
+                        Object {
+                          "display": "inline-block",
+                        }
+                      }
+                    >
+                      <input
+                        aria-activedescendant="react-select-2--value"
+                        aria-describedby={undefined}
+                        aria-expanded="false"
+                        aria-haspopup="false"
+                        aria-label={undefined}
+                        aria-labelledby={undefined}
+                        aria-owns=""
+                        autoComplete="off"
+                        className={undefined}
+                        id="quick-select-All records"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        required={false}
+                        role="combobox"
+                        style={
+                          Object {
+                            "boxSizing": "content-box",
+                            "width": "5px",
+                          }
+                        }
+                        tabIndex={undefined}
+                        value=""
+                      />
+                      <div
+                        style={
+                          Object {
+                            "height": 0,
+                            "left": 0,
+                            "overflow": "scroll",
+                            "position": "absolute",
+                            "top": 0,
+                            "visibility": "hidden",
+                            "whiteSpace": "pre",
+                          }
+                        }
+                      >
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    aria-label="Clear all"
+                    className="Select-clear-zone"
+                    onMouseDown={[Function]}
+                    onTouchEnd={[Function]}
+                    onTouchMove={[Function]}
+                    onTouchStart={[Function]}
+                    title="Clear all"
+                  >
+                    <span
+                      className="Select-clear"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "&times;",
+                        }
+                      }
+                    />
+                  </span>
+                  <span
+                    className="Select-arrow-zone"
+                    onMouseDown={[Function]}
+                  >
+                    <span
+                      className="Select-arrow"
+                      onMouseDown={[Function]}
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="row data-table-wrapper"
+          />
         </div>
       </div>
     </div>

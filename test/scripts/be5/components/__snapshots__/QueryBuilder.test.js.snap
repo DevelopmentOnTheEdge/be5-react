@@ -144,13 +144,16 @@ exports[`snapshot 1`] = `
                   <div
                     id="quickColumns"
                   >
-                    <span>
+                    <span
+                      id="checkbox-container"
+                    >
                       Other columns
                       :
                     </span>
                     <span>
                       <input
                         checked={false}
+                        className="checkbox-input"
                         id="quick0"
                         onChange={[Function]}
                         type="checkbox"

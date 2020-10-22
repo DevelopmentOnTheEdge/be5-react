@@ -98,6 +98,16 @@ test('TableForm', () => {
   );
   expect(component.toJSON()).toMatchSnapshot();
 });
+test('TableWithQuickColumnsAsSelect', () => {
+  const jsdomAlert = window.alert;  // remember the jsdom alert
+  window.alert = () => {};
+  const component = renderer.create(
+    <TestProvider>
+      <TableForm value={testData.tableWithQuickColumnsAsSelect} frontendParams={{documentName: 'test'}} />
+    </TestProvider>
+  );
+  expect(component.toJSON()).toMatchSnapshot();
+});
 
 test('FormTable', () => {
   const component = renderer.create(

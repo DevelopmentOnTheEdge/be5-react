@@ -21,15 +21,20 @@
   color: #363b40;
 }
 
-#quickColumns span {
+#quickColumns span#checkbox-container {
   padding: 0 8px 0 0;
   display: inline-block;
 }
-#quickColumns input {
+#quickColumns input.checkbox-input {
   top: 2px;
   position: relative;
   margin-right: 3px;
 }
+*
+#quickColumns div.select-container {
+  min-width: 302px;
+}
+
 #quickColumns {
   margin: 0.7rem 0;
 }

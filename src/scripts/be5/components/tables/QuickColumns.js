@@ -89,8 +89,8 @@ class QuickColumns extends React.Component {
       const column = this.props.columns[cell.columnId];
       const title = column.title.replace(/<br\s*[\/]?>/gi, " ");
       return (
-        <span key={idx}>
-            <input id={"quick" + idx} type="checkbox" checked={cell.visible}
+          <span key={idx}>
+            <input className="checkbox-input" id={"quick" + idx} type="checkbox" checked={cell.visible}
                    onChange={() => this.quickHandleChange(idx)}/>
             <label htmlFor={"quick" + idx} className="rowIndex">{title} </label>
         </span>
@@ -103,7 +103,7 @@ class QuickColumns extends React.Component {
       const id = "quick-select-" + this.props.page;
       const options = [];
       const value = [];
-      const localization = be5.messages.property
+      const localization = be5.messages.property || {};//empty object for tests
 
       this.state.quickColumns.forEach((cell, idx) => {
         const column = this.props.columns[cell.columnId];
@@ -130,20 +130,25 @@ class QuickColumns extends React.Component {
         disabled: false,
         multi: true,
         matchPos: "any",
-        inputProps: {autoComplete: 'off'}
+        inputProps: {autoComplete: 'off'},
       };
 
-      return (<div><Select {...selectAttr}/></div>);
+      return (<Select {...selectAttr}/>);
     });
+    const getQuickColumns = () => {
+      if (this.props.layout && this.props.layout.quickType === "select") {
+        return <div id="quickColumns" className="d-flex flex-row align-items-center" >
+          <div>{be5.messages.otherColumns}:</div><div className="select-container ml-2" >{select()}</div>
+        </div>
 
-
-
-    return (
-      <div id="quickColumns">
-        <span>{be5.messages.otherColumns}:</span>
-        {this.props.layout && this.props.layout.quickType === "select" ? select() :checks}
-      </div>
-    )
+      } else {
+        return <div id="quickColumns">
+          <span id="checkbox-container">{be5.messages.otherColumns}:</span>
+          {checks}
+        </div>
+      }
+    }
+    return (getQuickColumns())
   }
 
   updateDataTableQuickColumns() {
