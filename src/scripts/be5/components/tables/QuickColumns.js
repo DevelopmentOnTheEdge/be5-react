@@ -1,7 +1,36 @@
-import React, {Component} from 'react';
+import React from 'react';
 import be5 from '../../be5';
 import bus from "../../core/bus";
-import Select from 'react-select';
+import Select, {Option} from 'react-select';
+
+
+class CheckBoxOption extends React.Component {
+  constructor(props) {
+    super(props);
+    this.checkBoxOnChange = this.checkBoxOnChange.bind(this)
+  };
+
+
+  checkBoxOnChange(){
+    this.props.option.quickHandleChange(this.props.option.idx)
+  }
+
+  render() {
+    const {label, columnId, checked} = this.props.option
+    return (
+
+        <div className="Select-value" title={label}>
+              <span className="Select-value-label">
+                  <input type="checkBox" id={"quick" + columnId} checked={checked}
+                         onChange={ () => this.checkBoxOnChange()}/>
+                  <label htmlFor={"quick" + columnId}>{label}</label>
+              </span>
+        </div>
+    )
+  }
+}
+
+
 
 class QuickColumns extends React.Component {
   constructor(props) {
@@ -10,6 +39,7 @@ class QuickColumns extends React.Component {
     this.state = this.createStateFromProps(this.props);
     this.updateDataTableQuickColumns = this.updateDataTableQuickColumns.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
+    this.quickHandleChange = this.quickHandleChange.bind(this);
   };
 
   componentDidMount() {
@@ -99,7 +129,6 @@ class QuickColumns extends React.Component {
 
 
     const select = (() => {
-
       const id = "quick-select-" + this.props.page;
       const options = [];
       const value = [];
@@ -108,7 +137,13 @@ class QuickColumns extends React.Component {
       this.state.quickColumns.forEach((cell, idx) => {
         const column = this.props.columns[cell.columnId];
         const title = column.title.replace(/<br\s*[\/]?>/gi, " ");
-        options.push({value: cell.columnId, label: title});
+        options.push({
+          idx: idx,
+          columnId: cell.columnId,
+          label: title,
+          checked: cell.visible,
+          quickHandleChange: this.quickHandleChange
+        });
         if (cell.visible) {
           value.push(cell.columnId)
         }
@@ -131,6 +166,8 @@ class QuickColumns extends React.Component {
         multi: true,
         matchPos: "any",
         inputProps: {autoComplete: 'off'},
+        width: '200px',
+        optionComponent:CheckBoxOption
       };
 
       return (<Select {...selectAttr}/>);
