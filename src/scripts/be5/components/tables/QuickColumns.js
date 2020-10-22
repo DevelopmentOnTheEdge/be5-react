@@ -137,8 +137,8 @@ class QuickColumns extends React.Component {
     });
     const getQuickColumns = () => {
       if (this.props.layout && this.props.layout.quickType === "select") {
-        return <div id="quickColumns" className="d-flex flex-row align-items-center" >
-          <div>{be5.messages.otherColumns}:</div><div className="select-container ml-2" >{select()}</div>
+        return <div id="quickColumns" className="d-flex flex-row flex-wrap align-items-center" >
+          <div>{be5.messages.otherColumns}:</div><div className="select-container ml-sm-2" >{select()}</div>
         </div>
 
       } else {

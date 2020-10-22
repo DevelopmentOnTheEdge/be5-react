@@ -567,7 +567,7 @@ exports[`TableWithQuickColumnsAsSelect 1`] = `
           className="table-wrap"
         >
           <div
-            className="d-flex flex-row align-items-center"
+            className="d-flex flex-row flex-wrap align-items-center"
             id="quickColumns"
           >
             <div>
@@ -575,7 +575,7 @@ exports[`TableWithQuickColumnsAsSelect 1`] = `
               :
             </div>
             <div
-              className="select-container ml-2"
+              className="select-container ml-sm-2"
             >
               <div
                 className="Select has-value is-clearable is-searchable Select--multi"

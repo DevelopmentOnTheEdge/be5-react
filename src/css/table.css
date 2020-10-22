@@ -30,9 +30,9 @@
   position: relative;
   margin-right: 3px;
 }
-*
+
 #quickColumns div.select-container {
-  min-width: 302px;
+  min-width: 200px;
 }
 
 #quickColumns {
