@@ -4,28 +4,37 @@ import bus from "../../core/bus";
 import Select, {Option} from 'react-select';
 
 
+//custom Option for react-select v1
+// @see https://github.com/JedWatson/react-select/blob/v1.x/examples/src/components/CustomComponents.js
 class CheckBoxOption extends React.Component {
   constructor(props) {
     super(props);
     this.checkBoxOnChange = this.checkBoxOnChange.bind(this)
   };
 
-
   checkBoxOnChange(){
-    this.props.option.quickHandleChange(this.props.option.idx)
+    this.props.option.quickHandleChange(this.props.option.idx);
   }
 
   render() {
     const {label, columnId, checked} = this.props.option
+    const quickId = "quick" + columnId;
     return (
 
+/*
         <div className="Select-value" title={label}>
-              <span className="Select-value-label">
-                  <input type="checkBox" id={"quick" + columnId} checked={checked}
-                         onChange={ () => this.checkBoxOnChange()}/>
-                  <label htmlFor={"quick" + columnId}>{label}</label>
+              <span className="Select-value-label d-flex flex-row">
+                <input type="checkBox" id={quickId} name= {quickId} checked={checked}
+                            onChange={() => this.checkBoxOnChange()}/>
+                <label htmlFor={quickId}>{label}</label>
               </span>
         </div>
+*/
+              <div className="d-flex flex-row align-items-center">
+                <div className="ml-2"><input type="checkBox" id={quickId} name= {quickId} checked={checked}
+                            onChange={() => this.checkBoxOnChange()}/></div>
+                <div className="ml-2 mt-1"><label htmlFor={quickId}>{label}</label></div>
+              </div>
     )
   }
 }
@@ -38,7 +47,6 @@ class QuickColumns extends React.Component {
 
     this.state = this.createStateFromProps(this.props);
     this.updateDataTableQuickColumns = this.updateDataTableQuickColumns.bind(this);
-    this.handleChangeSelect = this.handleChangeSelect.bind(this);
     this.quickHandleChange = this.quickHandleChange.bind(this);
   };
 
@@ -81,33 +89,6 @@ class QuickColumns extends React.Component {
     });
     this.forceUpdate();
   }
-
-  handleChangeSelect(options) {
-    const selectedValues = options.map(option => option.value);
-    const visibleColumns = this.state.quickColumns.filter(c => c.visible).map(c => c.columnId);
-    let indexes = [];
-    let visible = selectedValues.length > visibleColumns.length;
-
-    if (selectedValues.length > visibleColumns.length)
-      indexes = selectedValues.filter(idx => !visibleColumns.includes(idx));
-    else if (selectedValues.length < visibleColumns.length)
-      indexes = visibleColumns.filter(idx => !selectedValues.includes(idx));
-
-
-    indexes.forEach(idx => {
-      const arrayIdx = this.state.quickColumns.findIndex(item => item.columnId === idx);
-      if (arrayIdx > -1) {
-        this.state.quickColumns[arrayIdx].visible = visible;
-        be5.net.request("quick", {
-          "table_name": this.props.category,
-          "query_name": this.props.page,
-          "column_name": this.props.columns[idx].name,
-          "quick": visible ? "yes" : "no"
-        });
-        this.forceUpdate();
-      }
-    });
-  };
 
   render() {
     if (this.state.quickColumns.length === 0) {
@@ -154,7 +135,7 @@ class QuickColumns extends React.Component {
         name: id,
         value: value,
         options: options,
-        onChange: this.handleChangeSelect,
+        // onChange: this.handleChangeSelect,
         clearAllText: localization.clearAllText,
         clearValueText: localization.clearValueText,
         noResultsText: localization.noResultsText,
