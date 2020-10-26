@@ -578,15 +578,9 @@ exports[`TableWithQuickColumnsAsSelect 1`] = `
               className="select-container ml-sm-2"
             >
               <div
-                className="Select has-value is-clearable is-searchable Select--multi"
+                className="Select is-clearable is-searchable Select--multi"
                 style={undefined}
               >
-                <input
-                  disabled={false}
-                  name="quick-select-All records"
-                  type="hidden"
-                  value="1"
-                />
                 <div
                   className="Select-control"
                   onKeyDown={[Function]}
@@ -601,33 +595,9 @@ exports[`TableWithQuickColumnsAsSelect 1`] = `
                     id="react-select-2--value"
                   >
                     <div
-                      className="Select-value"
-                      style={undefined}
-                      title={undefined}
+                      className="Select-placeholder"
                     >
-                      <span
-                        aria-hidden="true"
-                        className="Select-value-icon"
-                        onMouseDown={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                      >
-                        ×
-                      </span>
-                      <span
-                        aria-selected="true"
-                        className="Select-value-label"
-                        id="react-select-2--value-0"
-                        role="option"
-                      >
-                        Значение
-                        <span
-                          className="Select-aria-only"
-                        >
-                           
-                        </span>
-                      </span>
+                      Select...
                     </div>
                     <div
                       className="Select-input"
@@ -679,24 +649,6 @@ exports[`TableWithQuickColumnsAsSelect 1`] = `
                       </div>
                     </div>
                   </div>
-                  <span
-                    aria-label="Clear all"
-                    className="Select-clear-zone"
-                    onMouseDown={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchMove={[Function]}
-                    onTouchStart={[Function]}
-                    title="Clear all"
-                  >
-                    <span
-                      className="Select-clear"
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "&times;",
-                        }
-                      }
-                    />
-                  </span>
                   <span
                     className="Select-arrow-zone"
                     onMouseDown={[Function]}
