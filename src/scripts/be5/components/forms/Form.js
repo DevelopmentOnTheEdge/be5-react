@@ -34,7 +34,7 @@ class Form extends React.Component {
     addUrlHandlers($('.be5-form'), this.props.frontendParams.documentName);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState(Object.assign({}, {
       values: nextProps.value.data.attributes.bean.values,
       wasValidated: false,

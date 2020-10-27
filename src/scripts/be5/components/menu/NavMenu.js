@@ -19,11 +19,11 @@ class NavMenu extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchMenu();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {loggedIn, currentRoles} = this.props.user;
     if (!arraysEqual(currentRoles, nextProps.user.currentRoles) || loggedIn !== nextProps.user.loggedIn) {
       this.props.fetchMenu();

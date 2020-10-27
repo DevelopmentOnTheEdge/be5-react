@@ -104,6 +104,7 @@ exports[`snapshot 1`] = `
       onMouseDown={[Function]}
       onTouchEnd={[Function]}
       onTouchStart={[Function]}
+      role="presentation"
       style={Object {}}
     />
     <div

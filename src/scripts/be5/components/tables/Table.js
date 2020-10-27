@@ -42,7 +42,7 @@ class Table extends Component {
     setTableFilter(attr.category, attr.page, attr.parameters);
   }
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     if (this.state.selectedRows.length > 0) this.setState({selectedRows: []});
   }
 

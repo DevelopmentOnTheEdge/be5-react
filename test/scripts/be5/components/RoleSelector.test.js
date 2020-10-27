@@ -40,11 +40,11 @@ test('calls', () => {
   expect(handle.mock.calls[1]).toEqual(
     ["Role1"]);
 
-  wrapper.find('.enable-all').simulate('click');
+  wrapper.find('.enable-all').at(1).simulate('click');
   expect(handle.mock.calls[2]).toEqual(
     ["Administrator,Manager,Role1,Role2"]);
 
-  wrapper.find('.disable-all').simulate('click');
+  wrapper.find('.disable-all').at(1).simulate('click');
   expect(handle.mock.calls[3]).toEqual(
     [""]);
 

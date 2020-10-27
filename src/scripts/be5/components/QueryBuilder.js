@@ -47,7 +47,7 @@ class QueryBuilder extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.update(nextProps.value);
   }
 

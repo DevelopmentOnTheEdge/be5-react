@@ -18,7 +18,7 @@ class Document extends React.Component {
     this.refresh = this.refresh.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if ('value' in nextProps &&
       (!this.props.value || this.props.value.meta === undefined ||
         !nextProps.value || nextProps.value.meta === undefined ||

@@ -23,11 +23,11 @@ class Menu extends Component {
     this._handleQueryChange = this._handleQueryChange.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchMenu();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {currentRoles, fetchMenu} = this.props;
     if (!arraysEqual(currentRoles, nextProps.currentRoles)) {
       fetchMenu();

@@ -54,7 +54,7 @@ class QuickColumns extends React.Component {
     bus.listen("updateDataTableQuickColumns", this.updateDataTableQuickColumns);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.meta._ts_ > this.props.meta._ts_) {
       this.setState(this.createStateFromProps(nextProps));
     }
@@ -97,6 +97,10 @@ class QuickColumns extends React.Component {
     this.updateDataTableQuickColumns();
 
     const checks = this.state.quickColumns.map(function (cell, idx) {
+      console.log("this.props.columns");
+      console.log(this.props.columns);
+      console.log("cell.columnId");
+      console.log(cell.columnId);
       const column = this.props.columns[cell.columnId];
       const title = column.title.replace(/<br\s*[\/]?>/gi, " ");
       return (
