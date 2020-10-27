@@ -235,15 +235,11 @@ exports[`InlineMiniForm 1`] = `
       <input
         className="property-input form-control"
         id="companyIDPropertyInput"
-        maxLength={undefined}
         onBlur={[Function]}
         onChange={[Function]}
         onInput={[Function]}
         onInvalid={[Function]}
-        pattern={undefined}
-        placeholder={undefined}
         required={true}
-        size={undefined}
         type="text"
         value=""
       />
@@ -334,15 +330,11 @@ exports[`SubmitOnChangeForm 1`] = `
   <input
     className="property-input form-control"
     id="companyIDPropertyInput"
-    maxLength={undefined}
     onBlur={[Function]}
     onChange={[Function]}
     onInput={[Function]}
     onInvalid={[Function]}
-    pattern={undefined}
-    placeholder={undefined}
     required={true}
-    size={undefined}
     type="text"
     value=""
   />

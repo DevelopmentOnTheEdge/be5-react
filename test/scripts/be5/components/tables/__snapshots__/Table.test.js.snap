@@ -288,10 +288,7 @@ exports[`Table with topForm 1`] = `
               onChange={[Function]}
               onInput={[Function]}
               onInvalid={[Function]}
-              pattern={undefined}
-              placeholder={undefined}
               required={false}
-              size={undefined}
               type="text"
               value=""
             />
@@ -308,16 +305,12 @@ exports[`Table with topForm 1`] = `
             <input
               className="property-input form-control form-control-sm"
               id="_search_presets_PropertyInput"
-              maxLength={undefined}
               onBlur={[Function]}
               onChange={[Function]}
               onInput={[Function]}
               onInvalid={[Function]}
-              pattern={undefined}
-              placeholder={undefined}
               readOnly="readonly"
               required={false}
-              size={undefined}
               type="text"
               value=""
             />
@@ -332,7 +325,6 @@ exports[`Table with topForm 1`] = `
               id="_search_PropertyInput"
               onChange={[Function]}
               required={false}
-              size={undefined}
               type="checkbox"
             />
             <label
@@ -579,7 +571,6 @@ exports[`TableWithQuickColumnsAsSelect 1`] = `
             >
               <div
                 className="Select is-clearable is-searchable Select--multi"
-                style={undefined}
               >
                 <div
                   className="Select-control"
@@ -588,7 +579,6 @@ exports[`TableWithQuickColumnsAsSelect 1`] = `
                   onTouchEnd={[Function]}
                   onTouchMove={[Function]}
                   onTouchStart={[Function]}
-                  style={undefined}
                 >
                   <div
                     className="Select-multi-value-wrapper"
@@ -609,14 +599,10 @@ exports[`TableWithQuickColumnsAsSelect 1`] = `
                     >
                       <input
                         aria-activedescendant="react-select-2--value"
-                        aria-describedby={undefined}
                         aria-expanded="false"
                         aria-haspopup="false"
-                        aria-label={undefined}
-                        aria-labelledby={undefined}
                         aria-owns=""
                         autoComplete="off"
-                        className={undefined}
                         id="quick-select-All records"
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -629,7 +615,6 @@ exports[`TableWithQuickColumnsAsSelect 1`] = `
                             "width": "5px",
                           }
                         }
-                        tabIndex={undefined}
                         value=""
                       />
                       <div
