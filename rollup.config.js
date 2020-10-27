@@ -1,9 +1,9 @@
-import nodeResolve from 'rollup-plugin-node-resolve';
-import babel       from 'rollup-plugin-babel'
-import commonjs    from 'rollup-plugin-commonjs'
-import replace     from 'rollup-plugin-replace'
-import resolve     from 'rollup-plugin-node-resolve'
-import imageBase64 from 'rollup-plugin-image-base64';
+import nodeResolve from '@rollup/plugin-node-resolve';
+import babel       from '@rollup/plugin-babel'
+import commonjs    from '@rollup/plugin-commonjs'
+import replace     from '@rollup/plugin-replace'
+import resolve     from '@rollup/plugin-node-resolve'
+import image       from '@rollup/plugin-image';
 import pkg         from './package.json'
 
 const external = Object.keys(pkg.dependencies || {});
@@ -21,14 +21,15 @@ export default {
     file: pkg.main,
     format: 'es'
   },
-  name: pkg.main,
+  // name: pkg.main,
   plugins: [
     nodeResolve(),
     babel({
       babelrc: false,
+      babelHelpers: 'external',
       exclude: 'node_modules/**',
-      presets: [ [ 'env', { modules: false } ], 'react' ],
-      plugins: [ 'external-helpers' ]
+      presets: [ [ '@babel/env', { modules: false } ], '@babel/react' ],
+      plugins: [ '@babel/plugin-external-helpers' ]
     }),
     commonjs(),
     replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
@@ -38,6 +39,6 @@ export default {
       main: true,
       browser: true,
     }),
-    imageBase64()
+    image()
   ]
 }
