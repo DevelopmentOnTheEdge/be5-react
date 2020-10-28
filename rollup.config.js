@@ -26,10 +26,11 @@ export default {
     nodeResolve(),
     babel({
       babelrc: false,
-      babelHelpers: 'external',
+      babelHelpers: 'inline',
       exclude: 'node_modules/**',
       presets: [ [ '@babel/env', { modules: false } ], '@babel/react' ],
-      plugins: [ '@babel/plugin-external-helpers' ]
+      // todo make babelHelpers: external, now insert undefinied var babelHelpers
+      // plugins: [ '@babel/external-helpers' ]
     }),
     commonjs(),
     replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
