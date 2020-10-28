@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const env  = require('yargs').argv.env; // use --env with webpack 2
-const loaders = require('./webpack.common').loaders;
+const rules = require('./webpack.common').rules;
 const externals = require('./webpack.common').externals;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
@@ -10,9 +10,9 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 
-loaders.push({
+rules.push({
     test: /\.scss$/,
-    loader: ExtractTextPlugin.extract({fallback: 'style-loader', use : 'css-loader?sourceMap&localIdentName=[local]___[hash:base64:5]!sass-loader?outputStyle=expanded'}),
+    use: ExtractTextPlugin.extract({fallback: 'style-loader', use : 'css-loader?sourceMap&localIdentName=[local]___[hash:base64:5]!sass-loader?outputStyle=expanded'}),
     exclude: ['node_modules']
 });
 
@@ -41,7 +41,7 @@ let config = {
         extensions: ['.js', '.jsx']
     },
     module: {
-        loaders
+        rules
     },
     plugins: [
         //new BundleAnalyzerPlugin(),

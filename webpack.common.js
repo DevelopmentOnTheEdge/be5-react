@@ -1,12 +1,12 @@
 module.exports = {
-  loaders: [
+  rules: [
     {
       test: /\.jsx?$/,
       exclude: /(node_modules|bower_components|public\/)/,
       use: [{
         loader: 'babel-loader',
         options: {
-          presets: [['env', {modules: false}]]
+          presets: [['@babel/env', {modules: false}]]
         }
       }]
     },
