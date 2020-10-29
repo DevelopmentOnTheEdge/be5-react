@@ -27,7 +27,6 @@ module.exports = {
           }
         }
       ],
-      exclude: [/node_modules/]
     },
     {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,

@@ -27,7 +27,6 @@ rules.push({
             }}
         }
     ],
-    exclude: [/node_modules/]
 });
 // ExtractTextPlugin.extract({fallback: 'style-loader', use : 'css-loader?sourceMap&localIdentName=[local]___[hash:base64:5]!sass-loader?outputStyle=expanded'}),
 
@@ -60,7 +59,6 @@ module.exports = env => {
         new webpack.ProgressPlugin()
     ];
     if(env.min) {
-        plugins.push(new webpack.optimize.UglifyJsPlugin());
         plugins.push(new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         }));
@@ -69,6 +67,7 @@ module.exports = env => {
 
     return {
         mode: "production",
+        optimization: {minimize: env.min},
         entry: {
             'be5-react': ['babel-polyfill', './src/scripts/be5/main.js']
         },
@@ -83,8 +82,10 @@ module.exports = env => {
         },
         devtool: 'inline-source-map',
         resolve: {
-            extensions: ['.js', '.jsx']
+            extensions: ['.js', '.jsx','.css']
         },
+
+
         module: {
             rules
         },
