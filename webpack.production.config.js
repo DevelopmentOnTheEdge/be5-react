@@ -16,11 +16,15 @@ rules.push({
         MiniCssExtractPlugin.loader,
         {
             loader: 'css-loader',
-            options: {localIdentName: '[local]___[hash:base64:5]'}
+            options: { modules : {
+                localIdentName: '[local]___[hash:base64:5]'
+            }}
         },
         {
             loader: 'sass-loader',
-            options: {outputStyle: 'expanded'}
+            options: {sassOptions: {
+                outputStyle: 'expanded'
+            }}
         }
     ],
     exclude: [/node_modules/]
@@ -53,6 +57,7 @@ module.exports = env => {
             }
         }),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|ru/),
+        new webpack.ProgressPlugin()
     ];
     if(env.min) {
         plugins.push(new webpack.optimize.UglifyJsPlugin());
