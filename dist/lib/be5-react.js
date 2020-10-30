@@ -193,8 +193,11 @@ var ORDER_COLUMN = "_orderColumn_";
 var ORDER_DIR = "_orderDir_";
 var DEFAULT_TABLE_BOX = "dataTable";
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var FrontendAction = function FrontendAction(type, value) {
-  babelHelpers.classCallCheck(this, FrontendAction);
+  _classCallCheck(this, FrontendAction);
+
   this.type = type;
   this.value = value;
 };
@@ -466,6 +469,7 @@ var getActionsMap = function getActionsMap(actionsArrayOrOneObject) {
   return map;
 };
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var getResourceByID = function getResourceByID(included, id) {
   if (included === undefined) return undefined;
 
@@ -579,7 +583,7 @@ var processHashUrlForDocument = function processHashUrlForDocument(e, documentNa
 };
 var loadDocumentByUrl = function loadDocumentByUrl(url, frontendParams) {
   var attr = be5.url.parse(url);
-  var params = Object.assign(attr.named, babelHelpers.defineProperty({}, TIMESTAMP_PARAM, new Date().getTime()));
+  var params = Object.assign(attr.named, _defineProperty({}, TIMESTAMP_PARAM, new Date().getTime()));
   be5.net.request(be5.url.form(attr.positional), params, function (json) {
     changeDocument(frontendParams.documentName, {
       value: json,
@@ -852,6 +856,7 @@ var hashUrlIsEmpty = function hashUrlIsEmpty(url) {
   return url === '' || url === '#' || url === '#!';
 };
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 var be5 = {
   store: undefined,
   getStoreState: function getStoreState() {
@@ -1046,7 +1051,7 @@ var be5 = {
       return API_URL_PREFIX + path;
     },
     paramString: function paramString(params) {
-      if (babelHelpers["typeof"](params) !== 'object') {
+      if (_typeof(params) !== 'object') {
         return '{}';
       }
 
@@ -1098,8 +1103,8 @@ var be5 = {
             };
           }
 
-          if (babelHelpers["typeof"](data) === 'object' && data.type === 'error') {
-            if (babelHelpers["typeof"](data.value) !== 'object') {
+          if (_typeof(data) === 'object' && data.type === 'error') {
+            if (_typeof(data.value) !== 'object') {
               data.value = {
                 message: be5.messages.errorInvalidErrorResponse,
                 code: 'CLIENT_ERROR'
@@ -1200,6 +1205,18 @@ var be5 = {
 //   return copy;
 // },
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 var Role = function Role(props) {
   var id = props.name + "-checkbox";
   return /*#__PURE__*/React.createElement("div", {
@@ -1222,7 +1239,8 @@ Role.propTypes = {
 
 var RoleSelector = function RoleSelector(props) {
   function onRoleChange(name) {
-    var roles = babelHelpers.toConsumableArray(props.currentRoles);
+    var roles = _toConsumableArray(props.currentRoles);
+
     var containRoleIndex = roles.indexOf(name);
 
     if (containRoleIndex !== -1) {
@@ -1337,8 +1355,9 @@ UserControl.propTypes = {
   user: PropTypes.shape({})
 };
 
+function _defineProperty$1(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var _get = function _get(operationInfo, callback, failure) {
-  var data = Object.assign({}, operationInfo, babelHelpers.defineProperty({}, TIMESTAMP_PARAM, new Date().getTime()));
+  var data = Object.assign({}, operationInfo, _defineProperty$1({}, TIMESTAMP_PARAM, new Date().getTime()));
   $.ajax({
     url: be5.net.url('form'),
     data: data,
@@ -1369,6 +1388,9 @@ var _post = function _post(action, data, callback, failure) {
   });
 };
 
+function _typeof$1(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$1 = function _typeof(obj) { return typeof obj; }; } else { _typeof$1 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$1(obj); }
+
+function _defineProperty$2(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var loadOperation = function loadOperation(params, frontendParams) {
   _send('form', params, frontendParams);
 };
@@ -1545,12 +1567,12 @@ var getOperationInfoFromUrl = function getOperationInfoFromUrl(url) {
 
   var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var attr = be5.url.parse(url);
-  var operationInfo = (_operationInfo = {}, babelHelpers.defineProperty(_operationInfo, ENTITY_NAME_PARAM, attr.positional[1]), babelHelpers.defineProperty(_operationInfo, QUERY_NAME_PARAM, attr.positional[2]), babelHelpers.defineProperty(_operationInfo, OPERATION_NAME_PARAM, attr.positional[3]), babelHelpers.defineProperty(_operationInfo, CONTEXT_PARAMS, JSON.stringify(attr.named)), _operationInfo);
+  var operationInfo = (_operationInfo = {}, _defineProperty$2(_operationInfo, ENTITY_NAME_PARAM, attr.positional[1]), _defineProperty$2(_operationInfo, QUERY_NAME_PARAM, attr.positional[2]), _defineProperty$2(_operationInfo, OPERATION_NAME_PARAM, attr.positional[3]), _defineProperty$2(_operationInfo, CONTEXT_PARAMS, JSON.stringify(attr.named)), _operationInfo);
   return getOperationInfo(operationInfo, values);
 };
 
 var _buildFormDateFromObject = function _buildFormDateFromObject(formData, data, parentKey) {
-  if (data && babelHelpers["typeof"](data) === 'object' && !(data instanceof Date) && !(data instanceof File)) {
+  if (data && _typeof$1(data) === 'object' && !(data instanceof Date) && !(data instanceof File)) {
     Object.keys(data).forEach(function (key) {
       _buildFormDateFromObject(formData, data[key], parentKey ? "".concat(parentKey, "[").concat(key, "]") : key);
     });
@@ -1762,31 +1784,50 @@ var MenuNode = function MenuNode(props) {
   }
 };
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$2(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$2 = function _typeof(obj) { return typeof obj; }; } else { _typeof$2 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$2(obj); }
+
+function _classCallCheck$1(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof$2(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 var propTypes = {
   menu: PropTypes.shape({})
 };
 
 var MenuBody = /*#__PURE__*/function (_Component) {
-  babelHelpers.inherits(MenuBody, _Component);
+  _inherits(MenuBody, _Component);
 
   var _super = _createSuper(MenuBody);
 
   function MenuBody(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, MenuBody);
+    _classCallCheck$1(this, MenuBody);
+
     _this = _super.call(this, props);
     _this.state = {
       query: ''
     };
-    _this._getFilteredRoot = _this._getFilteredRoot.bind(babelHelpers.assertThisInitialized(_this));
+    _this._getFilteredRoot = _this._getFilteredRoot.bind(_assertThisInitialized(_this));
     return _this;
   }
 
-  babelHelpers.createClass(MenuBody, [{
+  _createClass(MenuBody, [{
     key: "render",
     value: function render() {
       if (this.props.menu === null) {
@@ -1844,33 +1885,53 @@ var MenuBody = /*#__PURE__*/function (_Component) {
       return filterByTitle(this.props.menu.root, this.state.query);
     }
   }]);
+
   return MenuBody;
 }(Component);
 
 MenuBody.propTypes = propTypes;
 
-function _createSuper$1(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$3(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$3 = function _typeof(obj) { return typeof obj; }; } else { _typeof$3 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$3(obj); }
+
+function _classCallCheck$2(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$1(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$1(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$1(Constructor.prototype, protoProps); if (staticProps) _defineProperties$1(Constructor, staticProps); return Constructor; }
+
+function _inherits$1(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$1(subClass, superClass); }
+
+function _setPrototypeOf$1(o, p) { _setPrototypeOf$1 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$1(o, p); }
+
+function _createSuper$1(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+
+function _possibleConstructorReturn$1(self, call) { if (call && (_typeof$3(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$1(self); }
+
+function _assertThisInitialized$1(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$1() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$1(o) { _getPrototypeOf$1 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$1(o); }
+
 var MenuSearchField = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(MenuSearchField, _React$Component);
+  _inherits$1(MenuSearchField, _React$Component);
 
   var _super = _createSuper$1(MenuSearchField);
 
   function MenuSearchField(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, MenuSearchField);
+    _classCallCheck$2(this, MenuSearchField);
+
     _this = _super.call(this, props);
     _this.state = {
       value: ''
     };
-    _this._handleChange = _this._handleChange.bind(babelHelpers.assertThisInitialized(_this));
+    _this._handleChange = _this._handleChange.bind(_assertThisInitialized$1(_this));
     return _this;
   }
 
-  babelHelpers.createClass(MenuSearchField, [{
+  _createClass$1(MenuSearchField, [{
     key: "render",
     value: function render() {
       return /*#__PURE__*/React.createElement("input", {
@@ -1890,6 +1951,7 @@ var MenuSearchField = /*#__PURE__*/function (_React$Component) {
       this.props.onChange(event.target.value);
     }
   }]);
+
   return MenuSearchField;
 }(React.Component);
 
@@ -1897,9 +1959,27 @@ MenuSearchField.propTypes = {
   onChange: PropTypes.func.isRequired
 };
 
-function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$4(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$4 = function _typeof(obj) { return typeof obj; }; } else { _typeof$4 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$4(obj); }
+
+function _classCallCheck$3(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$2(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$2(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$2(Constructor.prototype, protoProps); if (staticProps) _defineProperties$2(Constructor, staticProps); return Constructor; }
+
+function _inherits$2(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$2(subClass, superClass); }
+
+function _setPrototypeOf$2(o, p) { _setPrototypeOf$2 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$2(o, p); }
+
+function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = _getPrototypeOf$2(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$2(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$2(this, result); }; }
+
+function _possibleConstructorReturn$2(self, call) { if (call && (_typeof$4(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$2(self); }
+
+function _assertThisInitialized$2(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$2() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$2(o) { _getPrototypeOf$2 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$2(o); }
 var propTypes$1 = {
   menu: PropTypes.shape({}),
   currentRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -1911,20 +1991,21 @@ var defaultProps = {
 };
 
 var Menu = /*#__PURE__*/function (_Component) {
-  babelHelpers.inherits(Menu, _Component);
+  _inherits$2(Menu, _Component);
 
   var _super = _createSuper$2(Menu);
 
   function Menu(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, Menu);
+    _classCallCheck$3(this, Menu);
+
     _this = _super.call(this, props);
-    _this._handleQueryChange = _this._handleQueryChange.bind(babelHelpers.assertThisInitialized(_this));
+    _this._handleQueryChange = _this._handleQueryChange.bind(_assertThisInitialized$2(_this));
     return _this;
   }
 
-  babelHelpers.createClass(Menu, [{
+  _createClass$2(Menu, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       this.props.fetchMenu();
@@ -1961,6 +2042,7 @@ var Menu = /*#__PURE__*/function (_Component) {
       });
     }
   }]);
+
   return Menu;
 }(Component);
 
@@ -1998,25 +2080,44 @@ var MenuFooter = function MenuFooter() {
   });
 };
 
-function _createSuper$3(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$3(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$5(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$5 = function _typeof(obj) { return typeof obj; }; } else { _typeof$5 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$5(obj); }
+
+function _classCallCheck$4(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$3(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$3(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$3(Constructor.prototype, protoProps); if (staticProps) _defineProperties$3(Constructor, staticProps); return Constructor; }
+
+function _inherits$3(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$3(subClass, superClass); }
+
+function _setPrototypeOf$3(o, p) { _setPrototypeOf$3 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$3(o, p); }
+
+function _createSuper$3(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$3(); return function _createSuperInternal() { var Super = _getPrototypeOf$3(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$3(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$3(this, result); }; }
+
+function _possibleConstructorReturn$3(self, call) { if (call && (_typeof$5(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$3(self); }
+
+function _assertThisInitialized$3(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$3() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$3(o) { _getPrototypeOf$3 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$3(o); }
+
 var Language = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(Language, _React$Component);
+  _inherits$3(Language, _React$Component);
 
   var _super = _createSuper$3(Language);
 
   function Language(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, Language);
+    _classCallCheck$4(this, Language);
+
     _this = _super.call(this, props);
-    _this.onClick = _this.onClick.bind(babelHelpers.assertThisInitialized(_this));
+    _this.onClick = _this.onClick.bind(_assertThisInitialized$3(_this));
     return _this;
   }
 
-  babelHelpers.createClass(Language, [{
+  _createClass$3(Language, [{
     key: "onClick",
     value: function onClick(e) {
       this.props.onLanguageClick(this.props.code);
@@ -2036,6 +2137,7 @@ var Language = /*#__PURE__*/function (_React$Component) {
       }, this.props.code);
     }
   }]);
+
   return Language;
 }(React.Component);
 
@@ -2044,16 +2146,17 @@ Language.propTypes = {
 };
 
 var LanguageList = /*#__PURE__*/function (_React$Component2) {
-  babelHelpers.inherits(LanguageList, _React$Component2);
+  _inherits$3(LanguageList, _React$Component2);
 
   var _super2 = _createSuper$3(LanguageList);
 
   function LanguageList(props) {
-    babelHelpers.classCallCheck(this, LanguageList);
+    _classCallCheck$4(this, LanguageList);
+
     return _super2.call(this, props);
   }
 
-  babelHelpers.createClass(LanguageList, [{
+  _createClass$3(LanguageList, [{
     key: "render",
     value: function render() {
       var selected = this.props.data.selected;
@@ -2072,18 +2175,20 @@ var LanguageList = /*#__PURE__*/function (_React$Component2) {
       }, languageNodes);
     }
   }]);
+
   return LanguageList;
 }(React.Component);
 
 var LanguageBox = /*#__PURE__*/function (_React$Component3) {
-  babelHelpers.inherits(LanguageBox, _React$Component3);
+  _inherits$3(LanguageBox, _React$Component3);
 
   var _super3 = _createSuper$3(LanguageBox);
 
   function LanguageBox(props) {
     var _this2;
 
-    babelHelpers.classCallCheck(this, LanguageBox);
+    _classCallCheck$4(this, LanguageBox);
+
     _this2 = _super3.call(this, props);
     _this2.state = {
       data: {
@@ -2091,11 +2196,11 @@ var LanguageBox = /*#__PURE__*/function (_React$Component3) {
         selected: ''
       }
     };
-    _this2.changeLanguage = _this2.changeLanguage.bind(babelHelpers.assertThisInitialized(_this2));
+    _this2.changeLanguage = _this2.changeLanguage.bind(_assertThisInitialized$3(_this2));
     return _this2;
   }
 
-  babelHelpers.createClass(LanguageBox, [{
+  _createClass$3(LanguageBox, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       if (be5.locale.languages && be5.locale.get()) {
@@ -2158,6 +2263,7 @@ var LanguageBox = /*#__PURE__*/function (_React$Component3) {
       }));
     }
   }]);
+
   return LanguageBox;
 }(React.Component);
 
@@ -2169,21 +2275,40 @@ var SideBar = function SideBar() {
   }), /*#__PURE__*/React.createElement(MenuContainer$1, null), /*#__PURE__*/React.createElement(MenuFooter, null), /*#__PURE__*/React.createElement(LanguageBox, null));
 };
 
-function _createSuper$4(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$4(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$6(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$6 = function _typeof(obj) { return typeof obj; }; } else { _typeof$6 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$6(obj); }
+
+function _classCallCheck$5(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$4(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$4(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$4(Constructor.prototype, protoProps); if (staticProps) _defineProperties$4(Constructor, staticProps); return Constructor; }
+
+function _inherits$4(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$4(subClass, superClass); }
+
+function _setPrototypeOf$4(o, p) { _setPrototypeOf$4 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$4(o, p); }
+
+function _createSuper$4(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$4(); return function _createSuperInternal() { var Super = _getPrototypeOf$4(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$4(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$4(this, result); }; }
+
+function _possibleConstructorReturn$4(self, call) { if (call && (_typeof$6(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$4(self); }
+
+function _assertThisInitialized$4(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$4() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$4(o) { _getPrototypeOf$4 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$4(o); }
+
 var StaticPage = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(StaticPage, _React$Component);
+  _inherits$4(StaticPage, _React$Component);
 
   var _super = _createSuper$4(StaticPage);
 
   function StaticPage() {
-    babelHelpers.classCallCheck(this, StaticPage);
+    _classCallCheck$5(this, StaticPage);
+
     return _super.apply(this, arguments);
   }
 
-  babelHelpers.createClass(StaticPage, [{
+  _createClass$4(StaticPage, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       addUrlHandlers($('.staticPage'), this.props.frontendParams.documentName);
@@ -2206,6 +2331,7 @@ var StaticPage = /*#__PURE__*/function (_React$Component) {
       }));
     }
   }]);
+
   return StaticPage;
 }(React.Component);
 
@@ -2224,28 +2350,47 @@ StaticPage.propTypes = {
 };
 registerDocument("static", StaticPage);
 
-function _createSuper$5(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$5(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$7(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$7 = function _typeof(obj) { return typeof obj; }; } else { _typeof$7 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$7(obj); }
+
+function _classCallCheck$6(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$5(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$5(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$5(Constructor.prototype, protoProps); if (staticProps) _defineProperties$5(Constructor, staticProps); return Constructor; }
+
+function _inherits$5(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$5(subClass, superClass); }
+
+function _setPrototypeOf$5(o, p) { _setPrototypeOf$5 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$5(o, p); }
+
+function _createSuper$5(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$5(); return function _createSuperInternal() { var Super = _getPrototypeOf$5(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$5(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$5(this, result); }; }
+
+function _possibleConstructorReturn$5(self, call) { if (call && (_typeof$7(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$5(self); }
+
+function _assertThisInitialized$5(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$5() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$5(o) { _getPrototypeOf$5 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$5(o); }
+
 var Document$1 = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(Document, _React$Component);
+  _inherits$5(Document, _React$Component);
 
   var _super = _createSuper$5(Document);
 
   function Document(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, Document);
+    _classCallCheck$6(this, Document);
+
     _this = _super.call(this, props);
 
     _this.setStateValue(props);
 
-    _this.refresh = _this.refresh.bind(babelHelpers.assertThisInitialized(_this));
+    _this.refresh = _this.refresh.bind(_assertThisInitialized$5(_this));
     return _this;
   }
 
-  babelHelpers.createClass(Document, [{
+  _createClass$5(Document, [{
     key: "UNSAFE_componentWillReceiveProps",
     value: function UNSAFE_componentWillReceiveProps(nextProps) {
       if ('value' in nextProps && (!this.props.value || this.props.value.meta === undefined || !nextProps.value || nextProps.value.meta === undefined || nextProps.value.meta._ts_ > this.props.value.meta._ts_)) {
@@ -2427,6 +2572,7 @@ var Document$1 = /*#__PURE__*/function (_React$Component) {
       return Object.assign({}, this.state.frontendParams, this.props.frontendParams);
     }
   }]);
+
   return Document;
 }(React.Component);
 
@@ -2446,29 +2592,48 @@ Document$1.propTypes = {
   type: PropTypes.string
 };
 
-function _createSuper$6(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$6(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$8(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$8 = function _typeof(obj) { return typeof obj; }; } else { _typeof$8 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$8(obj); }
+
+function _classCallCheck$7(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$6(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$6(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$6(Constructor.prototype, protoProps); if (staticProps) _defineProperties$6(Constructor, staticProps); return Constructor; }
+
+function _inherits$6(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$6(subClass, superClass); }
+
+function _setPrototypeOf$6(o, p) { _setPrototypeOf$6 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$6(o, p); }
+
+function _createSuper$6(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$6(); return function _createSuperInternal() { var Super = _getPrototypeOf$6(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$6(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$6(this, result); }; }
+
+function _possibleConstructorReturn$6(self, call) { if (call && (_typeof$8(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$6(self); }
+
+function _assertThisInitialized$6(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$6() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$6(o) { _getPrototypeOf$6 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$6(o); }
+
 var Be5Components = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(Be5Components, _React$Component);
+  _inherits$6(Be5Components, _React$Component);
 
   var _super = _createSuper$6(Be5Components);
 
   function Be5Components(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, Be5Components);
+    _classCallCheck$7(this, Be5Components);
+
     _this = _super.call(this, props);
     _this.state = {
       modal: false
     };
-    _this.open = _this.open.bind(babelHelpers.assertThisInitialized(_this));
-    _this.close = _this.close.bind(babelHelpers.assertThisInitialized(_this));
+    _this.open = _this.open.bind(_assertThisInitialized$6(_this));
+    _this.close = _this.close.bind(_assertThisInitialized$6(_this));
     return _this;
   }
 
-  babelHelpers.createClass(Be5Components, [{
+  _createClass$6(Be5Components, [{
     key: "open",
     value: function open() {
       this.setState({
@@ -2524,6 +2689,7 @@ var Be5Components = /*#__PURE__*/function (_React$Component) {
       })));
     }
   }]);
+
   return Be5Components;
 }(React.Component);
 
@@ -2553,9 +2719,27 @@ var MainDocumentOnly = function MainDocumentOnly() {
   }));
 };
 
-function _createSuper$7(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$7(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$9(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$9 = function _typeof(obj) { return typeof obj; }; } else { _typeof$9 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$9(obj); }
+
+function _classCallCheck$8(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$7(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$7(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$7(Constructor.prototype, protoProps); if (staticProps) _defineProperties$7(Constructor, staticProps); return Constructor; }
+
+function _inherits$7(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$7(subClass, superClass); }
+
+function _setPrototypeOf$7(o, p) { _setPrototypeOf$7 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$7(o, p); }
+
+function _createSuper$7(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$7(); return function _createSuperInternal() { var Super = _getPrototypeOf$7(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$7(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$7(this, result); }; }
+
+function _possibleConstructorReturn$7(self, call) { if (call && (_typeof$9(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$7(self); }
+
+function _assertThisInitialized$7(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$7() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$7(o) { _getPrototypeOf$7 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$7(o); }
 var propTypes$2 = {
   menu: PropTypes.shape({}),
   user: PropTypes.shape({}).isRequired,
@@ -2564,16 +2748,17 @@ var propTypes$2 = {
 };
 
 var NavMenu = /*#__PURE__*/function (_Component) {
-  babelHelpers.inherits(NavMenu, _Component);
+  _inherits$7(NavMenu, _Component);
 
   var _super = _createSuper$7(NavMenu);
 
   function NavMenu(props) {
-    babelHelpers.classCallCheck(this, NavMenu);
+    _classCallCheck$8(this, NavMenu);
+
     return _super.call(this, props);
   }
 
-  babelHelpers.createClass(NavMenu, [{
+  _createClass$7(NavMenu, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       this.props.fetchMenu();
@@ -2672,14 +2857,33 @@ var NavMenu = /*#__PURE__*/function (_Component) {
       return this.props.url.startsWith(href) || href === "#!" + this.props.defaultRoute && hashUrlIsEmpty(this.props.url);
     }
   }]);
+
   return NavMenu;
 }(Component);
 
 NavMenu.propTypes = propTypes$2;
 
-function _createSuper$8(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$8(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$a(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$a = function _typeof(obj) { return typeof obj; }; } else { _typeof$a = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$a(obj); }
+
+function _classCallCheck$9(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$8(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$8(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$8(Constructor.prototype, protoProps); if (staticProps) _defineProperties$8(Constructor, staticProps); return Constructor; }
+
+function _inherits$8(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$8(subClass, superClass); }
+
+function _setPrototypeOf$8(o, p) { _setPrototypeOf$8 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$8(o, p); }
+
+function _createSuper$8(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$8(); return function _createSuperInternal() { var Super = _getPrototypeOf$8(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$8(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$8(this, result); }; }
+
+function _possibleConstructorReturn$8(self, call) { if (call && (_typeof$a(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$8(self); }
+
+function _assertThisInitialized$8(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$8() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$8(o) { _getPrototypeOf$8 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$8(o); }
 var propTypes$3 = {
   menu: PropTypes.shape({}),
   user: PropTypes.shape({}).isRequired,
@@ -2691,23 +2895,24 @@ var propTypes$3 = {
 };
 
 var NavbarMenu = /*#__PURE__*/function (_Component) {
-  babelHelpers.inherits(NavbarMenu, _Component);
+  _inherits$8(NavbarMenu, _Component);
 
   var _super = _createSuper$8(NavbarMenu);
 
   function NavbarMenu(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, NavbarMenu);
+    _classCallCheck$9(this, NavbarMenu);
+
     _this = _super.call(this, props);
     _this.state = {
       isOpen: false
     };
-    _this.toggle = _this.toggle.bind(babelHelpers.assertThisInitialized(_this));
+    _this.toggle = _this.toggle.bind(_assertThisInitialized$8(_this));
     return _this;
   }
 
-  babelHelpers.createClass(NavbarMenu, [{
+  _createClass$8(NavbarMenu, [{
     key: "toggle",
     value: function toggle() {
       this.setState({
@@ -2790,6 +2995,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
       }, be5.messages.login));
     }
   }]);
+
   return NavbarMenu;
 }(Component);
 
@@ -2798,28 +3004,47 @@ NavbarMenu.defaultProps = {
   containerClass: "container"
 };
 
-function _createSuper$9(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$9(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$b(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$b = function _typeof(obj) { return typeof obj; }; } else { _typeof$b = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$b(obj); }
+
+function _classCallCheck$a(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$9(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$9(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$9(Constructor.prototype, protoProps); if (staticProps) _defineProperties$9(Constructor, staticProps); return Constructor; }
+
+function _inherits$9(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$9(subClass, superClass); }
+
+function _setPrototypeOf$9(o, p) { _setPrototypeOf$9 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$9(o, p); }
+
+function _createSuper$9(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$9(); return function _createSuperInternal() { var Super = _getPrototypeOf$9(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$9(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$9(this, result); }; }
+
+function _possibleConstructorReturn$9(self, call) { if (call && (_typeof$b(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$9(self); }
+
+function _assertThisInitialized$9(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$9() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$9(o) { _getPrototypeOf$9 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$9(o); }
+
 var HelpInfo = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(HelpInfo, _React$Component);
+  _inherits$9(HelpInfo, _React$Component);
 
   var _super = _createSuper$9(HelpInfo);
 
   function HelpInfo(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, HelpInfo);
+    _classCallCheck$a(this, HelpInfo);
+
     _this = _super.call(this);
     _this.state = {
       isOpen: props.isOpen
     };
-    _this.helpCollapseToggle = _this.helpCollapseToggle.bind(babelHelpers.assertThisInitialized(_this));
+    _this.helpCollapseToggle = _this.helpCollapseToggle.bind(_assertThisInitialized$9(_this));
     return _this;
   }
 
-  babelHelpers.createClass(HelpInfo, [{
+  _createClass$9(HelpInfo, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       if (this.props.value) {
@@ -2870,6 +3095,7 @@ var HelpInfo = /*#__PURE__*/function (_React$Component) {
       }
     }
   }]);
+
   return HelpInfo;
 }(React.Component);
 
@@ -2886,28 +3112,49 @@ HelpInfo.defaultProps = {
   documentName: "helpInfo"
 };
 
-function _createSuper$a(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$a(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _typeof$c(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$c = function _typeof(obj) { return typeof obj; }; } else { _typeof$c = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$c(obj); }
+
+function _classCallCheck$b(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$a(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$a(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$a(Constructor.prototype, protoProps); if (staticProps) _defineProperties$a(Constructor, staticProps); return Constructor; }
+
+function _inherits$a(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$a(subClass, superClass); }
+
+function _setPrototypeOf$a(o, p) { _setPrototypeOf$a = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$a(o, p); }
+
+function _createSuper$a(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$a(); return function _createSuperInternal() { var Super = _getPrototypeOf$a(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$a(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$a(this, result); }; }
+
+function _possibleConstructorReturn$a(self, call) { if (call && (_typeof$c(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$a(self); }
+
+function _assertThisInitialized$a(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$a() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$a(o) { _getPrototypeOf$a = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$a(o); }
+
 var Error$1 = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(Error, _React$Component);
+  _inherits$a(Error, _React$Component);
 
   var _super = _createSuper$a(Error);
 
   function Error() {
     var _this;
 
-    babelHelpers.classCallCheck(this, Error);
+    _classCallCheck$b(this, Error);
+
     _this = _super.call(this);
     _this.state = {
       helpCollapse: false
     };
-    _this.helpCollapseToggle = _this.helpCollapseToggle.bind(babelHelpers.assertThisInitialized(_this));
+    _this.helpCollapseToggle = _this.helpCollapseToggle.bind(_assertThisInitialized$a(_this));
     return _this;
   }
 
-  babelHelpers.createClass(Error, [{
+  _createClass$a(Error, [{
     key: "helpCollapseToggle",
     value: function helpCollapseToggle() {
       this.setState({
@@ -2971,20 +3218,22 @@ var Error$1 = /*#__PURE__*/function (_React$Component) {
       return null;
     }
   }]);
+
   return Error;
 }(React.Component);
 
 var ErrorPane = /*#__PURE__*/function (_React$Component2) {
-  babelHelpers.inherits(ErrorPane, _React$Component2);
+  _inherits$a(ErrorPane, _React$Component2);
 
   var _super2 = _createSuper$a(ErrorPane);
 
   function ErrorPane() {
-    babelHelpers.classCallCheck(this, ErrorPane);
+    _classCallCheck$b(this, ErrorPane);
+
     return _super2.apply(this, arguments);
   }
 
-  babelHelpers.createClass(ErrorPane, [{
+  _createClass$a(ErrorPane, [{
     key: "render",
     value: function render() {
       var errors = this.props.value.errors;
@@ -2996,12 +3245,13 @@ var ErrorPane = /*#__PURE__*/function (_React$Component2) {
       return /*#__PURE__*/React.createElement("div", {
         className: "errorPane"
       }, errors.map(function (error, i) {
-        return /*#__PURE__*/React.createElement(Error$1, babelHelpers["extends"]({}, error, {
+        return /*#__PURE__*/React.createElement(Error$1, _extends({}, error, {
           key: i
         }));
       }));
     }
   }]);
+
   return ErrorPane;
 }(React.Component);
 
@@ -3015,19 +3265,38 @@ ErrorPane.propTypes = {
 };
 registerDocument("errorPane", ErrorPane);
 
-function _createSuper$b(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$b(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$d(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$d = function _typeof(obj) { return typeof obj; }; } else { _typeof$d = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$d(obj); }
+
+function _classCallCheck$c(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$b(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$b(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$b(Constructor.prototype, protoProps); if (staticProps) _defineProperties$b(Constructor, staticProps); return Constructor; }
+
+function _inherits$b(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$b(subClass, superClass); }
+
+function _setPrototypeOf$b(o, p) { _setPrototypeOf$b = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$b(o, p); }
+
+function _createSuper$b(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$b(); return function _createSuperInternal() { var Super = _getPrototypeOf$b(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$b(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$b(this, result); }; }
+
+function _possibleConstructorReturn$b(self, call) { if (call && (_typeof$d(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$b(self); }
+
+function _assertThisInitialized$b(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$b() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$b(o) { _getPrototypeOf$b = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$b(o); }
+
 var FormWizard = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(FormWizard, _React$Component);
+  _inherits$b(FormWizard, _React$Component);
 
   var _super = _createSuper$b(FormWizard);
 
   function FormWizard(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, FormWizard);
+    _classCallCheck$c(this, FormWizard);
+
     _this = _super.call(this, props);
     _this.state = {
       compState: _this.props.startAtStep,
@@ -3040,7 +3309,7 @@ var FormWizard = /*#__PURE__*/function (_React$Component) {
     return _this;
   }
 
-  babelHelpers.createClass(FormWizard, [{
+  _createClass$b(FormWizard, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       this.init();
@@ -3203,6 +3472,7 @@ var FormWizard = /*#__PURE__*/function (_React$Component) {
       }, state.nextStepText)));
     }
   }]);
+
   return FormWizard;
 }(React.Component);
 
@@ -3235,29 +3505,48 @@ FormWizard.propTypes = {
   documentName: PropTypes.string
 };
 
-function _createSuper$c(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$c(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$e(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$e = function _typeof(obj) { return typeof obj; }; } else { _typeof$e = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$e(obj); }
+
+function _classCallCheck$d(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$c(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$c(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$c(Constructor.prototype, protoProps); if (staticProps) _defineProperties$c(Constructor, staticProps); return Constructor; }
+
+function _inherits$c(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$c(subClass, superClass); }
+
+function _setPrototypeOf$c(o, p) { _setPrototypeOf$c = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$c(o, p); }
+
+function _createSuper$c(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$c(); return function _createSuperInternal() { var Super = _getPrototypeOf$c(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$c(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$c(this, result); }; }
+
+function _possibleConstructorReturn$c(self, call) { if (call && (_typeof$e(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$c(self); }
+
+function _assertThisInitialized$c(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$c() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$c(o) { _getPrototypeOf$c = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$c(o); }
+
 var Navs = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(Navs, _React$Component);
+  _inherits$c(Navs, _React$Component);
 
   var _super = _createSuper$c(Navs);
 
   function Navs(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, Navs);
+    _classCallCheck$d(this, Navs);
+
     _this = _super.call(this, props);
     _this.state = {
       compState: _this.props.startAtStep
     };
-    _this.init = _this.init.bind(babelHelpers.assertThisInitialized(_this));
-    _this.setNavState = _this.setNavState.bind(babelHelpers.assertThisInitialized(_this));
+    _this.init = _this.init.bind(_assertThisInitialized$c(_this));
+    _this.setNavState = _this.setNavState.bind(_assertThisInitialized$c(_this));
     return _this;
   }
 
-  babelHelpers.createClass(Navs, [{
+  _createClass$c(Navs, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       this.init();
@@ -3349,6 +3638,7 @@ var Navs = /*#__PURE__*/function (_React$Component) {
       })));
     }
   }]);
+
   return Navs;
 }(React.Component);
 
@@ -3480,6 +3770,7 @@ var addFilterParams = function addFilterParams(url, params) {
   return be5.url.form(attr.positional, attr.named);
 };
 
+function _defineProperty$3(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var loadTable = function loadTable(params, frontendParams) {
   getTable(params, function (json) {
     //todo remove 'json.data' check after change error code
@@ -3549,7 +3840,7 @@ var getTableParams = function getTableParams(url) {
   var _ref;
 
   var attr = be5.url.parse(url);
-  return _ref = {}, babelHelpers.defineProperty(_ref, ENTITY_NAME_PARAM, attr.positional[1]), babelHelpers.defineProperty(_ref, QUERY_NAME_PARAM, attr.positional[2]), babelHelpers.defineProperty(_ref, CONTEXT_PARAMS, attr.named), _ref;
+  return _ref = {}, _defineProperty$3(_ref, ENTITY_NAME_PARAM, attr.positional[1]), _defineProperty$3(_ref, QUERY_NAME_PARAM, attr.positional[2]), _defineProperty$3(_ref, CONTEXT_PARAMS, attr.named), _ref;
 };
 var getTable = function getTable(params, callback) {
   var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
@@ -3586,7 +3877,7 @@ var getRequestParams = function getRequestParams(params) {
   Preconditions.passed(entity);
   Preconditions.passed(query);
   var finalParams = withSavedTableFilter(entity, query, params[CONTEXT_PARAMS]);
-  return _ref2 = {}, babelHelpers.defineProperty(_ref2, ENTITY_NAME_PARAM, entity), babelHelpers.defineProperty(_ref2, QUERY_NAME_PARAM, query), babelHelpers.defineProperty(_ref2, CONTEXT_PARAMS, be5.net.paramString(finalParams)), babelHelpers.defineProperty(_ref2, TIMESTAMP_PARAM, new Date().getTime()), _ref2;
+  return _ref2 = {}, _defineProperty$3(_ref2, ENTITY_NAME_PARAM, entity), _defineProperty$3(_ref2, QUERY_NAME_PARAM, query), _defineProperty$3(_ref2, CONTEXT_PARAMS, be5.net.paramString(finalParams)), _defineProperty$3(_ref2, TIMESTAMP_PARAM, new Date().getTime()), _ref2;
 };
 
 function withSavedTableFilter(entity, query, params) {
@@ -3670,32 +3961,53 @@ var jQueryFormatCell = function jQueryFormatCell(data, options, isColumn) {
   return data === undefined || data === null ? '' : data;
 };
 
-function _createSuper$d(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$d(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$f(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$f = function _typeof(obj) { return typeof obj; }; } else { _typeof$f = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$f(obj); }
+
+function _defineProperty$4(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck$e(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$d(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$d(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$d(Constructor.prototype, protoProps); if (staticProps) _defineProperties$d(Constructor, staticProps); return Constructor; }
+
+function _inherits$d(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$d(subClass, superClass); }
+
+function _setPrototypeOf$d(o, p) { _setPrototypeOf$d = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$d(o, p); }
+
+function _createSuper$d(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$d(); return function _createSuperInternal() { var Super = _getPrototypeOf$d(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$d(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$d(this, result); }; }
+
+function _possibleConstructorReturn$d(self, call) { if (call && (_typeof$f(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$d(self); }
+
+function _assertThisInitialized$d(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$d() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$d(o) { _getPrototypeOf$d = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$d(o); }
+
 var Form = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(Form, _React$Component);
+  _inherits$d(Form, _React$Component);
 
   var _super = _createSuper$d(Form);
 
   function Form(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, Form);
+    _classCallCheck$e(this, Form);
+
     _this = _super.call(this, props);
     _this.state = {
       values: _this.props.value.data.attributes.bean.values
     };
-    _this._onFieldChange = _this._onFieldChange.bind(babelHelpers.assertThisInitialized(_this));
-    _this._onReloadOnChange = _this._onReloadOnChange.bind(babelHelpers.assertThisInitialized(_this));
-    _this._setValue = _this._setValue.bind(babelHelpers.assertThisInitialized(_this));
-    _this._applyOnSubmit = _this._applyOnSubmit.bind(babelHelpers.assertThisInitialized(_this));
-    _this.apply = _this.apply.bind(babelHelpers.assertThisInitialized(_this));
+    _this._onFieldChange = _this._onFieldChange.bind(_assertThisInitialized$d(_this));
+    _this._onReloadOnChange = _this._onReloadOnChange.bind(_assertThisInitialized$d(_this));
+    _this._setValue = _this._setValue.bind(_assertThisInitialized$d(_this));
+    _this._applyOnSubmit = _this._applyOnSubmit.bind(_assertThisInitialized$d(_this));
+    _this.apply = _this.apply.bind(_assertThisInitialized$d(_this));
     return _this;
   }
 
-  babelHelpers.createClass(Form, [{
+  _createClass$d(Form, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       addUrlHandlers($('.be5-form'), this.props.frontendParams.documentName);
@@ -3723,7 +4035,7 @@ var Form = /*#__PURE__*/function (_React$Component) {
         positional = ['form', attr.entity, attr.query, attr.operation];
       }
 
-      var operationInfo = (_operationInfo = {}, babelHelpers.defineProperty(_operationInfo, ENTITY_NAME_PARAM, positional[1]), babelHelpers.defineProperty(_operationInfo, QUERY_NAME_PARAM, positional[2]), babelHelpers.defineProperty(_operationInfo, OPERATION_NAME_PARAM, positional[3]), babelHelpers.defineProperty(_operationInfo, CONTEXT_PARAMS, JSON.stringify(attr.operationParams)), _operationInfo);
+      var operationInfo = (_operationInfo = {}, _defineProperty$4(_operationInfo, ENTITY_NAME_PARAM, positional[1]), _defineProperty$4(_operationInfo, QUERY_NAME_PARAM, positional[2]), _defineProperty$4(_operationInfo, OPERATION_NAME_PARAM, positional[3]), _defineProperty$4(_operationInfo, CONTEXT_PARAMS, JSON.stringify(attr.operationParams)), _operationInfo);
       return getOperationInfo(operationInfo, values);
     }
   }, {
@@ -3911,6 +4223,7 @@ var Form = /*#__PURE__*/function (_React$Component) {
       }, this._getErrorPane()));
     }
   }]);
+
   return Form;
 }(React.Component);
 
@@ -3920,21 +4233,40 @@ Form.propTypes = {
 };
 registerDocument('verticalForm', Form);
 
-function _createSuper$e(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$e(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$g(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$g = function _typeof(obj) { return typeof obj; }; } else { _typeof$g = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$g(obj); }
+
+function _classCallCheck$f(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$e(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$e(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$e(Constructor.prototype, protoProps); if (staticProps) _defineProperties$e(Constructor, staticProps); return Constructor; }
+
+function _inherits$e(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$e(subClass, superClass); }
+
+function _setPrototypeOf$e(o, p) { _setPrototypeOf$e = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$e(o, p); }
+
+function _createSuper$e(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$e(); return function _createSuperInternal() { var Super = _getPrototypeOf$e(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$e(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$e(this, result); }; }
+
+function _possibleConstructorReturn$e(self, call) { if (call && (_typeof$g(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$e(self); }
+
+function _assertThisInitialized$e(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$e() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$e(o) { _getPrototypeOf$e = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$e(o); }
+
 var HorizontalForm = /*#__PURE__*/function (_Form) {
-  babelHelpers.inherits(HorizontalForm, _Form);
+  _inherits$e(HorizontalForm, _Form);
 
   var _super = _createSuper$e(HorizontalForm);
 
   function HorizontalForm() {
-    babelHelpers.classCallCheck(this, HorizontalForm);
+    _classCallCheck$f(this, HorizontalForm);
+
     return _super.apply(this, arguments);
   }
 
-  babelHelpers.createClass(HorizontalForm, [{
+  _createClass$e(HorizontalForm, [{
     key: "_createFormProperties",
     value: function _createFormProperties() {
       var attributes = this.props.value.data.attributes;
@@ -3963,34 +4295,59 @@ var HorizontalForm = /*#__PURE__*/function (_Form) {
       }, this._createSubmitAction(), ' ', _createBackAction(this.props.value.data.attributes.layout, this.props.frontendParams)));
     }
   }]);
+
   return HorizontalForm;
 }(Form);
 
 registerDocument('form', HorizontalForm);
 
-function _createSuper$f(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$f(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$h(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$h = function _typeof(obj) { return typeof obj; }; } else { _typeof$h = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$h(obj); }
+
+function _classCallCheck$g(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$f(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$f(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$f(Constructor.prototype, protoProps); if (staticProps) _defineProperties$f(Constructor, staticProps); return Constructor; }
+
+function _get$1(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get$1 = Reflect.get; } else { _get$1 = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get$1(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf$f(object); if (object === null) break; } return object; }
+
+function _inherits$f(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$f(subClass, superClass); }
+
+function _setPrototypeOf$f(o, p) { _setPrototypeOf$f = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$f(o, p); }
+
+function _createSuper$f(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$f(); return function _createSuperInternal() { var Super = _getPrototypeOf$f(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$f(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$f(this, result); }; }
+
+function _possibleConstructorReturn$f(self, call) { if (call && (_typeof$h(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$f(self); }
+
+function _assertThisInitialized$f(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$f() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$f(o) { _getPrototypeOf$f = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$f(o); }
+
 var SubmitOnChangeForm = /*#__PURE__*/function (_Form) {
-  babelHelpers.inherits(SubmitOnChangeForm, _Form);
+  _inherits$f(SubmitOnChangeForm, _Form);
 
   var _super = _createSuper$f(SubmitOnChangeForm);
 
   function SubmitOnChangeForm(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, SubmitOnChangeForm);
+    _classCallCheck$g(this, SubmitOnChangeForm);
+
     _this = _super.call(this, props);
-    _this._onFieldChangeAndSubmit = _this._onFieldChangeAndSubmit.bind(babelHelpers.assertThisInitialized(_this));
+    _this._onFieldChangeAndSubmit = _this._onFieldChangeAndSubmit.bind(_assertThisInitialized$f(_this));
     return _this;
   }
 
-  babelHelpers.createClass(SubmitOnChangeForm, [{
+  _createClass$f(SubmitOnChangeForm, [{
     key: "_onFieldChangeAndSubmit",
     value: function _onFieldChangeAndSubmit(name, value) {
-      babelHelpers.get(babelHelpers.getPrototypeOf(SubmitOnChangeForm.prototype), "_setValue", this).call(this, name, value);
-      babelHelpers.get(babelHelpers.getPrototypeOf(SubmitOnChangeForm.prototype), "apply", this).call(this);
+      _get$1(_getPrototypeOf$f(SubmitOnChangeForm.prototype), "_setValue", this).call(this, name, value);
+
+      _get$1(_getPrototypeOf$f(SubmitOnChangeForm.prototype), "apply", this).call(this);
     }
   }, {
     key: "render",
@@ -4012,26 +4369,46 @@ var SubmitOnChangeForm = /*#__PURE__*/function (_Form) {
       }, this._getErrorPane()));
     }
   }]);
+
   return SubmitOnChangeForm;
 }(Form);
 
 registerDocument('submitOnChange', SubmitOnChangeForm);
 
-function _createSuper$g(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$g(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$i(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$i = function _typeof(obj) { return typeof obj; }; } else { _typeof$i = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$i(obj); }
+
+function _classCallCheck$h(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$g(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$g(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$g(Constructor.prototype, protoProps); if (staticProps) _defineProperties$g(Constructor, staticProps); return Constructor; }
+
+function _inherits$g(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$g(subClass, superClass); }
+
+function _setPrototypeOf$g(o, p) { _setPrototypeOf$g = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$g(o, p); }
+
+function _createSuper$g(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$g(); return function _createSuperInternal() { var Super = _getPrototypeOf$g(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$g(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$g(this, result); }; }
+
+function _possibleConstructorReturn$g(self, call) { if (call && (_typeof$i(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$g(self); }
+
+function _assertThisInitialized$g(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$g() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$g(o) { _getPrototypeOf$g = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$g(o); }
+
 var ModalForm = /*#__PURE__*/function (_Form) {
-  babelHelpers.inherits(ModalForm, _Form);
+  _inherits$g(ModalForm, _Form);
 
   var _super = _createSuper$g(ModalForm);
 
   function ModalForm() {
-    babelHelpers.classCallCheck(this, ModalForm);
+    _classCallCheck$h(this, ModalForm);
+
     return _super.apply(this, arguments);
   }
 
-  babelHelpers.createClass(ModalForm, [{
+  _createClass$g(ModalForm, [{
     key: "_createFormContent",
     value: function _createFormContent() {
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(ModalBody, null, this._createFormProperties()), /*#__PURE__*/React.createElement("div", {
@@ -4067,26 +4444,48 @@ var ModalForm = /*#__PURE__*/function (_Form) {
       }, attributes.title), this._createForm());
     }
   }]);
+
   return ModalForm;
 }(Form);
 
 registerDocument('modalForm', ModalForm);
 
-function _createSuper$h(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$h(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$j(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$j = function _typeof(obj) { return typeof obj; }; } else { _typeof$j = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$j(obj); }
+
+function _extends$1() { _extends$1 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$1.apply(this, arguments); }
+
+function _classCallCheck$i(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$h(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$h(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$h(Constructor.prototype, protoProps); if (staticProps) _defineProperties$h(Constructor, staticProps); return Constructor; }
+
+function _inherits$h(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$h(subClass, superClass); }
+
+function _setPrototypeOf$h(o, p) { _setPrototypeOf$h = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$h(o, p); }
+
+function _createSuper$h(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$h(); return function _createSuperInternal() { var Super = _getPrototypeOf$h(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$h(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$h(this, result); }; }
+
+function _possibleConstructorReturn$h(self, call) { if (call && (_typeof$j(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$h(self); }
+
+function _assertThisInitialized$h(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$h() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$h(o) { _getPrototypeOf$h = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$h(o); }
+
 var InlineMiniForm = /*#__PURE__*/function (_Form) {
-  babelHelpers.inherits(InlineMiniForm, _Form);
+  _inherits$h(InlineMiniForm, _Form);
 
   var _super = _createSuper$h(InlineMiniForm);
 
   function InlineMiniForm() {
-    babelHelpers.classCallCheck(this, InlineMiniForm);
+    _classCallCheck$i(this, InlineMiniForm);
+
     return _super.apply(this, arguments);
   }
 
-  babelHelpers.createClass(InlineMiniForm, [{
+  _createClass$h(InlineMiniForm, [{
     key: "render",
     value: function render() {
       var _this = this;
@@ -4104,7 +4503,7 @@ var InlineMiniForm = /*#__PURE__*/function (_Form) {
         className: 'mr-sm-2'
       };
       var properties = attributes.bean.order.map(function (path) {
-        return /*#__PURE__*/React.createElement(Property, babelHelpers["extends"]({
+        return /*#__PURE__*/React.createElement(Property, _extends$1({
           key: path,
           path: path
         }, commonProps, {
@@ -4126,26 +4525,46 @@ var InlineMiniForm = /*#__PURE__*/function (_Form) {
       }, /*#__PURE__*/React.createElement("strong", null, attributes.title)) : null, properties, this._createSubmitAction(), this._getErrorPane()));
     }
   }]);
+
   return InlineMiniForm;
 }(Form);
 
 registerDocument('inlineMiniForm', InlineMiniForm);
 
-function _createSuper$i(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$i(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$k(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$k = function _typeof(obj) { return typeof obj; }; } else { _typeof$k = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$k(obj); }
+
+function _classCallCheck$j(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$i(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$i(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$i(Constructor.prototype, protoProps); if (staticProps) _defineProperties$i(Constructor, staticProps); return Constructor; }
+
+function _inherits$i(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$i(subClass, superClass); }
+
+function _setPrototypeOf$i(o, p) { _setPrototypeOf$i = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$i(o, p); }
+
+function _createSuper$i(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$i(); return function _createSuperInternal() { var Super = _getPrototypeOf$i(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$i(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$i(this, result); }; }
+
+function _possibleConstructorReturn$i(self, call) { if (call && (_typeof$k(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$i(self); }
+
+function _assertThisInitialized$i(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$i() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$i(o) { _getPrototypeOf$i = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$i(o); }
+
 var FinishedResult = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(FinishedResult, _React$Component);
+  _inherits$i(FinishedResult, _React$Component);
 
   var _super = _createSuper$i(FinishedResult);
 
   function FinishedResult() {
-    babelHelpers.classCallCheck(this, FinishedResult);
+    _classCallCheck$j(this, FinishedResult);
+
     return _super.apply(this, arguments);
   }
 
-  babelHelpers.createClass(FinishedResult, [{
+  _createClass$i(FinishedResult, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       addUrlHandlers($('.finishedResult'), this.props.frontendParams.documentName);
@@ -4171,6 +4590,7 @@ var FinishedResult = /*#__PURE__*/function (_React$Component) {
       }), _createBackAction(attributes.layout, this.props.frontendParams));
     }
   }]);
+
   return FinishedResult;
 }(React.Component);
 
@@ -4186,21 +4606,52 @@ FinishedResult.propTypes = {
 };
 registerDocument('operationResult', FinishedResult);
 
-function _createSuper$j(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$j(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$l(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$l = function _typeof(obj) { return typeof obj; }; } else { _typeof$l = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$l(obj); }
+
+function _toConsumableArray$1(arr) { return _arrayWithoutHoles$1(arr) || _iterableToArray$1(arr) || _unsupportedIterableToArray$1(arr) || _nonIterableSpread$1(); }
+
+function _nonIterableSpread$1() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray$1(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$1(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen); }
+
+function _iterableToArray$1(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles$1(arr) { if (Array.isArray(arr)) return _arrayLikeToArray$1(arr); }
+
+function _arrayLikeToArray$1(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck$k(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$j(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$j(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$j(Constructor.prototype, protoProps); if (staticProps) _defineProperties$j(Constructor, staticProps); return Constructor; }
+
+function _inherits$j(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$j(subClass, superClass); }
+
+function _setPrototypeOf$j(o, p) { _setPrototypeOf$j = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$j(o, p); }
+
+function _createSuper$j(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$j(); return function _createSuperInternal() { var Super = _getPrototypeOf$j(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$j(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$j(this, result); }; }
+
+function _possibleConstructorReturn$j(self, call) { if (call && (_typeof$l(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$j(self); }
+
+function _assertThisInitialized$j(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$j() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$j(o) { _getPrototypeOf$j = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$j(o); }
+
 var OperationBox = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(OperationBox, _React$Component);
+  _inherits$j(OperationBox, _React$Component);
 
   var _super = _createSuper$j(OperationBox);
 
   function OperationBox(props) {
-    babelHelpers.classCallCheck(this, OperationBox);
+    _classCallCheck$k(this, OperationBox);
+
     return _super.call(this, props);
   }
 
-  babelHelpers.createClass(OperationBox, [{
+  _createClass$j(OperationBox, [{
     key: "render",
     value: function render() {
       if (!this.props.operations) return null;
@@ -4226,7 +4677,7 @@ var OperationBox = /*#__PURE__*/function (_React$Component) {
 
         if (layout && _this.props.operations.attributes.length >= layout.order) {
           var tail = operations.splice(layout.order - 1);
-          operations = [].concat(babelHelpers.toConsumableArray(operations), [operation], babelHelpers.toConsumableArray(tail));
+          operations = [].concat(_toConsumableArray$1(operations), [operation], _toConsumableArray$1(tail));
         } else if (layout && _this.props.operations.attributes.length < layout.order) {
           orderOutSize.push(operation);
         } else {
@@ -4235,7 +4686,7 @@ var OperationBox = /*#__PURE__*/function (_React$Component) {
       });
 
       if (orderOutSize.length > 0) {
-        operations = [].concat(babelHelpers.toConsumableArray(operations), babelHelpers.toConsumableArray(orderOutSize.sort(function (a, b) {
+        operations = [].concat(_toConsumableArray$1(operations), _toConsumableArray$1(orderOutSize.sort(function (a, b) {
           return a.layout.order - b.layout.order;
         })));
       }
@@ -4322,6 +4773,7 @@ var OperationBox = /*#__PURE__*/function (_React$Component) {
       return out;
     }
   }]);
+
   return OperationBox;
 }(React.Component);
 
@@ -4402,6 +4854,7 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
 
 CategoryNavigation.propTypes = propTypes$4;
 
+function _defineProperty$5(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var positionsParamNames = [ORDER_COLUMN, ORDER_DIR, OFFSET, LIMIT];
 var propTypes$5 = {};
 
@@ -4423,7 +4876,7 @@ var FilterUI = function FilterUI(_ref) {
       return newParams[x] = params[x];
     });
     clearTableFilter(entity, query, newParams);
-    var paramsObject = (_paramsObject = {}, babelHelpers.defineProperty(_paramsObject, ENTITY_NAME_PARAM, entity), babelHelpers.defineProperty(_paramsObject, QUERY_NAME_PARAM, query || 'All records'), babelHelpers.defineProperty(_paramsObject, CONTEXT_PARAMS, newParams), _paramsObject);
+    var paramsObject = (_paramsObject = {}, _defineProperty$5(_paramsObject, ENTITY_NAME_PARAM, entity), _defineProperty$5(_paramsObject, QUERY_NAME_PARAM, query || 'All records'), _defineProperty$5(_paramsObject, CONTEXT_PARAMS, newParams), _paramsObject);
     loadTable(paramsObject, frontendParams);
   }
 
@@ -4467,6 +4920,7 @@ var getAllTypes = function getAllTypes() {
   return Object.keys(tableBoxes);
 };
 
+function _defineProperty$6(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var propTypes$6 = {
   data: PropTypes.shape({
     attributes: PropTypes.array,
@@ -4502,7 +4956,7 @@ var QuickFiltersBox = function QuickFiltersBox(_ref) {
     }
 
     tags.forEach(function (tag) {
-      url = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, babelHelpers.defineProperty({}, param, tag[0])));
+      url = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, _defineProperty$6({}, param, tag[0])));
 
       if (pUrl.named[param] === tag[0]) {
         row.push( /*#__PURE__*/React.createElement("span", {
@@ -4530,31 +4984,50 @@ var QuickFiltersBox = function QuickFiltersBox(_ref) {
   }, rows) : null;
 };
 
-function _createSuper$k(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$k(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$m(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$m = function _typeof(obj) { return typeof obj; }; } else { _typeof$m = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$m(obj); }
+
+function _classCallCheck$l(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$k(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$k(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$k(Constructor.prototype, protoProps); if (staticProps) _defineProperties$k(Constructor, staticProps); return Constructor; }
+
+function _inherits$k(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$k(subClass, superClass); }
+
+function _setPrototypeOf$k(o, p) { _setPrototypeOf$k = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$k(o, p); }
+
+function _createSuper$k(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$k(); return function _createSuperInternal() { var Super = _getPrototypeOf$k(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$k(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$k(this, result); }; }
+
+function _possibleConstructorReturn$k(self, call) { if (call && (_typeof$m(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$k(self); }
+
+function _assertThisInitialized$k(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$k() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$k(o) { _getPrototypeOf$k = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$k(o); }
+
 var Table = /*#__PURE__*/function (_Component) {
-  babelHelpers.inherits(Table, _Component);
+  _inherits$k(Table, _Component);
 
   var _super = _createSuper$k(Table);
 
   function Table(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, Table);
+    _classCallCheck$l(this, Table);
+
     _this = _super.call(this, props);
     _this.state = {
       runReload: "",
       selectedRows: []
     };
-    _this.onOperationClick = _this.onOperationClick.bind(babelHelpers.assertThisInitialized(_this));
-    _this.setSelectedRows = _this.setSelectedRows.bind(babelHelpers.assertThisInitialized(_this));
-    _this.getSelectedRows = _this.getSelectedRows.bind(babelHelpers.assertThisInitialized(_this));
+    _this.onOperationClick = _this.onOperationClick.bind(_assertThisInitialized$k(_this));
+    _this.setSelectedRows = _this.setSelectedRows.bind(_assertThisInitialized$k(_this));
+    _this.getSelectedRows = _this.getSelectedRows.bind(_assertThisInitialized$k(_this));
     return _this;
   }
 
-  babelHelpers.createClass(Table, [{
+  _createClass$k(Table, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       Table.storeDocumentState(this.props);
@@ -4770,6 +5243,7 @@ var Table = /*#__PURE__*/function (_Component) {
       setTableFilter(attr.category, attr.page, attr.parameters);
     }
   }]);
+
   return Table;
 }(Component);
 
@@ -5241,7 +5715,7 @@ var blockEvent = (function (event) {
 	}
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+var _typeof$n = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
   return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
@@ -5294,7 +5768,7 @@ var defineProperty = function (obj, key, value) {
   return obj;
 };
 
-var _extends = Object.assign || function (target) {
+var _extends$2 = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i];
 
@@ -5629,7 +6103,7 @@ var shouldShowPlaceholder = function shouldShowPlaceholder(state, props, isOpen)
  * @param {Object}		 props	- the Select component's props (or nextProps)
  */
 var expandValue = function expandValue(value, props) {
-	var valueType = typeof value === 'undefined' ? 'undefined' : _typeof(value);
+	var valueType = typeof value === 'undefined' ? 'undefined' : _typeof$n(value);
 	if (valueType !== 'string' && valueType !== 'number' && valueType !== 'boolean') return value;
 	var options = props.options,
 	    valueKey = props.valueKey;
@@ -6014,7 +6488,7 @@ var Select$1 = function (_React$Component) {
 		value: function setInputValue(newValue) {
 			if (this.props.onInputChange) {
 				var nextState = this.props.onInputChange(newValue);
-				if (nextState != null && (typeof nextState === 'undefined' ? 'undefined' : _typeof(nextState)) !== 'object') {
+				if (nextState != null && (typeof nextState === 'undefined' ? 'undefined' : _typeof$n(nextState)) !== 'object') {
 					newValue = '' + nextState;
 				}
 			}
@@ -6028,7 +6502,7 @@ var Select$1 = function (_React$Component) {
 			if (this.props.onInputChange) {
 				var nextState = this.props.onInputChange(newValue);
 				// Note: != used deliberately here to catch undefined and null
-				if (nextState != null && (typeof nextState === 'undefined' ? 'undefined' : _typeof(nextState)) !== 'object') {
+				if (nextState != null && (typeof nextState === 'undefined' ? 'undefined' : _typeof$n(nextState)) !== 'object') {
 					newValue = '' + nextState;
 				}
 			}
@@ -6176,7 +6650,7 @@ var Select$1 = function (_React$Component) {
 			var nextProps = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
 
 			/** support optionally passing in the `nextProps` so `componentWillReceiveProps` updates will function as expected */
-			var props = (typeof nextProps === 'undefined' ? 'undefined' : _typeof(nextProps)) === 'object' ? nextProps : this.props;
+			var props = (typeof nextProps === 'undefined' ? 'undefined' : _typeof$n(nextProps)) === 'object' ? nextProps : this.props;
 			if (props.multi) {
 				if (typeof value === 'string') {
 					value = value.split(props.delimiter);
@@ -6516,7 +6990,7 @@ var Select$1 = function (_React$Component) {
 				value = '';
 			}
 
-			var inputProps = _extends({}, this.props.inputProps, {
+			var inputProps = _extends$2({}, this.props.inputProps, {
 				'aria-activedescendant': isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value',
 				'aria-describedby': this.props['aria-describedby'],
 				'aria-expanded': '' + isOpen,
@@ -6545,7 +7019,7 @@ var Select$1 = function (_React$Component) {
 
 
 				var _ariaOwns = classNames(defineProperty({}, this._instancePrefix + '-list', isOpen));
-				return React.createElement('div', _extends({}, divProps, {
+				return React.createElement('div', _extends$2({}, divProps, {
 					'aria-expanded': isOpen,
 					'aria-owns': _ariaOwns,
 					'aria-activedescendant': isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value',
@@ -6565,12 +7039,12 @@ var Select$1 = function (_React$Component) {
 			}
 
 			if (this.props.autosize) {
-				return React.createElement(AutosizeInput, _extends({ id: this.props.id }, inputProps, { className: className, minWidth: '5' }));
+				return React.createElement(AutosizeInput, _extends$2({ id: this.props.id }, inputProps, { className: className, minWidth: '5' }));
 			}
 			return React.createElement(
 				'div',
 				{ className: className, key: 'input-wrap', style: { display: 'inline-block' } },
-				React.createElement('input', _extends({ id: this.props.id }, inputProps))
+				React.createElement('input', _extends$2({ id: this.props.id }, inputProps))
 			);
 		}
 	}, {
@@ -7125,7 +7599,7 @@ var Async = function (_Component) {
 			if (onInputChange) {
 				var value = onInputChange(newInputValue);
 				// Note: != used deliberately here to catch undefined and null
-				if (value != null && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) !== 'object') {
+				if (value != null && (typeof value === 'undefined' ? 'undefined' : _typeof$n(value)) !== 'object') {
 					newInputValue = '' + value;
 				}
 			}
@@ -7194,7 +7668,7 @@ var Async = function (_Component) {
 				}
 			};
 
-			return children(_extends({}, this.props, props, {
+			return children(_extends$2({}, this.props, props, {
 				isLoading: isLoading,
 				onInputChange: this.onInputChange
 			}));
@@ -7325,7 +7799,7 @@ var CreatableSelect = function (_React$Component) {
 			var menuRenderer$$1 = this.props.menuRenderer;
 
 
-			return menuRenderer$$1(_extends({}, params, {
+			return menuRenderer$$1(_extends$2({}, params, {
 				onSelect: this.onOptionSelect,
 				selectValue: this.onOptionSelect
 			}));
@@ -7395,7 +7869,7 @@ var CreatableSelect = function (_React$Component) {
 				children = defaultChildren$2;
 			}
 
-			var props = _extends({}, restProps, {
+			var props = _extends$2({}, restProps, {
 				allowCreate: true,
 				filterOptions: this.filterOptions,
 				menuRenderer: this.menuRenderer,
@@ -7580,7 +8054,7 @@ var AsyncCreatableSelect = function (_React$Component) {
 							    creatableProps = objectWithoutProperties(_ref2, ['ref']);
 
 							var creatableRef = ref;
-							return _this2.props.children(_extends({}, creatableProps, {
+							return _this2.props.children(_extends$2({}, creatableProps, {
 								ref: function ref(select) {
 									creatableRef(select);
 									asyncRef(select);
@@ -7614,26 +8088,45 @@ Select$1.Creatable = CreatableSelect;
 Select$1.Value = Value;
 Select$1.Option = Option;
 
-function _createSuper$l(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$l(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$o(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$o = function _typeof(obj) { return typeof obj; }; } else { _typeof$o = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$o(obj); }
+
+function _classCallCheck$m(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$l(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$l(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$l(Constructor.prototype, protoProps); if (staticProps) _defineProperties$l(Constructor, staticProps); return Constructor; }
+
+function _inherits$l(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$l(subClass, superClass); }
+
+function _setPrototypeOf$l(o, p) { _setPrototypeOf$l = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$l(o, p); }
+
+function _createSuper$l(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$l(); return function _createSuperInternal() { var Super = _getPrototypeOf$l(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$l(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$l(this, result); }; }
+
+function _possibleConstructorReturn$l(self, call) { if (call && (_typeof$o(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$l(self); }
+
+function _assertThisInitialized$l(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$l() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$l(o) { _getPrototypeOf$l = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$l(o); }
 // @see https://github.com/JedWatson/react-select/blob/v1.x/examples/src/components/CustomComponents.js
 
 var CheckBoxOption = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(CheckBoxOption, _React$Component);
+  _inherits$l(CheckBoxOption, _React$Component);
 
   var _super = _createSuper$l(CheckBoxOption);
 
   function CheckBoxOption(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, CheckBoxOption);
+    _classCallCheck$m(this, CheckBoxOption);
+
     _this = _super.call(this, props);
-    _this.checkBoxOnChange = _this.checkBoxOnChange.bind(babelHelpers.assertThisInitialized(_this));
+    _this.checkBoxOnChange = _this.checkBoxOnChange.bind(_assertThisInitialized$l(_this));
     return _this;
   }
 
-  babelHelpers.createClass(CheckBoxOption, [{
+  _createClass$l(CheckBoxOption, [{
     key: "checkBoxOnChange",
     value: function checkBoxOnChange() {
       this.props.option.quickHandleChange(this.props.option.idx);
@@ -7680,26 +8173,28 @@ var CheckBoxOption = /*#__PURE__*/function (_React$Component) {
       );
     }
   }]);
+
   return CheckBoxOption;
 }(React.Component);
 
 var QuickColumns = /*#__PURE__*/function (_React$Component2) {
-  babelHelpers.inherits(QuickColumns, _React$Component2);
+  _inherits$l(QuickColumns, _React$Component2);
 
   var _super2 = _createSuper$l(QuickColumns);
 
   function QuickColumns(props) {
     var _this3;
 
-    babelHelpers.classCallCheck(this, QuickColumns);
+    _classCallCheck$m(this, QuickColumns);
+
     _this3 = _super2.call(this, props);
     _this3.state = _this3.createStateFromProps(_this3.props);
-    _this3.updateDataTableQuickColumns = _this3.updateDataTableQuickColumns.bind(babelHelpers.assertThisInitialized(_this3));
-    _this3.quickHandleChange = _this3.quickHandleChange.bind(babelHelpers.assertThisInitialized(_this3));
+    _this3.updateDataTableQuickColumns = _this3.updateDataTableQuickColumns.bind(_assertThisInitialized$l(_this3));
+    _this3.quickHandleChange = _this3.quickHandleChange.bind(_assertThisInitialized$l(_this3));
     return _this3;
   }
 
-  babelHelpers.createClass(QuickColumns, [{
+  _createClass$l(QuickColumns, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       bus.listen("updateDataTableQuickColumns", this.updateDataTableQuickColumns);
@@ -7858,24 +8353,44 @@ var QuickColumns = /*#__PURE__*/function (_React$Component2) {
       }
     }
   }]);
+
   return QuickColumns;
 }(React.Component);
 
-function _createSuper$m(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$m(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$p(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$p = function _typeof(obj) { return typeof obj; }; } else { _typeof$p = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$p(obj); }
+
+function _classCallCheck$n(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$m(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$m(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$m(Constructor.prototype, protoProps); if (staticProps) _defineProperties$m(Constructor, staticProps); return Constructor; }
+
+function _inherits$m(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$m(subClass, superClass); }
+
+function _setPrototypeOf$m(o, p) { _setPrototypeOf$m = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$m(o, p); }
+
+function _createSuper$m(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$m(); return function _createSuperInternal() { var Super = _getPrototypeOf$m(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$m(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$m(this, result); }; }
+
+function _possibleConstructorReturn$m(self, call) { if (call && (_typeof$p(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$m(self); }
+
+function _assertThisInitialized$m(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$m() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$m(o) { _getPrototypeOf$m = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$m(o); }
+
 var TableForm = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(TableForm, _React$Component);
+  _inherits$m(TableForm, _React$Component);
 
   var _super = _createSuper$m(TableForm);
 
   function TableForm() {
-    babelHelpers.classCallCheck(this, TableForm);
+    _classCallCheck$n(this, TableForm);
+
     return _super.apply(this, arguments);
   }
 
-  babelHelpers.createClass(TableForm, [{
+  _createClass$m(TableForm, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
       this.updateDocuments();
@@ -7916,6 +8431,7 @@ var TableForm = /*#__PURE__*/function (_React$Component) {
       }));
     }
   }]);
+
   return TableForm;
 }(React.Component);
 
@@ -7925,21 +8441,40 @@ TableForm.propTypes = {
 };
 registerDocument('tableForm', TableForm);
 
-function _createSuper$n(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$n(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$q(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$q = function _typeof(obj) { return typeof obj; }; } else { _typeof$q = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$q(obj); }
+
+function _classCallCheck$o(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$n(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$n(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$n(Constructor.prototype, protoProps); if (staticProps) _defineProperties$n(Constructor, staticProps); return Constructor; }
+
+function _inherits$n(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$n(subClass, superClass); }
+
+function _setPrototypeOf$n(o, p) { _setPrototypeOf$n = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$n(o, p); }
+
+function _createSuper$n(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$n(); return function _createSuperInternal() { var Super = _getPrototypeOf$n(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$n(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$n(this, result); }; }
+
+function _possibleConstructorReturn$n(self, call) { if (call && (_typeof$q(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$n(self); }
+
+function _assertThisInitialized$n(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$n() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$n(o) { _getPrototypeOf$n = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$n(o); }
+
 var FormTable = /*#__PURE__*/function (_TableForm) {
-  babelHelpers.inherits(FormTable, _TableForm);
+  _inherits$n(FormTable, _TableForm);
 
   var _super = _createSuper$n(FormTable);
 
   function FormTable() {
-    babelHelpers.classCallCheck(this, FormTable);
+    _classCallCheck$o(this, FormTable);
+
     return _super.apply(this, arguments);
   }
 
-  babelHelpers.createClass(FormTable, [{
+  _createClass$n(FormTable, [{
     key: "render",
     value: function render() {
       return /*#__PURE__*/React.createElement("div", {
@@ -7960,6 +8495,7 @@ var FormTable = /*#__PURE__*/function (_TableForm) {
       }));
     }
   }]);
+
   return FormTable;
 }(TableForm);
 
@@ -7969,21 +8505,40 @@ FormTable.propTypes = {
 };
 registerDocument('formTable', FormTable);
 
-function _createSuper$o(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$o(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$r(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$r = function _typeof(obj) { return typeof obj; }; } else { _typeof$r = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$r(obj); }
+
+function _classCallCheck$p(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$o(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$o(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$o(Constructor.prototype, protoProps); if (staticProps) _defineProperties$o(Constructor, staticProps); return Constructor; }
+
+function _inherits$o(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$o(subClass, superClass); }
+
+function _setPrototypeOf$o(o, p) { _setPrototypeOf$o = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$o(o, p); }
+
+function _createSuper$o(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$o(); return function _createSuperInternal() { var Super = _getPrototypeOf$o(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$o(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$o(this, result); }; }
+
+function _possibleConstructorReturn$o(self, call) { if (call && (_typeof$r(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$o(self); }
+
+function _assertThisInitialized$o(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$o() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$o(o) { _getPrototypeOf$o = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$o(o); }
+
 var TableFormRow = /*#__PURE__*/function (_TableForm) {
-  babelHelpers.inherits(TableFormRow, _TableForm);
+  _inherits$o(TableFormRow, _TableForm);
 
   var _super = _createSuper$o(TableFormRow);
 
   function TableFormRow() {
-    babelHelpers.classCallCheck(this, TableFormRow);
+    _classCallCheck$p(this, TableFormRow);
+
     return _super.apply(this, arguments);
   }
 
-  babelHelpers.createClass(TableFormRow, [{
+  _createClass$o(TableFormRow, [{
     key: "render",
     value: function render() {
       return /*#__PURE__*/React.createElement("div", {
@@ -8006,6 +8561,7 @@ var TableFormRow = /*#__PURE__*/function (_TableForm) {
       })));
     }
   }]);
+
   return TableFormRow;
 }(TableForm);
 
@@ -8015,21 +8571,44 @@ TableFormRow.propTypes = {
 };
 registerDocument('tableFormRow', TableFormRow);
 
-function _createSuper$p(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$p(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$s(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$s = function _typeof(obj) { return typeof obj; }; } else { _typeof$s = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$s(obj); }
+
+function _classCallCheck$q(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$p(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$p(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$p(Constructor.prototype, protoProps); if (staticProps) _defineProperties$p(Constructor, staticProps); return Constructor; }
+
+function _get$2(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get$2 = Reflect.get; } else { _get$2 = function _get(target, property, receiver) { var base = _superPropBase$1(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get$2(target, property, receiver || target); }
+
+function _superPropBase$1(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf$p(object); if (object === null) break; } return object; }
+
+function _inherits$p(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$p(subClass, superClass); }
+
+function _setPrototypeOf$p(o, p) { _setPrototypeOf$p = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$p(o, p); }
+
+function _createSuper$p(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$p(); return function _createSuperInternal() { var Super = _getPrototypeOf$p(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$p(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$p(this, result); }; }
+
+function _possibleConstructorReturn$p(self, call) { if (call && (_typeof$s(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$p(self); }
+
+function _assertThisInitialized$p(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$p() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$p(o) { _getPrototypeOf$p = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$p(o); }
+
 var ModalTable = /*#__PURE__*/function (_Table) {
-  babelHelpers.inherits(ModalTable, _Table);
+  _inherits$p(ModalTable, _Table);
 
   var _super = _createSuper$p(ModalTable);
 
   function ModalTable() {
-    babelHelpers.classCallCheck(this, ModalTable);
+    _classCallCheck$q(this, ModalTable);
+
     return _super.apply(this, arguments);
   }
 
-  babelHelpers.createClass(ModalTable, [{
+  _createClass$p(ModalTable, [{
     key: "render",
     value: function render() {
       var attributes = this.props.value.data.attributes;
@@ -8038,7 +8617,7 @@ var ModalTable = /*#__PURE__*/function (_Table) {
         toggle: function toggle() {
           return bus.fire("mainModalClose");
         }
-      }, attributes.title), /*#__PURE__*/React.createElement(ModalBody, null, babelHelpers.get(babelHelpers.getPrototypeOf(ModalTable.prototype), "render", this).call(this)), /*#__PURE__*/React.createElement(ModalFooter, null, this._createModalCloseAction()));
+      }, attributes.title), /*#__PURE__*/React.createElement(ModalBody, null, _get$2(_getPrototypeOf$p(ModalTable.prototype), "render", this).call(this)), /*#__PURE__*/React.createElement(ModalFooter, null, this._createModalCloseAction()));
     }
   }, {
     key: "_createModalCloseAction",
@@ -8056,30 +8635,50 @@ var ModalTable = /*#__PURE__*/function (_Table) {
       }, layout.cancelActionText || be5.messages.close);
     }
   }]);
+
   return ModalTable;
 }(Table);
 
 registerDocument('modalTable', ModalTable);
 
-function _createSuper$q(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$q(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$t(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$t = function _typeof(obj) { return typeof obj; }; } else { _typeof$t = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$t(obj); }
+
+function _classCallCheck$r(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$q(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$q(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$q(Constructor.prototype, protoProps); if (staticProps) _defineProperties$q(Constructor, staticProps); return Constructor; }
+
+function _inherits$q(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$q(subClass, superClass); }
+
+function _setPrototypeOf$q(o, p) { _setPrototypeOf$q = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$q(o, p); }
+
+function _createSuper$q(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$q(); return function _createSuperInternal() { var Super = _getPrototypeOf$q(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$q(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$q(this, result); }; }
+
+function _possibleConstructorReturn$q(self, call) { if (call && (_typeof$t(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$q(self); }
+
+function _assertThisInitialized$q(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$q() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$q(o) { _getPrototypeOf$q = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$q(o); }
+
 var TablePagination = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(TablePagination, _React$Component);
+  _inherits$q(TablePagination, _React$Component);
 
   var _super = _createSuper$q(TablePagination);
 
   function TablePagination(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, TablePagination);
+    _classCallCheck$r(this, TablePagination);
+
     _this = _super.call(this, props);
-    _this.handlePageChange = _this.handlePageChange.bind(babelHelpers.assertThisInitialized(_this));
+    _this.handlePageChange = _this.handlePageChange.bind(_assertThisInitialized$q(_this));
     return _this;
   }
 
-  babelHelpers.createClass(TablePagination, [{
+  _createClass$q(TablePagination, [{
     key: "handlePageChange",
     value: function handlePageChange(pageNumber) {
       openTablePage(this.props.value.data.attributes, this.props.frontendParams, pageNumber);
@@ -8106,6 +8705,7 @@ var TablePagination = /*#__PURE__*/function (_React$Component) {
       });
     }
   }]);
+
   return TablePagination;
 }(React.Component);
 
@@ -8441,9 +9041,39 @@ function plotComponentFactory(Plotly) {
 
 var createPlotlyComponent = /*@__PURE__*/getDefaultExportFromCjs(factory);
 
-function _createSuper$r(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$r(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$u(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$u = function _typeof(obj) { return typeof obj; }; } else { _typeof$u = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$u(obj); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray$2(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray$2(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$2(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$2(o, minLen); }
+
+function _arrayLikeToArray$2(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _classCallCheck$s(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$r(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$r(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$r(Constructor.prototype, protoProps); if (staticProps) _defineProperties$r(Constructor, staticProps); return Constructor; }
+
+function _inherits$r(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$r(subClass, superClass); }
+
+function _setPrototypeOf$r(o, p) { _setPrototypeOf$r = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$r(o, p); }
+
+function _createSuper$r(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$r(); return function _createSuperInternal() { var Super = _getPrototypeOf$r(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$r(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$r(this, result); }; }
+
+function _possibleConstructorReturn$r(self, call) { if (call && (_typeof$u(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$r(self); }
+
+function _assertThisInitialized$r(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$r() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$r(o) { _getPrototypeOf$r = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$r(o); }
 var Plot = createPlotlyComponent(Plotly);
 /**
  *  The plotlyjs library is used for ploting charts
@@ -8455,14 +9085,15 @@ var Plot = createPlotlyComponent(Plotly);
  **/
 
 var Chart = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(Chart, _React$Component);
+  _inherits$r(Chart, _React$Component);
 
   var _super = _createSuper$r(Chart);
 
   function Chart(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, Chart);
+    _classCallCheck$s(this, Chart);
+
     _this = _super.call(this, props);
     _this.state = {
       data: [],
@@ -8470,11 +9101,11 @@ var Chart = /*#__PURE__*/function (_React$Component) {
       frames: [],
       config: {}
     };
-    _this.storeChartState = _this.storeChartState.bind(babelHelpers.assertThisInitialized(_this));
+    _this.storeChartState = _this.storeChartState.bind(_assertThisInitialized$r(_this));
     return _this;
   }
 
-  babelHelpers.createClass(Chart, [{
+  _createClass$r(Chart, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       this.storeChartState(this.props);
@@ -8549,7 +9180,7 @@ var Chart = /*#__PURE__*/function (_React$Component) {
           var chartAttr = rows[0].cells[idx].options.chart;
 
           for (var _i = 0, _Object$entries = Object.entries(chartAttr); _i < _Object$entries.length; _i++) {
-            var _Object$entries$_i = babelHelpers.slicedToArray(_Object$entries[_i], 2),
+            var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
                 key = _Object$entries$_i[0],
                 value = _Object$entries$_i[1];
 
@@ -8610,6 +9241,7 @@ var Chart = /*#__PURE__*/function (_React$Component) {
       });
     }
   }]);
+
   return Chart;
 }(React.Component);
 
@@ -8618,25 +9250,44 @@ Chart.propTypes = {
 };
 registerDocument("chart", Chart);
 
-function _createSuper$s(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$s(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$v(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$v = function _typeof(obj) { return typeof obj; }; } else { _typeof$v = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$v(obj); }
+
+function _classCallCheck$t(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$s(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$s(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$s(Constructor.prototype, protoProps); if (staticProps) _defineProperties$s(Constructor, staticProps); return Constructor; }
+
+function _inherits$s(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$s(subClass, superClass); }
+
+function _setPrototypeOf$s(o, p) { _setPrototypeOf$s = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$s(o, p); }
+
+function _createSuper$s(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$s(); return function _createSuperInternal() { var Super = _getPrototypeOf$s(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$s(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$s(this, result); }; }
+
+function _possibleConstructorReturn$s(self, call) { if (call && (_typeof$v(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$s(self); }
+
+function _assertThisInitialized$s(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$s() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$s(o) { _getPrototypeOf$s = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$s(o); }
 
 var route = function route(frontendParams, page) {
   changeDocument(frontendParams.documentName, {});
 };
 
 var Loading = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(Loading, _React$Component);
+  _inherits$s(Loading, _React$Component);
 
   var _super = _createSuper$s(Loading);
 
   function Loading() {
-    babelHelpers.classCallCheck(this, Loading);
+    _classCallCheck$t(this, Loading);
+
     return _super.apply(this, arguments);
   }
 
-  babelHelpers.createClass(Loading, [{
+  _createClass$s(Loading, [{
     key: "render",
     value: function render() {
       return /*#__PURE__*/React.createElement("div", {
@@ -8644,15 +9295,18 @@ var Loading = /*#__PURE__*/function (_React$Component) {
       });
     }
   }]);
+
   return Loading;
 }(React.Component);
 
 registerRoute("loading", route);
 
+function _defineProperty$7(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var route$1 = function route(frontendParams, entity, query, operation, contextParams) {
   var _operationInfo;
 
-  var operationInfo = (_operationInfo = {}, babelHelpers.defineProperty(_operationInfo, ENTITY_NAME_PARAM, entity), babelHelpers.defineProperty(_operationInfo, QUERY_NAME_PARAM, query || 'All records'), babelHelpers.defineProperty(_operationInfo, OPERATION_NAME_PARAM, operation), babelHelpers.defineProperty(_operationInfo, CONTEXT_PARAMS, JSON.stringify(contextParams || {})), _operationInfo);
+  var operationInfo = (_operationInfo = {}, _defineProperty$7(_operationInfo, ENTITY_NAME_PARAM, entity), _defineProperty$7(_operationInfo, QUERY_NAME_PARAM, query || 'All records'), _defineProperty$7(_operationInfo, OPERATION_NAME_PARAM, operation), _defineProperty$7(_operationInfo, CONTEXT_PARAMS, JSON.stringify(contextParams || {})), _operationInfo);
   loadForm(operationInfo, frontendParams);
 };
 
@@ -8692,10 +9346,12 @@ var route$4 = function route(frontendParams, page) {
 
 registerRoute("static", route$4);
 
+function _defineProperty$8(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var route$5 = function route(frontendParams, entity, query, params) {
   var _paramsObject;
 
-  var paramsObject = (_paramsObject = {}, babelHelpers.defineProperty(_paramsObject, ENTITY_NAME_PARAM, entity), babelHelpers.defineProperty(_paramsObject, QUERY_NAME_PARAM, query || 'All records'), babelHelpers.defineProperty(_paramsObject, CONTEXT_PARAMS, params || {}), _paramsObject);
+  var paramsObject = (_paramsObject = {}, _defineProperty$8(_paramsObject, ENTITY_NAME_PARAM, entity), _defineProperty$8(_paramsObject, QUERY_NAME_PARAM, query || 'All records'), _defineProperty$8(_paramsObject, CONTEXT_PARAMS, params || {}), _paramsObject);
   loadTable(paramsObject, frontendParams);
 };
 
@@ -8839,10 +9495,12 @@ var tableNamesCompleter = {
   }
 };
 
+function _defineProperty$9(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var route$6 = function route(frontendParams, params) {
   var _requestParams;
 
-  var requestParams = (_requestParams = {}, babelHelpers.defineProperty(_requestParams, CONTEXT_PARAMS, be5.net.paramString(params)), babelHelpers.defineProperty(_requestParams, TIMESTAMP_PARAM, new Date().getTime()), _requestParams);
+  var requestParams = (_requestParams = {}, _defineProperty$9(_requestParams, CONTEXT_PARAMS, be5.net.paramString(params)), _defineProperty$9(_requestParams, TIMESTAMP_PARAM, new Date().getTime()), _requestParams);
   initBeSqlEditor(function () {
     be5.net.request('queryBuilder', requestParams, function (data) {
       if (frontendParams.documentName === MAIN_DOCUMENT) be5.ui.setTitle("Query Builder");
@@ -8869,8 +9527,11 @@ var route$7 = function route(frontendParams, text) {
 
 registerRoute("text", route$7);
 
+function _defineProperty$a(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var route$8 = function route(frontendParams, entity) {
-  var requestParams = babelHelpers.defineProperty({}, ENTITY_NAME_PARAM, entity);
+  var requestParams = _defineProperty$a({}, ENTITY_NAME_PARAM, entity);
+
   be5.net.request('categories/forest/', requestParams, function (data) {
     changeDocument(frontendParams.documentName, {
       value: createStaticValue('', "<pre>" + JSON.stringify(data, null, 4) + "</pre>")
@@ -8880,9 +9541,29 @@ var route$8 = function route(frontendParams, entity) {
 
 registerRoute("categories", route$8);
 
-function _createSuper$t(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$t(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$w(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$w = function _typeof(obj) { return typeof obj; }; } else { _typeof$w = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$w(obj); }
+
+function _defineProperty$b(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck$u(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$t(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$t(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$t(Constructor.prototype, protoProps); if (staticProps) _defineProperties$t(Constructor, staticProps); return Constructor; }
+
+function _inherits$t(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$t(subClass, superClass); }
+
+function _setPrototypeOf$t(o, p) { _setPrototypeOf$t = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$t(o, p); }
+
+function _createSuper$t(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$t(); return function _createSuperInternal() { var Super = _getPrototypeOf$t(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$t(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$t(this, result); }; }
+
+function _possibleConstructorReturn$t(self, call) { if (call && (_typeof$w(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$t(self); }
+
+function _assertThisInitialized$t(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$t() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$t(o) { _getPrototypeOf$t = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$t(o); }
 var AceEditor;
 
 try {
@@ -8898,26 +9579,27 @@ try {
 }
 
 var QueryBuilder = /*#__PURE__*/function (_React$Component) {
-  babelHelpers.inherits(QueryBuilder, _React$Component);
+  _inherits$t(QueryBuilder, _React$Component);
 
   var _super = _createSuper$t(QueryBuilder);
 
   function QueryBuilder(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, QueryBuilder);
+    _classCallCheck$u(this, QueryBuilder);
+
     _this = _super.call(this, props);
     _this.state = {
       sql: _this.props.value.data.attributes.sql,
       value: _this.props.value
     };
-    _this.updateCode = _this.updateCode.bind(babelHelpers.assertThisInitialized(_this));
-    _this.submit = _this.submit.bind(babelHelpers.assertThisInitialized(_this));
-    _this.setSqlFromHistory = _this.setSqlFromHistory.bind(babelHelpers.assertThisInitialized(_this));
+    _this.updateCode = _this.updateCode.bind(_assertThisInitialized$t(_this));
+    _this.submit = _this.submit.bind(_assertThisInitialized$t(_this));
+    _this.setSqlFromHistory = _this.setSqlFromHistory.bind(_assertThisInitialized$t(_this));
     return _this;
   }
 
-  babelHelpers.createClass(QueryBuilder, [{
+  _createClass$t(QueryBuilder, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       this.initBeSqlMode();
@@ -8955,7 +9637,7 @@ var QueryBuilder = /*#__PURE__*/function (_React$Component) {
       var requestParams = (_requestParams = {
         sql: this.state.sql,
         updateWithoutBeSql: this.state.updateWithoutBeSql
-      }, babelHelpers.defineProperty(_requestParams, CONTEXT_PARAMS, this.props.value.params), babelHelpers.defineProperty(_requestParams, TIMESTAMP_PARAM, new Date().getTime()), _requestParams);
+      }, _defineProperty$b(_requestParams, CONTEXT_PARAMS, this.props.value.params), _defineProperty$b(_requestParams, TIMESTAMP_PARAM, new Date().getTime()), _requestParams);
       be5.net.request('queryBuilder', requestParams, function (json) {
         _this2.update(json);
       });
@@ -9080,20 +9762,22 @@ var QueryBuilder = /*#__PURE__*/function (_React$Component) {
       });
     }
   }]);
+
   return QueryBuilder;
 }(React.Component);
 
 var QueryBuilderOutput = /*#__PURE__*/function (_React$Component2) {
-  babelHelpers.inherits(QueryBuilderOutput, _React$Component2);
+  _inherits$t(QueryBuilderOutput, _React$Component2);
 
   var _super2 = _createSuper$t(QueryBuilderOutput);
 
   function QueryBuilderOutput() {
-    babelHelpers.classCallCheck(this, QueryBuilderOutput);
+    _classCallCheck$u(this, QueryBuilderOutput);
+
     return _super2.apply(this, arguments);
   }
 
-  babelHelpers.createClass(QueryBuilderOutput, [{
+  _createClass$t(QueryBuilderOutput, [{
     key: "shouldComponentUpdate",
     value: function shouldComponentUpdate(nextProps) {
       return nextProps.value.meta._ts_ > this.props.value.meta._ts_;
@@ -9112,6 +9796,7 @@ var QueryBuilderOutput = /*#__PURE__*/function (_React$Component2) {
       }));
     }
   }]);
+
   return QueryBuilderOutput;
 }(React.Component);
 
@@ -9238,9 +9923,29 @@ registerRoute('systemCard', function (frontendParams) {
   });
 });
 
-function _createSuper$u(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$u(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$x(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$x = function _typeof(obj) { return typeof obj; }; } else { _typeof$x = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$x(obj); }
+
+function _defineProperty$c(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck$v(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$u(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$u(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$u(Constructor.prototype, protoProps); if (staticProps) _defineProperties$u(Constructor, staticProps); return Constructor; }
+
+function _inherits$u(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$u(subClass, superClass); }
+
+function _setPrototypeOf$u(o, p) { _setPrototypeOf$u = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$u(o, p); }
+
+function _createSuper$u(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$u(); return function _createSuperInternal() { var Super = _getPrototypeOf$u(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$u(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$u(this, result); }; }
+
+function _possibleConstructorReturn$u(self, call) { if (call && (_typeof$x(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$u(self); }
+
+function _assertThisInitialized$u(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$u() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$u(o) { _getPrototypeOf$u = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$u(o); }
 /**
  * https://datatables.net/
  * https://habr.com/ru/post/330656/
@@ -9248,16 +9953,17 @@ function _isNativeReflectConstruct$u() { if (typeof Reflect === "undefined" || !
  */
 
 var DataTablesWrapper = /*#__PURE__*/function (_Component) {
-  babelHelpers.inherits(DataTablesWrapper, _Component);
+  _inherits$u(DataTablesWrapper, _Component);
 
   var _super = _createSuper$u(DataTablesWrapper);
 
   function DataTablesWrapper(props) {
-    babelHelpers.classCallCheck(this, DataTablesWrapper);
+    _classCallCheck$v(this, DataTablesWrapper);
+
     return _super.call(this, props);
   }
 
-  babelHelpers.createClass(DataTablesWrapper, [{
+  _createClass$u(DataTablesWrapper, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       this.applyTable(this.props, this.refs.main);
@@ -9375,7 +10081,7 @@ var DataTablesWrapper = /*#__PURE__*/function (_Component) {
             params._orderDir_ = data.order[0].dir;
           }
 
-          var requestParams = (_requestParams = {}, babelHelpers.defineProperty(_requestParams, ENTITY_NAME_PARAM, attributes.category), babelHelpers.defineProperty(_requestParams, QUERY_NAME_PARAM, attributes.page), babelHelpers.defineProperty(_requestParams, CONTEXT_PARAMS, params), _requestParams);
+          var requestParams = (_requestParams = {}, _defineProperty$c(_requestParams, ENTITY_NAME_PARAM, attributes.category), _defineProperty$c(_requestParams, QUERY_NAME_PARAM, attributes.page), _defineProperty$c(_requestParams, CONTEXT_PARAMS, params), _requestParams);
           updateTable(requestParams, function (jsonApiModel) {
             var json = jsonApiModel.data.attributes;
 
@@ -9473,7 +10179,7 @@ var DataTablesWrapper = /*#__PURE__*/function (_Component) {
       for (var i = 0; i < nColumns; i++) {
         var column = attributes.rows[0].cells[i];
 
-        if (babelHelpers["typeof"](column) === 'object') {
+        if (_typeof$x(column) === 'object') {
           if ('options' in column) {
             if ('grouping' in column.options) {
               groupingColumn = i;
@@ -9570,20 +10276,22 @@ var DataTablesWrapper = /*#__PURE__*/function (_Component) {
       });
     }
   }]);
+
   return DataTablesWrapper;
 }(Component);
 
 var DataTablesTableBox = /*#__PURE__*/function (_Component2) {
-  babelHelpers.inherits(DataTablesTableBox, _Component2);
+  _inherits$u(DataTablesTableBox, _Component2);
 
   var _super2 = _createSuper$u(DataTablesTableBox);
 
   function DataTablesTableBox() {
-    babelHelpers.classCallCheck(this, DataTablesTableBox);
+    _classCallCheck$v(this, DataTablesTableBox);
+
     return _super2.apply(this, arguments);
   }
 
-  babelHelpers.createClass(DataTablesTableBox, [{
+  _createClass$u(DataTablesTableBox, [{
     key: "render",
     value: function render() {
       var attr = this.props.value.data.attributes;
@@ -9612,6 +10320,7 @@ var DataTablesTableBox = /*#__PURE__*/function (_Component2) {
       }), /*#__PURE__*/React.createElement(DataTablesWrapper, this.props));
     }
   }]);
+
   return DataTablesTableBox;
 }(Component);
 
@@ -9625,21 +10334,40 @@ function getTableId(props) {
 
 registerTableBox('dataTable', DataTablesTableBox);
 
-function _createSuper$v(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$v(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$y(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$y = function _typeof(obj) { return typeof obj; }; } else { _typeof$y = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$y(obj); }
+
+function _classCallCheck$w(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$v(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$v(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$v(Constructor.prototype, protoProps); if (staticProps) _defineProperties$v(Constructor, staticProps); return Constructor; }
+
+function _inherits$v(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$v(subClass, superClass); }
+
+function _setPrototypeOf$v(o, p) { _setPrototypeOf$v = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$v(o, p); }
+
+function _createSuper$v(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$v(); return function _createSuperInternal() { var Super = _getPrototypeOf$v(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$v(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$v(this, result); }; }
+
+function _possibleConstructorReturn$v(self, call) { if (call && (_typeof$y(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$v(self); }
+
+function _assertThisInitialized$v(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$v() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$v(o) { _getPrototypeOf$v = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$v(o); }
+
 var JsonFormatTableBox = /*#__PURE__*/function (_Component) {
-  babelHelpers.inherits(JsonFormatTableBox, _Component);
+  _inherits$v(JsonFormatTableBox, _Component);
 
   var _super = _createSuper$v(JsonFormatTableBox);
 
   function JsonFormatTableBox() {
-    babelHelpers.classCallCheck(this, JsonFormatTableBox);
+    _classCallCheck$w(this, JsonFormatTableBox);
+
     return _super.apply(this, arguments);
   }
 
-  babelHelpers.createClass(JsonFormatTableBox, [{
+  _createClass$v(JsonFormatTableBox, [{
     key: "render",
     value: function render() {
       var _this$props$value$dat = this.props.value.data.attributes,
@@ -9674,26 +10402,46 @@ var JsonFormatTableBox = /*#__PURE__*/function (_Component) {
       return content;
     }
   }]);
+
   return JsonFormatTableBox;
 }(Component);
 
 registerTableBox('json', JsonFormatTableBox);
 
-function _createSuper$w(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$w(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$z(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$z = function _typeof(obj) { return typeof obj; }; } else { _typeof$z = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$z(obj); }
+
+function _classCallCheck$x(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$w(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$w(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$w(Constructor.prototype, protoProps); if (staticProps) _defineProperties$w(Constructor, staticProps); return Constructor; }
+
+function _inherits$w(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$w(subClass, superClass); }
+
+function _setPrototypeOf$w(o, p) { _setPrototypeOf$w = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$w(o, p); }
+
+function _createSuper$w(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$w(); return function _createSuperInternal() { var Super = _getPrototypeOf$w(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$w(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$w(this, result); }; }
+
+function _possibleConstructorReturn$w(self, call) { if (call && (_typeof$z(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$w(self); }
+
+function _assertThisInitialized$w(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$w() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$w(o) { _getPrototypeOf$w = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$w(o); }
+
 var OneColumnListTableBox = /*#__PURE__*/function (_Component) {
-  babelHelpers.inherits(OneColumnListTableBox, _Component);
+  _inherits$w(OneColumnListTableBox, _Component);
 
   var _super = _createSuper$w(OneColumnListTableBox);
 
   function OneColumnListTableBox() {
-    babelHelpers.classCallCheck(this, OneColumnListTableBox);
+    _classCallCheck$x(this, OneColumnListTableBox);
+
     return _super.apply(this, arguments);
   }
 
-  babelHelpers.createClass(OneColumnListTableBox, [{
+  _createClass$w(OneColumnListTableBox, [{
     key: "render",
     value: function render() {
       var list = this.props.value.data.attributes.rows.map(function (col, idx) {
@@ -9709,30 +10457,50 @@ var OneColumnListTableBox = /*#__PURE__*/function (_Component) {
       }, list), /*#__PURE__*/React.createElement(TablePagination, this.props));
     }
   }]);
+
   return OneColumnListTableBox;
 }(Component);
 
 registerTableBox('oneColumnList', OneColumnListTableBox);
 
-function _createSuper$x(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$x(); return function _createSuperInternal() { var Super = babelHelpers.getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = babelHelpers.getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return babelHelpers.possibleConstructorReturn(this, result); }; }
+function _typeof$A(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$A = function _typeof(obj) { return typeof obj; }; } else { _typeof$A = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$A(obj); }
+
+function _classCallCheck$y(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$x(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$x(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$x(Constructor.prototype, protoProps); if (staticProps) _defineProperties$x(Constructor, staticProps); return Constructor; }
+
+function _inherits$x(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$x(subClass, superClass); }
+
+function _setPrototypeOf$x(o, p) { _setPrototypeOf$x = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$x(o, p); }
+
+function _createSuper$x(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$x(); return function _createSuperInternal() { var Super = _getPrototypeOf$x(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$x(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$x(this, result); }; }
+
+function _possibleConstructorReturn$x(self, call) { if (call && (_typeof$A(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$x(self); }
+
+function _assertThisInitialized$x(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct$x() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _getPrototypeOf$x(o) { _getPrototypeOf$x = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$x(o); }
+
 var ReactTableBox = /*#__PURE__*/function (_Component) {
-  babelHelpers.inherits(ReactTableBox, _Component);
+  _inherits$x(ReactTableBox, _Component);
 
   var _super = _createSuper$x(ReactTableBox);
 
   function ReactTableBox(props) {
     var _this;
 
-    babelHelpers.classCallCheck(this, ReactTableBox);
+    _classCallCheck$y(this, ReactTableBox);
+
     _this = _super.call(this, props);
-    _this.onOperationClick = _this.onOperationClick.bind(babelHelpers.assertThisInitialized(_this));
+    _this.onOperationClick = _this.onOperationClick.bind(_assertThisInitialized$x(_this));
     return _this;
   }
 
-  babelHelpers.createClass(ReactTableBox, [{
+  _createClass$x(ReactTableBox, [{
     key: "onOperationClick",
     value: function onOperationClick(operation) {
       if (operation.clientSide === true) {
@@ -9955,7 +10723,7 @@ var ReactTableBox = /*#__PURE__*/function (_Component) {
       }
 
       attributes.columns.forEach(function (column, idx) {
-        var title = babelHelpers["typeof"](column) === 'object' ? column.title : column;
+        var title = _typeof$A(column) === 'object' ? column.title : column;
         theadrow.push( /*#__PURE__*/React.createElement("th", {
           key: idx
         }, title)); //formatCell(title, 'th', true)
@@ -10039,6 +10807,7 @@ var ReactTableBox = /*#__PURE__*/function (_Component) {
       return data;
     }
   }]);
+
   return ReactTableBox;
 }(Component);
 

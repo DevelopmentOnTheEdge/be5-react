@@ -68,6 +68,7 @@ module.exports = env => {
     return {
         mode: "production",
         optimization: {minimize: env.min},
+        devtool: env.min ? false : 'inline-source-map',
         entry: {
             'be5-react': ['babel-polyfill', './src/scripts/be5/main.js']
         },
@@ -80,7 +81,6 @@ module.exports = env => {
             libraryTarget: 'umd',
             umdNamedDefine: true
         },
-        devtool: 'inline-source-map',
         resolve: {
             extensions: ['.js', '.jsx','.css']
         },
