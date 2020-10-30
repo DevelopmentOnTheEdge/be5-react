@@ -5,15 +5,21 @@ const rules = require('./webpack.common').rules;
 const externals = require('./webpack.common').externals;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
-const {MiniCssExtractPlugin} = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = process.env.PORT || "8888";
 
 rules.push({
     test: /\.scss$/,
-    use: ['style-loader',{loader: 'css-loader', options: {importLoaders: '1'}},'sass-loader'],
-    exclude: ['node_modules']
+    use: [
+        'style-loader',
+        MiniCssExtractPlugin.loader,
+        {loader: 'css-loader',options: {importLoaders: '1'}},
+        {loader: 'sass-loader',options: {implementation: require('sass')}}
+
+    ],
+    exclude: /node_modules/
 });
 
 module.exports = {
