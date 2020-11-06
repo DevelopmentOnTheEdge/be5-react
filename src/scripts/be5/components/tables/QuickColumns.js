@@ -1,45 +1,20 @@
 import React from 'react';
 import be5 from '../../be5';
 import bus from "../../core/bus";
-import Select, {Option} from 'react-select';
+import Select, {components} from 'react-select';
 
-
-//custom Option for react-select v1
-// @see https://github.com/JedWatson/react-select/blob/v1.x/examples/src/components/CustomComponents.js
-class CheckBoxOption extends React.Component {
-  constructor(props) {
-    super(props);
-    this.checkBoxOnChange = this.checkBoxOnChange.bind(this)
-  };
-
-  checkBoxOnChange(){
-    this.props.option.quickHandleChange(this.props.option.idx);
-  }
-
-  render() {
-    const {label, columnId, checked} = this.props.option
-    const quickId = "quick" + columnId;
-    return (
-
-/*
-        <div className="Select-value" title={label}>
-              <span className="Select-value-label d-flex flex-row">
-                <input type="checkBox" id={quickId} name= {quickId} checked={checked}
-                            onChange={() => this.checkBoxOnChange()}/>
-                <label htmlFor={quickId}>{label}</label>
-              </span>
-        </div>
-*/
-              <div className="d-flex flex-row align-items-center">
-                <div className="ml-2"><input type="checkBox" id={quickId} name= {quickId} checked={checked}
-                            onChange={() => this.checkBoxOnChange()}/></div>
-                <div className="ml-2 mt-1"><label htmlFor={quickId}>{label}</label></div>
-              </div>
-    )
-  }
-}
-
-
+const Option = props => {
+  const {value, options} = props;
+  const checkedOptions = options.filter(option => option.checked).map(option => option.columnId);
+  const checked = value === "*" ? checkedOptions.length === options.length : checkedOptions.includes(value);
+  return (
+    <>
+      <components.Option {...props}>
+        <input type="checkbox" checked={checked} onChange={() => {}}/>{" "}
+        <label>{props.label}</label>
+      </components.Option>
+    </>
+)}
 
 class QuickColumns extends React.Component {
   constructor(props) {
@@ -65,21 +40,18 @@ class QuickColumns extends React.Component {
     //const firstRow=props.rows[0].cells;
     return {
       quickColumns:
-        props.columns
-          .map((col, idx) => {
-            if (col.quick)
-              return {columnId: idx, visible: col.quick === 'yes'};
-            else return null;
-          })
-          .filter((col) => {
-            return col !== null
-          })
+          props.columns
+              .map((col, idx) => {
+                if (col.quick)
+                  return {columnId: idx, visible: col.quick === 'yes'};
+                else return null;
+              }).filter((col) => col !== null)
     };
   }
 
-  quickHandleChange(idx) {
+  quickHandleChange(idx, visible) {
     const quickColumn = this.state.quickColumns[idx];
-    quickColumn.visible = !quickColumn.visible;
+    quickColumn.visible = visible !== undefined ? visible : !quickColumn.visible;
     const value = quickColumn.visible ? "yes" : "no";
     be5.net.request("quick", {
       "table_name": this.props.category,
@@ -96,59 +68,89 @@ class QuickColumns extends React.Component {
     }
     this.updateDataTableQuickColumns();
 
-    const checks = this.state.quickColumns.map(function (cell, idx) {
-      const column = this.props.columns[cell.columnId];
-      const title = column.title.replace(/<br\s*[\/]?>/gi, " ");
-      return (
-          <span key={idx}>
+    const handleSelect = (selected, event) => {
+      // console.log(event)
+      const {action, option, removedValue} = event;
+      let indexes = [];
+      let visible;
+      const allIndexes = this.state.quickColumns.map((el, i) => i);
+      if (action === "select-option" && option && option.value !== "*") {
+        indexes.push(option.idx);
+      }else if (action === "select-option" && option && option.value === "*") {
+        indexes = allIndexes;
+        visible = true;
+      } else if (action === "deselect-option" && option && option.value !== "*") {
+        indexes.push(option.idx);
+      } else if (action === "deselect-option" && option && option.value == "*") {
+        indexes = allIndexes;
+        visible = false
+      } else if (action === "remove-value" && removedValue) {
+        indexes.push(removedValue.idx);
+      } else if (action === "clear") {
+        indexes = allIndexes;
+        visible = false;
+      }
+      indexes.forEach(idx => this.quickHandleChange(idx, visible));
+    }
+
+    const checks = () => {
+      this.state.quickColumns.map((cell, idx) => {
+        const column = this.props.columns[cell.columnId];
+        const title = column.title.replace(/<br\s*[\/]?>/gi, " ");
+        return (
+            <span key={idx}>
             <input className="checkbox-input" id={"quick" + idx} type="checkbox" checked={cell.visible}
                    onChange={() => this.quickHandleChange(idx)}/>
             <label htmlFor={"quick" + idx} className="rowIndex">{title} </label>
         </span>
-      );
-    }.bind(this));
+        );
+      })
+    };
 
 
     const select = (() => {
-      const id = "quick-select-" + this.props.page;
-      const options = [];
-      const value = [];
       const localization = be5.messages.property || {};//empty object for tests
+      const id = "quick-select-" + this.props.page;
+      const showAllOption = {
+        idx: "-1",
+        columnId: "-1",
+        value: "*",
+        label: localization.showAllColumnsText,
+        checked: true
+      }
+      const options = this.state.quickColumns.length > 0 ? [showAllOption] : [];
+      const values =  [];
 
       this.state.quickColumns.forEach((cell, idx) => {
         const column = this.props.columns[cell.columnId];
         const title = column.title.replace(/<br\s*[\/]?>/gi, " ");
-        options.push({
+        const option = {
           idx: idx,
           columnId: cell.columnId,
+          value:  cell.columnId,
           label: title,
-          checked: cell.visible,
-          quickHandleChange: this.quickHandleChange
-        });
+          checked: cell.visible
+        }
+        options.push(option);
         if (cell.visible) {
-          value.push(cell.columnId)
+          values.push(option)
         }
       })
+
       const selectAttr = {
         id: id,
         ref: id,
         name: id,
-        value: value,
+        onChange: handleSelect,
+        value: values,
         options: options,
-        // onChange: this.handleChangeSelect,
-        clearAllText: localization.clearAllText,
-        clearValueText: localization.clearValueText,
-        noResultsText: localization.noResultsText,
-        searchPromptText: localization.searchPromptText,
-        loadingPlaceholder: localization.loadingPlaceholder,
-        placeholder: localization.placeholder,
-        backspaceRemoves: false,
-        disabled: false,
-        multi: true,
-        matchPos: "any",
-        inputProps: {autoComplete: 'off'},
-        width: '200px',
-        optionComponent:CheckBoxOption
+        allowSelectAll: true,
+        closeMenuOnSelect: false,
+        hideSelectedOptions: false,
+        backspaceRemovesValue: false,
+        isDisabled: false,
+        isMulti: true,
+        components: {Option}
       };
 
       return (<Select {...selectAttr}/>);
@@ -162,7 +164,7 @@ class QuickColumns extends React.Component {
       } else {
         return <div id="quickColumns">
           <span id="checkbox-container">{be5.messages.otherColumns}:</span>
-          {checks}
+          {checks()}
         </div>
       }
     }

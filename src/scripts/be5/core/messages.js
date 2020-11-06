@@ -93,6 +93,7 @@ export default {
       locale: 'ru',
       clearAllText: 'Очистить всё',
       clearValueText: 'Очистить',
+      showAllColumnsText: 'Показать все колонки',
       noResultsText: 'Нет результатов',
       searchPromptText: 'Начните вводить для поиска',
       placeholder: 'Выберите...',
