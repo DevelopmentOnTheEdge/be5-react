@@ -69,7 +69,6 @@ class QuickColumns extends React.Component {
     this.updateDataTableQuickColumns();
 
     const handleSelect = (selected, event) => {
-      // console.log(event)
       const {action, option, removedValue} = event;
       let indexes = [];
       let visible;
@@ -78,7 +77,7 @@ class QuickColumns extends React.Component {
         indexes.push(option.idx);
       }else if (action === "select-option" && option && option.value === "*") {
         indexes = allIndexes;
-        visible = true;
+        visible = !option.checked;
       } else if (action === "deselect-option" && option && option.value !== "*") {
         indexes.push(option.idx);
       } else if (action === "deselect-option" && option && option.value == "*") {
@@ -116,7 +115,7 @@ class QuickColumns extends React.Component {
         columnId: "-1",
         value: "*",
         label: localization.showAllColumnsText,
-        checked: true
+        checked: this.state.quickColumns.find(el => !el.visible) === undefined//if has false than unchecked
       }
       const options = this.state.quickColumns.length > 0 ? [showAllOption] : [];
       const values =  [];
