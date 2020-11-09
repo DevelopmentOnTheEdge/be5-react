@@ -93,7 +93,7 @@ class QuickColumns extends React.Component {
     }
 
     const checks = () => {
-      this.state.quickColumns.map((cell, idx) => {
+      return this.state.quickColumns.map((cell, idx) => {
         const column = this.props.columns[cell.columnId];
         const title = column.title.replace(/<br\s*[\/]?>/gi, " ");
         return (
@@ -107,7 +107,7 @@ class QuickColumns extends React.Component {
     };
 
 
-    const select = (() => {
+    const select = () => {
       const localization = be5.messages.property || {};//empty object for tests
       const id = "quick-select-" + this.props.page;
       const showAllOption = {
@@ -153,7 +153,7 @@ class QuickColumns extends React.Component {
       };
 
       return (<Select {...selectAttr}/>);
-    });
+    };
     const getQuickColumns = () => {
       if (this.props.layout && this.props.layout.quickType === "select") {
         return <div id="quickColumns" className="d-flex flex-row flex-wrap align-items-center" >
