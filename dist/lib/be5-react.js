@@ -12294,11 +12294,7 @@ var Option$1 = function Option(props) {
     onChange: function onChange() {}
   }), " ", /*#__PURE__*/React.createElement("label", null, props.label)));
 };
-/*
-const MultiValue = props => (
-     <components.MultiValue {...props}/>
-)
-*/
+/*const MultiValue = props => (<components.MultiValue {...props}/>)*/
 
 
 var QuickColumns = /*#__PURE__*/function (_React$Component) {
