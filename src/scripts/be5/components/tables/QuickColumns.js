@@ -16,6 +16,8 @@ const Option = props => {
     </>
 )}
 
+/*const MultiValue = props => (<components.MultiValue {...props}/>)*/
+
 class QuickColumns extends React.Component {
   constructor(props) {
     super(props);
@@ -106,15 +108,13 @@ class QuickColumns extends React.Component {
       })
     };
 
-
     const select = () => {
-      const localization = be5.messages.property || {};//empty object for tests
       const id = "quick-select-" + this.props.page;
       const showAllOption = {
         idx: "-1",
         columnId: "-1",
         value: "*",
-        label: localization.showAllColumnsText,
+        label: be5.messages.showAllColumns,
         checked: this.state.quickColumns.find(el => !el.visible) === undefined//if has false than unchecked
       }
       const options = this.state.quickColumns.length > 0 ? [showAllOption] : [];
@@ -146,10 +146,13 @@ class QuickColumns extends React.Component {
         allowSelectAll: true,
         closeMenuOnSelect: false,
         hideSelectedOptions: false,
-        backspaceRemovesValue: false,
         isDisabled: false,
         isMulti: true,
-        components: {Option}
+        components: {Option},
+        /*don't show value in input box*/
+        controlShouldRenderValue: false,
+        isClearable: false,
+        backspaceRemovesValue: false
       };
 
       return (<Select {...selectAttr}/>);

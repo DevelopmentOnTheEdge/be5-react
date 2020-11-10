@@ -639,6 +639,7 @@ var messages = {
     loading: 'Page is loading...',
     settings: 'Settings',
     otherColumns: 'Other columns',
+    showAllColumns: 'Show all columns',
     roles: 'Roles',
     back: 'Back',
     error: 'Error:',
@@ -687,6 +688,7 @@ var messages = {
     loading: 'Загрузка...',
     settings: 'Настройки',
     otherColumns: 'Другие колонки',
+    showAllColumns: 'Показать все колонки',
     roles: 'Роли',
     back: 'Назад',
     error: 'Ошибка:',
@@ -708,7 +710,6 @@ var messages = {
       locale: 'ru',
       clearAllText: 'Очистить всё',
       clearValueText: 'Очистить',
-      showAllColumnsText: 'Показать все колонки',
       noResultsText: 'Нет результатов',
       searchPromptText: 'Начните вводить для поиска',
       placeholder: 'Выберите...',
@@ -12293,6 +12294,12 @@ var Option$1 = function Option(props) {
     onChange: function onChange() {}
   }), " ", /*#__PURE__*/React.createElement("label", null, props.label)));
 };
+/*
+const MultiValue = props => (
+     <components.MultiValue {...props}/>
+)
+*/
+
 
 var QuickColumns = /*#__PURE__*/function (_React$Component) {
   _inherits$m(QuickColumns, _React$Component);
@@ -12419,14 +12426,12 @@ var QuickColumns = /*#__PURE__*/function (_React$Component) {
       };
 
       var select = function select() {
-        var localization = be5.messages.property || {}; //empty object for tests
-
         var id = "quick-select-" + _this2.props.page;
         var showAllOption = {
           idx: "-1",
           columnId: "-1",
           value: "*",
-          label: localization.showAllColumnsText,
+          label: be5.messages.showAllColumns,
           checked: _this2.state.quickColumns.find(function (el) {
             return !el.visible;
           }) === undefined //if has false than unchecked
@@ -12462,12 +12467,16 @@ var QuickColumns = /*#__PURE__*/function (_React$Component) {
           allowSelectAll: true,
           closeMenuOnSelect: false,
           hideSelectedOptions: false,
-          backspaceRemovesValue: false,
           isDisabled: false,
           isMulti: true,
           components: {
             Option: Option$1
-          }
+          },
+
+          /*don't show value in input box*/
+          controlShouldRenderValue: false,
+          isClearable: false,
+          backspaceRemovesValue: false
         };
         return /*#__PURE__*/React.createElement(index$1, selectAttr);
       };
