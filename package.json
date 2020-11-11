@@ -13,7 +13,7 @@
     "watch": "npm test -- --watch",
     "coverage": "npm test -- --coverage",
     "coveralls": "npm run-script coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "up": "npm version patch && npm publish",
+    "up": "npm version patch",
     "lib": "rollup -c rollup.config.js"
   },
   "dependencies": {
