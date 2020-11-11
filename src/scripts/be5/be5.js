@@ -123,7 +123,7 @@ const be5 = {
         res.push(encodeURIComponent(positional[i]));
       }
       for (let key in named) {
-        res.push(key + '=' + named[key]);
+        res.push(key + '=' + encodeURIComponent(named[key]));
       }
       return res.join('/');
     },

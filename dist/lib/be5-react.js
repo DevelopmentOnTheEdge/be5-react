@@ -963,7 +963,7 @@ var be5 = {
       }
 
       for (var key in named) {
-        res.push(key + '=' + named[key]);
+        res.push(key + '=' + encodeURIComponent(named[key]));
       }
 
       return res.join('/');
