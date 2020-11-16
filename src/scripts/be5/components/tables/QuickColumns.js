@@ -2,6 +2,7 @@ import React from 'react';
 import be5 from '../../be5';
 import bus from "../../core/bus";
 import Select, {components} from 'react-select';
+import {getColumnSettings, isGuest, setColumnSettings} from "../../utils/utils";
 
 const Option = props => {
   const {value, options} = props;
@@ -38,15 +39,24 @@ class QuickColumns extends React.Component {
   }
 
   createStateFromProps(props) {
+    const table_name = props.category;
+    const query_name = props.page;
     if (props.columns.length === 0) return [];
     //const firstRow=props.rows[0].cells;
     return {
       quickColumns:
           props.columns
               .map((col, idx) => {
-                if (col.quick)
-                  return {columnId: idx, visible: col.quick === 'yes'};
-                else return null;
+                if (col.quick) {
+                  const quickInfo = {columnId: idx, visible: col.quick === 'yes'};
+                  if (isGuest) {
+                    console.log(col)
+                    const visible = getColumnSettings(table_name, query_name, col.name, "visible");
+                    if (visible)
+                      quickInfo.visible = visible === 'yes';
+                  }
+                  return quickInfo;
+                } else return null;
               }).filter((col) => col !== null)
     };
   }
@@ -55,12 +65,21 @@ class QuickColumns extends React.Component {
     const quickColumn = this.state.quickColumns[idx];
     quickColumn.visible = visible !== undefined ? visible : !quickColumn.visible;
     const value = quickColumn.visible ? "yes" : "no";
-    be5.net.request("quick", {
-      "table_name": this.props.category,
-      "query_name": this.props.page,
-      "column_name": this.props.columns[quickColumn.columnId].name,
-      "quick": value
-    });
+    const table_name = this.props.category;
+    const query_name = this.props.page;
+    const column_name = this.props.columns[quickColumn.columnId].name;
+
+    if (isGuest) {
+      setColumnSettings(table_name, query_name, column_name, "visible", value)
+    } else {
+      be5.net.request("quick", {
+        "table_name": this.props.category,
+        "query_name": this.props.page,
+        "column_name": this.props.columns[quickColumn.columnId].name,
+        "quick": value
+      });
+    }
+
     this.forceUpdate();
   }
 

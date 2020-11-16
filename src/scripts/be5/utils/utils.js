@@ -1,7 +1,9 @@
 import {registerDocument} from "../core/registers/documents";
 import {registerRoute} from "../core/registers/routes";
 import FrontendAction from "../services/model/FrontendAction";
-import {GO_BACK, OPEN_DEFAULT_ROUTE} from "../constants";
+import {COLUMN_SETTINGS_KEY, GO_BACK, OPEN_DEFAULT_ROUTE, ROLE_GUEST} from "../constants";
+import be5 from "../be5";
+import {getCurrentRoles} from "../store/selectors/user.selectors";
 
 export const arraysEqual = function (a, b) {
   if (a === b) return true;
@@ -57,3 +59,44 @@ export const getBackAction = () => {
 export const hashUrlIsEmpty = (url) => {
   return url === '' || url === '#' || url === '#!';
 };
+
+export const isGuest = () => {
+  return be5.getStoreState() && getCurrentRoles(be5.getStoreState()) && getCurrentRoles(be5.getStoreState()).includes(ROLE_GUEST);
+}
+
+export const setColumnSettings = (table_name, query_name, column_name, settingName, settingValue) => {
+  let settings = JSON.parse(localStorage.getItem(COLUMN_SETTINGS_KEY));
+  if(!settings || !Array.isArray(settings)){
+    settings = [];
+  }
+  let querySettings = settings.find( el => el.table_name == table_name && el.query_name === query_name);
+  if(!querySettings){
+    settings.push({
+      table_name: table_name,
+      query_name: query_name,
+      columnSettings: [{column_name: column_name, [settingName]: settingValue}]
+    });
+  } else {
+    const columnSetting = querySettings.columnSettings.find( el => el.column_name === column_name);
+    if(!columnSetting){
+      querySettings.columnSettings.push({column_name: column_name, [settingName]: settingValue})
+    } else{
+      columnSetting[settingName] = settingValue;
+    }
+  }
+  localStorage.setItem(COLUMN_SETTINGS_KEY, JSON.stringify(settings))
+}
+
+export const getColumnSettings = (table_name, query_name, column_name, settingName) => {
+  const settings = JSON.parse(localStorage.getItem(COLUMN_SETTINGS_KEY));
+  if (settings) {
+    const querySettings = settings.find(el => el.table_name === table_name && el.query_name === query_name);
+    if (querySettings) {
+      const columnSetting = querySettings.columnSettings.find(el => el.column_name === column_name);
+      if (columnSetting) {
+        return columnSetting[settingName];
+      }
+    }
+  }
+  return null;
+}
