@@ -124,7 +124,10 @@ var api = /*#__PURE__*/Object.freeze({
   get LIMIT () { return LIMIT; },
   get ORDER_COLUMN () { return ORDER_COLUMN; },
   get ORDER_DIR () { return ORDER_DIR; },
-  get DEFAULT_TABLE_BOX () { return DEFAULT_TABLE_BOX; }
+  get DEFAULT_TABLE_BOX () { return DEFAULT_TABLE_BOX; },
+  get COLUMN_SETTINGS () { return COLUMN_SETTINGS; },
+  get QUERY_SETTINGS () { return QUERY_SETTINGS; },
+  get RECORDS_PER_PAGE_SETTINGS () { return RECORDS_PER_PAGE_SETTINGS; }
 });
 
 var createMandatoryArgumentError = function createMandatoryArgumentError(message) {
@@ -193,6 +196,9 @@ var LIMIT = "_limit_";
 var ORDER_COLUMN = "_orderColumn_";
 var ORDER_DIR = "_orderDir_";
 var DEFAULT_TABLE_BOX = "dataTable";
+var COLUMN_SETTINGS = "be5columnSettings";
+var QUERY_SETTINGS = "be5querySettings";
+var RECORDS_PER_PAGE_SETTINGS = "recordsPerPage";
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -801,6 +807,7 @@ var getAllDocumentTypes = function getAllDocumentTypes() {
   return Object.keys(documents);
 };
 
+function _defineProperty$1(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var arraysEqual = function arraysEqual(a, b) {
   if (a === b) return true;
   if (a === null || b === null) return false;
@@ -813,6 +820,9 @@ var arraysEqual = function arraysEqual(a, b) {
   }
 
   return true;
+};
+var isEmptyString = function isEmptyString(str) {
+  return str === null || str === undefined || String(str) === '';
 };
 var registerPage = function registerPage(actionName, component, fn) {
   registerDocument(actionName, component);
@@ -857,6 +867,99 @@ var getBackAction = function getBackAction() {
 };
 var hashUrlIsEmpty = function hashUrlIsEmpty(url) {
   return url === '' || url === '#' || url === '#!';
+};
+var isGuest = function isGuest() {
+  return be5.getStoreState() && getCurrentRoles(be5.getStoreState()) && getCurrentRoles(be5.getStoreState()).includes(ROLE_GUEST);
+};
+var setColumnSettings = function setColumnSettings(table_name, query_name, column_name, settingName, settingValue) {
+  var settings = JSON.parse(localStorage.getItem(COLUMN_SETTINGS));
+
+  if (!settings || !Array.isArray(settings)) {
+    settings = [];
+  }
+
+  var querySettings = settings.find(function (el) {
+    return el.table_name == table_name && el.query_name === query_name;
+  });
+
+  if (!querySettings) {
+    settings.push({
+      table_name: table_name,
+      query_name: query_name,
+      columnSettings: [_defineProperty$1({
+        column_name: column_name
+      }, settingName, settingValue)]
+    });
+  } else {
+    var columnSetting = querySettings.columnSettings.find(function (el) {
+      return el.column_name === column_name;
+    });
+
+    if (!columnSetting) {
+      querySettings.columnSettings.push(_defineProperty$1({
+        column_name: column_name
+      }, settingName, settingValue));
+    } else {
+      columnSetting[settingName] = settingValue;
+    }
+  }
+
+  localStorage.setItem(COLUMN_SETTINGS, JSON.stringify(settings));
+};
+var getColumnSettings = function getColumnSettings(table_name, query_name, column_name, settingName) {
+  var settings = JSON.parse(localStorage.getItem(COLUMN_SETTINGS));
+
+  if (settings) {
+    var querySettings = settings.find(function (el) {
+      return el.table_name === table_name && el.query_name === query_name;
+    });
+
+    if (querySettings) {
+      var columnSetting = querySettings.columnSettings.find(function (el) {
+        return el.column_name === column_name;
+      });
+
+      if (columnSetting) {
+        return columnSetting[settingName];
+      }
+    }
+  }
+
+  return null;
+};
+var setQuerySettings = function setQuerySettings(table_name, query_name, settingName, settingValue) {
+  var settings = JSON.parse(localStorage.getItem(QUERY_SETTINGS));
+
+  if (!settings || !Array.isArray(settings)) {
+    settings = [];
+  }
+
+  var querySettings = settings.find(function (el) {
+    return el.table_name == table_name && el.query_name === query_name;
+  });
+
+  if (!querySettings) {
+    settings.push(_defineProperty$1({
+      table_name: table_name,
+      query_name: query_name
+    }, settingName, settingValue));
+  } else {
+    querySettings[settingName] = settingValue;
+  }
+
+  localStorage.setItem(QUERY_SETTINGS, JSON.stringify(settings));
+};
+var getQuerySettings = function getQuerySettings(table_name, query_name, settingName) {
+  var settings = JSON.parse(localStorage.getItem(QUERY_SETTINGS));
+
+  if (settings) {
+    var querySettings = settings.find(function (el) {
+      return el.table_name === table_name && el.query_name === query_name;
+    });
+    if (querySettings) return querySettings[settingName];
+  }
+
+  return null;
 };
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1358,9 +1461,9 @@ UserControl.propTypes = {
   user: PropTypes.shape({})
 };
 
-function _defineProperty$1(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$2(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var _get = function _get(operationInfo, callback, failure) {
-  var data = Object.assign({}, operationInfo, _defineProperty$1({}, TIMESTAMP_PARAM, new Date().getTime()));
+  var data = Object.assign({}, operationInfo, _defineProperty$2({}, TIMESTAMP_PARAM, new Date().getTime()));
   $.ajax({
     url: be5.net.url('form'),
     data: data,
@@ -1393,7 +1496,7 @@ var _post = function _post(action, data, callback, failure) {
 
 function _typeof$1(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$1 = function _typeof(obj) { return typeof obj; }; } else { _typeof$1 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$1(obj); }
 
-function _defineProperty$2(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$3(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var loadOperation = function loadOperation(params, frontendParams) {
   _send('form', params, frontendParams);
 };
@@ -1570,7 +1673,7 @@ var getOperationInfoFromUrl = function getOperationInfoFromUrl(url) {
 
   var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var attr = be5.url.parse(url);
-  var operationInfo = (_operationInfo = {}, _defineProperty$2(_operationInfo, ENTITY_NAME_PARAM, attr.positional[1]), _defineProperty$2(_operationInfo, QUERY_NAME_PARAM, attr.positional[2]), _defineProperty$2(_operationInfo, OPERATION_NAME_PARAM, attr.positional[3]), _defineProperty$2(_operationInfo, CONTEXT_PARAMS, JSON.stringify(attr.named)), _operationInfo);
+  var operationInfo = (_operationInfo = {}, _defineProperty$3(_operationInfo, ENTITY_NAME_PARAM, attr.positional[1]), _defineProperty$3(_operationInfo, QUERY_NAME_PARAM, attr.positional[2]), _defineProperty$3(_operationInfo, OPERATION_NAME_PARAM, attr.positional[3]), _defineProperty$3(_operationInfo, CONTEXT_PARAMS, JSON.stringify(attr.named)), _operationInfo);
   return getOperationInfo(operationInfo, values);
 };
 
@@ -3773,7 +3876,7 @@ var addFilterParams = function addFilterParams(url, params) {
   return be5.url.form(attr.positional, attr.named);
 };
 
-function _defineProperty$3(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$4(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var loadTable = function loadTable(params, frontendParams) {
   getTable(params, function (json) {
     //todo remove 'json.data' check after change error code
@@ -3843,14 +3946,31 @@ var getTableParams = function getTableParams(url) {
   var _ref;
 
   var attr = be5.url.parse(url);
-  return _ref = {}, _defineProperty$3(_ref, ENTITY_NAME_PARAM, attr.positional[1]), _defineProperty$3(_ref, QUERY_NAME_PARAM, attr.positional[2]), _defineProperty$3(_ref, CONTEXT_PARAMS, attr.named), _ref;
+  return _ref = {}, _defineProperty$4(_ref, ENTITY_NAME_PARAM, attr.positional[1]), _defineProperty$4(_ref, QUERY_NAME_PARAM, attr.positional[2]), _defineProperty$4(_ref, CONTEXT_PARAMS, attr.named), _ref;
 };
 var getTable = function getTable(params, callback) {
   var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
+
+  if (isGuest) {
+    var limit = getQuerySettings(params[ENTITY_NAME_PARAM], params[QUERY_NAME_PARAM], RECORDS_PER_PAGE_SETTINGS);
+
+    if (!isEmptyString(limit) && params[CONTEXT_PARAMS] && isEmptyString(params[CONTEXT_PARAMS][LIMIT])) {
+      params[CONTEXT_PARAMS][LIMIT] = limit;
+    }
+  }
+
   be5.net.request('table', getRequestParams(params), callback, failure);
 };
 var updateTable = function updateTable(params, callback) {
   var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
+  var limit = params[CONTEXT_PARAMS] ? params[CONTEXT_PARAMS][LIMIT] : null;
+
+  if (isGuest && !isEmptyString(limit)) {
+    var entity = params[ENTITY_NAME_PARAM];
+    var query = params[QUERY_NAME_PARAM];
+    if (getQuerySettings(RECORDS_PER_PAGE_SETTINGS) !== limit) setQuerySettings(entity, query, RECORDS_PER_PAGE_SETTINGS, limit);
+  }
+
   be5.net.request('table/update', getRequestParams(params), callback, failure);
 };
 
@@ -3880,7 +4000,7 @@ var getRequestParams = function getRequestParams(params) {
   Preconditions.passed(entity);
   Preconditions.passed(query);
   var finalParams = withSavedTableFilter(entity, query, params[CONTEXT_PARAMS]);
-  return _ref2 = {}, _defineProperty$3(_ref2, ENTITY_NAME_PARAM, entity), _defineProperty$3(_ref2, QUERY_NAME_PARAM, query), _defineProperty$3(_ref2, CONTEXT_PARAMS, be5.net.paramString(finalParams)), _defineProperty$3(_ref2, TIMESTAMP_PARAM, new Date().getTime()), _ref2;
+  return _ref2 = {}, _defineProperty$4(_ref2, ENTITY_NAME_PARAM, entity), _defineProperty$4(_ref2, QUERY_NAME_PARAM, query), _defineProperty$4(_ref2, CONTEXT_PARAMS, be5.net.paramString(finalParams)), _defineProperty$4(_ref2, TIMESTAMP_PARAM, new Date().getTime()), _ref2;
 };
 
 function withSavedTableFilter(entity, query, params) {
@@ -3966,7 +4086,7 @@ var jQueryFormatCell = function jQueryFormatCell(data, options, isColumn) {
 
 function _typeof$f(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$f = function _typeof(obj) { return typeof obj; }; } else { _typeof$f = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$f(obj); }
 
-function _defineProperty$4(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$5(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck$e(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4038,7 +4158,7 @@ var Form = /*#__PURE__*/function (_React$Component) {
         positional = ['form', attr.entity, attr.query, attr.operation];
       }
 
-      var operationInfo = (_operationInfo = {}, _defineProperty$4(_operationInfo, ENTITY_NAME_PARAM, positional[1]), _defineProperty$4(_operationInfo, QUERY_NAME_PARAM, positional[2]), _defineProperty$4(_operationInfo, OPERATION_NAME_PARAM, positional[3]), _defineProperty$4(_operationInfo, CONTEXT_PARAMS, JSON.stringify(attr.operationParams)), _operationInfo);
+      var operationInfo = (_operationInfo = {}, _defineProperty$5(_operationInfo, ENTITY_NAME_PARAM, positional[1]), _defineProperty$5(_operationInfo, QUERY_NAME_PARAM, positional[2]), _defineProperty$5(_operationInfo, OPERATION_NAME_PARAM, positional[3]), _defineProperty$5(_operationInfo, CONTEXT_PARAMS, JSON.stringify(attr.operationParams)), _operationInfo);
       return getOperationInfo(operationInfo, values);
     }
   }, {
@@ -4857,7 +4977,7 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
 
 CategoryNavigation.propTypes = propTypes$4;
 
-function _defineProperty$5(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$6(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var positionsParamNames = [ORDER_COLUMN, ORDER_DIR, OFFSET, LIMIT];
 var propTypes$5 = {};
 
@@ -4879,7 +4999,7 @@ var FilterUI = function FilterUI(_ref) {
       return newParams[x] = params[x];
     });
     clearTableFilter(entity, query, newParams);
-    var paramsObject = (_paramsObject = {}, _defineProperty$5(_paramsObject, ENTITY_NAME_PARAM, entity), _defineProperty$5(_paramsObject, QUERY_NAME_PARAM, query || 'All records'), _defineProperty$5(_paramsObject, CONTEXT_PARAMS, newParams), _paramsObject);
+    var paramsObject = (_paramsObject = {}, _defineProperty$6(_paramsObject, ENTITY_NAME_PARAM, entity), _defineProperty$6(_paramsObject, QUERY_NAME_PARAM, query || 'All records'), _defineProperty$6(_paramsObject, CONTEXT_PARAMS, newParams), _paramsObject);
     loadTable(paramsObject, frontendParams);
   }
 
@@ -4923,7 +5043,7 @@ var getAllTypes = function getAllTypes() {
   return Object.keys(tableBoxes);
 };
 
-function _defineProperty$6(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$7(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var propTypes$6 = {
   data: PropTypes.shape({
     attributes: PropTypes.array,
@@ -4959,7 +5079,7 @@ var QuickFiltersBox = function QuickFiltersBox(_ref) {
     }
 
     tags.forEach(function (tag) {
-      url = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, _defineProperty$6({}, param, tag[0])));
+      url = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, _defineProperty$7({}, param, tag[0])));
 
       if (pUrl.named[param] === tag[0]) {
         row.push( /*#__PURE__*/React.createElement("span", {
@@ -7023,7 +7143,7 @@ function _createClass$l(Constructor, protoProps, staticProps) {
   return Constructor;
 }
 
-function _defineProperty$7(obj, key, value) {
+function _defineProperty$8(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -7068,7 +7188,7 @@ function _objectSpread(target) {
     }
 
     ownKeys.forEach(function (key) {
-      _defineProperty$7(target, key, source[key]);
+      _defineProperty$8(target, key, source[key]);
     });
   }
 
@@ -7560,7 +7680,7 @@ var menuCSS = function menuCSS(_ref2) {
       colors = _ref2$theme.colors;
   return _ref3 = {
     label: 'menu'
-  }, _defineProperty$7(_ref3, alignToControl(placement), '100%'), _defineProperty$7(_ref3, "backgroundColor", colors.neutral0), _defineProperty$7(_ref3, "borderRadius", borderRadius), _defineProperty$7(_ref3, "boxShadow", '0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 11px hsla(0, 0%, 0%, 0.1)'), _defineProperty$7(_ref3, "marginBottom", spacing.menuGutter), _defineProperty$7(_ref3, "marginTop", spacing.menuGutter), _defineProperty$7(_ref3, "position", 'absolute'), _defineProperty$7(_ref3, "width", '100%'), _defineProperty$7(_ref3, "zIndex", 1), _ref3;
+  }, _defineProperty$8(_ref3, alignToControl(placement), '100%'), _defineProperty$8(_ref3, "backgroundColor", colors.neutral0), _defineProperty$8(_ref3, "borderRadius", borderRadius), _defineProperty$8(_ref3, "boxShadow", '0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 11px hsla(0, 0%, 0%, 0.1)'), _defineProperty$8(_ref3, "marginBottom", spacing.menuGutter), _defineProperty$8(_ref3, "marginTop", spacing.menuGutter), _defineProperty$8(_ref3, "position", 'absolute'), _defineProperty$8(_ref3, "width", '100%'), _defineProperty$8(_ref3, "zIndex", 1), _ref3;
 }; // NOTE: internal only
 
 var MenuPlacer =
@@ -7581,12 +7701,12 @@ function (_Component) {
 
     _this = _possibleConstructorReturn$l(this, (_getPrototypeOf2 = _getPrototypeOf$l(MenuPlacer)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "state", {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "state", {
       maxHeight: _this.props.maxMenuHeight,
       placement: null
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getPlacement", function (ref) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getPlacement", function (ref) {
       var _this$props = _this.props,
           minMenuHeight = _this$props.minMenuHeight,
           maxMenuHeight = _this$props.maxMenuHeight,
@@ -7613,7 +7733,7 @@ function (_Component) {
       _this.setState(state);
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getUpdatedProps", function () {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getUpdatedProps", function () {
       var menuPlacement = _this.props.menuPlacement;
       var placement = _this.state.placement || coercePlacement(menuPlacement);
       return _objectSpread({}, _this.props, {
@@ -7639,7 +7759,7 @@ function (_Component) {
   return MenuPlacer;
 }(Component);
 
-_defineProperty$7(MenuPlacer, "contextTypes", {
+_defineProperty$8(MenuPlacer, "contextTypes", {
   getPortalPlacement: PropTypes.func
 });
 
@@ -7779,11 +7899,11 @@ function (_Component2) {
 
     _this2 = _possibleConstructorReturn$l(this, (_getPrototypeOf3 = _getPrototypeOf$l(MenuPortal)).call.apply(_getPrototypeOf3, [this].concat(args)));
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this2)), "state", {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this2)), "state", {
       placement: null
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this2)), "getPortalPlacement", function (_ref7) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this2)), "getPortalPlacement", function (_ref7) {
       var placement = _ref7.placement;
       var initialPlacement = coercePlacement(_this2.props.menuPlacement); // avoid re-renders if the placement has not changed
 
@@ -7845,7 +7965,7 @@ function (_Component2) {
   return MenuPortal;
 }(Component);
 
-_defineProperty$7(MenuPortal, "childContextTypes", {
+_defineProperty$8(MenuPortal, "childContextTypes", {
   getPortalPlacement: PropTypes.func
 });
 
@@ -8404,9 +8524,9 @@ function (_Component) {
 
     _this = _possibleConstructorReturn$l(this, (_getPrototypeOf2 = _getPrototypeOf$l(ScrollLock)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "originalStyles", {});
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "originalStyles", {});
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "listenerOptions", {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "listenerOptions", {
       capture: false,
       passive: false
     });
@@ -8510,7 +8630,7 @@ function (_Component) {
   return ScrollLock;
 }(Component);
 
-_defineProperty$7(ScrollLock, "defaultProps", {
+_defineProperty$8(ScrollLock, "defaultProps", {
   accountForScrollbars: true
 });
 
@@ -8536,11 +8656,11 @@ function (_PureComponent) {
 
     _this = _possibleConstructorReturn$l(this, (_getPrototypeOf2 = _getPrototypeOf$l(ScrollBlock)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "state", {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "state", {
       touchScrollTarget: null
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getScrollTarget", function (ref) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getScrollTarget", function (ref) {
       if (ref === _this.state.touchScrollTarget) return;
 
       _this.setState({
@@ -8548,7 +8668,7 @@ function (_PureComponent) {
       });
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "blurSelectInput", function () {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "blurSelectInput", function () {
       if (document.activeElement) {
         document.activeElement.blur();
       }
@@ -8621,20 +8741,20 @@ function (_Component) {
 
     _this = _possibleConstructorReturn$l(this, (_getPrototypeOf2 = _getPrototypeOf$l(ScrollCaptor)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "isBottom", false);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "isBottom", false);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "isTop", false);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "isTop", false);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "scrollTarget", void 0);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "scrollTarget", void 0);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "touchStart", void 0);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "touchStart", void 0);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "cancelScroll", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "cancelScroll", function (event) {
       event.preventDefault();
       event.stopPropagation();
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "handleEventDelta", function (event, delta) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "handleEventDelta", function (event, delta) {
       var _this$props = _this.props,
           onBottomArrive = _this$props.onBottomArrive,
           onBottomLeave = _this$props.onBottomLeave,
@@ -8684,22 +8804,22 @@ function (_Component) {
       }
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onWheel", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onWheel", function (event) {
       _this.handleEventDelta(event, event.deltaY);
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onTouchStart", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onTouchStart", function (event) {
       // set touch start so we can calculate touchmove delta
       _this.touchStart = event.changedTouches[0].clientY;
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onTouchMove", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onTouchMove", function (event) {
       var deltaY = _this.touchStart - event.changedTouches[0].clientY;
 
       _this.handleEventDelta(event, deltaY);
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getScrollTarget", function (ref) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getScrollTarget", function (ref) {
       _this.scrollTarget = ref;
     });
 
@@ -8790,7 +8910,7 @@ function (_Component2) {
   return ScrollCaptorSwitch;
 }(Component);
 
-_defineProperty$7(ScrollCaptorSwitch, "defaultProps", {
+_defineProperty$8(ScrollCaptorSwitch, "defaultProps", {
   isEnabled: true
 });
 
@@ -9509,7 +9629,7 @@ function (_Component2) {
   return MultiValue;
 }(Component);
 
-_defineProperty$7(MultiValue, "defaultProps", {
+_defineProperty$8(MultiValue, "defaultProps", {
   cropWithEllipsis: true
 });
 
@@ -9790,7 +9910,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn$l(this, _getPrototypeOf$l(Select).call(this, _props));
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "state", {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "state", {
       ariaLiveSelection: '',
       ariaLiveContext: '',
       focusedOption: null,
@@ -9804,67 +9924,67 @@ function (_Component) {
       selectValue: []
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "blockOptionHover", false);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "blockOptionHover", false);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "isComposing", false);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "isComposing", false);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "clearFocusValueOnUpdate", false);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "clearFocusValueOnUpdate", false);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "commonProps", void 0);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "commonProps", void 0);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "components", void 0);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "components", void 0);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "hasGroups", false);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "hasGroups", false);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "initialTouchX", 0);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "initialTouchX", 0);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "initialTouchY", 0);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "initialTouchY", 0);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "inputIsHiddenAfterUpdate", void 0);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "inputIsHiddenAfterUpdate", void 0);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "instancePrefix", '');
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "instancePrefix", '');
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "openAfterFocus", false);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "openAfterFocus", false);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "scrollToFocusedOptionOnUpdate", false);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "scrollToFocusedOptionOnUpdate", false);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "userIsDragging", void 0);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "userIsDragging", void 0);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "controlRef", null);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "controlRef", null);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getControlRef", function (ref) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getControlRef", function (ref) {
       _this.controlRef = ref;
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "focusedOptionRef", null);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "focusedOptionRef", null);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getFocusedOptionRef", function (ref) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getFocusedOptionRef", function (ref) {
       _this.focusedOptionRef = ref;
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "menuListRef", null);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "menuListRef", null);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getMenuListRef", function (ref) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getMenuListRef", function (ref) {
       _this.menuListRef = ref;
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "inputRef", null);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "inputRef", null);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getInputRef", function (ref) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getInputRef", function (ref) {
       _this.inputRef = ref;
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "cacheComponents", function (components$$1) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "cacheComponents", function (components$$1) {
       _this.components = defaultComponents({
         components: components$$1
       });
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "focus", _this.focusInput);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "focus", _this.focusInput);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "blur", _this.blurInput);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "blur", _this.blurInput);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onChange", function (newValue, actionMeta) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onChange", function (newValue, actionMeta) {
       var _this$props = _this.props,
           onChange = _this$props.onChange,
           name = _this$props.name;
@@ -9873,7 +9993,7 @@ function (_Component) {
       }));
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "setValue", function (newValue) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "setValue", function (newValue) {
       var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'set-value';
       var option = arguments.length > 2 ? arguments[2] : undefined;
       var _this$props2 = _this.props,
@@ -9899,7 +10019,7 @@ function (_Component) {
       });
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "selectOption", function (newValue) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "selectOption", function (newValue) {
       var _this$props3 = _this.props,
           blurInputOnSelect = _this$props3.blurInputOnSelect,
           isMulti = _this$props3.isMulti;
@@ -9967,7 +10087,7 @@ function (_Component) {
       }
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "removeValue", function (removedValue) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "removeValue", function (removedValue) {
       var selectValue = _this.state.selectValue;
 
       var candidate = _this.getOptionValue(removedValue);
@@ -9989,7 +10109,7 @@ function (_Component) {
       _this.focusInput();
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "clearValue", function () {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "clearValue", function () {
       var isMulti = _this.props.isMulti;
 
       _this.onChange(isMulti ? [] : null, {
@@ -9997,7 +10117,7 @@ function (_Component) {
       });
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "popValue", function () {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "popValue", function () {
       var selectValue = _this.state.selectValue;
       var lastSelectedValue = selectValue[selectValue.length - 1];
 
@@ -10014,26 +10134,26 @@ function (_Component) {
       });
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getOptionLabel", function (data) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getOptionLabel", function (data) {
       return _this.props.getOptionLabel(data);
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getOptionValue", function (data) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getOptionValue", function (data) {
       return _this.props.getOptionValue(data);
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getStyles", function (key, props) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getStyles", function (key, props) {
       var base = defaultStyles[key](props);
       base.boxSizing = 'border-box';
       var custom = _this.props.styles[key];
       return custom ? custom(base, props) : base;
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getElementId", function (element) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getElementId", function (element) {
       return "".concat(_this.instancePrefix, "-").concat(element);
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getActiveDescendentId", function () {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getActiveDescendentId", function () {
       var menuIsOpen = _this.props.menuIsOpen;
       var _this$state = _this.state,
           menuOptions = _this$state.menuOptions,
@@ -10044,7 +10164,7 @@ function (_Component) {
       return option && option.key;
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "announceAriaLiveSelection", function (_ref2) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "announceAriaLiveSelection", function (_ref2) {
       var event = _ref2.event,
           context = _ref2.context;
 
@@ -10053,7 +10173,7 @@ function (_Component) {
       });
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "announceAriaLiveContext", function (_ref3) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "announceAriaLiveContext", function (_ref3) {
       var event = _ref3.event,
           context = _ref3.context;
 
@@ -10064,7 +10184,7 @@ function (_Component) {
       });
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onMenuMouseDown", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onMenuMouseDown", function (event) {
       if (event.button !== 0) {
         return;
       }
@@ -10075,11 +10195,11 @@ function (_Component) {
       _this.focusInput();
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onMenuMouseMove", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onMenuMouseMove", function (event) {
       _this.blockOptionHover = false;
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onControlMouseDown", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onControlMouseDown", function (event) {
       var openMenuOnClick = _this.props.openMenuOnClick;
 
       if (!_this.state.isFocused) {
@@ -10105,7 +10225,7 @@ function (_Component) {
       }
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onDropdownIndicatorMouseDown", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onDropdownIndicatorMouseDown", function (event) {
       // ignore mouse events that weren't triggered by the primary button
       if (event && event.type === 'mousedown' && event.button !== 0) {
         return;
@@ -10130,7 +10250,7 @@ function (_Component) {
       event.stopPropagation();
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onClearIndicatorMouseDown", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onClearIndicatorMouseDown", function (event) {
       // ignore mouse events that weren't triggered by the primary button
       if (event && event.type === 'mousedown' && event.button !== 0) {
         return;
@@ -10145,7 +10265,7 @@ function (_Component) {
       });
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onScroll", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onScroll", function (event) {
       if (typeof _this.props.closeMenuOnScroll === 'boolean') {
         if (event.target instanceof HTMLElement && isDocumentElement(event.target)) {
           _this.props.onMenuClose();
@@ -10157,15 +10277,15 @@ function (_Component) {
       }
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onCompositionStart", function () {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onCompositionStart", function () {
       _this.isComposing = true;
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onCompositionEnd", function () {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onCompositionEnd", function () {
       _this.isComposing = false;
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onTouchStart", function (_ref4) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onTouchStart", function (_ref4) {
       var touches = _ref4.touches;
       var touch = touches.item(0);
 
@@ -10178,7 +10298,7 @@ function (_Component) {
       _this.userIsDragging = false;
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onTouchMove", function (_ref5) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onTouchMove", function (_ref5) {
       var touches = _ref5.touches;
       var touch = touches.item(0);
 
@@ -10192,7 +10312,7 @@ function (_Component) {
       _this.userIsDragging = deltaX > moveThreshold || deltaY > moveThreshold;
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onTouchEnd", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onTouchEnd", function (event) {
       if (_this.userIsDragging) return; // close the menu if the user taps outside
       // we're checking on event.target here instead of event.currentTarget, because we want to assert information
       // on events on child elements, not the document (which we've attached this handler to).
@@ -10206,25 +10326,25 @@ function (_Component) {
       _this.initialTouchY = 0;
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onControlTouchEnd", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onControlTouchEnd", function (event) {
       if (_this.userIsDragging) return;
 
       _this.onControlMouseDown(event);
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onClearIndicatorTouchEnd", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onClearIndicatorTouchEnd", function (event) {
       if (_this.userIsDragging) return;
 
       _this.onClearIndicatorMouseDown(event);
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onDropdownIndicatorTouchEnd", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onDropdownIndicatorTouchEnd", function (event) {
       if (_this.userIsDragging) return;
 
       _this.onDropdownIndicatorMouseDown(event);
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "handleInputChange", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "handleInputChange", function (event) {
       var inputValue = event.currentTarget.value;
       _this.inputIsHiddenAfterUpdate = false;
 
@@ -10235,7 +10355,7 @@ function (_Component) {
       _this.onMenuOpen();
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onInputFocus", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onInputFocus", function (event) {
       var _this$props5 = _this.props,
           isSearchable = _this$props5.isSearchable,
           isMulti = _this$props5.isMulti;
@@ -10265,7 +10385,7 @@ function (_Component) {
       _this.openAfterFocus = false;
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onInputBlur", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onInputBlur", function (event) {
       if (_this.menuListRef && _this.menuListRef.contains(document.activeElement)) {
         _this.inputRef.focus();
 
@@ -10288,7 +10408,7 @@ function (_Component) {
       });
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onOptionHover", function (focusedOption) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onOptionHover", function (focusedOption) {
       if (_this.blockOptionHover || _this.state.focusedOption === focusedOption) {
         return;
       }
@@ -10298,7 +10418,7 @@ function (_Component) {
       });
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "shouldHideSelectedOptions", function () {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "shouldHideSelectedOptions", function () {
       var _this$props6 = _this.props,
           hideSelectedOptions = _this$props6.hideSelectedOptions,
           isMulti = _this$props6.isMulti;
@@ -10306,7 +10426,7 @@ function (_Component) {
       return hideSelectedOptions;
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onKeyDown", function (event) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onKeyDown", function (event) {
       var _this$props7 = _this.props,
           isMulti = _this$props7.isMulti,
           backspaceRemovesValue = _this$props7.backspaceRemovesValue,
@@ -11532,7 +11652,7 @@ function (_Component) {
   return Select;
 }(Component);
 
-_defineProperty$7(Select, "defaultProps", defaultProps$1);
+_defineProperty$8(Select, "defaultProps", defaultProps$1);
 
 var defaultProps$1$1 = {
   defaultInputValue: '',
@@ -11561,15 +11681,15 @@ var manageState = function manageState(SelectComponent) {
 
       _this = _possibleConstructorReturn$l(this, (_getPrototypeOf2 = _getPrototypeOf$l(StateManager)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-      _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "select", void 0);
+      _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "select", void 0);
 
-      _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "state", {
+      _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "state", {
         inputValue: _this.props.inputValue !== undefined ? _this.props.inputValue : _this.props.defaultInputValue,
         menuIsOpen: _this.props.menuIsOpen !== undefined ? _this.props.menuIsOpen : _this.props.defaultMenuIsOpen,
         value: _this.props.value !== undefined ? _this.props.value : _this.props.defaultValue
       });
 
-      _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onChange", function (value, actionMeta) {
+      _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onChange", function (value, actionMeta) {
         _this.callProp('onChange', value, actionMeta);
 
         _this.setState({
@@ -11577,7 +11697,7 @@ var manageState = function manageState(SelectComponent) {
         });
       });
 
-      _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onInputChange", function (value, actionMeta) {
+      _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onInputChange", function (value, actionMeta) {
         // TODO: for backwards compatibility, we allow the prop to return a new
         // value, but now inputValue is a controllable prop we probably shouldn't
         var newValue = _this.callProp('onInputChange', value, actionMeta);
@@ -11587,7 +11707,7 @@ var manageState = function manageState(SelectComponent) {
         });
       });
 
-      _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onMenuOpen", function () {
+      _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onMenuOpen", function () {
         _this.callProp('onMenuOpen');
 
         _this.setState({
@@ -11595,7 +11715,7 @@ var manageState = function manageState(SelectComponent) {
         });
       });
 
-      _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onMenuClose", function () {
+      _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onMenuClose", function () {
         _this.callProp('onMenuClose');
 
         _this.setState({
@@ -11663,7 +11783,7 @@ var manageState = function manageState(SelectComponent) {
     }]);
 
     return StateManager;
-  }(Component), _defineProperty$7(_class, "defaultProps", defaultProps$1$1), _temp;
+  }(Component), _defineProperty$8(_class, "defaultProps", defaultProps$1$1), _temp;
 };
 
 var defaultProps$2 = {
@@ -11686,15 +11806,15 @@ var makeAsyncSelect = function makeAsyncSelect(SelectComponent) {
 
       _this = _possibleConstructorReturn$l(this, _getPrototypeOf$l(Async).call(this));
 
-      _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "select", void 0);
+      _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "select", void 0);
 
-      _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "lastRequest", void 0);
+      _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "lastRequest", void 0);
 
-      _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "mounted", false);
+      _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "mounted", false);
 
-      _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "optionsCache", {});
+      _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "optionsCache", {});
 
-      _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "handleInputChange", function (newValue, actionMeta) {
+      _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "handleInputChange", function (newValue, actionMeta) {
         var _this$props = _this.props,
             cacheOptions = _this$props.cacheOptions,
             onInputChange = _this$props.onInputChange; // TODO
@@ -11856,7 +11976,7 @@ var makeAsyncSelect = function makeAsyncSelect(SelectComponent) {
     }]);
 
     return Async;
-  }(Component), _defineProperty$7(_class, "defaultProps", defaultProps$2), _temp;
+  }(Component), _defineProperty$8(_class, "defaultProps", defaultProps$2), _temp;
 };
 var SelectState = manageState(Select);
 var Async = makeAsyncSelect(SelectState);
@@ -11908,9 +12028,9 @@ var makeCreatableSelect = function makeCreatableSelect(SelectComponent) {
 
       _this = _possibleConstructorReturn$l(this, _getPrototypeOf$l(Creatable).call(this, props));
 
-      _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "select", void 0);
+      _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "select", void 0);
 
-      _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onChange", function (newValue, actionMeta) {
+      _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "onChange", function (newValue, actionMeta) {
         var _this$props = _this.props,
             getNewOptionData = _this$props.getNewOptionData,
             inputValue = _this$props.inputValue,
@@ -12007,7 +12127,7 @@ var makeCreatableSelect = function makeCreatableSelect(SelectComponent) {
     }]);
 
     return Creatable;
-  }(Component), _defineProperty$7(_class, "defaultProps", defaultProps$3), _temp;
+  }(Component), _defineProperty$8(_class, "defaultProps", defaultProps$3), _temp;
 }; // TODO: do this in package entrypoint
 
 var SelectCreatable = makeCreatableSelect(Select);
@@ -12093,15 +12213,15 @@ function (_Component) {
 
     _this = _possibleConstructorReturn$l(this, (_getPrototypeOf2 = _getPrototypeOf$l(Collapse)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "duration", collapseDuration);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "duration", collapseDuration);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "rafID", void 0);
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "rafID", void 0);
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "state", {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "state", {
       width: 'auto'
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "transition", {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "transition", {
       exiting: {
         width: 0,
         transition: "width ".concat(_this.duration, "ms ease-out")
@@ -12111,7 +12231,7 @@ function (_Component) {
       }
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getWidth", function (ref) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getWidth", function (ref) {
       if (ref && isNaN(_this.state.width)) {
         /*
           Here we're invoking requestAnimationFrame with a callback invoking our
@@ -12132,7 +12252,7 @@ function (_Component) {
       }
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getStyle", function (width) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getStyle", function (width) {
       return {
         overflow: 'hidden',
         whiteSpace: 'nowrap',
@@ -12140,7 +12260,7 @@ function (_Component) {
       };
     });
 
-    _defineProperty$7(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getTransition", function (state) {
+    _defineProperty$8(_assertThisInitialized$l(_assertThisInitialized$l(_this)), "getTransition", function (state) {
       return _this.transition[state];
     });
 
@@ -12329,14 +12449,25 @@ var QuickColumns = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "createStateFromProps",
     value: function createStateFromProps(props) {
+      var table_name = props.category;
+      var query_name = props.page;
       if (props.columns.length === 0) return []; //const firstRow=props.rows[0].cells;
 
       return {
         quickColumns: props.columns.map(function (col, idx) {
-          if (col.quick) return {
-            columnId: idx,
-            visible: col.quick === 'yes'
-          };else return null;
+          if (col.quick) {
+            var quickInfo = {
+              columnId: idx,
+              visible: col.quick === 'yes'
+            };
+
+            if (isGuest) {
+              var visible = getColumnSettings(table_name, query_name, col.name, "visible");
+              if (visible) quickInfo.visible = visible === 'yes';
+            }
+
+            return quickInfo;
+          } else return null;
         }).filter(function (col) {
           return col !== null;
         })
@@ -12348,12 +12479,21 @@ var QuickColumns = /*#__PURE__*/function (_React$Component) {
       var quickColumn = this.state.quickColumns[idx];
       quickColumn.visible = visible !== undefined ? visible : !quickColumn.visible;
       var value = quickColumn.visible ? "yes" : "no";
-      be5.net.request("quick", {
-        "table_name": this.props.category,
-        "query_name": this.props.page,
-        "column_name": this.props.columns[quickColumn.columnId].name,
-        "quick": value
-      });
+      var table_name = this.props.category;
+      var query_name = this.props.page;
+      var column_name = this.props.columns[quickColumn.columnId].name;
+
+      if (isGuest) {
+        setColumnSettings(table_name, query_name, column_name, "visible", value);
+      } else {
+        be5.net.request("quick", {
+          "table_name": this.props.category,
+          "query_name": this.props.page,
+          "column_name": this.props.columns[quickColumn.columnId].name,
+          "quick": value
+        });
+      }
+
       this.forceUpdate();
     }
   }, {
@@ -13463,12 +13603,12 @@ var Loading = /*#__PURE__*/function (_React$Component) {
 
 registerRoute("loading", route);
 
-function _defineProperty$8(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$9(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var route$1 = function route(frontendParams, entity, query, operation, contextParams) {
   var _operationInfo;
 
-  var operationInfo = (_operationInfo = {}, _defineProperty$8(_operationInfo, ENTITY_NAME_PARAM, entity), _defineProperty$8(_operationInfo, QUERY_NAME_PARAM, query || 'All records'), _defineProperty$8(_operationInfo, OPERATION_NAME_PARAM, operation), _defineProperty$8(_operationInfo, CONTEXT_PARAMS, JSON.stringify(contextParams || {})), _operationInfo);
+  var operationInfo = (_operationInfo = {}, _defineProperty$9(_operationInfo, ENTITY_NAME_PARAM, entity), _defineProperty$9(_operationInfo, QUERY_NAME_PARAM, query || 'All records'), _defineProperty$9(_operationInfo, OPERATION_NAME_PARAM, operation), _defineProperty$9(_operationInfo, CONTEXT_PARAMS, JSON.stringify(contextParams || {})), _operationInfo);
   loadForm(operationInfo, frontendParams);
 };
 
@@ -13508,12 +13648,12 @@ var route$4 = function route(frontendParams, page) {
 
 registerRoute("static", route$4);
 
-function _defineProperty$9(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$a(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var route$5 = function route(frontendParams, entity, query, params) {
   var _paramsObject;
 
-  var paramsObject = (_paramsObject = {}, _defineProperty$9(_paramsObject, ENTITY_NAME_PARAM, entity), _defineProperty$9(_paramsObject, QUERY_NAME_PARAM, query || 'All records'), _defineProperty$9(_paramsObject, CONTEXT_PARAMS, params || {}), _paramsObject);
+  var paramsObject = (_paramsObject = {}, _defineProperty$a(_paramsObject, ENTITY_NAME_PARAM, entity), _defineProperty$a(_paramsObject, QUERY_NAME_PARAM, query || 'All records'), _defineProperty$a(_paramsObject, CONTEXT_PARAMS, params || {}), _paramsObject);
   loadTable(paramsObject, frontendParams);
 };
 
@@ -13657,12 +13797,12 @@ var tableNamesCompleter = {
   }
 };
 
-function _defineProperty$a(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$b(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var route$6 = function route(frontendParams, params) {
   var _requestParams;
 
-  var requestParams = (_requestParams = {}, _defineProperty$a(_requestParams, CONTEXT_PARAMS, be5.net.paramString(params)), _defineProperty$a(_requestParams, TIMESTAMP_PARAM, new Date().getTime()), _requestParams);
+  var requestParams = (_requestParams = {}, _defineProperty$b(_requestParams, CONTEXT_PARAMS, be5.net.paramString(params)), _defineProperty$b(_requestParams, TIMESTAMP_PARAM, new Date().getTime()), _requestParams);
   initBeSqlEditor(function () {
     be5.net.request('queryBuilder', requestParams, function (data) {
       if (frontendParams.documentName === MAIN_DOCUMENT) be5.ui.setTitle("Query Builder");
@@ -13689,10 +13829,10 @@ var route$7 = function route(frontendParams, text) {
 
 registerRoute("text", route$7);
 
-function _defineProperty$b(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$c(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var route$8 = function route(frontendParams, entity) {
-  var requestParams = _defineProperty$b({}, ENTITY_NAME_PARAM, entity);
+  var requestParams = _defineProperty$c({}, ENTITY_NAME_PARAM, entity);
 
   be5.net.request('categories/forest/', requestParams, function (data) {
     changeDocument(frontendParams.documentName, {
@@ -13705,7 +13845,7 @@ registerRoute("categories", route$8);
 
 function _typeof$w(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$w = function _typeof(obj) { return typeof obj; }; } else { _typeof$w = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$w(obj); }
 
-function _defineProperty$c(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$d(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck$v(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -13799,7 +13939,7 @@ var QueryBuilder = /*#__PURE__*/function (_React$Component) {
       var requestParams = (_requestParams = {
         sql: this.state.sql,
         updateWithoutBeSql: this.state.updateWithoutBeSql
-      }, _defineProperty$c(_requestParams, CONTEXT_PARAMS, this.props.value.params), _defineProperty$c(_requestParams, TIMESTAMP_PARAM, new Date().getTime()), _requestParams);
+      }, _defineProperty$d(_requestParams, CONTEXT_PARAMS, this.props.value.params), _defineProperty$d(_requestParams, TIMESTAMP_PARAM, new Date().getTime()), _requestParams);
       be5.net.request('queryBuilder', requestParams, function (json) {
         _this2.update(json);
       });
@@ -14087,7 +14227,7 @@ registerRoute('systemCard', function (frontendParams) {
 
 function _typeof$x(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$x = function _typeof(obj) { return typeof obj; }; } else { _typeof$x = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$x(obj); }
 
-function _defineProperty$d(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$e(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck$w(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -14243,7 +14383,7 @@ var DataTablesWrapper = /*#__PURE__*/function (_Component) {
             params._orderDir_ = data.order[0].dir;
           }
 
-          var requestParams = (_requestParams = {}, _defineProperty$d(_requestParams, ENTITY_NAME_PARAM, attributes.category), _defineProperty$d(_requestParams, QUERY_NAME_PARAM, attributes.page), _defineProperty$d(_requestParams, CONTEXT_PARAMS, params), _requestParams);
+          var requestParams = (_requestParams = {}, _defineProperty$e(_requestParams, ENTITY_NAME_PARAM, attributes.category), _defineProperty$e(_requestParams, QUERY_NAME_PARAM, attributes.page), _defineProperty$e(_requestParams, CONTEXT_PARAMS, params), _requestParams);
           updateTable(requestParams, function (jsonApiModel) {
             var json = jsonApiModel.data.attributes;
 
@@ -15098,4 +15238,4 @@ var index$2 = combineReducers({
   hashUrl: changeHash
 });
 
-export { API_URL_PREFIX, Application, Be5Components, CLOSE_MAIN_MODAL, CONTEXT_PARAMS, CategoryNavigation, Chart, DEFAULT_TABLE_BOX, DEFAULT_VIEW, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, Document$1 as Document, ENTITY_NAME_PARAM, ErrorPane, FinishedResult, Form, FormTable, FormWizard, FrontendAction, GO_BACK, HelpInfo, HorizontalForm, InlineMiniForm, LIMIT, LanguageBox as LanguageSelector, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, MainDocumentOnly, Menu, MenuBody, MenuContainer$1 as MenuContainer, MenuFooter, MenuNode, MenuSearchField, ModalForm, ModalTable, NavMenu, NavbarMenu, NavbarMenuContainer$1 as NavbarMenuContainer, Navs, OFFSET, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, OPERATION_NAME_PARAM, ORDER_COLUMN, ORDER_DIR, OperationBox, QUERY_NAME_PARAM, QuickColumns, QuickFiltersBox, REDIRECT, REFRESH_DOCUMENT, REFRESH_MENU, REFRESH_PARENT_DOCUMENT, RELOAD_CONTROL_NAME, ROLE_ADMINISTRATOR, ROLE_GUEST, ROLE_SYSTEM_DEVELOPER, RoleSelector, SEARCH_PARAM, SEARCH_PRESETS_PARAM, SELECTED_ROWS, SET_URL, SUCCESS_ALERT, SideBar, StaticPage, SubmitOnChangeForm, TIMESTAMP_PARAM, Table, TableForm, TableFormRow, TablePagination, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, UserControl, UserControlContainer, actions as action, addFilterParams, addUrlHandlers, arraysEqual, be5, bus, changeDocument, clearDocumentState, createBaseStore, createPageValue, createStaticValue, executeFrontendActions, fetchMenu, fetchOperationByUrl, fetchTableByUrl, fetchUserInfo, route$1 as formAction, getActionsMap, getAllDocumentTypes, getAllRoutes, getAllTypes, getBackAction, getBackOrOpenDefaultRouteAction, getCurrentRoles, getDocument, getDocumentState, getDocumentStates, getFilterParams, getMenu, getModelByID, getOperationInfoFromUrl, getResourceByID, getResourceByType, getRoute, getSelfUrl, getTableBox, getUser, initBe5App, initFilterParams, initOnLoad, loadDocumentByUrl, loadOperation, loadTable, loadTableByUrl, route as loadingAction, route$2 as loginAction, route$3 as logoutAction, users$1 as menuReduser, openInModal, openOperationByUrl, openOperationByUrlWithValues, Preconditions as preconditions, processHashUrl, processHashUrlForDocument, route$6 as queryBuilderAction, registerDocument, registerPage, registerRoute, registerTableBox, index$2 as rootReducer, setDocumentState, route$4 as staticAction, submitOperation, route$5 as tableAction, route$7 as textAction, toggleRoles, updateMenu, updateTable, updateUserInfo, users as userReduser };
+export { API_URL_PREFIX, Application, Be5Components, CLOSE_MAIN_MODAL, COLUMN_SETTINGS, CONTEXT_PARAMS, CategoryNavigation, Chart, DEFAULT_TABLE_BOX, DEFAULT_VIEW, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, Document$1 as Document, ENTITY_NAME_PARAM, ErrorPane, FinishedResult, Form, FormTable, FormWizard, FrontendAction, GO_BACK, HelpInfo, HorizontalForm, InlineMiniForm, LIMIT, LanguageBox as LanguageSelector, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, MainDocumentOnly, Menu, MenuBody, MenuContainer$1 as MenuContainer, MenuFooter, MenuNode, MenuSearchField, ModalForm, ModalTable, NavMenu, NavbarMenu, NavbarMenuContainer$1 as NavbarMenuContainer, Navs, OFFSET, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, OPERATION_NAME_PARAM, ORDER_COLUMN, ORDER_DIR, OperationBox, QUERY_NAME_PARAM, QUERY_SETTINGS, QuickColumns, QuickFiltersBox, RECORDS_PER_PAGE_SETTINGS, REDIRECT, REFRESH_DOCUMENT, REFRESH_MENU, REFRESH_PARENT_DOCUMENT, RELOAD_CONTROL_NAME, ROLE_ADMINISTRATOR, ROLE_GUEST, ROLE_SYSTEM_DEVELOPER, RoleSelector, SEARCH_PARAM, SEARCH_PRESETS_PARAM, SELECTED_ROWS, SET_URL, SUCCESS_ALERT, SideBar, StaticPage, SubmitOnChangeForm, TIMESTAMP_PARAM, Table, TableForm, TableFormRow, TablePagination, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, UserControl, UserControlContainer, actions as action, addFilterParams, addUrlHandlers, arraysEqual, be5, bus, changeDocument, clearDocumentState, createBaseStore, createPageValue, createStaticValue, executeFrontendActions, fetchMenu, fetchOperationByUrl, fetchTableByUrl, fetchUserInfo, route$1 as formAction, getActionsMap, getAllDocumentTypes, getAllRoutes, getAllTypes, getBackAction, getBackOrOpenDefaultRouteAction, getCurrentRoles, getDocument, getDocumentState, getDocumentStates, getFilterParams, getMenu, getModelByID, getOperationInfoFromUrl, getResourceByID, getResourceByType, getRoute, getSelfUrl, getTableBox, getUser, initBe5App, initFilterParams, initOnLoad, loadDocumentByUrl, loadOperation, loadTable, loadTableByUrl, route as loadingAction, route$2 as loginAction, route$3 as logoutAction, users$1 as menuReduser, openInModal, openOperationByUrl, openOperationByUrlWithValues, Preconditions as preconditions, processHashUrl, processHashUrlForDocument, route$6 as queryBuilderAction, registerDocument, registerPage, registerRoute, registerTableBox, index$2 as rootReducer, setDocumentState, route$4 as staticAction, submitOperation, route$5 as tableAction, route$7 as textAction, toggleRoles, updateMenu, updateTable, updateUserInfo, users as userReduser };
