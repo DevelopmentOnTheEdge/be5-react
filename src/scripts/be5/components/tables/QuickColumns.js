@@ -50,7 +50,6 @@ class QuickColumns extends React.Component {
                 if (col.quick) {
                   const quickInfo = {columnId: idx, visible: col.quick === 'yes'};
                   if (isGuest) {
-                    console.log(col)
                     const visible = getColumnSettings(table_name, query_name, col.name, "visible");
                     if (visible)
                       quickInfo.visible = visible === 'yes';
