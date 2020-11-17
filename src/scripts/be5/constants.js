@@ -47,5 +47,6 @@ export const ORDER_DIR = "_orderDir_";
 
 export const DEFAULT_TABLE_BOX = "dataTable";
 
-export const COLUMN_SETTINGS_KEY = "be5columnSettings";
-export const QUERY_SETTINGS_KEY = "be5querySettings";
+export const COLUMN_SETTINGS = "be5columnSettings";
+export const QUERY_SETTINGS = "be5querySettings";
+export const RECORDS_PER_PAGE_SETTINGS = "recordsPerPage";

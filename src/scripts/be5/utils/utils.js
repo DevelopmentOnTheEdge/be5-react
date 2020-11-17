@@ -1,7 +1,7 @@
 import {registerDocument} from "../core/registers/documents";
 import {registerRoute} from "../core/registers/routes";
 import FrontendAction from "../services/model/FrontendAction";
-import {COLUMN_SETTINGS_KEY, GO_BACK, OPEN_DEFAULT_ROUTE, ROLE_GUEST} from "../constants";
+import {COLUMN_SETTINGS, GO_BACK, OPEN_DEFAULT_ROUTE, QUERY_SETTINGS, ROLE_GUEST} from "../constants";
 import be5 from "../be5";
 import {getCurrentRoles} from "../store/selectors/user.selectors";
 
@@ -18,6 +18,10 @@ export const arraysEqual = function (a, b) {
   }
   return true;
 };
+
+export const isEmptyString = (str) =>{
+  return str === null || str === undefined || String(str) === '';
+}
 
 export const registerPage = (actionName, component, fn) => {
   registerDocument(actionName, component);
@@ -65,7 +69,7 @@ export const isGuest = () => {
 }
 
 export const setColumnSettings = (table_name, query_name, column_name, settingName, settingValue) => {
-  let settings = JSON.parse(localStorage.getItem(COLUMN_SETTINGS_KEY));
+  let settings = JSON.parse(localStorage.getItem(COLUMN_SETTINGS));
   if(!settings || !Array.isArray(settings)){
     settings = [];
   }
@@ -84,11 +88,11 @@ export const setColumnSettings = (table_name, query_name, column_name, settingNa
       columnSetting[settingName] = settingValue;
     }
   }
-  localStorage.setItem(COLUMN_SETTINGS_KEY, JSON.stringify(settings))
+  localStorage.setItem(COLUMN_SETTINGS, JSON.stringify(settings));
 }
 
 export const getColumnSettings = (table_name, query_name, column_name, settingName) => {
-  const settings = JSON.parse(localStorage.getItem(COLUMN_SETTINGS_KEY));
+  const settings = JSON.parse(localStorage.getItem(COLUMN_SETTINGS));
   if (settings) {
     const querySettings = settings.find(el => el.table_name === table_name && el.query_name === query_name);
     if (querySettings) {
@@ -97,6 +101,34 @@ export const getColumnSettings = (table_name, query_name, column_name, settingNa
         return columnSetting[settingName];
       }
     }
+  }
+  return null;
+}
+
+export const setQuerySettings = (table_name, query_name, settingName, settingValue) => {
+  let settings = JSON.parse(localStorage.getItem(QUERY_SETTINGS));
+  if(!settings || !Array.isArray(settings)){
+    settings = [];
+  }
+  let querySettings = settings.find( el => el.table_name == table_name && el.query_name === query_name);
+  if (!querySettings) {
+    settings.push({
+      table_name: table_name,
+      query_name: query_name,
+      [settingName]:settingValue
+    });
+  } else {
+    querySettings[settingName] = settingValue;
+  }
+  localStorage.setItem(QUERY_SETTINGS, JSON.stringify(settings));
+}
+
+export const getQuerySettings = (table_name, query_name, settingName) => {
+  const settings = JSON.parse(localStorage.getItem(QUERY_SETTINGS));
+  if (settings) {
+    const querySettings = settings.find(el => el.table_name === table_name && el.query_name === query_name);
+    if (querySettings)
+      return querySettings[settingName];
   }
   return null;
 }

@@ -2,10 +2,18 @@ import be5 from '../be5';
 import changeDocument from '../core/changeDocument';
 import Preconditions from '../utils/preconditions';
 import numberFormatter from 'number-format.js';
-import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, MAIN_MODAL_DOCUMENT, QUERY_NAME_PARAM, TIMESTAMP_PARAM} from "../constants";
+import {
+  CONTEXT_PARAMS,
+  ENTITY_NAME_PARAM,
+  LIMIT,
+  MAIN_MODAL_DOCUMENT,
+  QUERY_NAME_PARAM, RECORDS_PER_PAGE_SETTINGS,
+  TIMESTAMP_PARAM
+} from "../constants";
 import bus from "../core/bus";
 import {clearDocumentState, getDocumentState, setDocumentState} from "./documentStates";
 import {getContextParams, initFilterParams} from "../utils/filterUtils";
+import {getQuerySettings, isEmptyString, isGuest, setQuerySettings} from "../utils/utils";
 
 
 export const loadTable = (params, frontendParams) => {
@@ -73,10 +81,23 @@ export const getTableParams = (url) => {
 };
 
 export const getTable = (params, callback, failure = be5.log.error) => {
+  if (isGuest) {
+    const limit = getQuerySettings(params[ENTITY_NAME_PARAM], params[QUERY_NAME_PARAM], RECORDS_PER_PAGE_SETTINGS);
+    if (!isEmptyString(limit) && params[CONTEXT_PARAMS] && isEmptyString(params[CONTEXT_PARAMS][LIMIT])) {
+      params[CONTEXT_PARAMS][LIMIT] = limit
+    }
+  }
   be5.net.request('table', getRequestParams(params), callback, failure);
 };
 
 export const updateTable = (params, callback, failure = be5.log.error) => {
+  const limit = params[CONTEXT_PARAMS] ? params[CONTEXT_PARAMS][LIMIT] : null;
+  if (isGuest && !isEmptyString(limit)) {
+    const entity = params[ENTITY_NAME_PARAM];
+    const query = params[QUERY_NAME_PARAM];
+    if (getQuerySettings(RECORDS_PER_PAGE_SETTINGS) !== limit)
+      setQuerySettings(entity, query, RECORDS_PER_PAGE_SETTINGS, limit)
+  }
   be5.net.request('table/update', getRequestParams(params), callback, failure);
 };
 
