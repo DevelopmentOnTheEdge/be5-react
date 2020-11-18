@@ -1,6 +1,5 @@
 import 'react-datetime/css/react-datetime.css';
 import 'react-virtualized/styles.css';
-import 'react-virtualized-select/styles.css';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 
