@@ -95,6 +95,57 @@
   margin-top: 3px;
 }
 
+
+/****** react-select v3 ******/
+.be5-select__placeholder, .be5-select__single > .be5-select__control .be5-select__value{
+  line-height: 30px;
+}
+.be5-select__control, .be5-select__input{
+  height: 30px;
+  min-height: 30px;
+}
+.be5-select__option {
+  padding: 4px 10px;
+}
+.be5-select__multi .be5-select__value-container{
+  margin-top: 4px;
+}
+.be5-select__input > input{
+  line-height: 30px;
+  padding: 0;
+}
+
+.be5-select__control,
+.be5-select__input,
+.be5-select__clear,
+.be5-select__option {
+  font-size: 14px;
+}
+
+.Select--sm .be5-select__placeholder,
+.Select--sm .be5-select__single > .be5-select__control .be5-select__value-container,
+.Select--sm .be5-select__input > input{
+  line-height: 23px;
+}
+.Select--sm .be5-select__control,
+.Select--sm .be5-select__input{
+  border-radius: 0.2rem;
+  height: 23px;
+  min-height: 23px;
+}
+.Select--sm .be5-select__control,
+.Select--sm .be5-select__input,
+.Select--sm .be5-select__clear,
+.Select--sm .be5-select__option {
+  font-size: 0.76562rem;
+}
+.Select--sm .be5-select__option {
+  padding: 4px 10px;
+}
+.Select--sm.be5-select__multi .be5-select__value-container {
+  margin-top: 3px;
+}
+
 /*.Select-placeholder, .Select--single > .Select-control .Select-value{
   line-height: 1.875rem;
 }
