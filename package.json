@@ -17,7 +17,7 @@
     "lib": "rollup -c rollup.config.js"
   },
   "dependencies": {
-    "beanexplorer-react": "^2.1.6",
+    "beanexplorer-react": "^2.1.7",
     "bootstrap": "^4.5.3",
     "classnames": "^2.2.6",
     "datatables.net": "^1.10.22",

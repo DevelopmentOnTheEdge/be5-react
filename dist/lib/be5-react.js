@@ -2489,8 +2489,12 @@ var Document$1 = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
 
-    _this.setStateValue(props);
+    _this.addBaseLayout(props.value);
 
+    _this.state = {
+      value: props.value || null,
+      frontendParams: props.frontendParams || {}
+    };
     _this.refresh = _this.refresh.bind(_assertThisInitialized$5(_this));
     return _this;
   }
@@ -2499,17 +2503,12 @@ var Document$1 = /*#__PURE__*/function (_React$Component) {
     key: "UNSAFE_componentWillReceiveProps",
     value: function UNSAFE_componentWillReceiveProps(nextProps) {
       if ('value' in nextProps && (!this.props.value || this.props.value.meta === undefined || !nextProps.value || nextProps.value.meta === undefined || nextProps.value.meta._ts_ > this.props.value.meta._ts_)) {
-        this.setStateValue(nextProps);
+        this.addBaseLayout(nextProps.value);
+        this.setState({
+          value: nextProps.value || null,
+          frontendParams: nextProps.frontendParams || {}
+        });
       }
-    }
-  }, {
-    key: "setStateValue",
-    value: function setStateValue(props) {
-      this.addBaseLayout(props.value);
-      this.state = {
-        value: props.value || null,
-        frontendParams: props.frontendParams || {}
-      };
     }
   }, {
     key: "componentDidMount",
@@ -4985,7 +4984,8 @@ var FilterUI = function FilterUI(_ref) {
       entity = _ref.entity,
       query = _ref.query,
       params = _ref.params,
-      frontendParams = _ref.frontendParams;
+      frontendParams = _ref.frontendParams,
+      show = _ref.show;
   var filterParams = getFilterParams(params);
 
   function clearFilter(e) {
@@ -5017,7 +5017,7 @@ var FilterUI = function FilterUI(_ref) {
     if (filterParams[x] !== undefined) positionsParamCount++;
   });
 
-  if (Object.keys(filterParams).length > positionsParamCount) {
+  if (show && Object.keys(filterParams).length > positionsParamCount) {
     return /*#__PURE__*/React.createElement("div", {
       className: "table-filter-ui mb-2"
     }, /*#__PURE__*/React.createElement("strong", null, be5.messages.table.filter + ': '), /*#__PURE__*/React.createElement("span", null, getOperationParamsInfo()), ' ', /*#__PURE__*/React.createElement("a", {
@@ -5208,9 +5208,10 @@ var Table = /*#__PURE__*/function (_Component) {
       var data = value.data,
           included = value.included,
           meta = value.meta;
+      var attributes = data.attributes;
 
       if (this.props.frontendParams.documentName === MAIN_DOCUMENT) {
-        be5.ui.setTitle(data.attributes.title + ' ' + this.getOperationParamsInfo());
+        be5.ui.setTitle(attributes.title + ' ' + this.getOperationParamsInfo());
       }
 
       var topFormJson = getModelByID(included, meta, "topForm");
@@ -5219,7 +5220,7 @@ var Table = /*#__PURE__*/function (_Component) {
       var operations = getResourceByType(included, "documentOperations");
       var filterInfo = getResourceByType(included, "filterInfo");
       return /*#__PURE__*/React.createElement("div", {
-        className: classNames$1("table-component", this.getTableClass(), data.attributes.layout.classes)
+        className: classNames$1("table-component", this.getTableClass(), attributes.layout.classes)
       }, this.topForm(topFormJson), this.getTitleTag(value), /*#__PURE__*/React.createElement(CategoryNavigation, {
         data: categories,
         url: getSelfUrl(this.props.value)
@@ -5230,14 +5231,15 @@ var Table = /*#__PURE__*/function (_Component) {
         operations: operations,
         onOperationClick: this.onOperationClick,
         selectedRows: this.state.selectedRows,
-        hasRows: data.attributes.rows.length > 0,
+        hasRows: attributes.rows.length > 0,
         hideOperations: this.getHideOperations(data, topFormJson)
       }), /*#__PURE__*/React.createElement(FilterUI, {
         data: filterInfo,
-        entity: data.attributes.category,
-        query: data.attributes.page,
-        params: data.attributes.parameters,
-        frontendParams: this.props.frontendParams
+        entity: attributes.category,
+        query: attributes.page,
+        params: attributes.parameters,
+        frontendParams: this.props.frontendParams,
+        show: !["no", "false"].includes(attributes.layout.filterUI)
       }), this.tableBox(value, data, operations), this._createTableCancelAction());
     }
   }, {
@@ -12095,7 +12097,10 @@ var QuickColumns = /*#__PURE__*/function (_React$Component) {
           /*don't show value in input box*/
           controlShouldRenderValue: false,
           isClearable: false,
-          backspaceRemovesValue: false
+          backspaceRemovesValue: false,
+          classNamePrefix: 'be5-select'
+          /*menuIsOpen: true, uncomment for css debug*/
+
         };
         return /*#__PURE__*/React.createElement(index, selectAttr);
       };
@@ -12106,7 +12111,7 @@ var QuickColumns = /*#__PURE__*/function (_React$Component) {
             id: "quickColumns",
             className: "d-flex flex-row flex-wrap align-items-center"
           }, /*#__PURE__*/React.createElement("div", null, be5.messages.otherColumns, ":"), /*#__PURE__*/React.createElement("div", {
-            className: "select-container ml-sm-2"
+            className: "Select-outer select-container Select--sm ml-2"
           }, select()));
         } else {
           return /*#__PURE__*/React.createElement("div", {
