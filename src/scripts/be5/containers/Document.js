@@ -14,7 +14,11 @@ import {createStaticValue, getSelfUrl} from "../utils/documentUtils";
 class Document extends React.Component {
   constructor(props) {
     super(props);
-    this.setStateValue(props);
+    this.addBaseLayout(props.value);
+    this.state = {
+      value: props.value || null,
+      frontendParams: props.frontendParams || {}
+    }
     this.refresh = this.refresh.bind(this);
   }
 
@@ -24,16 +28,12 @@ class Document extends React.Component {
         !nextProps.value || nextProps.value.meta === undefined ||
         nextProps.value.meta._ts_ > this.props.value.meta._ts_))
     {
-      this.setStateValue(nextProps);
+      this.addBaseLayout(nextProps.value);
+      this.setState({
+        value: nextProps.value || null,
+        frontendParams: nextProps.frontendParams || {}
+      })
     }
-  }
-
-  setStateValue(props) {
-    this.addBaseLayout(props.value);
-    this.setState({
-      value: props.value || null,
-      frontendParams: props.frontendParams || {}
-    })
   }
 
   componentDidMount() {
