@@ -77,8 +77,9 @@ class Table extends Component {
   render() {
     const value = this.props.value;
     const {data, included, meta} = value;
+    const attributes = data.attributes;
     if (this.props.frontendParams.documentName === MAIN_DOCUMENT) {
-      be5.ui.setTitle(data.attributes.title + ' ' + this.getOperationParamsInfo());
+      be5.ui.setTitle(attributes.title + ' ' + this.getOperationParamsInfo());
     }
 
     const topFormJson = getModelByID(included, meta, "topForm");
@@ -88,7 +89,7 @@ class Table extends Component {
     const filterInfo = getResourceByType(included, "filterInfo");
 
     return (
-      <div className={classNames("table-component", this.getTableClass(), data.attributes.layout.classes)}>
+      <div className={classNames("table-component", this.getTableClass(), attributes.layout.classes)}>
         {this.topForm(topFormJson)}
         {this.getTitleTag(value)}
         <CategoryNavigation
@@ -103,15 +104,16 @@ class Table extends Component {
           operations={operations}
           onOperationClick={this.onOperationClick}
           selectedRows={this.state.selectedRows}
-          hasRows={data.attributes.rows.length > 0}
+          hasRows={attributes.rows.length > 0}
           hideOperations={this.getHideOperations(data, topFormJson)}
         />
         <FilterUI
           data={filterInfo}
-          entity={data.attributes.category}
-          query={data.attributes.page}
-          params={data.attributes.parameters}
+          entity={attributes.category}
+          query={attributes.page}
+          params={attributes.parameters}
           frontendParams={this.props.frontendParams}
+          show={!["no", "false"].includes(attributes.layout.filterUI)}
         />
         {this.tableBox(value, data, operations)}
         {this._createTableCancelAction()}
