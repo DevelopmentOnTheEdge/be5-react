@@ -136,6 +136,15 @@ test('tableWithFilterInfo', () => {
   expect(component.toJSON()).toMatchSnapshot();
 });
 
+test('tableWithDisabledFilterInfo', () => {
+  const component = renderer.create(
+    <TestProvider>
+      <Table value={testData.tableWithDisabledFilterInfo} frontendParams={{documentName: 'test'}} />
+    </TestProvider>
+  );
+  expect(component.toJSON()).toMatchSnapshot();
+});
+
 
 test('tableJsonFormat', () => {
   const component = renderer.create(

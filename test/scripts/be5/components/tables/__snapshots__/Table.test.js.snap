@@ -832,6 +832,29 @@ exports[`tableJsonFormat 1`] = `
 />
 `;
 
+exports[`tableWithDisabledFilterInfo 1`] = `
+<div
+  className="table-component companies_All-records"
+>
+  <h1
+    className="table-component__title"
+  >
+    Организации: Общие сведения
+     
+    <small>
+      for Name: Test name
+    </small>
+  </h1>
+  <div
+    className="table-wrap"
+  >
+    <div
+      className="row data-table-wrapper"
+    />
+  </div>
+</div>
+`;
+
 exports[`tableWithFilterInfo 1`] = `
 <div
   className="table-component companies_All-records"
@@ -845,6 +868,23 @@ exports[`tableWithFilterInfo 1`] = `
       for Name: Test name
     </small>
   </h1>
+  <div
+    className="table-filter-ui mb-2"
+  >
+    <strong>
+      Filter: 
+    </strong>
+    <span>
+      
+    </span>
+     
+    <a
+      href="#"
+      onClick={[Function]}
+    >
+      Clear
+    </a>
+  </div>
   <div
     className="table-wrap"
   >
