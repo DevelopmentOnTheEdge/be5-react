@@ -97,7 +97,7 @@
 
 
 /****** react-select v3 ******/
-.be5-select__placeholder, .be5-select__single > .be5-select__control .be5-select__value{
+/*.be5-select__placeholder, .be5-select__single > .be5-select__control .be5-select__value{
   line-height: 30px;
 }
 .be5-select__control, .be5-select__input{
@@ -120,7 +120,7 @@
 .be5-select__clear,
 .be5-select__option {
   font-size: 14px;
-}
+}*/
 
 .Select--sm .be5-select__placeholder,
 .Select--sm .be5-select__single > .be5-select__control .be5-select__value-container,
@@ -143,7 +143,7 @@
   padding: 4px 10px;
 }
 .Select--sm.be5-select__multi .be5-select__value-container {
-  margin-top: 3px;
+  margin: 0 0 0 0;
 }
 
 /*.Select-placeholder, .Select--single > .Select-control .Select-value{
