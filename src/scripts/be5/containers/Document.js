@@ -30,10 +30,10 @@ class Document extends React.Component {
 
   setStateValue(props) {
     this.addBaseLayout(props.value);
-    this.state = {
+    this.setState({
       value: props.value || null,
       frontendParams: props.frontendParams || {}
-    };
+    })
   }
 
   componentDidMount() {
