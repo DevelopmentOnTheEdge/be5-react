@@ -170,16 +170,19 @@ class QuickColumns extends React.Component {
         /*don't show value in input box*/
         controlShouldRenderValue: false,
         isClearable: false,
-        backspaceRemovesValue: false
+        backspaceRemovesValue: false,
+        classNamePrefix: 'be5-select',
+        /*menuIsOpen: true, uncomment for css debug*/
       };
 
       return (<Select {...selectAttr}/>);
     };
     const getQuickColumns = () => {
       if (this.props.layout && this.props.layout.quickType === "select") {
-        return <div id="quickColumns" className="d-flex flex-row flex-wrap align-items-center" >
-          <div>{be5.messages.otherColumns}:</div><div className="select-container ml-sm-2" >{select()}</div>
-        </div>
+        return <div id="quickColumns" className="d-flex flex-row flex-wrap align-items-center">
+                  <div>{be5.messages.otherColumns}:</div>
+                  <div className="Select-outer select-container Select--sm ml-2" >{select()}</div>
+               </div>
 
       } else {
         return <div id="quickColumns">

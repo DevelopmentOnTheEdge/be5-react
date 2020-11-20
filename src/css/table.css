@@ -34,6 +34,19 @@
 #quickColumns div.select-container {
   min-width: 200px;
 }
+#quickColumns .be5-select__menu .be5-select__option{
+  /*padding-top: 4px;*/
+  /*padding-bottom:4px;*/
+  padding: 4px;
+}
+#quickColumns .be5-select__menu .be5-select__option label{
+  padding: 0 0 0 3px;
+  margin: 0;
+}
+#quickColumns .be5-select__menu .be5-select__option input{
+  position: relative;
+  top: 2px;
+}
 
 #quickColumns {
   margin: 0.7rem 0;
