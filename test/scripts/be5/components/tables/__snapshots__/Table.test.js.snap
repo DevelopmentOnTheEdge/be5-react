@@ -567,7 +567,7 @@ exports[`TableWithQuickColumnsAsSelect 1`] = `
               :
             </div>
             <div
-              className="select-container ml-sm-2"
+              className="Select-outer select-container Select--sm ml-2"
             >
               <div
                 className=" css-2b097c-container"
@@ -575,15 +575,15 @@ exports[`TableWithQuickColumnsAsSelect 1`] = `
                 onKeyDown={[Function]}
               >
                 <div
-                  className=" css-yk16xz-control"
+                  className="be5-select__control css-yk16xz-control"
                   onMouseDown={[Function]}
                   onTouchEnd={[Function]}
                 >
                   <div
-                    className=" css-g1d714-ValueContainer"
+                    className="be5-select__value-container be5-select__value-container--is-multi be5-select__value-container--has-value css-g1d714-ValueContainer"
                   >
                     <div
-                      className=" css-1wa3eu0-placeholder"
+                      className="be5-select__placeholder css-1wa3eu0-placeholder"
                     >
                       Select...
                     </div>
@@ -591,7 +591,7 @@ exports[`TableWithQuickColumnsAsSelect 1`] = `
                       className="css-b8ldur-Input"
                     >
                       <div
-                        className=""
+                        className="be5-select__input"
                         style={
                           Object {
                             "display": "inline-block",
@@ -646,14 +646,14 @@ exports[`TableWithQuickColumnsAsSelect 1`] = `
                     </div>
                   </div>
                   <div
-                    className=" css-1hb7zxy-IndicatorsContainer"
+                    className="be5-select__indicators css-1hb7zxy-IndicatorsContainer"
                   >
                     <span
-                      className=" css-1okebmr-indicatorSeparator"
+                      className="be5-select__indicator-separator css-1okebmr-indicatorSeparator"
                     />
                     <div
                       aria-hidden="true"
-                      className=" css-tlfecz-indicatorContainer"
+                      className="be5-select__indicator be5-select__dropdown-indicator css-tlfecz-indicatorContainer"
                       onMouseDown={[Function]}
                       onTouchEnd={[Function]}
                     >
