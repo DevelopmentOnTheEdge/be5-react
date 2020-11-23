@@ -3961,7 +3961,11 @@ var getTable = function getTable(params, callback) {
 };
 var updateTable = function updateTable(params, callback) {
   var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
-  var limit = params[CONTEXT_PARAMS] ? params[CONTEXT_PARAMS][LIMIT] : null;
+  var limit = params[CONTEXT_PARAMS] ? params[CONTEXT_PARAMS][LIMIT] : null; //hot fix remove after fix empty redirect params with SEARCH_PRESETS_PARAM usage
+
+  if (params[CONTEXT_PARAMS] && params[CONTEXT_PARAMS][SEARCH_PRESETS_PARAM]) {
+    delete params[CONTEXT_PARAMS][SEARCH_PRESETS_PARAM];
+  }
 
   if (isGuest && !isEmptyString(limit)) {
     var entity = params[ENTITY_NAME_PARAM];
