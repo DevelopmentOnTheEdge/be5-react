@@ -7,7 +7,7 @@ import {
   ENTITY_NAME_PARAM,
   LIMIT,
   MAIN_MODAL_DOCUMENT,
-  QUERY_NAME_PARAM, RECORDS_PER_PAGE_SETTINGS,
+  QUERY_NAME_PARAM, RECORDS_PER_PAGE_SETTINGS, SEARCH_PRESETS_PARAM,
   TIMESTAMP_PARAM
 } from "../constants";
 import bus from "../core/bus";
@@ -92,6 +92,10 @@ export const getTable = (params, callback, failure = be5.log.error) => {
 
 export const updateTable = (params, callback, failure = be5.log.error) => {
   const limit = params[CONTEXT_PARAMS] ? params[CONTEXT_PARAMS][LIMIT] : null;
+  //hot fix remove after fix empty redirect params with SEARCH_PRESETS_PARAM usage
+  if(params[CONTEXT_PARAMS] && params[CONTEXT_PARAMS][SEARCH_PRESETS_PARAM]){
+    delete params[CONTEXT_PARAMS][SEARCH_PRESETS_PARAM]
+  }
   if (isGuest && !isEmptyString(limit)) {
     const entity = params[ENTITY_NAME_PARAM];
     const query = params[QUERY_NAME_PARAM];
