@@ -49,7 +49,7 @@ class QuickColumns extends React.Component {
               .map((col, idx) => {
                 if (col.quick) {
                   const quickInfo = {columnId: idx, visible: col.quick === 'yes'};
-                  if (isGuest) {
+                  if (isGuest()) {
                     const visible = getColumnSettings(table_name, query_name, col.name, "visible");
                     if (visible)
                       quickInfo.visible = visible === 'yes';
@@ -68,7 +68,7 @@ class QuickColumns extends React.Component {
     const query_name = this.props.page;
     const column_name = this.props.columns[quickColumn.columnId].name;
 
-    if (isGuest) {
+    if (isGuest()) {
       setColumnSettings(table_name, query_name, column_name, "visible", value)
     } else {
       be5.net.request("quick", {
