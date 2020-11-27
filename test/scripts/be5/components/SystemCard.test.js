@@ -5,6 +5,8 @@ import {TestProvider} from "../testUtils";
 import {Document} from "../../../../src/scripts/be5/containers/Document";
 import be5 from "../../../../src/scripts/be5/be5";
 import {MAIN_DOCUMENT} from "../../../../src/scripts/be5/constants";
+import * as utils from "../../../../src/scripts/be5/utils/utils";
+jest.spyOn(utils, "isGuest").mockReturnValue(false);
 
 
 test('snapshot', () => {

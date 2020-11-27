@@ -6,8 +6,10 @@ import {shallow, mount, render} from 'enzyme';
 import {TestProvider}      from "../testUtils";
 import testData       from '../testData.json'
 import '../../../../src/scripts/be5/registers'
-
+import * as utils from "../../../../src/scripts/be5/utils/utils";
 import dt from 'datatables.net';
+
+jest.spyOn(utils, "isGuest").mockReturnValue(false);
 dt(window, $);
 
 test('snapshot', () => {

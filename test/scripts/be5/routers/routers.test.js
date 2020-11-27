@@ -7,6 +7,7 @@ import '../../../../src/scripts/be5/routes/table';
 import '../../../../src/scripts/be5/routes/static';
 import '../../../../src/scripts/be5/routes/categories';
 import '../../../../src/scripts/be5/routes/queryBuilder';
+import * as utils from "../../../../src/scripts/be5/utils/utils"
 import {getRoute} from "../../../../src/scripts/be5/core/registers/routes";
 import {MAIN_DOCUMENT} from "../../../../src/scripts/be5/constants";
 
@@ -15,6 +16,7 @@ jest.mock("../../../../src/scripts/be5/services/forms", () => ({
   loadForm: jest.fn(),
   openOperationByUrl: jest.fn()
 }));
+jest.spyOn(utils, "isGuest").mockReturnValue(false);
 import {loadForm, openOperationByUrl} from "../../../../src/scripts/be5/services/forms";
 
 

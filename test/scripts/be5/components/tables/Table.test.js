@@ -15,8 +15,11 @@ import {MAIN_DOCUMENT} from "../../../../../src/scripts/be5/constants";
 import dt from 'datatables.net';
 import OperationBox from "../../../../../src/scripts/be5/components/tables/OperationBox";
 import JsonFormatTableBox from "../../../../../src/scripts/be5/components/tables/tableBoxes/JsonFormatTableBox";
+import * as utils from "../../../../../src/scripts/be5/utils/utils";
+
 dt(window, $);
 
+jest.spyOn(utils, "isGuest").mockReturnValue(false);
 jest.mock('../../../../../src/scripts/be5/services/forms', () => ({
   __esModule: true, // this property makes it work
   loadForm: jest.fn()

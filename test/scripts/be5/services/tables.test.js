@@ -6,7 +6,10 @@ import {
   loadTable, openTablePage,
   setTableFilter
 } from '../../../../src/scripts/be5/services/tables';
+import * as utils from "../../../../src/scripts/be5/utils/utils";
 import testData from '../testData.json';
+
+jest.spyOn(utils, "isGuest").mockReturnValue(false);
 
 test('load', () => {
   be5.net.request = jest.fn();
