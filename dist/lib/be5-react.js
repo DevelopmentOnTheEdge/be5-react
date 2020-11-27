@@ -3949,7 +3949,7 @@ var getTableParams = function getTableParams(url) {
 var getTable = function getTable(params, callback) {
   var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
 
-  if (isGuest) {
+  if (isGuest()) {
     var limit = getQuerySettings(params[ENTITY_NAME_PARAM], params[QUERY_NAME_PARAM], RECORDS_PER_PAGE_SETTINGS);
 
     if (!isEmptyString(limit) && params[CONTEXT_PARAMS] && isEmptyString(params[CONTEXT_PARAMS][LIMIT])) {
@@ -3967,7 +3967,7 @@ var updateTable = function updateTable(params, callback) {
     delete params[CONTEXT_PARAMS][SEARCH_PRESETS_PARAM];
   }
 
-  if (isGuest && !isEmptyString(limit)) {
+  if (isGuest() && !isEmptyString(limit)) {
     var entity = params[ENTITY_NAME_PARAM];
     var query = params[QUERY_NAME_PARAM];
     if (getQuerySettings(RECORDS_PER_PAGE_SETTINGS) !== limit) setQuerySettings(entity, query, RECORDS_PER_PAGE_SETTINGS, limit);
@@ -11950,7 +11950,7 @@ var QuickColumns = /*#__PURE__*/function (_React$Component) {
               visible: col.quick === 'yes'
             };
 
-            if (isGuest) {
+            if (isGuest()) {
               var visible = getColumnSettings(table_name, query_name, col.name, "visible");
               if (visible) quickInfo.visible = visible === 'yes';
             }
@@ -11972,7 +11972,7 @@ var QuickColumns = /*#__PURE__*/function (_React$Component) {
       var query_name = this.props.page;
       var column_name = this.props.columns[quickColumn.columnId].name;
 
-      if (isGuest) {
+      if (isGuest()) {
         setColumnSettings(table_name, query_name, column_name, "visible", value);
       } else {
         be5.net.request("quick", {
