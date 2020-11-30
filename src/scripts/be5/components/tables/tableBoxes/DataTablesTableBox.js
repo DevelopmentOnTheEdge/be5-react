@@ -25,11 +25,13 @@ class DataTablesWrapper extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    if (nextProps.value.meta._ts_ > this.props.value.meta._ts_)
-    {
-      $("#" + getTableId(this.props)).DataTable().destroy(true);
-      $(this.refs.main).empty();
-      this.applyTable(nextProps, this.refs.main);
+    if (nextProps.value.meta._ts_ > this.props.value.meta._ts_) {
+      const handler = setTimeout(() => {
+        $("#" + getTableId(this.props)).DataTable().destroy(true);
+        $(this.refs.main).empty();
+        this.applyTable(nextProps, this.refs.main);
+      }, 1);
+      return () => clearTimeout(handler);
     }
     return false
   }
