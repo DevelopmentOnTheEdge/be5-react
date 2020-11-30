@@ -13765,10 +13765,18 @@ var DataTablesWrapper = /*#__PURE__*/function (_Component) {
   }, {
     key: "shouldComponentUpdate",
     value: function shouldComponentUpdate(nextProps) {
+      var _this = this;
+
       if (nextProps.value.meta._ts_ > this.props.value.meta._ts_) {
-        $("#" + getTableId(this.props)).DataTable().destroy(true);
-        $(this.refs.main).empty();
-        this.applyTable(nextProps, this.refs.main);
+        var handler = setTimeout(function () {
+          $("#" + getTableId(_this.props)).DataTable().destroy(true);
+          $(_this.refs.main).empty();
+
+          _this.applyTable(nextProps, _this.refs.main);
+        }, 1);
+        return function () {
+          return clearTimeout(handler);
+        };
       }
 
       return false;
@@ -13819,7 +13827,7 @@ var DataTablesWrapper = /*#__PURE__*/function (_Component) {
   }, {
     key: "getTableConfiguration",
     value: function getTableConfiguration(props) {
-      var _this = this;
+      var _this2 = this;
 
       var attributes = props.value.data.attributes;
       var hasCheckBoxes = attributes.selectable;
@@ -14018,7 +14026,7 @@ var DataTablesWrapper = /*#__PURE__*/function (_Component) {
       }
 
       tableConfiguration.drawCallback = function (settings) {
-        if (_this.refs && _this.refs.main) {
+        if (_this2.refs && _this2.refs.main) {
           var dataTable = $("#" + getTableId(props)).DataTable();
           if (groupingColumn !== null) drawGrouping(dataTable);
         } //hideControls();
