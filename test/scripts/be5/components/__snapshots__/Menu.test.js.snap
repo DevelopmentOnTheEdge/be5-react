@@ -8,6 +8,7 @@ exports[`snapshot NavbarMenu 1`] = `
     className="container"
   >
     <button
+      aria-label="Toggle navigation"
       className="navbar-toggler"
       onClick={[Function]}
       type="button"
@@ -57,6 +58,7 @@ exports[`snapshot NavbarMenu 1`] = `
               className="dropdown-item"
               href="#!table/testtable/Test 1D"
               onClick={[Function]}
+              role="menuitem"
               tabIndex="0"
             >
               Test 1D
@@ -65,6 +67,7 @@ exports[`snapshot NavbarMenu 1`] = `
               className="dropdown-item"
               href="#!table/testtable/Test 1D unknown"
               onClick={[Function]}
+              role="menuitem"
               tabIndex="0"
             >
               Test 1D unknown
@@ -106,6 +109,7 @@ exports[`snapshot NavbarMenu 1`] = `
           <button
             aria-expanded={false}
             aria-haspopup={true}
+            aria-label={null}
             className="dropdown-toggle btn btn-secondary"
             onClick={[Function]}
             type="button"
@@ -164,6 +168,7 @@ exports[`snapshot NavbarMenu 1`] = `
             >
               Select 
               <button
+                aria-label={null}
                 className="enable-all btn btn-primary btn-sm"
                 onClick={[Function]}
                 type="button"
@@ -172,6 +177,7 @@ exports[`snapshot NavbarMenu 1`] = `
               </button>
                
               <button
+                aria-label={null}
                 className="disable-all btn btn-secondary btn-sm"
                 onClick={[Function]}
                 type="button"
@@ -183,6 +189,7 @@ exports[`snapshot NavbarMenu 1`] = `
         </div>
          
         <a
+          aria-label={null}
           className="btn btn-secondary"
           href="#!logout"
           onClick={[Function]}

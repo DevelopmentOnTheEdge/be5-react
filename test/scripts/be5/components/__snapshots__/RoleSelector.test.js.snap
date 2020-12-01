@@ -9,6 +9,7 @@ exports[`render 1`] = `
   <button
     aria-expanded={false}
     aria-haspopup={true}
+    aria-label={null}
     className="dropdown-toggle btn btn-secondary"
     onClick={[Function]}
     type="button"
@@ -67,6 +68,7 @@ exports[`render 1`] = `
     >
       Select 
       <button
+        aria-label={null}
         className="enable-all btn btn-primary btn-sm"
         onClick={[Function]}
         type="button"
@@ -75,6 +77,7 @@ exports[`render 1`] = `
       </button>
        
       <button
+        aria-label={null}
         className="disable-all btn btn-secondary btn-sm"
         onClick={[Function]}
         type="button"

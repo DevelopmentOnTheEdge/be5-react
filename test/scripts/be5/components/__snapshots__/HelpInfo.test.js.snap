@@ -5,6 +5,7 @@ exports[`snapshot 1`] = `
   className="helpInfo clearfix"
 >
   <button
+    aria-label={null}
     className="btn-sm btn btn-info"
     onClick={[Function]}
     type="button"
