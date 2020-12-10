@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import be5 from '../../../be5';
 import {addUrlHandlers} from '../../../utils/documentUtils';
 import QuickColumns from '../QuickColumns';
-import {jQueryFormatCell, loadTableByUrl, updateTable} from "../../../services/tables";
+import {getTableTotalNumberOfRows, jQueryFormatCell, loadTableByUrl, updateTable} from "../../../services/tables";
 import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, QUERY_NAME_PARAM} from "../../../constants";
 import {registerTableBox} from "../../../core/registers/tableBoxes";
 import bus from "../../../core/bus";
@@ -283,7 +283,34 @@ class DataTablesWrapper extends Component {
       if (this.refs && this.refs.main) {
         const dataTable = $("#" + getTableId(props)).DataTable();
         if (groupingColumn !== null) drawGrouping(dataTable);
+
+        if(attributes.totalNumberOfRows === undefined){
+          $('.dataTables_paginate').hide();
+          const requestParams = {
+            [ENTITY_NAME_PARAM]: attributes.category,
+            [QUERY_NAME_PARAM]: attributes.page,
+            [CONTEXT_PARAMS]: initFilterParams(attributes.parameters)
+          };
+          getTableTotalNumberOfRows(requestParams, function (jsonApiModel) {
+            console.log("getTableTotalNumberOfRows callback")
+            const json = jsonApiModel.data.attributes;
+            if (json.type === "error") {
+              be5.log.error(json.value.code + "\n" + json.value.message);
+            } else {
+              attributes.totalNumberOfRows = json.totalNumberOfRows
+              if (json.totalNumberOfRows !== undefined) {
+                tableConfiguration.deferLoading = 123123
+                console.log(dataTable)
+                $('.dataTables_paginate').show();
+              }
+
+            }
+          });
+        }
+
+
       }
+
       //hideControls();
     };
     return tableConfiguration;

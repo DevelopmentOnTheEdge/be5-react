@@ -44,6 +44,7 @@ export const OFFSET = "_offset_";
 export const LIMIT = "_limit_";
 export const ORDER_COLUMN = "_orderColumn_";
 export const ORDER_DIR = "_orderDir_";
+export const WITHOUT_TOTAL_NUMBERS = "_without_total_number_";
 
 export const DEFAULT_TABLE_BOX = "dataTable";
 

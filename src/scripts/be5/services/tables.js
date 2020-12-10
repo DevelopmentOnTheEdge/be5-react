@@ -6,8 +6,11 @@ import {
   CONTEXT_PARAMS,
   ENTITY_NAME_PARAM,
   LIMIT,
+  WITHOUT_TOTAL_NUMBERS,
   MAIN_MODAL_DOCUMENT,
-  QUERY_NAME_PARAM, RECORDS_PER_PAGE_SETTINGS, SEARCH_PRESETS_PARAM,
+  QUERY_NAME_PARAM,
+  RECORDS_PER_PAGE_SETTINGS,
+  SEARCH_PRESETS_PARAM,
   TIMESTAMP_PARAM
 } from "../constants";
 import bus from "../core/bus";
@@ -17,7 +20,12 @@ import {getQuerySettings, isEmptyString, isGuest, setQuerySettings} from "../uti
 
 
 export const loadTable = (params, frontendParams) => {
-  getTable(params, json => {
+  // const paramsWithoutTotalNumber = Object.assign({}, params, {[WITHOUT_TOTAL_NUMBERS]: "true"})
+  const paramsWithoutTotalNumber = {
+    ...params,
+    [CONTEXT_PARAMS]: {...params[CONTEXT_PARAMS], [WITHOUT_TOTAL_NUMBERS]: "true"}
+  };
+  getTable(paramsWithoutTotalNumber, json => {
     //todo remove 'json.data' check after change error code
     _performTable(json, frontendParams);
   }, (json) => {
@@ -103,6 +111,14 @@ export const updateTable = (params, callback, failure = be5.log.error) => {
       setQuerySettings(entity, query, RECORDS_PER_PAGE_SETTINGS, limit)
   }
   be5.net.request('table/update', getRequestParams(params), callback, failure);
+};
+
+export const getTableTotalNumberOfRows = (params, callback, failure = be5.log.error) => {
+  //hot fix remove after fix empty redirect params with SEARCH_PRESETS_PARAM usage
+  if(params[CONTEXT_PARAMS] && params[CONTEXT_PARAMS][SEARCH_PRESETS_PARAM]){
+    delete params[CONTEXT_PARAMS][SEARCH_PRESETS_PARAM]
+  }
+  be5.net.request('table/count', getRequestParams(params), callback, failure);
 };
 
 const _performTable = (json, frontendParams) => {
