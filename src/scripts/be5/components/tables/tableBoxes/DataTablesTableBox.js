@@ -3,7 +3,13 @@ import be5 from '../../../be5';
 import {addUrlHandlers} from '../../../utils/documentUtils';
 import QuickColumns from '../QuickColumns';
 import {jQueryFormatCell, loadTableByUrl, updateTable} from "../../../services/tables";
-import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, QUERY_NAME_PARAM} from "../../../constants";
+import {
+  CONTEXT_PARAMS,
+  ENTITY_NAME_PARAM, LIMIT, OFFSET,
+  ORDER_COLUMN, ORDER_DIR,
+  QUERY_NAME_PARAM,
+  TOTAL_NUMBER_OF_ROWS
+} from "../../../constants";
 import {registerTableBox} from "../../../core/registers/tableBoxes";
 import bus from "../../../core/bus";
 import {clearTableFilter} from "../../../services/tables";
@@ -136,11 +142,14 @@ class DataTablesWrapper extends Component {
       ajax: function (data, callback, settings) {
         clearTableFilter(attributes.category, attributes.page, attributes.parameters);
         const params = initFilterParams(attributes.parameters);
-        params._offset_ = data.start;
-        params._limit_ = data.length;
+        params[OFFSET] = data.start;
+        params[LIMIT] = data.length;
         if (data.order && data.order.length > 0) {
-          params._orderColumn_ = data.order[0].column;
-          params._orderDir_ = data.order[0].dir;
+          params[ORDER_COLUMN] = data.order[0].column;
+          params[ORDER_DIR] = data.order[0].dir;
+        }
+        if (attributes.totalNumberOfRows !== undefined) {
+          params[TOTAL_NUMBER_OF_ROWS] = attributes.totalNumberOfRows;
         }
 
         const requestParams = {
