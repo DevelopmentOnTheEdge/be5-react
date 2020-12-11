@@ -7,7 +7,7 @@ import {
   ENTITY_NAME_PARAM,
   LIMIT,
   MAIN_MODAL_DOCUMENT,
-  QUERY_NAME_PARAM, RECORDS_PER_PAGE_SETTINGS, SEARCH_PRESETS_PARAM,
+  QUERY_NAME_PARAM, RECORDS_PER_PAGE_SETTINGS, SEARCH_PARAM, SEARCH_PRESETS_PARAM,
   TIMESTAMP_PARAM
 } from "../constants";
 import bus from "../core/bus";
@@ -84,7 +84,9 @@ export const getTable = (params, callback, failure = be5.log.error) => {
   if (isGuest()) {
     const limit = getQuerySettings(params[ENTITY_NAME_PARAM], params[QUERY_NAME_PARAM], RECORDS_PER_PAGE_SETTINGS);
     if (!isEmptyString(limit) && params[CONTEXT_PARAMS] && isEmptyString(params[CONTEXT_PARAMS][LIMIT])) {
-      params[CONTEXT_PARAMS][LIMIT] = limit
+      params[CONTEXT_PARAMS][LIMIT] = limit;
+      params[CONTEXT_PARAMS][SEARCH_PARAM] = "true";
+
     }
   }
   be5.net.request('table', getRequestParams(params), callback, failure);
@@ -92,10 +94,6 @@ export const getTable = (params, callback, failure = be5.log.error) => {
 
 export const updateTable = (params, callback, failure = be5.log.error) => {
   const limit = params[CONTEXT_PARAMS] ? params[CONTEXT_PARAMS][LIMIT] : null;
-  //hot fix remove after fix empty redirect params with SEARCH_PRESETS_PARAM usage
-  if(params[CONTEXT_PARAMS] && params[CONTEXT_PARAMS][SEARCH_PRESETS_PARAM]){
-    delete params[CONTEXT_PARAMS][SEARCH_PRESETS_PARAM]
-  }
   if (isGuest() && !isEmptyString(limit)) {
     const entity = params[ENTITY_NAME_PARAM];
     const query = params[QUERY_NAME_PARAM];
@@ -125,7 +123,6 @@ const getRequestParams = (params) => {
   Preconditions.passed(query);
 
   let finalParams = withSavedTableFilter(entity, query, params[CONTEXT_PARAMS]);
-
   return {
     [ENTITY_NAME_PARAM]: entity,
     [QUERY_NAME_PARAM]: query,
