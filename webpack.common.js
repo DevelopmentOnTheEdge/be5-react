@@ -62,7 +62,6 @@ module.exports = {
   externals: {
     react: "React",
     "react-dom": "ReactDOM",
-    // "react-virtualized": "react-virtualized",
     underscore: '_',
     jquery: 'jQuery',
     datatables: "DataTables",
