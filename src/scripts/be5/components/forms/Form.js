@@ -10,12 +10,13 @@ import ErrorPane from "../ErrorPane";
 import Transition from 'react-transition-group/Transition';
 import {registerDocument} from '../../core/registers/documents';
 import {_createBackAction} from "../../utils/documentUtils";
-import {makeSafeForClassName} from "../../utils/utils";
+import {isTrueValueParam, makeSafeForClassName} from "../../utils/utils";
 import {
   CONTEXT_PARAMS, ENTITY_NAME_PARAM, OPERATION_NAME_PARAM, QUERY_NAME_PARAM,
   RELOAD_CONTROL_NAME
 } from "../../constants";
 import {asyncSelectLoadOptions} from "../../services/tables";
+import ProcessingOperationPopUp from "./ProcessingOperationPopUp";
 
 
 class Form extends React.Component {
@@ -163,28 +164,32 @@ class Form extends React.Component {
 
   _createSubmitAction(actionUrl, name) {
     const attr = this.props.value.data.attributes;
-    const {bsSize, submitText} = attr.layout;
+    const {bsSize, submitText,longTimeOperation} = attr.layout;
+    const isPopUp = isTrueValueParam(longTimeOperation);
     return (
-      <Transition in={this.state.submitted} timeout={600}>
-        {(state) => (
-          <button
-            type="submit"
-            className={classNames(
-              "btn btn-primary",
-              {'btn-sm': bsSize === 'sm'},
-              {'btn-lg': bsSize === 'lg'}
-            )}
-            onClick={() => this.setState({
-              wasValidated: true,
-              formAction: actionUrl
-            })}
-            title={this.state.submitted ? be5.messages.submitted : ""}
-            disabled={state === 'entered'}
-          >
-            {name || submitText || be5.messages.Submit}
-          </button>
-        )}
-      </Transition>
+        <Transition in={this.state.submitted} timeout={600}>
+          {(state) => (
+              <>
+                <button
+                    type="submit"
+                    className={classNames(
+                        "btn btn-primary",
+                        {'btn-sm': bsSize === 'sm'},
+                        {'btn-lg': bsSize === 'lg'}
+                    )}
+                    onClick={() => this.setState({
+                      wasValidated: true,
+                      formAction: actionUrl
+                    })}
+                    title={this.state.submitted ? be5.messages.submitted : ""}
+                    disabled={state === 'entered'}
+                >
+                  {name || submitText || be5.messages.Submit}
+                </button>
+                <ProcessingOperationPopUp isOpen={isPopUp && state === 'entered'}/>
+              </>
+          )}
+        </Transition>
     );
   }
 

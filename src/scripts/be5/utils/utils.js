@@ -23,6 +23,10 @@ export const isEmptyString = (str) =>{
   return str === null || str === undefined || String(str) === '';
 }
 
+export const isTrueValueParam = (paramValue) => {
+  return paramValue && ["YES", "ON", "TRUE", "1"].includes(String(paramValue).toUpperCase());
+}
+
 export const registerPage = (actionName, component, fn) => {
   registerDocument(actionName, component);
   registerRoute(actionName, fn);

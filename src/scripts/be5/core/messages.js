@@ -32,6 +32,7 @@ export default {
 
     Submit: 'Submit',
     submitted: 'In progress...',
+    opInProgress: "Operation in progress, please wait...",
 
     formComponentNotFound: 'Document component not found: ',
     tableComponentNotFound: 'Table component not found: ',
@@ -90,6 +91,7 @@ export default {
 
     Submit: 'Выполнить',
     submitted: 'Выполняется...',
+    opInProgress: "Операция выполняется, пожалуйста подождите...",
 
     property: {
       locale: 'ru',

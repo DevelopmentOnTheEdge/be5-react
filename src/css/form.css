@@ -178,3 +178,7 @@
   max-width: 350px;
 }
 */
+
+.op-in-progress-modal-css .modal-header{
+  border-bottom: none;
+}
