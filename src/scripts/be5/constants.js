@@ -46,6 +46,7 @@ export const ORDER_COLUMN = "_orderColumn_";
 export const ORDER_DIR = "_orderDir_";
 export const TOTAL_NUMBER_OF_ROWS = "_totalNumberOfRows_";
 
+export const LONG_TIME_OPERATION = "longTimeOperation";
 export const DEFAULT_TABLE_BOX = "dataTable";
 
 export const COLUMN_SETTINGS = "be5columnSettings";

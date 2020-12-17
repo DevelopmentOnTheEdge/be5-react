@@ -60,7 +60,8 @@ export const _performOperationResult = (json, frontendParams, data) => {
   const documentName = frontendParams.documentName;
 
   Preconditions.passed(documentName);
-
+  console.log("_performOperationResult")
+  console.log(json)
   if (json.data !== undefined) {
     switch (json.data.type) {
       case 'form':
@@ -71,6 +72,7 @@ export const _performOperationResult = (json, frontendParams, data) => {
         const result = attributes.operationResult;
 
         if (result.status === 'ERROR') {
+          bus.fire('showMenu', {show: true});
           bus.fire("alert", {msg: result.message, type: 'error', timeout:result.timeout});
           return;
         }
@@ -84,6 +86,7 @@ export const _performOperationResult = (json, frontendParams, data) => {
             executeFrontendActions(new FrontendAction(REDIRECT, result.details), frontendParams);
             return;
           case 'FINISHED':
+            bus.fire('showMenu', {show: true});
             if (result.details === undefined) {
               if (documentName === MAIN_MODAL_DOCUMENT) {
                 bus.fire("alert", {msg: result.message || be5.messages.successfullyCompleted, type: 'success', timeout:result.timeout});
@@ -137,6 +140,7 @@ const _performForm = (json, frontendParams) => {
   let operationResult = json.data.attributes.operationResult;
 
   if (operationResult.status === 'ERROR') {
+    bus.fire('showMenu', {show: true});
     bus.fire("alert", {msg: operationResult.message, type: 'error', operationResult: operationResult.timeout});
   }
 

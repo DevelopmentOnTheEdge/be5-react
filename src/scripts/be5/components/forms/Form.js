@@ -12,11 +12,12 @@ import {registerDocument} from '../../core/registers/documents';
 import {_createBackAction} from "../../utils/documentUtils";
 import {isTrueValueParam, makeSafeForClassName} from "../../utils/utils";
 import {
-  CONTEXT_PARAMS, ENTITY_NAME_PARAM, OPERATION_NAME_PARAM, QUERY_NAME_PARAM,
+  CONTEXT_PARAMS, ENTITY_NAME_PARAM, LONG_TIME_OPERATION, OPERATION_NAME_PARAM, QUERY_NAME_PARAM,
   RELOAD_CONTROL_NAME
 } from "../../constants";
 import {asyncSelectLoadOptions} from "../../services/tables";
 import ProcessingOperationPopUp from "./ProcessingOperationPopUp";
+import bus from "../../core/bus";
 
 
 class Form extends React.Component {
@@ -32,6 +33,9 @@ class Form extends React.Component {
   }
 
   componentDidMount() {
+    if (isTrueValueParam(this.props.value.data.attributes.layout[LONG_TIME_OPERATION])) {
+      bus.fire('showMenu', {show: false})
+    }
     addUrlHandlers($('.be5-form'), this.props.frontendParams.documentName);
   }
 
@@ -163,8 +167,8 @@ class Form extends React.Component {
 
   _createSubmitAction(actionUrl, name) {
     const attr = this.props.value.data.attributes;
-    const {bsSize, submitText,longTimeOperation} = attr.layout;
-    const isPopUp = isTrueValueParam(longTimeOperation);
+    const {bsSize, submitText} = attr.layout;
+    const isPopUp = isTrueValueParam(attr.layout[LONG_TIME_OPERATION]);
     return (
         <Transition in={this.state.submitted} timeout={600}>
           {(state) => (

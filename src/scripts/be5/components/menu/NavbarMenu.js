@@ -6,6 +6,8 @@ import RoleSelector from "../RoleSelector";
 import {processHashUrl} from "../../utils/documentUtils";
 import NavMenu from "./NavMenu";
 import LanguageBox from "../LanguageSelector";
+import ShowMenu from "./ShowMenu";
+import bus from "../../core/bus";
 
 
 const propTypes = {
@@ -21,9 +23,16 @@ const propTypes = {
 class NavbarMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = {isOpen: false};
-
+    this.state = {isOpen: false, disabledBrandHref: false};
     this.toggle = this.toggle.bind(this);
+  }
+
+  componentDidMount() {
+    bus.listen('showMenu', data => {
+      this.setState({
+        disabledBrandHref: !data.show
+      });
+    });
   }
 
   toggle() {
@@ -34,24 +43,30 @@ class NavbarMenu extends Component {
 
   render() {
     return (
-      <Navbar color="dark" dark expand="md">
-        <div className={this.props.containerClass}>
-          {this.navbarBrand()}
-          <NavbarToggler onClick={this.toggle}/>
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <NavMenu {...this.props}/>
-            {this.rightButtons()}
-            {this.languageBox()}
-          </Collapse>
-        </div>
-      </Navbar>
+        <Navbar color="dark" dark expand="md">
+          <div className={this.props.containerClass}>
+            {this.navbarBrand(this.state.disabledBrandHref)}
+            <ShowMenu>
+              <NavbarToggler onClick={this.toggle}/>
+              <Collapse isOpen={this.state.isOpen} navbar>
+                <NavMenu {...this.props}/>
+                {this.rightButtons()}
+                {this.languageBox()}
+              </Collapse>
+            </ShowMenu>
+          </div>
+        </Navbar>
     );
   }
 
-  navbarBrand() {
-    return this.props.brand
-      ? <a href="#!" onClick={processHashUrl} className="navbar-brand">{this.props.brand}</a>
-      : undefined;
+  navbarBrand(disabled) {
+    if(this.props.brand){
+      return disabled
+          ? <a className="navbar-brand">{this.props.brand}</a>
+          : <a href="#!" onClick={processHashUrl} className="navbar-brand">{this.props.brand}</a>
+    }else{
+      return undefined;
+    }
   }
 
   languageBox() {
