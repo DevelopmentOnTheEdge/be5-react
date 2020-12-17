@@ -24,9 +24,9 @@ class SubmitOnChangeForm extends Form {
     return (
       <form
         className={classNames(
-          'submit-onchange-form',
-          this.props.wasValidated ? 'was-validated' : '',
-          attributes.layout.classes
+            'submit-onchange-form',
+            {'was-validated': this.props.wasValidated},
+            attributes.layout.classes
         )}
       >
         <PropertyInput

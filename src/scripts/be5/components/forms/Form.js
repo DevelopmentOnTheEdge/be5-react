@@ -119,8 +119,7 @@ class Form extends React.Component {
     return (
       <form
         onSubmit={this._applyOnSubmit}
-        className={classNames(
-          this.state.wasValidated ? 'was-validated' : ''
+        className={classNames({'was-validated': this.state.wasValidated}
         )}
       >
         {this._createFormContent()}

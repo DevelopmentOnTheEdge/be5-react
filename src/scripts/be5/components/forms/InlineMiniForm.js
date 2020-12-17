@@ -32,10 +32,7 @@ class InlineMiniForm extends Form {
       <div className={classNames('be5-form', this.getFormClass(), baseClasses, attributes.layout.classes)}>
         <form
           onSubmit={this._applyOnSubmit}
-          className={classNames(
-            'form-inline',
-            this.state.wasValidated ? 'was-validated' : ''
-          )}
+          className={classNames('form-inline', {'was-validated': this.state.wasValidated})}
         >
           {attributes.title !== "" ?
             <label className={classNames(
