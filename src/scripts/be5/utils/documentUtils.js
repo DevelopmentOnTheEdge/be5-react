@@ -1,12 +1,20 @@
 import React from 'react';
 import be5 from "../be5";
 import Preconditions from '../utils/preconditions';
-import {GO_BACK, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, OPEN_DEFAULT_ROUTE, TIMESTAMP_PARAM} from "../constants";
+import {
+  GO_BACK,
+  LONG_TIME_OPERATION,
+  MAIN_DOCUMENT,
+  MAIN_MODAL_DOCUMENT,
+  OPEN_DEFAULT_ROUTE,
+  TIMESTAMP_PARAM
+} from "../constants";
 import FrontendAction from "../services/model/FrontendAction";
 import {executeFrontendActions} from "../services/frontendActions";
 import changeDocument from "../core/changeDocument";
 import {clearDocumentState} from "../services/documentStates";
 import bus from '../core/bus';
+import {isTrueValueParam} from "./utils";
 
 export const getResourceByID = (included, id) => {
   if (included === undefined) return undefined;
@@ -103,6 +111,7 @@ export const addUrlHandlers = (element, documentName) => {
   });
 
   element.on("click", '.close-modal', function (e) {
+    console.log("element.on(\"click\", '.close-modal', function (e)")
     if(!e.ctrlKey) {
       bus.fire("mainModalClose");
     }
@@ -162,3 +171,8 @@ const getDefaultCancelAction = () => {
     return new FrontendAction(OPEN_DEFAULT_ROUTE);
   }
 };
+
+export const isHideMenuOpertion = (data) =>{
+  return data && data.attributes && data.attributes.layout &&
+      isTrueValueParam(data.attributes.layout[LONG_TIME_OPERATION])
+}

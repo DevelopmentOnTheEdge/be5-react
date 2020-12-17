@@ -18,6 +18,7 @@ import FrontendAction from "./model/FrontendAction";
 import {executeFrontendActions,getActionsMap} from "./frontendActions";
 import 'formdata-polyfill';
 import {_get, _post} from "./formsRequests";
+import {isHideMenuOpertion} from "../utils/documentUtils";
 
 
 export const loadOperation = (params, frontendParams) => {
@@ -140,7 +141,9 @@ const _performForm = (json, frontendParams) => {
   let operationResult = json.data.attributes.operationResult;
 
   if (operationResult.status === 'ERROR') {
-    bus.fire('showMenu', {show: true});
+    if (isHideMenuOpertion(json.data)) {
+      bus.fire('showMenu', {show: true});
+    }
     bus.fire("alert", {msg: operationResult.message, type: 'error', operationResult: operationResult.timeout});
   }
 

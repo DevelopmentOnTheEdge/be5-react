@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import be5 from '../../be5';
-import {addUrlHandlers} from '../../utils/documentUtils';
+import {addUrlHandlers, isHideMenuOpertion} from '../../utils/documentUtils';
 import forms, {getOperationInfo} from '../../services/forms';
 import PropertySet from 'beanexplorer-react';
 import JsonPointer from 'json-pointer';
@@ -33,7 +33,7 @@ class Form extends React.Component {
   }
 
   componentDidMount() {
-    if (isTrueValueParam(this.props.value.data.attributes.layout[LONG_TIME_OPERATION])) {
+    if (isHideMenuOpertion(this.props.value.data)) {
       bus.fire('showMenu', {show: false})
     }
     addUrlHandlers($('.be5-form'), this.props.frontendParams.documentName);
