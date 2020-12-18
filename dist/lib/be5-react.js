@@ -1,6 +1,6 @@
-import React, { Component, createContext, forwardRef, createElement, Fragment, PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Modal, Nav, NavItem, NavLink, Navbar, NavbarToggler, Collapse, UncontrolledTooltip, Card, CardBody, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import React, { Component, useState, useEffect, createContext, forwardRef, createElement, Fragment, PureComponent } from 'react';
+import PropTypes, { bool, string } from 'prop-types';
+import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Modal, Nav, NavItem, NavLink, Navbar, NavbarToggler, Collapse, UncontrolledTooltip, Card, CardBody, ModalHeader, Spinner, ModalBody, ModalFooter } from 'reactstrap';
 import classNames$1 from 'classnames';
 import { connect } from 'react-redux';
 import 'formdata-polyfill';
@@ -101,6 +101,8 @@ var api = /*#__PURE__*/Object.freeze({
   get GO_BACK () { return GO_BACK; },
   get CLOSE_MAIN_MODAL () { return CLOSE_MAIN_MODAL; },
   get SUCCESS_ALERT () { return SUCCESS_ALERT; },
+  get SHOW_MENU () { return SHOW_MENU; },
+  get HIDE_MENU () { return HIDE_MENU; },
   get UPDATE_DOCUMENT () { return UPDATE_DOCUMENT; },
   get UPDATE_PARENT_DOCUMENT () { return UPDATE_PARENT_DOCUMENT; },
   get REFRESH_DOCUMENT () { return REFRESH_DOCUMENT; },
@@ -124,6 +126,7 @@ var api = /*#__PURE__*/Object.freeze({
   get ORDER_COLUMN () { return ORDER_COLUMN; },
   get ORDER_DIR () { return ORDER_DIR; },
   get TOTAL_NUMBER_OF_ROWS () { return TOTAL_NUMBER_OF_ROWS; },
+  get LONG_TIME_OPERATION () { return LONG_TIME_OPERATION; },
   get DEFAULT_TABLE_BOX () { return DEFAULT_TABLE_BOX; },
   get COLUMN_SETTINGS () { return COLUMN_SETTINGS; },
   get QUERY_SETTINGS () { return QUERY_SETTINGS; },
@@ -173,6 +176,8 @@ var OPEN_NEW_WINDOW = 'OPEN_NEW_WINDOW';
 var GO_BACK = 'GO_BACK';
 var CLOSE_MAIN_MODAL = 'CLOSE_MAIN_MODAL';
 var SUCCESS_ALERT = 'SUCCESS_ALERT';
+var SHOW_MENU = 'SHOW_MENU';
+var HIDE_MENU = 'HIDE_MENU';
 var UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
 var UPDATE_PARENT_DOCUMENT = 'UPDATE_PARENT_DOCUMENT';
 var REFRESH_DOCUMENT = 'REFRESH_DOCUMENT';
@@ -196,6 +201,7 @@ var LIMIT = "_limit_";
 var ORDER_COLUMN = "_orderColumn_";
 var ORDER_DIR = "_orderDir_";
 var TOTAL_NUMBER_OF_ROWS = "_totalNumberOfRows_";
+var LONG_TIME_OPERATION = "longTimeOperation";
 var DEFAULT_TABLE_BOX = "dataTable";
 var COLUMN_SETTINGS = "be5columnSettings";
 var QUERY_SETTINGS = "be5querySettings";
@@ -338,6 +344,18 @@ var executeFrontendActions = function executeFrontendActions(actionsArrayOrOneOb
     bus.fire("mainModalClose");
   }
 
+  if (actions.hasOwnProperty(HIDE_MENU)) {
+    bus.fire('showMenu', {
+      show: false
+    });
+  }
+
+  if (actions.hasOwnProperty(SHOW_MENU)) {
+    bus.fire('showMenu', {
+      show: true
+    });
+  }
+
   if (actions.hasOwnProperty(REFRESH_MENU)) {
     be5.store.dispatch(updateMenu(actions[REFRESH_MENU]));
   }
@@ -477,7 +495,200 @@ var getActionsMap = function getActionsMap(actionsArrayOrOneObject) {
   return map;
 };
 
+var documents = {};
+var getDocument = function getDocument(type) {
+  return documents[type];
+}; // createDocument(type, props) {
+//   return documents[type](props);
+// };
+
+var registerDocument = function registerDocument(type, component) {
+  documents[type] = component;
+};
+var getAllDocumentTypes = function getAllDocumentTypes() {
+  return Object.keys(documents);
+};
+
+var routes = {};
+var getRoute = function getRoute(actionName) {
+  return routes[actionName];
+};
+var registerRoute = function registerRoute(actionName, fn) {
+  routes[actionName] = fn;
+};
+var getAllRoutes = function getAllRoutes() {
+  return Object.keys(routes);
+};
+
+var getUser = function getUser(state) {
+  return state.user;
+};
+var getCurrentRoles = function getCurrentRoles(state) {
+  return state.user.currentRoles;
+};
+var getDefaultRoute = function getDefaultRoute(state) {
+  return state.user.defaultRoute;
+};
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+var arraysEqual = function arraysEqual(a, b) {
+  if (a === b) return true;
+  if (a === null || b === null) return false;
+  if (a.length !== b.length) return false;
+  a.sort();
+  b.sort();
+
+  for (var i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) return false;
+  }
+
+  return true;
+};
+var isEmptyString = function isEmptyString(str) {
+  return str === null || str === undefined || String(str) === '';
+};
+var isTrueValueParam = function isTrueValueParam(paramValue) {
+  return paramValue && ["YES", "ON", "TRUE", "1"].includes(String(paramValue).toUpperCase());
+};
+var registerPage = function registerPage(actionName, component, fn) {
+  registerDocument(actionName, component);
+  registerRoute(actionName, fn);
+};
+var createPageValue = function createPageValue(actionName, data, url) {
+  return {
+    value: {
+      data: Object.assign({}, data, {
+        links: {
+          self: url || actionName
+        }
+      })
+    },
+    frontendParams: {
+      type: actionName
+    }
+  };
+};
+/* https://stackoverflow.com/a/7627603 */
+
+var makeSafeForClassName = function makeSafeForClassName(name) {
+  return name.replace(/[^a-zA-Z0-9]/g, function (s) {
+    var c = s.charCodeAt(0);
+    if (c === 32) return '-';
+    return '__' + ('000' + c.toString(16)).slice(-4);
+  });
+};
+var getBackOrOpenDefaultRouteAction = function getBackOrOpenDefaultRouteAction() {
+  if (window.history.length > 1) {
+    return new FrontendAction(GO_BACK);
+  } else {
+    return new FrontendAction(OPEN_DEFAULT_ROUTE);
+  }
+};
+var getBackAction = function getBackAction() {
+  if (window.history.length > 1) {
+    return new FrontendAction(GO_BACK);
+  } else {
+    return undefined;
+  }
+};
+var hashUrlIsEmpty = function hashUrlIsEmpty(url) {
+  return url === '' || url === '#' || url === '#!';
+};
+var isGuest = function isGuest() {
+  return be5.getStoreState() && getCurrentRoles(be5.getStoreState()) && getCurrentRoles(be5.getStoreState()).includes(ROLE_GUEST);
+};
+var setColumnSettings = function setColumnSettings(table_name, query_name, column_name, settingName, settingValue) {
+  var settings = JSON.parse(localStorage.getItem(COLUMN_SETTINGS));
+
+  if (!settings || !Array.isArray(settings)) {
+    settings = [];
+  }
+
+  var querySettings = settings.find(function (el) {
+    return el.table_name == table_name && el.query_name === query_name;
+  });
+
+  if (!querySettings) {
+    settings.push({
+      table_name: table_name,
+      query_name: query_name,
+      columnSettings: [_defineProperty({
+        column_name: column_name
+      }, settingName, settingValue)]
+    });
+  } else {
+    var columnSetting = querySettings.columnSettings.find(function (el) {
+      return el.column_name === column_name;
+    });
+
+    if (!columnSetting) {
+      querySettings.columnSettings.push(_defineProperty({
+        column_name: column_name
+      }, settingName, settingValue));
+    } else {
+      columnSetting[settingName] = settingValue;
+    }
+  }
+
+  localStorage.setItem(COLUMN_SETTINGS, JSON.stringify(settings));
+};
+var getColumnSettings = function getColumnSettings(table_name, query_name, column_name, settingName) {
+  var settings = JSON.parse(localStorage.getItem(COLUMN_SETTINGS));
+
+  if (settings) {
+    var querySettings = settings.find(function (el) {
+      return el.table_name === table_name && el.query_name === query_name;
+    });
+
+    if (querySettings) {
+      var columnSetting = querySettings.columnSettings.find(function (el) {
+        return el.column_name === column_name;
+      });
+
+      if (columnSetting) {
+        return columnSetting[settingName];
+      }
+    }
+  }
+
+  return null;
+};
+var setQuerySettings = function setQuerySettings(table_name, query_name, settingName, settingValue) {
+  var settings = JSON.parse(localStorage.getItem(QUERY_SETTINGS));
+
+  if (!settings || !Array.isArray(settings)) {
+    settings = [];
+  }
+
+  var querySettings = settings.find(function (el) {
+    return el.table_name == table_name && el.query_name === query_name;
+  });
+
+  if (!querySettings) {
+    settings.push(_defineProperty({
+      table_name: table_name,
+      query_name: query_name
+    }, settingName, settingValue));
+  } else {
+    querySettings[settingName] = settingValue;
+  }
+
+  localStorage.setItem(QUERY_SETTINGS, JSON.stringify(settings));
+};
+var getQuerySettings = function getQuerySettings(table_name, query_name, settingName) {
+  var settings = JSON.parse(localStorage.getItem(QUERY_SETTINGS));
+
+  if (settings) {
+    var querySettings = settings.find(function (el) {
+      return el.table_name === table_name && el.query_name === query_name;
+    });
+    if (querySettings) return querySettings[settingName];
+  }
+
+  return null;
+};
+
+function _defineProperty$1(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var getResourceByID = function getResourceByID(included, id) {
   if (included === undefined) return undefined;
 
@@ -591,7 +802,7 @@ var processHashUrlForDocument = function processHashUrlForDocument(e, documentNa
 };
 var loadDocumentByUrl = function loadDocumentByUrl(url, frontendParams) {
   var attr = be5.url.parse(url);
-  var params = Object.assign(attr.named, _defineProperty({}, TIMESTAMP_PARAM, new Date().getTime()));
+  var params = Object.assign(attr.named, _defineProperty$1({}, TIMESTAMP_PARAM, new Date().getTime()));
   be5.net.request(be5.url.form(attr.positional), params, function (json) {
     changeDocument(frontendParams.documentName, {
       value: json,
@@ -618,7 +829,10 @@ var _createBackAction = function _createBackAction(layout, frontendParams) {
       type: "button",
       className: "btn btn-secondary back-action-btn",
       onClick: function onClick() {
-        return executeFrontendActions(action, frontendParams);
+        if (isTrueValueParam(layout[LONG_TIME_OPERATION])) bus.fire('showMenu', {
+          show: true
+        });
+        executeFrontendActions(action, frontendParams);
       }
     }, layout.cancelActionText || be5.messages.back);
   } else {
@@ -631,6 +845,15 @@ var getDefaultCancelAction = function getDefaultCancelAction() {
     return new FrontendAction(GO_BACK);
   } else {
     return new FrontendAction(OPEN_DEFAULT_ROUTE);
+  }
+};
+var showMenuEvent = function showMenuEvent(data, eventType) {
+  var loyaut = data && data.attributes && data.attributes.layout;
+
+  if (loyaut && isTrueValueParam(data.attributes.layout[LONG_TIME_OPERATION])) {
+    bus.fire('showMenu', {
+      show: eventType
+    });
   }
 };
 
@@ -664,6 +887,7 @@ var messages = {
     clearRoles: 'clear',
     Submit: 'Submit',
     submitted: 'In progress...',
+    opInProgress: "Operation in progress, please wait...",
     formComponentNotFound: 'Document component not found: ',
     tableComponentNotFound: 'Table component not found: ',
     componentForTypeNotRegistered: 'Component for type "$type" is not registered.',
@@ -713,6 +937,7 @@ var messages = {
     clearRoles: 'Ничего',
     Submit: 'Выполнить',
     submitted: 'Выполняется...',
+    opInProgress: "Операция выполняется, пожалуйста подождите...",
     property: {
       locale: 'ru',
       clearAllText: 'Очистить всё',
@@ -771,196 +996,6 @@ var messages = {
       }
     }
   }
-};
-
-var routes = {};
-var getRoute = function getRoute(actionName) {
-  return routes[actionName];
-};
-var registerRoute = function registerRoute(actionName, fn) {
-  routes[actionName] = fn;
-};
-var getAllRoutes = function getAllRoutes() {
-  return Object.keys(routes);
-};
-
-var getUser = function getUser(state) {
-  return state.user;
-};
-var getCurrentRoles = function getCurrentRoles(state) {
-  return state.user.currentRoles;
-};
-var getDefaultRoute = function getDefaultRoute(state) {
-  return state.user.defaultRoute;
-};
-
-var documents = {};
-var getDocument = function getDocument(type) {
-  return documents[type];
-}; // createDocument(type, props) {
-//   return documents[type](props);
-// };
-
-var registerDocument = function registerDocument(type, component) {
-  documents[type] = component;
-};
-var getAllDocumentTypes = function getAllDocumentTypes() {
-  return Object.keys(documents);
-};
-
-function _defineProperty$1(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-var arraysEqual = function arraysEqual(a, b) {
-  if (a === b) return true;
-  if (a === null || b === null) return false;
-  if (a.length !== b.length) return false;
-  a.sort();
-  b.sort();
-
-  for (var i = 0; i < a.length; ++i) {
-    if (a[i] !== b[i]) return false;
-  }
-
-  return true;
-};
-var isEmptyString = function isEmptyString(str) {
-  return str === null || str === undefined || String(str) === '';
-};
-var registerPage = function registerPage(actionName, component, fn) {
-  registerDocument(actionName, component);
-  registerRoute(actionName, fn);
-};
-var createPageValue = function createPageValue(actionName, data, url) {
-  return {
-    value: {
-      data: Object.assign({}, data, {
-        links: {
-          self: url || actionName
-        }
-      })
-    },
-    frontendParams: {
-      type: actionName
-    }
-  };
-};
-/* https://stackoverflow.com/a/7627603 */
-
-var makeSafeForClassName = function makeSafeForClassName(name) {
-  return name.replace(/[^a-zA-Z0-9]/g, function (s) {
-    var c = s.charCodeAt(0);
-    if (c === 32) return '-';
-    return '__' + ('000' + c.toString(16)).slice(-4);
-  });
-};
-var getBackOrOpenDefaultRouteAction = function getBackOrOpenDefaultRouteAction() {
-  if (window.history.length > 1) {
-    return new FrontendAction(GO_BACK);
-  } else {
-    return new FrontendAction(OPEN_DEFAULT_ROUTE);
-  }
-};
-var getBackAction = function getBackAction() {
-  if (window.history.length > 1) {
-    return new FrontendAction(GO_BACK);
-  } else {
-    return undefined;
-  }
-};
-var hashUrlIsEmpty = function hashUrlIsEmpty(url) {
-  return url === '' || url === '#' || url === '#!';
-};
-var isGuest = function isGuest() {
-  return be5.getStoreState() && getCurrentRoles(be5.getStoreState()) && getCurrentRoles(be5.getStoreState()).includes(ROLE_GUEST);
-};
-var setColumnSettings = function setColumnSettings(table_name, query_name, column_name, settingName, settingValue) {
-  var settings = JSON.parse(localStorage.getItem(COLUMN_SETTINGS));
-
-  if (!settings || !Array.isArray(settings)) {
-    settings = [];
-  }
-
-  var querySettings = settings.find(function (el) {
-    return el.table_name == table_name && el.query_name === query_name;
-  });
-
-  if (!querySettings) {
-    settings.push({
-      table_name: table_name,
-      query_name: query_name,
-      columnSettings: [_defineProperty$1({
-        column_name: column_name
-      }, settingName, settingValue)]
-    });
-  } else {
-    var columnSetting = querySettings.columnSettings.find(function (el) {
-      return el.column_name === column_name;
-    });
-
-    if (!columnSetting) {
-      querySettings.columnSettings.push(_defineProperty$1({
-        column_name: column_name
-      }, settingName, settingValue));
-    } else {
-      columnSetting[settingName] = settingValue;
-    }
-  }
-
-  localStorage.setItem(COLUMN_SETTINGS, JSON.stringify(settings));
-};
-var getColumnSettings = function getColumnSettings(table_name, query_name, column_name, settingName) {
-  var settings = JSON.parse(localStorage.getItem(COLUMN_SETTINGS));
-
-  if (settings) {
-    var querySettings = settings.find(function (el) {
-      return el.table_name === table_name && el.query_name === query_name;
-    });
-
-    if (querySettings) {
-      var columnSetting = querySettings.columnSettings.find(function (el) {
-        return el.column_name === column_name;
-      });
-
-      if (columnSetting) {
-        return columnSetting[settingName];
-      }
-    }
-  }
-
-  return null;
-};
-var setQuerySettings = function setQuerySettings(table_name, query_name, settingName, settingValue) {
-  var settings = JSON.parse(localStorage.getItem(QUERY_SETTINGS));
-
-  if (!settings || !Array.isArray(settings)) {
-    settings = [];
-  }
-
-  var querySettings = settings.find(function (el) {
-    return el.table_name == table_name && el.query_name === query_name;
-  });
-
-  if (!querySettings) {
-    settings.push(_defineProperty$1({
-      table_name: table_name,
-      query_name: query_name
-    }, settingName, settingValue));
-  } else {
-    querySettings[settingName] = settingValue;
-  }
-
-  localStorage.setItem(QUERY_SETTINGS, JSON.stringify(settings));
-};
-var getQuerySettings = function getQuerySettings(table_name, query_name, settingName) {
-  var settings = JSON.parse(localStorage.getItem(QUERY_SETTINGS));
-
-  if (settings) {
-    var querySettings = settings.find(function (el) {
-      return el.table_name === table_name && el.query_name === query_name;
-    });
-    if (querySettings) return querySettings[settingName];
-  }
-
-  return null;
 };
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1547,6 +1582,7 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
         var result = attributes.operationResult;
 
         if (result.status === 'ERROR') {
+          showMenuEvent(json.data, true);
           bus.fire("alert", {
             msg: result.message,
             type: 'error',
@@ -1565,6 +1601,8 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
             return;
 
           case 'FINISHED':
+            showMenuEvent(json.data, true);
+
             if (result.details === undefined) {
               if (documentName === MAIN_MODAL_DOCUMENT) {
                 bus.fire("alert", {
@@ -1607,6 +1645,7 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
             return;
 
           default:
+            showMenuEvent(json.data, true);
             bus.fire("alert", {
               msg: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + result.status),
               type: 'error'
@@ -1616,12 +1655,17 @@ var _performOperationResult = function _performOperationResult(json, frontendPar
         return;
 
       default:
+        showMenuEvent(json.data, true);
         bus.fire("alert", {
           msg: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type),
           type: 'error'
         });
     }
   } else {
+    bus.fire('showMenu', {
+      show: false
+    });
+
     if (json.errors !== undefined) {
       var error = json.errors[0];
       bus.fire("alert", {
@@ -1647,6 +1691,7 @@ var _performForm = function _performForm(json, frontendParams) {
   var operationResult = json.data.attributes.operationResult;
 
   if (operationResult.status === 'ERROR') {
+    showMenuEvent(json.data, true);
     bus.fire("alert", {
       msg: operationResult.message,
       type: 'error',
@@ -2969,6 +3014,34 @@ var NavMenu = /*#__PURE__*/function (_Component) {
 
 NavMenu.propTypes = propTypes$2;
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray$1(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray$1(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$1(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen); }
+
+function _arrayLikeToArray$1(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var ShowMenu = function ShowMenu(props) {
+  var _useState = useState(true),
+      _useState2 = _slicedToArray(_useState, 2),
+      show = _useState2[0],
+      setShow = _useState2[1];
+
+  useEffect(function () {
+    bus.listen('showMenu', function (data) {
+      return setShow(data.show);
+    });
+  }, []);
+  return show ? props.children : /*#__PURE__*/React.createElement("div", {
+    className: "d-none"
+  }, props.children);
+};
+
 function _typeof$a(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$a = function _typeof(obj) { return typeof obj; }; } else { _typeof$a = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$a(obj); }
 
 function _classCallCheck$9(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3012,13 +3085,25 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      isOpen: false
+      isOpen: false,
+      disabledBrandHref: false
     };
     _this.toggle = _this.toggle.bind(_assertThisInitialized$8(_this));
     return _this;
   }
 
   _createClass$8(NavbarMenu, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      bus.listen('showMenu', function (data) {
+        _this2.setState({
+          disabledBrandHref: !data.show
+        });
+      });
+    }
+  }, {
     key: "toggle",
     value: function toggle() {
       this.setState({
@@ -3034,21 +3119,27 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
         expand: "md"
       }, /*#__PURE__*/React.createElement("div", {
         className: this.props.containerClass
-      }, this.navbarBrand(), /*#__PURE__*/React.createElement(NavbarToggler, {
+      }, this.navbarBrand(this.state.disabledBrandHref), /*#__PURE__*/React.createElement(ShowMenu, null, /*#__PURE__*/React.createElement(NavbarToggler, {
         onClick: this.toggle
       }), /*#__PURE__*/React.createElement(Collapse, {
         isOpen: this.state.isOpen,
         navbar: true
-      }, /*#__PURE__*/React.createElement(NavMenu, this.props), this.rightButtons(), this.languageBox())));
+      }, /*#__PURE__*/React.createElement(NavMenu, this.props), this.rightButtons(), this.languageBox()))));
     }
   }, {
     key: "navbarBrand",
-    value: function navbarBrand() {
-      return this.props.brand ? /*#__PURE__*/React.createElement("a", {
-        href: "#!",
-        onClick: processHashUrl,
-        className: "navbar-brand"
-      }, this.props.brand) : undefined;
+    value: function navbarBrand(disabled) {
+      if (this.props.brand) {
+        return disabled ? /*#__PURE__*/React.createElement("a", {
+          className: "navbar-brand"
+        }, this.props.brand) : /*#__PURE__*/React.createElement("a", {
+          href: "#!",
+          onClick: processHashUrl,
+          className: "navbar-brand"
+        }, this.props.brand);
+      } else {
+        return undefined;
+      }
     }
   }, {
     key: "languageBox",
@@ -4085,6 +4176,56 @@ var jQueryFormatCell = function jQueryFormatCell(data, options, isColumn) {
   return data === undefined || data === null ? '' : data;
 };
 
+function _slicedToArray$1(arr, i) { return _arrayWithHoles$1(arr) || _iterableToArrayLimit$1(arr, i) || _unsupportedIterableToArray$2(arr, i) || _nonIterableRest$1(); }
+
+function _nonIterableRest$1() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray$2(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$2(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$2(o, minLen); }
+
+function _arrayLikeToArray$2(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit$1(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles$1(arr) { if (Array.isArray(arr)) return arr; }
+
+var ProcessingOperationPopUp = function ProcessingOperationPopUp(_ref) {
+  var isOpen = _ref.isOpen,
+      message = _ref.message;
+
+  var _useState = useState(false),
+      _useState2 = _slicedToArray$1(_useState, 2),
+      modal = _useState2[0],
+      setModal = _useState2[1];
+
+  var toggle = function toggle() {
+    return setModal(!modal);
+  };
+
+  useEffect(function () {
+    setModal(isOpen);
+  }, [isOpen]);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Modal, {
+    isOpen: modal,
+    toggle: toggle,
+    backdrop: 'static',
+    contentClassName: "op-in-progress-modal-css"
+  }, /*#__PURE__*/React.createElement(ModalHeader, {
+    toggle: toggle
+  }, message || be5.messages.opInProgress), /*#__PURE__*/React.createElement("span", {
+    className: "d-block text-center pb-3"
+  }, /*#__PURE__*/React.createElement(Spinner, {
+    color: "dark"
+  }))));
+};
+
+ProcessingOperationPopUp.propTypes = {
+  isOpen: bool.isRequired,
+  message: string
+};
+ProcessingOperationPopUp.defaultProps = {
+  isOpen: false
+};
+
 function _typeof$f(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$f = function _typeof(obj) { return typeof obj; }; } else { _typeof$f = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$f(obj); }
 
 function _defineProperty$5(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -4134,6 +4275,7 @@ var Form = /*#__PURE__*/function (_React$Component) {
   _createClass$d(Form, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      showMenuEvent(this.props.value.data, false);
       addUrlHandlers($('.be5-form'), this.props.frontendParams.documentName);
     }
   }, {
@@ -4247,7 +4389,9 @@ var Form = /*#__PURE__*/function (_React$Component) {
     value: function _createForm() {
       return /*#__PURE__*/React.createElement("form", {
         onSubmit: this._applyOnSubmit,
-        className: classNames$1(this.state.wasValidated ? 'was-validated' : '')
+        className: classNames$1({
+          'was-validated': this.state.wasValidated
+        })
       }, this._createFormContent());
     }
   }, {
@@ -4285,11 +4429,12 @@ var Form = /*#__PURE__*/function (_React$Component) {
       var _attr$layout = attr.layout,
           bsSize = _attr$layout.bsSize,
           submitText = _attr$layout.submitText;
+      var isPopUp = isTrueValueParam(attr.layout[LONG_TIME_OPERATION]);
       return /*#__PURE__*/React.createElement(Transition, {
         "in": this.state.submitted,
         timeout: 600
       }, function (state) {
-        return /*#__PURE__*/React.createElement("button", {
+        return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("button", {
           type: "submit",
           className: classNames$1("btn btn-primary", {
             'btn-sm': bsSize === 'sm'
@@ -4304,7 +4449,9 @@ var Form = /*#__PURE__*/function (_React$Component) {
           },
           title: _this5.state.submitted ? be5.messages.submitted : "",
           disabled: state === 'entered'
-        }, name || submitText || be5.messages.Submit);
+        }, name || submitText || be5.messages.Submit), /*#__PURE__*/React.createElement(ProcessingOperationPopUp, {
+          isOpen: isPopUp && state === 'entered'
+        }));
       });
     }
   }, {
@@ -4478,7 +4625,9 @@ var SubmitOnChangeForm = /*#__PURE__*/function (_Form) {
     value: function render() {
       var attributes = this.props.value.data.attributes;
       return /*#__PURE__*/React.createElement("form", {
-        className: classNames$1('submit-onchange-form', this.props.wasValidated ? 'was-validated' : '', attributes.layout.classes)
+        className: classNames$1('submit-onchange-form', {
+          'was-validated': this.props.wasValidated
+        }, attributes.layout.classes)
       }, /*#__PURE__*/React.createElement(PropertyInput, {
         id: 0,
         bean: attributes.bean,
@@ -4507,6 +4656,10 @@ function _defineProperties$g(target, props) { for (var i = 0; i < props.length; 
 
 function _createClass$g(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$g(Constructor.prototype, protoProps); if (staticProps) _defineProperties$g(Constructor, staticProps); return Constructor; }
 
+function _get$2(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get$2 = Reflect.get; } else { _get$2 = function _get(target, property, receiver) { var base = _superPropBase$1(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get$2(target, property, receiver || target); }
+
+function _superPropBase$1(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf$g(object); if (object === null) break; } return object; }
+
 function _inherits$g(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$g(subClass, superClass); }
 
 function _setPrototypeOf$g(o, p) { _setPrototypeOf$g = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$g(o, p); }
@@ -4526,13 +4679,36 @@ var ModalForm = /*#__PURE__*/function (_Form) {
 
   var _super = _createSuper$g(ModalForm);
 
-  function ModalForm() {
+  function ModalForm(props) {
+    var _this;
+
     _classCallCheck$h(this, ModalForm);
 
-    return _super.apply(this, arguments);
+    _this = _super.call(this, props);
+    _this.escListener = _this.escListener.bind(_assertThisInitialized$g(_this));
+    return _this;
   }
 
   _createClass$g(ModalForm, [{
+    key: "escListener",
+    value: function escListener(e) {
+      if (e.key === "Escape" || e.keyCode === 27) {
+        showMenuEvent(this.props.value.data, true);
+      }
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      _get$2(_getPrototypeOf$g(ModalForm.prototype), "componentDidMount", this).call(this);
+
+      document.addEventListener('keydown', this.escListener, false);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      document.removeEventListener('keydown', this.escListener, false);
+    }
+  }, {
     key: "_createFormContent",
     value: function _createFormContent() {
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(ModalBody, null, this._createFormProperties()), /*#__PURE__*/React.createElement("div", {
@@ -4542,7 +4718,7 @@ var ModalForm = /*#__PURE__*/function (_Form) {
   }, {
     key: "_createModalCloseAction",
     value: function _createModalCloseAction() {
-      var _this = this;
+      var _this2 = this;
 
       var layout = this.props.value.data.attributes.layout;
       var action = layout.cancelAction || new FrontendAction(CLOSE_MAIN_MODAL);
@@ -4550,20 +4726,24 @@ var ModalForm = /*#__PURE__*/function (_Form) {
         type: "button",
         className: "btn btn-secondary close-action-btn",
         onClick: function onClick() {
-          return executeFrontendActions(action, _this.props.frontendParams);
+          showMenuEvent(_this2.props.value.data, true);
+          executeFrontendActions(action, _this2.props.frontendParams);
         }
       }, layout.cancelActionText || be5.messages.close);
     }
   }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
       var attributes = this.props.value.data.attributes;
       return /*#__PURE__*/React.createElement("div", {
         className: classNames$1('be5-form', this.getFormClass(), attributes.layout.classes)
       }, /*#__PURE__*/React.createElement(ModalHeader, {
         tag: "h5",
         toggle: function toggle() {
-          return bus.fire("mainModalClose");
+          showMenuEvent(_this3.props.value.data, true);
+          bus.fire("mainModalClose");
         }
       }, attributes.title), this._createForm());
     }
@@ -4639,7 +4819,9 @@ var InlineMiniForm = /*#__PURE__*/function (_Form) {
         className: classNames$1('be5-form', this.getFormClass(), baseClasses, attributes.layout.classes)
       }, /*#__PURE__*/React.createElement("form", {
         onSubmit: this._applyOnSubmit,
-        className: classNames$1('form-inline', this.state.wasValidated ? 'was-validated' : '')
+        className: classNames$1('form-inline', {
+          'was-validated': this.state.wasValidated
+        })
       }, attributes.title !== "" ? /*#__PURE__*/React.createElement("label", {
         className: classNames$1("mr-sm-2", {
           'col-form-label-sm': attributes.layout.bsSize === "sm"
@@ -4732,17 +4914,17 @@ registerDocument('operationResult', FinishedResult);
 
 function _typeof$l(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$l = function _typeof(obj) { return typeof obj; }; } else { _typeof$l = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$l(obj); }
 
-function _toConsumableArray$1(arr) { return _arrayWithoutHoles$1(arr) || _iterableToArray$1(arr) || _unsupportedIterableToArray$1(arr) || _nonIterableSpread$1(); }
+function _toConsumableArray$1(arr) { return _arrayWithoutHoles$1(arr) || _iterableToArray$1(arr) || _unsupportedIterableToArray$3(arr) || _nonIterableSpread$1(); }
 
 function _nonIterableSpread$1() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _unsupportedIterableToArray$1(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$1(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen); }
+function _unsupportedIterableToArray$3(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$3(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$3(o, minLen); }
 
 function _iterableToArray$1(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
 
-function _arrayWithoutHoles$1(arr) { if (Array.isArray(arr)) return _arrayLikeToArray$1(arr); }
+function _arrayWithoutHoles$1(arr) { if (Array.isArray(arr)) return _arrayLikeToArray$3(arr); }
 
-function _arrayLikeToArray$1(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+function _arrayLikeToArray$3(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _classCallCheck$k(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -9241,11 +9423,11 @@ var defaultComponents = function defaultComponents(props) {
   return _objectSpread$4(_objectSpread$4({}, components), props.components);
 };
 
-function _arrayWithHoles(arr) {
+function _arrayWithHoles$2(arr) {
   if (Array.isArray(arr)) return arr;
 }
 
-function _iterableToArrayLimit(arr, i) {
+function _iterableToArrayLimit$2(arr, i) {
   if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
     return;
   }
@@ -9275,12 +9457,12 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 
-function _nonIterableRest() {
+function _nonIterableRest$2() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance");
 }
 
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+function _slicedToArray$2(arr, i) {
+  return _arrayWithHoles$2(arr) || _iterableToArrayLimit$2(arr, i) || _nonIterableRest$2();
 }
 
 function _arrayWithoutHoles$2(arr) {
@@ -11102,12 +11284,12 @@ var Select = /*#__PURE__*/function (_Component) {
 
     _this.buildMenuOptions = memoizeOne(_this.buildMenuOptions, function (newArgs, lastArgs) {
       var _ref6 = newArgs,
-          _ref7 = _slicedToArray(_ref6, 2),
+          _ref7 = _slicedToArray$2(_ref6, 2),
           newProps = _ref7[0],
           newSelectValue = _ref7[1];
 
       var _ref8 = lastArgs,
-          _ref9 = _slicedToArray(_ref8, 2),
+          _ref9 = _slicedToArray$2(_ref8, 2),
           lastProps = _ref9[0],
           lastSelectValue = _ref9[1];
 
@@ -12720,9 +12902,9 @@ function _defineProperties$q(target, props) { for (var i = 0; i < props.length; 
 
 function _createClass$q(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$q(Constructor.prototype, protoProps); if (staticProps) _defineProperties$q(Constructor, staticProps); return Constructor; }
 
-function _get$2(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get$2 = Reflect.get; } else { _get$2 = function _get(target, property, receiver) { var base = _superPropBase$1(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get$2(target, property, receiver || target); }
+function _get$3(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get$3 = Reflect.get; } else { _get$3 = function _get(target, property, receiver) { var base = _superPropBase$2(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get$3(target, property, receiver || target); }
 
-function _superPropBase$1(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf$q(object); if (object === null) break; } return object; }
+function _superPropBase$2(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf$q(object); if (object === null) break; } return object; }
 
 function _inherits$q(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$q(subClass, superClass); }
 
@@ -12758,7 +12940,7 @@ var ModalTable = /*#__PURE__*/function (_Table) {
         toggle: function toggle() {
           return bus.fire("mainModalClose");
         }
-      }, attributes.title), /*#__PURE__*/React.createElement(ModalBody, null, _get$2(_getPrototypeOf$q(ModalTable.prototype), "render", this).call(this)), /*#__PURE__*/React.createElement(ModalFooter, null, this._createModalCloseAction()));
+      }, attributes.title), /*#__PURE__*/React.createElement(ModalBody, null, _get$3(_getPrototypeOf$q(ModalTable.prototype), "render", this).call(this)), /*#__PURE__*/React.createElement(ModalFooter, null, this._createModalCloseAction()));
     }
   }, {
     key: "_createModalCloseAction",
@@ -13184,17 +13366,17 @@ var createPlotlyComponent = /*@__PURE__*/getDefaultExportFromCjs(factory);
 
 function _typeof$u(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$u = function _typeof(obj) { return typeof obj; }; } else { _typeof$u = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$u(obj); }
 
-function _slicedToArray$1(arr, i) { return _arrayWithHoles$1(arr) || _iterableToArrayLimit$1(arr, i) || _unsupportedIterableToArray$2(arr, i) || _nonIterableRest$1(); }
+function _slicedToArray$3(arr, i) { return _arrayWithHoles$3(arr) || _iterableToArrayLimit$3(arr, i) || _unsupportedIterableToArray$4(arr, i) || _nonIterableRest$3(); }
 
-function _nonIterableRest$1() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _nonIterableRest$3() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _unsupportedIterableToArray$2(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$2(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$2(o, minLen); }
+function _unsupportedIterableToArray$4(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$4(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$4(o, minLen); }
 
-function _arrayLikeToArray$2(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+function _arrayLikeToArray$4(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit$1(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit$3(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _arrayWithHoles$1(arr) { if (Array.isArray(arr)) return arr; }
+function _arrayWithHoles$3(arr) { if (Array.isArray(arr)) return arr; }
 
 function _classCallCheck$t(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -13321,7 +13503,7 @@ var Chart = /*#__PURE__*/function (_React$Component) {
           var chartAttr = rows[0].cells[idx].options.chart;
 
           for (var _i = 0, _Object$entries = Object.entries(chartAttr); _i < _Object$entries.length; _i++) {
-            var _Object$entries$_i = _slicedToArray$1(_Object$entries[_i], 2),
+            var _Object$entries$_i = _slicedToArray$3(_Object$entries[_i], 2),
                 key = _Object$entries$_i[0],
                 value = _Object$entries$_i[1];
 
@@ -15089,4 +15271,4 @@ var index$1 = combineReducers({
   hashUrl: changeHash
 });
 
-export { API_URL_PREFIX, Application, Be5Components, CLOSE_MAIN_MODAL, COLUMN_SETTINGS, CONTEXT_PARAMS, CategoryNavigation, Chart, DEFAULT_TABLE_BOX, DEFAULT_VIEW, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, Document$1 as Document, ENTITY_NAME_PARAM, ErrorPane, FinishedResult, Form, FormTable, FormWizard, FrontendAction, GO_BACK, HelpInfo, HorizontalForm, InlineMiniForm, LIMIT, LanguageBox as LanguageSelector, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, MainDocumentOnly, Menu, MenuBody, MenuContainer$1 as MenuContainer, MenuFooter, MenuNode, MenuSearchField, ModalForm, ModalTable, NavMenu, NavbarMenu, NavbarMenuContainer$1 as NavbarMenuContainer, Navs, OFFSET, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, OPERATION_NAME_PARAM, ORDER_COLUMN, ORDER_DIR, OperationBox, QUERY_NAME_PARAM, QUERY_SETTINGS, QuickColumns, QuickFiltersBox, RECORDS_PER_PAGE_SETTINGS, REDIRECT, REFRESH_DOCUMENT, REFRESH_MENU, REFRESH_PARENT_DOCUMENT, RELOAD_CONTROL_NAME, ROLE_ADMINISTRATOR, ROLE_GUEST, ROLE_SYSTEM_DEVELOPER, RoleSelector, SEARCH_PARAM, SEARCH_PRESETS_PARAM, SELECTED_ROWS, SET_URL, SUCCESS_ALERT, SideBar, StaticPage, SubmitOnChangeForm, TIMESTAMP_PARAM, TOTAL_NUMBER_OF_ROWS, Table, TableForm, TableFormRow, TablePagination, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, UserControl, UserControlContainer, actions as action, addFilterParams, addUrlHandlers, arraysEqual, be5, bus, changeDocument, clearDocumentState, createBaseStore, createPageValue, createStaticValue, executeFrontendActions, fetchMenu, fetchOperationByUrl, fetchTableByUrl, fetchUserInfo, route$1 as formAction, getActionsMap, getAllDocumentTypes, getAllRoutes, getAllTypes, getBackAction, getBackOrOpenDefaultRouteAction, getCurrentRoles, getDocument, getDocumentState, getDocumentStates, getFilterParams, getMenu, getModelByID, getOperationInfoFromUrl, getResourceByID, getResourceByType, getRoute, getSelfUrl, getTableBox, getUser, initBe5App, initFilterParams, initOnLoad, loadDocumentByUrl, loadOperation, loadTable, loadTableByUrl, route as loadingAction, route$2 as loginAction, route$3 as logoutAction, users$1 as menuReduser, openInModal, openOperationByUrl, openOperationByUrlWithValues, Preconditions as preconditions, processHashUrl, processHashUrlForDocument, route$6 as queryBuilderAction, registerDocument, registerPage, registerRoute, registerTableBox, index$1 as rootReducer, setDocumentState, route$4 as staticAction, submitOperation, route$5 as tableAction, route$7 as textAction, toggleRoles, updateMenu, updateTable, updateUserInfo, users as userReduser };
+export { API_URL_PREFIX, Application, Be5Components, CLOSE_MAIN_MODAL, COLUMN_SETTINGS, CONTEXT_PARAMS, CategoryNavigation, Chart, DEFAULT_TABLE_BOX, DEFAULT_VIEW, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, Document$1 as Document, ENTITY_NAME_PARAM, ErrorPane, FinishedResult, Form, FormTable, FormWizard, FrontendAction, GO_BACK, HIDE_MENU, HelpInfo, HorizontalForm, InlineMiniForm, LIMIT, LONG_TIME_OPERATION, LanguageBox as LanguageSelector, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, MainDocumentOnly, Menu, MenuBody, MenuContainer$1 as MenuContainer, MenuFooter, MenuNode, MenuSearchField, ModalForm, ModalTable, NavMenu, NavbarMenu, NavbarMenuContainer$1 as NavbarMenuContainer, Navs, OFFSET, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, OPERATION_NAME_PARAM, ORDER_COLUMN, ORDER_DIR, OperationBox, QUERY_NAME_PARAM, QUERY_SETTINGS, QuickColumns, QuickFiltersBox, RECORDS_PER_PAGE_SETTINGS, REDIRECT, REFRESH_DOCUMENT, REFRESH_MENU, REFRESH_PARENT_DOCUMENT, RELOAD_CONTROL_NAME, ROLE_ADMINISTRATOR, ROLE_GUEST, ROLE_SYSTEM_DEVELOPER, RoleSelector, SEARCH_PARAM, SEARCH_PRESETS_PARAM, SELECTED_ROWS, SET_URL, SHOW_MENU, SUCCESS_ALERT, SideBar, StaticPage, SubmitOnChangeForm, TIMESTAMP_PARAM, TOTAL_NUMBER_OF_ROWS, Table, TableForm, TableFormRow, TablePagination, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, UserControl, UserControlContainer, actions as action, addFilterParams, addUrlHandlers, arraysEqual, be5, bus, changeDocument, clearDocumentState, createBaseStore, createPageValue, createStaticValue, executeFrontendActions, fetchMenu, fetchOperationByUrl, fetchTableByUrl, fetchUserInfo, route$1 as formAction, getActionsMap, getAllDocumentTypes, getAllRoutes, getAllTypes, getBackAction, getBackOrOpenDefaultRouteAction, getCurrentRoles, getDocument, getDocumentState, getDocumentStates, getFilterParams, getMenu, getModelByID, getOperationInfoFromUrl, getResourceByID, getResourceByType, getRoute, getSelfUrl, getTableBox, getUser, initBe5App, initFilterParams, initOnLoad, loadDocumentByUrl, loadOperation, loadTable, loadTableByUrl, route as loadingAction, route$2 as loginAction, route$3 as logoutAction, users$1 as menuReduser, openInModal, openOperationByUrl, openOperationByUrlWithValues, Preconditions as preconditions, processHashUrl, processHashUrlForDocument, route$6 as queryBuilderAction, registerDocument, registerPage, registerRoute, registerTableBox, index$1 as rootReducer, setDocumentState, route$4 as staticAction, submitOperation, route$5 as tableAction, route$7 as textAction, toggleRoles, updateMenu, updateTable, updateUserInfo, users as userReduser };
