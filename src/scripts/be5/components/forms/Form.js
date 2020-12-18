@@ -2,22 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import be5 from '../../be5';
-import {addUrlHandlers, isHideMenuOpertion} from '../../utils/documentUtils';
+import {_createBackAction, addUrlHandlers, showMenuEvent} from '../../utils/documentUtils';
 import forms, {getOperationInfo} from '../../services/forms';
 import PropertySet from 'beanexplorer-react';
 import JsonPointer from 'json-pointer';
 import ErrorPane from "../ErrorPane";
 import Transition from 'react-transition-group/Transition';
 import {registerDocument} from '../../core/registers/documents';
-import {_createBackAction} from "../../utils/documentUtils";
 import {isTrueValueParam, makeSafeForClassName} from "../../utils/utils";
 import {
-  CONTEXT_PARAMS, ENTITY_NAME_PARAM, LONG_TIME_OPERATION, OPERATION_NAME_PARAM, QUERY_NAME_PARAM,
+  CONTEXT_PARAMS,
+  ENTITY_NAME_PARAM,
+  LONG_TIME_OPERATION,
+  OPERATION_NAME_PARAM,
+  QUERY_NAME_PARAM,
   RELOAD_CONTROL_NAME
 } from "../../constants";
 import {asyncSelectLoadOptions} from "../../services/tables";
 import ProcessingOperationPopUp from "./ProcessingOperationPopUp";
-import bus from "../../core/bus";
 
 
 class Form extends React.Component {
@@ -33,9 +35,7 @@ class Form extends React.Component {
   }
 
   componentDidMount() {
-    if (isHideMenuOpertion(this.props.value.data)) {
-      bus.fire('showMenu', {show: false})
-    }
+    showMenuEvent(this.props.value.data, false)
     addUrlHandlers($('.be5-form'), this.props.frontendParams.documentName);
   }
 

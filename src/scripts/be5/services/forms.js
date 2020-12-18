@@ -5,20 +5,20 @@ import changeDocument from '../core/changeDocument';
 import {
   CONTEXT_PARAMS,
   ENTITY_NAME_PARAM,
+  GO_BACK,
   MAIN_DOCUMENT,
   MAIN_MODAL_DOCUMENT,
   OPERATION_NAME_PARAM,
   QUERY_NAME_PARAM,
   REDIRECT,
   REFRESH_PARENT_DOCUMENT,
-  TIMESTAMP_PARAM,
-  GO_BACK
+  TIMESTAMP_PARAM
 } from "../constants";
 import FrontendAction from "./model/FrontendAction";
-import {executeFrontendActions,getActionsMap} from "./frontendActions";
+import {executeFrontendActions, getActionsMap} from "./frontendActions";
 import 'formdata-polyfill';
 import {_get, _post} from "./formsRequests";
-import {isHideMenuOpertion} from "../utils/documentUtils";
+import {showMenuEvent} from "../utils/documentUtils";
 
 
 export const loadOperation = (params, frontendParams) => {
@@ -61,8 +61,6 @@ export const _performOperationResult = (json, frontendParams, data) => {
   const documentName = frontendParams.documentName;
 
   Preconditions.passed(documentName);
-  console.log("_performOperationResult")
-  console.log(json)
   if (json.data !== undefined) {
     switch (json.data.type) {
       case 'form':
@@ -73,7 +71,7 @@ export const _performOperationResult = (json, frontendParams, data) => {
         const result = attributes.operationResult;
 
         if (result.status === 'ERROR') {
-          bus.fire('showMenu', {show: true});
+          showMenuEvent(json.data, true);
           bus.fire("alert", {msg: result.message, type: 'error', timeout:result.timeout});
           return;
         }
@@ -87,7 +85,7 @@ export const _performOperationResult = (json, frontendParams, data) => {
             executeFrontendActions(new FrontendAction(REDIRECT, result.details), frontendParams);
             return;
           case 'FINISHED':
-            bus.fire('showMenu', {show: true});
+            showMenuEvent(json.data, true);
             if (result.details === undefined) {
               if (documentName === MAIN_MODAL_DOCUMENT) {
                 bus.fire("alert", {msg: result.message || be5.messages.successfullyCompleted, type: 'success', timeout:result.timeout});
@@ -113,6 +111,7 @@ export const _performOperationResult = (json, frontendParams, data) => {
             }
             return;
           default:
+            showMenuEvent(json.data, true);
             bus.fire("alert", {
               msg: be5.messages.errorUnknownRoute.replace('$action', 'status = ' + result.status),
               type: 'error'
@@ -120,12 +119,14 @@ export const _performOperationResult = (json, frontendParams, data) => {
         }
         return;
       default:
+        showMenuEvent(json.data, true);
         bus.fire("alert", {
           msg: be5.messages.errorUnknownRoute.replace('$action', 'data.type = ' + json.data.attributes.type),
           type: 'error'
         });
     }
   } else {
+    bus.fire('showMenu', {show: false})
     if (json.errors !== undefined) {
       const error = json.errors[0];
       bus.fire("alert", {msg: error.status + " " + error.title, type: 'error'});
@@ -141,9 +142,7 @@ const _performForm = (json, frontendParams) => {
   let operationResult = json.data.attributes.operationResult;
 
   if (operationResult.status === 'ERROR') {
-    if (isHideMenuOpertion(json.data)) {
-      bus.fire('showMenu', {show: true});
-    }
+    showMenuEvent(json.data, true);
     bus.fire("alert", {msg: operationResult.message, type: 'error', operationResult: operationResult.timeout});
   }
 

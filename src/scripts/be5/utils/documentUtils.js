@@ -111,7 +111,6 @@ export const addUrlHandlers = (element, documentName) => {
   });
 
   element.on("click", '.close-modal', function (e) {
-    console.log("element.on(\"click\", '.close-modal', function (e)")
     if(!e.ctrlKey) {
       bus.fire("mainModalClose");
     }
@@ -155,7 +154,10 @@ export const _createBackAction = (layout, frontendParams) => {
     const action = layout.cancelAction || getDefaultCancelAction();
     return (
       <button type="button" className="btn btn-secondary back-action-btn"
-              onClick={() => executeFrontendActions(action, frontendParams)}>
+              onClick={() => {
+                if (isTrueValueParam(layout[LONG_TIME_OPERATION])) bus.fire('showMenu', {show: true});
+                executeFrontendActions(action, frontendParams);
+              }}>
         {layout.cancelActionText || be5.messages.back}
       </button>
     );
@@ -175,4 +177,11 @@ const getDefaultCancelAction = () => {
 export const isHideMenuOpertion = (data) =>{
   return data && data.attributes && data.attributes.layout &&
       isTrueValueParam(data.attributes.layout[LONG_TIME_OPERATION])
+}
+
+export const showMenuEvent = (data, eventType) => {
+  const loyaut = data && data.attributes && data.attributes.layout;
+  if (loyaut && isTrueValueParam(data.attributes.layout[LONG_TIME_OPERATION])) {
+    bus.fire('showMenu', {show: eventType})
+  }
 }

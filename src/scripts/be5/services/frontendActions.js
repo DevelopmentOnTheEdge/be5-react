@@ -11,6 +11,7 @@ import {
   DOCUMENT_REFRESH_SUFFIX,
   DOWNLOAD_OPERATION,
   GO_BACK,
+  HIDE_MENU,
   MAIN_DOCUMENT,
   OPEN_DEFAULT_ROUTE,
   OPEN_NEW_WINDOW,
@@ -19,6 +20,7 @@ import {
   REFRESH_MENU,
   REFRESH_PARENT_DOCUMENT,
   SET_URL,
+  SHOW_MENU,
   SUCCESS_ALERT,
   UPDATE_DOCUMENT,
   UPDATE_PARENT_DOCUMENT
@@ -32,6 +34,14 @@ export const executeFrontendActions = (actionsArrayOrOneObject, frontendParams) 
 
   if (actions.hasOwnProperty(CLOSE_MAIN_MODAL)) {
     bus.fire("mainModalClose");
+  }
+
+  if (actions.hasOwnProperty(HIDE_MENU)) {
+    bus.fire('showMenu', {show: false})
+  }
+
+  if (actions.hasOwnProperty(SHOW_MENU)) {
+    bus.fire('showMenu', {show: true})
   }
 
   if (actions.hasOwnProperty(REFRESH_MENU)) {

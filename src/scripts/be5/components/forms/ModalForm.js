@@ -8,11 +8,32 @@ import FrontendAction from "../../services/model/FrontendAction";
 import {CLOSE_MAIN_MODAL} from "../../constants";
 import {executeFrontendActions} from "../../services/frontendActions";
 import be5 from "../../be5";
-import {isHideMenuOpertion} from "../../utils/documentUtils";
+import {showMenuEvent} from "../../utils/documentUtils";
 
 
 class ModalForm extends Form {
-  _createFormContent() {
+
+    constructor(props) {
+        super(props);
+        this.escListener = this.escListener.bind(this);
+    }
+
+    escListener(e){
+        if (e.key === "Escape" || e.keyCode === 27){
+            showMenuEvent(this.props.value.data, true);
+        }
+    }
+
+    componentDidMount() {
+        super.componentDidMount();
+        document.addEventListener('keydown', this.escListener, false);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.escListener, false);
+    }
+
+    _createFormContent() {
     return (
       <div>
         <ModalBody>
@@ -36,8 +57,7 @@ class ModalForm extends Form {
     return (
       <button type="button" className="btn btn-secondary close-action-btn"
               onClick={() => {
-                  console.log("_createModalCloseAction")
-                  if (isHideMenuOpertion(this.props.value.data)) bus.fire('showMenu', {show: true});
+                  showMenuEvent(this.props.value.data, true);
                   executeFrontendActions(action, this.props.frontendParams)
                 }
               }>
@@ -51,8 +71,7 @@ class ModalForm extends Form {
     return (
         <div className={classNames('be5-form', this.getFormClass(), attributes.layout.classes)}>
             <ModalHeader tag='h5' toggle={() => {
-                console.log("render modal form")
-                if (isHideMenuOpertion(this.props.value.data)) bus.fire('showMenu', {show: true});
+                showMenuEvent(this.props.value.data, true);
                 bus.fire("mainModalClose")
              }
             }>{attributes.title}</ModalHeader>

@@ -15,6 +15,9 @@ export const GO_BACK = 'GO_BACK';
 export const CLOSE_MAIN_MODAL = 'CLOSE_MAIN_MODAL';
 export const SUCCESS_ALERT = 'SUCCESS_ALERT';
 
+export const SHOW_MENU = 'SHOW_MENU';
+export const HIDE_MENU = 'HIDE_MENU';
+
 export const UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
 export const UPDATE_PARENT_DOCUMENT = 'UPDATE_PARENT_DOCUMENT';
 
