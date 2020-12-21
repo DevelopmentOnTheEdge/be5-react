@@ -3033,13 +3033,18 @@ var ShowMenu = function ShowMenu(props) {
       setShow = _useState2[1];
 
   useEffect(function () {
-    bus.listen('showMenu', function (data) {
-      return setShow(data.show);
-    });
-  }, []);
+    setShow(props.show);
+  }, [props.show]);
   return show ? props.children : /*#__PURE__*/React.createElement("div", {
     className: "d-none"
   }, props.children);
+};
+
+ShowMenu.propTypes = {
+  show: bool.isRequired
+};
+ShowMenu.defaultProps = {
+  show: true
 };
 
 function _typeof$a(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$a = function _typeof(obj) { return typeof obj; }; } else { _typeof$a = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$a(obj); }
@@ -3086,7 +3091,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
     _this.state = {
       isOpen: false,
-      disabledBrandHref: false
+      showMenu: true
     };
     _this.toggle = _this.toggle.bind(_assertThisInitialized$8(_this));
     return _this;
@@ -3099,7 +3104,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
 
       bus.listen('showMenu', function (data) {
         _this2.setState({
-          disabledBrandHref: !data.show
+          showMenu: data.show
         });
       });
     }
@@ -3119,7 +3124,9 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
         expand: "md"
       }, /*#__PURE__*/React.createElement("div", {
         className: this.props.containerClass
-      }, this.navbarBrand(this.state.disabledBrandHref), /*#__PURE__*/React.createElement(ShowMenu, null, /*#__PURE__*/React.createElement(NavbarToggler, {
+      }, this.navbarBrand(!this.state.showMenu), /*#__PURE__*/React.createElement(ShowMenu, {
+        show: this.state.showMenu
+      }, /*#__PURE__*/React.createElement(NavbarToggler, {
         onClick: this.toggle
       }), /*#__PURE__*/React.createElement(Collapse, {
         isOpen: this.state.isOpen,
