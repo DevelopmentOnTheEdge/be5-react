@@ -21,6 +21,7 @@ const route = function (frontendParams, entity, query, operation, contextParams)
   };
   if (contextParams && isTrueValueParam(contextParams[LONG_TIME_OPERATION])) {
     bus.fire('showMenu', {show: false})
+    bus.fire('showOperationPopup', {show: true})
   }
   loadForm(operationInfo, frontendParams);
 };

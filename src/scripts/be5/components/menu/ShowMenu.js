@@ -1,22 +1,37 @@
 import React, {useEffect, useState} from 'react';
 import * as PropTypes from "prop-types";
+import ProcessingOperationPopUp from "../forms/ProcessingOperationPopUp";
 
 const ShowMenu = (props) => {
-    const [show, setShow] = useState(true);
+    const [showMenu, setShowMenu] = useState(true);
+    const [showPopup, setShowPopup] = useState(false);
 
     useEffect(() => {
-        setShow(props.show);
-    }, [props.show])
+        setShowMenu(props.menu);
+    }, [props.menu]);
 
-    return show ? props.children : <div className={"d-none"}>{props.children}</div>
+    useEffect(() => {
+        setShowPopup(props.popup);
+    }, [props.popup]);
+
+    if (showMenu) {
+        return props.children;
+    } else {
+        return <>
+                   <div className={"d-none"}>{props.children}</div>
+                   <ProcessingOperationPopUp isOpen={showPopup}/>
+               </>
+    }
 }
 
 ShowMenu.propTypes = {
-    show: PropTypes.bool.isRequired,
+    menu: PropTypes.bool.isRequired,
+    popup: PropTypes.bool.isRequired,
 }
 
 ShowMenu.defaultProps = {
-    show: true,
+    menu: true,
+    popup: false,
 }
 
 export default ShowMenu

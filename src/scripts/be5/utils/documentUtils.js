@@ -179,9 +179,17 @@ export const isHideMenuOpertion = (data) =>{
       isTrueValueParam(data.attributes.layout[LONG_TIME_OPERATION])
 }
 
-export const showMenuEvent = (data, eventType) => {
+const fireOperationPopupEvents = (data, eventType, eventName) => {
   const loyaut = data && data.attributes && data.attributes.layout;
   if (loyaut && isTrueValueParam(data.attributes.layout[LONG_TIME_OPERATION])) {
-    bus.fire('showMenu', {show: eventType})
+    bus.fire(eventName, {show: eventType})
   }
+}
+
+export const showMenuEvent = (data, eventType) => {
+  fireOperationPopupEvents(data, eventType, 'showMenu')
+}
+
+export const showOperationPopup = (data, eventType) => {
+  fireOperationPopupEvents(data, eventType, 'showOperationPopup')
 }
