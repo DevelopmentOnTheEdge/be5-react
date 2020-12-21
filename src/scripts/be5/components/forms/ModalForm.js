@@ -30,6 +30,7 @@ class ModalForm extends Form {
     }
 
     componentWillUnmount() {
+        super.componentWillUnmount();
         document.removeEventListener('keydown', this.escListener, false);
     }
 
