@@ -201,7 +201,7 @@ var LIMIT = "_limit_";
 var ORDER_COLUMN = "_orderColumn_";
 var ORDER_DIR = "_orderDir_";
 var TOTAL_NUMBER_OF_ROWS = "_totalNumberOfRows_";
-var LONG_TIME_OPERATION = "longTimeOperation";
+var LONG_TIME_OPERATION = "_longTimeOp_";
 var DEFAULT_TABLE_BOX = "dataTable";
 var COLUMN_SETTINGS = "be5columnSettings";
 var QUERY_SETTINGS = "be5querySettings";
@@ -13630,6 +13630,13 @@ var route$1 = function route(frontendParams, entity, query, operation, contextPa
   var _operationInfo;
 
   var operationInfo = (_operationInfo = {}, _defineProperty$9(_operationInfo, ENTITY_NAME_PARAM, entity), _defineProperty$9(_operationInfo, QUERY_NAME_PARAM, query || 'All records'), _defineProperty$9(_operationInfo, OPERATION_NAME_PARAM, operation), _defineProperty$9(_operationInfo, CONTEXT_PARAMS, JSON.stringify(contextParams || {})), _operationInfo);
+
+  if (contextParams && isTrueValueParam(contextParams[LONG_TIME_OPERATION])) {
+    bus.fire('showMenu', {
+      show: false
+    });
+  }
+
   loadForm(operationInfo, frontendParams);
 };
 
