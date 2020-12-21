@@ -1,7 +1,15 @@
 import React from 'react';
 import {loadForm} from '../services/forms';
 import {registerRoute} from '../core/registers/routes'
-import {CONTEXT_PARAMS, ENTITY_NAME_PARAM, OPERATION_NAME_PARAM, QUERY_NAME_PARAM} from "../constants";
+import {
+  CONTEXT_PARAMS,
+  ENTITY_NAME_PARAM,
+  LONG_TIME_OPERATION,
+  OPERATION_NAME_PARAM,
+  QUERY_NAME_PARAM
+} from "../constants";
+import {isTrueValueParam} from "../utils/utils";
+import bus from "../core/bus";
 
 
 const route = function (frontendParams, entity, query, operation, contextParams) {
@@ -11,6 +19,9 @@ const route = function (frontendParams, entity, query, operation, contextParams)
     [OPERATION_NAME_PARAM]: operation,
     [CONTEXT_PARAMS]: JSON.stringify(contextParams || {})
   };
+  if (contextParams && isTrueValueParam(contextParams[LONG_TIME_OPERATION])) {
+    bus.fire('showMenu', {show: false})
+  }
   loadForm(operationInfo, frontendParams);
 };
 
