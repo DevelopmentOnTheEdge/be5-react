@@ -23,14 +23,14 @@ const propTypes = {
 class NavbarMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = {isOpen: false, disabledBrandHref: false};
+    this.state = {isOpen: false, showMenu: true};
     this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
     bus.listen('showMenu', data => {
       this.setState({
-        disabledBrandHref: !data.show
+        showMenu: data.show
       });
     });
   }
@@ -45,8 +45,8 @@ class NavbarMenu extends Component {
     return (
         <Navbar color="dark" dark expand="md">
           <div className={this.props.containerClass}>
-            {this.navbarBrand(this.state.disabledBrandHref)}
-            <ShowMenu>
+            {this.navbarBrand(!this.state.showMenu)}
+            <ShowMenu show={this.state.showMenu}>
               <NavbarToggler onClick={this.toggle}/>
               <Collapse isOpen={this.state.isOpen} navbar>
                 <NavMenu {...this.props}/>
