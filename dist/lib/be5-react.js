@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect, createContext, forwardRef, createElement, Fragment, PureComponent } from 'react';
 import PropTypes, { bool, string } from 'prop-types';
-import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Modal, Nav, NavItem, NavLink, Navbar, NavbarToggler, Collapse, UncontrolledTooltip, Card, CardBody, ModalHeader, Spinner, ModalBody, ModalFooter } from 'reactstrap';
+import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Modal, Nav, NavItem, NavLink, ModalHeader, Spinner, Navbar, NavbarToggler, Collapse, UncontrolledTooltip, Card, CardBody, ModalBody, ModalFooter } from 'reactstrap';
 import classNames$1 from 'classnames';
 import { connect } from 'react-redux';
 import 'formdata-polyfill';
@@ -847,14 +847,22 @@ var getDefaultCancelAction = function getDefaultCancelAction() {
     return new FrontendAction(OPEN_DEFAULT_ROUTE);
   }
 };
-var showMenuEvent = function showMenuEvent(data, eventType) {
+
+var fireOperationPopupEvents = function fireOperationPopupEvents(data, eventType, eventName) {
   var loyaut = data && data.attributes && data.attributes.layout;
 
   if (loyaut && isTrueValueParam(data.attributes.layout[LONG_TIME_OPERATION])) {
-    bus.fire('showMenu', {
+    bus.fire(eventName, {
       show: eventType
     });
   }
+};
+
+var showMenuEvent = function showMenuEvent(data, eventType) {
+  fireOperationPopupEvents(data, eventType, 'showMenu');
+};
+var showOperationPopup = function showOperationPopup(data, eventType) {
+  fireOperationPopupEvents(data, eventType, 'showOperationPopup');
 };
 
 var messages = {
@@ -3026,28 +3034,97 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var ShowMenu = function ShowMenu(props) {
-  var _useState = useState(true),
+var ProcessingOperationPopUp = function ProcessingOperationPopUp(_ref) {
+  var isOpen = _ref.isOpen,
+      message = _ref.message;
+
+  var _useState = useState(false),
       _useState2 = _slicedToArray(_useState, 2),
-      show = _useState2[0],
-      setShow = _useState2[1];
+      modal = _useState2[0],
+      setModal = _useState2[1];
+
+  var toggle = function toggle() {
+    return setModal(!modal);
+  };
 
   useEffect(function () {
-    setShow(props.show);
-  }, [props.show]);
-  return show ? props.children : /*#__PURE__*/React.createElement("div", {
-    className: "d-none"
-  }, props.children);
+    setModal(isOpen);
+  }, [isOpen]);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Modal, {
+    isOpen: modal,
+    toggle: toggle,
+    backdrop: 'static',
+    contentClassName: "op-in-progress-modal-css"
+  }, /*#__PURE__*/React.createElement(ModalHeader, {
+    toggle: toggle
+  }, message || be5.messages.opInProgress), /*#__PURE__*/React.createElement("span", {
+    className: "d-block text-center pb-3"
+  }, /*#__PURE__*/React.createElement(Spinner, {
+    color: "dark"
+  }))));
+};
+
+ProcessingOperationPopUp.propTypes = {
+  isOpen: bool.isRequired,
+  message: string
+};
+ProcessingOperationPopUp.defaultProps = {
+  isOpen: false
+};
+
+function _slicedToArray$1(arr, i) { return _arrayWithHoles$1(arr) || _iterableToArrayLimit$1(arr, i) || _unsupportedIterableToArray$2(arr, i) || _nonIterableRest$1(); }
+
+function _nonIterableRest$1() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray$2(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$2(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$2(o, minLen); }
+
+function _arrayLikeToArray$2(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit$1(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles$1(arr) { if (Array.isArray(arr)) return arr; }
+
+var ShowMenu = function ShowMenu(props) {
+  var _useState = useState(true),
+      _useState2 = _slicedToArray$1(_useState, 2),
+      showMenu = _useState2[0],
+      setShowMenu = _useState2[1];
+
+  var _useState3 = useState(false),
+      _useState4 = _slicedToArray$1(_useState3, 2),
+      showPopup = _useState4[0],
+      setShowPopup = _useState4[1];
+
+  useEffect(function () {
+    setShowMenu(props.menu);
+  }, [props.menu]);
+  useEffect(function () {
+    setShowPopup(props.popup);
+  }, [props.popup]);
+
+  if (showMenu) {
+    return props.children;
+  } else {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      className: "d-none"
+    }, props.children), /*#__PURE__*/React.createElement(ProcessingOperationPopUp, {
+      isOpen: showPopup
+    }));
+  }
 };
 
 ShowMenu.propTypes = {
-  show: bool.isRequired
+  menu: bool.isRequired,
+  popup: bool.isRequired
 };
 ShowMenu.defaultProps = {
-  show: true
+  menu: true,
+  popup: false
 };
 
 function _typeof$a(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$a = function _typeof(obj) { return typeof obj; }; } else { _typeof$a = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$a(obj); }
+
+function _defineProperty$4(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck$9(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3091,7 +3168,8 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
     _this.state = {
       isOpen: false,
-      showMenu: true
+      showMenu: true,
+      showOperationPopup: false
     };
     _this.toggle = _this.toggle.bind(_assertThisInitialized$8(_this));
     return _this;
@@ -3102,9 +3180,9 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      bus.listen('showMenu', function (data) {
-        _this2.setState({
-          showMenu: data.show
+      ['showMenu', 'showOperationPopup'].forEach(function (eventName) {
+        bus.listen(eventName, function (data) {
+          _this2.setState(_defineProperty$4({}, eventName, data.show));
         });
       });
     }
@@ -3125,7 +3203,8 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/React.createElement("div", {
         className: this.props.containerClass
       }, this.navbarBrand(!this.state.showMenu), /*#__PURE__*/React.createElement(ShowMenu, {
-        show: this.state.showMenu
+        menu: this.state.showMenu,
+        popup: this.state.showOperationPopup
       }, /*#__PURE__*/React.createElement(NavbarToggler, {
         onClick: this.toggle
       }), /*#__PURE__*/React.createElement(Collapse, {
@@ -3974,7 +4053,7 @@ var addFilterParams = function addFilterParams(url, params) {
   return be5.url.form(attr.positional, attr.named);
 };
 
-function _defineProperty$4(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$5(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var loadTable = function loadTable(params, frontendParams) {
   getTable(params, function (json) {
     //todo remove 'json.data' check after change error code
@@ -4044,7 +4123,7 @@ var getTableParams = function getTableParams(url) {
   var _ref;
 
   var attr = be5.url.parse(url);
-  return _ref = {}, _defineProperty$4(_ref, ENTITY_NAME_PARAM, attr.positional[1]), _defineProperty$4(_ref, QUERY_NAME_PARAM, attr.positional[2]), _defineProperty$4(_ref, CONTEXT_PARAMS, attr.named), _ref;
+  return _ref = {}, _defineProperty$5(_ref, ENTITY_NAME_PARAM, attr.positional[1]), _defineProperty$5(_ref, QUERY_NAME_PARAM, attr.positional[2]), _defineProperty$5(_ref, CONTEXT_PARAMS, attr.named), _ref;
 };
 var getTable = function getTable(params, callback) {
   var failure = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : be5.log.error;
@@ -4099,7 +4178,7 @@ var getRequestParams = function getRequestParams(params) {
   Preconditions.passed(entity);
   Preconditions.passed(query);
   var finalParams = withSavedTableFilter(entity, query, params[CONTEXT_PARAMS]);
-  return _ref2 = {}, _defineProperty$4(_ref2, ENTITY_NAME_PARAM, entity), _defineProperty$4(_ref2, QUERY_NAME_PARAM, query), _defineProperty$4(_ref2, CONTEXT_PARAMS, be5.net.paramString(finalParams)), _defineProperty$4(_ref2, TIMESTAMP_PARAM, new Date().getTime()), _ref2;
+  return _ref2 = {}, _defineProperty$5(_ref2, ENTITY_NAME_PARAM, entity), _defineProperty$5(_ref2, QUERY_NAME_PARAM, query), _defineProperty$5(_ref2, CONTEXT_PARAMS, be5.net.paramString(finalParams)), _defineProperty$5(_ref2, TIMESTAMP_PARAM, new Date().getTime()), _ref2;
 };
 
 function withSavedTableFilter(entity, query, params) {
@@ -4183,59 +4262,9 @@ var jQueryFormatCell = function jQueryFormatCell(data, options, isColumn) {
   return data === undefined || data === null ? '' : data;
 };
 
-function _slicedToArray$1(arr, i) { return _arrayWithHoles$1(arr) || _iterableToArrayLimit$1(arr, i) || _unsupportedIterableToArray$2(arr, i) || _nonIterableRest$1(); }
-
-function _nonIterableRest$1() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray$2(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$2(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$2(o, minLen); }
-
-function _arrayLikeToArray$2(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit$1(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles$1(arr) { if (Array.isArray(arr)) return arr; }
-
-var ProcessingOperationPopUp = function ProcessingOperationPopUp(_ref) {
-  var isOpen = _ref.isOpen,
-      message = _ref.message;
-
-  var _useState = useState(false),
-      _useState2 = _slicedToArray$1(_useState, 2),
-      modal = _useState2[0],
-      setModal = _useState2[1];
-
-  var toggle = function toggle() {
-    return setModal(!modal);
-  };
-
-  useEffect(function () {
-    setModal(isOpen);
-  }, [isOpen]);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Modal, {
-    isOpen: modal,
-    toggle: toggle,
-    backdrop: 'static',
-    contentClassName: "op-in-progress-modal-css"
-  }, /*#__PURE__*/React.createElement(ModalHeader, {
-    toggle: toggle
-  }, message || be5.messages.opInProgress), /*#__PURE__*/React.createElement("span", {
-    className: "d-block text-center pb-3"
-  }, /*#__PURE__*/React.createElement(Spinner, {
-    color: "dark"
-  }))));
-};
-
-ProcessingOperationPopUp.propTypes = {
-  isOpen: bool.isRequired,
-  message: string
-};
-ProcessingOperationPopUp.defaultProps = {
-  isOpen: false
-};
-
 function _typeof$f(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$f = function _typeof(obj) { return typeof obj; }; } else { _typeof$f = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$f(obj); }
 
-function _defineProperty$5(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$6(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck$e(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4283,7 +4312,13 @@ var Form = /*#__PURE__*/function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       showMenuEvent(this.props.value.data, false);
+      showOperationPopup(this.props.value.data, false);
       addUrlHandlers($('.be5-form'), this.props.frontendParams.documentName);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      showMenuEvent(this.props.value.data, true);
     }
   }, {
     key: "UNSAFE_componentWillReceiveProps",
@@ -4308,7 +4343,7 @@ var Form = /*#__PURE__*/function (_React$Component) {
         positional = ['form', attr.entity, attr.query, attr.operation];
       }
 
-      var operationInfo = (_operationInfo = {}, _defineProperty$5(_operationInfo, ENTITY_NAME_PARAM, positional[1]), _defineProperty$5(_operationInfo, QUERY_NAME_PARAM, positional[2]), _defineProperty$5(_operationInfo, OPERATION_NAME_PARAM, positional[3]), _defineProperty$5(_operationInfo, CONTEXT_PARAMS, JSON.stringify(attr.operationParams)), _operationInfo);
+      var operationInfo = (_operationInfo = {}, _defineProperty$6(_operationInfo, ENTITY_NAME_PARAM, positional[1]), _defineProperty$6(_operationInfo, QUERY_NAME_PARAM, positional[2]), _defineProperty$6(_operationInfo, OPERATION_NAME_PARAM, positional[3]), _defineProperty$6(_operationInfo, CONTEXT_PARAMS, JSON.stringify(attr.operationParams)), _operationInfo);
       return getOperationInfo(operationInfo, values);
     }
   }, {
@@ -4713,6 +4748,8 @@ var ModalForm = /*#__PURE__*/function (_Form) {
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
+      _get$2(_getPrototypeOf$g(ModalForm.prototype), "componentWillUnmount", this).call(this);
+
       document.removeEventListener('keydown', this.escListener, false);
     }
   }, {
@@ -5167,7 +5204,7 @@ var CategoryNavigation = function CategoryNavigation(_ref) {
 
 CategoryNavigation.propTypes = propTypes$4;
 
-function _defineProperty$6(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$7(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var positionsParamNames = [ORDER_COLUMN, ORDER_DIR, OFFSET, LIMIT];
 var propTypes$5 = {};
 
@@ -5190,7 +5227,7 @@ var FilterUI = function FilterUI(_ref) {
       return newParams[x] = params[x];
     });
     clearTableFilter(entity, query, newParams);
-    var paramsObject = (_paramsObject = {}, _defineProperty$6(_paramsObject, ENTITY_NAME_PARAM, entity), _defineProperty$6(_paramsObject, QUERY_NAME_PARAM, query || 'All records'), _defineProperty$6(_paramsObject, CONTEXT_PARAMS, newParams), _paramsObject);
+    var paramsObject = (_paramsObject = {}, _defineProperty$7(_paramsObject, ENTITY_NAME_PARAM, entity), _defineProperty$7(_paramsObject, QUERY_NAME_PARAM, query || 'All records'), _defineProperty$7(_paramsObject, CONTEXT_PARAMS, newParams), _paramsObject);
     loadTable(paramsObject, frontendParams);
   }
 
@@ -5234,7 +5271,7 @@ var getAllTypes = function getAllTypes() {
   return Object.keys(tableBoxes);
 };
 
-function _defineProperty$7(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$8(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var propTypes$6 = {
   data: PropTypes.shape({
     attributes: PropTypes.array,
@@ -5270,7 +5307,7 @@ var QuickFiltersBox = function QuickFiltersBox(_ref) {
     }
 
     tags.forEach(function (tag) {
-      url = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, _defineProperty$7({}, param, tag[0])));
+      url = be5.url.create(pUrl.positional, Object.assign({}, pUrl.named, _defineProperty$8({}, param, tag[0])));
 
       if (pUrl.named[param] === tag[0]) {
         row.push( /*#__PURE__*/React.createElement("span", {
@@ -7678,7 +7715,7 @@ function _extends$2() {
   return _extends$2.apply(this, arguments);
 }
 
-function _defineProperty$8(obj, key, value) {
+function _defineProperty$9(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -8164,7 +8201,7 @@ function isMobileDevice() {
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty$8(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty$9(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _createSuper$l(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$l(); return function _createSuperInternal() { var Super = _getPrototypeOf$l(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$l(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$l(this, result); }; }
 
@@ -8355,7 +8392,7 @@ var menuCSS = function menuCSS(_ref2) {
       colors = _ref2$theme.colors;
   return _ref3 = {
     label: 'menu'
-  }, _defineProperty$8(_ref3, alignToControl(placement), '100%'), _defineProperty$8(_ref3, "backgroundColor", colors.neutral0), _defineProperty$8(_ref3, "borderRadius", borderRadius), _defineProperty$8(_ref3, "boxShadow", '0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 11px hsla(0, 0%, 0%, 0.1)'), _defineProperty$8(_ref3, "marginBottom", spacing.menuGutter), _defineProperty$8(_ref3, "marginTop", spacing.menuGutter), _defineProperty$8(_ref3, "position", 'absolute'), _defineProperty$8(_ref3, "width", '100%'), _defineProperty$8(_ref3, "zIndex", 1), _ref3;
+  }, _defineProperty$9(_ref3, alignToControl(placement), '100%'), _defineProperty$9(_ref3, "backgroundColor", colors.neutral0), _defineProperty$9(_ref3, "borderRadius", borderRadius), _defineProperty$9(_ref3, "boxShadow", '0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 11px hsla(0, 0%, 0%, 0.1)'), _defineProperty$9(_ref3, "marginBottom", spacing.menuGutter), _defineProperty$9(_ref3, "marginTop", spacing.menuGutter), _defineProperty$9(_ref3, "position", 'absolute'), _defineProperty$9(_ref3, "width", '100%'), _defineProperty$9(_ref3, "zIndex", 1), _ref3;
 };
 var PortalPlacementContext = /*#__PURE__*/createContext({
   getPortalPlacement: null
@@ -9046,7 +9083,7 @@ var Control = function Control(props) {
 
 function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$1(Object(source), true).forEach(function (key) { _defineProperty$8(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$1(Object(source), true).forEach(function (key) { _defineProperty$9(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 var groupCSS = function groupCSS(_ref) {
   var spacing = _ref.theme.spacing;
   return {
@@ -9113,7 +9150,7 @@ var GroupHeading = function GroupHeading(props) {
 
 function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$2(Object(source), true).forEach(function (key) { _defineProperty$8(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$2(Object(source), true).forEach(function (key) { _defineProperty$9(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 var inputCSS = function inputCSS(_ref) {
   var isDisabled = _ref.isDisabled,
       _ref$theme = _ref.theme,
@@ -9168,7 +9205,7 @@ var Input = function Input(_ref2) {
 
 function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$3(Object(source), true).forEach(function (key) { _defineProperty$8(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$3(Object(source), true).forEach(function (key) { _defineProperty$9(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 var multiValueCSS = function multiValueCSS(_ref) {
   var _ref$theme = _ref.theme,
       spacing = _ref$theme.spacing,
@@ -9398,7 +9435,7 @@ var SingleValue = function SingleValue(props) {
 
 function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$4(Object(source), true).forEach(function (key) { _defineProperty$8(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$4(Object(source), true).forEach(function (key) { _defineProperty$9(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 var components = {
   ClearIndicator: ClearIndicator,
   Control: Control,
@@ -9768,7 +9805,7 @@ var stripDiacritics = function stripDiacritics(str) {
 
 function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$5(Object(source), true).forEach(function (key) { _defineProperty$8(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$5(Object(source), true).forEach(function (key) { _defineProperty$9(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 var trimString = function trimString(str) {
   return str.replace(/^\s+|\s+$/g, '');
@@ -10437,7 +10474,7 @@ var defaultTheme = {
 
 function ownKeys$2$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$2$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$2$1(Object(source), true).forEach(function (key) { _defineProperty$8(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$2$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$2$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$2$1(Object(source), true).forEach(function (key) { _defineProperty$9(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$2$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _createSuper$4$1(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$4$1(); return function _createSuperInternal() { var Super = _getPrototypeOf$l(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$l(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$l(this, result); }; }
 
@@ -13631,16 +13668,19 @@ var Loading = /*#__PURE__*/function (_React$Component) {
 
 registerRoute("loading", route);
 
-function _defineProperty$9(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$a(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var route$1 = function route(frontendParams, entity, query, operation, contextParams) {
   var _operationInfo;
 
-  var operationInfo = (_operationInfo = {}, _defineProperty$9(_operationInfo, ENTITY_NAME_PARAM, entity), _defineProperty$9(_operationInfo, QUERY_NAME_PARAM, query || 'All records'), _defineProperty$9(_operationInfo, OPERATION_NAME_PARAM, operation), _defineProperty$9(_operationInfo, CONTEXT_PARAMS, JSON.stringify(contextParams || {})), _operationInfo);
+  var operationInfo = (_operationInfo = {}, _defineProperty$a(_operationInfo, ENTITY_NAME_PARAM, entity), _defineProperty$a(_operationInfo, QUERY_NAME_PARAM, query || 'All records'), _defineProperty$a(_operationInfo, OPERATION_NAME_PARAM, operation), _defineProperty$a(_operationInfo, CONTEXT_PARAMS, JSON.stringify(contextParams || {})), _operationInfo);
 
   if (contextParams && isTrueValueParam(contextParams[LONG_TIME_OPERATION])) {
     bus.fire('showMenu', {
       show: false
+    });
+    bus.fire('showOperationPopup', {
+      show: true
     });
   }
 
@@ -13683,12 +13723,12 @@ var route$4 = function route(frontendParams, page) {
 
 registerRoute("static", route$4);
 
-function _defineProperty$a(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$b(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var route$5 = function route(frontendParams, entity, query, params) {
   var _paramsObject;
 
-  var paramsObject = (_paramsObject = {}, _defineProperty$a(_paramsObject, ENTITY_NAME_PARAM, entity), _defineProperty$a(_paramsObject, QUERY_NAME_PARAM, query || 'All records'), _defineProperty$a(_paramsObject, CONTEXT_PARAMS, params || {}), _paramsObject);
+  var paramsObject = (_paramsObject = {}, _defineProperty$b(_paramsObject, ENTITY_NAME_PARAM, entity), _defineProperty$b(_paramsObject, QUERY_NAME_PARAM, query || 'All records'), _defineProperty$b(_paramsObject, CONTEXT_PARAMS, params || {}), _paramsObject);
   loadTable(paramsObject, frontendParams);
 };
 
@@ -13832,12 +13872,12 @@ var tableNamesCompleter = {
   }
 };
 
-function _defineProperty$b(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$c(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var route$6 = function route(frontendParams, params) {
   var _requestParams;
 
-  var requestParams = (_requestParams = {}, _defineProperty$b(_requestParams, CONTEXT_PARAMS, be5.net.paramString(params)), _defineProperty$b(_requestParams, TIMESTAMP_PARAM, new Date().getTime()), _requestParams);
+  var requestParams = (_requestParams = {}, _defineProperty$c(_requestParams, CONTEXT_PARAMS, be5.net.paramString(params)), _defineProperty$c(_requestParams, TIMESTAMP_PARAM, new Date().getTime()), _requestParams);
   initBeSqlEditor(function () {
     be5.net.request('queryBuilder', requestParams, function (data) {
       if (frontendParams.documentName === MAIN_DOCUMENT) be5.ui.setTitle("Query Builder");
@@ -13864,10 +13904,10 @@ var route$7 = function route(frontendParams, text) {
 
 registerRoute("text", route$7);
 
-function _defineProperty$c(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$d(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var route$8 = function route(frontendParams, entity) {
-  var requestParams = _defineProperty$c({}, ENTITY_NAME_PARAM, entity);
+  var requestParams = _defineProperty$d({}, ENTITY_NAME_PARAM, entity);
 
   be5.net.request('categories/forest/', requestParams, function (data) {
     changeDocument(frontendParams.documentName, {
@@ -13880,7 +13920,7 @@ registerRoute("categories", route$8);
 
 function _typeof$w(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$w = function _typeof(obj) { return typeof obj; }; } else { _typeof$w = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$w(obj); }
 
-function _defineProperty$d(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$e(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck$v(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -13974,7 +14014,7 @@ var QueryBuilder = /*#__PURE__*/function (_React$Component) {
       var requestParams = (_requestParams = {
         sql: this.state.sql,
         updateWithoutBeSql: this.state.updateWithoutBeSql
-      }, _defineProperty$d(_requestParams, CONTEXT_PARAMS, this.props.value.params), _defineProperty$d(_requestParams, TIMESTAMP_PARAM, new Date().getTime()), _requestParams);
+      }, _defineProperty$e(_requestParams, CONTEXT_PARAMS, this.props.value.params), _defineProperty$e(_requestParams, TIMESTAMP_PARAM, new Date().getTime()), _requestParams);
       be5.net.request('queryBuilder', requestParams, function (json) {
         _this2.update(json);
       });
@@ -14262,7 +14302,7 @@ registerRoute('systemCard', function (frontendParams) {
 
 function _typeof$x(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$x = function _typeof(obj) { return typeof obj; }; } else { _typeof$x = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$x(obj); }
 
-function _defineProperty$e(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$f(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck$w(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -14430,7 +14470,7 @@ var DataTablesWrapper = /*#__PURE__*/function (_Component) {
             params[TOTAL_NUMBER_OF_ROWS] = attributes.totalNumberOfRows;
           }
 
-          var requestParams = (_requestParams = {}, _defineProperty$e(_requestParams, ENTITY_NAME_PARAM, attributes.category), _defineProperty$e(_requestParams, QUERY_NAME_PARAM, attributes.page), _defineProperty$e(_requestParams, CONTEXT_PARAMS, params), _requestParams);
+          var requestParams = (_requestParams = {}, _defineProperty$f(_requestParams, ENTITY_NAME_PARAM, attributes.category), _defineProperty$f(_requestParams, QUERY_NAME_PARAM, attributes.page), _defineProperty$f(_requestParams, CONTEXT_PARAMS, params), _requestParams);
           updateTable(requestParams, function (jsonApiModel) {
             var json = jsonApiModel.data.attributes;
 
