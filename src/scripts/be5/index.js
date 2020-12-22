@@ -5,6 +5,7 @@ import Application from './components/Application.js';
 import MainDocumentOnly from './components/MainDocumentOnly.js';
 import NavbarMenu from './components/menu/NavbarMenu.js';
 import NavMenu from './components/menu/NavMenu.js';
+import ShowMenu from "./components/menu/ShowMenu";
 import HelpInfo from './components/HelpInfo.js';
 import LanguageSelector from './components/LanguageSelector.js';
 import SideBar from './components/SideBar.js';
@@ -26,6 +27,7 @@ import Form from './components/forms/Form.js';
 import HorizontalForm from './components/forms/HorizontalForm';
 import SubmitOnChangeForm from './components/forms/SubmitOnChangeForm.js';
 import ModalForm from './components/forms/ModalForm.js';
+import ProcessingOperationPopUp from "./components/forms/ProcessingOperationPopUp";
 import InlineMiniForm from './components/forms/InlineMiniForm.js';
 import FinishedResult from './components/forms/FinishedResult.js';
 
@@ -81,6 +83,7 @@ export {
   HorizontalForm,
   SubmitOnChangeForm,
   ModalForm,
+  ProcessingOperationPopUp,
   InlineMiniForm,
   FinishedResult,
 
@@ -102,6 +105,7 @@ export {
   MenuSearchField,
   MenuFooter,
   MenuNode,
+  ShowMenu,
 
   //charts
   Chart,
