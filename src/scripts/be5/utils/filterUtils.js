@@ -11,7 +11,7 @@ export const getContextParams = (params) => {
   }
 
   const searchPresets = params[SEARCH_PRESETS_PARAM].split(',');
-  return Object.keys(params )
+  return Object.keys(params)
     .filter(key => searchPresets.includes(key))
     .reduce((obj, key) => {obj[key] = params[key]; return obj;}, {});
 };

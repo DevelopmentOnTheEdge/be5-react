@@ -4,7 +4,7 @@ import {getFilterParams} from "../../utils/filterUtils";
 import {clearTableFilter, loadTable} from "../../services/tables";
 import {
   CONTEXT_PARAMS, ENTITY_NAME_PARAM, LIMIT, OFFSET, ORDER_COLUMN, ORDER_DIR,
-  QUERY_NAME_PARAM
+  QUERY_NAME_PARAM, SEARCH_PRESETS_PARAM
 } from "../../constants";
 
 
@@ -16,7 +16,7 @@ const FilterUI = ({data, entity, query, params, frontendParams, show}) => {
 
   function clearFilter(e) {
     e.preventDefault();
-    const searchPresets = params['_search_presets_'] === undefined ? [] : params['_search_presets_'].split(',');
+    const searchPresets = params[SEARCH_PRESETS_PARAM] === undefined ? [] : params[SEARCH_PRESETS_PARAM].split(',');
     const newParams = {};
     searchPresets.forEach(x => newParams[x] = params[x]);
 

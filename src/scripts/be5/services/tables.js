@@ -12,7 +12,7 @@ import {
 } from "../constants";
 import bus from "../core/bus";
 import {clearDocumentState, getDocumentState, setDocumentState} from "./documentStates";
-import {getContextParams, initFilterParams} from "../utils/filterUtils";
+import {getContextParams, getSearchPresetParam, initFilterParams} from "../utils/filterUtils";
 import {getQuerySettings, isEmptyString, isGuest, setQuerySettings} from "../utils/utils";
 
 
@@ -84,9 +84,11 @@ export const getTable = (params, callback, failure = be5.log.error) => {
   if (isGuest()) {
     const limit = getQuerySettings(params[ENTITY_NAME_PARAM], params[QUERY_NAME_PARAM], RECORDS_PER_PAGE_SETTINGS);
     if (!isEmptyString(limit) && params[CONTEXT_PARAMS] && isEmptyString(params[CONTEXT_PARAMS][LIMIT])) {
+      const newParams = Object.assign({}, params[CONTEXT_PARAMS]);
+      const searchPresetParam = getSearchPresetParam(newParams)
+      if (searchPresetParam !== null) params[CONTEXT_PARAMS][SEARCH_PRESETS_PARAM] = searchPresetParam;
       params[CONTEXT_PARAMS][LIMIT] = limit;
       params[CONTEXT_PARAMS][SEARCH_PARAM] = "true";
-
     }
   }
   be5.net.request('table', getRequestParams(params), callback, failure);
