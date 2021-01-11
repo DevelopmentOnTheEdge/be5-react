@@ -122,6 +122,8 @@ const be5 = {
       for (let i = 0; i < positional.length; i++) {
         res.push(encodeURIComponent(positional[i]));
       }
+      console.log(`named`)
+      console.log(named)
       for (let key in named) {
         res.push(key + '=' + encodeURIComponent(named[key]));
       }
