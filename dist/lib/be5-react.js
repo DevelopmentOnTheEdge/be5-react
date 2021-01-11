@@ -1109,9 +1109,6 @@ var be5 = {
         res.push(encodeURIComponent(positional[i]));
       }
 
-      console.log("named");
-      console.log(named);
-
       for (var key in named) {
         res.push(key + '=' + encodeURIComponent(named[key]));
       }
