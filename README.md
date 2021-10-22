@@ -1,7 +1,7 @@
 # be5-react
 
 [![NPM Version](https://img.shields.io/npm/v/be5-react.svg?branch=master)](https://www.npmjs.com/package/be5-react) 
-[![Build Status](https://travis-ci.org/DevelopmentOnTheEdge/be5-react.svg?branch=master)](https://travis-ci.org/DevelopmentOnTheEdge/be5-react) 
+[![Build Status](https://travis-ci.com/DevelopmentOnTheEdge/be5-react.svg?branch=master)](https://travis-ci.com/DevelopmentOnTheEdge/be5-react) 
 [![dependencies Status](https://david-dm.org/DevelopmentOnTheEdge/be5-react/status.svg)](https://david-dm.org/DevelopmentOnTheEdge/be5-react)
 [![Coverage Status](https://coveralls.io/repos/github/DevelopmentOnTheEdge/be5-react/badge.svg?branch=master)](https://coveralls.io/github/DevelopmentOnTheEdge/be5-react?branch=master) 
 
