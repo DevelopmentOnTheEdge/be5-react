@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import createPlotlyComponent from "react-plotly.js/factory";
-import Plotly from "plotly.js-basic-dist-min";
+import Plotly from "plotly.js-dist-min";
 import {registerDocument} from "../../core/registers/documents";
 
 const Plot = createPlotlyComponent(Plotly);
@@ -11,7 +11,7 @@ const Plot = createPlotlyComponent(Plotly);
  *
  * @see https://plotly.com/javascript/ for detailed
  *
- * CreatePlotlyComponent and plotly.js-basic-dist-min are used because plotly.js library is too big.
+ * CreatePlotlyComponent and plotly.js-dist-min are used because plotly.js library is too big.
  * @see https://github.com/plotly/plotly.js/tree/master/dist about plotly dist
  **/
 class Chart extends React.Component {
@@ -25,77 +25,152 @@ class Chart extends React.Component {
         this.storeChartState(this.props);
     }
 
+    
     storeChartState(props) {
-        const {xData, yData} = props.value.data.attributes.layout;
-        if (!xData || !yData) {
-            return
-        }
-        const {columns, rows, page} = props.value.data.attributes;
-        const columnNames = columns.map(column => column.name);
-        const columnTitles = columns.map(column => column.title);
-        const xIdx = columnNames.indexOf(xData);
-        if (xIdx === -1) {
-            return;
-        }
-
-        const yIdxs = yData.split(",")
-            .filter(column => columnNames.includes(column))
-            .map(column => columnNames.indexOf(column));
-
-        if (yIdxs.length === 0) {
-            return;
-        }
-
-        const values = rows.map(row => {
-            return row.cells.map(cell => cell.content);
-        });
-
-
-        const xVals = values.map(array => array[xIdx]);
-
         const data = [];
-        yIdxs.forEach(idx => {
-            let lineData = {
-                x: xVals,
-                y: values.map(array => array[idx]),
-                type: 'scatter',
-                name: columnTitles[idx],
-                mode: 'lines',
-                hoverlabel: {namelength: -1},
-                line: {
-                    shape: 'spline',
-                    width: '2',
-                    smoothing: 1.3,
-                }
-            }
-            if (rows && rows.length > 0 && rows[0].cells.length - 1 >= idx && rows[0].cells[idx].options.chart) {
-                //copy column attributes
-                const chartAttr = rows[0].cells[idx].options.chart;
-                for (const [key, value] of Object.entries(chartAttr)) {
-                    if (value.startsWith('{') && value.endsWith('}')) {
-                        let tmpValue = value.substring(1, value.length - 1);
-                        const obj = {}
-                        tmpValue.split(';').forEach(array => {
-                            const entry = array.split(":");
-                            if (entry.length === 2) {
-                                obj[entry[0]] = entry[1];
+        const {columns, rows, page} = props.value.data.attributes;
+
+        if (rows && rows.length > 0)
+        {
+            const values = rows.map(row => {
+                return row.cells.map(cell => cell.content);
+            });
+            const columnTitles = columns.map(column => column.title);
+            const columnNames = columns.map(column => column.name);
+            
+            rows[0].cells.forEach( cell =>
+                {
+                    if (cell.options.chart)
+                    {
+                        let traceData = {};
+                        
+                        const xIdx = rows[0].cells.indexOf(cell);
+                        const type = cell.options.chart.type;                     
+
+                        switch (type) {
+                            case 'scatter':
+                            case 'bar':
+                            {
+                                const yIdx = columnNames.indexOf(cell.options.chart.y);
+                                
+                                if (xIdx === -1 || yIdx === -1) 
+                                    return;
+
+                                delete cell.options.chart.y;
+
+                                const xVals = values.map(array => array[xIdx]);
+                                const yVals = values.map(array => array[yIdx]);
+
+                                traceData = Object.assign(traceData, {
+                                    x: xVals,
+                                    y: yVals,
+                                    type: type,
+                                    name: columnTitles[yIdx],
+                                    mode: 'lines+markers',
+                                    line: {
+                                        shape: 'spline',
+                                        width: '2',
+                                        smoothing: 1.3,
+                                    }
+                                });
+                                break;
                             }
-                        })
-                        chartAttr[key] = obj;
+                            case 'box':
+                            case 'histogram':
+                            {
+                                if (xIdx === -1) 
+                                    return;
+
+
+                                const orientation = cell.options.chart.rotate;
+
+                                if (orientation == null || orientation === "false")
+                                {
+                                    traceData = Object.assign(traceData, {
+                                        x: values.map(array => array[xIdx])
+                                    });
+                                }
+                                else if (orientation === "true")
+                                {
+                                    traceData = Object.assign(traceData, {
+                                        y: values.map(array => array[xIdx])
+                                    });
+                                }
+
+                                traceData = Object.assign(traceData, {
+                                    type: type,
+                                    name: columnTitles[xIdx],
+                                    opacity: 0.75, 
+                                    marker: {
+                                         line: { 
+                                          width: 1
+                                         }
+                                    }
+                                });
+
+                                break;
+                            }                             
+                            case 'pie':
+                            {
+                                const yIdx = columnNames.indexOf(cell.options.chart.labels);
+                                
+                                delete cell.options.chart.labels;
+                                if (xIdx === -1 || yIdx === -1) 
+                                    return;
+
+                                traceData = Object.assign(traceData, {
+                                    labels: values.map(array => array[yIdx]),
+                                    values: values.map(array => array[xIdx]),
+                                    type: type,
+                                    name: columnTitles[yIdx],
+                                    hoverinfo: 'label+value',
+                                    textinfo:'label+percent',
+                                    textposition: 'inside',
+                                });
+                                break;
+                            }                               
+                            default:
+                                console.error("Chart type " + type + " is not implemented!");
+                        }
+
+                        //copy column attributes
+                        const chartAttr = cell.options.chart;
+                        for (const [key, value] of Object.entries(chartAttr)) {
+                            if (value.startsWith('{') && value.endsWith('}')) {
+                                let tmpValue = value.substring(1, value.length - 1);
+                                const obj = {}
+                                tmpValue.split(';').forEach(array => {
+                                    const entry = array.split(":");
+                                    if (entry.length === 2) {
+                                        obj[entry[0]] = entry[1];
+                                    }
+                                })
+                                chartAttr[key] = obj;
+                            }
+                        }
+
+                        traceData = Object.assign(traceData, chartAttr);
+                        data.push(traceData);
                     }
                 }
-                lineData = Object.assign({}, lineData, chartAttr)
-            }
-            data.push(lineData);
-        })
-        const layout = {
+            );
+        }      
+        
+        let layout = {
             title: page,
-            xaxis: {title: columnTitles[xIdx]},
+            // xaxis: {title: columnTitles[xIdx]},
             // yaxis: {title: "", rangemode: 'tozero'},
             width: 1050,
             height: 675,
             showlegend: true
         }
+
+        const chartLayout = props.value.data.attributes.layout.chartLayout;
+        if (chartLayout)       
+            layout = Object.assign(layout, chartLayout)
+        
+
+        
         this.setState((state) => {
             return {data: data, layout: layout}
         });
