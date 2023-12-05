@@ -2,6 +2,7 @@ node_modules/
 coverage/
 package-lock.json
 .project
+.gradle
 
 ### IntelliJ IDEA ###
 .idea
