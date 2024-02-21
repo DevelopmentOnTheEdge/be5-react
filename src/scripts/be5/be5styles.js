@@ -17,3 +17,4 @@ import '../../css/menu.css';
 import '../../css/menuFooter.css';
 import '../../css/languageSelector.css';
 import '../../css/main.css';
+import '../../css/vertical.css';

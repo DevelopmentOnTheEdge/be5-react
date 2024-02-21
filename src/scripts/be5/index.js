@@ -21,6 +21,7 @@ import Document from './containers/Document.js';
 import NavbarMenuContainer from './containers/NavbarMenuContainer';
 import MenuContainer from './containers/MenuContainer';
 import UserControlContainer from './containers/UserControlContainer.js';
+import LayoutContainer from './containers/LayoutContainer';
 
 // forms
 import Form from './components/forms/Form.js';
@@ -77,6 +78,7 @@ export {
   MenuContainer,
   NavbarMenuContainer,
   UserControlContainer,
+  LayoutContainer,
 
   // forms
   Form,
