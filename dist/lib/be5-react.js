@@ -1820,7 +1820,7 @@ function _possibleConstructorReturn$y(self, call) { if (call && (_typeof$F(call)
 function _assertThisInitialized$y(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct$A() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf$y(o) { _getPrototypeOf$y = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$y(o); }
-var propTypes$5 = {
+var propTypes$6 = {
   menu: PropTypes__default.shape({})
 };
 var MenuBody = /*#__PURE__*/function (_Component) {
@@ -1888,7 +1888,7 @@ var MenuBody = /*#__PURE__*/function (_Component) {
   }]);
   return MenuBody;
 }(Component);
-MenuBody.propTypes = propTypes$5;
+MenuBody.propTypes = propTypes$6;
 
 function _typeof$E(o) { "@babel/helpers - typeof"; return _typeof$E = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$E(o); }
 function _classCallCheck$x(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1955,7 +1955,7 @@ function _possibleConstructorReturn$w(self, call) { if (call && (_typeof$D(call)
 function _assertThisInitialized$w(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct$y() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf$w(o) { _getPrototypeOf$w = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$w(o); }
-var propTypes$4 = {
+var propTypes$5 = {
   menu: PropTypes__default.shape({}),
   currentRoles: PropTypes__default.arrayOf(PropTypes__default.string).isRequired,
   fetchMenu: PropTypes__default.func.isRequired,
@@ -2012,7 +2012,7 @@ var Menu$1 = /*#__PURE__*/function (_Component) {
   }]);
   return Menu;
 }(Component);
-Menu$1.propTypes = propTypes$4;
+Menu$1.propTypes = propTypes$5;
 Menu$1.defaultProps = defaultProps$2;
 
 var getMenu = function getMenu(state) {
@@ -2592,7 +2592,7 @@ function _possibleConstructorReturn$r(self, call) { if (call && (_typeof$y(call)
 function _assertThisInitialized$r(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct$t() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf$r(o) { _getPrototypeOf$r = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$r(o); }
-var propTypes$3 = {
+var propTypes$4 = {
   menu: PropTypes__default.shape({}),
   user: PropTypes__default.shape({}).isRequired,
   defaultRoute: PropTypes__default.string.isRequired,
@@ -2696,7 +2696,7 @@ var NavMenu = /*#__PURE__*/function (_Component) {
   }]);
   return NavMenu;
 }(Component);
-NavMenu.propTypes = propTypes$3;
+NavMenu.propTypes = propTypes$4;
 
 function _slicedToArray$3(arr, i) { return _arrayWithHoles$3(arr) || _iterableToArrayLimit$3(arr, i) || _unsupportedIterableToArray$4(arr, i) || _nonIterableRest$3(); }
 function _nonIterableRest$3() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2792,7 +2792,7 @@ function _possibleConstructorReturn$q(self, call) { if (call && (_typeof$x(call)
 function _assertThisInitialized$q(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct$s() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf$q(o) { _getPrototypeOf$q = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$q(o); }
-var propTypes$2 = {
+var propTypes$3 = {
   menu: PropTypes__default.shape({}),
   user: PropTypes__default.shape({}).isRequired,
   defaultRoute: PropTypes__default.string.isRequired,
@@ -2920,7 +2920,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
   }]);
   return NavbarMenu;
 }(Component);
-NavbarMenu.propTypes = propTypes$2;
+NavbarMenu.propTypes = propTypes$3;
 NavbarMenu.defaultProps = {
   containerClass: "container"
 };
@@ -3018,7 +3018,7 @@ HelpInfo.defaultProps = {
 };
 
 function _typeof$v(o) { "@babel/helpers - typeof"; return _typeof$v = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$v(o); }
-function _extends$2() { _extends$2 = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$2.apply(this, arguments); }
+function _extends$3() { _extends$3 = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$3.apply(this, arguments); }
 function _classCallCheck$o(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties$o(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$v(descriptor.key), descriptor); } }
 function _createClass$o(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$o(Constructor.prototype, protoProps); if (staticProps) _defineProperties$o(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -3123,7 +3123,7 @@ var ErrorPane = /*#__PURE__*/function (_React$Component2) {
       return /*#__PURE__*/React.createElement("div", {
         className: "errorPane"
       }, errors.map(function (error, i) {
-        return /*#__PURE__*/React.createElement(Error$1, _extends$2({}, error, {
+        return /*#__PURE__*/React.createElement(Error$1, _extends$3({}, error, {
           key: i
         }));
       }));
@@ -3522,6 +3522,20 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 var NavbarMenuContainer$1 = connect(mapStateToProps, mapDispatchToProps)(NavbarMenuContainer);
+
+function _extends$2() { _extends$2 = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$2.apply(this, arguments); }
+var propTypes$2 = {
+  orientation: PropTypes__default.oneOf(['horizontal', 'vertical'])
+};
+var LayoutContainer = function LayoutContainer(props) {
+  return /*#__PURE__*/React.createElement("div", _extends$2({
+    className: props.orientation
+  }, props));
+};
+LayoutContainer.propTypes = propTypes$2;
+LayoutContainer.defaultProps = {
+  orientation: "horizontal"
+};
 
 var getContextParams = function getContextParams(params) {
   if (params[SEARCH_PARAM] !== "true") {
@@ -14599,4 +14613,4 @@ var index = combineReducers({
   hashUrl: changeHash
 });
 
-export { API_URL_PREFIX, Application, Be5Components, CLOSE_MAIN_MODAL, COLUMN_SETTINGS, CONTEXT_PARAMS, CategoryNavigation, Chart, DEFAULT_TABLE_BOX, DEFAULT_VIEW, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, Document$1 as Document, ENTITY_NAME_PARAM, ErrorPane, FinishedResult, Form, FormTable, FormWizard, FrontendAction, GO_BACK, HIDE_MENU, HelpInfo, HorizontalForm, InlineMiniForm, LIMIT, LONG_TIME_OPERATION, LanguageBox as LanguageSelector, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, MainDocumentOnly, Menu$1 as Menu, MenuBody, MenuContainer$1 as MenuContainer, MenuFooter, MenuNode, MenuSearchField, ModalForm, ModalTable, NavMenu, NavbarMenu, NavbarMenuContainer$1 as NavbarMenuContainer, Navs, OFFSET, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, OPERATION_NAME_PARAM, ORDER_COLUMN, ORDER_DIR, OperationBox, ProcessingOperationPopUp, QUERY_NAME_PARAM, QUERY_SETTINGS, QuickColumns, QuickFiltersBox, RECORDS_PER_PAGE_SETTINGS, REDIRECT, REFRESH_DOCUMENT, REFRESH_MENU, REFRESH_PARENT_DOCUMENT, RELOAD_CONTROL_NAME, ROLE_ADMINISTRATOR, ROLE_GUEST, ROLE_SYSTEM_DEVELOPER, RoleSelector, SEARCH_PARAM, SEARCH_PRESETS_PARAM, SELECTED_ROWS, SET_URL, SHOW_MENU, SUCCESS_ALERT, ShowMenu, SideBar, StaticPage, SubmitOnChangeForm, TIMESTAMP_PARAM, TOTAL_NUMBER_OF_ROWS, Table, TableForm, TableFormRow, TablePagination, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, UserControl, UserControlContainer, actions as action, addFilterParams, addUrlHandlers, arraysEqual, be5, bus, changeDocument, clearDocumentState, createBaseStore, createPageValue, createStaticValue, executeFrontendActions, fetchMenu, fetchOperationByUrl, fetchTableByUrl, fetchUserInfo, route$7 as formAction, getActionsMap, getAllDocumentTypes, getAllRoutes, getAllTypes, getBackAction, getBackOrOpenDefaultRouteAction, getCurrentRoles, getDocument, getDocumentState, getDocumentStates, getFilterParams, getMenu, getModelByID, getOperationInfoFromUrl, getResourceByID, getResourceByType, getRoute, getSelfUrl, getTableBox, getUser, initBe5App, initFilterParams, initOnLoad, loadDocumentByUrl, loadOperation, loadTable, loadTableByUrl, route$8 as loadingAction, route$6 as loginAction, route$5 as logoutAction, users as menuReduser, openInModal, openOperationByUrl, openOperationByUrlWithValues, Preconditions as preconditions, processHashUrl, processHashUrlForDocument, route$2 as queryBuilderAction, registerDocument, registerPage, registerRoute, registerTableBox, index as rootReducer, setDocumentState, route$4 as staticAction, submitOperation, route$3 as tableAction, route$1 as textAction, toggleRoles, updateMenu, updateTable, updateUserInfo, users$1 as userReduser };
+export { API_URL_PREFIX, Application, Be5Components, CLOSE_MAIN_MODAL, COLUMN_SETTINGS, CONTEXT_PARAMS, CategoryNavigation, Chart, DEFAULT_TABLE_BOX, DEFAULT_VIEW, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, Document$1 as Document, ENTITY_NAME_PARAM, ErrorPane, FinishedResult, Form, FormTable, FormWizard, FrontendAction, GO_BACK, HIDE_MENU, HelpInfo, HorizontalForm, InlineMiniForm, LIMIT, LONG_TIME_OPERATION, LanguageBox as LanguageSelector, LayoutContainer, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, MainDocumentOnly, Menu$1 as Menu, MenuBody, MenuContainer$1 as MenuContainer, MenuFooter, MenuNode, MenuSearchField, ModalForm, ModalTable, NavMenu, NavbarMenu, NavbarMenuContainer$1 as NavbarMenuContainer, Navs, OFFSET, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, OPERATION_NAME_PARAM, ORDER_COLUMN, ORDER_DIR, OperationBox, ProcessingOperationPopUp, QUERY_NAME_PARAM, QUERY_SETTINGS, QuickColumns, QuickFiltersBox, RECORDS_PER_PAGE_SETTINGS, REDIRECT, REFRESH_DOCUMENT, REFRESH_MENU, REFRESH_PARENT_DOCUMENT, RELOAD_CONTROL_NAME, ROLE_ADMINISTRATOR, ROLE_GUEST, ROLE_SYSTEM_DEVELOPER, RoleSelector, SEARCH_PARAM, SEARCH_PRESETS_PARAM, SELECTED_ROWS, SET_URL, SHOW_MENU, SUCCESS_ALERT, ShowMenu, SideBar, StaticPage, SubmitOnChangeForm, TIMESTAMP_PARAM, TOTAL_NUMBER_OF_ROWS, Table, TableForm, TableFormRow, TablePagination, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, UserControl, UserControlContainer, actions as action, addFilterParams, addUrlHandlers, arraysEqual, be5, bus, changeDocument, clearDocumentState, createBaseStore, createPageValue, createStaticValue, executeFrontendActions, fetchMenu, fetchOperationByUrl, fetchTableByUrl, fetchUserInfo, route$7 as formAction, getActionsMap, getAllDocumentTypes, getAllRoutes, getAllTypes, getBackAction, getBackOrOpenDefaultRouteAction, getCurrentRoles, getDocument, getDocumentState, getDocumentStates, getFilterParams, getMenu, getModelByID, getOperationInfoFromUrl, getResourceByID, getResourceByType, getRoute, getSelfUrl, getTableBox, getUser, initBe5App, initFilterParams, initOnLoad, loadDocumentByUrl, loadOperation, loadTable, loadTableByUrl, route$8 as loadingAction, route$6 as loginAction, route$5 as logoutAction, users as menuReduser, openInModal, openOperationByUrl, openOperationByUrlWithValues, Preconditions as preconditions, processHashUrl, processHashUrlForDocument, route$2 as queryBuilderAction, registerDocument, registerPage, registerRoute, registerTableBox, index as rootReducer, setDocumentState, route$4 as staticAction, submitOperation, route$3 as tableAction, route$1 as textAction, toggleRoles, updateMenu, updateTable, updateUserInfo, users$1 as userReduser };
