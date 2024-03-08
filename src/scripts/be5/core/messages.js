@@ -153,5 +153,18 @@ export default {
         "sortDescending": ": активировать для сортировки столбца по убыванию"
       }
     }
+  },
+
+
+  zh: {
+    welcome: '欢迎!',
+
+    login: '登录',
+    logout: '退出',
+    roles: '角色',
+
+    allRoles: '一切',
+    clearRoles: '莫',
+
   }
 };
