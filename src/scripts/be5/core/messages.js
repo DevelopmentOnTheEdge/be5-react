@@ -166,8 +166,10 @@ export default {
     cancel: '取消',
     close: '关闭',
 
+    selectRoles: '选择',
     allRoles: '一切',
     clearRoles: '莫',
+
     Submit: '错误'
 
   }
