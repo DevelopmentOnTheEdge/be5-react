@@ -162,9 +162,13 @@ export default {
     login: '登录',
     logout: '退出',
     roles: '角色',
+    error: '错误:',
+    cancel: '取消',
+    close: '关闭',
 
     allRoles: '一切',
     clearRoles: '莫',
+    Submit: '错误'
 
   }
 };
