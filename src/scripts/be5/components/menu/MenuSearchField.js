@@ -14,7 +14,7 @@ class MenuSearchField extends React.Component {
   render() {
     return (
       <input type="text" className="searchField form-control" onChange={this._handleChange} value={this.state.value}
-             placeholder={be5.messages.filter}/>
+             placeholder={this.props.placeholder ? this.props.placeholder : be5.messages.filter}/>
     );
   }
 

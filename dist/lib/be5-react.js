@@ -1937,7 +1937,7 @@ var MenuSearchField = /*#__PURE__*/function (_React$Component) {
         className: "searchField form-control",
         onChange: this._handleChange,
         value: this.state.value,
-        placeholder: be5.messages.filter
+        placeholder: this.props.placeholder ? this.props.placeholder : be5.messages.filter
       });
     }
   }, {
