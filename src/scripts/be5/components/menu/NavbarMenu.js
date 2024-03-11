@@ -6,6 +6,7 @@ import RoleSelector from "../RoleSelector";
 import {processHashUrl} from "../../utils/documentUtils";
 import NavMenu from "./NavMenu";
 import LanguageBox from "../LanguageSelector";
+import MenuSearchField from './MenuSearchField';
 import ShowMenu from "./ShowMenu";
 import bus from "../../core/bus";
 
