@@ -2949,7 +2949,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
     value: function notLoggedInForm() {
       return /*#__PURE__*/React.createElement("form", {
         className: "form-inline ml-auto"
-      }, searchField(), /*#__PURE__*/React.createElement(Button, {
+      }, this.searchField(), /*#__PURE__*/React.createElement(Button, {
         onClick: processHashUrl,
         href: "#!login",
         color: "secondary"

@@ -117,7 +117,7 @@ class NavbarMenu extends Component {
 
   notLoggedInForm() {
     return <form className="form-inline ml-auto">
-      {searchField()}
+      {this.searchField()}
       <Button onClick={processHashUrl} href="#!login" color="secondary">{be5.messages.login}</Button>
     </form>;
   }
