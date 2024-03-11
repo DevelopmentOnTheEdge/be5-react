@@ -22,6 +22,7 @@ export default {
     reload: 'reload',
     All: 'All',
     successfullyCompleted: 'Successfully completed.',
+    search: 'Search',
 
     filter: 'Filter...',
     entries: 'entries',
@@ -81,6 +82,7 @@ export default {
     reload: 'Перезагрузить',
     All: 'Все',
     successfullyCompleted: 'Успешно выполнено.',
+    search: 'Поиск',
 
     filter: 'Фильтр...',
     entries: 'записей',
@@ -162,15 +164,30 @@ export default {
     login: '登录',
     logout: '退出',
     roles: '角色',
+    back: '后退',
     error: '错误:',
     cancel: '取消',
     close: '关闭',
+    search: '搜索',
 
     selectRoles: '选择',
     allRoles: '一切',
     clearRoles: '莫',
 
-    Submit: '错误'
+    Submit: '错误',
+
+    goToHomepage: "主页",
+    NotFound: "未找到",
+
+    table: {
+      emptyTable: '没有数据',
+      previousPage: '上一页',
+      nextPage: '下一页',
+      firstPage: '第一的',
+      lastPage: '最后的',
+      filter: '过滤',
+      clearFilter: '清除',
+    },
 
   }
 };
