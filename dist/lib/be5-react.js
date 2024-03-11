@@ -2906,10 +2906,11 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
   }, {
     key: "searchField",
     value: function searchField() {
-      return this.props.searchField ? /*#__PURE__*/React.createElement(MenuSearchField, {
-        className: "mr-2",
+      return this.props.searchField ? /*#__PURE__*/React.createElement("div", {
+        className: "mr-2"
+      }, /*#__PURE__*/React.createElement(MenuSearchField, {
         placeholder: be5.messages.search
-      }) : undefined;
+      })) : undefined;
     }
   }, {
     key: "rightButtons",
@@ -2929,7 +2930,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
         availableRoles = _this$props$user.availableRoles;
       return /*#__PURE__*/React.createElement("form", {
         className: "form-inline ml-auto"
-      }, /*#__PURE__*/React.createElement(UncontrolledTooltip, {
+      }, searchField(), /*#__PURE__*/React.createElement(UncontrolledTooltip, {
         placement: "left",
         target: "RoleSelector"
       }, userName), /*#__PURE__*/React.createElement(RoleSelector, {
@@ -2948,7 +2949,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
     value: function notLoggedInForm() {
       return /*#__PURE__*/React.createElement("form", {
         className: "form-inline ml-auto"
-      }, /*#__PURE__*/React.createElement(Button, {
+      }, searchField(), /*#__PURE__*/React.createElement(Button, {
         onClick: processHashUrl,
         href: "#!login",
         color: "secondary"

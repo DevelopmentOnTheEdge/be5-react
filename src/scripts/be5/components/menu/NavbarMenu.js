@@ -79,7 +79,11 @@ class NavbarMenu extends Component {
   }
 
   searchField() {
-    return this.props.searchField ? <MenuSearchField className="mr-2" placeholder={be5.messages.search} /> : undefined
+    return this.props.searchField ? 
+    <div className='mr-2'>
+      <MenuSearchField placeholder={be5.messages.search} /> 
+    </div>
+      : undefined;
   }
 
   rightButtons() {
@@ -98,6 +102,7 @@ class NavbarMenu extends Component {
     } = this.props.user;
 
     return <form className="form-inline ml-auto">
+      {searchField()}
       <UncontrolledTooltip placement="left" target="RoleSelector">
         {userName}
       </UncontrolledTooltip>
@@ -113,6 +118,7 @@ class NavbarMenu extends Component {
 
   notLoggedInForm() {
     return <form className="form-inline ml-auto">
+      {searchField()}
       <Button onClick={processHashUrl} href="#!login" color="secondary">{be5.messages.login}</Button>
     </form>;
   }
