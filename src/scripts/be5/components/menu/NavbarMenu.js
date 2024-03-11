@@ -54,7 +54,7 @@ class NavbarMenu extends Component {
               <NavbarToggler onClick={this.toggle}/>
               <Collapse isOpen={this.state.isOpen} navbar>
                 <NavMenu {...this.props}/>
-                {this.searchField}
+                {this.searchField()}
                 {this.rightButtons()}
                 {this.languageBox()}
               </Collapse>

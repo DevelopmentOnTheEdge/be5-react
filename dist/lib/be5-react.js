@@ -2879,7 +2879,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
       }), /*#__PURE__*/React.createElement(Collapse, {
         isOpen: this.state.isOpen,
         navbar: true
-      }, /*#__PURE__*/React.createElement(NavMenu, this.props), this.searchField, this.rightButtons(), this.languageBox()))));
+      }, /*#__PURE__*/React.createElement(NavMenu, this.props), this.searchField(), this.rightButtons(), this.languageBox()))));
     }
   }, {
     key: "navbarBrand",
