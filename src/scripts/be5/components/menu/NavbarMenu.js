@@ -18,6 +18,7 @@ const propTypes = {
   brand: PropTypes.string,
   languageBox: PropTypes.bool,
   containerClass: PropTypes.string,
+  searchField: PropTypes.bool,
 };
 
 class NavbarMenu extends Component {
@@ -52,6 +53,7 @@ class NavbarMenu extends Component {
               <NavbarToggler onClick={this.toggle}/>
               <Collapse isOpen={this.state.isOpen} navbar>
                 <NavMenu {...this.props}/>
+                {this.searchField}
                 {this.rightButtons()}
                 {this.languageBox()}
               </Collapse>
@@ -73,6 +75,10 @@ class NavbarMenu extends Component {
 
   languageBox() {
     return this.props.languageBox ? <LanguageBox className="ml-2"/> : undefined;
+  }
+
+  searchField() {
+    return this.props.searchField ? <MenuSearchField className="mr-2" placeholder={be5.messages.search} /> : undefined
   }
 
   rightButtons() {
@@ -115,6 +121,7 @@ NavbarMenu.propTypes = propTypes;
 
 NavbarMenu.defaultProps = {
   containerClass: "container",
+  searchField: false,
 };
 
 export default NavbarMenu;

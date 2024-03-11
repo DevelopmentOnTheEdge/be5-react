@@ -842,6 +842,7 @@ var messages = {
     reload: 'reload',
     All: 'All',
     successfullyCompleted: 'Successfully completed.',
+    search: 'Search',
     filter: 'Filter...',
     entries: 'entries',
     selectRoles: 'Select',
@@ -892,6 +893,7 @@ var messages = {
     reload: 'Перезагрузить',
     All: 'Все',
     successfullyCompleted: 'Успешно выполнено.',
+    search: 'Поиск',
     filter: 'Фильтр...',
     entries: 'записей',
     selectRoles: 'Выбрать',
@@ -963,13 +965,26 @@ var messages = {
     login: '登录',
     logout: '退出',
     roles: '角色',
+    back: '后退',
     error: '错误:',
     cancel: '取消',
     close: '关闭',
+    search: '搜索',
     selectRoles: '选择',
     allRoles: '一切',
     clearRoles: '莫',
-    Submit: '错误'
+    Submit: '错误',
+    goToHomepage: "主页",
+    NotFound: "未找到",
+    table: {
+      emptyTable: '没有数据',
+      previousPage: '上一页',
+      nextPage: '下一页',
+      firstPage: '第一的',
+      lastPage: '最后的',
+      filter: '过滤',
+      clearFilter: '清除'
+    }
   }
 };
 
@@ -1916,7 +1931,7 @@ function _possibleConstructorReturn$x(self, call) { if (call && (_typeof$E(call)
 function _assertThisInitialized$x(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct$z() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf$x(o) { _getPrototypeOf$x = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$x(o); }
-var MenuSearchField = /*#__PURE__*/function (_React$Component) {
+var MenuSearchField$1 = /*#__PURE__*/function (_React$Component) {
   _inherits$x(MenuSearchField, _React$Component);
   var _super = _createSuper$z(MenuSearchField);
   function MenuSearchField(props) {
@@ -1951,7 +1966,7 @@ var MenuSearchField = /*#__PURE__*/function (_React$Component) {
   }]);
   return MenuSearchField;
 }(React.Component);
-MenuSearchField.propTypes = {
+MenuSearchField$1.propTypes = {
   onChange: PropTypes__default.func.isRequired
 };
 
@@ -2007,7 +2022,7 @@ var Menu$1 = /*#__PURE__*/function (_Component) {
     value: function render() {
       return /*#__PURE__*/React.createElement("div", {
         className: "menuContainer"
-      }, this.props.searchField ? /*#__PURE__*/React.createElement(MenuSearchField, {
+      }, this.props.searchField ? /*#__PURE__*/React.createElement(MenuSearchField$1, {
         ref: "searchfield",
         onChange: this._handleQueryChange
       }) : null, /*#__PURE__*/React.createElement(MenuBody, {
@@ -2812,7 +2827,8 @@ var propTypes$3 = {
   url: PropTypes__default.string.isRequired,
   brand: PropTypes__default.string,
   languageBox: PropTypes__default.bool,
-  containerClass: PropTypes__default.string
+  containerClass: PropTypes__default.string,
+  searchField: PropTypes__default.bool
 };
 var NavbarMenu = /*#__PURE__*/function (_Component) {
   _inherits$q(NavbarMenu, _Component);
@@ -2863,7 +2879,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
       }), /*#__PURE__*/React.createElement(Collapse, {
         isOpen: this.state.isOpen,
         navbar: true
-      }, /*#__PURE__*/React.createElement(NavMenu, this.props), this.rightButtons(), this.languageBox()))));
+      }, /*#__PURE__*/React.createElement(NavMenu, this.props), this.searchField, this.rightButtons(), this.languageBox()))));
     }
   }, {
     key: "navbarBrand",
@@ -2885,6 +2901,14 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
     value: function languageBox() {
       return this.props.languageBox ? /*#__PURE__*/React.createElement(LanguageBox, {
         className: "ml-2"
+      }) : undefined;
+    }
+  }, {
+    key: "searchField",
+    value: function searchField() {
+      return this.props.searchField ? /*#__PURE__*/React.createElement(MenuSearchField, {
+        className: "mr-2",
+        placeholder: be5.messages.search
       }) : undefined;
     }
   }, {
@@ -2935,7 +2959,8 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
 }(Component);
 NavbarMenu.propTypes = propTypes$3;
 NavbarMenu.defaultProps = {
-  containerClass: "container"
+  containerClass: "container",
+  searchField: false
 };
 
 function _typeof$w(o) { "@babel/helpers - typeof"; return _typeof$w = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$w(o); }
@@ -14626,4 +14651,4 @@ var index = combineReducers({
   hashUrl: changeHash
 });
 
-export { API_URL_PREFIX, Application, Be5Components, CLOSE_MAIN_MODAL, COLUMN_SETTINGS, CONTEXT_PARAMS, CategoryNavigation, Chart, DEFAULT_TABLE_BOX, DEFAULT_VIEW, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, Document$1 as Document, ENTITY_NAME_PARAM, ErrorPane, FinishedResult, Form, FormTable, FormWizard, FrontendAction, GO_BACK, HIDE_MENU, HelpInfo, HorizontalForm, InlineMiniForm, LIMIT, LONG_TIME_OPERATION, LanguageBox as LanguageSelector, LayoutContainer, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, MainDocumentOnly, Menu$1 as Menu, MenuBody, MenuContainer$1 as MenuContainer, MenuFooter, MenuNode, MenuSearchField, ModalForm, ModalTable, NavMenu, NavbarMenu, NavbarMenuContainer$1 as NavbarMenuContainer, Navs, OFFSET, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, OPERATION_NAME_PARAM, ORDER_COLUMN, ORDER_DIR, OperationBox, ProcessingOperationPopUp, QUERY_NAME_PARAM, QUERY_SETTINGS, QuickColumns, QuickFiltersBox, RECORDS_PER_PAGE_SETTINGS, REDIRECT, REFRESH_DOCUMENT, REFRESH_MENU, REFRESH_PARENT_DOCUMENT, RELOAD_CONTROL_NAME, ROLE_ADMINISTRATOR, ROLE_GUEST, ROLE_SYSTEM_DEVELOPER, RoleSelector, SEARCH_PARAM, SEARCH_PRESETS_PARAM, SELECTED_ROWS, SET_URL, SHOW_MENU, SUCCESS_ALERT, ShowMenu, SideBar, StaticPage, SubmitOnChangeForm, TIMESTAMP_PARAM, TOTAL_NUMBER_OF_ROWS, Table, TableForm, TableFormRow, TablePagination, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, UserControl, UserControlContainer, actions as action, addFilterParams, addUrlHandlers, arraysEqual, be5, bus, changeDocument, clearDocumentState, createBaseStore, createPageValue, createStaticValue, executeFrontendActions, fetchMenu, fetchOperationByUrl, fetchTableByUrl, fetchUserInfo, route$7 as formAction, getActionsMap, getAllDocumentTypes, getAllRoutes, getAllTypes, getBackAction, getBackOrOpenDefaultRouteAction, getCurrentRoles, getDocument, getDocumentState, getDocumentStates, getFilterParams, getMenu, getModelByID, getOperationInfoFromUrl, getResourceByID, getResourceByType, getRoute, getSelfUrl, getTableBox, getUser, initBe5App, initFilterParams, initOnLoad, loadDocumentByUrl, loadOperation, loadTable, loadTableByUrl, route$8 as loadingAction, route$6 as loginAction, route$5 as logoutAction, users as menuReduser, openInModal, openOperationByUrl, openOperationByUrlWithValues, Preconditions as preconditions, processHashUrl, processHashUrlForDocument, route$2 as queryBuilderAction, registerDocument, registerPage, registerRoute, registerTableBox, index as rootReducer, setDocumentState, route$4 as staticAction, submitOperation, route$3 as tableAction, route$1 as textAction, toggleRoles, updateMenu, updateTable, updateUserInfo, users$1 as userReduser };
+export { API_URL_PREFIX, Application, Be5Components, CLOSE_MAIN_MODAL, COLUMN_SETTINGS, CONTEXT_PARAMS, CategoryNavigation, Chart, DEFAULT_TABLE_BOX, DEFAULT_VIEW, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, Document$1 as Document, ENTITY_NAME_PARAM, ErrorPane, FinishedResult, Form, FormTable, FormWizard, FrontendAction, GO_BACK, HIDE_MENU, HelpInfo, HorizontalForm, InlineMiniForm, LIMIT, LONG_TIME_OPERATION, LanguageBox as LanguageSelector, LayoutContainer, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, MainDocumentOnly, Menu$1 as Menu, MenuBody, MenuContainer$1 as MenuContainer, MenuFooter, MenuNode, MenuSearchField$1 as MenuSearchField, ModalForm, ModalTable, NavMenu, NavbarMenu, NavbarMenuContainer$1 as NavbarMenuContainer, Navs, OFFSET, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, OPERATION_NAME_PARAM, ORDER_COLUMN, ORDER_DIR, OperationBox, ProcessingOperationPopUp, QUERY_NAME_PARAM, QUERY_SETTINGS, QuickColumns, QuickFiltersBox, RECORDS_PER_PAGE_SETTINGS, REDIRECT, REFRESH_DOCUMENT, REFRESH_MENU, REFRESH_PARENT_DOCUMENT, RELOAD_CONTROL_NAME, ROLE_ADMINISTRATOR, ROLE_GUEST, ROLE_SYSTEM_DEVELOPER, RoleSelector, SEARCH_PARAM, SEARCH_PRESETS_PARAM, SELECTED_ROWS, SET_URL, SHOW_MENU, SUCCESS_ALERT, ShowMenu, SideBar, StaticPage, SubmitOnChangeForm, TIMESTAMP_PARAM, TOTAL_NUMBER_OF_ROWS, Table, TableForm, TableFormRow, TablePagination, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, UserControl, UserControlContainer, actions as action, addFilterParams, addUrlHandlers, arraysEqual, be5, bus, changeDocument, clearDocumentState, createBaseStore, createPageValue, createStaticValue, executeFrontendActions, fetchMenu, fetchOperationByUrl, fetchTableByUrl, fetchUserInfo, route$7 as formAction, getActionsMap, getAllDocumentTypes, getAllRoutes, getAllTypes, getBackAction, getBackOrOpenDefaultRouteAction, getCurrentRoles, getDocument, getDocumentState, getDocumentStates, getFilterParams, getMenu, getModelByID, getOperationInfoFromUrl, getResourceByID, getResourceByType, getRoute, getSelfUrl, getTableBox, getUser, initBe5App, initFilterParams, initOnLoad, loadDocumentByUrl, loadOperation, loadTable, loadTableByUrl, route$8 as loadingAction, route$6 as loginAction, route$5 as logoutAction, users as menuReduser, openInModal, openOperationByUrl, openOperationByUrlWithValues, Preconditions as preconditions, processHashUrl, processHashUrlForDocument, route$2 as queryBuilderAction, registerDocument, registerPage, registerRoute, registerTableBox, index as rootReducer, setDocumentState, route$4 as staticAction, submitOperation, route$3 as tableAction, route$1 as textAction, toggleRoles, updateMenu, updateTable, updateUserInfo, users$1 as userReduser };
