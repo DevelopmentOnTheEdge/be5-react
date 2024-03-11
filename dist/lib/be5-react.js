@@ -2879,7 +2879,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
       }), /*#__PURE__*/React.createElement(Collapse, {
         isOpen: this.state.isOpen,
         navbar: true
-      }, /*#__PURE__*/React.createElement(NavMenu, this.props), this.searchField(), this.rightButtons(), this.languageBox()))));
+      }, /*#__PURE__*/React.createElement(NavMenu, this.props), this.rightButtons(), this.languageBox()))));
     }
   }, {
     key: "navbarBrand",
@@ -2930,7 +2930,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
         availableRoles = _this$props$user.availableRoles;
       return /*#__PURE__*/React.createElement("form", {
         className: "form-inline ml-auto"
-      }, searchField(), /*#__PURE__*/React.createElement(UncontrolledTooltip, {
+      }, this.searchField(), /*#__PURE__*/React.createElement(UncontrolledTooltip, {
         placement: "left",
         target: "RoleSelector"
       }, userName), /*#__PURE__*/React.createElement(RoleSelector, {

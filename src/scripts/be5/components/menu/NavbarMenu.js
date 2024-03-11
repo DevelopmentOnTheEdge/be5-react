@@ -54,7 +54,6 @@ class NavbarMenu extends Component {
               <NavbarToggler onClick={this.toggle}/>
               <Collapse isOpen={this.state.isOpen} navbar>
                 <NavMenu {...this.props}/>
-                {this.searchField()}
                 {this.rightButtons()}
                 {this.languageBox()}
               </Collapse>
@@ -102,7 +101,7 @@ class NavbarMenu extends Component {
     } = this.props.user;
 
     return <form className="form-inline ml-auto">
-      {searchField()}
+      {this.searchField()}
       <UncontrolledTooltip placement="left" target="RoleSelector">
         {userName}
       </UncontrolledTooltip>
