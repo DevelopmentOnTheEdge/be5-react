@@ -51,6 +51,7 @@ class NavbarMenu extends Component {
           <div className={this.props.containerClass}>
             {this.navbarBrand(!this.state.showMenu)}
             <ShowMenu menu={this.state.showMenu} popup={this.state.showOperationPopup}>
+            {this.searchField()}
               <NavbarToggler onClick={this.toggle}/>
               <Collapse isOpen={this.state.isOpen} navbar>
                 <NavMenu {...this.props}/>
@@ -101,7 +102,6 @@ class NavbarMenu extends Component {
     } = this.props.user;
 
     return <form className="form-inline ml-auto">
-      {this.searchField()}
       <UncontrolledTooltip placement="left" target="RoleSelector">
         {userName}
       </UncontrolledTooltip>
@@ -117,7 +117,6 @@ class NavbarMenu extends Component {
 
   notLoggedInForm() {
     return <form className="form-inline ml-auto">
-      {this.searchField()}
       <Button onClick={processHashUrl} href="#!login" color="secondary">{be5.messages.login}</Button>
     </form>;
   }

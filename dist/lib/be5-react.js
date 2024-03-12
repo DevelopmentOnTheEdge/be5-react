@@ -2874,7 +2874,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
       }, this.navbarBrand(!this.state.showMenu), /*#__PURE__*/React.createElement(ShowMenu, {
         menu: this.state.showMenu,
         popup: this.state.showOperationPopup
-      }, /*#__PURE__*/React.createElement(NavbarToggler, {
+      }, this.searchField(), /*#__PURE__*/React.createElement(NavbarToggler, {
         onClick: this.toggle
       }), /*#__PURE__*/React.createElement(Collapse, {
         isOpen: this.state.isOpen,
@@ -2930,7 +2930,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
         availableRoles = _this$props$user.availableRoles;
       return /*#__PURE__*/React.createElement("form", {
         className: "form-inline ml-auto"
-      }, this.searchField(), /*#__PURE__*/React.createElement(UncontrolledTooltip, {
+      }, /*#__PURE__*/React.createElement(UncontrolledTooltip, {
         placement: "left",
         target: "RoleSelector"
       }, userName), /*#__PURE__*/React.createElement(RoleSelector, {
@@ -2949,7 +2949,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
     value: function notLoggedInForm() {
       return /*#__PURE__*/React.createElement("form", {
         className: "form-inline ml-auto"
-      }, this.searchField(), /*#__PURE__*/React.createElement(Button, {
+      }, /*#__PURE__*/React.createElement(Button, {
         onClick: processHashUrl,
         href: "#!login",
         color: "secondary"
