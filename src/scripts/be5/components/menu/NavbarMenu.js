@@ -6,6 +6,7 @@ import RoleSelector from "../RoleSelector";
 import {processHashUrl} from "../../utils/documentUtils";
 import NavMenu from "./NavMenu";
 import LanguageBox from "../LanguageSelector";
+import MenuSearchField from './MenuSearchField';
 import ShowMenu from "./ShowMenu";
 import bus from "../../core/bus";
 
@@ -18,6 +19,7 @@ const propTypes = {
   brand: PropTypes.string,
   languageBox: PropTypes.bool,
   containerClass: PropTypes.string,
+  searchField: PropTypes.bool,
 };
 
 class NavbarMenu extends Component {
@@ -75,6 +77,14 @@ class NavbarMenu extends Component {
     return this.props.languageBox ? <LanguageBox className="ml-2"/> : undefined;
   }
 
+  searchField() {
+    return this.props.searchField ? 
+    <div className='mr-2'>
+      <MenuSearchField placeholder={be5.messages.search} /> 
+    </div>
+      : undefined;
+  }
+
   rightButtons() {
     if (!this.props.user.loggedIn) {
       return this.notLoggedInForm();
@@ -91,6 +101,7 @@ class NavbarMenu extends Component {
     } = this.props.user;
 
     return <form className="form-inline ml-auto">
+      {this.searchField()}
       <UncontrolledTooltip placement="left" target="RoleSelector">
         {userName}
       </UncontrolledTooltip>
@@ -106,6 +117,7 @@ class NavbarMenu extends Component {
 
   notLoggedInForm() {
     return <form className="form-inline ml-auto">
+      {this.searchField()}
       <Button onClick={processHashUrl} href="#!login" color="secondary">{be5.messages.login}</Button>
     </form>;
   }
@@ -115,6 +127,7 @@ NavbarMenu.propTypes = propTypes;
 
 NavbarMenu.defaultProps = {
   containerClass: "container",
+  searchField: false,
 };
 
 export default NavbarMenu;

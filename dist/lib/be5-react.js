@@ -842,6 +842,7 @@ var messages = {
     reload: 'reload',
     All: 'All',
     successfullyCompleted: 'Successfully completed.',
+    search: 'Search',
     filter: 'Filter...',
     entries: 'entries',
     selectRoles: 'Select',
@@ -892,6 +893,7 @@ var messages = {
     reload: 'Перезагрузить',
     All: 'Все',
     successfullyCompleted: 'Успешно выполнено.',
+    search: 'Поиск',
     filter: 'Фильтр...',
     entries: 'записей',
     selectRoles: 'Выбрать',
@@ -963,8 +965,26 @@ var messages = {
     login: '登录',
     logout: '退出',
     roles: '角色',
+    back: '后退',
+    error: '错误:',
+    cancel: '取消',
+    close: '关闭',
+    search: '搜索',
+    selectRoles: '选择',
     allRoles: '一切',
-    clearRoles: '莫'
+    clearRoles: '莫',
+    Submit: '错误',
+    goToHomepage: "主页",
+    NotFound: "未找到",
+    table: {
+      emptyTable: '没有数据',
+      previousPage: '上一页',
+      nextPage: '下一页',
+      firstPage: '第一的',
+      lastPage: '最后的',
+      filter: '过滤',
+      clearFilter: '清除'
+    }
   }
 };
 
@@ -1932,7 +1952,7 @@ var MenuSearchField = /*#__PURE__*/function (_React$Component) {
         className: "searchField form-control",
         onChange: this._handleChange,
         value: this.state.value,
-        placeholder: be5.messages.filter
+        placeholder: this.props.placeholder ? this.props.placeholder : be5.messages.filter
       });
     }
   }, {
@@ -2807,7 +2827,8 @@ var propTypes$3 = {
   url: PropTypes__default.string.isRequired,
   brand: PropTypes__default.string,
   languageBox: PropTypes__default.bool,
-  containerClass: PropTypes__default.string
+  containerClass: PropTypes__default.string,
+  searchField: PropTypes__default.bool
 };
 var NavbarMenu = /*#__PURE__*/function (_Component) {
   _inherits$q(NavbarMenu, _Component);
@@ -2883,6 +2904,15 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
       }) : undefined;
     }
   }, {
+    key: "searchField",
+    value: function searchField() {
+      return this.props.searchField ? /*#__PURE__*/React.createElement("div", {
+        className: "mr-2"
+      }, /*#__PURE__*/React.createElement(MenuSearchField, {
+        placeholder: be5.messages.search
+      })) : undefined;
+    }
+  }, {
     key: "rightButtons",
     value: function rightButtons() {
       if (!this.props.user.loggedIn) {
@@ -2900,7 +2930,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
         availableRoles = _this$props$user.availableRoles;
       return /*#__PURE__*/React.createElement("form", {
         className: "form-inline ml-auto"
-      }, /*#__PURE__*/React.createElement(UncontrolledTooltip, {
+      }, this.searchField(), /*#__PURE__*/React.createElement(UncontrolledTooltip, {
         placement: "left",
         target: "RoleSelector"
       }, userName), /*#__PURE__*/React.createElement(RoleSelector, {
@@ -2919,7 +2949,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
     value: function notLoggedInForm() {
       return /*#__PURE__*/React.createElement("form", {
         className: "form-inline ml-auto"
-      }, /*#__PURE__*/React.createElement(Button, {
+      }, this.searchField(), /*#__PURE__*/React.createElement(Button, {
         onClick: processHashUrl,
         href: "#!login",
         color: "secondary"
@@ -2930,7 +2960,8 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
 }(Component);
 NavbarMenu.propTypes = propTypes$3;
 NavbarMenu.defaultProps = {
-  containerClass: "container"
+  containerClass: "container",
+  searchField: false
 };
 
 function _typeof$w(o) { "@babel/helpers - typeof"; return _typeof$w = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$w(o); }
