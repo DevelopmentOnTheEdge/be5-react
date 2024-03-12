@@ -2871,15 +2871,15 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
         expand: "md"
       }, /*#__PURE__*/React.createElement("div", {
         className: this.props.containerClass
-      }, this.navbarBrand(!this.state.showMenu), /*#__PURE__*/React.createElement(ShowMenu, {
+      }, this.navbarBrand(!this.state.showMenu), this.rightButtons(), this.languageBox(), /*#__PURE__*/React.createElement(ShowMenu, {
         menu: this.state.showMenu,
         popup: this.state.showOperationPopup
-      }, this.searchField(), /*#__PURE__*/React.createElement(NavbarToggler, {
+      }, /*#__PURE__*/React.createElement(NavbarToggler, {
         onClick: this.toggle
       }), /*#__PURE__*/React.createElement(Collapse, {
         isOpen: this.state.isOpen,
         navbar: true
-      }, /*#__PURE__*/React.createElement(NavMenu, this.props), this.rightButtons(), this.languageBox()))));
+      }, this.searchField(), /*#__PURE__*/React.createElement(NavMenu, this.props)))));
     }
   }, {
     key: "navbarBrand",

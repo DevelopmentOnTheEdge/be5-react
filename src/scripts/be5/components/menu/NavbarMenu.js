@@ -50,13 +50,13 @@ class NavbarMenu extends Component {
         <Navbar color="dark" dark expand="md">
           <div className={this.props.containerClass}>
             {this.navbarBrand(!this.state.showMenu)}
+            {this.rightButtons()}
+            {this.languageBox()}
             <ShowMenu menu={this.state.showMenu} popup={this.state.showOperationPopup}>
-            {this.searchField()}
               <NavbarToggler onClick={this.toggle}/>
               <Collapse isOpen={this.state.isOpen} navbar>
+                {this.searchField()}
                 <NavMenu {...this.props}/>
-                {this.rightButtons()}
-                {this.languageBox()}
               </Collapse>
             </ShowMenu>
           </div>
