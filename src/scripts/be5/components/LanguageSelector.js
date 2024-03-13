@@ -95,4 +95,28 @@ class LanguageBox extends LanguageSelector {
   }
 }
 
-export {LanguageBox, LanguageSelector};
+class LanguageDropdown extends LanguageSelector {
+
+  constructor(props) {
+    super(props);
+  };
+
+  render() {
+    if (this.state.data && this.state.data.languages.length <= 1) {
+      return null;
+    }
+    return (
+        <div className={classNames('languageDropdown', this.props.className)}>
+          <select className="form-control" name="languages" defaultValue={this.state.data.selected}
+                  onChange={e => this.changeLanguage(e.target.value)}>
+            {
+              this.state.data.languages.map((language) => 
+              <option key={language} value={language}> {language} </option>)
+            }
+          </select>
+        </div>
+    );
+  }
+}
+
+export {LanguageBox, LanguageDropdown};

@@ -5,8 +5,7 @@ import {Button, Collapse, Navbar, NavbarToggler, UncontrolledTooltip} from 'reac
 import RoleSelector from "../RoleSelector";
 import {processHashUrl} from "../../utils/documentUtils";
 import NavMenu from "./NavMenu";
-import {LanguageBox} from "../LanguageSelector";
-import LanguageDropdown from "../LanguageDropdown";
+import {LanguageBox, LanguageDropdown} from "../LanguageSelector";
 import MenuSearchField from './MenuSearchField';
 import ShowMenu from "./ShowMenu";
 import bus from "../../core/bus";
@@ -93,7 +92,7 @@ class NavbarMenu extends Component {
 
   searchField() {
     return this.props.searchField ? 
-    <div className='mr-2'>
+    <div className='ml-auto'>
       <MenuSearchField placeholder={be5.messages.search} /> 
     </div>
       : undefined;
@@ -114,7 +113,7 @@ class NavbarMenu extends Component {
       availableRoles
     } = this.props.user;
 
-    return <form className="form-inline ml-auto mb-2">
+    return <form className="form-inline ml-2 mb-2">
       <UncontrolledTooltip placement="left" target="RoleSelector">
         {userName}
       </UncontrolledTooltip>
@@ -129,7 +128,7 @@ class NavbarMenu extends Component {
   }
 
   notLoggedInForm() {
-    return <form className="form-inline ml-auto mb-2">
+    return <form className="form-inline ml-2 mb-2">
       <Button onClick={processHashUrl} href="#!login" color="secondary">{be5.messages.login}</Button>
     </form>;
   }
