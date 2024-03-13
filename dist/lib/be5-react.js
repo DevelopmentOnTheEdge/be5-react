@@ -2959,7 +2959,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
     key: "searchField",
     value: function searchField() {
       return this.props.searchField ? /*#__PURE__*/React.createElement("div", {
-        className: "ml-auto"
+        className: "ml-auto mb-2"
       }, /*#__PURE__*/React.createElement(MenuSearchField, {
         placeholder: be5.messages.search
       })) : undefined;

@@ -14,3 +14,7 @@
     background-color: #40CCCC !important;
     cursor: default !important;
 }
+
+.languageDropdown select {
+    width: 70px;
+}

@@ -92,7 +92,7 @@ class NavbarMenu extends Component {
 
   searchField() {
     return this.props.searchField ? 
-    <div className='ml-auto'>
+    <div className='ml-auto mb-2'>
       <MenuSearchField placeholder={be5.messages.search} /> 
     </div>
       : undefined;
