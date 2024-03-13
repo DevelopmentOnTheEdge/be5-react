@@ -2084,7 +2084,7 @@ function _possibleConstructorReturn$w(self, call) { if (call && (_typeof$D(call)
 function _assertThisInitialized$w(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct$y() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf$w(o) { _getPrototypeOf$w = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$w(o); }
-var Language$1 = /*#__PURE__*/function (_React$Component) {
+var Language = /*#__PURE__*/function (_React$Component) {
   _inherits$w(Language, _React$Component);
   var _super = _createSuper$y(Language);
   function Language(props) {
@@ -2115,7 +2115,7 @@ var Language$1 = /*#__PURE__*/function (_React$Component) {
   }]);
   return Language;
 }(React.Component);
-Language$1.propTypes = {
+Language.propTypes = {
   onLanguageClick: PropTypes__default.func.isRequired
 };
 var LanguageList = /*#__PURE__*/function (_React$Component2) {
@@ -2132,7 +2132,7 @@ var LanguageList = /*#__PURE__*/function (_React$Component2) {
       selected = selected ? selected.toUpperCase() : selected;
       var onLanguageClick = this.props.onLanguageClick;
       var languageNodes = this.props.data.languages.map(function (language) {
-        return /*#__PURE__*/React.createElement(Language$1, {
+        return /*#__PURE__*/React.createElement(Language, {
           key: language,
           code: language,
           selected: language.toUpperCase() === selected,
@@ -2740,79 +2740,16 @@ function _possibleConstructorReturn$r(self, call) { if (call && (_typeof$y(call)
 function _assertThisInitialized$r(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct$t() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf$r(o) { _getPrototypeOf$r = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$r(o); }
-var Language = /*#__PURE__*/function (_React$Component) {
-  _inherits$r(Language, _React$Component);
-  var _super = _createSuper$t(Language);
-  function Language(props) {
-    var _this;
-    _classCallCheck$r(this, Language);
-    _this = _super.call(this, props);
-    _this.onClick = _this.onClick.bind(_assertThisInitialized$r(_this));
-    return _this;
-  }
-  _createClass$r(Language, [{
-    key: "onClick",
-    value: function onClick(e) {
-      this.props.onLanguageClick(this.props.code);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (this.props.selected) {
-        return /*#__PURE__*/React.createElement("div", {
-          className: "language selectedLanguage"
-        }, this.props.code);
-      }
-      return /*#__PURE__*/React.createElement("div", {
-        className: "language",
-        onClick: this.onClick
-      }, this.props.code);
-    }
-  }]);
-  return Language;
-}(React.Component);
-Language.propTypes = {
-  onLanguageClick: PropTypes__default.func.isRequired
-};
-/*#__PURE__*/(function (_React$Component2) {
-  _inherits$r(LanguageList, _React$Component2);
-  var _super2 = _createSuper$t(LanguageList);
-  function LanguageList(props) {
-    _classCallCheck$r(this, LanguageList);
-    return _super2.call(this, props);
-  }
-  _createClass$r(LanguageList, [{
-    key: "render",
-    value: function render() {
-      var selected = this.props.data.selected;
-      selected = selected ? selected.toUpperCase() : selected;
-      var onLanguageClick = this.props.onLanguageClick;
-      var languageNodes = this.props.data.languages.map(function (language) {
-        return /*#__PURE__*/React.createElement(Language, {
-          key: language,
-          code: language,
-          selected: language.toUpperCase() === selected,
-          onLanguageClick: onLanguageClick
-        });
-      });
-      return /*#__PURE__*/React.createElement("div", {
-        className: "languageList"
-      }, languageNodes);
-    }
-  }]);
-  return LanguageList;
-})(React.Component);
 var LanguageDropdown = /*#__PURE__*/function (_LanguageSelector) {
   _inherits$r(LanguageDropdown, _LanguageSelector);
-  var _super3 = _createSuper$t(LanguageDropdown);
+  var _super = _createSuper$t(LanguageDropdown);
   function LanguageDropdown(props) {
     _classCallCheck$r(this, LanguageDropdown);
-    return _super3.call(this, props);
+    return _super.call(this, props);
   }
   _createClass$r(LanguageDropdown, [{
     key: "render",
     value: function render() {
-      var _this2 = this;
       if (this.state.data && this.state.data.languages.length <= 1) {
         return null;
       }
@@ -2821,9 +2758,7 @@ var LanguageDropdown = /*#__PURE__*/function (_LanguageSelector) {
       }, /*#__PURE__*/React.createElement("select", {
         className: "form-control",
         name: "languages",
-        onChange: function onChange() {
-          return _this2.changeLanguage();
-        }
+        onChange: this.changeLanguage
       }, this.state.data.languages.map(function (language) {
         return /*#__PURE__*/React.createElement("option", {
           value: language
