@@ -136,3 +136,13 @@ export const getQuerySettings = (table_name, query_name, settingName) => {
   }
   return null;
 }
+
+export function isMobileDevice() {
+  try {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
+  } catch (e) {
+    return false;
+  }
+}
