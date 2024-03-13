@@ -2862,7 +2862,6 @@ ShowMenu.defaultProps = {
 };
 
 function _typeof$x(o) { "@babel/helpers - typeof"; return _typeof$x = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$x(o); }
-function _extends$4() { _extends$4 = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$4.apply(this, arguments); }
 function _defineProperty$b(obj, key, value) { key = _toPropertyKey$x(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _classCallCheck$q(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties$q(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$x(descriptor.key), descriptor); } }
@@ -2937,9 +2936,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
       }), /*#__PURE__*/React.createElement(Collapse, {
         isOpen: this.state.isOpen,
         navbar: true
-      }, /*#__PURE__*/React.createElement(NavMenu, _extends$4({
-        className: "mb-2"
-      }, this.props)), this.searchField(), this.rightButtons(), !this.state.isMobileDevice ? this.languageSelector() : undefined))));
+      }, /*#__PURE__*/React.createElement(NavMenu, this.props), this.searchField(), this.rightButtons(), !this.state.isMobileDevice ? this.languageSelector() : undefined))));
     }
   }, {
     key: "navbarBrand",
@@ -2962,11 +2959,11 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
       switch (this.props.languageSelector) {
         case 'box':
           return /*#__PURE__*/React.createElement(LanguageBox, {
-            className: "ml-2"
+            className: "ml-2 mb-2"
           });
         case 'dropdown':
           return /*#__PURE__*/React.createElement(LanguageDropdown, {
-            className: "ml-2"
+            className: "ml-2 mb-2"
           });
         default:
           return undefined;
@@ -2998,7 +2995,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
         currentRoles = _this$props$user.currentRoles,
         availableRoles = _this$props$user.availableRoles;
       return /*#__PURE__*/React.createElement("form", {
-        className: "form-inline ml-auto"
+        className: "form-inline ml-auto mb-2"
       }, /*#__PURE__*/React.createElement(UncontrolledTooltip, {
         placement: "left",
         target: "RoleSelector"
@@ -3017,7 +3014,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
     key: "notLoggedInForm",
     value: function notLoggedInForm() {
       return /*#__PURE__*/React.createElement("form", {
-        className: "form-inline ml-auto"
+        className: "form-inline ml-auto mb-2"
       }, /*#__PURE__*/React.createElement(Button, {
         onClick: processHashUrl,
         href: "#!login",

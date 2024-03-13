@@ -57,7 +57,7 @@ class NavbarMenu extends Component {
             <ShowMenu menu={this.state.showMenu} popup={this.state.showOperationPopup}>
               <NavbarToggler onClick={this.toggle}/>
               <Collapse isOpen={this.state.isOpen} navbar>
-                <NavMenu className="mb-2" {...this.props}/>
+                <NavMenu {...this.props}/>
                 {this.searchField()}
                 {this.rightButtons()}
                 {!this.state.isMobileDevice ? this.languageSelector() : undefined}
@@ -82,9 +82,9 @@ class NavbarMenu extends Component {
     switch(this.props.languageSelector)
     {
       case 'box':
-        return <LanguageBox className="ml-2"/>;
+        return <LanguageBox className="ml-2 mb-2"/>;
       case 'dropdown':
-        return <LanguageDropdown className="ml-2"/>;
+        return <LanguageDropdown className="ml-2 mb-2"/>;
       default:
         return undefined;
       
@@ -114,7 +114,7 @@ class NavbarMenu extends Component {
       availableRoles
     } = this.props.user;
 
-    return <form className="form-inline ml-auto">
+    return <form className="form-inline ml-auto mb-2">
       <UncontrolledTooltip placement="left" target="RoleSelector">
         {userName}
       </UncontrolledTooltip>
@@ -129,7 +129,7 @@ class NavbarMenu extends Component {
   }
 
   notLoggedInForm() {
-    return <form className="form-inline ml-auto">
+    return <form className="form-inline ml-auto mb-2">
       <Button onClick={processHashUrl} href="#!login" color="secondary">{be5.messages.login}</Button>
     </form>;
   }
