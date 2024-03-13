@@ -2750,6 +2750,7 @@ var LanguageDropdown = /*#__PURE__*/function (_LanguageSelector) {
   _createClass$r(LanguageDropdown, [{
     key: "render",
     value: function render() {
+      var _this = this;
       if (this.state.data && this.state.data.languages.length <= 1) {
         return null;
       }
@@ -2758,9 +2759,12 @@ var LanguageDropdown = /*#__PURE__*/function (_LanguageSelector) {
       }, /*#__PURE__*/React.createElement("select", {
         className: "form-control",
         name: "languages",
-        onChange: this.changeLanguage
+        onChange: function onChange(e) {
+          return _this.changeLanguage(e.target.value);
+        }
       }, this.state.data.languages.map(function (language) {
         return /*#__PURE__*/React.createElement("option", {
+          key: language,
           value: language
         }, " ", language, " ");
       })));
