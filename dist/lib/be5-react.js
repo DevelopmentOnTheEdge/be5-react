@@ -651,6 +651,13 @@ var getQuerySettings = function getQuerySettings(table_name, query_name, setting
   }
   return null;
 };
+function isMobileDevice$1() {
+  try {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  } catch (e) {
+    return false;
+  }
+}
 
 function _typeof$K(o) { "@babel/helpers - typeof"; return _typeof$K = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$K(o); }
 function _defineProperty$e(obj, key, value) { key = _toPropertyKey$J(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -2759,7 +2766,7 @@ var LanguageDropdown = /*#__PURE__*/function (_LanguageSelector) {
       }, /*#__PURE__*/React.createElement("select", {
         className: "form-control",
         name: "languages",
-        value: this.state.data.selected,
+        defaultValue: this.state.data.selected,
         onChange: function onChange(e) {
           return _this.changeLanguage(e.target.value);
         }
@@ -2855,6 +2862,7 @@ ShowMenu.defaultProps = {
 };
 
 function _typeof$x(o) { "@babel/helpers - typeof"; return _typeof$x = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$x(o); }
+function _extends$4() { _extends$4 = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$4.apply(this, arguments); }
 function _defineProperty$b(obj, key, value) { key = _toPropertyKey$x(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _classCallCheck$q(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties$q(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$x(descriptor.key), descriptor); } }
@@ -2876,7 +2884,8 @@ var propTypes$3 = {
   brand: PropTypes__default.string,
   languageSelector: PropTypes__default.oneOf(['box', 'dropdown', 'none']),
   containerClass: PropTypes__default.string,
-  searchField: PropTypes__default.bool
+  searchField: PropTypes__default.bool,
+  isMobileDevice: PropTypes__default.bool
 };
 var NavbarMenu = /*#__PURE__*/function (_Component) {
   _inherits$q(NavbarMenu, _Component);
@@ -2888,7 +2897,8 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
     _this.state = {
       isOpen: false,
       showMenu: true,
-      showOperationPopup: false
+      showOperationPopup: false,
+      isMobileDevice: isMobileDevice$1()
     };
     _this.toggle = _this.toggle.bind(_assertThisInitialized$q(_this));
     return _this;
@@ -2919,7 +2929,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
         expand: "md"
       }, /*#__PURE__*/React.createElement("div", {
         className: this.props.containerClass
-      }, this.navbarBrand(!this.state.showMenu), /*#__PURE__*/React.createElement(ShowMenu, {
+      }, this.navbarBrand(!this.state.showMenu), this.state.isMobileDevice ? this.languageSelector() : undefined, /*#__PURE__*/React.createElement(ShowMenu, {
         menu: this.state.showMenu,
         popup: this.state.showOperationPopup
       }, /*#__PURE__*/React.createElement(NavbarToggler, {
@@ -2927,7 +2937,9 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
       }), /*#__PURE__*/React.createElement(Collapse, {
         isOpen: this.state.isOpen,
         navbar: true
-      }, /*#__PURE__*/React.createElement(NavMenu, this.props), this.rightButtons(), this.languageSelector()))));
+      }, /*#__PURE__*/React.createElement(NavMenu, _extends$4({
+        className: "mb-2"
+      }, this.props)), this.searchField(), this.rightButtons(), !this.state.isMobileDevice ? this.languageSelector() : undefined))));
     }
   }, {
     key: "navbarBrand",
@@ -2987,7 +2999,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
         availableRoles = _this$props$user.availableRoles;
       return /*#__PURE__*/React.createElement("form", {
         className: "form-inline ml-auto"
-      }, this.searchField(), /*#__PURE__*/React.createElement(UncontrolledTooltip, {
+      }, /*#__PURE__*/React.createElement(UncontrolledTooltip, {
         placement: "left",
         target: "RoleSelector"
       }, userName), /*#__PURE__*/React.createElement(RoleSelector, {
@@ -3006,7 +3018,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
     value: function notLoggedInForm() {
       return /*#__PURE__*/React.createElement("form", {
         className: "form-inline ml-auto"
-      }, this.searchField(), /*#__PURE__*/React.createElement(Button, {
+      }, /*#__PURE__*/React.createElement(Button, {
         onClick: processHashUrl,
         href: "#!login",
         color: "secondary"
