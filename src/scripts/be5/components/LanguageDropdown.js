@@ -3,6 +3,7 @@ import React from 'react';
 import be5 from '../be5';
 import classNames from 'classnames';
 import {fetchMenu, fetchUserInfo, MAIN_DOCUMENT} from "..";
+import {LanguageSelector} from './LanguageSelector'
 
 class Language extends React.Component {
   constructor(props) {
@@ -48,36 +49,8 @@ class LanguageList extends React.Component {
   }
 }
 
-class LanguageSelector extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {data: {languages: [], selected: ''}}
-    this.changeLanguage = this.changeLanguage.bind(this);
-  };
 
-  componentDidMount() {
-    if (be5.locale.languages && be5.locale.get()) {
-      this.setState({data: {languages: be5.locale.languages, selected: be5.locale.get()}})
-    }
-  };
-
-  changeLanguage(language) {
-    be5.net.request('languageSelector/select', {language: language}, (data) => {
-      this.setState({data: {selected: data.selected, languages: data.languages}});
-      be5.locale.set(language, data.messages);
-      if(be5.store){
-        be5.store.dispatch(fetchUserInfo());
-        be5.store.dispatch(fetchMenu('menu'));
-      }
-      if(be5.url.get()){
-        be5.url.process({documentName: MAIN_DOCUMENT}, be5.url.get());
-      }
-    });
-  };
-
-}
-
-class LanguageBox extends LanguageSelector {
+class LanguageDropdown extends LanguageSelector {
 
   constructor(props) {
     super(props);
@@ -88,11 +61,18 @@ class LanguageBox extends LanguageSelector {
       return null;
     }
     return (
-        <div className={classNames('languageBox', this.props.className)}>
-          <LanguageList data={this.state.data} onLanguageClick={this.changeLanguage}/>
+        <div className={classNames('languageDropdown', this.props.className)}>
+          <select className="form-control" name="languages" onChange={() => this.changeLanguage()}>
+            {
+              this.state.data.languages.map((language) => 
+              <option value={language}> {language} </option>)
+            }
+          </select>
         </div>
     );
   }
 }
 
-export {LanguageBox, LanguageSelector};
+
+
+export default LanguageDropdown;

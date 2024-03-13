@@ -5,7 +5,8 @@ import {Button, Collapse, Navbar, NavbarToggler, UncontrolledTooltip} from 'reac
 import RoleSelector from "../RoleSelector";
 import {processHashUrl} from "../../utils/documentUtils";
 import NavMenu from "./NavMenu";
-import LanguageBox from "../LanguageSelector";
+import {LanguageBox} from "../LanguageSelector";
+import LanguageDropdown from "../LanguageDropdown";
 import MenuSearchField from './MenuSearchField';
 import ShowMenu from "./ShowMenu";
 import bus from "../../core/bus";
@@ -17,7 +18,7 @@ const propTypes = {
   defaultRoute: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   brand: PropTypes.string,
-  languageBox: PropTypes.bool,
+  languageSelector: PropTypes.oneOf(['box', 'dropdown', 'none']),
   containerClass: PropTypes.string,
   searchField: PropTypes.bool,
 };
@@ -50,13 +51,12 @@ class NavbarMenu extends Component {
         <Navbar color="dark" dark expand="md">
           <div className={this.props.containerClass}>
             {this.navbarBrand(!this.state.showMenu)}
-            {this.rightButtons()}
-            {this.languageBox()}
             <ShowMenu menu={this.state.showMenu} popup={this.state.showOperationPopup}>
               <NavbarToggler onClick={this.toggle}/>
               <Collapse isOpen={this.state.isOpen} navbar>
-                {this.searchField()}
                 <NavMenu {...this.props}/>
+                {this.rightButtons()}
+                {this.languageSelector()}
               </Collapse>
             </ShowMenu>
           </div>
@@ -74,8 +74,17 @@ class NavbarMenu extends Component {
     }
   }
 
-  languageBox() {
-    return this.props.languageBox ? <LanguageBox className="ml-2"/> : undefined;
+  languageSelector() {
+    switch(this.props.languageSelector)
+    {
+      case 'box':
+        return <LanguageBox className="ml-2"/>;
+      case 'dropdown':
+        return <LanguageDropdown className="ml-2"/>;
+      default:
+        return undefined;
+      
+    }
   }
 
   searchField() {
@@ -102,6 +111,7 @@ class NavbarMenu extends Component {
     } = this.props.user;
 
     return <form className="form-inline ml-auto">
+      {this.searchField()}
       <UncontrolledTooltip placement="left" target="RoleSelector">
         {userName}
       </UncontrolledTooltip>
@@ -117,6 +127,7 @@ class NavbarMenu extends Component {
 
   notLoggedInForm() {
     return <form className="form-inline ml-auto">
+      {this.searchField()}
       <Button onClick={processHashUrl} href="#!login" color="secondary">{be5.messages.login}</Button>
     </form>;
   }
@@ -127,6 +138,7 @@ NavbarMenu.propTypes = propTypes;
 NavbarMenu.defaultProps = {
   containerClass: "container",
   searchField: false,
+  languageSelector: "box"
 };
 
 export default NavbarMenu;

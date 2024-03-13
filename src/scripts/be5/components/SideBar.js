@@ -2,7 +2,7 @@ import React from 'react';
 import UserControlContainer from '../containers/UserControlContainer';
 import MenuContainer from '../containers/MenuContainer';
 import MenuFooter from './menu/MenuFooter';
-import LanguageSelector from './LanguageSelector';
+import {LanguageBox} from './LanguageSelector';
 
 
 const SideBar = () => {
@@ -11,7 +11,7 @@ const SideBar = () => {
       <UserControlContainer size="sm"/>
       <MenuContainer/>
       <MenuFooter/>
-      <LanguageSelector/>
+      <LanguageBox/>
     </div>
   );
 };
