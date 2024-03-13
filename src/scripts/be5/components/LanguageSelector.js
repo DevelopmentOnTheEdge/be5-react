@@ -105,13 +105,15 @@ class LanguageDropdown extends LanguageSelector {
     if (this.state.data && this.state.data.languages.length <= 1) {
       return null;
     }
+    let selected = this.props.data.selected;
+    selected = selected ? selected.toUpperCase() : selected;
     return (
         <div className={classNames('languageDropdown', this.props.className)}>
-          <select className="form-control" name="languages" defaultValue={this.state.data.selected}
+          <select className="form-control" name="languages" 
                   onChange={e => this.changeLanguage(e.target.value)}>
             {
               this.state.data.languages.map((language) => 
-              <option key={language} value={language}> {language} </option>)
+              <option key={language} value={language} selected={language.toUpperCase() === selected}> {language} </option>)
             }
           </select>
         </div>

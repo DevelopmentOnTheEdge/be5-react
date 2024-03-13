@@ -2246,19 +2246,21 @@ var LanguageDropdown = /*#__PURE__*/function (_LanguageSelector2) {
       if (this.state.data && this.state.data.languages.length <= 1) {
         return null;
       }
+      var selected = this.props.data.selected;
+      selected = selected ? selected.toUpperCase() : selected;
       return /*#__PURE__*/React.createElement("div", {
         className: classNames$1('languageDropdown', this.props.className)
       }, /*#__PURE__*/React.createElement("select", {
         className: "form-control",
         name: "languages",
-        defaultValue: this.state.data.selected,
         onChange: function onChange(e) {
           return _this4.changeLanguage(e.target.value);
         }
       }, this.state.data.languages.map(function (language) {
         return /*#__PURE__*/React.createElement("option", {
           key: language,
-          value: language
+          value: language,
+          selected: language.toUpperCase() === selected
         }, " ", language, " ");
       })));
     }
