@@ -2759,6 +2759,7 @@ var LanguageDropdown = /*#__PURE__*/function (_LanguageSelector) {
       }, /*#__PURE__*/React.createElement("select", {
         className: "form-control",
         name: "languages",
+        value: this.state.data.selected,
         onChange: function onChange(e) {
           return _this.changeLanguage(e.target.value);
         }
