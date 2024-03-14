@@ -98,6 +98,14 @@ class NavbarMenu extends Component {
       : undefined;
   }
 
+  searchField() {
+    return this.props.searchField ? 
+    <div className='mr-2'>
+      <MenuSearchField placeholder={be5.messages.search} /> 
+    </div>
+      : undefined;
+  }
+
   rightButtons() {
     if (!this.props.user.loggedIn) {
       return this.notLoggedInForm();

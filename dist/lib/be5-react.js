@@ -2967,6 +2967,15 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
       })) : undefined;
     }
   }, {
+    key: "searchField",
+    value: function searchField() {
+      return this.props.searchField ? /*#__PURE__*/React.createElement("div", {
+        className: "mr-2"
+      }, /*#__PURE__*/React.createElement(MenuSearchField, {
+        placeholder: be5.messages.search
+      })) : undefined;
+    }
+  }, {
     key: "rightButtons",
     value: function rightButtons() {
       if (!this.props.user.loggedIn) {
@@ -3016,7 +3025,7 @@ NavbarMenu.propTypes = propTypes$3;
 NavbarMenu.defaultProps = {
   containerClass: "container",
   searchField: false,
-  languageSelector: "box"
+  languageSelector: "box
 };
 
 function _typeof$w(o) { "@babel/helpers - typeof"; return _typeof$w = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$w(o); }
