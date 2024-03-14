@@ -105,7 +105,7 @@ class LanguageDropdown extends LanguageSelector {
     if (this.state.data && this.state.data.languages.length <= 1) {
       return null;
     }
-    let selected = this.props.data.selected;
+    let selected = this.state.data.selected;
     selected = selected ? selected.toUpperCase() : selected;
     return (
         <div className={classNames('languageDropdown', this.props.className)}>

@@ -2246,7 +2246,7 @@ var LanguageDropdown = /*#__PURE__*/function (_LanguageSelector2) {
       if (this.state.data && this.state.data.languages.length <= 1) {
         return null;
       }
-      var selected = this.props.data.selected;
+      var selected = this.state.data.selected;
       selected = selected ? selected.toUpperCase() : selected;
       return /*#__PURE__*/React.createElement("div", {
         className: classNames$1('languageDropdown', this.props.className)
