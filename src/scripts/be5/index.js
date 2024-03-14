@@ -7,7 +7,7 @@ import NavbarMenu from './components/menu/NavbarMenu.js';
 import NavMenu from './components/menu/NavMenu.js';
 import ShowMenu from "./components/menu/ShowMenu";
 import HelpInfo from './components/HelpInfo.js';
-import LanguageSelector from './components/LanguageSelector.js';
+import {LanguageBox, LanguageDropdown} from './components/LanguageSelector.js';
 import SideBar from './components/SideBar.js';
 import StaticPage from './components/StaticPage.js';
 import ErrorPane from './components/ErrorPane.js';
@@ -64,7 +64,8 @@ export {
   NavbarMenu,
   NavMenu,
   HelpInfo,
-  LanguageSelector,
+  LanguageBox,
+  LanguageDropdown,
   SideBar,
   StaticPage,
   ErrorPane,

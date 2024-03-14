@@ -5,10 +5,11 @@ import {Button, Collapse, Navbar, NavbarToggler, UncontrolledTooltip} from 'reac
 import RoleSelector from "../RoleSelector";
 import {processHashUrl} from "../../utils/documentUtils";
 import NavMenu from "./NavMenu";
-import LanguageBox from "../LanguageSelector";
+import {LanguageBox, LanguageDropdown} from "../LanguageSelector";
 import MenuSearchField from './MenuSearchField';
 import ShowMenu from "./ShowMenu";
 import bus from "../../core/bus";
+import { isMobileDevice } from '../../utils/utils';
 
 
 const propTypes = {
@@ -17,15 +18,16 @@ const propTypes = {
   defaultRoute: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   brand: PropTypes.string,
-  languageBox: PropTypes.bool,
+  languageSelector: PropTypes.oneOf(['box', 'dropdown', 'none']),
   containerClass: PropTypes.string,
   searchField: PropTypes.bool,
+  isMobileDevice: PropTypes.bool,
 };
 
 class NavbarMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = {isOpen: false, showMenu: true, showOperationPopup: false};
+    this.state = {isOpen: false, showMenu: true, showOperationPopup: false, isMobileDevice: isMobileDevice()};
     this.toggle = this.toggle.bind(this);
   }
 
@@ -50,12 +52,14 @@ class NavbarMenu extends Component {
         <Navbar color="dark" dark expand="md">
           <div className={this.props.containerClass}>
             {this.navbarBrand(!this.state.showMenu)}
+            {this.state.isMobileDevice ? this.languageSelector() : undefined}
             <ShowMenu menu={this.state.showMenu} popup={this.state.showOperationPopup}>
               <NavbarToggler onClick={this.toggle}/>
               <Collapse isOpen={this.state.isOpen} navbar>
                 <NavMenu {...this.props}/>
+                {this.searchField()}
                 {this.rightButtons()}
-                {this.languageBox()}
+                {!this.state.isMobileDevice ? this.languageSelector() : undefined}
               </Collapse>
             </ShowMenu>
           </div>
@@ -73,8 +77,25 @@ class NavbarMenu extends Component {
     }
   }
 
-  languageBox() {
-    return this.props.languageBox ? <LanguageBox className="ml-2"/> : undefined;
+  languageSelector() {
+    switch(this.props.languageSelector)
+    {
+      case 'box':
+        return <LanguageBox className="ml-2 mb-2"/>;
+      case 'dropdown':
+        return <LanguageDropdown className="ml-2 mb-2"/>;
+      default:
+        return undefined;
+      
+    }
+  }
+
+  searchField() {
+    return this.props.searchField ? 
+    <div className='ml-auto mb-2'>
+      <MenuSearchField placeholder={be5.messages.search} /> 
+    </div>
+      : undefined;
   }
 
   searchField() {
@@ -100,8 +121,7 @@ class NavbarMenu extends Component {
       availableRoles
     } = this.props.user;
 
-    return <form className="form-inline ml-auto">
-      {this.searchField()}
+    return <form className="form-inline ml-2 mb-2">
       <UncontrolledTooltip placement="left" target="RoleSelector">
         {userName}
       </UncontrolledTooltip>
@@ -116,8 +136,7 @@ class NavbarMenu extends Component {
   }
 
   notLoggedInForm() {
-    return <form className="form-inline ml-auto">
-      {this.searchField()}
+    return <form className="form-inline ml-2 mb-2">
       <Button onClick={processHashUrl} href="#!login" color="secondary">{be5.messages.login}</Button>
     </form>;
   }
@@ -128,6 +147,7 @@ NavbarMenu.propTypes = propTypes;
 NavbarMenu.defaultProps = {
   containerClass: "container",
   searchField: false,
+  languageSelector: "box"
 };
 
 export default NavbarMenu;

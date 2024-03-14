@@ -651,6 +651,13 @@ var getQuerySettings = function getQuerySettings(table_name, query_name, setting
   }
   return null;
 };
+function isMobileDevice$1() {
+  try {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  } catch (e) {
+    return false;
+  }
+}
 
 function _typeof$J(o) { "@babel/helpers - typeof"; return _typeof$J = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$J(o); }
 function _defineProperty$e(obj, key, value) { key = _toPropertyKey$I(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -2146,12 +2153,12 @@ var LanguageList = /*#__PURE__*/function (_React$Component2) {
   }]);
   return LanguageList;
 }(React.Component);
-var LanguageBox = /*#__PURE__*/function (_React$Component3) {
-  _inherits$v(LanguageBox, _React$Component3);
-  var _super3 = _createSuper$x(LanguageBox);
-  function LanguageBox(props) {
+var LanguageSelector = /*#__PURE__*/function (_React$Component3) {
+  _inherits$v(LanguageSelector, _React$Component3);
+  var _super3 = _createSuper$x(LanguageSelector);
+  function LanguageSelector(props) {
     var _this2;
-    _classCallCheck$v(this, LanguageBox);
+    _classCallCheck$v(this, LanguageSelector);
     _this2 = _super3.call(this, props);
     _this2.state = {
       data: {
@@ -2162,7 +2169,7 @@ var LanguageBox = /*#__PURE__*/function (_React$Component3) {
     _this2.changeLanguage = _this2.changeLanguage.bind(_assertThisInitialized$v(_this2));
     return _this2;
   }
-  _createClass$v(LanguageBox, [{
+  _createClass$v(LanguageSelector, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       if (be5.locale.languages && be5.locale.get()) {
@@ -2173,19 +2180,10 @@ var LanguageBox = /*#__PURE__*/function (_React$Component3) {
           }
         });
       }
-      //this.refresh();
     }
   }, {
     key: "changeLanguage",
-    value:
-    // refresh() {
-    //   be5.net.request('languageSelector', {}, function(data) {
-    //       be5.locale.set(data.selected, data.messages);
-    //       this.setState({ data: {selected: data.selected, languages: data.languages} });
-    //     }.bind(this));
-    // };
-
-    function changeLanguage(language) {
+    value: function changeLanguage(language) {
       var _this3 = this;
       be5.net.request('languageSelector/select', {
         language: language
@@ -2208,7 +2206,17 @@ var LanguageBox = /*#__PURE__*/function (_React$Component3) {
         }
       });
     }
-  }, {
+  }]);
+  return LanguageSelector;
+}(React.Component);
+var LanguageBox = /*#__PURE__*/function (_LanguageSelector) {
+  _inherits$v(LanguageBox, _LanguageSelector);
+  var _super4 = _createSuper$x(LanguageBox);
+  function LanguageBox(props) {
+    _classCallCheck$v(this, LanguageBox);
+    return _super4.call(this, props);
+  }
+  _createClass$v(LanguageBox, [{
     key: "render",
     value: function render() {
       if (this.state.data && this.state.data.languages.length <= 1) {
@@ -2223,7 +2231,42 @@ var LanguageBox = /*#__PURE__*/function (_React$Component3) {
     }
   }]);
   return LanguageBox;
-}(React.Component);
+}(LanguageSelector);
+var LanguageDropdown = /*#__PURE__*/function (_LanguageSelector2) {
+  _inherits$v(LanguageDropdown, _LanguageSelector2);
+  var _super5 = _createSuper$x(LanguageDropdown);
+  function LanguageDropdown(props) {
+    _classCallCheck$v(this, LanguageDropdown);
+    return _super5.call(this, props);
+  }
+  _createClass$v(LanguageDropdown, [{
+    key: "render",
+    value: function render() {
+      var _this4 = this;
+      if (this.state.data && this.state.data.languages.length <= 1) {
+        return null;
+      }
+      var selected = this.state.data.selected;
+      selected = selected ? selected.toUpperCase() : selected;
+      return /*#__PURE__*/React.createElement("div", {
+        className: classNames$1('languageDropdown', this.props.className)
+      }, /*#__PURE__*/React.createElement("select", {
+        className: "form-control",
+        name: "languages",
+        onChange: function onChange(e) {
+          return _this4.changeLanguage(e.target.value);
+        }
+      }, this.state.data.languages.map(function (language) {
+        return /*#__PURE__*/React.createElement("option", {
+          key: language,
+          value: language,
+          selected: language.toUpperCase() === selected
+        }, " ", language, " ");
+      })));
+    }
+  }]);
+  return LanguageDropdown;
+}(LanguageSelector);
 
 var SideBar = function SideBar() {
   return /*#__PURE__*/React.createElement("div", {
@@ -2826,9 +2869,10 @@ var propTypes$3 = {
   defaultRoute: PropTypes__default.string.isRequired,
   url: PropTypes__default.string.isRequired,
   brand: PropTypes__default.string,
-  languageBox: PropTypes__default.bool,
+  languageSelector: PropTypes__default.oneOf(['box', 'dropdown', 'none']),
   containerClass: PropTypes__default.string,
-  searchField: PropTypes__default.bool
+  searchField: PropTypes__default.bool,
+  isMobileDevice: PropTypes__default.bool
 };
 var NavbarMenu = /*#__PURE__*/function (_Component) {
   _inherits$q(NavbarMenu, _Component);
@@ -2840,7 +2884,8 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
     _this.state = {
       isOpen: false,
       showMenu: true,
-      showOperationPopup: false
+      showOperationPopup: false,
+      isMobileDevice: isMobileDevice$1()
     };
     _this.toggle = _this.toggle.bind(_assertThisInitialized$q(_this));
     return _this;
@@ -2871,7 +2916,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
         expand: "md"
       }, /*#__PURE__*/React.createElement("div", {
         className: this.props.containerClass
-      }, this.navbarBrand(!this.state.showMenu), /*#__PURE__*/React.createElement(ShowMenu, {
+      }, this.navbarBrand(!this.state.showMenu), this.state.isMobileDevice ? this.languageSelector() : undefined, /*#__PURE__*/React.createElement(ShowMenu, {
         menu: this.state.showMenu,
         popup: this.state.showOperationPopup
       }, /*#__PURE__*/React.createElement(NavbarToggler, {
@@ -2879,7 +2924,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
       }), /*#__PURE__*/React.createElement(Collapse, {
         isOpen: this.state.isOpen,
         navbar: true
-      }, /*#__PURE__*/React.createElement(NavMenu, this.props), this.rightButtons(), this.languageBox()))));
+      }, /*#__PURE__*/React.createElement(NavMenu, this.props), this.searchField(), this.rightButtons(), !this.state.isMobileDevice ? this.languageSelector() : undefined))));
     }
   }, {
     key: "navbarBrand",
@@ -2897,11 +2942,29 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
       }
     }
   }, {
-    key: "languageBox",
-    value: function languageBox() {
-      return this.props.languageBox ? /*#__PURE__*/React.createElement(LanguageBox, {
-        className: "ml-2"
-      }) : undefined;
+    key: "languageSelector",
+    value: function languageSelector() {
+      switch (this.props.languageSelector) {
+        case 'box':
+          return /*#__PURE__*/React.createElement(LanguageBox, {
+            className: "ml-2 mb-2"
+          });
+        case 'dropdown':
+          return /*#__PURE__*/React.createElement(LanguageDropdown, {
+            className: "ml-2 mb-2"
+          });
+        default:
+          return undefined;
+      }
+    }
+  }, {
+    key: "searchField",
+    value: function searchField() {
+      return this.props.searchField ? /*#__PURE__*/React.createElement("div", {
+        className: "ml-auto mb-2"
+      }, /*#__PURE__*/React.createElement(MenuSearchField, {
+        placeholder: be5.messages.search
+      })) : undefined;
     }
   }, {
     key: "searchField",
@@ -2929,8 +2992,8 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
         currentRoles = _this$props$user.currentRoles,
         availableRoles = _this$props$user.availableRoles;
       return /*#__PURE__*/React.createElement("form", {
-        className: "form-inline ml-auto"
-      }, this.searchField(), /*#__PURE__*/React.createElement(UncontrolledTooltip, {
+        className: "form-inline ml-2 mb-2"
+      }, /*#__PURE__*/React.createElement(UncontrolledTooltip, {
         placement: "left",
         target: "RoleSelector"
       }, userName), /*#__PURE__*/React.createElement(RoleSelector, {
@@ -2948,8 +3011,8 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
     key: "notLoggedInForm",
     value: function notLoggedInForm() {
       return /*#__PURE__*/React.createElement("form", {
-        className: "form-inline ml-auto"
-      }, this.searchField(), /*#__PURE__*/React.createElement(Button, {
+        className: "form-inline ml-2 mb-2"
+      }, /*#__PURE__*/React.createElement(Button, {
         onClick: processHashUrl,
         href: "#!login",
         color: "secondary"
@@ -2961,7 +3024,8 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
 NavbarMenu.propTypes = propTypes$3;
 NavbarMenu.defaultProps = {
   containerClass: "container",
-  searchField: false
+  searchField: false,
+  languageSelector: "box
 };
 
 function _typeof$w(o) { "@babel/helpers - typeof"; return _typeof$w = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$w(o); }
@@ -14652,4 +14716,4 @@ var index = combineReducers({
   hashUrl: changeHash
 });
 
-export { API_URL_PREFIX, Application, Be5Components, CLOSE_MAIN_MODAL, COLUMN_SETTINGS, CONTEXT_PARAMS, CategoryNavigation, Chart, DEFAULT_TABLE_BOX, DEFAULT_VIEW, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, Document$1 as Document, ENTITY_NAME_PARAM, ErrorPane, FinishedResult, Form, FormTable, FormWizard, FrontendAction, GO_BACK, HIDE_MENU, HelpInfo, HorizontalForm, InlineMiniForm, LIMIT, LONG_TIME_OPERATION, LanguageBox as LanguageSelector, LayoutContainer, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, MainDocumentOnly, Menu$1 as Menu, MenuBody, MenuContainer$1 as MenuContainer, MenuFooter, MenuNode, MenuSearchField, ModalForm, ModalTable, NavMenu, NavbarMenu, NavbarMenuContainer$1 as NavbarMenuContainer, Navs, OFFSET, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, OPERATION_NAME_PARAM, ORDER_COLUMN, ORDER_DIR, OperationBox, ProcessingOperationPopUp, QUERY_NAME_PARAM, QUERY_SETTINGS, QuickColumns, QuickFiltersBox, RECORDS_PER_PAGE_SETTINGS, REDIRECT, REFRESH_DOCUMENT, REFRESH_MENU, REFRESH_PARENT_DOCUMENT, RELOAD_CONTROL_NAME, ROLE_ADMINISTRATOR, ROLE_GUEST, ROLE_SYSTEM_DEVELOPER, RoleSelector, SEARCH_PARAM, SEARCH_PRESETS_PARAM, SELECTED_ROWS, SET_URL, SHOW_MENU, SUCCESS_ALERT, ShowMenu, SideBar, StaticPage, SubmitOnChangeForm, TIMESTAMP_PARAM, TOTAL_NUMBER_OF_ROWS, Table, TableForm, TableFormRow, TablePagination, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, UserControl, UserControlContainer, actions as action, addFilterParams, addUrlHandlers, arraysEqual, be5, bus, changeDocument, clearDocumentState, createBaseStore, createPageValue, createStaticValue, executeFrontendActions, fetchMenu, fetchOperationByUrl, fetchTableByUrl, fetchUserInfo, route$7 as formAction, getActionsMap, getAllDocumentTypes, getAllRoutes, getAllTypes, getBackAction, getBackOrOpenDefaultRouteAction, getCurrentRoles, getDocument, getDocumentState, getDocumentStates, getFilterParams, getMenu, getModelByID, getOperationInfoFromUrl, getResourceByID, getResourceByType, getRoute, getSelfUrl, getTableBox, getUser, initBe5App, initFilterParams, initOnLoad, loadDocumentByUrl, loadOperation, loadTable, loadTableByUrl, route$8 as loadingAction, route$6 as loginAction, route$5 as logoutAction, users as menuReduser, openInModal, openOperationByUrl, openOperationByUrlWithValues, Preconditions as preconditions, processHashUrl, processHashUrlForDocument, route$2 as queryBuilderAction, registerDocument, registerPage, registerRoute, registerTableBox, index as rootReducer, setDocumentState, route$4 as staticAction, submitOperation, route$3 as tableAction, route$1 as textAction, toggleRoles, updateMenu, updateTable, updateUserInfo, users$1 as userReduser };
+export { API_URL_PREFIX, Application, Be5Components, CLOSE_MAIN_MODAL, COLUMN_SETTINGS, CONTEXT_PARAMS, CategoryNavigation, Chart, DEFAULT_TABLE_BOX, DEFAULT_VIEW, DOCUMENT_REFRESH_SUFFIX, DOWNLOAD_OPERATION, Document$1 as Document, ENTITY_NAME_PARAM, ErrorPane, FinishedResult, Form, FormTable, FormWizard, FrontendAction, GO_BACK, HIDE_MENU, HelpInfo, HorizontalForm, InlineMiniForm, LIMIT, LONG_TIME_OPERATION, LanguageBox, LanguageDropdown, LayoutContainer, MAIN_DOCUMENT, MAIN_MODAL_DOCUMENT, MainDocumentOnly, Menu$1 as Menu, MenuBody, MenuContainer$1 as MenuContainer, MenuFooter, MenuNode, MenuSearchField, ModalForm, ModalTable, NavMenu, NavbarMenu, NavbarMenuContainer$1 as NavbarMenuContainer, Navs, OFFSET, OPEN_DEFAULT_ROUTE, OPEN_NEW_WINDOW, OPERATION_NAME_PARAM, ORDER_COLUMN, ORDER_DIR, OperationBox, ProcessingOperationPopUp, QUERY_NAME_PARAM, QUERY_SETTINGS, QuickColumns, QuickFiltersBox, RECORDS_PER_PAGE_SETTINGS, REDIRECT, REFRESH_DOCUMENT, REFRESH_MENU, REFRESH_PARENT_DOCUMENT, RELOAD_CONTROL_NAME, ROLE_ADMINISTRATOR, ROLE_GUEST, ROLE_SYSTEM_DEVELOPER, RoleSelector, SEARCH_PARAM, SEARCH_PRESETS_PARAM, SELECTED_ROWS, SET_URL, SHOW_MENU, SUCCESS_ALERT, ShowMenu, SideBar, StaticPage, SubmitOnChangeForm, TIMESTAMP_PARAM, TOTAL_NUMBER_OF_ROWS, Table, TableForm, TableFormRow, TablePagination, UPDATE_DOCUMENT, UPDATE_PARENT_DOCUMENT, UserControl, UserControlContainer, actions as action, addFilterParams, addUrlHandlers, arraysEqual, be5, bus, changeDocument, clearDocumentState, createBaseStore, createPageValue, createStaticValue, executeFrontendActions, fetchMenu, fetchOperationByUrl, fetchTableByUrl, fetchUserInfo, route$7 as formAction, getActionsMap, getAllDocumentTypes, getAllRoutes, getAllTypes, getBackAction, getBackOrOpenDefaultRouteAction, getCurrentRoles, getDocument, getDocumentState, getDocumentStates, getFilterParams, getMenu, getModelByID, getOperationInfoFromUrl, getResourceByID, getResourceByType, getRoute, getSelfUrl, getTableBox, getUser, initBe5App, initFilterParams, initOnLoad, loadDocumentByUrl, loadOperation, loadTable, loadTableByUrl, route$8 as loadingAction, route$6 as loginAction, route$5 as logoutAction, users as menuReduser, openInModal, openOperationByUrl, openOperationByUrlWithValues, Preconditions as preconditions, processHashUrl, processHashUrlForDocument, route$2 as queryBuilderAction, registerDocument, registerPage, registerRoute, registerTableBox, index as rootReducer, setDocumentState, route$4 as staticAction, submitOperation, route$3 as tableAction, route$1 as textAction, toggleRoles, updateMenu, updateTable, updateUserInfo, users$1 as userReduser };

@@ -98,7 +98,7 @@ exports[`snapshot NavbarMenu 1`] = `
         </li>
       </ul>
       <form
-        className="form-inline ml-auto"
+        className="form-inline ml-2 mb-2"
       >
         <div
           className="roleBox mr-sm-2 dropdown"

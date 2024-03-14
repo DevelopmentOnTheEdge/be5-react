@@ -48,7 +48,7 @@ class LanguageList extends React.Component {
   }
 }
 
-class LanguageBox extends React.Component {
+class LanguageSelector extends React.Component {
   constructor(props) {
     super(props);
     this.state = {data: {languages: [], selected: ''}}
@@ -59,15 +59,7 @@ class LanguageBox extends React.Component {
     if (be5.locale.languages && be5.locale.get()) {
       this.setState({data: {languages: be5.locale.languages, selected: be5.locale.get()}})
     }
-    //this.refresh();
   };
-
-// refresh() {
-  //   be5.net.request('languageSelector', {}, function(data) {
-  //       be5.locale.set(data.selected, data.messages);
-  //       this.setState({ data: {selected: data.selected, languages: data.languages} });
-  //     }.bind(this));
-  // };
 
   changeLanguage(language) {
     be5.net.request('languageSelector/select', {language: language}, (data) => {
@@ -83,6 +75,14 @@ class LanguageBox extends React.Component {
     });
   };
 
+}
+
+class LanguageBox extends LanguageSelector {
+
+  constructor(props) {
+    super(props);
+  };
+
   render() {
     if (this.state.data && this.state.data.languages.length <= 1) {
       return null;
@@ -95,4 +95,30 @@ class LanguageBox extends React.Component {
   }
 }
 
-export default LanguageBox;
+class LanguageDropdown extends LanguageSelector {
+
+  constructor(props) {
+    super(props);
+  };
+
+  render() {
+    if (this.state.data && this.state.data.languages.length <= 1) {
+      return null;
+    }
+    let selected = this.state.data.selected;
+    selected = selected ? selected.toUpperCase() : selected;
+    return (
+        <div className={classNames('languageDropdown', this.props.className)}>
+          <select className="form-control" name="languages" 
+                  onChange={e => this.changeLanguage(e.target.value)}>
+            {
+              this.state.data.languages.map((language) => 
+              <option key={language} value={language} selected={language.toUpperCase() === selected}> {language} </option>)
+            }
+          </select>
+        </div>
+    );
+  }
+}
+
+export {LanguageBox, LanguageDropdown};
