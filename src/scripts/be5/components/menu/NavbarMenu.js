@@ -27,11 +27,26 @@ const propTypes = {
 class NavbarMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = {isOpen: false, showMenu: true, showOperationPopup: false, isMobileDevice: isMobileDevice()};
+    this.state = {isOpen: false, showMenu: true, showOperationPopup: false, isWindowNarrow: window.innerWidth < 768};
     this.toggle = this.toggle.bind(this);
   }
 
+  updateWidth = () => {
+    const wasWindowNarrow = this.state.isWindowNarrow;
+    this.setState({ isWindowNarrow: window.innerWidth < 768});
+    if (wasWindowNarrow != this.state.isWindowNarrow)
+    {
+      this.render()
+    }
+
+  };
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWidth);
+  }
+
   componentDidMount() {
+    window.addEventListener('resize', this.updateWidth);
     ['showMenu', 'showOperationPopup'].forEach(eventName => {
       bus.listen(eventName, data => {
         this.setState({
@@ -46,20 +61,44 @@ class NavbarMenu extends Component {
       isOpen: !this.state.isOpen
     });
   }
-
+ 
   render() {
+    if (this.state.isWindowNarrow)
+    {
+      return (
+        <Navbar color="dark" dark expand="md">
+          <div className={this.props.containerClass}>
+            {this.navbarBrand(!this.state.showMenu)}
+            <div className="buttonContainer">
+              {this.languageSelector()}
+            </div>
+            <ShowMenu menu={this.state.showMenu} popup={this.state.showOperationPopup}>
+              <NavbarToggler onClick={this.toggle}/>
+              <Collapse isOpen={this.state.isOpen} navbar>
+                <div className='buttonContainer w-auto ml-0 mt-2'>
+                  {this.searchField()} 
+                  {this.rightButtons()} 
+                </div>
+                <NavMenu {...this.props}/>
+              </Collapse>
+            </ShowMenu>
+          </div>
+        </Navbar>
+    );
+    }
     return (
         <Navbar color="dark" dark expand="md">
           <div className={this.props.containerClass}>
             {this.navbarBrand(!this.state.showMenu)}
-            {this.state.isMobileDevice ? this.languageSelector() : undefined}
             <ShowMenu menu={this.state.showMenu} popup={this.state.showOperationPopup}>
               <NavbarToggler onClick={this.toggle}/>
               <Collapse isOpen={this.state.isOpen} navbar>
                 <NavMenu {...this.props}/>
-                {this.searchField()}
-                {this.rightButtons()}
-                {!this.state.isMobileDevice ? this.languageSelector() : undefined}
+                <div className="buttonContainer">
+                  {this.searchField()}
+                  {this.languageSelector()}
+                  {this.rightButtons()}
+                </div>
               </Collapse>
             </ShowMenu>
           </div>
@@ -81,9 +120,9 @@ class NavbarMenu extends Component {
     switch(this.props.languageSelector)
     {
       case 'box':
-        return <LanguageBox className="ml-2 mb-2"/>;
+        return <LanguageBox className="mr-1 ml-1"/>;
       case 'dropdown':
-        return <LanguageDropdown className="ml-2 mb-2"/>;
+        return <LanguageDropdown className="mr-1 ml-1" />;
       default:
         return undefined;
       
@@ -92,9 +131,7 @@ class NavbarMenu extends Component {
 
   searchField() {
     return this.props.searchField ? 
-    <div className='ml-auto mb-2'>
       <MenuSearchField placeholder={be5.messages.search} /> 
-    </div>
       : undefined;
   }
 
@@ -113,22 +150,23 @@ class NavbarMenu extends Component {
       availableRoles
     } = this.props.user;
 
-    return <form className="form-inline ml-2 mb-2">
+    return <form className="form-inline flex-nowrap ml-1">
       <UncontrolledTooltip placement="left" target="RoleSelector">
         {userName}
       </UncontrolledTooltip>
       <RoleSelector
         id={"RoleSelector"}
+        className='mr-1'
         availableRoles={availableRoles}
         currentRoles={currentRoles}
         toggleRoles={this.props.toggleRoles}
-      />{' '}
+      />
       <Button onClick={processHashUrl} href="#!logout" color="secondary">{be5.messages.logout}</Button>
     </form>;
   }
 
   notLoggedInForm() {
-    return <form className="form-inline ml-2 mb-2">
+    return <form className="form-inline ml-1">
       <Button onClick={processHashUrl} href="#!login" color="secondary">{be5.messages.login}</Button>
     </form>;
   }

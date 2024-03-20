@@ -110,10 +110,10 @@ class LanguageDropdown extends LanguageSelector {
     return (
         <div className={classNames('languageDropdown', this.props.className)}>
           <select className="form-control" name="languages" 
-                  onChange={e => this.changeLanguage(e.target.value)}>
+                  onChange={e => this.changeLanguage(e.target.value)} defaultValue={selected}>
             {
               this.state.data.languages.map((language) => 
-              <option key={language} value={language} selected={language.toUpperCase() === selected}> {language} </option>)
+              <option key={language} value={language}> {language} </option>)
             }
           </select>
         </div>

@@ -172,3 +172,24 @@ select.form-control {
 {
   margin-left: 250px;
 }
+
+.navbar .nav-link {
+  font-size: 16px;
+}
+
+.navbar-brand {
+  flex: 0 0 150px;
+  max-width: 35%;
+}
+
+.navbar-brand .logo {
+  width: 100%;
+}
+
+.buttonContainer {
+  width: fit-content;
+  margin-right: 2px;
+  margin-left: auto;
+  flex-wrap: nowrap;
+  display: flex;
+}

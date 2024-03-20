@@ -651,13 +651,6 @@ var getQuerySettings = function getQuerySettings(table_name, query_name, setting
   }
   return null;
 };
-function isMobileDevice$1() {
-  try {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  } catch (e) {
-    return false;
-  }
-}
 
 function _typeof$J(o) { "@babel/helpers - typeof"; return _typeof$J = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$J(o); }
 function _defineProperty$e(obj, key, value) { key = _toPropertyKey$I(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -1381,7 +1374,7 @@ var RoleSelector = function RoleSelector(props) {
   });
   return /*#__PURE__*/React.createElement(UncontrolledDropdown, {
     size: props.size,
-    className: "roleBox mr-sm-2",
+    className: "roleBox mr-1",
     id: props.id,
     hidden: isHidden()
   }, /*#__PURE__*/React.createElement(DropdownToggle, {
@@ -2255,12 +2248,12 @@ var LanguageDropdown = /*#__PURE__*/function (_LanguageSelector2) {
         name: "languages",
         onChange: function onChange(e) {
           return _this4.changeLanguage(e.target.value);
-        }
+        },
+        defaultValue: selected
       }, this.state.data.languages.map(function (language) {
         return /*#__PURE__*/React.createElement("option", {
           key: language,
-          value: language,
-          selected: language.toUpperCase() === selected
+          value: language
         }, " ", language, " ");
       })));
     }
@@ -2850,12 +2843,9 @@ ShowMenu.defaultProps = {
 };
 
 function _typeof$x(o) { "@babel/helpers - typeof"; return _typeof$x = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof$x(o); }
-function _defineProperty$b(obj, key, value) { key = _toPropertyKey$x(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _classCallCheck$q(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties$q(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey$x(descriptor.key), descriptor); } }
 function _createClass$q(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$q(Constructor.prototype, protoProps); if (staticProps) _defineProperties$q(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey$x(arg) { var key = _toPrimitive$x(arg, "string"); return _typeof$x(key) === "symbol" ? key : String(key); }
-function _toPrimitive$x(input, hint) { if (_typeof$x(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$x(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _inherits$q(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf$q(subClass, superClass); }
 function _setPrototypeOf$q(o, p) { _setPrototypeOf$q = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$q(o, p); }
 function _createSuper$s(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$s(); return function _createSuperInternal() { var Super = _getPrototypeOf$q(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$q(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$q(this, result); }; }
@@ -2863,6 +2853,9 @@ function _possibleConstructorReturn$q(self, call) { if (call && (_typeof$x(call)
 function _assertThisInitialized$q(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct$s() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf$q(o) { _getPrototypeOf$q = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$q(o); }
+function _defineProperty$b(obj, key, value) { key = _toPropertyKey$x(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey$x(arg) { var key = _toPrimitive$x(arg, "string"); return _typeof$x(key) === "symbol" ? key : String(key); }
+function _toPrimitive$x(input, hint) { if (_typeof$x(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof$x(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var propTypes$3 = {
   menu: PropTypes__default.shape({}),
   user: PropTypes__default.shape({}).isRequired,
@@ -2881,19 +2874,34 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
     var _this;
     _classCallCheck$q(this, NavbarMenu);
     _this = _super.call(this, props);
+    _defineProperty$b(_assertThisInitialized$q(_this), "updateWidth", function () {
+      var wasWindowNarrow = _this.state.isWindowNarrow;
+      _this.setState({
+        isWindowNarrow: window.innerWidth < 768
+      });
+      if (wasWindowNarrow != _this.state.isWindowNarrow) {
+        _this.render();
+      }
+    });
     _this.state = {
       isOpen: false,
       showMenu: true,
       showOperationPopup: false,
-      isMobileDevice: isMobileDevice$1()
+      isWindowNarrow: window.innerWidth < 768
     };
     _this.toggle = _this.toggle.bind(_assertThisInitialized$q(_this));
     return _this;
   }
   _createClass$q(NavbarMenu, [{
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      window.removeEventListener('resize', this.updateWidth);
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
+      window.addEventListener('resize', this.updateWidth);
       ['showMenu', 'showOperationPopup'].forEach(function (eventName) {
         bus.listen(eventName, function (data) {
           _this2.setState(_defineProperty$b({}, eventName, data.show));
@@ -2910,13 +2918,34 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      if (this.state.isWindowNarrow) {
+        return /*#__PURE__*/React.createElement(Navbar, {
+          color: "dark",
+          dark: true,
+          expand: "md"
+        }, /*#__PURE__*/React.createElement("div", {
+          className: this.props.containerClass
+        }, this.navbarBrand(!this.state.showMenu), /*#__PURE__*/React.createElement("div", {
+          className: "buttonContainer"
+        }, this.languageSelector()), /*#__PURE__*/React.createElement(ShowMenu, {
+          menu: this.state.showMenu,
+          popup: this.state.showOperationPopup
+        }, /*#__PURE__*/React.createElement(NavbarToggler, {
+          onClick: this.toggle
+        }), /*#__PURE__*/React.createElement(Collapse, {
+          isOpen: this.state.isOpen,
+          navbar: true
+        }, /*#__PURE__*/React.createElement("div", {
+          className: "buttonContainer w-auto ml-0 mt-2"
+        }, this.searchField(), this.rightButtons()), /*#__PURE__*/React.createElement(NavMenu, this.props)))));
+      }
       return /*#__PURE__*/React.createElement(Navbar, {
         color: "dark",
         dark: true,
         expand: "md"
       }, /*#__PURE__*/React.createElement("div", {
         className: this.props.containerClass
-      }, this.navbarBrand(!this.state.showMenu), this.state.isMobileDevice ? this.languageSelector() : undefined, /*#__PURE__*/React.createElement(ShowMenu, {
+      }, this.navbarBrand(!this.state.showMenu), /*#__PURE__*/React.createElement(ShowMenu, {
         menu: this.state.showMenu,
         popup: this.state.showOperationPopup
       }, /*#__PURE__*/React.createElement(NavbarToggler, {
@@ -2924,7 +2953,9 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
       }), /*#__PURE__*/React.createElement(Collapse, {
         isOpen: this.state.isOpen,
         navbar: true
-      }, /*#__PURE__*/React.createElement(NavMenu, this.props), this.searchField(), this.rightButtons(), !this.state.isMobileDevice ? this.languageSelector() : undefined))));
+      }, /*#__PURE__*/React.createElement(NavMenu, this.props), /*#__PURE__*/React.createElement("div", {
+        className: "buttonContainer"
+      }, this.searchField(), this.languageSelector(), this.rightButtons())))));
     }
   }, {
     key: "navbarBrand",
@@ -2947,11 +2978,11 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
       switch (this.props.languageSelector) {
         case 'box':
           return /*#__PURE__*/React.createElement(LanguageBox, {
-            className: "ml-2 mb-2"
+            className: "mr-1 ml-1"
           });
         case 'dropdown':
           return /*#__PURE__*/React.createElement(LanguageDropdown, {
-            className: "ml-2 mb-2"
+            className: "mr-1 ml-1"
           });
         default:
           return undefined;
@@ -2960,11 +2991,9 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
   }, {
     key: "searchField",
     value: function searchField() {
-      return this.props.searchField ? /*#__PURE__*/React.createElement("div", {
-        className: "ml-auto mb-2"
-      }, /*#__PURE__*/React.createElement(MenuSearchField, {
+      return this.props.searchField ? /*#__PURE__*/React.createElement(MenuSearchField, {
         placeholder: be5.messages.search
-      })) : undefined;
+      }) : undefined;
     }
   }, {
     key: "rightButtons",
@@ -2983,16 +3012,17 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
         currentRoles = _this$props$user.currentRoles,
         availableRoles = _this$props$user.availableRoles;
       return /*#__PURE__*/React.createElement("form", {
-        className: "form-inline ml-2 mb-2"
+        className: "form-inline flex-nowrap ml-1"
       }, /*#__PURE__*/React.createElement(UncontrolledTooltip, {
         placement: "left",
         target: "RoleSelector"
       }, userName), /*#__PURE__*/React.createElement(RoleSelector, {
         id: "RoleSelector",
+        className: "mr-1",
         availableRoles: availableRoles,
         currentRoles: currentRoles,
         toggleRoles: this.props.toggleRoles
-      }), ' ', /*#__PURE__*/React.createElement(Button, {
+      }), /*#__PURE__*/React.createElement(Button, {
         onClick: processHashUrl,
         href: "#!logout",
         color: "secondary"
@@ -3002,7 +3032,7 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
     key: "notLoggedInForm",
     value: function notLoggedInForm() {
       return /*#__PURE__*/React.createElement("form", {
-        className: "form-inline ml-2 mb-2"
+        className: "form-inline ml-1"
       }, /*#__PURE__*/React.createElement(Button, {
         onClick: processHashUrl,
         href: "#!login",
