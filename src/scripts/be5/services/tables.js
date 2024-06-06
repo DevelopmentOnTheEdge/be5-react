@@ -111,6 +111,7 @@ const _performTable = (json, frontendParams) => {
 
   if (formComponentName === 'modalTable' || documentName === MAIN_MODAL_DOCUMENT) {
     bus.fire("mainModalOpen");
+    bus.fire("setModalDialogClassName", {className: "beModalTable"});
     changeDocument(MAIN_MODAL_DOCUMENT, {value: json, frontendParams: frontendParams});
   }
   else {

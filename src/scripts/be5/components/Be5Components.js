@@ -29,6 +29,7 @@ class Be5Components extends React.Component {
   componentDidMount() {
     bus.listen("mainModalClose", this.close);
     bus.listen("mainModalOpen", this.open);
+    bus.listen("setModalDialogClassName", this.setModalDialogClassName);
 
     bus.listen("alert", data => {
       if( data.timeout == null || data.timeout > 0 ) {
@@ -45,6 +46,10 @@ class Be5Components extends React.Component {
         }
       }
     });
+  }
+
+  setModalDialogClassName( params ) {
+     console.log( params );
   }
 
   render() {
