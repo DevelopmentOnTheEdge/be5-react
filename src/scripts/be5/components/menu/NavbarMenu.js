@@ -31,7 +31,22 @@ class NavbarMenu extends Component {
     this.toggle = this.toggle.bind(this);
   }
 
+  updateWidth = () => {
+    const wasWindowNarrow = this.state.isWindowNarrow;
+    this.setState({ isWindowNarrow: window.innerWidth < 768});
+    if (wasWindowNarrow != this.state.isWindowNarrow)
+    {
+      this.render()
+    }
+
+  };
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWidth);
+  }
+
   componentDidMount() {
+    window.addEventListener('resize', this.updateWidth);
     ['showMenu', 'showOperationPopup'].forEach(eventName => {
       bus.listen(eventName, data => {
         this.setState({
@@ -46,8 +61,31 @@ class NavbarMenu extends Component {
       isOpen: !this.state.isOpen
     });
   }
-
+ 
   render() {
+    if (this.state.isWindowNarrow)
+    {
+      return (
+        <Navbar color="dark" dark expand="md">
+          <div className={this.props.containerClass}>
+            {this.navbarBrand(!this.state.showMenu)}
+            <div className="buttonContainer">
+              {this.languageSelector()}
+            </div>
+            <ShowMenu menu={this.state.showMenu} popup={this.state.showOperationPopup}>
+              <NavbarToggler onClick={this.toggle}/>
+              <Collapse isOpen={this.state.isOpen} navbar>
+                <div className='buttonContainer w-auto ml-0 mt-2'>
+                  {this.searchField()} 
+                  {this.rightButtons()} 
+                </div>
+                <NavMenu {...this.props}/>
+              </Collapse>
+            </ShowMenu>
+          </div>
+        </Navbar>
+    );
+    }
     return (
         <Navbar color="dark" dark expand="md">
           <div className={this.props.containerClass}>
@@ -119,10 +157,11 @@ class NavbarMenu extends Component {
       </UncontrolledTooltip>
       <RoleSelector
         id={"RoleSelector"}
+        className='mr-1'
         availableRoles={availableRoles}
         currentRoles={currentRoles}
         toggleRoles={this.props.toggleRoles}
-      />{' '}
+      />
       <Button onClick={processHashUrl} href="#!logout" color="secondary">{be5.messages.logout}</Button>
     </form>;
   }
