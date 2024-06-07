@@ -11,15 +11,17 @@ class Be5Components extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      modal: false,
+      className: props.className
     };
 
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
+    this.setModalDialogClassName = this.setModalDialogClassName.bind(this);
   }
 
   open() {
-    this.setState({modal: true});
+    this.setState({className: null, modal: true});
   }
 
   close() {
@@ -49,19 +51,18 @@ class Be5Components extends React.Component {
   }
 
   setModalDialogClassName( params ) {
-     console.log( params );
+    this.setState({className: params.className});
   }
 
   render() {
     return (
       <div>
         <Alert stack={{limit: 10}} html={true}/>
-        <Modal isOpen={this.state.modal} toggle={this.close} className={this.props.className} backdrop={"static"}>
+        <Modal isOpen={this.state.modal} toggle={this.close} className={this.state.className} backdrop={"static"}>
           <Document ref="document" frontendParams={{documentName: MAIN_MODAL_DOCUMENT}}/>
         </Modal>
       </div>
     );
-
   }
 
 }

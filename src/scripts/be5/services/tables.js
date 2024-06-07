@@ -108,10 +108,22 @@ export const updateTable = (params, callback, failure = be5.log.error) => {
 const _performTable = (json, frontendParams) => {
   const documentName = frontendParams.documentName;
   const formComponentName = json.data.attributes.layout.type;
+  const documentType = json.data.type;
 
   if (formComponentName === 'modalTable' || documentName === MAIN_MODAL_DOCUMENT) {
     bus.fire("mainModalOpen");
-    bus.fire("setModalDialogClassName", {className: "beModalTable"});
+
+    if (documentType === 'table') {
+        if( formComponentName === 'chart' )
+        {
+            bus.fire("setModalDialogClassName", {className: "beModalChart"});
+        }
+        else
+        { 
+            bus.fire("setModalDialogClassName", {className: "beModalTable"});
+        } 
+    }
+
     changeDocument(MAIN_MODAL_DOCUMENT, {value: json, frontendParams: frontendParams});
   }
   else {
