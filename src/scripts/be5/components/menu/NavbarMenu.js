@@ -27,7 +27,7 @@ const propTypes = {
 class NavbarMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = {isOpen: false, showMenu: true, showOperationPopup: false, isWindowNarrow: window.innerWidth < 768};
+    this.state = {isOpen: false, showMenu: true, showOperationPopup: false, isMobileDevice: isMobileDevice()};
     this.toggle = this.toggle.bind(this);
   }
 
@@ -90,15 +90,14 @@ class NavbarMenu extends Component {
         <Navbar color="dark" dark expand="md">
           <div className={this.props.containerClass}>
             {this.navbarBrand(!this.state.showMenu)}
+            {this.state.isMobileDevice ? this.languageSelector() : undefined}
             <ShowMenu menu={this.state.showMenu} popup={this.state.showOperationPopup}>
               <NavbarToggler onClick={this.toggle}/>
               <Collapse isOpen={this.state.isOpen} navbar>
                 <NavMenu {...this.props}/>
-                <div className="buttonContainer">
-                  {this.searchField()}
-                  {this.languageSelector()}
-                  {this.rightButtons()}
-                </div>
+                {this.searchField()}
+                {this.rightButtons()}
+                {!this.state.isMobileDevice ? this.languageSelector() : undefined}
               </Collapse>
             </ShowMenu>
           </div>
@@ -120,9 +119,9 @@ class NavbarMenu extends Component {
     switch(this.props.languageSelector)
     {
       case 'box':
-        return <LanguageBox className="mr-1 ml-1"/>;
+        return <LanguageBox className="ml-2 mb-2"/>;
       case 'dropdown':
-        return <LanguageDropdown className="mr-1 ml-1" />;
+        return <LanguageDropdown className="ml-2 mb-2"/>;
       default:
         return undefined;
       
@@ -131,7 +130,9 @@ class NavbarMenu extends Component {
 
   searchField() {
     return this.props.searchField ? 
+    <div className='ml-auto mb-2'>
       <MenuSearchField placeholder={be5.messages.search} /> 
+    </div>
       : undefined;
   }
 
@@ -150,7 +151,7 @@ class NavbarMenu extends Component {
       availableRoles
     } = this.props.user;
 
-    return <form className="form-inline flex-nowrap ml-1">
+    return <form className="form-inline ml-2 mb-2">
       <UncontrolledTooltip placement="left" target="RoleSelector">
         {userName}
       </UncontrolledTooltip>
@@ -166,7 +167,7 @@ class NavbarMenu extends Component {
   }
 
   notLoggedInForm() {
-    return <form className="form-inline ml-1">
+    return <form className="form-inline ml-2 mb-2">
       <Button onClick={processHashUrl} href="#!login" color="secondary">{be5.messages.login}</Button>
     </form>;
   }
