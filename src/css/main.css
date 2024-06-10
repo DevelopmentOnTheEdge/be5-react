@@ -160,7 +160,6 @@ select.form-control {
   }
   .navbar
   {
-      width: 250px;
       height: 100vh;
       align-items: flex-start;
       z-index: 999;
