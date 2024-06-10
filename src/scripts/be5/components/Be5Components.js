@@ -1,70 +1,57 @@
-import React from 'react';
-import {connect} from 'react-redux'
+import React, { useState, useEffect, useRef } from 'react';
 import bus from '../core/bus';
 import Document from '../containers/Document';
 import Alert from 'react-s-alert';
-import {Modal} from 'reactstrap';
-import {MAIN_MODAL_DOCUMENT} from "../constants";
+import { Modal } from 'reactstrap';
+import { MAIN_MODAL_DOCUMENT } from "../constants";
 
+const Be5Components = (props) => {
+  const [modal, setModal] = useState(false);
+  const [className, setClassName] = useState(props.className);
+  const documentRef = useRef(null);
 
-class Be5Components extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modal: false,
-      className: props.className
-    };
+  const open = () => {
+    setClassName(null);
+    setModal(true);
+  };
 
-    this.open = this.open.bind(this);
-    this.close = this.close.bind(this);
-    this.setModalDialogClassName = this.setModalDialogClassName.bind(this);
-  }
+  const close = () => {
+    setModal(false);
+  };
 
-  open() {
-    this.setState({className: null, modal: true});
-  }
+  const setModalDialogClassName = (params) => {
+    setClassName(params.className);
+  };
 
-  close() {
-    this.setState({modal: false});
-  }
+  useEffect(() => {
+    bus.listen("mainModalClose", close);
+    bus.listen("mainModalOpen", open);
+    bus.listen("setModalDialogClassName", setModalDialogClassName);
 
-  componentDidMount() {
-    bus.listen("mainModalClose", this.close);
-    bus.listen("mainModalOpen", this.open);
-    bus.listen("setModalDialogClassName", this.setModalDialogClassName);
+    bus.listen("alert", (data) => {
+      if (data.timeout == null || data.timeout > 0) {
+        const alertConfig = {
+          position: 'top-right',
+          timeout: data.timeout > 0 ? 1000 * data.timeout : 5000
+        };
 
-    bus.listen("alert", data => {
-      if( data.timeout == null || data.timeout > 0 ) {
         if (data.type === 'error') {
-          Alert.error(data.msg, {
-            position: 'top-right',
-            timeout: data.timeout > 0 ? 1000 * data.timeout : 5000
-          });
+          Alert.error(data.msg, alertConfig);
         } else {
-          Alert.success(data.msg, {
-            position: 'top-right',
-            timeout: data.timeout > 0 ? 1000 * data.timeout : 5000
-          });
+          Alert.success(data.msg, alertConfig);
         }
       }
     });
-  }
+  }, []);
 
-  setModalDialogClassName( params ) {
-    this.setState({className: params.className});
-  }
-
-  render() {
-    return (
-      <div>
-        <Alert stack={{limit: 10}} html={true}/>
-        <Modal isOpen={this.state.modal} toggle={this.close} className={this.state.className} backdrop={"static"}>
-          <Document ref="document" frontendParams={{documentName: MAIN_MODAL_DOCUMENT}}/>
-        </Modal>
-      </div>
-    );
-  }
-
+  return (
+    <div>
+      <Alert stack={{ limit: 10 }} html={true} />
+      <Modal isOpen={modal} toggle={close} className={className} backdrop={"static"}>
+        <Document ref={documentRef} frontendParams={{ documentName: MAIN_MODAL_DOCUMENT }} />
+      </Modal>
+    </div>
+  );
 }
 
 export default Be5Components;
