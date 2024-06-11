@@ -1,27 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {registerDocument} from '../core/registers/documents';
-import {addUrlHandlers} from "../utils/documentUtils";
+import { registerDocument } from '../core/registers/documents';
+import { addUrlHandlers } from "../utils/documentUtils";
 
+const StaticPage = (props) => {
+  const { value, frontendParams } = props;
 
-class StaticPage extends React.Component {
-  componentDidMount() {
-    addUrlHandlers($('.staticPage'), this.props.frontendParams.documentName);
-  }
+  useEffect(() => {
+    addUrlHandlers($('.staticPage'), frontendParams.documentName);
+  }, [frontendParams.documentName]);
 
-  render() {
-    if (!this.props.value) return null;
-    const attributes = this.props.value.data.attributes;
-    const title = attributes.title ? (<h1 className='staticPage__title'>{attributes.title}</h1>) : null;
+  if (!value) return null;
 
-    return (
-      <div className='staticPage'>
-        {title}
-        <div className='staticPage__text' dangerouslySetInnerHTML={{__html: attributes.content}}/>
-      </div>
-    );
-  }
-}
+  const { attributes } = value.data;
+  const title = attributes.title ? (<h1 className='staticPage__title'>{attributes.title}</h1>) : null;
+
+  return (
+    <div className='staticPage'>
+      {title}
+      <div className='staticPage__text' dangerouslySetInnerHTML={{ __html: attributes.content }} />
+    </div>
+  );
+};
 
 StaticPage.propTypes = {
   value: PropTypes.shape({
