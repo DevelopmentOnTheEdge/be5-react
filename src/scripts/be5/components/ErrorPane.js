@@ -90,7 +90,7 @@ ErrorPane.propTypes = {
   value: PropTypes.shape({
     errors: PropTypes.array.isRequired,
     meta: PropTypes.shape({
-      _ts_: PropTypes.isRequired,
+      _ts_: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]).isRequired,
     })
   }),
 };
