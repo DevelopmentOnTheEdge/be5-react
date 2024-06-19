@@ -1,6 +1,6 @@
 {
   "name": "be5-react",
-  "version": "1.1.23",
+  "version": "1.1.24",
   "description": "React client UI for be5 server api",
   "main": "dist/lib/be5-react.js",
   "scripts": {
@@ -40,7 +40,7 @@
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "2.3.0",
-    "underscore": "1.8.3"
+    "underscore": "1.12.1"
   },
   "devDependencies": {
     "@babel/plugin-external-helpers": "^7.12.1",

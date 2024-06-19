@@ -101,7 +101,7 @@ exports[`snapshot NavbarMenu 1`] = `
         className="form-inline ml-2 mb-2"
       >
         <div
-          className="roleBox mr-sm-2 dropdown"
+          className="roleBox mr-1 dropdown"
           hidden={false}
           id="RoleSelector"
           onKeyDown={[Function]}
@@ -187,7 +187,6 @@ exports[`snapshot NavbarMenu 1`] = `
             </div>
           </div>
         </div>
-         
         <a
           aria-label={null}
           className="btn btn-secondary"

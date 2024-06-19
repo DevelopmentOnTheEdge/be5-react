@@ -2,7 +2,7 @@
 
 exports[`render 1`] = `
 <div
-  className="roleBox mr-sm-2 dropdown"
+  className="roleBox mr-1 dropdown"
   hidden={false}
   onKeyDown={[Function]}
 >

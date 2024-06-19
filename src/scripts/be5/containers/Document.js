@@ -210,7 +210,7 @@ Document.propTypes = {
     documentName: PropTypes.string.isRequired,
     operationDocumentName: PropTypes.string,
     parentDocumentName: PropTypes.string,
-    onSuccess: PropTypes.function
+    onSuccess: PropTypes.func
   }),
   value: PropTypes.object,
   baseLayout: PropTypes.object,
