@@ -95,9 +95,11 @@ class NavbarMenu extends Component {
               <NavbarToggler onClick={this.toggle}/>
               <Collapse isOpen={this.state.isOpen} navbar>
                 <NavMenu {...this.props}/>
-                {this.searchField()}
-                {this.rightButtons()}
-                {!this.state.isMobileDevice ? this.languageSelector() : undefined}
+                <div className='ml-auto d-flex'>
+                  {this.searchField()}
+                  {this.rightButtons()}
+                  {!this.state.isMobileDevice ? this.languageSelector() : undefined}
+                </div>
               </Collapse>
             </ShowMenu>
           </div>

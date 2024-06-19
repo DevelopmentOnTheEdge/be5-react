@@ -2912,7 +2912,9 @@ var NavbarMenu = /*#__PURE__*/function (_Component) {
       }), /*#__PURE__*/React.createElement(Collapse, {
         isOpen: this.state.isOpen,
         navbar: true
-      }, /*#__PURE__*/React.createElement(NavMenu, this.props), this.searchField(), this.rightButtons(), !this.state.isMobileDevice ? this.languageSelector() : undefined))));
+      }, /*#__PURE__*/React.createElement(NavMenu, this.props), /*#__PURE__*/React.createElement("div", {
+        className: "ml-auto d-flex"
+      }, this.searchField(), this.rightButtons(), !this.state.isMobileDevice ? this.languageSelector() : undefined)))));
     }
   }, {
     key: "navbarBrand",
