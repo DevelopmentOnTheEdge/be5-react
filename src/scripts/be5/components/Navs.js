@@ -1,100 +1,106 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Document from '../containers/Document';
-import {Nav, NavItem, NavLink} from 'reactstrap';
-import {processHashUrlForDocument} from "../utils/documentUtils";
+import { Nav, NavItem, NavLink } from 'reactstrap';
+import { processHashUrlForDocument } from "../utils/documentUtils";
 import be5 from "../be5";
 
+const Navs = (props) => {
+  const {
+    tabs,
+    pills,
+    vertical,
+    navbar,
+    tag,
+    onOpenNav,
+    steps,
+    startAtStep,
+    baseUrl,
+    parentDocumentName,
+    documentName
+  } = props;
 
-class Navs extends React.Component {
-  constructor(props) {
-    super(props);
+  const [compState, setCompState] = useState(startAtStep);
 
-    this.state = {
-      compState: this.props.startAtStep
-    };
+  useEffect(() => {
+    init();
+  }, []);
 
-    this.init = this.init.bind(this);
-    this.setNavState = this.setNavState.bind(this);
-  }
-
-  componentDidMount() {
-    this.init();
-  }
-
-  componentDidUpdate() {
-    if (this.props.baseUrl !== undefined && this.state.compState !== this.props.startAtStep) {
-      this.setState({compState: this.props.startAtStep}, () => {
-        this.init();
-      });
+  useEffect(() => {
+    if (baseUrl !== undefined && compState !== startAtStep) {
+      setCompState(startAtStep);
+      init();
     }
-  }
+  }, [baseUrl, startAtStep]);
 
-  init() {
-    processHashUrlForDocument(this.props.steps[this.state.compState].url, this.props.documentName);
-  }
+  const init = () => {
+    processHashUrlForDocument(steps[compState].url, documentName);
+  };
 
-  setNavState(e) {
-    if(!e.ctrlKey) {
+  const setNavState = (e) => {
+    if (!e.ctrlKey) {
       e.preventDefault();
-      const id = this.getIDbyUrl(e.target.getAttribute("href"));
+      const id = getIDbyUrl(e.target.getAttribute("href"));
 
-      if (this.props.onOpenNav !== undefined) this.props.onOpenNav(id);
+      if (onOpenNav !== undefined) onOpenNav(id);
 
-      if (this.props.baseUrl !== undefined && this.getUrl(id) !== be5.url.get()) {
-        processHashUrlForDocument(this.getUrl(id), this.props.parentDocumentName);
+      if (baseUrl !== undefined && getUrl(id) !== be5.url.get()) {
+        processHashUrlForDocument(getUrl(id), parentDocumentName);
       } else {
-        processHashUrlForDocument(e, this.props.documentName);
-        this.setState({compState: id});
+        processHashUrlForDocument(e, documentName);
+        setCompState(id);
       }
     }
-  }
+  };
 
-  getUrl(id) {
+  const getUrl = (id) => {
     if (id === 0)
-      return "#!" + this.props.baseUrl;
+      return "#!" + baseUrl;
     else
-      return "#!" + this.props.baseUrl + "/" + id;
-  }
+      return "#!" + baseUrl + "/" + id;
+  };
 
-  getIDbyUrl(url) {
-    for (let i = 0; i < this.props.steps.length; i++) {
-      if (this.props.steps[i].url === url) return i;
+  const getIDbyUrl = (url) => {
+    for (let i = 0; i < steps.length; i++) {
+      if (steps[i].url === url) return i;
     }
     return 0;
-  }
+  };
 
-  renderSteps() {
-    return this.props.steps.map((s, i) => (
+  const renderSteps = () => {
+    return steps.map((s, i) => (
       <NavItem key={"NavItem" + i}>
-        <NavLink href={this.props.steps[i].url} active={i === this.state.compState} onClick={this.setNavState}
-                 key={"NavLink" + i}>{this.props.steps[i].title}</NavLink>
+        <NavLink
+          href={steps[i].url}
+          active={i === compState}
+          onClick={setNavState}
+          key={"NavLink" + i}
+        >
+          {steps[i].title}
+        </NavLink>
       </NavItem>
     ));
-  }
+  };
 
-  render() {
-    const navProps = {
-      tabs: this.props.tabs,
-      pills: this.props.pills,
-      vertical: this.props.vertical,
-      navbar: this.props.navbar,
-      tag: this.props.tag
-    };
+  const navProps = {
+    tabs,
+    pills,
+    vertical,
+    navbar,
+    tag
+  };
 
-    return (
-      <div className="navs-component">
-        <Nav {...navProps}>
-          {this.renderSteps()}
-        </Nav>
-        <div className="tab-content">
-          <Document frontendParams={{documentName: this.props.documentName}}/>
-        </div>
+  return (
+    <div className="navs-component">
+      <Nav {...navProps}>
+        {renderSteps()}
+      </Nav>
+      <div className="tab-content">
+        <Document frontendParams={{ documentName }} />
       </div>
-    );
-  }
-
-}
+    </div>
+  );
+};
 
 Navs.defaultProps = {
   startAtStep: 0,
@@ -117,6 +123,5 @@ Navs.propTypes = {
   parentDocumentName: PropTypes.string,
   documentName: PropTypes.string
 };
-
 
 export default Navs;

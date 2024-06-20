@@ -32,26 +32,6 @@ exports[`test 1`] = `
   </ul>
   <div
     className="tab-content"
-  >
-    <div
-      className="document-content"
-      id="document-content___navs"
-    >
-      <div>
-        <div
-          className="staticPage"
-        >
-          <div
-            className="staticPage__text"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "A",
-              }
-            }
-          />
-        </div>
-      </div>
-    </div>
-  </div>
+  />
 </div>
 `;
