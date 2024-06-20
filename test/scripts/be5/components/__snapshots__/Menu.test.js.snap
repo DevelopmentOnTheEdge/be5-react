@@ -97,105 +97,109 @@ exports[`snapshot NavbarMenu 1`] = `
           </a>
         </li>
       </ul>
-      <form
-        className="form-inline ml-2 mb-2"
+      <div
+        className="ml-auto d-flex"
       >
-        <div
-          className="roleBox mr-1 dropdown"
-          hidden={false}
-          id="RoleSelector"
-          onKeyDown={[Function]}
+        <form
+          className="form-inline ml-2 mb-2"
         >
-          <button
-            aria-expanded={false}
-            aria-haspopup={true}
-            aria-label={null}
-            className="dropdown-toggle btn btn-secondary"
-            onClick={[Function]}
-            type="button"
-          >
-            Roles
-          </button>
           <div
-            aria-hidden={true}
-            className="dropdown-menu"
-            role="menu"
-            tabIndex="-1"
+            className="roleBox mr-1 dropdown"
+            hidden={false}
+            id="RoleSelector"
+            onKeyDown={[Function]}
           >
-            <div
-              className="role"
-            >
-              <input
-                checked={false}
-                id="Administrator-checkbox"
-                onChange={[Function]}
-                type="checkbox"
-              />
-              <label
-                htmlFor="Administrator-checkbox"
-              >
-                <span
-                  className="checkBox"
-                />
-                Administrator
-              </label>
-            </div>
-            <div
-              className="role"
-            >
-              <input
-                checked={true}
-                id="Manager-checkbox"
-                onChange={[Function]}
-                type="checkbox"
-              />
-              <label
-                htmlFor="Manager-checkbox"
-              >
-                <span
-                  className="checkBox"
-                />
-                Manager
-              </label>
-            </div>
-            <div
-              className="dropdown-divider"
+            <button
+              aria-expanded={false}
+              aria-haspopup={true}
+              aria-label={null}
+              className="dropdown-toggle btn btn-secondary"
               onClick={[Function]}
-              tabIndex="-1"
-            />
-            <div
-              className="roleBox_add-actions"
+              type="button"
             >
-              Select 
-              <button
-                aria-label={null}
-                className="enable-all btn btn-primary btn-sm"
-                onClick={[Function]}
-                type="button"
+              Roles
+            </button>
+            <div
+              aria-hidden={true}
+              className="dropdown-menu"
+              role="menu"
+              tabIndex="-1"
+            >
+              <div
+                className="role"
               >
-                all
-              </button>
-               
-              <button
-                aria-label={null}
-                className="disable-all btn btn-secondary btn-sm"
-                onClick={[Function]}
-                type="button"
+                <input
+                  checked={false}
+                  id="Administrator-checkbox"
+                  onChange={[Function]}
+                  type="checkbox"
+                />
+                <label
+                  htmlFor="Administrator-checkbox"
+                >
+                  <span
+                    className="checkBox"
+                  />
+                  Administrator
+                </label>
+              </div>
+              <div
+                className="role"
               >
-                clear
-              </button>
+                <input
+                  checked={true}
+                  id="Manager-checkbox"
+                  onChange={[Function]}
+                  type="checkbox"
+                />
+                <label
+                  htmlFor="Manager-checkbox"
+                >
+                  <span
+                    className="checkBox"
+                  />
+                  Manager
+                </label>
+              </div>
+              <div
+                className="dropdown-divider"
+                onClick={[Function]}
+                tabIndex="-1"
+              />
+              <div
+                className="roleBox_add-actions"
+              >
+                Select 
+                <button
+                  aria-label={null}
+                  className="enable-all btn btn-primary btn-sm"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  all
+                </button>
+                 
+                <button
+                  aria-label={null}
+                  className="disable-all btn btn-secondary btn-sm"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  clear
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        <a
-          aria-label={null}
-          className="btn btn-secondary"
-          href="#!logout"
-          onClick={[Function]}
-        >
-          Logout
-        </a>
-      </form>
+          <a
+            aria-label={null}
+            className="btn btn-secondary"
+            href="#!logout"
+            onClick={[Function]}
+          >
+            Logout
+          </a>
+        </form>
+      </div>
     </div>
   </div>
 </nav>
