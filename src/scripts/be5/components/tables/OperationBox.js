@@ -1,113 +1,110 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 
+const OperationBox = ({ operations, hideOperations, onOperationClick, selectedRows, hasRows }) => {
+  const operationRefs = useRef({});
 
-class OperationBox extends React.Component {
-  constructor(props) {
-    super(props);
-  };
-
-  render() {
-    if (!this.props.operations) return null;
-    const operationItems = this.splitWithSpaces(this.getOperations());
-
-    if (operationItems.length === 0) {
-      return null;
-    } else {
-      return (
-        <div className={'operationList'}>
-          {operationItems}
-        </div>
-      );
-    }
-  }
-
-  getOperations() {
-    let operations =  [];
+  const getOperations = () => {
+    let operationsList = [];
     const orderOutSize = [];
-    this.props.operations.attributes.forEach(operation => {
+
+    operations.attributes.forEach(operation => {
       const layout = operation.layout;
-      if (layout && this.props.operations.attributes.length >= layout.order) {
-        const tail = operations.splice(layout.order - 1);
-        operations = [...operations, operation, ...tail];
-      } else if (layout && this.props.operations.attributes.length < layout.order) {
-        orderOutSize.push(operation)
+      if (layout && operations.attributes.length >= layout.order) {
+        const tail = operationsList.splice(layout.order - 1);
+        operationsList = [...operationsList, operation, ...tail];
+      } else if (layout && operations.attributes.length < layout.order) {
+        orderOutSize.push(operation);
       } else {
-        operations.push(operation)
+        operationsList.push(operation);
       }
     });
 
-    if(orderOutSize.length > 0){
-      operations = [...operations, ...orderOutSize.sort((a, b) => a.layout.order - b.layout.order)]
+    if (orderOutSize.length > 0) {
+      operationsList = [...operationsList, ...orderOutSize.sort((a, b) => a.layout.order - b.layout.order)];
     }
 
-    return operations.filter(operation => !this.props.hideOperations.includes(operation.name))
-        .map(operation => {
-//      if (operation.isClientSide) {
-//        const action = Action.parse(operation.action);
-//        const attrs = {
-//          key: operation.name,
-//          ref: operation.name,
-//          href: action.href,
-//          target: action.target,
-//          className: 'btn btn-secondary'
-//        };
-//        return React.createElement('a', attrs, operation.title);
-//      }
-          return (
+    return operationsList.filter(operation => !hideOperations.includes(operation.name))
+      .map(operation => {
+        operationRefs.current[operation.name] = React.createRef();
+        return (
           <button
             key={operation.name}
-            ref={operation.name}
-            onClick={this.onClick.bind(this, operation.name)}
-            className={'btn btn-secondary btn-secondary-old btn-sm'}
-            disabled={!this.isEnabled(operation.name)}
+            ref={operationRefs.current[operation.name]}
+            onClick={(e) => onClick(operation.name, e)}
+            className='btn btn-secondary btn-secondary-old btn-sm'
+            disabled={!isEnabled(operation.name)}
           >
             {operation.title}
           </button>
         );
       });
-  }
+  };
 
-  onClick(name, e) {
-    if (this.isEnabled(name)) {
-      const operation = this.props.operations.attributes.find(operation => operation.name === name);
-      if (!operation.requiresConfirmation || confirm(operation.title + "?")) {
-        this.props.onOperationClick(operation);
+  const onClick = (name, e) => {
+    if (isEnabled(name)) {
+      const operation = operations.attributes.find(operation => operation.name === name);
+      if (!operation.requiresConfirmation || window.confirm(`${operation.title}?`)) {
+        onOperationClick(operation);
       }
     }
     e.preventDefault();
-  }
+  };
 
-  isEnabled(name) {
-    const operation = this.props.operations.attributes.find(operation => operation.name === name);
+  const isEnabled = (name) => {
+    const operation = operations.attributes.find(operation => operation.name === name);
     let visible = false;
     switch (operation.visibleWhen) {
       case 'always':
         visible = true;
         break;
       case 'oneSelected':
-        visible = (this.props.selectedRows.length === 1);
+        visible = (selectedRows.length === 1);
         break;
       case 'anySelected':
-        visible = (this.props.selectedRows.length !== 0);
+        visible = (selectedRows.length !== 0);
         break;
       case 'hasRecords':
-        visible = this.props.hasRows;
+        visible = hasRows;
         break;
+      default:
+        visible = false;
     }
     return visible;
-  }
-
-  splitWithSpaces(elements) {
-    const out = [];
-    _(elements).each(e => {
-      if (out.length !== 0) {
-        out.push(' ');
-      }
-      out.push(e);
-    });
-    return out;
   };
-}
+
+  if (!operations) return null;
+  const operationItems = splitWithSpaces(getOperations());
+
+  if (operationItems.length === 0) {
+    return null;
+  } else {
+    return (
+      <div className='operationList'>
+        {operationItems}
+      </div>
+    );
+  }
+};
+
+const splitWithSpaces = (elements) => {
+  const out = [];
+  elements.forEach(e => {
+    if (out.length !== 0) {
+      out.push(' ');
+    }
+    out.push(e);
+  });
+  return out;
+};
+
+OperationBox.propTypes = {
+  operations: PropTypes.object,
+  hideOperations: PropTypes.array,
+  onOperationClick: PropTypes.func,
+  selectedRows: PropTypes.array,
+  hasRows: PropTypes.bool
+};
 
 OperationBox.defaultProps = {
   hideOperations: []
