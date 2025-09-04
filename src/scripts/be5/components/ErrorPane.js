@@ -1,97 +1,109 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import be5 from '../be5';
-import {Button, Card, CardBody, Collapse} from 'reactstrap';
-import {registerDocument} from "../core/registers/documents";
+import { Button, Card, CardBody, Collapse } from 'reactstrap';
+import { registerDocument } from "../core/registers/documents";
 
+const Error = ({ status, title, code, detail }) => {
+  const [helpCollapse, setHelpCollapse] = useState(false);
 
-class Error extends React.Component {
-  constructor() {
-    super();
-    this.state = {helpCollapse: false};
-    this.helpCollapseToggle = this.helpCollapseToggle.bind(this);
-  }
+  const toggleHelpCollapse = () => {
+    setHelpCollapse(prev => !prev);
+  };
 
-  helpCollapseToggle() {
-    this.setState({helpCollapse: !this.state.helpCollapse});
-  }
+  const renderFrontendHelp = () => {
+    if (status === '404' || status === '403') {
+      const link =
+        status === '404' ? (
+         <div> 
+          <a href="#!" className="btn btn-primary">
+            {be5.messages.goToHomepage}
+          </a>
+         </div> 
+        ) : (
+         <div> 
+          <a href="/" className="btn btn-primary">
+            {be5.messages.goToHomepage}
+          </a>
+         </div> 
+        );
 
-  render() {
-    const {
-      status,
-      title,
-      code,
-      detail
-    } = this.props;
-
-    return <div className='errorPane__error'>
-      <h1 className={'errorPane__title errorPane__title_' + status}>{status} - {title}</h1>
-      {this.frontendHelp()}
-      <br/>
-      {code !== undefined ?
-        <pre className='errorPane__code' dangerouslySetInnerHTML={{__html: code}}/> : null
-      }
-      {detail !== undefined ?
+      return (
         <div>
-          <Button color="info" className="btn-sm" onClick={this.helpCollapseToggle} style={{marginBottom: '1rem'}}>
+          <br />
+          <h6>{link}</h6>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <div className="errorPane__error">
+      <h1 className={`errorPane__title errorPane__title_${status}`}>
+        {status} - {title}
+      </h1>
+      {renderFrontendHelp()}
+      <br />
+      {code !== undefined && (
+        <pre
+          className="errorPane__code"
+          dangerouslySetInnerHTML={{ __html: code }}
+        />
+      )}
+      {detail !== undefined && (
+        <div>
+          <Button
+            color="info"
+            className="btn-sm"
+            onClick={toggleHelpCollapse}
+            style={{ marginBottom: '1rem' }}
+          >
             {be5.messages.details}
           </Button>
-          <Collapse isOpen={this.state.helpCollapse}>
+          <Collapse isOpen={helpCollapse}>
             <Card>
               <CardBody>
-                <pre className='errorPane__detail'>{detail}</pre>
+                <pre className="errorPane__detail">{detail}</pre>
               </CardBody>
             </Card>
           </Collapse>
+        </div>
+      )}
+    </div>
+  );
+};
 
-        </div>
-        : null}
-    </div>;
-  }
+Error.propTypes = {
+  status: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  code: PropTypes.string,
+  detail: PropTypes.string,
+};
 
-  frontendHelp() {
-    const {status} = this.props;
-    let content;
-    if (status === '404' || status === '403') {
-      if (status === '404') {
-        content = <div>
-          <a href="#!" className="btn btn-primary">{be5.messages.goToHomepage}</a>
-        </div>
-      }
-      if (status === '403') {
-        content = <div>
-          <a href="/" className="btn btn-primary">{be5.messages.goToHomepage}</a>
-        </div>
-      }
-      return <div>
-        <br/>
-        <h6>{content}</h6>
-      </div>
-    }
+const ErrorPane = ({ value }) => {
+  const errors = value?.errors;
+
+  if (!errors || errors.length === 0) {
     return null;
   }
-}
 
-class ErrorPane extends React.Component {
-  render() {
-    const errors = this.props.value.errors;
-
-    if (!errors || errors.length === 0) {
-      return null;
-    }
-
-    return <div className='errorPane'>
-      {errors.map((error, i) => <Error {...error} key={i}/>)}
-    </div>;
-  }
-}
+  return (
+    <div className="errorPane">
+      {errors.map((error, i) => (
+        <Error {...error} key={i} />
+      ))}
+    </div>
+  );
+};
 
 ErrorPane.propTypes = {
   value: PropTypes.shape({
     errors: PropTypes.array.isRequired,
     meta: PropTypes.shape({
-      _ts_: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]).isRequired,
-    })
+      _ts_: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        .isRequired,
+    }),
   }),
 };
 
