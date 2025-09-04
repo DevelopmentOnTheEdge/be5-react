@@ -1,124 +1,121 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import be5 from '../be5';
 import classNames from 'classnames';
-import {fetchMenu, fetchUserInfo, MAIN_DOCUMENT} from "..";
+import { fetchMenu, fetchUserInfo, MAIN_DOCUMENT } from "..";
 
-class Language extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onClick = this.onClick.bind(this);
-  };
-
-  onClick(e) {
-    this.props.onLanguageClick(this.props.code);
-  };
-
-  render() {
-    if (this.props.selected) {
-      return (
-        <div className={"language selectedLanguage"}>{this.props.code}</div>
-      );
+const Language = ({ code, selected, onLanguageClick }) => {
+  const handleClick = () => {
+    if (!selected) {
+      onLanguageClick(code);
     }
-    return (
-      <div className={"language"} onClick={this.onClick}>{this.props.code}</div>
-    );
-  }
-}
+  };
+
+  return (
+    <div
+      className={classNames("language", { selectedLanguage: selected })}
+      onClick={handleClick}
+    >
+      {code}
+    </div>
+  );
+};
 
 Language.propTypes = {
+  code: PropTypes.string.isRequired,
+  selected: PropTypes.bool,
   onLanguageClick: PropTypes.func.isRequired
 };
 
-class LanguageList extends React.Component {
-  constructor(props) {
-    super(props);
-  };
+// --- Shared hook for language selector logic ---
+function useLanguageSelector() {
+  const [data, setData] = useState({ languages: [], selected: '' });
 
-  render() {
-    let selected = this.props.data.selected;
-    selected = selected ? selected.toUpperCase() : selected;
-    const onLanguageClick = this.props.onLanguageClick;
-    const languageNodes = this.props.data.languages.map((language) =>
-      <Language key={language} code={language} selected={language.toUpperCase() === selected} onLanguageClick={onLanguageClick}/>
-    );
-    return (
-      <div className={"languageList"}>{languageNodes}</div>
-    );
-  }
-}
-
-class LanguageSelector extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {data: {languages: [], selected: ''}}
-    this.changeLanguage = this.changeLanguage.bind(this);
-  };
-
-  componentDidMount() {
+  useEffect(() => {
     if (be5.locale.languages && be5.locale.get()) {
-      this.setState({data: {languages: be5.locale.languages, selected: be5.locale.get()}})
+      setData({
+        languages: be5.locale.languages,
+        selected: be5.locale.get()
+      });
     }
-  };
+  }, []);
 
-  changeLanguage(language) {
-    be5.net.request('languageSelector/select', {language: language}, (data) => {
-      this.setState({data: {selected: data.selected, languages: data.languages}});
-      be5.locale.set(language, data.messages);
-      if(be5.store){
+  const changeLanguage = useCallback((language) => {
+    be5.net.request('languageSelector/select', { language }, (resp) => {
+      setData({ selected: resp.selected, languages: resp.languages });
+      be5.locale.set(language, resp.messages);
+
+      if (be5.store) {
         be5.store.dispatch(fetchUserInfo());
         be5.store.dispatch(fetchMenu('menu'));
       }
-      if(be5.url.get()){
-        be5.url.process({documentName: MAIN_DOCUMENT}, be5.url.get());
+      if (be5.url.get()) {
+        be5.url.process({ documentName: MAIN_DOCUMENT }, be5.url.get());
       }
     });
-  };
+  }, []);
 
+  return { data, changeLanguage };
 }
 
-class LanguageBox extends LanguageSelector {
+const LanguageList = ({ data, onLanguageClick }) => {
+  const selected = data.selected ? data.selected.toUpperCase() : '';
+  return (
+    <div className="languageList">
+      {data.languages.map((language) => (
+        <Language
+          key={language}
+          code={language}
+          selected={language.toUpperCase() === selected}
+          onLanguageClick={onLanguageClick}
+        />
+      ))}
+    </div>
+  );
+};
 
-  constructor(props) {
-    super(props);
-  };
+LanguageList.propTypes = {
+  data: PropTypes.shape({
+    languages: PropTypes.arrayOf(PropTypes.string).isRequired,
+    selected: PropTypes.string
+  }).isRequired,
+  onLanguageClick: PropTypes.func.isRequired
+};
 
-  render() {
-    if (this.state.data && this.state.data.languages.length <= 1) {
-      return null;
-    }
-    return (
-        <div className={classNames('languageBox', this.props.className)}>
-          <LanguageList data={this.state.data} onLanguageClick={this.changeLanguage}/>
-        </div>
-    );
-  }
-}
+const LanguageBox = ({ className }) => {
+  const { data, changeLanguage } = useLanguageSelector();
 
-class LanguageDropdown extends LanguageSelector {
+  if (!data.languages || data.languages.length <= 1) return null;
 
-  constructor(props) {
-    super(props);
-  };
+  return (
+    <div className={classNames('languageBox', className)}>
+      <LanguageList data={data} onLanguageClick={changeLanguage} />
+    </div>
+  );
+};
 
-  render() {
-    if (this.state.data && this.state.data.languages.length <= 1) {
-      return null;
-    }
-    let selected = this.state.data.selected;
-    selected = selected ? selected.toUpperCase() : selected;
-    return (
-        <div className={classNames('languageDropdown', this.props.className)}>
-          <select className="form-control" name="languages" 
-                  onChange={e => this.changeLanguage(e.target.value)}>
-            {
-              this.state.data.languages.map((language) => 
-              <option key={language} value={language} selected={language.toUpperCase() === selected}> {language} </option>)
-            }
-          </select>
-        </div>
-    );
-  }
-}
+const LanguageDropdown = ({ className }) => {
+  const { data, changeLanguage } = useLanguageSelector();
+  if (!data.languages || data.languages.length <= 1) return null;
 
-export {LanguageBox, LanguageDropdown};
+  const selected = data.selected ? data.selected.toUpperCase() : '';
+
+  return (
+    <div className={classNames('languageDropdown', className)}>
+      <select
+        className="form-control"
+        name="languages"
+        value={selected}
+        onChange={(e) => changeLanguage(e.target.value)}
+      >
+        {data.languages.map((language) => (
+          <option key={language} value={language.toUpperCase()}>
+            {language}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+};
+
+export { LanguageBox, LanguageDropdown };
