@@ -146,9 +146,14 @@ export const loadDocumentByUrl = (url, frontendParams) => {
 /**
  * layout: '{"cancelActionText":"Back"}'
  * layout: '{"cancelAction": {"type": "SET_URL","value":"text/test123"}}'
+ * layout: '{"noCancel": true}'
  */
 export const _createBackAction = (layout, frontendParams) => {
-  if (layout === undefined) layout = {};
+
+  if( layout === undefined ) layout = {};
+
+  if( layout.noCancel ) return null;
+
   if (layout.hasOwnProperty('cancelAction') || layout.cancelActionText
     || frontendParams.documentName === MAIN_DOCUMENT) {
     const action = layout.cancelAction || getDefaultCancelAction();
